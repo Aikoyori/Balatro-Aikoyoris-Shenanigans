@@ -84,39 +84,6 @@ SMODS.Back{
 }
 
 
-SMODS.Back{
-    key = "scuffed_misprint",
-    atlas = "deckBacks",
-    pos = { x = 7, y = 0},
-    config = { akyrs_misprint_min = 1e-4, akyrs_misprint_max = 1e4 },
-    set_badges = function (self, card, badges)
-    end,
-    loc_vars = function (self, info_queue, card)
-        --info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_placeholder_art"}
-        return {
-            vars = {
-                self.config.akyrs_misprint_min,
-                self.config.akyrs_misprint_max
-            }
-        }
-    end,
-    apply = function(self)
-        G.GAME.modifiers.akyrs_misprint = true
-    end,
-
-}
-SMODS.Back{
-    key = "freedom",
-    atlas = "deckBacks",
-    pos = { x = 8, y = 0},
-    config = { akyrs_any_drag = true },
-    set_badges = function (self, card, badges)
-    end,
-    loc_vars = function (self, info_queue, card)
-    end,
-}
-
-
 SMODS.Enhancement{
     key = "brick_card",
     atlas = 'cardUpgrades',
@@ -143,7 +110,6 @@ SMODS.Enhancement{
     always_scores = true,
     replace_base_card = true,
 }
-
 
 
 SMODS.Enhancement{
@@ -188,4 +154,35 @@ SMODS.Enhancement{
     no_suit = true,
     always_scores = true,
     replace_base_card = true,
+}
+
+SMODS.Back{
+    key = "scuffed_misprint",
+    atlas = "deckBacks",
+    pos = { x = 7, y = 0},
+    config = { akyrs_misprint_base = 5 },
+    set_badges = function (self, card, badges)
+    end,
+    loc_vars = function (self, info_queue, card)
+        --info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_placeholder_art"}
+        return {
+            vars = {
+                self.config.akyrs_misprint_base
+            }
+        }
+    end,
+    apply = function(self)
+        G.GAME.modifiers.akyrs_misprint = true
+    end,
+
+}
+SMODS.Back{
+    key = "freedom",
+    atlas = "deckBacks",
+    pos = { x = 3, y = 0},
+    config = { akyrs_any_drag = true },
+    set_badges = function (self, card, badges)
+    end,
+    loc_vars = function (self, info_queue, card)
+    end,
 }

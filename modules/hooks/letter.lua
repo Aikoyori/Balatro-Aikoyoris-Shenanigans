@@ -118,13 +118,6 @@ function Card:stop_drag()
         if area.config.card_limit + AKYRS.edition_extend_card_limit(self) >= #area.cards + 1 or area == G.hand or area == G.deck then
             self.akyrs_oldarea:remove_card(self)
             AKYRS.draw_card(self.area, area, 1, 'up', nil, self ,0)
-            AKYRS.simple_event_add(
-                function ()
-                    
-                    self.akyrs_oldarea = nil
-                    return true
-                end, 0
-            )
             area:align_cards()
         end
         --print("TARGET SUSPECT")

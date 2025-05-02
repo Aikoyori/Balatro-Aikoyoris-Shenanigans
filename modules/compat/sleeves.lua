@@ -38,45 +38,4 @@ if CardSleeves then
             CardSleeves.Sleeve.apply(sleeve)
         end
     }
-    CardSleeves.Sleeve {
-        key = "cry_misprint_ultima",
-        atlas = "aikoyoriSleeves",
-        pos = { x = 1, y = 0 },
-        config = { cry_misprint_min = 1e-4, cry_misprint_max = 1e4 },
-        set_badges = function (self, card, badges)
-            SMODS.create_mod_badges({ mod = Cryptid }, badges)
-        end,
-        loc_vars = function (self, info_queue, card)
-            local key = self.key
-            if self.get_current_deck_key() == "b_akyrs_cry_misprint_ultima" then
-                key = self.key .. "_alt"
-            end
-            return {
-                key = key,
-                vars = {
-                    self.config.cry_misprint_min,
-                    self.config.cry_misprint_max
-                }
-            }
-        end,
-        apply = function(self)
-            G.GAME.modifiers.cry_misprint_min = (G.GAME.modifiers.cry_misprint_min or to_big(1)) * self.config.cry_misprint_min
-            G.GAME.modifiers.cry_misprint_max = (G.GAME.modifiers.cry_misprint_max or to_big(1)) * self.config.cry_misprint_max
-        end
-    }
-    
-    CardSleeves.Sleeve {
-        key = "freedom",
-        atlas = "aikoyoriSleeves",
-        pos = { x = 2, y = 0},
-        config = { akyrs_any_drag = true },
-        apply = function(self, sleeve)
-            if (sleeve.config.akyrs_any_drag) then
-                G.GAME.starting_params.akyrs_any_drag = sleeve.config.akyrs_any_drag
-            end
-            CardSleeves.Sleeve.apply(sleeve)
-        end
-    }
-
-
 end

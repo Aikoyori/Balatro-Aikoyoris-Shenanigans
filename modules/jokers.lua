@@ -1542,7 +1542,7 @@ SMODS.Joker {
         x = 2, y = 3
     },
     rarity = 4,
-    cost = 50,
+    cost = 7,
     config = {
         name = "Aikoyori",
         extras = {
@@ -1612,10 +1612,7 @@ SMODS.Joker {
             end
         end
         if context.akyrs_round_eval then
-            local d = Talisman and to_big(context.dollars) or context.dollars
-            local v = Talisman and to_big(10) or 10
-            local c = Talisman and d:lt(v) or d < v
-            if togabalatro and c then
+            if togabalatro and context.dollars < 10 then
                 local tag = Tag("tag_toga_togajokershop")
                 add_tag(tag)
             end

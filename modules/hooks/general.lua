@@ -752,7 +752,7 @@ end
 function Card:akyrs_mod_card_value_init()
     if G.GAME.modifiers.akyrs_misprint then
         local x = AKYRS.deep_copy(self.ability)
-        AKYRS.mod_card_values_misprint(x,{random = {digits_min = -4, digits_max = 4, min = 1e-4, max = 1e4,scale = 1, can_negate = false}})
+        AKYRS.mod_card_values_misprint(x, self.ability.akyrs_misprint_base)
         x.x_chips = self.ability.x_chips == 1 and 1 or self.ability.x_chips
         x.h_x_chips = self.ability.h_x_chips == 1 and 1 or self.ability.h_x_chips
         x.x_mult = self.ability.x_mult == 1 and 1 or self.ability.x_mult
@@ -1011,19 +1011,7 @@ function Back:apply_to_run()
                 G.hand.states.collide.can = true
                 G.deck.states.collide.can = true
                 return true
-            end, 0.5
-        )
-    end
-    if G.GAME.starting_params.akyrs_any_drag then
-        G.GAME.akyrs_any_drag = G.GAME.starting_params.akyrs_any_drag
-        AKYRS.simple_event_add(
-            function()
-                G.jokers.states.collide.can = true
-                G.consumeables.states.collide.can = true
-                G.hand.states.collide.can = true
-                G.deck.states.collide.can = true
-                return true
-            end, 0.5
+            end
         )
     end
 

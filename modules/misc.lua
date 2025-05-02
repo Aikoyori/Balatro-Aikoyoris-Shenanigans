@@ -462,34 +462,18 @@ AKYRS.mod_card_values = function(table_in, config)
     modify_values(table_in, reference)
 end
 
-AKYRS.mod_card_values_misprint = function(table_in, config)
-    if not config then config = {} end
-    local add = config.add or 0
-    local multiply = config.multiply or 1
-    local randomize = config.random or {digits_min = 1, digits_max = 1, min = 1, max = 1,scale = 1 }
-    local random_seed = config.randomseed or "modcardvalue"
-    random_seed = (G.GAME and G.GAME.pseudorandom.seed or "") .. " - " .. random_seed
-    local keywords = config.keywords or {}
-    local unkeyword = config.unkeywords or AKYRS.blacklist_mod or {}
-    local function_check = config.func or function(name, value) return true end
-    local reference = config.reference or table_in
+AKYRS.mod_card_values_misprint = function(table_in, base)
+    if not base then base = 5 end
+    local random_seed = (G.GAME and G.GAME.pseudorandom.seed or "") .. " - " .. "modcardvalue"
     local function modify_values(table_in, ref)
         for k, v in pairs(table_in) do
             if type(v) == "number" then
-                if (keywords[k] or #keywords < 1) and not unkeyword[k] then
-                    if ref and ref[k] and function_check(k,ref[k]) then
-                        local numberstr = randomize.can_negate and pseudorandom_element({"","-",pseudoseed(random_seed.."a")}) or ""
-                        local digits = pseudorandom(pseudoseed(random_seed.."ab"),randomize.digits_min,randomize.digits_max)
-                        for i = 1,digits do
-                            numberstr = numberstr .. pseudorandom(pseudoseed(random_seed.."b"),0,9)
-                        end
-                        if numberstr == "" or numberstr == "-" then
-                            numberstr = "0"
-                        end
-                        local number = tonumber(numberstr) * (10 ^ randomize.scale)
-                        number = math.fmod(number,randomize.max - randomize.min) + randomize.min
-                        table_in[k] = (ref[k] + add) * multiply * number
-                    end
+                if ref and ref[k] then
+                    local a = pseudorandom(pseudoseed(random_seed.."a"))
+                    local b = pseudorandom(pseudoseed(random_seed.."b"))
+                    -- Exp-normal distributed random numbers
+                    local factor = math.pow(base, math.sqrt(-2 * math.log(a)) * math.cos(2 * math.pi * b))
+                    table_in[k] = ref[k] * factor
                 end
             elseif type(v) == "table" and ref and k then
                 modify_values(v, ref[k])
@@ -499,7 +483,7 @@ AKYRS.mod_card_values_misprint = function(table_in, config)
     if table_in == nil then
         return
     end
-    modify_values(table_in, reference)
+    modify_values(table_in, table_in)
 end
 
 AKYRS.deep_copy = function(orig)

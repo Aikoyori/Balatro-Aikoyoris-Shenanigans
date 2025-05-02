@@ -31,12 +31,14 @@ return {
                 },
             },
             b_akyrs_scuffed_misprint={
-                name="Scuffed Misprint Deck",
+                name="Slightly Less Scuffed Misprint Deck",
 				text = {
 					"Values of most cards",
-					"are {C:attention}randomized{}",
-                    "{C:inactive}(From X#1# to X#2#)",
-                    "me vs the guy she tells you not to worry about"
+					"are multiplied by a",
+                    "factor of #1#^X, with",
+                    "X being {C:attention}randomized{} over a",
+                    "standard normal distribution",
+                    "{C:inactive}the guy she tells you not to worry about"
 				},
             },
             b_akyrs_freedom={

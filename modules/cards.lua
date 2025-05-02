@@ -88,15 +88,14 @@ SMODS.Back{
     key = "scuffed_misprint",
     atlas = "deckBacks",
     pos = { x = 7, y = 0},
-    config = { akyrs_misprint_min = 1e-4, akyrs_misprint_max = 1e4 },
+    config = { akyrs_misprint_base = 5 },
     set_badges = function (self, card, badges)
     end,
     loc_vars = function (self, info_queue, card)
         --info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_placeholder_art"}
         return {
             vars = {
-                self.config.akyrs_misprint_min,
-                self.config.akyrs_misprint_max
+                self.config.akyrs_misprint_base
             }
         }
     end,

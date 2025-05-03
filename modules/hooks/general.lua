@@ -752,7 +752,7 @@ end
 function Card:akyrs_mod_card_value_init()
     if G.GAME.modifiers.akyrs_misprint then
         -- Update cards.lua scuffed_misprint if you update this
-        local misprint_base = 5
+        local misprint_base = 10
 
         local x = AKYRS.deep_copy(self.ability)
         AKYRS.mod_card_values_misprint(x,{base = misprint_base, scale = 1, can_negate = false})

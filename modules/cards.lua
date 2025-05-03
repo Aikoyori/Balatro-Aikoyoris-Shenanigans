@@ -89,7 +89,7 @@ SMODS.Back{
     atlas = "deckBacks",
     pos = { x = 7, y = 0},
     -- Update general.lua akyrs_mod_card_value_init() if you change this
-    config = { akyrs_misprint_base = 5 },
+    config = { akyrs_misprint_base = 10 },
     set_badges = function (self, card, badges)
     end,
     loc_vars = function (self, info_queue, card)

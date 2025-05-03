@@ -484,7 +484,11 @@ AKYRS.mod_card_values_misprint = function(table_in, config)
                     local b = pseudorandom(pseudoseed(random_seed.."b"))
                     -- Exp-normal distributed random numbers
                     local factor = math.pow(base, math.sqrt(-2 * math.log(a)) * math.cos(2 * math.pi * b))
-                    table_in[k] = ref[k] * factor
+                    local res = ref[k] * factor
+                    if k == "max_highlighted" then
+                        res = math.ceil(res)
+                    end
+                    table_in[k] = res
                 end
             elseif type(v) == "table" and ref and k then
                 modify_values(v, ref[k])

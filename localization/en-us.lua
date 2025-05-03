@@ -38,7 +38,8 @@ return {
                     "factor of #1#^X, with",
                     "X being {C:attention}randomized{} over a",
                     "standard normal distribution",
-                    "{C:inactive}the guy she tells you not to worry about"
+                    "{C:inactive}~43% chance of x1, ~16% chance of x#1# or x#2#,",
+                    "{C:inactive}~.8% chance of x#3# or x#4#, etc. to x0 and xInfinity"
 				},
             },
             b_akyrs_freedom={

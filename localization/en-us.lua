@@ -35,7 +35,7 @@ return {
 				text = {
 					"Values of most cards",
 					"are multiplied by a",
-                    "factor of #1#^X, with",
+                    "factor of #2#^X, with",
                     "X being {C:attention}randomized{} over a",
                     "standard normal distribution",
                     "{C:inactive}~43% chance of x1, ~16% chance of x#1# or x#2#,",

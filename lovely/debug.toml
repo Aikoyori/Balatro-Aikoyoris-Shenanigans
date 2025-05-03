@@ -5,19 +5,11 @@ priority = 0
 
 [[patches]]
 [patches.pattern]
-target = "engine/profile.lua"
-pattern = """local cols = { 3, 29, 11, 24, 32 }"""
-position = "at"
-payload = """local cols = { 3, 29, 11, 24, 128 }"""
-overwrite = true
-match_indent = true
-
-
-[[patches]]
-[patches.pattern]
-target = "engine/profile.lua"
-pattern = """    _defined[f] = info.short_src..":"..info.linedefined"""
-position = "at"
-payload = """    _defined[f] = info.source..":"..info.linedefined"""
+target = "engine/controller.lua"
+pattern = """        if self.cursor_down.target then """
+position = "after"
+payload = """
+--print("the thing is "..AKYRS.check_type(self.cursor_down.target))
+"""
 overwrite = true
 match_indent = true

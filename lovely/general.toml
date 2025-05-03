@@ -1,7 +1,7 @@
 [manifest]
 version = "1.2"
 dump_lua = true
-priority = 0
+priority = 9990
 
 
 [[patches]]
@@ -57,6 +57,7 @@ payload = ''',
 akyrs_desc = {}
 '''
 match_indent = true
+
 [[patches]]
 [patches.pattern]
 target = '''functions/common_events.lua'''

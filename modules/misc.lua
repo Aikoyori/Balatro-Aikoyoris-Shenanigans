@@ -464,11 +464,6 @@ end
 
 AKYRS.mod_card_values_misprint = function(table_in, config)
     if not config then config = {} end
-    print("Config:")
-    for key in pairs(config) do
-        print(key, config[key])
-    end
-    print("-------")
     local add = config.add or 0
     local base = config.base or 5
     local multiply = config.multiply or 1

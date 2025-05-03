@@ -73,6 +73,14 @@ local gameUpdate = EventManager.update
 
 function EventManager:update(dt, forced)
     local s = gameUpdate(self, dt, forced)
+    if G.GAME and G.GAME.round_resets then
+        if G.GAME.round_resets.blind_ante then
+            G.GAME.round_resets.blind_ante = math.floor(G.GAME.round_resets.blind_ante)
+        end
+        if G.GAME.round_resets.ante then
+            G.GAME.round_resets.ante = math.floor(G.GAME.round_resets.ante)
+        end
+    end
     if (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled) and G.GAME.alphabet_rate == 0 then
         G.GAME.alphabet_rate = 1
     end
@@ -946,6 +954,7 @@ function CardArea:align_cards()
 end
 local cardAreaDrawHook = CardArea.draw
 function CardArea:draw()
+
     local r = cardAreaDrawHook(self)
 
     self.ARGS.draw_layers = self.ARGS.draw_layers or self.config.draw_layers or {'shadow', 'card'}

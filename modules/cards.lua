@@ -96,10 +96,10 @@ SMODS.Back{
         --info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_placeholder_art"}
         return {
             vars = {
-                self.config.akyrs_misprint_base,
                 1 / self.config.akyrs_misprint_base,
-                self.config.akyrs_misprint_base * self.config.akyrs_misprint_base,
-                1 / (self.config.akyrs_misprint_base * self.config.akyrs_misprint_base)
+                self.config.akyrs_misprint_base,
+                1 / (self.config.akyrs_misprint_base * self.config.akyrs_misprint_base),
+                self.config.akyrs_misprint_base * self.config.akyrs_misprint_base
             }
         }
     end,

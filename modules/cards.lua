@@ -88,6 +88,7 @@ SMODS.Back{
     key = "scuffed_misprint",
     atlas = "deckBacks",
     pos = { x = 7, y = 0},
+    -- Update general.lua akyrs_mod_card_value_init() if you change this
     config = { akyrs_misprint_base = 5 },
     set_badges = function (self, card, badges)
     end,

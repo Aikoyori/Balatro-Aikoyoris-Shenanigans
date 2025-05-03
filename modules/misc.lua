@@ -464,7 +464,13 @@ end
 
 AKYRS.mod_card_values_misprint = function(table_in, config)
     if not config then config = {} end
+    print("Config:")
+    for key in pairs(config) do
+        print(key, config[key])
+    end
+    print("-------")
     local add = config.add or 0
+    local base = config.base or 5
     local multiply = config.multiply or 1
     local keywords = config.keywords or {}
     local unkeyword = config.unkeywords or {}
@@ -477,7 +483,7 @@ AKYRS.mod_card_values_misprint = function(table_in, config)
                     local a = pseudorandom(pseudoseed(random_seed.."a"))
                     local b = pseudorandom(pseudoseed(random_seed.."b"))
                     -- Exp-normal distributed random numbers
-                    local factor = math.pow(config.base, math.sqrt(-2 * math.log(a)) * math.cos(2 * math.pi * b))
+                    local factor = math.pow(base, math.sqrt(-2 * math.log(a)) * math.cos(2 * math.pi * b))
                     table_in[k] = ref[k] * factor
                 end
             elseif type(v) == "table" and ref and k then

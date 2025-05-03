@@ -758,7 +758,7 @@ function Card:akyrs_mod_card_value_init()
         AKYRS.mod_card_values_misprint(x,{
             base = misprint_base,
             scale = 1,
-            can_negate = false
+            can_negate = false,
         })
         x.x_chips = self.ability.x_chips == 1 and 1 or self.ability.x_chips
         x.h_x_chips = self.ability.h_x_chips == 1 and 1 or self.ability.h_x_chips

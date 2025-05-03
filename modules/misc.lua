@@ -477,14 +477,9 @@ AKYRS.mod_card_values_misprint = function(table_in, config)
     local reference = config.reference or table_in
     local random_seed = (G.GAME and G.GAME.pseudorandom.seed or "") .. " - " .. "modcardvalue"
     local function modify_values(table_in, ref)
-        local function blacklisted(key)
-            if key == "min_highlighted" and ref.min_highlighted == 1 and ref.max_highlighted ~= 1 then return true end
-            return false
-        end
-        
         for k, v in pairs(table_in) do
             if type(v) == "number" then
-                if ref and ref[k] and not blacklisted(k) then
+                if ref and ref[k] and not unkeyword[k] then
                     local a = pseudorandom(pseudoseed(random_seed.."a"))
                     local b = pseudorandom(pseudoseed(random_seed.."b"))
                     -- Exp-normal distributed random numbers
@@ -503,7 +498,11 @@ AKYRS.mod_card_values_misprint = function(table_in, config)
     if table_in == nil then
         return
     end
+    local min_highlighted = table_in.min_highlighted
     modify_values(table_in, table_in)
+    if min_highlighted then
+        table_in.min_highlighted = table_in.max_highlighted
+    end
 end
 
 

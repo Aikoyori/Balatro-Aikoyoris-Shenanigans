@@ -2010,45 +2010,45 @@ SMODS.Joker {
 					SMODS.add_card({set = "Bakery", area = G.consumeables, edition = "e_negative"})
 				end
 			end
-			if SMODS.Mods.cryptposting then
-				if (context.joker_main) or context.forcetrigger then
-					return {
-						chips = card.ability.immutable.chips,
-						extra = {
-							mult = card.ability.immutable.mult,
-							extra = {
-								Xchips_mod = card.ability.extra.Xchips,
-								message = "X" .. card.ability.extra.Xchips,
-								colour = G.C.CHIPS,
-								extra = {
-									Xmult = card.ability.extra.Xmult,
-									extra = {
-										Emult_mod = card.ability.extra.Emult,
-										message = "^" .. card.ability.extra.Emult .. " Mult",
-										colour = G.C.DARK_EDITION,
-									}
-								}
-							}
-						}
-					}
-				end
-				if (context.end_of_round and not context.individual and not context.repetition) or context.forcetrigger then
-					local create = card.ability.extra.create
-					G.GAME.joker_buffer = G.GAME.joker_buffer + create
-					for i = 1, create do
-						local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_joker")
-						card:add_to_deck()
-						card:start_materialize()
-						G.jokers:emplace(card)
-					end
-				end
-			end
 			if SMODS.Mods.Prism then
 				if not next(context.poker_hands["Flush"]) then
 					SMODS.add_card({set = "Myth", area = G.consumeables, edition = "e_negative"})
 				end
 			end
 		end
+        if SMODS.Mods.cryptposting then
+            if (context.joker_main) or context.forcetrigger then
+                return {
+                    chips = card.ability.immutable.chips,
+                    extra = {
+                        mult = card.ability.immutable.mult,
+                        extra = {
+                            Xchips_mod = card.ability.extra.Xchips,
+                            message = "X" .. card.ability.extra.Xchips,
+                            colour = G.C.CHIPS,
+                            extra = {
+                                Xmult = card.ability.extra.Xmult,
+                                extra = {
+                                    Emult_mod = card.ability.extra.Emult,
+                                    message = "^" .. card.ability.extra.Emult .. " Mult",
+                                    colour = G.C.DARK_EDITION,
+                                }
+                            }
+                        }
+                    }
+                }
+            end
+            if (context.end_of_round and not context.individual and not context.repetition) or context.forcetrigger then
+                local create = card.ability.extra.create
+                G.GAME.joker_buffer = G.GAME.joker_buffer + create
+                for i = 1, create do
+                    local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_joker")
+                    card:add_to_deck()
+                    card:start_materialize()
+                    G.jokers:emplace(card)
+                end
+            end
+        end
 		if SMODS.Mods.finity and context.blind_defeated and G.GAME.blind and G.GAME.blind.boss and G.GAME.blind.config.blind.boss.showdown then
 			SMODS.add_card({set = "Spectral", area = G.consumeables, edition = "e_negative", key = "c_finity_finity"})
 		end

@@ -1924,7 +1924,8 @@ SMODS.Joker {
 		extra = {
 			Xchips = 1.27,
 			Xmult = 1.98,
-			Emult = 1.1
+			Emult = 1.1,
+			create = 1
 		}
 	},
 	loc_vars = function (self, info_queue, card)

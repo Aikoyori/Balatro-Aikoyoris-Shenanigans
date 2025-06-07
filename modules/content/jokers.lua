@@ -1898,192 +1898,192 @@ SMODS.Joker {
 
 local toga_tags = {"tag_toga_togajokerbooster","tag_toga_togajokerziparchive","tag_toga_togarararchive","tag_toga_togacardcabarchive","tag_toga_togaxcopydnaarchive",}
 SMODS.Joker {
-    pools = { ["Self-Insert"] = true, },
-    key = "aikoyori",
-    atlas = 'AikoyoriJokers',
-    pos = {
-        x = 1, y = 3
-    },
-    soul_pos = {
-        x = 2, y = 3
-    },
-    rarity = 4,
-    cost = 50,
-    config = {
-        name = "Aikoyori",
-        extras = {
-            base = {
-                xmult = 1.984,
-                emult = 1.5,
-            }
-        },
-	immutable = {
-		chips = 1,
-		mult = 1
+	pools = { ["Self-Insert"] = true, },
+	key = "aikoyori",
+	atlas = 'AikoyoriJokers',
+	pos = {
+		x = 1, y = 3
 	},
-	extra = {
-		Xchips = 1.27,
-		Xmult = 1.98,
-		Emult = 1.1
-	}
-    },
-    loc_vars = function (self, info_queue, card)
-        if AKYRS.bal_val("adequate") then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_base_ability", vars = {card.ability.extras.base.xmult}}
-        else
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_base_ability_absurd", vars = {card.ability.extras.base.emult}}
-        end
-        if Cryptid then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_cryptid_ability"}
-        end
-        if SMODS.Mods.MoreFluff then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_more_fluff_ability"}
-        end
-        if Entropy then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_entropy_ability"}
-            info_queue[#info_queue+1] = G.P_CENTERS["c_entr_flipside"]
-        end
-        if SDM_0s_Stuff_Mod then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_sdmstuff_ability"}
-        end
-        if togabalatro then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_togasstuff_ability"}
-            info_queue[#info_queue+1] = {set = "Tag", key = "tag_toga_togajokerbooster"}
-        end
-        if PTASaka then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_pta_ability"}
-        end
-        if SMODS.Mods.cryptposting then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_cryptposting_ability", vars = {card.ability.extra.Xchips, card.ability.extra.Xmult, card.ability.extra.Emult, card.ability.extra.create})
-        end
-        if SMODS.Mods.Prism then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_prism_ability"}
-        end
-        if garb_enabled then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_garbshit_ability"}
-        end
-        if SMODS.Mods.finity then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_finity_ability"}
-        end
-        if Bakery_API then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_bakery_ability"}
-        end
-        return {
-        }
-    end,
-    add_to_deck = function (self, card, from_debuff)
-        if Bakery_API then
-            G.GAME.modifiers.Bakery_extra_charms = G.GAME.modifiers.Bakery_extra_charms and G.GAME.modifiers.Bakery_extra_charms + 1 or 1
-        end
-    end,
-    remove_from_deck = function (self, card, from_debuff)
-        if Bakery_API then
-            G.GAME.modifiers.Bakery_extra_charms = G.GAME.modifiers.Bakery_extra_charms and G.GAME.modifiers.Bakery_extra_charms - 1 or 1
-        end
-    end,
-    calculate = function (self, card, context)
-        if context.before then
-            if Cryptid and #G.play.cards == 1 and G.play.cards[1]:get_id() == 14 then
-                SMODS.add_card({set = "Code", area = G.consumeables, edition = "e_negative"})
-            end
-            if Entropy and #context.full_hand >= 4 then
-                local suits_in_hand = {}
-                local ranks_in_hand = {}
-                local all_card_unique = true
-                for i, k in ipairs(context.full_hand) do
-                    if not SMODS.has_no_suit(k) and not SMODS.has_no_rank(k) then
-                        if not suits_in_hand[k.base.suit] and not ranks_in_hand[k:get_id()] then
-                            suits_in_hand[k.base.suit] = true
-                            ranks_in_hand[k:get_id()] = true
-                        else
-                            all_card_unique = false
-                            break
-                        end
-                    end
-                end
-                if all_card_unique then
-                    SMODS.add_card({set = "Spectral", key = "c_entr_flipside", area = G.consumeables, edition = "e_negative"})
-                end
-            end
-            if SDM_0s_Stuff_Mod then
-                if next(context.poker_hands["Full House"]) then
-                    SMODS.add_card({set = "Bakery", area = G.consumeables, edition = "e_negative"})
-                end
-            end
-	    if SMODS.Mods.cryptposting then
-		if (context.joker_main) or context.forcetrigger then
-			return {
-				chips = card.ability.immutable.chips,
-				extra = {
-					mult = card.ability.immutable.mult,
-					extra = {
-						Xchips_mod = card.ability.extra.Xchips,
-						message = "X" .. card.ability.extra.Xchips,
-						colour = G.C.CHIPS,
+	soul_pos = {
+		x = 2, y = 3
+	},
+	rarity = 4,
+	cost = 50,
+	config = {
+		name = "Aikoyori",
+		extras = {
+			base = {
+				xmult = 1.984,
+				emult = 1.5,
+			}
+		},
+		immutable = {
+			chips = 1,
+			mult = 1
+		},
+		extra = {
+			Xchips = 1.27,
+			Xmult = 1.98,
+			Emult = 1.1
+		}
+	},
+	loc_vars = function (self, info_queue, card)
+		if AKYRS.bal_val("adequate") then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_base_ability", vars = {card.ability.extras.base.xmult}}
+		else
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_base_ability_absurd", vars = {card.ability.extras.base.emult}}
+		end
+		if Cryptid then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_cryptid_ability"}
+		end
+		if SMODS.Mods.MoreFluff then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_more_fluff_ability"}
+		end
+		if Entropy then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_entropy_ability"}
+			info_queue[#info_queue+1] = G.P_CENTERS["c_entr_flipside"]
+		end
+		if SDM_0s_Stuff_Mod then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_sdmstuff_ability"}
+		end
+		if togabalatro then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_togasstuff_ability"}
+			info_queue[#info_queue+1] = {set = "Tag", key = "tag_toga_togajokerbooster"}
+		end
+		if PTASaka then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_pta_ability"}
+		end
+		if SMODS.Mods.cryptposting then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_cryptposting_ability", vars = {card.ability.extra.Xchips, card.ability.extra.Xmult, card.ability.extra.Emult, card.ability.extra.create}}
+		end
+		if SMODS.Mods.Prism then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_prism_ability"}
+		end
+		if garb_enabled then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_garbshit_ability"}
+		end
+		if SMODS.Mods.finity then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_finity_ability"}
+		end
+		if Bakery_API then
+			info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_bakery_ability"}
+		end
+		return {}
+	end,
+	add_to_deck = function (self, card, from_debuff)
+		if Bakery_API then
+			G.GAME.modifiers.Bakery_extra_charms = G.GAME.modifiers.Bakery_extra_charms and G.GAME.modifiers.Bakery_extra_charms + 1 or 1
+		end
+	end,
+	remove_from_deck = function (self, card, from_debuff)
+		if Bakery_API then
+			G.GAME.modifiers.Bakery_extra_charms = G.GAME.modifiers.Bakery_extra_charms and G.GAME.modifiers.Bakery_extra_charms - 1 or 1
+		end
+	end,
+	calculate = function (self, card, context)
+		if context.before then
+			if Cryptid and #G.play.cards == 1 and G.play.cards[1]:get_id() == 14 then
+				SMODS.add_card({set = "Code", area = G.consumeables, edition = "e_negative"})
+			end
+			if Entropy and #context.full_hand >= 4 then
+				local suits_in_hand = {}
+				local ranks_in_hand = {}
+				local all_card_unique = true
+				for i, k in ipairs(context.full_hand) do
+					if not SMODS.has_no_suit(k) and not SMODS.has_no_rank(k) then
+						if not suits_in_hand[k.base.suit] and not ranks_in_hand[k:get_id()] then
+							suits_in_hand[k.base.suit] = true
+							ranks_in_hand[k:get_id()] = true
+						else
+							all_card_unique = false
+							break
+						end
+					end
+				end
+				if all_card_unique then
+					SMODS.add_card({set = "Spectral", key = "c_entr_flipside", area = G.consumeables, edition = "e_negative"})
+				end
+			end
+			if SDM_0s_Stuff_Mod then
+				if next(context.poker_hands["Full House"]) then
+					SMODS.add_card({set = "Bakery", area = G.consumeables, edition = "e_negative"})
+				end
+			end
+			if SMODS.Mods.cryptposting then
+				if (context.joker_main) or context.forcetrigger then
+					return {
+						chips = card.ability.immutable.chips,
 						extra = {
-							Xmult = card.ability.extra.Xmult,
+							mult = card.ability.immutable.mult,
 							extra = {
-								Emult_mod = card.ability.extra.Emult,
-								message = "^" .. card.ability.extra.Emult .. " Mult",
-								colour = G.C.DARK_EDITION,
+								Xchips_mod = card.ability.extra.Xchips,
+								message = "X" .. card.ability.extra.Xchips,
+								colour = G.C.CHIPS,
+								extra = {
+									Xmult = card.ability.extra.Xmult,
+									extra = {
+										Emult_mod = card.ability.extra.Emult,
+										message = "^" .. card.ability.extra.Emult .. " Mult",
+										colour = G.C.DARK_EDITION,
+									}
+								}
 							}
 						}
 					}
-				}
-			}
-		end
-		if (context.end_of_round and not context.individual and not context.repetition) or context.forcetrigger then
-			local create = card.ability.extra.create
-			G.GAME.joker_buffer = G.GAME.joker_buffer + create
-			for i = 1, create do
-				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_joker")
-				card:add_to_deck()
-				card:start_materialize()
-				G.jokers:emplace(card)
+				end
+				if (context.end_of_round and not context.individual and not context.repetition) or context.forcetrigger then
+					local create = card.ability.extra.create
+					G.GAME.joker_buffer = G.GAME.joker_buffer + create
+					for i = 1, create do
+						local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_joker")
+						card:add_to_deck()
+						card:start_materialize()
+						G.jokers:emplace(card)
+					end
+				end
+			end
+			if SMODS.Mods.Prism then
+				if not next(context.poker_hands["Flush"]) then
+					SMODS.add_card({set = "Myth", area = G.consumeables, edition = "e_negative"})
+				end
 			end
 		end
-            if SMODS.Mods.Prism then
-                if not next(context.poker_hands["Flush"]) then
-                    SMODS.add_card({set = "Myth", area = G.consumeables, edition = "e_negative"})
-                end
-            end
-        end 
-        if SMODS.Mods.finity and context.blind_defeated and G.GAME.blind and G.GAME.blind.boss and G.GAME.blind.config.blind.boss.showdown then
-            SMODS.add_card({set = "Spectral", area = G.consumeables, edition = "e_negative", key = "c_finity_finity"})
-        end
-        if garb_enabled and context.selling_card and context.card.ability.set == "Joker" then
-            SMODS.add_card({set = "Stamp", area = G.consumeables, edition = "e_negative"})
-        end
-        if context.individual and context.cardarea == G.play then
-            if not context.other_card:is_face() then
-                return AKYRS.bal_val(
-                    {
-                        xmult = card.ability.extras.base.xmult
-                    },
-                    {
-                        emult = card.ability.extras.base.emult
-                    }
-                )
-            end
-        end
-        if context.akyrs_round_eval then
-            local d = Talisman and to_big(context.dollars) or context.dollars
-            local v = Talisman and to_big(10) or 10
-            local c = Talisman and d:lt(v) or d < v
-            if togabalatro and c then
-                local tag = Tag(pseudorandom_element(toga_tags,pseudoseed("akyrs_aikoyori_toga_tags")))
-                add_tag(tag)
-            end
-            if PTASaka then
-                if Talisman then
-                    ease_pyrox(to_number(context.dollars))
-                else
-                    ease_pyrox(context.dollars)
-                end
-            end
-        end
-    end,
-    blueprint_compat = true
+		if SMODS.Mods.finity and context.blind_defeated and G.GAME.blind and G.GAME.blind.boss and G.GAME.blind.config.blind.boss.showdown then
+			SMODS.add_card({set = "Spectral", area = G.consumeables, edition = "e_negative", key = "c_finity_finity"})
+		end
+		if garb_enabled and context.selling_card and context.card.ability.set == "Joker" then
+			SMODS.add_card({set = "Stamp", area = G.consumeables, edition = "e_negative"})
+		end
+		if context.individual and context.cardarea == G.play then
+			if not context.other_card:is_face() then
+				return AKYRS.bal_val(
+					{
+						xmult = card.ability.extras.base.xmult
+					},
+					{
+						emult = card.ability.extras.base.emult
+					}
+				)
+			end
+		end
+		if context.akyrs_round_eval then
+			local d = Talisman and to_big(context.dollars) or context.dollars
+			local v = Talisman and to_big(10) or 10
+			local c = Talisman and d:lt(v) or d < v
+			if togabalatro and c then
+				local tag = Tag(pseudorandom_element(toga_tags,pseudoseed("akyrs_aikoyori_toga_tags")))
+				add_tag(tag)
+			end
+			if PTASaka then
+				if Talisman then
+					ease_pyrox(to_number(context.dollars))
+				else
+					ease_pyrox(context.dollars)
+				end
+			end
+		end
+	end,
+	blueprint_compat = true
 }
 
 SMODS.Joker{

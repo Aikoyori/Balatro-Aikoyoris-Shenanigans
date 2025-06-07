@@ -1916,7 +1916,16 @@ SMODS.Joker {
                 xmult = 1.984,
                 emult = 1.5,
             }
-        }
+        },
+	immutable = {
+		chips = 1,
+		mult = 1
+	},
+	extra = {
+		Xchips = 1.27,
+		Xmult = 1.98,
+		Emult = 1.1
+	}
     },
     loc_vars = function (self, info_queue, card)
         if AKYRS.bal_val("adequate") then
@@ -1945,7 +1954,7 @@ SMODS.Joker {
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_pta_ability"}
         end
         if SMODS.Mods.cryptposting then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_cryptposting_ability"}
+            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_cryptposting_ability", vars = {card.ability.extra.Xchips, card.ability.extra.Xmult, card.ability.extra.Emult, card.ability.extra.create}
         end
         if SMODS.Mods.Prism then
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_prism_ability"}
@@ -2001,6 +2010,38 @@ SMODS.Joker {
                     SMODS.add_card({set = "Bakery", area = G.consumeables, edition = "e_negative"})
                 end
             end
+	    if SMODS.Mods.cryptposting then
+		if (context.joker_main) or context.forcetrigger then
+			return {
+				chips = card.ability.immutable.chips,
+				extra = {
+					mult = card.ability.immutable.mult,
+					extra = {
+						Xchips_mod = card.ability.extra.Xchips,
+						message = "X" .. card.ability.extra.Xchips,
+						colour = G.C.CHIPS,
+						extra = {
+							Xmult = card.ability.extra.Xmult,
+							extra = {
+								Emult_mod = card.ability.extra.Emult,
+								message = "^" .. card.ability.extra.Emult .. " Mult",
+								colour = G.C.DARK_EDITION,
+							}
+						}
+					}
+				}
+			}
+		end
+		if (context.end_of_round and not context.individual and not context.repetition) or context.forcetrigger then
+			local create = card.ability.extra.create
+			G.GAME.joker_buffer = G.GAME.joker_buffer + create
+			for i = 1, create do
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_joker")
+				card:add_to_deck()
+				card:start_materialize()
+				G.jokers:emplace(card)
+			end
+		end
             if SMODS.Mods.Prism then
                 if not next(context.poker_hands["Flush"]) then
                     SMODS.add_card({set = "Myth", area = G.consumeables, edition = "e_negative"})

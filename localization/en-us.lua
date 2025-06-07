@@ -389,7 +389,13 @@ return {
             dd_akyrs_cryptposting_ability={
                 name="Cryptposting Ability",
                 text={
-                    "???"
+                    "{C:chips}+One{} Chip",
+		    "{C:mult}+One{} Mult",
+		    "{C:white,X:chips}X#1#{} Chips",
+		    "{C:white,X:mult}X#2#{} Mult",
+		    "{C:white,X:dark_edition}^#3#{} Mult",
+		    "Create {C:attention}#4#{} {C:attention}Joker(s){} at end of round",
+		    "{C:inactive}(Does not require room){}"
                 },
             },
             dd_akyrs_aikoyori_pta_ability={

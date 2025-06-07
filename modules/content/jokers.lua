@@ -1954,7 +1954,7 @@ SMODS.Joker {
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_pta_ability"}
         end
         if SMODS.Mods.cryptposting then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_cryptposting_ability", vars = {card.ability.extra.Xchips, card.ability.extra.Xmult, card.ability.extra.Emult, card.ability.extra.create}
+            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_cryptposting_ability", vars = {card.ability.extra.Xchips, card.ability.extra.Xmult, card.ability.extra.Emult, card.ability.extra.create})
         end
         if SMODS.Mods.Prism then
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_prism_ability"}

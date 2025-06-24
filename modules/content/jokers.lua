@@ -2914,8 +2914,11 @@ SMODS.Joker{
     end,
     calculate = function (self, card, context)
         if AKYRS.bal_val(context.joker_main,context.individual and context.cardarea == G.play) or context.forcetrigger then
+            local percent = card.ability.extras.percent
+            local chips = Talisman and to_number(hand_chips) or hand_chips
+
             return {
-                mult = hand_chips * card.ability.extras.percent
+                mult = chips * percent
             }
         end
     end,
@@ -2946,8 +2949,10 @@ SMODS.Joker{
     end,
     calculate = function (self, card, context)
         if AKYRS.bal_val(context.joker_main,context.individual and context.cardarea == G.play) or context.forcetrigger then
+            local percent = card.ability.extras.percent
+            local sourcemult = Talisman and to_number(mult) or mult
             return {
-                chips = mult * card.ability.extras.percent
+                chips = sourcemult * percent
             }
         end
     end,

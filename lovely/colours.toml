@@ -9,7 +9,7 @@ priority = 0
 target = "functions/misc_functions.lua"
 pattern = """  return G.ARGS.LOC_COLOURS[_c] or _default or G.C.UI.TEXT_DARK"""
 position = "before"
-payload = """if AKYRS then AKYRS.add_formatting_colours(G.ARGS.LOC_COLOURS) end"""
+payload = """if AKYRS and AKYRS.add_formatting_colours then AKYRS.add_formatting_colours(G.ARGS.LOC_COLOURS) end"""
 overwrite = true
 match_indent = true
 

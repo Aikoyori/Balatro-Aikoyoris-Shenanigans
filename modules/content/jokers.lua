@@ -1896,7 +1896,7 @@ SMODS.Joker {
     loc_vars = function (self, info_queue, card)
         if AKYRS.bal("absurd") then
             return {
-                key = self.key.."_absurd"..(Cryptid and "_cryptid" or "")..(Entropy and "_entropy" or ""),
+                key = self.key.."_absurd"..(Cryptid and "_cryptid" or "")..(Cryptid and Entropy and "_entropy" or ""),
                 vars = {
                     card.ability.extras.immutable.counter,
                 }
@@ -1922,25 +1922,25 @@ SMODS.Joker {
             if context.before then
                 card.ability.extras.immutable.counter = math.max(card.ability.extras.immutable.counter,0)
                 SMODS.calculate_effect({func = function() 
-                    if Entropy and card.ability.extras.immutable.counter >= 50 then
+                    if Cryptid and Entropy and card.ability.extras.immutable.counter >= 50 then
                         SMODS.add_card{ key = "c_entr_beyond", set = "Omen", edition = "e_negative"} 
                         card.ability.extras.immutable.counter = card.ability.extras.immutable.counter - 50
                     end
                 end})
                 SMODS.calculate_effect({func = function() 
-                    if Entropy and card.ability.extras.immutable.counter >= 40 then
+                    if Cryptid and card.ability.extras.immutable.counter >= 40 then
                         SMODS.add_card{ key = "c_cry_gateway", set = "Spectral", edition = "e_negative"} 
                         card.ability.extras.immutable.counter = card.ability.extras.immutable.counter - 40
                     end
                 end})
                 SMODS.calculate_effect({func = function() 
-                    if Entropy and card.ability.extras.immutable.counter >= 30 then
+                    if card.ability.extras.immutable.counter >= 30 then
                         SMODS.add_card{ key = "c_soul", set = "Spectral", edition = "e_negative"} 
                         card.ability.extras.immutable.counter = card.ability.extras.immutable.counter - 30
                     end
                 end})
                 SMODS.calculate_effect({func = function() 
-                    if Entropy and card.ability.extras.immutable.counter >= 4 then
+                    if card.ability.extras.immutable.counter >= 4 then
                         SMODS.add_card{ set = "Spectral", edition = "e_negative"} 
                         card.ability.extras.immutable.counter = card.ability.extras.immutable.counter - 4
                     end

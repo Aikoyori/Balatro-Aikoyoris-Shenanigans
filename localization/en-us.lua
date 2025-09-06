@@ -1334,7 +1334,12 @@ return {
                     "{C:attention}first two{} letters of played hand",
                     "to {C:green}Y{} and {C:green}E{}.",
                     "This joker gain {X:chips,C:white} X#1# {} Chips",
-                    "if hand is {C:attention}NOT{} a {C:attention}High Card",
+					"if hand is {C:attention}NOT{} a {C:attention}High Card"
+					..
+                    SMODS.Mods.Cryptid and SMODS.Mods.Cryptid.can_load and
+                        "{} or {C:attention}None" 
+                        or
+                        "",
                     "{C:inactive}(Currently {X:chips,C:white} X#2# {C:inactive} Chips)",
                     "{s:0.7,C:inactive}bobobobo bo bobo bo bobo bobobobo bo bobo YEE{}"
                 }
@@ -2902,4 +2907,5 @@ return {
             },
         },
     },
+
 }

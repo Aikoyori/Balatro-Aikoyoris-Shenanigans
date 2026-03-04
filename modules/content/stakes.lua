@@ -19,21 +19,10 @@ SMODS.Stake {
 }
 
 SMODS.Stake {
-    key = "copper",
-    atlas = "aikoStakes", pos = {x = 0, y = 0},
-    sticker_atlas = "aikoStakeStickers", sticker_pos = {x = 0, y = 0},
-    applied_stakes = { "white" },
-    prefix_config = { applied_stakes = { mod = false } },
-    colour = HEX("b74912"),    
-    modifiers = function ()
-        G.GAME.modifiers.akyrs_spawn_oxidising = true
-    end
-}
-SMODS.Stake {
     key = "lime",
     atlas = "aikoStakes", pos = {x = 3, y = 1},
     sticker_atlas = "aikoStakeStickers", sticker_pos = {x = 3, y = 1},
-    applied_stakes = { "akyrs_copper" },
+    applied_stakes = { "white" },
     prefix_config = { applied_stakes = { mod = false } },
     colour = HEX("a8ff50"),
     modifiers = function ()
@@ -44,7 +33,7 @@ SMODS.Stake {
     key = "lemon",
     atlas = "aikoStakes", pos = {x = 4, y = 1},
     sticker_atlas = "aikoStakeStickers", sticker_pos = {x = 4, y = 1},
-    applied_stakes = { "akyrs_copper" },
+    applied_stakes = { "white" },
     prefix_config = { applied_stakes = { mod = false } },
     colour = HEX("f4e756"),
     modifiers = function ()
@@ -118,11 +107,23 @@ SMODS.Stake {
         G.GAME.modifiers.akyrs_spawn_latticed = true
     end,
 }
+
+SMODS.Stake {
+    key = "copper",
+    atlas = "aikoStakes", pos = {x = 0, y = 0},
+    sticker_atlas = "aikoStakeStickers", sticker_pos = {x = 0, y = 0},
+    applied_stakes = { "akyrs_bismuth" },
+    prefix_config = { applied_stakes = { mod = false } },
+    colour = HEX("b74912"),    
+    modifiers = function ()
+        G.GAME.modifiers.akyrs_spawn_oxidising = true
+    end
+}
 SMODS.Stake {
     key = "high_contrast",
     atlas = "aikoStakes", pos = {x = 0, y = 1},
     sticker_atlas = "aikoStakeStickers", sticker_pos = {x = 0, y = 1},
-    applied_stakes = { "akyrs_bismuth" },
+    applied_stakes = { "akyrs_copper" },
     prefix_config = { applied_stakes = { mod = false } },
     colour = HEX("f4ff12"),
     calculate = function (self, context)

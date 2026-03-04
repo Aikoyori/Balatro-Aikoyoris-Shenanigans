@@ -992,7 +992,8 @@ function Moveable:remove()
     return moveableRemoveHook(self)
 end
 
-AKYRS.mod_run_info_hands = function(object)
+AKYRS.mod_run_info_hands = function(object, in_collection)
+    --print("RUN")
     local show_power
     if Talisman then
         show_power = to_big(G.GAME.akyrs_pure_hand_modifier.power) ~= to_big(1)
@@ -1000,7 +1001,7 @@ AKYRS.mod_run_info_hands = function(object)
         show_power = G.GAME.akyrs_pure_hand_modifier.power ~= 1
     end
     local to_number = to_number or function(l) return tonumber(l) end
-    if G.GAME.akyrs_pure_unlocked then
+    if G.GAME.akyrs_pure_unlocked and not in_collection then
         table.insert(object.nodes, 1,{
                 n = G.UIT.R,
                 config = { colour = G.C.AKYRS_UMBRAL_Y, r = 0.05, padding = 0.1 },

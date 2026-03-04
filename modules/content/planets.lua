@@ -4,7 +4,7 @@ SMODS.Consumable{
     atlas = "aikoPlanets",
     pos = {x=0, y=0},
     config = {
-        extra = 1
+        extra = 1,
     },
     loc_vars = function (self, info_queue, card)
         return {
@@ -19,7 +19,7 @@ SMODS.Consumable{
         return true
     end,
     in_pool = function (self, args)
-        return G.GAME.akyrs_pure_unlocked
+        return G.GAME.akyrs_pure_unlocked, { override_base_checks = true }
     end,
     use = function (self, card, area, copier)
         

@@ -3,6 +3,6 @@ return {
 	show_joker_preview = true,
 	balance = nil,
 	turn_on_crt = true,
-	full_dictionary = false,
+	full_dictionary = true,
 	experimental_features = false,
 }

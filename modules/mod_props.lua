@@ -1,13 +1,13 @@
 -- steamodded wtf why was i not told about this
 
 SMODS.current_mod.ui_config = {
-    colour = G.C.AKYRS_HAIR_DARK, -- Main UI box
+    colour = G.C.AKYRS_AIKOYORI_HAIR_MAIN_HAIR_DARK, -- Main UI box
     bg_colour = G.C.AKYRS_AIKOYORI_BG, -- Background
     back_colour = G.C.AKYRS_AIKOYORI_CARDIGAN, -- Back button
     tab_button_colour = G.C.AKYRS_AIKOYORI_BOW_SHADE, -- Tabs buttons
     outline_colour = G.C.AKYRS_AIKOYORI_HAIR, -- Main UI box outline
     author_colour = G.C.AKYRS_AIKOYORI_HAIR, -- Author text
-    author_bg_colour = G.C.AKYRS_HAIR_DARKER, -- Author box background
+    author_bg_colour = G.C.AKYRS_AIKOYORI_HAIR, -- Author box background
     author_outline_colour = G.C.AKYRS_AIKOYORI_BOW, -- Author box outline
     collection_bg_colour = G.C.AKYRS_AIKOYORI_BG,
     collection_back_colour = G.C.AKYRS_AIKOYORI_CARDIGAN, -- Collection background (Defaults to back_colour)
@@ -346,6 +346,13 @@ SMODS.current_mod.extra_tabs = function ()
                   config = {},
                   nodes = {
                     { n = G.UIT.T, config = { text = "haya_underscore, SleepyG11", scale = 0.3, colour = G.C.WHITE } },
+                  }
+                },
+                {
+                  n = G.UIT.R,
+                  config = {},
+                  nodes = {
+                    { n = G.UIT.T, config = { text = "TheCoroboCorner, ThunderEdge", scale = 0.35, colour = G.C.WHITE } },
                   }
                 },
                 {

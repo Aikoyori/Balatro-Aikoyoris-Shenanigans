@@ -7,7 +7,7 @@ assert(SMODS.load_file("./modules/pre.lua"))()
 assert(SMODS.load_file("./modules/atlasses.lua"))()
 assert(SMODS.load_file("./modules/colours.lua"))()
 assert(SMODS.load_file("./modules/fonts.lua"))()
-assert(SMODS.load_file("./func/numbers.lua"))()
+--assert(SMODS.load_file("./func/numbers.lua"))()
 if AKYRS.config.full_dictionary then
     assert(SMODS.load_file("./func/words/words.lua"))()
     assert(SMODS.load_file("./func/words/bomb_prompts.lua"))()

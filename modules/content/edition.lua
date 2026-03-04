@@ -84,17 +84,15 @@ SMODS.Edition{
     in_shop = true,
     on_apply = function (card)
         if not card.ability.akyrs_upgrade_sliced and card.config and card.config.center_key and G.P_CENTERS[card.config.center_key] then
+            -- i rly dont wanna support the cryptid edition deck for this  this has already caused me so many problems
+            --print("SLICED "..card.config.center.key)
             local x = AKYRS.deep_copy(G.P_CENTERS[card.config.center_key].config)
             AKYRS.mod_card_values(x,{multiply = 0.5, unkeywords = AKYRS.blacklist_mod})
             for n, v in pairs(x) do
+                --print("SLICED "..n.." : "..AKYRS.bool_to_str(v))
                 card.ability[n] = x[n] or card.ability[n]
             end
-            AKYRS.simple_event_add(
-                function ()        
-                    card.ability.akyrs_upgrade_sliced = true
-                    return true
-                end, 0
-            )
+            card.ability.akyrs_upgrade_sliced = true
         end
     end,
     on_remove = function (card)

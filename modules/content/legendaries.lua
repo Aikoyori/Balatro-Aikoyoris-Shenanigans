@@ -186,7 +186,7 @@ SMODS.Joker {
         ---@type Card
         card = card
         local dt = os.time()
-        card.ability.akyrs_aiko_sprite = pseudorandom("akyrs_sprite_"..dt, 0 ,11)
+        card.ability.akyrs_aiko_sprite = pseudorandom("akyrs_sprite_"..dt, 0 ,5)
         AKYRS.simple_event_add(
             function ()
                 card.children.floating_sprite:set_sprite_pos({ x = 1 + card.ability.akyrs_aiko_sprite, y = 0})

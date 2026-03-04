@@ -554,7 +554,7 @@ return {
                 name = "Balance Settings",
                 text = {
                     "{C:green,E:2}Adequate", "Balanced towards vanilla",
-                    "{C:red,E:1}Absurd{C:inactive} (Requires Talisman)", "Bigger Number, Crazier Effects,","Direr Consequences"
+                    "{C:red,E:1}Absurd{C:inactive} (Requires Talisman or Amulet)", "Bigger Number, Crazier Effects,","Direr Consequences"
                 }
             },
             dd_akyrs_card_preview_tooltip = {
@@ -1899,15 +1899,19 @@ return {
             j_akyrs_space_elevator = {
                 name = "Space Elevator",
                 text = { 
-                    "{s:1.3,C:attention}Phase {s:1.3,C:blue}#3#",
-                    "Play {C:attention}#1# {C:blue}#2#s{} {C:inactive}(#4#){}",
-                    "to move on to the next {C:attention}Phase",
-                    "Completing each {C:attention}Phase",
-                    "grants you a {C:dark_edition}Negative Spectral Card",
-                    "Finishing Phase {C:blue}5",
-                    "grants you a {C:dark_edition}Negative Soul Card",
-                    "and resets to Phase {C:blue}1",
-                    "Rank changes every {C:attention}phase{}",
+                    {
+                        "{s:1.4,C:attention}Phase {s:1.4,C:blue}#3#",
+                        "Score {s:1.4,C:attention}#1# {s:1.4,C:blue}#2#s{} {C:inactive}(#4#){}",
+                        "to move on to the next {C:attention}Phase",
+                    },
+                    {
+                        "Completing each {C:attention}Phase",
+                        "grants you a {C:dark_edition}Negative Spectral Card",
+                        "Finishing Phase {C:blue}5",
+                        "grants you a {C:dark_edition}Negative Soul Card",
+                        "and resets to Phase {C:blue}1",
+                        "Rank changes every {C:attention}phase{}",
+                    }
                 }
             },
             j_akyrs_turret = {
@@ -2593,8 +2597,9 @@ return {
                     "and {E:1,C:red}Absurd{} Balance.",
                     "- {E:2,C:green}Adequate{} - The intended experience.",
                     "balanced around Vanilla but slightly more unique",
-                    "- {E:1,C:red}Absurd{} (Requires Talisman) - Bigger Number",
-                    "Special Abilities, Crazier effects, Direr Consequences.",
+                    "- {E:1,C:red}Absurd{} (Requires Talisman or Amulet)",
+                    "Bigger Number, Special Abilities, ",
+                    "Crazier effects, Direr Consequences.",
                     "{C:inactive}--------------------------------------------------------",
                     "You can change these at any time in the mod settings."
                 }
@@ -4025,6 +4030,7 @@ return {
             k_akyrs_scrape_ex = "Scrape!",
             k_akyrs_round_singular = "round",
             k_akyrs_round_plural = "rounds",
+            k_consumable_type = "Consumable Type",
 
             k_akyrs_balance_dialog_intro_next = "Next",
             k_akyrs_balance_dialog_cryptid_accept = "Sounds Good. (End)",
@@ -4064,7 +4070,7 @@ return {
             k_akyrs_balance_dialog_adequate_text = "Adequate",
             k_akyrs_balance_dialog_adequate_description = "Balanced towards Vanilla",
             k_akyrs_balance_dialog_absurd_text = "Absurd",
-            k_akyrs_balance_dialog_absurd_description = "(Requires Talisman) Bigger Number, Crazier effects, Direr Consequences.",
+            k_akyrs_balance_dialog_absurd_description = "(Requires Talisman/Amulet) Bigger Number, Crazier effects, Direr Consequences.",
             
             k_akyrs_card_preview = "Enable Card Previews",
             k_akyrs_toggle_crt = "Enable CRT Shaders",

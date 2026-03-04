@@ -23,7 +23,7 @@ pattern = """            {name = 'colour_1', ref_table = G.C, ref_value = 'RED'}
             {name = 'colour_2', ref_table = G.C, ref_value = 'BLUE'},
 """
 position = "at"
-payload = '''            {name = 'colour_1', ref_table = G.C, ref_value = 'AKYRS_AIKOYORI_BOW'},
+payload = '''            {name = 'colour_1', ref_table = G.C, ref_value = 'AKYRS_HAIR_DARK'},
             {name = 'colour_2', ref_table = G.C, ref_value = 'AKYRS_AIKOYORI_HAIR'},
 '''
 match_indent = true

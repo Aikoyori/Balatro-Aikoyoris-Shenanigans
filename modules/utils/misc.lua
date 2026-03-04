@@ -1571,3 +1571,10 @@ function AKYRS.fill_hand()
     local to_draw = G.hand.config.card_limit - #G.hand.cards
     SMODS.draw_cards(to_draw)
 end
+
+function AKYRS.bool_to_str(thing)
+    if type(thing) == 'boolean' then
+        return thing and "True" or "False"
+    end
+    return thing
+end

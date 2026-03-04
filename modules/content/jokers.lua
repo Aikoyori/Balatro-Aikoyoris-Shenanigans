@@ -2208,7 +2208,7 @@ SMODS.Joker{
         return {
             vars = {
                 card.ability.extras.target_play,
-                localize(card.ability.extras.target_rank,"ranks"),
+                card.ability.extras.target_rank and localize(card.ability.extras.target_rank,"ranks") or "<"..localize("k_rank")..">",
                 card.ability.extras.phase,
                 card.ability.extras.played,
             }
@@ -2216,14 +2216,17 @@ SMODS.Joker{
     end,
     set_ability = function (self, card, initial, delay_sprites)
         if initial then
-            local r = pseudorandom_element(AKYRS.get_p_card_ranks(card.ability.extras.ranks_chosen),pseudoseed("akyrs_space_elevator")) 
-                or pseudorandom_element(SMODS.Ranks,pseudoseed("akyrs_space_elevator")) 
-            if r then
-                card.ability.extras.target_rank = r.key
-                card.ability.extras.ranks_chosen[r.key] = true
-            end
-            card.ability.extras.played = 0
+
         end
+    end,
+    add_to_deck = function (self, card, from_debuff)
+        local r = pseudorandom_element(AKYRS.get_p_card_ranks(card.ability.extras.ranks_chosen),pseudoseed("akyrs_space_elevator")) 
+            or pseudorandom_element(SMODS.Ranks,pseudoseed("akyrs_space_elevator")) 
+        if r then
+            card.ability.extras.target_rank = r.key
+            card.ability.extras.ranks_chosen[r.key] = true
+        end
+        card.ability.extras.played = 0
     end,
     calculate = function (self, card, context)
         if context.individual and not context.forcetrigger and not context.repetition and not context.repetition_only and not context.blueprint and not context.retrigger_joker and context.cardarea == G.play then
@@ -3592,7 +3595,7 @@ SMODS.Joker {
         info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_credit_gud"]
         return {
             vars = {
-                localize("k_"..string.lower(card.ability.extras.type or ""))
+                card.ability.extras.type and localize("k_"..string.lower(card.ability.extras.type or "")) or "<"..localize("k_consumable_type")..">"
             }
         }
     end,
@@ -3604,6 +3607,8 @@ SMODS.Joker {
         }
     },
     set_ability = function (self, card, initial, delay_sprites)
+    end,
+    add_to_deck = function (self, card, from_debuff)
         local sts = AKYRS.get_consumable_set()
         card.ability.extras.type = pseudorandom_element(sts, "akyrs_gift_voucher_initial")
     end,
@@ -3649,7 +3654,7 @@ SMODS.Joker {
                 chips = card.ability.extras.chips
             }
         end
-        if context.buying_card and context.card and context.card.ability and context.card.ability.set == "Joker" and not context.blueprint then
+        if context.buying_card and context.card and context.card ~= card and context.card.ability and context.card.ability.set == "Joker" and not context.blueprint then
             return {
                 func = function ()
                     SMODS.scale_card(card,{
@@ -3936,10 +3941,12 @@ SMODS.Joker {
             gain = 0.1,
             lose = 0.1,
             xchips = 1,
-            suit = "",
+            suit = nil,
         },
     },
     set_ability = function (self, card, initial, delay_sprites)
+    end,
+    add_to_deck = function (self, card, from_debuff)
         card.ability.extras.suit = pseudorandom_element(SMODS.Suits,"akyrs_yamadaperfect_suit").key
     end,
     rarity = 2,
@@ -3950,16 +3957,18 @@ SMODS.Joker {
                 card.ability.extras.gain,
                 card.ability.extras.lose,
                 card.ability.extras.xchips,
-                localize(card.ability.extras.suit,"suits_plural"),
+                card.ability.extras.suit and localize(card.ability.extras.suit,"suits_plural") or ("<"..localize("k_suit")..">"),
                 colours = {
-                    G.C.SUITS[card.ability.extras.suit]
+                    card.ability.extras.suit and G.C.SUITS[card.ability.extras.suit] or G.C.FILTER
                 }
             }
         }
     end,
     calculate = function (self, card, context)
         if context.individual and not context.blueprint and context.cardarea == G.play then
-            
+            if not card.ability.extras.suit then
+                card.ability.extras.suit = pseudorandom_element(SMODS.Suits,"akyrs_yamadaperfect_suit").key
+            end
             if context.other_card and context.other_card:is_suit(card.ability.extras.suit) then
                 SMODS.calculate_effect({
                     func = function ()

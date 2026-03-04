@@ -625,7 +625,7 @@ SMODS.Joker {
 }
 -- utage charts
 SMODS.Joker {
-    pools = { ["Rhythm Games"] = true, ["Maimai"] = true },
+    pools = { ["Rhythm Games"] = true, ["Maimai"] = true, ["Music"] = true, },
     atlas = 'AikoyoriJokers',
     pos = {
         x = 5,
@@ -2012,7 +2012,7 @@ SMODS.Joker {
 }
 
 SMODS.Joker{
-    pools = { ["Rhythm Games"] = true, ["Maimai"] = true },
+    pools = { ["Rhythm Games"] = true, ["Maimai"] = true, ["Music"] = true,  },
     key = "mukuroju_no_hakamori",
     atlas = 'AikoyoriJokers',
     pos = {
@@ -2584,7 +2584,7 @@ SMODS.Joker{
 SMODS.Joker{
     key = "pandora_paradoxxx",
     atlas = 'AikoyoriJokers',
-    pools = { ["Rhythm Games"] = true, ["Maimai"] = true },
+    pools = { ["Rhythm Games"] = true, ["Maimai"] = true, ["Music"] = true, },
     pos = {
         x = 5, y = 4
     },
@@ -2710,7 +2710,7 @@ SMODS.Joker{
 SMODS.Joker{
     key = "no_hints_here",
     atlas = 'AikoyoriJokers',
-    pools = { ["Rhythm Games"] = true, ["ADOFAI"] = true },
+    pools = { ["Rhythm Games"] = true, ["ADOFAI"] = true, ["Music"] = true,  },
     pos = {
         x = 7, y = 4
     },
@@ -3640,6 +3640,7 @@ SMODS.Joker {
     },
     rarity = 3,
     cost = 7,
+
     loc_vars = function (self, info_queue, card)
         return {
             vars = {

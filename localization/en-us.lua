@@ -3261,6 +3261,13 @@ return {
                     "{C:akyrs_umbral_p}Mega Umbral Pack",
                 },
             },
+            tag_akyrs_replicant_tag={
+                name="Replicant Tag",
+                text={
+                    "Gives a free",
+                    "{C:akyrs_replicant_o}Replica Pack",
+                },
+            },
         },
         Tarot={
             c_akyrs_wof_nopes = {

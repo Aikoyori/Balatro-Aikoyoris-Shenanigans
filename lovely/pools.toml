@@ -1,0 +1,28 @@
+[manifest]
+version = "1.2"
+dump_lua = true
+priority = 0
+
+
+[[patches]]
+[patches.pattern]
+target = """=[SMODS _ "src/overrides.lua"]"""
+pattern = """		total_weight = total_weight + (v.weight) -- total all the weights of the polled editions"""
+position = "before"
+payload = """if v and v.weight then"""
+overwrite = true
+match_indent = true
+
+
+
+
+[[patches]]
+[patches.pattern]
+target = """=[SMODS _ "src/overrides.lua"]"""
+pattern = """		total_weight = total_weight + (v.weight) -- total all the weights of the polled editions"""
+position = "after"
+payload = """end"""
+overwrite = true
+match_indent = true
+
+

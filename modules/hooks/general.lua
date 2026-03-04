@@ -1243,7 +1243,7 @@ function Card:akyrs_mod_card_value_init(center, initial, delay)
     end
     if G.GAME.modifiers.akyrs_all_cards_are_stone then
         if self.ability.set == "Default" or self.ability.set == "Enhanced" then
-            AKYRS.original_set_ability(self,G.P_CENTERS["m_stone"],true)
+            AKYRS.original_set_ability(self,G.P_CENTERS["m_stone"])
             if self.ability.bonus == 0 then
                 self.ability.bonus = 50
             end
@@ -1999,4 +1999,12 @@ function Card:use_consumeable(...)
         AKYRS.invert_selection(G.hand)
     end
     return card_use_cons(self,...)
+end
+
+local showman_hook = SMODS.showman
+function SMODS.showman(c_k)
+    if G.GAME.modifiers.akyrs_allow_duplicates then
+        return true
+    end
+    return showman_hook(c_k)
 end

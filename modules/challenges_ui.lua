@@ -415,7 +415,7 @@ G.FUNCS.akyrs_challenge_flame_handler = function(e)
         if e.config.id == v.id then 
         if not e.config.object:is(Sprite) or e.config.object.ID ~= v.ID then 
             e.config.object:remove()
-            e.config.object = Sprite(0, 0, v.w, v.h, G.ASSET_ATLAS["akyrs_aikoyori_credits"], {x = 0, y = 0})
+            e.config.object = Sprite(0, 0, v.w, v.h, G.ASSET_ATLAS["akyrs_aikoyori_intro"], {x = 0, y = 0})
             v.ID = e.config.object.ID
             G.ARGS[v.arg_tab] = {
                 intensity = 0,

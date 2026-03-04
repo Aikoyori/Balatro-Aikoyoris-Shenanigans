@@ -338,19 +338,6 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
-pattern = """            if add and not G.GAME.banned_keys[v.key] then """
-position = "before"
-payload = """if G.GAME and G.GAME.modifiers.akyrs_allow_duplicates and v.unlocked then add = true end
-"""
-overwrite = true
-match_indent = true
-
-
-
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
 pattern = """        --if pool is empty"""
 position = "before"
 payload = """-- print("POOL SIZE IS " .. _pool_size)"""

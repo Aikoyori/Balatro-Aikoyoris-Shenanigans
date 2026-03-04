@@ -3128,13 +3128,6 @@ return {
         },
         Spectral={},
         Stake={
-            stake_akyrs_copper = {
-                name = "Copper Stake",
-                text = {
-                    "Cards can have {C:attention}Oxidising{} Sticker",
-                    "{s:0.8}Applies White Stake",
-                }
-            },
             stake_akyrs_inner = {
                 name = "Inner Stake",
                 text = {
@@ -3151,14 +3144,14 @@ return {
                 name = "Lime Stake",
                 text = {
                     "{C:red}X1.5{} Blind Size",
-                    "{s:0.8}Applies Oxidising Stake",
+                    "{s:0.8}Applies White Stake",
                 }
             },
             stake_akyrs_lemon = {
                 name = "Lemon Stake",
                 text = {
                     "{C:attention}Faster{} Ante Scaling",
-                    "{s:0.8}Applies Oxidising Stake",
+                    "{s:0.8}Applies White Stake",
                 }
             },
             stake_akyrs_turquoise = {
@@ -3190,6 +3183,13 @@ return {
                     "Jokers can have {C:attention}Latticed{} Sticker",
                     "{S:0.8}(Cannot be sold through normal means)",
                     "{s:0.8}Applies Wooden Stake",
+                }
+            },
+            stake_akyrs_copper = {
+                name = "Copper Stake",
+                text = {
+                    "Cards can have {C:attention}Oxidising{} Sticker",
+                    "{s:0.8}Applies Bismuth Stake",
                 }
             },
             stake_akyrs_high_contrast = {

@@ -877,6 +877,8 @@ end
 
 local ogBlindSel = create_UIBox_blind_choice
 function create_UIBox_blind_choice(type, run_info)
+    G.GAME.round_resets.blind_ante = math.floor((G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante) + 0.5)
+    G.GAME.round_resets.ante = G.GAME.round_resets.blind_ante
     local x = ogBlindSel(type, run_info)
     local bl = G.P_BLINDS[G.GAME.round_resets.blind_choices[type]]
     local elem = AKYRS.search_UIT_for_id(x, "blind_desc")

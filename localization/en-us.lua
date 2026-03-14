@@ -2528,7 +2528,7 @@ return {
                 text = {
                     {
                         "If you have {C:blue}1{} Hand and {C:red}0{} Discards left",
-                        "{C:attention}Draw{} your whole deck ",
+                        "{C:attention}Draw{} the remaining deck",
                         "and this joker gains {C:white,X:mult} X#2# {} Mult",
                         "{C:inactive}(Currently {C:white,X:mult} X#1# {C:inactive} Mult)",
                     },

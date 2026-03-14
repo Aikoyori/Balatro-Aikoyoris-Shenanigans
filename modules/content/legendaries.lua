@@ -179,7 +179,7 @@ SMODS.Joker{
         }
     end,
     set_sprites = function (self, card, front)
-        if card.ability and card.ability.extras.activated then
+        if card.ability and card.ability.extras and card.ability.extras.activated then
             card.children.center:set_sprite_pos({x = 1, y = 0})
         end
     end,
@@ -199,7 +199,10 @@ SMODS.Joker{
                         SMODS.draw_cards(#G.deck.cards)
                         ---@type Sprite[]
                         card.children = card.children
-                        card.children.center:set_sprite_pos({x = 1, y = 0})
+                        AKYRS.simple_event_add(function ()
+                            card.children.center:set_sprite_pos({x = 1, y = 0})
+                            return true
+                        end, 0)
                         AKYRS.force_save()
                     end
                 }

@@ -191,6 +191,10 @@ SMODS.Joker{
                 return {
                     func = function ()
                         card.ability.extras.activated = true
+                        AKYRS.simple_event_add(function ()
+                            card.children.center:set_sprite_pos({x = 1, y = 0})
+                            return true
+                        end, 0)
                         SMODS.scale_card(card, {
                             ref_table = card.ability.extras,
                             ref_value = "xmlt",
@@ -199,10 +203,6 @@ SMODS.Joker{
                         SMODS.draw_cards(#G.deck.cards)
                         ---@type Sprite[]
                         card.children = card.children
-                        AKYRS.simple_event_add(function ()
-                            card.children.center:set_sprite_pos({x = 1, y = 0})
-                            return true
-                        end, 0)
                         AKYRS.force_save()
                     end
                 }

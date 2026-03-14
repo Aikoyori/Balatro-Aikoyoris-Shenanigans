@@ -206,6 +206,10 @@ AKYRS.DescriptionDummy{
     key = "credit_lyman",
 }
 
+AKYRS.DescriptionDummy{
+    key = "credit_marcyptata64",
+}
+
 
 AKYRS.DescriptionDummy{
     key = "wildcard_behaviour_1",

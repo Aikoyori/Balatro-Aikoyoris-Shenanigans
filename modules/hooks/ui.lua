@@ -1445,3 +1445,7 @@ G.FUNCS.akyrs_your_collection_letter_jokers = function(e)
     }
 end
 
+local create_mod_badges_hook = SMODS.create_mod_badges
+function SMODS.create_mod_badges(obj, badges)
+    return create_mod_badges_hook(obj, badges)
+end

@@ -1085,3 +1085,8 @@ function AKYRS.force_disable_blind()
     G.AKYRS_FORCE_BLIND_DISABLE = nil
 
 end
+
+
+function AKYRS.get_free_joker_roll_tier()
+    return G.GAME and G.GAME.akyrs_premium_joker_roll_tier or 0
+end

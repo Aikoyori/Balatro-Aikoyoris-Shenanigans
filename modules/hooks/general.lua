@@ -435,22 +435,7 @@ G.FUNCS.can_discard = function(e)
     return ret
 end
 
-local cardSellHook = Card.sell_card
 
-function Card:sell_card()
-    if self.ability.akyrs_latticed then
-        AKYRS.nope_buzzer(self,nil,G.C.playable)
-        self:highlight(false)
-        return
-    end
-    if (not (AKYRS.sigmaable_areas(self.area) and self.ability.akyrs_sigma)) or (AKYRS.is_card_not_sigma(self)) then
-        self.akyrs_is_being_sold = true
-        return cardSellHook(self)
-    else
-        AKYRS.nope_buzzer(self,nil,G.C.playable)
-        self:highlight(false)
-    end
-end
 
 local cardRemoveHookFirst = Card.remove
 function Card:remove()

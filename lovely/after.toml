@@ -46,3 +46,10 @@ overwrite = true
 match_indent = true
 
 
+[[patches]]
+[patches.copy]
+target = "main.lua"
+position = "append"
+sources = [
+    "modules/hooks/late_hooks.lua",
+]

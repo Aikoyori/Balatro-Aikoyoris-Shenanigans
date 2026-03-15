@@ -1447,5 +1447,47 @@ end
 
 local create_mod_badges_hook = SMODS.create_mod_badges
 function SMODS.create_mod_badges(obj, badges)
+    if obj then
+        if obj.mod == AKYRS then
+            if not SMODS.config.no_mod_badges and obj and obj.mod and obj.mod.display_name and not obj.no_mod_badges then
+                local mods = {}
+                badges.mod_set = badges.mod_set or {}
+                if not badges.mod_set[obj.mod.id] and not obj.no_main_mod_badge then table.insert(mods, obj.mod) end
+                badges.mod_set[obj.mod.id] = true
+                if obj.dependencies then
+                    for _, v in ipairs(obj.dependencies) do
+                        local m = assert(SMODS.find_mod(v)[1], ("Could not find mod \"%s\"."):format(v))
+                        if not badges.mod_set[m.id] then
+                            table.insert(mods, m)
+                            badges.mod_set[m.id] = true
+                        end
+                    end
+                end
+                for i, mod in ipairs(mods) do
+                    local mod_name = mod.display_name
+                    local size = 0.9
+                    local font = G.LANG.font
+                    local max_text_width = 2 - 2*0.05 - 4*0.03*size - 2*0.03
+                    local calced_text_width = 0
+                    -- Math reproduced from DynaText:update_text
+                    for _, c in utf8.chars(mod_name) do
+                        local tx = font.FONT:getWidth(c)*(0.33*size)*G.TILESCALE*font.FONTSCALE + 2.7*1*G.TILESCALE*font.FONTSCALE
+                        calced_text_width = calced_text_width + tx/(G.TILESIZE*G.TILESCALE)
+                    end
+                    local scale_fac = 1
+                        -- calced_text_width > max_text_width and max_text_width/calced_text_width
+                        -- or 1
+                    badges[#badges + 1] = {n=G.UIT.R, config={align = "cm"}, nodes={
+                        {n=G.UIT.R, config={align = "cm", colour = mod.badge_colour or G.C.GREEN, r = 0.1, minw = 2, minh = 0.36, emboss = 0.05, padding = 0.03*size}, nodes={
+                        {n=G.UIT.B, config={h=0.1,w=0.03}},
+                        {n=G.UIT.O, config={object = DynaText({string = mod_name or 'ERROR', colours = {mod.badge_text_colour or G.C.WHITE},float = true, shadow = true, offset_y = -0.05, silent = true, spacing = 1*scale_fac, scale = 0.33*size*scale_fac, marquee = calced_text_width > max_text_width and not mod.no_marquee, maxw = max_text_width})}},
+                        {n=G.UIT.B, config={h=0.1,w=0.03}},
+                        }}
+                    }}
+                end
+            end
+        end
+    end
+
     return create_mod_badges_hook(obj, badges)
 end

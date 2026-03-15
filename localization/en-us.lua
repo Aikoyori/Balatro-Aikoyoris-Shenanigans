@@ -3890,6 +3890,7 @@ return {
             hc_akyrs_bomb_galore = "Keep Wording and Nobody Explodes",
             hc_akyrs_hatena_jokers = "????????",
             hc_akyrs_hatena_everything = "???????????????",
+            hc_akyrs_bonfire_lit = "Bonfire Lit",
         },
         collabs={},
         dictionary={
@@ -4225,6 +4226,15 @@ return {
             },
             ch_c_akyrs_hatena_everything={
                 "{C:attention}All cards{} are {C:red}concealed",
+            },
+            ch_c_akyrs_always_skip_shops={
+                "{C:attention}Shops{} are {C:red}skipped",
+            },
+            ch_c_akyrs_shops_after_boss={
+                "{C:attention}Shops{} only appear after {C:red}Boss Blinds",
+            },
+            ch_c_akyrs_obtain_every_round={
+                "{C:attention}Obtain{} a {C:attention}#1#{} every round",
             },
         },
     },

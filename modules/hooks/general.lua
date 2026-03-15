@@ -362,6 +362,13 @@ function Game:start_run(args)
     if G.GAME.modifiers.akyrs_hatena_deck then
         G.GAME.akyrs_hatena_deck = G.GAME.modifiers.akyrs_hatena_deck
     end
+    
+    if G.GAME.modifiers.akyrs_always_skip_shops then
+        G.GAME.akyrs_always_skip_shops = G.GAME.modifiers.akyrs_always_skip_shops
+    end
+    if G.GAME.modifiers.akyrs_shops_after_boss then
+        G.GAME.akyrs_shops_after_boss = G.GAME.modifiers.akyrs_shops_after_boss
+    end
     if G.GAME.modifiers.akyrs_hatena_everything then
         G.GAME.akyrs_hatena_everything = G.GAME.modifiers.akyrs_hatena_everything
     end
@@ -1907,6 +1914,11 @@ end
 local selectBlindHook = G.FUNCS.select_blind
 G.FUNCS.select_blind = function(e)
     G.GAME.akyrs_ui_should_recalculate = true
+    if G.GAME.modifiers.akyrs_obtain_every_round then
+        if AKYRS.has_room(G.jokers) then
+            SMODS.add_card({ key = G.GAME.modifiers.akyrs_obtain_every_round })
+        end
+    end
     return selectBlindHook(e)
 end
 

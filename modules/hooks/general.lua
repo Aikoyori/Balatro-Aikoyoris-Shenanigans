@@ -1086,13 +1086,14 @@ function Card:set_ability(c,i,d)
     local r = AKYRS.original_set_ability(self,c,i,d)
     self:akyrs_mod_card_value_init(c, i, d)
 
-
-    if self.config.card and self.config.center and self.config.center.set == "Enhanced" or self.config.center.set == "Default" and not self.is_null then
-        self:set_base(self.config.card, i)
-        if self.ability.akyrs_special_card_type == "suit" then
-            self.base.nominal = 0
-        elseif SMODS.Ranks[self.config.card.value] then
-            self.base.nominal = SMODS.Ranks[self.config.card.value].nominal
+    if self.config.center and self.config.card then
+        if self.config.center and self.config.center.set == "Enhanced" or self.config.center.set == "Default" and not self.is_null then
+            self:set_base(self.config.card, i)
+            if self.ability.akyrs_special_card_type == "suit" then
+                self.base.nominal = 0
+            elseif SMODS.Ranks[self.config.card.value] then
+                self.base.nominal = SMODS.Ranks[self.config.card.value].nominal
+            end
         end
     end
     

@@ -1158,12 +1158,13 @@ function Card:set_base(card, initial, manual_sprites)
         self:set_letters_random()
         self.ability.forced_letter_render = false
     end
-    
-    if self.config.card and self.config.center.set == "Enhanced" or self.config.center.set == "Default" then
-        if self.ability.akyrs_special_card_type == "suit" then
-            self.base.nominal = 0
-        elseif SMODS.Ranks[self.config.card.value] then
-            self.base.nominal = SMODS.Ranks[self.config.card.value].nominal
+    if self.config.center and self.config.card then
+        if self.config.card and self.config.center.set == "Enhanced" or self.config.center.set == "Default" then
+            if self.ability.akyrs_special_card_type == "suit" then
+                self.base.nominal = 0
+            elseif SMODS.Ranks[self.config.card.value] then
+                self.base.nominal = SMODS.Ranks[self.config.card.value].nominal
+            end
         end
     end
     

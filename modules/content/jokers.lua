@@ -957,7 +957,7 @@ SMODS.Joker {
 SMODS.Joker {
     atlas = 'AikoyoriJokers',
     key = "kyoufuu_all_back",
-    pools = { ["Vocaloids"] = true, ["J-POP"] = true },
+    pools = { ["Vocaloid"] = true, ["J-POP"] = true },
     pos = {
         x = 2,
         y = 1
@@ -1224,7 +1224,7 @@ SMODS.Joker{
 SMODS.Joker{
     atlas = 'AikoyoriJokers',
     key = "hibana",
-    pools = { ["Vocaloids"] = true, ["J-POP"] = true },
+    pools = { ["Vocaloid"] = true, ["J-POP"] = true },
     pos = {
         x = 5,
         y = 1
@@ -1937,7 +1937,7 @@ AKYRS.tetoris_piece = {
 }
 SMODS.Joker {
     key = "tetoris",
-    pools = { ["Vocaloids"] = true, ["J-POP"] = true },
+    pools = { ["Vocaloid"] = true, ["J-POP"] = true },
     atlas = 'AikoyoriJokers',
     pos = {
         x = 0, y = 3
@@ -2437,7 +2437,7 @@ SMODS.Joker{
 SMODS.Joker{
     key = "goodbye_sengen",
     atlas = 'AikoyoriJokers',
-    pools = { ["Vocaloids"] = true, ["J-POP"] = true },
+    pools = { ["Vocaloid"] = true, ["J-POP"] = true },
     pos = {
         x = 0, y = 4
     },
@@ -2491,7 +2491,7 @@ SMODS.Joker{
 SMODS.Joker{
     key = "liar_dancer",
     atlas = 'AikoyoriJokers',
-    pools = { ["Vocaloids"] = true, ["J-POP"] = true },
+    pools = { ["Vocaloid"] = true, ["J-POP"] = true },
     pos = {
         x = 1, y = 4
     },
@@ -2961,7 +2961,7 @@ SMODS.Joker{
 SMODS.Joker{
     key = "lagtrain",
     atlas = 'AikoyoriJokers',
-    pools = { ["Vocaloids"] = true, ["J-POP"] = true },
+    pools = { ["Vocaloid"] = true, ["J-POP"] = true },
     pos = {
         x = 2, y = 5
     },

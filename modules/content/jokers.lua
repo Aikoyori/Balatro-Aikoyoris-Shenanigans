@@ -2350,10 +2350,10 @@ SMODS.Joker{
             local index = AKYRS.find_index(G.jokers.cards,card)
             if index and #G.jokers.cards > 1 and G.jokers.cards[index-1] and index > 1 then
                 local other = G.jokers.cards[index-1]
-                local edition = pseudorandom_element(G.P_CENTER_POOLS.Edition,pseudoseed("akyrs_aether_chance"))
-                repeat
-                local edition = pseudorandom_element(G.P_CENTER_POOLS.Edition,pseudoseed("akyrs_aether_chance"))
-                until edition and edition.weight and edition.weight > 0 
+                local filtered_pool = AKYRS.filter_table(G.P_CENTER_POOLS.Edition,function (c,i,a)
+                    return c.weight > 0 and c:in_pool({source = "akyrs_aether_portal"})
+                end,false,true)
+                local edition = pseudorandom_element(filtered_pool, "akyrs_aether_portal_pick")
                 if edition then
                     other:set_edition(edition.key)
                 end

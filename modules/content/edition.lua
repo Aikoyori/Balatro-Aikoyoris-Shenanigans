@@ -82,6 +82,12 @@ SMODS.Edition{
     disable_base_shader = true,
     sound = { sound = "akyrs_sliced_sfx", per = 0.8, vol = 0.3 },
     in_shop = true,
+    in_pool = function (self, args)
+        if args.source == "akyrs_aether_portal" then
+            return false
+        end
+        return true
+    end,
     on_apply = function (card)
         if not card.ability.akyrs_upgrade_sliced and card.config and card.config.center_key and G.P_CENTERS[card.config.center_key] then
             -- i rly dont wanna support the cryptid edition deck for this  this has already caused me so many problems
@@ -114,6 +120,12 @@ SMODS.Edition{
     disable_base_shader = true,
     sound = { sound = "akyrs_burnt_sfx", per = 1.2, vol = 0.3 },
     in_shop = false,
+    in_pool = function (self, args)
+        if args.source == "akyrs_aether_portal" then
+            return false
+        end
+        return true
+    end,
     loc_vars = function (self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS["m_akyrs_ash_card"]
         info_queue[#info_queue+1] = G.P_CENTERS["j_akyrs_ash_joker"]

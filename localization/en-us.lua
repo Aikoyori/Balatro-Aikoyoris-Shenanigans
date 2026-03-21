@@ -3439,7 +3439,7 @@ return {
             c_akyrs_umbral_break_up = {
                 name="Break Up",
                 text={
-                    "Splits {C:attention}#1#{} selected card",
+                    "Splits {C:attention}#1#{} selected cards",
                     "into {C:attention}Pure Suit{} and {C:attention}Rank{} cards",
                     "{C:inactive}(If possible)"
                 },

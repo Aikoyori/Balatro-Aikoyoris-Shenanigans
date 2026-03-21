@@ -188,7 +188,7 @@ SMODS.Consumable{
         extra = 2,
     },
     loc_vars = function (self, info_queue, card)
-        info_queue[#info_queue+1] = { key = "pinned", set = "Other" }
+        info_queue[#info_queue+1] = { key = "pinned_left", set = "Other" }
         return {
             vars = {
                 card.ability.extra

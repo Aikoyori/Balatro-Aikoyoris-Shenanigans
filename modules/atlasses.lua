@@ -346,3 +346,7 @@ SMODS.Shader{
     key = "dyed",
     path = "dyed.fs"
 }
+SMODS.Shader{
+    key = "aiko_mod_badge",
+    path = "aiko_mod_badge.fs"
+}

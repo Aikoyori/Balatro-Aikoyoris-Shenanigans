@@ -1464,24 +1464,40 @@ function SMODS.create_mod_badges(obj, badges)
                     end
                 end
                 for i, mod in ipairs(mods) do
-                    local mod_name = mod.display_name
+                    local mod_name = pseudorandom_element(AKYRS.mod_name_alts, "akyrs_mod_name")
+                    local mod_flavour_tex = pseudorandom_element(AKYRS.mod_flavour_text, "akyrs_mod_flavour_text")
+                    local mod_flavour = mod_flavour_tex[1]
                     local size = 0.9
+                    local size_desc = 0.6
                     local font = G.LANG.font
+                    local font_desc = mod_flavour_tex[2] or G.LANG.font
                     local max_text_width = 2 - 2*0.05 - 4*0.03*size - 2*0.03
                     local calced_text_width = 0
+                    local calced_text_width_desc = 0
                     -- Math reproduced from DynaText:update_text
                     for _, c in utf8.chars(mod_name) do
                         local tx = font.FONT:getWidth(c)*(0.33*size)*G.TILESCALE*font.FONTSCALE + 2.7*1*G.TILESCALE*font.FONTSCALE
                         calced_text_width = calced_text_width + tx/(G.TILESIZE*G.TILESCALE)
                     end
+                    for _, c in utf8.chars(mod_flavour) do
+                        local tx = font_desc.FONT:getWidth(c)*(0.33*size_desc)*G.TILESCALE*font_desc.FONTSCALE + 2.7*1*G.TILESCALE*font_desc.FONTSCALE
+                        calced_text_width_desc = calced_text_width_desc + tx/(G.TILESIZE*G.TILESCALE)
+                    end
                     local scale_fac = 1
                         -- calced_text_width > max_text_width and max_text_width/calced_text_width
                         -- or 1
                     badges[#badges + 1] = {n=G.UIT.R, config={align = "cm"}, nodes={
-                        {n=G.UIT.R, config={align = "cm", colour = mod.badge_colour or G.C.GREEN, r = 0.1, minw = 2, minh = 0.36, emboss = 0.05, padding = 0.03*size}, nodes={
-                        {n=G.UIT.B, config={h=0.1,w=0.03}},
-                        {n=G.UIT.O, config={object = DynaText({string = mod_name or 'ERROR', colours = {mod.badge_text_colour or G.C.WHITE},float = true, shadow = true, offset_y = -0.05, silent = true, spacing = 1*scale_fac, scale = 0.33*size*scale_fac, marquee = calced_text_width > max_text_width and not mod.no_marquee, maxw = max_text_width})}},
-                        {n=G.UIT.B, config={h=0.1,w=0.03}},
+                        {n=G.UIT.R, config={no_overflow = true, align = "cm", shader = "akyrs_aiko_mod_badge", w = math.max(calced_text_width, calced_text_width_desc) + 0.6, colour = mod.badge_colour or G.C.GREEN, r = 0.1, minh = 0.36, emboss = 0.05, padding = 0.03*size}, nodes={
+                            { n = G.UIT.R, config = {w = calced_text_width + 0.6, align = "cm",}, nodes = {
+                                {n=G.UIT.B, config={h=0.1,w=0.03}},
+                                {n=G.UIT.O, config={object = DynaText({string = mod_name or 'ERROR', colours = {mod.badge_text_colour or G.C.WHITE},float = true, shadow = true, offset_y = -0.05, silent = true, spacing = 1*scale_fac, scale = 0.33*size*scale_fac})}},
+                                {n=G.UIT.B, config={h=0.1,w=0.03}},
+                            }},
+                            { n = G.UIT.R, config = {w = calced_text_width + 0.6, align = "cm",}, nodes = {
+                                {n=G.UIT.B, config={h=0.1,w=0.03}},
+                                {n=G.UIT.O, config={object = DynaText({string = mod_flavour or 'ERROR', colours = {mod.badge_text_colour or G.C.WHITE},float = false, shadow = true, font = font_desc, offset_y = -0.05, silent = true, spacing = 1*scale_fac, scale = 0.33*size_desc*scale_fac})}},
+                                {n=G.UIT.B, config={h=0.1,w=0.03}},
+                            }},
                         }}
                     }}
                 end

@@ -6,8 +6,8 @@
 	"prefix": "akyrs",
 	"main_file": "main.lua",
 	"priority": 700,
-	"badge_colour": "ff475a",
-	"badge_text_colour": "edefff",
+	"badge_colour": "acce6b",
+	"badge_text_colour": "522e50",
 	"display_name": "AikoShen",
 	"version": "0.2.0-alpha-260321l",
 	"dependencies": [

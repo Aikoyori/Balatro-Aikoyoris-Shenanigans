@@ -3686,7 +3686,7 @@ SMODS.Joker {
     key = "biochamber",
     atlas = 'AikoyoriJokers',
     pos = { x = 7, y = 6 },
-    pools = {  },
+    pools = { ["Video Games"] = true, ["Factorio"] = true, },
     config = {
     },
     rarity = 2,
@@ -3721,7 +3721,7 @@ SMODS.Joker {
     key = "nutrient",
     atlas = 'AikoyoriJokers',
     pos = { x = 8, y = 6 },
-    pools = { Food = true },
+    pools = { ["Video Games"] = true, Food = true, ["Factorio"] = true,  },
     config = {
         extras = {
             xc = 1.6,

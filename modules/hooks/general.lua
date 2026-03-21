@@ -1155,8 +1155,8 @@ function Card:set_base(card, initial, manual_sprites)
         local og_suit = self.config.card.suit
         local og_rank = self.config.card.value
         if card and self.is_null then
-            local will_have_suit = 0
-            local will_have_rank = 0
+            local will_have_suit = false
+            local will_have_rank = false
             if card.suit ~= og_suit then
                 will_have_suit = true
             end
@@ -1168,12 +1168,11 @@ function Card:set_base(card, initial, manual_sprites)
                     self.is_null = false
                 end
             end
-            if will_have_rank and will_have_suit then
-                
-            elseif will_have_rank then
-                AKYRS.set_special_card_type(c,"rank")
-            elseif will_have_suit then 
-                AKYRS.set_special_card_type(c,"suit")
+            if will_have_rank and not will_have_suit  then
+                AKYRS.set_special_card_type(self,"rank")
+            end
+            if not will_have_rank and will_have_suit then 
+                AKYRS.set_special_card_type(self,"suit")
             end
         end
     end

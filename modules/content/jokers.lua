@@ -3425,7 +3425,7 @@ SMODS.Joker {
     
     key = "koshitan",
     atlas = 'AikoyoriJokers',
-    pools = { ["Shikanokonokonokokoshitantan"] = true,},
+    pools = { ["Shikanokonokonokokoshitantan"] = true, ["Anime"] = true,},
     pos = {
         x = 7, y = 5
     },
@@ -3469,7 +3469,7 @@ SMODS.Joker {
     
     key = "nokotan",
     atlas = 'AikoyoriJokers',
-    pools = { ["Shikanokonokonokokoshitantan"] = true,},
+    pools = { ["Shikanokonokonokokoshitantan"] = true, ["Anime"] = true,},
     pos = {
         x = 8, y = 5
     },
@@ -3520,7 +3520,7 @@ SMODS.Joker {
     
     key = "koshian",
     atlas = 'AikoyoriJokers',
-    pools = { ["Shikanokonokonokokoshitantan"] = true,},
+    pools = { ["Shikanokonokonokokoshitantan"] = true, ["Anime"] = true,},
     pos = {
         x = 9, y = 5
     },
@@ -3554,7 +3554,7 @@ SMODS.Joker {
     key = "bashame",
     enhancement_gate = "m_akyrs_canopy_card",
     atlas = 'AikoyoriJokers',
-    pools = { ["Shikanokonokonokokoshitantan"] = true,},
+    pools = { ["Shikanokonokonokokoshitantan"] = true, ["Anime"] = true,},
     pos = {
         x = 0, y = 6
     },

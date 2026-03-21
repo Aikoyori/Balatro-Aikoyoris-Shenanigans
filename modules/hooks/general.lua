@@ -1157,10 +1157,10 @@ function Card:set_base(card, initial, manual_sprites)
         if card and self.is_null then
             local will_have_suit = 0
             local will_have_rank = 0
-            if card.suit != og_suit then
+            if card.suit ~= og_suit then
                 will_have_suit = true
             end
-            if card.value != og_rank then
+            if card.value ~= og_rank then
                 will_have_rank = true
             end
             if will_have_rank or will_have_suit then

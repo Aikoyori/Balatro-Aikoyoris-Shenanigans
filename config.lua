@@ -5,4 +5,5 @@ return {
 	turn_on_crt = true,
 	full_dictionary = true,
 	experimental_features = false,
+	colourblind_ui = false,
 }

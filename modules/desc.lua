@@ -240,6 +240,10 @@ AKYRS.DescriptionDummy{
 }
 
 AKYRS.DescriptionDummy{
+    key = "toggle_colourblind_ui",
+}
+
+AKYRS.DescriptionDummy{
     key = "experimental_feature",
 }
 

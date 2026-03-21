@@ -584,6 +584,13 @@ return {
                     'This also impacts {C:attention}The Bomb{} boss blinds\' prompt choice',
                 },
             },
+            dd_akyrs_toggle_colourblind_ui = {
+                name = "High Contrast UI",
+                text = {
+                    'Some UI might be hard to read for certain people.',
+                    'For now, changes certain place where green and yellow appear to orange and blue',
+                },
+            },
             dd_akyrs_experimental_feature = {
                 name = "Experimental Features",
                 text = {
@@ -4088,6 +4095,7 @@ return {
             k_akyrs_restart_required = "* = Restart Required",
             k_akyrs_toggle_full_dictionary = "Enable Full Dictionary*",
             k_akyrs_toggle_experimental_feature = "Enable Experimental Features*",
+            k_akyrs_toggle_colourblind_ui = "High Contrast UI",
             k_akyrs_emerald = "Emerald",
             k_akyrs_supercommon = "Supercommon",
             k_akyrs_unique = "Unique",

@@ -1151,6 +1151,32 @@ end
 
 local cardBaseHooker = Card.set_base
 function Card:set_base(card, initial, manual_sprites)
+    if self.config.card then
+        local og_suit = self.config.card.suit
+        local og_rank = self.config.card.value
+        if card and self.is_null then
+            local will_have_suit = 0
+            local will_have_rank = 0
+            if card.suit != og_suit then
+                will_have_suit = true
+            end
+            if card.value != og_rank then
+                will_have_rank = true
+            end
+            if will_have_rank or will_have_suit then
+                if not self.AKYRS_NULL_STAYS then
+                    self.is_null = false
+                end
+            end
+            if will_have_rank and will_have_suit then
+                
+            elseif will_have_rank then
+                AKYRS.set_special_card_type(c,"rank")
+            elseif will_have_suit then 
+                AKYRS.set_special_card_type(c,"suit")
+            end
+        end
+    end
     local ret = cardBaseHooker(self, card, initial, manual_sprites)
     self.aiko_draw_delay = math.random() * 1.75 + 0.25
     self.akyrs_impostor_card = false

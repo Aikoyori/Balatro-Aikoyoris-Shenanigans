@@ -574,6 +574,23 @@ SMODS.current_mod.config_tab = function ()
         }, nodes = {
           
           create_toggle({
+            label = localize("k_akyrs_toggle_colourblind_ui"),
+            ref_table = AKYRS.config,
+            ref_value = "colourblind_ui",
+            label_scale = 0.4,
+            callback = G.FUNCS.save_config
+          })
+          }
+        },
+        AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_toggle_colourblind_ui" }
+        } 
+      },
+      { n = G.UIT.R, config = { align = "rt"}, nodes = {
+        { n = G.UIT.C, config = {
+            align = "cm", padding = 0.05,
+        }, nodes = {
+          
+          create_toggle({
             label = localize("k_akyrs_toggle_experimental_feature"),
             ref_table = AKYRS.config,
             ref_value = "experimental_features",

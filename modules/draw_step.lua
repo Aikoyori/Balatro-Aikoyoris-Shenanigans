@@ -16,7 +16,7 @@ function AKYRS.aikoyori_draw_extras(card, layer)
     local center = card.children.center
 
     local function draw_status(status)
-        if G.SETTINGS.colourblind_option then
+        if AKYRS.config.colourblind_ui then
             status = status .. "_hc"
         end
         ---@type Sprite

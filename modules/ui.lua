@@ -1,8 +1,8 @@
 local function numberToColor(num)
   if num == 1 then
-    return G.SETTINGS.colourblind_option and G.C.ORANGE or G.C.GREEN
+    return AKYRS.config.colourblind_ui and G.C.ORANGE or G.C.GREEN
   elseif num == 2 then
-    return G.SETTINGS.colourblind_option and G.C.BLUE or G.C.YELLOW
+    return AKYRS.config.colourblind_ui and G.C.BLUE or G.C.YELLOW
   elseif num == 3 then
     return G.C.GREY
   end
@@ -11,9 +11,9 @@ end
 
 local function numberToTextColor(num)
   if num == 1 then
-    return G.SETTINGS.colourblind_option and G.C.BLACK or G.C.WHITE
+    return AKYRS.config.colourblind_ui and G.C.BLACK or G.C.WHITE
   elseif num == 2 then
-    return G.SETTINGS.colourblind_option and G.C.WHITE or G.C.BLACK
+    return AKYRS.config.colourblind_ui and G.C.WHITE or G.C.BLACK
   elseif num == 3 then
     return G.C.WHITE
   end

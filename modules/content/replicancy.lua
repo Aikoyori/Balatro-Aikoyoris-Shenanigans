@@ -415,7 +415,9 @@ SMODS.Consumable{
         local shuffled = AKYRS.scramble_list(ranks, "akyrs_replicant_im")
         AKYRS.do_things_to_card(candidates,
             function (cx, inde)
+                cx.AKYRS_NULL_STAYS = true
                 cx:set_base(shuffled[inde])
+                cx.AKYRS_NULL_STAYS = false
             end
         )
     end

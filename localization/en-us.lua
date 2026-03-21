@@ -3706,8 +3706,8 @@ return {
                 text = {
                     "Up to {C:attention}#1#{} random cards are selected",
                     "to {C:attention}return{} them back to deck",
-                    "Temporarily receives {C:red}+#2#{} Discard"
-                    "per #3# cards discarded"
+                    "Temporarily receives {C:red}+#2#{} Discard",
+                    "per #3# cards discarded",
                 }
             },
             c_akyrs_replicant_short_form_content = {

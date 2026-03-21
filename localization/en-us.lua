@@ -3707,6 +3707,7 @@ return {
                     "Up to {C:attention}#1#{} random cards are selected",
                     "to {C:attention}return{} them back to deck",
                     "Temporarily receives {C:red}+#2#{} Discard"
+                    "per #3# cards discarded"
                 }
             },
             c_akyrs_replicant_short_form_content = {
@@ -3756,7 +3757,7 @@ return {
                 text = {
                     "{C:attention}#1#{} random Jokers are selected",
                     "to be {C:attention}applied Rental{}",
-                    "then creates {C:attention}equal{} amount of",
+                    "then creates {C:attention}double{} the amount of",
                     "{C:dark_edition}Negative{} {C:spectral}Tarot{} Cards",
                 }
             },
@@ -3793,21 +3794,24 @@ return {
                 text = {
                     "Give up {C:red}#1#{} Play Size",
                     "for permanent {C:dark_edition}+#2#{} Joker Slot",
+                    "and {C:dark_edition}+#2#{} Consumables Slot",
                 }
             },
             c_akyrs_replicant_third_party_cookies = {
                 name = "Third Party Cookies",
                 text = {
                     "Fill your Joker slots",
-                    "with {C:purple}Latticed{} Food Joker",
+                    "with Food Joker",
+                    "{C:green}#1# in #2#{} chance for each",
+                    "to have {C:purple}Latticed{} sticker"
                 }
             },
             c_akyrs_replicant_silicon_fabrication = {
                 name = "Silicon Fabrication",
                 text = {
-                    "A random card in hand is",
+                    "Two random card in hand is",
                     "converted into {C:attention}Wafer Card{}",
-                    "Another random card in hand will have",
+                    "Another two random card in hand will have",
                     "{C:dark_edition}Dyed{} applied to it",
                 }
             },

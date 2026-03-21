@@ -48,7 +48,7 @@ SMODS.Consumable{
     pos = {x=1, y=0},
     config = {
         max_highlighted = 3,
-        extras = 2,
+        extras = 3,
     },
     loc_vars = function (self, info_queue, card)
         info_queue[#info_queue + 1] = { set = "Other", key = "akyrs_crystalised" }
@@ -123,6 +123,7 @@ SMODS.Consumable{
         extras = {
             add = 1,
             disca = 1,
+            per_card = 3,
         },
     },
     select_card = 'consumeables',
@@ -131,6 +132,7 @@ SMODS.Consumable{
             vars = {
                 (math.max(G.GAME.starting_params.play_limit,G.GAME.starting_params.play_limit) + card.ability.extras.add),
                 card.ability.extras.disca,
+                card.ability.extras.per_card,
             }
         }
     end,
@@ -141,12 +143,13 @@ SMODS.Consumable{
         AKYRS.juice_like_tarot(card)
         local to_return = (math.max(G.GAME.starting_params.play_limit,G.GAME.starting_params.play_limit) + card.ability.extras.add)
         local cards = AKYRS.pseudorandom_elements(G.hand.cards,to_return,pseudoseed("akyrs_replicant_db_select"))
+        local actual_cards_discarded_count = #cards
         table.sort(cards, AKYRS.hand_sort_function)
         for _,c in ipairs(cards) do
             draw_card(c.area, G.deck, 0, "down", nil, c)
         end
         AKYRS.simple_event_add(function ()
-            ease_discard(card.ability.extras.disca)
+            ease_discard(card.ability.extras.disca * math.floor(actual_cards_discarded_count / card.ability.extras.per_card))
             G.deck:shuffle("akyrs_shuffled_db_replicant")
             AKYRS.fill_hand()
             return true
@@ -192,7 +195,7 @@ SMODS.Consumable{
     atlas = "replicant",
     pos = {x=5, y=0},
     config = {
-        extras = 3,
+        extras = 4,
         min_highlighted = 0,
         max_highlighted = 99999,
     },
@@ -347,6 +350,7 @@ SMODS.Consumable{
             function (cx)
                 SMODS.Stickers.rental:apply(cx, true)
                 SMODS.add_card{ set = "Tarot", edition = "e_negative" }
+                SMODS.add_card{ set = "Tarot", edition = "e_negative" }
             end
         )
     end
@@ -448,7 +452,7 @@ SMODS.Consumable{
     pos = {x=2, y=1},
     config = {
         extras = {
-            gain = 1,
+            gain = 2,
             give_away = -1,
         }
     },
@@ -503,6 +507,9 @@ SMODS.Consumable{
             if G.jokers then 
                 G.jokers.config.card_limit = G.jokers.config.card_limit + 1
             end
+            if G.consumeables then 
+                G.consumeables.config.card_limit = G.consumeables.config.card_limit + 1
+            end
         return true end }))
     end
 }
@@ -515,10 +522,18 @@ SMODS.Consumable{
     pos = {x=4, y=1},
     config = {
         extras = {
+            n = 1,
+            d = 4,
         }
     },
     loc_vars = function (self, info_queue, card)
         info_queue[#info_queue+1] = { key = "akyrs_latticed", set = "Other" }
+        local n, d = SMODS.get_probability_vars(card, card.ability.extras.n,card.ability.extras.d, "c_akyrs_replicant_third_party_cookies_lattice_chance")
+        return {
+            vars ={
+
+            }
+        }
     end,
     can_use = function (self, card)
         return G.jokers.config.card_limit - #G.jokers.cards > 0
@@ -534,7 +549,10 @@ SMODS.Consumable{
         local candidates = AKYRS.pseudorandom_elements(food_jokers, to_create, "akyrs_replicant_3rdparty")
         for _, key in ipairs(candidates) do
             local cdx = SMODS.add_card({key = key, set = "Joker"})
-            SMODS.Stickers.akyrs_latticed:apply(cdx, true)
+            local latticed = SMODS.pseudorandom_probability(card, "c_akyrs_replicant_third_party_cookies_lattice_chance", card.ability.extras.n,card.ability.extras.d)
+            if latticed then
+                SMODS.Stickers.akyrs_latticed:apply(cdx, true)  
+            end
         end
     end
 }
@@ -561,11 +579,11 @@ SMODS.Consumable{
         local eligible_cards = AKYRS.filter_table(G.hand.cards, function (cfx, ind)
             return cfx.config.center.key ~= "m_akyrs_wafer_card"
         end, true, true)
-        local candidates = AKYRS.pseudorandom_elements(eligible_cards, 1, "akyrs_replicant_3rdparty_wafer")
+        local candidates = AKYRS.pseudorandom_elements(eligible_cards, 2, "akyrs_replicant_3rdparty_wafer")
         for _, v in ipairs(candidates) do
             AKYRS.remove_value_from_table(eligible_cards,v)
         end
-        local candidates_edition = AKYRS.pseudorandom_elements(eligible_cards, 1, "akyrs_replicant_3rdparty_edition")
+        local candidates_edition = AKYRS.pseudorandom_elements(eligible_cards, 2, "akyrs_replicant_3rdparty_edition")
         AKYRS.do_things_to_card(candidates, function (cardx, index)
             cardx:set_ability(G.P_CENTERS.m_akyrs_wafer_card)
         end)

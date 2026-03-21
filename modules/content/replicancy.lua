@@ -531,7 +531,7 @@ SMODS.Consumable{
         local n, d = SMODS.get_probability_vars(card, card.ability.extras.n,card.ability.extras.d, "c_akyrs_replicant_third_party_cookies_lattice_chance")
         return {
             vars ={
-
+                n, d
             }
         }
     end,

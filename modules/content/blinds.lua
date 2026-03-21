@@ -1861,7 +1861,7 @@ SMODS.Blind{
         )
     end,
     in_pool = function(self)
-        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
+        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled and not G.GAME.akyrs_has_not_spelled_a_single_word)
     end,
     disable = function(self)
         G.GAME.current_round.advanced_blind = false
@@ -2013,7 +2013,7 @@ SMODS.Blind{
         )
     end,
     in_pool = function(self)
-        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
+        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled and not G.GAME.akyrs_has_not_spelled_a_single_word)
     end,
     disable = function(self)
         G.GAME.current_round.advanced_blind = false

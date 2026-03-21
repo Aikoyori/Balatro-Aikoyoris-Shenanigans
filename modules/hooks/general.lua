@@ -362,6 +362,13 @@ function Game:start_run(args)
     if G.GAME.modifiers.akyrs_hatena_deck then
         G.GAME.akyrs_hatena_deck = G.GAME.modifiers.akyrs_hatena_deck
     end
+    
+    if G.GAME.modifiers.akyrs_always_skip_shops then
+        G.GAME.akyrs_always_skip_shops = G.GAME.modifiers.akyrs_always_skip_shops
+    end
+    if G.GAME.modifiers.akyrs_shops_after_boss then
+        G.GAME.akyrs_shops_after_boss = G.GAME.modifiers.akyrs_shops_after_boss
+    end
     if G.GAME.modifiers.akyrs_hatena_everything then
         G.GAME.akyrs_hatena_everything = G.GAME.modifiers.akyrs_hatena_everything
     end
@@ -435,22 +442,7 @@ G.FUNCS.can_discard = function(e)
     return ret
 end
 
-local cardSellHook = Card.sell_card
 
-function Card:sell_card()
-    if self.ability.akyrs_latticed then
-        AKYRS.nope_buzzer(self,nil,G.C.playable)
-        self:highlight(false)
-        return
-    end
-    if (not (AKYRS.sigmaable_areas(self.area) and self.ability.akyrs_sigma)) or (AKYRS.is_card_not_sigma(self)) then
-        self.akyrs_is_being_sold = true
-        return cardSellHook(self)
-    else
-        AKYRS.nope_buzzer(self,nil,G.C.playable)
-        self:highlight(false)
-    end
-end
 
 local cardRemoveHookFirst = Card.remove
 function Card:remove()
@@ -1351,10 +1343,10 @@ function Card:get_nominal(mod)
             rank_mult = 0
         end
         if mod == "suit" and self.ability.akyrs_special_card_type == "rank" then
-            suit_nominal = 0
+            suit_nominal = suit_nominal - 50
             orig_suit_nominal = 0
         elseif not mod and self.ability.akyrs_special_card_type == "suit" then
-            rank_nominal = 0
+            rank_nominal = rank_nominal - 50
             face_nominal = 0
         end
         ret = 10*rank_nominal*rank_mult + suit_nominal*mult + (orig_suit_nominal or 0)*0.0001*mult + 10*face_nominal*rank_mult + 0.000001*self.unique_val
@@ -1839,39 +1831,6 @@ end
 local XmainMenuHook = Game.main_menu
 function Game:main_menu(ctx)
     local r = XmainMenuHook(self,ctx)
-    if self.title_top then
-        local tg = self.title_top
-        local card = Card(tg.T.x,tg.T.y,G.CARD_W,G.CARD_H,nil,G.P_CENTERS['j_akyrs_aikoyori'])
-        card.click = AKYRS.aiko_click
-        card.bypass_discovery_center = true
-        card.T.w = card.T.w * 1.4
-        card.T.h = card.T.h * 1.4
-        if Entropy then
-            card:set_edition("e_entr_freaky")
-        end
-        G.title_top.T.w = G.title_top.T.w * 1.7675
-        G.title_top.T.x = G.title_top.T.x - 0.8
-        card:set_sprites(card.config.center)
-        card.no_ui = true
-        card.states.visible = false
-        self.title_top:emplace(card)
-        self.title_top:align_cards()
-        G.E_MANAGER:add_event(
-            Event{
-                delay = 0.5,
-                func = function ()
-                    if ctx == "splash" then
-                        card.states.visible = true
-                        card:start_materialize({ G.C.WHITE, G.C.WHITE }, true, 0.5)
-                    else
-                        card.states.visible = true
-                        card:start_materialize({ G.C.WHITE, G.C.WHITE }, nil, 0.2)
-                    end
-                    return true
-                end
-            }
-        )
-    end
     if (G.PROFILES[G.SETTINGS.profile].akyrs_balance == "absurd" and (MP) and true) then
         G.AKYRS_MULTIPLAYER_NOTICE_INTRO = true
         AKYRS.start_onboarding(true, true)
@@ -1984,6 +1943,11 @@ end
 local selectBlindHook = G.FUNCS.select_blind
 G.FUNCS.select_blind = function(e)
     G.GAME.akyrs_ui_should_recalculate = true
+    if G.GAME.modifiers.akyrs_obtain_every_round then
+        if AKYRS.has_room(G.jokers) then
+            SMODS.add_card({ key = G.GAME.modifiers.akyrs_obtain_every_round })
+        end
+    end
     return selectBlindHook(e)
 end
 

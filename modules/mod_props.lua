@@ -612,3 +612,26 @@ SMODS.current_mod.config_tab = function ()
     }
   }
 end
+
+
+SMODS.current_mod.menu_cards = function ()
+    return {
+		{key = 'j_akyrs_aikoyori'},
+        func = function() 
+            local mycards = AKYRS.filter_table(G.title_top.cards, function (c,i)
+                --print(c.config.center_key)
+                return c.config.center_key == "j_akyrs_aikoyori" end,true,true)
+            local mecardonlyone = mycards[1]
+            if mecardonlyone then
+                --- @Card
+                mecardonlyone = mecardonlyone
+                if Entropy then
+                    mecardonlyone:set_edition("e_entr_freaky")
+                end
+                mecardonlyone.click = AKYRS.aiko_click
+                mecardonlyone.bypass_discovery_center = true
+            end
+        end
+	}
+end
+

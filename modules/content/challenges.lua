@@ -592,3 +592,22 @@ AKYRS.HardcoreChallenge{
     },
     difficulty = 12,
 }
+
+AKYRS.HardcoreChallenge{
+    key = "bonfire_lit",
+    jokers = {
+    },
+    vouchers = {
+    },
+    deck = {
+        type = "Hardcore Challenge Deck",
+    },
+    
+    rules = {
+        custom = {
+            {id = 'akyrs_shops_after_boss'},
+            {id = 'akyrs_obtain_every_round', value = "j_campfire", akyrs_localized_value = {type = "name_text", key = "j_campfire", set = "Joker"}},
+        }
+    },
+    difficulty = 5,
+}

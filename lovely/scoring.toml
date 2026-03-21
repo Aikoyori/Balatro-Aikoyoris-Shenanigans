@@ -82,10 +82,24 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "functions/button_callbacks.lua"
+pattern = """G.FUNCS.cash_out = function(e)"""
+position = "after"
+payload = """
+local blind_config = G.P_BLINDS[G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]]
+"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
 pattern = """              G.STATE = G.STATES.SHOP"""
 position = "before"
 payload = """
 if G.GAME.akyrs_always_skip_shops then
+    G.STATE = G.STATES.BLIND_SELECT
+elseif G.GAME.akyrs_shops_after_boss and not (blind_config.boss) then
     G.STATE = G.STATES.BLIND_SELECT
 else
 """

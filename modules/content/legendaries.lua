@@ -157,6 +157,74 @@ SMODS.Joker {
 	demicoloncompat = true,
 }
 
+SMODS.Joker{
+    key = "gappie",
+    cost = 25,
+    config = {
+        extras = {
+            xmlt = 1,
+            xmlt_gain = 1,
+            activated = false,
+        }
+    },
+    atlas = "gappie",
+    rarity = 4,
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_credit_marcyptata64"]
+        return {
+            vars = {
+                card.ability.extras.xmlt, 
+                card.ability.extras.xmlt_gain, 
+            }
+        }
+    end,
+    set_sprites = function (self, card, front)
+        if card.ability and card.ability.extras and card.ability.extras.activated then
+            card.children.center:set_sprite_pos({x = 1, y = 0})
+        end
+    end,
+    calculate = function (self, card, context)
+        ---@type Card 
+        card = card
+        if context.hand_drawn and not card.ability.extras.activated then
+            if G.GAME.current_round.hands_left == 1 and G.GAME.current_round.discards_left == 0 then
+                return {
+                    func = function ()
+                        card.ability.extras.activated = true
+                        AKYRS.simple_event_add(function ()
+                            card.children.center:set_sprite_pos({x = 1, y = 0})
+                            return true
+                        end, 0)
+                        SMODS.scale_card(card, {
+                            ref_table = card.ability.extras,
+                            ref_value = "xmlt",
+                            scalar_value = "xmlt_gain",
+                        })
+                        SMODS.draw_cards(#G.deck.cards)
+                        ---@type Sprite[]
+                        card.children = card.children
+                        AKYRS.force_save()
+                    end
+                }
+            end
+        end
+        if context.end_of_round and context.cardarea == G.jokers then
+            return {
+                message = localize("k_reset"),
+                func = function ()
+                    card.ability.extras.activated = false
+                    card.children.center:set_sprite_pos({x = 0, y = 0})
+                end
+            }
+        end
+        if context.joker_main then
+            return {
+                xmult = card.ability.extras.xmlt
+            }
+        end
+    end
+}
+
 
 local toga_tags = {"tag_toga_togajokerbooster","tag_toga_togajokerziparchive","tag_toga_togarararchive","tag_toga_togacardcabarchive","tag_toga_togaxcopydnaarchive",}
 local cryptposting_joker = {"j_joker","j_crp_joker_2","j_crp_joker_3","j_crp_joker_4","j_crp_joker_5","j_crp_joker_6","j_crp_joker_7","j_crp_joker_8","j_crp_joker?","j_crp_joker_0"}

@@ -827,3 +827,101 @@ function AKYRS.run_info_tab()
   end
   return unpack(ret)
 end
+
+
+
+function AKYRS.UIDEF.premium_joker_roll()
+  local ret = { 
+    n = G.UIT.ROOT,
+    config = {
+      r = 0.1,
+      padding = 0.1,
+    },
+    nodes = {
+
+    }
+  }
+  -- check the notability note i wrote for mockup 
+  -- red is G.UIT.R
+  -- blue and G.UIT.C
+  -- yellow is G.akyrs_joker_rolls
+  -- - aikoyori
+  if not G.akyrs_joker_rolls or (G.akyrs_joker_rolls and G.akyrs_joker_rolls.REMOVED) then
+    G.akyrs_joker_rolls = CardArea(
+        0, 0,
+        1.25*G.CARD_W,
+        1.25*G.CARD_H, 
+      {card_limit = 1, type = 'joker', highlight_limit = 0, negative_info = 'joker'})
+  end
+  if AKYRS.get_free_joker_roll_tier() > 0 then
+    ret.nodes[#ret.nodes+1] = 
+      {
+        n = G.UIT.R,
+        -- the card area
+        nodes = {
+          {
+            n = G.UIT.C,
+            nodes = {
+              {
+                n = G.UIT.R,
+                nodes = {
+                  {
+                    n = G.UIT.O,
+                    config = {
+                      object = G.akyrs_joker_rolls,
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            n = G.UIT.C,
+            nodes = {
+              {
+                n = G.UIT.R,
+                nodes = {
+                  {
+                    n = G.UIT.T,
+                    config = {
+                      text = "PLACEHOLDER 1",
+                      scale = 0.4,
+                      colour = G.C.WHITE
+                    }
+                  }
+                }
+              },
+              {
+                n = G.UIT.R,
+                nodes = {
+                  {
+                    n = G.UIT.T,
+                    config = {
+                      text = "PLACEHOLDER 2",
+                      scale = 0.4,
+                      colour = G.C.WHITE
+                    }
+                  }
+                }
+              },
+              {
+                n = G.UIT.R,
+                nodes = {
+                  {
+                    n = G.UIT.T,
+                    config = {
+                      text = "PLACEHOLDER 3",
+                      scale = 0.4,
+                      colour = G.C.WHITE
+                    }
+                  }
+                }
+              },
+            }
+          },
+        }
+      }
+    
+  end
+  return ret
+end

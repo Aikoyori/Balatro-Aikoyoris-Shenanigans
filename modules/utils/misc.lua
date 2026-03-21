@@ -1578,3 +1578,17 @@ function AKYRS.bool_to_str(thing)
     end
     return thing
 end
+
+function AKYRS.get_pool_with_predicate(pool, predicate)
+    local pool = SMODS.get_clean_pool(pool)
+    if not predicate then return pool end
+    local pool_export = {}
+    if type(predicate) == "function" then
+        for index, item in ipairs(pool) do
+            if predicate(item, index, pool) then
+                table.add(pool_export, item)
+            end
+        end
+    end
+    return pool_export
+end

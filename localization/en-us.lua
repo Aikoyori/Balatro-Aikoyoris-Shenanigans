@@ -640,6 +640,12 @@ return {
                     "{X:dark_edition,C:white}@lyman{}"
                 },
             },
+            dd_akyrs_credit_marcyptata64={
+                name="Art Credit",
+                text={
+                    "{X:akyrs_gappie_cred,C:white}@marcyptata64{}"
+                },
+            },
             dd_akyrs_hibana_conditions={
                 name="Cycle Option",
                 text={
@@ -2522,6 +2528,19 @@ return {
                     }
                 }
             },
+            j_akyrs_gappie = {
+                name = {
+                    "Gappie",
+                },
+                text = {
+                    {
+                        "If you have {C:blue}1{} Hand and {C:red}0{} Discards left",
+                        "{C:attention}Draw{} the remaining deck",
+                        "and this joker gains {C:white,X:mult} X#2# {} Mult",
+                        "{C:inactive}(Currently {C:white,X:mult} X#1# {C:inactive} Mult)",
+                    },
+                }
+            },
         },
         Partner = {
             pnr_akyrs_aikoyori = {
@@ -3615,7 +3634,7 @@ return {
                     "apply {C:attention}Suits, Edition, and Seal {}",
                     "of the {C:attention}right{} card",
                     "into the {C:attention}left{} card",
-                    "the {C:red}destroy{} the right card",
+                    "then {C:red,E:akyrs_shrivel}destroy{} the right card",
                     "{C:inactive}(Drag to rearrange)",
                 },
             },
@@ -3882,6 +3901,7 @@ return {
             hc_akyrs_bomb_galore = "Keep Wording and Nobody Explodes",
             hc_akyrs_hatena_jokers = "????????",
             hc_akyrs_hatena_everything = "???????????????",
+            hc_akyrs_bonfire_lit = "Bonfire Lit",
         },
         collabs={},
         dictionary={
@@ -3959,7 +3979,7 @@ return {
             k_akyrs_ojisan = "Replied!",
             k_akyrs_gain_discard = "<SPLASH>",
             
-            k_akyrs_use_from_drag = "USE",
+            k_akyrs_use_from_drag = "FORCE USE",
             k_akyrs_use_from_drag_apply = "APPLY",
             k_akyrs_use_from_drag_voucher = "(Redeem)",
             k_akyrs_use_from_drag_consumable = "(Consumable)",
@@ -4218,6 +4238,15 @@ return {
             },
             ch_c_akyrs_hatena_everything={
                 "{C:attention}All cards{} are {C:red}concealed",
+            },
+            ch_c_akyrs_always_skip_shops={
+                "{C:attention}Shops{} are {C:red}skipped",
+            },
+            ch_c_akyrs_shops_after_boss={
+                "{C:attention}Shops{} only appear after {C:red}Boss Blinds",
+            },
+            ch_c_akyrs_obtain_every_round={
+                "{C:attention}Obtain{} a {C:attention}#1#{} every round",
             },
         },
     },

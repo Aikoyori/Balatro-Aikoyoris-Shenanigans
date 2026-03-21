@@ -28,6 +28,7 @@ AKYRS_HAIR_DARK = HEX("b682ce"),
 AKYRS_HAIR_DARKER = HEX("522e50"),
 AKYRS_AIKOYORI_SHIRT = HEX("ffffff"),
 AKYRS_AIKOYORI_CARDIGAN = HEX("a06d4d"),
+AKYRS_AIKOYORI_GAPPIE_CRED_COLOR = HEX("e546b7"),
 """
 overwrite = true
 match_indent = true
@@ -49,6 +50,7 @@ G.ARGS.LOC_COLOURS.akyrs_umbral_p = G.C.AKYRS_UMBRAL_P
 G.ARGS.LOC_COLOURS.akyrs_umbral_y = G.C.AKYRS_UMBRAL_Y
 G.ARGS.LOC_COLOURS.akyrs_replicant_o = G.C.AKYRS_REPLICANT_O
 G.ARGS.LOC_COLOURS.akyrs_replicant_c = G.C.AKYRS_REPLICANT_C
+G.ARGS.LOC_COLOURS.akyrs_gappie_cred = G.C.AKYRS_AIKOYORI_GAPPIE_CRED_COLOR
 """
 overwrite = true
 match_indent = true

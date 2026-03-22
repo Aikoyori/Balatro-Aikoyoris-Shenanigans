@@ -3606,7 +3606,7 @@ SMODS.Joker {
         info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_credit_gud"]
         return {
             vars = {
-                card.ability.extras.type and localize("k_"..string.lower(card.ability.extras.type or "")) or "<"..localize("k_consumable_type")..">"
+                card.ability.extras.type and localize("k_"..string.lower(card.ability.extras.type or "fakecenter")) or "<"..localize("k_consumable_type")..">"
             }
         }
     end,
@@ -3614,7 +3614,7 @@ SMODS.Joker {
     cost = 7,
     config = {
         extras = {
-            type = ""
+            type = nil
         }
     },
     set_ability = function (self, card, initial, delay_sprites)

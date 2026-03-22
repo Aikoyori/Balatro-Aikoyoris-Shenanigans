@@ -251,6 +251,44 @@ AKYRS.DescriptionDummy{
     key = "experimental_feature",
 }
 
+AKYRS.DescriptionDummy{
+    key = "artist_box",
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+
+            }
+        }
+    end,
+    generate_ui = function(self, info_queue, cardd, desc_nodes, specific_vars, full_UI_table)
+        SMODS.Joker.super.generate_ui(self, info_queue, cardd, desc_nodes, specific_vars, full_UI_table)
+        if AKYRS.should_show_card_previews() then
+            local cards = {}
+            local card = AKYRS.create_random_card("yona")
+            card:set_base(G.P_CARDS["S_4"], true)
+            table.insert(cards,card)
+            local card = AKYRS.create_random_card("yona")
+            card:set_base(G.P_CARDS["C_7"], true)
+            table.insert(cards,card)
+            AKYRS.card_area_preview(G.yonacards,desc_nodes,{
+                override = true,
+                cards = cards,
+                w = 1.2,
+                h = 0.6,
+                ml = 0,
+                scale = 0.5,
+                func_delay = 0.5,
+                func_list = {
+                    function (ca) if ca and ca.cards then ca.cards[1]:juice_up() end end,
+                    function (ca) if ca and ca.cards then ca.cards[1]:juice_up() end end,
+                    function (ca) if ca and ca.cards then ca.cards[2]:juice_up() end end,
+                    function (ca) if ca and ca.cards then ca.cards[2]:juice_up() end end,
+                }
+            })
+        end
+    end,
+}
+
 --popup
 
 AKYRS.DescriptionDummy{

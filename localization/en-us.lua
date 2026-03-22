@@ -1031,6 +1031,12 @@ return {
                     "{C:inactive}(The lesser number)",
                 },
             },
+            dd_akyrs_credit_box = {
+                name="",
+                text={
+                    "",
+                },
+            },
         },
         Edition={
             e_akyrs_texelated = {
@@ -1272,10 +1278,18 @@ return {
                 }
             },
         },
+        FakeCenter = {
+            fc_akyrs_eggymari_hatena_art = {
+                name = "Concealed Card Art",
+                text = {
+                    "Appears with {C:attention}Concealed Stickers",
+                    "and in certain {C:attention}challenges{}!"
+                }
+            }
+        },
         Joker={
             -- toga
             j_akyrs_toga_charmap = {
-                
                 name = "Character Map",
                 text = {
                     "Create an Alphabet {C:attention}Alphabet{} card for the most",
@@ -4148,6 +4162,7 @@ return {
             k_akyrs_emerald = "Emerald",
             k_akyrs_supercommon = "Supercommon",
             k_akyrs_unique = "Unique",
+            k_fakecenter = "???",
             umbral = "Umbral",
             replicant = "Replicant",
             alphabet = "Alphabet",
@@ -4183,6 +4198,7 @@ return {
             k_akyrs_score_minus="-#1# Score",
             k_akyrs_word_check_valid="#1# is a VALID word!",
             k_akyrs_word_check_invalid="#1# is NOT a VALID word.",
+            k_akyrs_click_for_credits_of="Click to view credits for #1#",
         },
         v_text={
             ch_c_sliced_space={

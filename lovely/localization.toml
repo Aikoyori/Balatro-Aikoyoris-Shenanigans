@@ -70,6 +70,8 @@ elseif _c.set == 'AikoyoriExtraBases' then
     end
 elseif _c.set == 'DescriptionDummy' then
     localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
+elseif _c.set == 'FakeCenter' then
+    localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
 """
 overwrite = true
 match_indent = true

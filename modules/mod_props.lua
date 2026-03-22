@@ -76,7 +76,7 @@ AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width
     nodes = {
       sprite_atlas and {
         n = G.UIT.C,
-        config = { align = "cm", padding = 0.1, button = "akyrs_your_collection_credits", ref_table = {credit = credits_internal_name or "none"} },
+        config = { align = "cm", padding = 0.1, button = "akyrs_your_collection_credits", ref_table = {credit = credits_internal_name or "none"}, on_demand_tooltip = {text = localize(handname, 'poker_hand_descriptions'), filler = {func = AKYRS.create_credit_tooltip, args = {internal_name = credits_internal_name, name = name}}} },
         nodes = {
           AKYRS.embedded_ui_sprite(sprite_atlas, { x = 0, y = 0 }, nil, {
             w = 200,
@@ -125,6 +125,57 @@ function AKYRS.create_button_icon(sprite_atlas, px, py, uit)
     }
   }
 end
+
+AKYRS.create_credit_tooltip = function (credits)
+    local uinodes = nil
+    if AKYRS.should_show_card_previews() then
+      
+      local centers_all = {}
+      for i, pool in pairs(G.P_CENTER_POOLS) do
+          for i2, v in ipairs(pool) do
+              if v.akyrs_credits and v.akyrs_credits.attrib and v.akyrs_credits.attrib[credits.internal_name] then
+                  table.insert(centers_all, v)
+              end
+          end
+      end
+      if #centers_all > 0 then
+        local centers = AKYRS.pseudorandom_elements(centers_all, 7, pseudoseed("akyrs_get_random_credit_cards"))
+        local cards = {
+
+        }
+        for i,cn in ipairs(centers) do
+          table.insert(cards, Card(G.ROOM.T.x, G.ROOM.T.y, G.CARD_W, G.CARD_H, nil, cn))
+        end
+        uinodes = AKYRS.card_area_preview(G.akyrs_credits, nil,{
+            override = true,
+            cards = cards,
+            w = 3.1,
+            h = 0.6,
+            ml = 0,
+            mb = 0.5,
+            scale = 0.5,
+            type = "title_2",
+        })
+      end
+  end
+  return {n=G.UIT.R, config={align = "cm", colour = G.C.WHITE, r = 0.1}, nodes={
+    {n=G.UIT.C, config={align = "cm"}, nodes={
+      {n=G.UIT.R, config={align = "cm"}, nodes={
+        {
+          n = G.UIT.T,
+          config = {
+            text = localize{ type = "variable", key = "k_akyrs_click_for_credits_of", vars = {credits.name}},
+            scale = 0.4,
+            colour = G.C.UI.TEXT_DARK,
+          }
+        },
+      },
+      },
+      uinodes,
+    }}
+  }}
+end
+-- on_demand_tooltip = {text = localize(handname, 'poker_hand_descriptions'), filler = {func = create_UIBox_hand_tip, args = handname}}
 function AKYRS.create_link_sprite_btn(platform, link)
   local col = G.C.BLACK
   local px, py = 0, 0
@@ -678,7 +729,8 @@ AKYRS.mod_flavour_text = {
   {"You were used up.",},
   {"どうしてこんな目に　に　に", font = G.FONTS[5]},
   {"限界まで足掻いた人生は　想像よりも狂っているらしい", font = G.FONTS[5]},
-  {"スーパーアイドルの笑顔よりも　あの八月の午後よりも", font = G.FONTS[5]},
+  {"スーパーアイドルの笑顔よりも", font = G.FONTS[5]},
+  {"あの八月の午後よりも", font = G.FONTS[5]},
   {"105℃のより光る君へ", font = G.FONTS[5]},
   {"Not to get political but what the fuck is an oatmeal",},
   {"In Alpha for a year!",},
@@ -705,4 +757,5 @@ AKYRS.mod_flavour_text = {
   {"Driving in my car, right after a beer",},
   {"*freedom motif*",},
   {"You can't find your hands.",},
+  {"Did you know that this actually supports","multiline flavour text? I'm honestly shocked!"},
 }

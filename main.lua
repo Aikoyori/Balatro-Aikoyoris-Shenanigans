@@ -43,6 +43,9 @@ assert(SMODS.load_file("./modules/api.lua"))()
 assert(SMODS.load_file("./modules/draw_step.lua"))()
 assert(SMODS.load_file("./modules/card_attrib.lua"))()
 assert(SMODS.load_file("./modules/scoring_params.lua"))()
+assert(SMODS.load_file("./modules/fake_center.lua"))()
+
+
 assert(SMODS.load_file("./modules/content/back.lua"))()
 assert(SMODS.load_file("./modules/content/rarity.lua"))()
 assert(SMODS.load_file("./modules/content/alphabet_cards.lua"))()

@@ -29,6 +29,11 @@ function Game:init_game_object()
     ret.akyrs_pure_unlocked = false
     ret.akyrs_generated_but_not_redeemed_vouchers_check = {}
     ret.akyrs_list_of_generated_but_not_redeemed_vouchers = {}
+    ret.akyrs_redemption_codes = {
+        normal = AKYRS.get_random_redemption_code("normal"),
+        super = AKYRS.get_random_redemption_code("super"),
+        ultra = AKYRS.get_random_redemption_code("ultra"),
+    }
     ret.aiko_letters_consumable_rate = 0
     ret.current_round.akyrs_scoring_set = nil
     -- table of key { n_add = 0, d_add = 1, n_mult = 1, d_mult = 1 } // tho only one of these should exist
@@ -1143,10 +1148,12 @@ end
 
 local cardBaseHooker = Card.set_base
 function Card:set_base(card, initial, manual_sprites)
-    if self.config.card then
+    if self.config.card and not initial then
         local og_suit = self.config.card.suit
         local og_rank = self.config.card.value
-        if card and self.is_null then
+        --print("not initial and has card config")
+        if self and self.ability and (self.ability.akyrs_special_card_type or self.is_null) then
+            local formerly_null = card.is_null
             local will_have_suit = false
             local will_have_rank = false
             if card.suit ~= og_suit then
@@ -1155,16 +1162,31 @@ function Card:set_base(card, initial, manual_sprites)
             if card.value ~= og_rank then
                 will_have_rank = true
             end
-            if will_have_rank or will_have_suit then
-                if not self.AKYRS_NULL_STAYS then
-                    self.is_null = false
+            if not self.AKYRS_NULL_STAYS then
+                self.is_null = false
+            end
+            if formerly_null then
+                --print("formerly null")
+                if will_have_rank and not will_have_suit then
+                    --print("now pure rank")
+                    AKYRS.set_special_card_type(self,"rank")
                 end
-            end
-            if will_have_rank and not will_have_suit  then
-                AKYRS.set_special_card_type(self,"rank")
-            end
-            if not will_have_rank and will_have_suit then 
-                AKYRS.set_special_card_type(self,"suit")
+                if not will_have_rank and will_have_suit then 
+                    AKYRS.set_special_card_type(self,"suit")
+                    --print("now pure suit")
+                end
+            else
+                if self.ability.akyrs_special_card_type then
+                    --print("formerly pure cards")
+                    if self.ability.akyrs_special_card_type == "suit" and will_have_rank then
+                        --print("formerly pure suit now full")
+                        AKYRS.set_special_card_type(self, nil)
+                    end
+                    if self.ability.akyrs_special_card_type == "rank" then
+                        --print("formerly pure rank now full")
+                        AKYRS.set_special_card_type(self, nil)
+                    end
+                end
             end
         end
     end

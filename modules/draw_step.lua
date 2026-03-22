@@ -146,3 +146,26 @@ SMODS.DrawStep {
         if self.children.akyrs_collection_ui then self.children.akyrs_collection_ui:draw() end
     end,
 } 
+
+--[[
+SMODS.DrawStep {
+    key = 'special_vouchers',
+    order = 10,
+    func = function(self, layer)
+        if self and self.config.center.akyrs_special_vouchers then
+            if not self.canvassprite then
+                self.canvassprite = SMODS.CanvasSprite({ canvasScale = 1 })
+            end
+            local c = love.graphics.getCanvas()
+            love.graphics.push()
+            love.graphics.origin()
+            love.graphics.setCanvas(self.canvassprite.canvas)
+            -- love2d drawing code here
+            love.graphics.setCanvas()
+            love.graphics.pop()
+            self.canvassprite.role.draw_major = self
+            self.canvassprite:draw_shader("dissolve", nil, nil, nil, self.children.center)
+        end
+    end,
+} 
+]]

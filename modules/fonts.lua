@@ -18,3 +18,13 @@ SMODS.Font{
     squish = 1,
     DESCSCALE = 1
 }
+SMODS.Font{
+    key = "Vouchie",
+    path = "Vouchie.ttf",
+    render_scale = 32,
+    TEXT_HEIGHT_SCALE =1,
+    TEXT_OFFSET = {x=10,y=-10},
+    FONTSCALE = 0.01,
+    squish = 1,
+    DESCSCALE = 1
+}

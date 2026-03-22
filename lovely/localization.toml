@@ -76,3 +76,92 @@ elseif _c.set == 'FakeCenter' then
 overwrite = true
 match_indent = true
 
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = """  for g_k, group in pairs(G.localization) do"""
+position = "before"
+payload = """
+G.localization.akyrs_misc_parsed = {}
+for k, v in pairs(G.localization.misc.akyrs_misc or {}) do
+    G.localization.akyrs_misc_parsed[k] = {}
+    for kk, vv in ipairs(v) do
+        G.localization.akyrs_misc_parsed[k][kk] = {multi_line = true}
+        for kkk, vvv in ipairs(vv) do
+            G.localization.akyrs_misc_parsed[k][kk][kkk] = loc_parse_string(vvv)
+        end
+    end
+end"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = """  elseif args.type == 'raw_descriptions' then """
+position = "before"
+payload = """elseif args.type == 'akyrs_misc' then 
+    loc_target = {multi_line = true}
+    loc_target.text_parsed = G.localization.akyrs_misc_parsed[args.key][args.index]"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = """            spacing = _spacing,"""
+position = "after"
+payload = """shadow = args.akyrs_dynatext_shadow,
+y_offset = args.akyrs_y_offset,
+"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = """        elseif part.control.E then"""
+position = "at"
+payload = """elseif part.control.E or args.akyrs_default_dynatext_effect then"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = """          local text_effects"""
+position = "after"
+payload = """if args.akyrs_default_dynatext_effect then
+    part.control.E = args.akyrs_default_dynatext_effect
+end"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = """            object = DynaText({string = {assembled_string}, colours = {part.control.V and args.vars.colours[tonumber(part.control.V)] or loc_colour(part.control.C or nil)},"""
+position = "at"
+payload = """object = DynaText({string = {assembled_string}, colours = {part.control.V and args.vars.colours[tonumber(part.control.V)] or loc_colour(part.control.C or nil, args.text_colour)},"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = """            _float = true; _silent = true; _pop_in = 0"""
+position = "after"
+payload = """if args.akyrs_force_no_popin then _pop_in = nil end"""
+overwrite = true
+match_indent = true
+

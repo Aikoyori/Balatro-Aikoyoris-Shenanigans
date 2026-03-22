@@ -277,8 +277,8 @@ SMODS.Atlas {
 SMODS.Atlas {
     key = "gud_credits",
     path = "credits/gud.png",
-    px = 379,
-    py = 379
+    px = 95,
+    py = 95
 }
 
 SMODS.Atlas {

@@ -1090,3 +1090,23 @@ end
 function AKYRS.get_free_joker_roll_tier()
     return G.GAME and G.GAME.akyrs_premium_joker_roll_tier or 0
 end
+
+-- add redemption code here
+AKYRS.redemption_codes = {
+    "dQw4w9WgXcQ", -- astley man
+    "lgAlH2HwbGA", -- worlders from pjsk
+    "H88kps8X4Mk", -- hanaichi monme zutomayo
+    "dOrMufo2Hx8", -- aki no mikakunin seibutsu cover that won the vocacolle
+    "qXkkhP0d_iM", -- same song but the original
+    "zjEMFuj23B4", -- zutomayo shader
+    "3GzRDW3hZ1k", -- deco27 hao
+    "JZaFgVQwXmA", -- hiiragi magnetite disclose flick
+    "Soy4jGPHr3g", -- tetoris
+    "PqpCRSOUuIE", -- ABM signaling
+    "e5_XSeN9Y4k", -- aiaigasa ui
+    "_gWn38pnmqI", -- snooze shiki ver
+}
+
+function AKYRS.get_random_redemption_code(seed)
+    return G.GAME and pseudorandom_element(AKYRS.redemption_codes, seed and "akyrs_redemption_code_voucher_".. G.SEED.."_"..seed or "akyrs_redemption_code") or "?????????"
+end

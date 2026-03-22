@@ -69,6 +69,11 @@ AKYRS.create_credits_big = function(sprite_atlas, name, width)
     }
   }
 end
+
+
+AKYRS.credits_linker = function (credits)
+  return {button = "akyrs_your_collection_credits", ref_table = {credit = credits.internal_name or "none"}, on_demand_tooltip = {text = "", filler = {func = AKYRS.create_credit_tooltip, args = credits}}}
+end
 AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width, colour, credits_nodes)
   return {
     n = G.UIT.R,
@@ -76,7 +81,9 @@ AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width
     nodes = {
       sprite_atlas and {
         n = G.UIT.C,
-        config = { align = "cm", padding = 0.1, button = "akyrs_your_collection_credits", ref_table = {credit = credits_internal_name or "none"}, on_demand_tooltip = {text = localize(handname, 'poker_hand_descriptions'), filler = {func = AKYRS.create_credit_tooltip, args = {internal_name = credits_internal_name, name = name}}} },
+        config = { align = "cm", padding = 0.1, 
+          button = "akyrs_your_collection_credits", ref_table = {credit = credits_internal_name or "none"}, on_demand_tooltip = {text = "", filler = {func = AKYRS.create_credit_tooltip, args = {internal_name = credits_internal_name, name = name}}},
+        },
         nodes = {
           AKYRS.embedded_ui_sprite(sprite_atlas, { x = 0, y = 0 }, nil, {
             w = 200,
@@ -382,7 +389,15 @@ SMODS.current_mod.extra_tabs = function ()
                   n = G.UIT.R,
                   config = {},
                   nodes = {
-                    { n = G.UIT.T, config = { text = "TheOneGoofAli, PaperMoon", scale = 0.3, colour = G.C.WHITE } },
+                    { n = G.UIT.C, config = AKYRS.credits_linker({name = "@TheOneGoofAli", internal_name = "toga"}), nodes = {
+                      { n = G.UIT.T, config = { text = "TheOneGoofAli", scale = 0.3, colour = G.C.BLUE } },
+                    } },
+                    { n = G.UIT.C, nodes = {
+                      { n = G.UIT.T, config = { text = ", ", scale = 0.3, colour = G.C.WHITE } },
+                    } },
+                    { n = G.UIT.C,config = AKYRS.credits_linker({name = "@PaperMoon", internal_name = "papermoon"}), nodes = {
+                      { n = G.UIT.T, config = { text = "PaperMoon", scale = 0.3, colour = G.C.BLUE } },
+                    } },
                   }
                 },
                 {

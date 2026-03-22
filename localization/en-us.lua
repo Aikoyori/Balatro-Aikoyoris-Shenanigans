@@ -1031,10 +1031,11 @@ return {
                     "{C:inactive}(The lesser number)",
                 },
             },
-            dd_akyrs_credit_box = {
-                name="",
+            dd_akyrs_non_functional = {
+                name="Warning!",
                 text={
-                    "",
+                    "{C:red,E:akyrs_shrivel,s:1.9}This card",
+                    "{C:red,E:akyrs_shrivel,s:1.8}will NOT work!",
                 },
             },
         },
@@ -1285,7 +1286,19 @@ return {
                     "Appears with {C:attention}Concealed Stickers",
                     "and in certain {C:attention}challenges{}!"
                 }
-            }
+            },
+            fc_akyrs_toga_charmap = {
+                name = "Character Map",
+                text = {
+                    "Install {C:attention}TOGA's Stuff{} to find out!"
+                }
+            },
+            fc_akyrs_toga_winword = {
+                name = "Microsoft Word",
+                text = { 
+                    "Install {C:attention}TOGA's Stuff{} to find out!"
+                }
+            },
         },
         Joker={
             -- toga

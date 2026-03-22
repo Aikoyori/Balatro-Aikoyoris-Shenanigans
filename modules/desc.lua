@@ -252,6 +252,10 @@ AKYRS.DescriptionDummy{
 }
 
 AKYRS.DescriptionDummy{
+    key = "non_functional",
+}
+
+AKYRS.DescriptionDummy{
     key = "artist_box",
     loc_vars = function (self, info_queue, card)
         return {

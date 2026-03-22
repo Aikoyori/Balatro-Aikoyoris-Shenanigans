@@ -68,9 +68,12 @@ if AKYRS.is_mod_loaded("TOGAPack") then
             if context.individual and context.cardarea == G.play then
                 if G.GAME.aiko_current_word and not context.blueprint then
                     return {
-                        message = localize("k_upgrade_ex"),
                         func = function ()
-                            card.ability.extras.xmult = card.ability.extras.xmult + card.ability.extras.xmult_gain
+                            SMODS.scale_card(card, {
+                                ref_table = card.ability.extras,
+                                ref_value = "xmult",
+                                scalar_value = "xmult_gain",
+                            })
                         end
                     }
                 end

@@ -3591,6 +3591,17 @@ SMODS.Joker {
     key = "gift_voucher",
     atlas = 'guestJokerArts',
     pos = { x = 2, y = 0 },
+    akyrs_credits = {
+        art = {
+            "gudusername_53951"
+        },
+        idea = {
+            "gudusername_53951"
+        },
+        attrib = {
+            ["gudusername_53951"] = {"art", "idea"},
+        },
+    },
     loc_vars = function (self, info_queue, card)
         info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_credit_gud"]
         return {

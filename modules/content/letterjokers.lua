@@ -18,6 +18,14 @@ AKYRS.LetterJoker {
     key = "maxwells_notebook",
     rarity = 3,
     cost = 4,
+    akyrs_credits = {
+        art = {
+            "larantula_l"
+        },
+        attrib = {
+            ["larantula_l"] = "art",
+        },
+    },
     loc_vars = function(self, info_queue, card)
         
         if AKYRS.config.show_joker_preview then
@@ -158,6 +166,14 @@ AKYRS.LetterJoker {
     atlas = 'guestJokerArts',
     pos = { x = 1, y = 0 },
     pools = { ["Letter"] = true, ["Meme"] = true  },
+    akyrs_credits = {
+        art = {
+            "larantula_l"
+        },
+        attrib = {
+            ["larantula_l"] = "art",
+        },
+    },
     loc_vars = function (self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS["m_akyrs_zap_card"]
         info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_credit_larantula"]
@@ -327,6 +343,14 @@ AKYRS.LetterJoker {
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     pools = { ["Letter"] = true, ["Meme"] = true },
+    akyrs_credits = {
+        art = {
+            "lyman"
+        },
+        attrib = {
+            ["lyman"] = "art",
+        },
+    },
     loc_vars = function (self, info_queue, card)
         info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_credit_lyman"]
         return {

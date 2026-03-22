@@ -169,6 +169,18 @@ SMODS.Joker{
     },
     atlas = "gappie",
     rarity = 4,
+    akyrs_credits = {
+        art = {
+            "marcyptata64"
+        },
+        person_in_question = {
+            "marcyptata64"
+        },
+        attrib = {
+            ["marcyptata64"] = "art",
+            ["gappie"] = "person_in_question",
+        },
+    },
     loc_vars = function (self, info_queue, card)
         info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_credit_marcyptata64"]
         return {
@@ -178,6 +190,7 @@ SMODS.Joker{
             }
         }
     end,
+    hpot_unbreedable = true,
     set_sprites = function (self, card, front)
         if card.ability and card.ability.extras and card.ability.extras.activated then
             card.children.center:set_sprite_pos({x = 1, y = 0})
@@ -274,7 +287,7 @@ SMODS.Joker {
         if MoreFluff then
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_more_fluff_ability"}
         end
-        if Entropy then
+        if AKYRS.is_mod_loaded("Entropy") then
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_entropy_ability"}
         end
         if SDM_0s_Stuff_Mod then

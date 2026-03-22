@@ -69,14 +69,14 @@ AKYRS.create_credits_big = function(sprite_atlas, name, width)
     }
   }
 end
-AKYRS.create_credits = function(sprite_atlas, name, width, colour, credits_nodes)
+AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width, colour, credits_nodes)
   return {
     n = G.UIT.R,
     config = { padding = 0 },
     nodes = {
       sprite_atlas and {
         n = G.UIT.C,
-        config = { align = "cm", padding = 0.1 },
+        config = { align = "cm", padding = 0.1, button = "akyrs_your_collection_credits", ref_table = {credit = credits_internal_name or "none"} },
         nodes = {
           AKYRS.embedded_ui_sprite(sprite_atlas, { x = 0, y = 0 }, nil, {
             w = 200,
@@ -273,7 +273,7 @@ SMODS.current_mod.extra_tabs = function ()
                     { n = G.UIT.T, config = { text = localize("k_akyrs_additional_art_by"), scale = 0.5, colour = G.C.WHITE } }
                   }
                 },
-                AKYRS.create_credits("akyrs_larantula_l_credits", "@larantula_l", 3.1, nil,
+                AKYRS.create_credits("akyrs_larantula_l_credits", "@larantula_l", "larantula_l", 3.1, nil,
                 {
                   n = G.UIT.R,
                   config = { padding = 0.02 },
@@ -281,7 +281,7 @@ SMODS.current_mod.extra_tabs = function ()
                     AKYRS.create_link_sprite_btn("youtube", "https://www.youtube.com/@Larantula"),
                   }
                 }),
-                AKYRS.create_credits("akyrs_plasma_credits", "@eggymari", 2.7, nil, 
+                AKYRS.create_credits("akyrs_plasma_credits", "@eggymari", "eggymari", 2.7, nil, 
                 {
                   n = G.UIT.R,
                   config = { padding = 0.02 },
@@ -290,8 +290,8 @@ SMODS.current_mod.extra_tabs = function ()
                     AKYRS.create_link_sprite_btn("twitter", "https://twitter.com/plasmaphrase"),
                   }
                 }),
-                AKYRS.create_credits("akyrs_gud_credits", "@gudusername_53951", 3.6),
-                AKYRS.create_credits("akyrs_lyman_credits", "@Lyman", 1.9, nil,
+                AKYRS.create_credits("akyrs_gud_credits", "@gudusername_53951", "gudusername_53951", 3.6),
+                AKYRS.create_credits("akyrs_lyman_credits", "@Lyman", "lyman", 1.9, nil,
                 {
                   n = G.UIT.R,
                   config = { padding = 0.02 },
@@ -312,7 +312,7 @@ SMODS.current_mod.extra_tabs = function ()
                     { n = G.UIT.T, config = { text = localize("k_akyrs_additional_help_by"), scale = 0.5, colour = G.C.WHITE } }
                   }
                 },
-                AKYRS.create_credits("akyrs_drmonty_credits", "@dr_monty_the_snek", 3.5, nil,
+                AKYRS.create_credits("akyrs_drmonty_credits", "@dr_monty_the_snek", "dr_monty_the_snek", 3.5, nil,
                 {
                   n = G.UIT.R,
                   config = {},
@@ -625,7 +625,7 @@ SMODS.current_mod.menu_cards = function ()
             if mecardonlyone then
                 --- @Card
                 mecardonlyone = mecardonlyone
-                if Entropy then
+                if AKYRS.is_mod_loaded("Entropy") then
                     mecardonlyone:set_edition("e_entr_freaky")
                 end
                 mecardonlyone.click = AKYRS.aiko_click
@@ -676,10 +676,10 @@ AKYRS.mod_flavour_text = {
   {"also try Entropy",},
   {"also try Revo's Vault",},
   {"You were used up.",},
-  {"どうしてこんな目に　に　に", G.FONTS[5]},
-  {"限界まで足掻いた人生は　想像よりも狂っているらしい", G.FONTS[5]},
-  {"スーパーアイドルの笑顔よりも　あの八月の午後よりも", G.FONTS[5]},
-  {"105℃のより光る君へ", G.FONTS[5]},
+  {"どうしてこんな目に　に　に", font = G.FONTS[5]},
+  {"限界まで足掻いた人生は　想像よりも狂っているらしい", font = G.FONTS[5]},
+  {"スーパーアイドルの笑顔よりも　あの八月の午後よりも", font = G.FONTS[5]},
+  {"105℃のより光る君へ", font = G.FONTS[5]},
   {"Not to get political but what the fuck is an oatmeal",},
   {"In Alpha for a year!",},
   {"Blindmaxxing Consumablepilled",},
@@ -704,4 +704,5 @@ AKYRS.mod_flavour_text = {
   {"#BringBackWotakuSnooze",},
   {"Driving in my car, right after a beer",},
   {"*freedom motif*",},
+  {"You can't find your hands.",},
 }

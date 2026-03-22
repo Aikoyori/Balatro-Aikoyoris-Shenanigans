@@ -766,3 +766,4 @@ AKYRS.mod_flavour_text = {
   {"As seen on (Twitch.)TV!"},
   {"And we're (not) out of beta", "we're (never) releasing on time"},
   {"Harikitte Ikou!"},
+}

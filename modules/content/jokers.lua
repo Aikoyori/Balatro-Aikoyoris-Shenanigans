@@ -1937,7 +1937,7 @@ AKYRS.tetoris_piece = {
 }
 SMODS.Joker {
     key = "tetoris",
-    pools = { ["Vocaloid"] = true, ["J-POP"] = true },
+    pools = { ["Vocaloid"] = true, ["J-POP"] = true , ["Teto"] = true },
     atlas = 'AikoyoriJokers',
     pos = {
         x = 0, y = 3

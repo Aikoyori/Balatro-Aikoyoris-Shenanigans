@@ -118,7 +118,7 @@ SMODS.Voucher {
 SMODS.Voucher {
     key = "worlds_end",
     atlas = 'aikoyoriVouchers', pos = { x = 1, y = 0 } ,
-    cost = 15,
+    cost = 25,
     config = {
         extras = {
             addentum = 2

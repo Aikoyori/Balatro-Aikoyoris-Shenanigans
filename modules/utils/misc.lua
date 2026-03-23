@@ -818,6 +818,10 @@ AKYRS.is_mod_loaded = function(var)
     if not var then return false end
     return (SMODS.Mods[var] and SMODS.Mods[var].can_load) and true or false
 end
+AKYRS.get_mod_data = function(var) 
+    if not var then return false end
+    return (SMODS.Mods[var] and SMODS.Mods[var].can_load) and SMODS.Mods[var] or nil
+end
 function AKYRS.juice_like_tarot(card)
     play_sound('tarot1')
     card:juice_up(0.3, 0.5)

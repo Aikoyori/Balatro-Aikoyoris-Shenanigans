@@ -1299,6 +1299,24 @@ return {
                     "Install {C:attention}TOGA's Stuff{} to find out!"
                 }
             },
+            fc_akyrs_paperback_pure_star = {
+                name = "Pure Star Card",
+                text = { 
+                    "Install {C:attention}Paperback{} for {C:attention}Star{} suit!"
+                }
+            },
+            fc_akyrs_paperback_pure_crown = {
+                name = "Pure Crown Card",
+                text = { 
+                    "Install {C:attention}Paperback{} for {C:attention}Crown{} suit!"
+                }
+            },
+            fc_akyrs_paperback_pure_apostle = {
+                name = "Pure Apostle Card",
+                text = { 
+                    "Install {C:attention}Paperback{} for {C:attention}Apostle{}!"
+                }
+            },
         },
         Joker={
             -- toga
@@ -4300,7 +4318,7 @@ return {
                 {"Imagine doing all of this","and then have a mod crash lol",},
                 {"Don't divide by 0!",},
                 {"Probably a great tool for STEM!",},
-                {"^2 Fun when played",},
+                {"{X:dark_edition}^2{} Fun when played",},
                 {"\\#StopAIslop",},
                 {"\\#StopGenAIinVocaloid",},
                 {"Art by real artists!",},

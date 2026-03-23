@@ -130,7 +130,7 @@ SMODS.Atlas({
     py = 32
 })
 
-
+-- cross mod
 SMODS.Atlas {
     key = "togasstuff_crossmod",
     path = "crossmod/togasstuff.png",
@@ -138,6 +138,14 @@ SMODS.Atlas {
     py = 95
 }
 
+SMODS.Atlas {
+    key = "paperback_pure",
+    path = "crossmod/paperbackPure.png",
+    px = 71,
+    py = 95
+}
+
+-- idk anything else lol
 SMODS.Atlas {
     key = "blank",
     path = "blank.png",

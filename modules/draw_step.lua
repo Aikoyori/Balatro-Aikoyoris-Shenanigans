@@ -134,6 +134,7 @@ SMODS.DrawStep{
 
 SMODS.draw_ignore_keys["akyrs_redeem_voucher"] = true
 SMODS.draw_ignore_keys["akyrs_collection_ui"] = true
+SMODS.draw_ignore_keys["fake_front"] = true
 
 
 SMODS.DrawStep {
@@ -169,3 +170,40 @@ SMODS.DrawStep {
     end,
 } 
 ]]
+
+
+SMODS.DrawStep {
+    key = 'fake_front',
+    order = 0,
+    func = function(self, layer)
+        --Draw the main part of the card
+        if (self.edition and self.edition.negative and (not self.delay_edition or self.delay_edition.negative)) or (self.ability.name == 'Antimatter' and (self.config.center.discovered or self.bypass_discovery_center)) then
+            if self.children.fake_front and (self.ability.delayed or not self:should_hide_front()) then
+                self.children.fake_front:draw_shader('negative', nil, self.ARGS.send_to_shader)
+            end
+        elseif not self:should_draw_base_shader() then
+            -- Don't render base dissolve shader.
+        elseif not self.greyed then
+            if self.children.fake_front and (self.ability.delayed or not self:should_hide_front()) then
+                self.children.fake_front:draw_shader('dissolve')
+            end
+        end
+
+        local center = self.config.center
+        if center.set == 'Default' or center.set == 'Enhanced' and not center.replace_base_card then
+            if not center.no_suit then
+                local suit = SMODS.Suits[self.base.suit] or {}
+                if suit.draw and type(suit.draw) == 'function' then
+                    suit:draw(self, layer)
+                end
+            end
+            if not center.no_rank then
+                local rank = SMODS.Ranks[self.base.value] or {}
+                if rank.draw and type(rank.draw) == 'function' then
+                    rank:draw(self, layer)
+                end
+            end
+        end
+    end,
+    conditions = { vortex = false, facing = 'front', front_hidden = false },
+}

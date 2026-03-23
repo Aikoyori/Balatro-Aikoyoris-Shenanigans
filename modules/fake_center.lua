@@ -53,6 +53,9 @@ AKYRS.FakeCenter{
             ["toga"] = "art",
         },
     },
+    set_badges = function (self, card, badges)
+        if self.discovered then SMODS.create_mod_badges({ mod = togabalatro },badges) end
+    end,
     loc_vars = function (self, info_queue, card)
         if card and card.area and AKYRS.is_in_typical_area(card.area) then
             info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
@@ -76,6 +79,9 @@ AKYRS.FakeCenter{
             ["toga"] = "art",
         },
     },
+    set_badges = function (self, card, badges)
+        if self.discovered then SMODS.create_mod_badges({ mod = togabalatro },badges) end
+    end,
     loc_vars = function (self, info_queue, card)
         if card and card.area and AKYRS.is_in_typical_area(card.area) then
             info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
@@ -89,5 +95,115 @@ AKYRS.FakeCenter{
         }
     end,
     atlas = "togasstuff_crossmod",
+    pos = { x = 1, y = 0 }
+}
+
+AKYRS.FakeCenter{
+    key = "paperback_pure_star",
+    akyrs_credits = {
+        art = {
+            "papermoon"
+        },
+        attrib = {
+            ["papermoon"] = "art",
+        },
+    },
+    set_badges = function (self, card, badges)
+        if self.discovered then SMODS.create_mod_badges({ mod = AKYRS.get_mod_data("paperback") },badges) end
+    end,
+    loc_vars = function (self, info_queue, card)
+        if card and card.area and AKYRS.is_in_typical_area(card.area) then
+            info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
+        end
+    end,
+    set_sprites = function (self, card, front)
+        if not card.children.fake_front then
+            AKYRS.simple_event_add(function()
+                card.children.fake_front = Sprite(card.T.x, card.T.y, card.T.w, card.T.h, G.ASSET_ATLAS['akyrs_paperback_pure'], { x = 0, y = (is_hc and 1 or 0)})
+                card.children.fake_front.states.hover = card.states.hover
+                card.children.fake_front.states.click = card.states.click
+                card.children.fake_front.states.drag = card.states.drag
+                card.children.fake_front.states.collide.can = false
+                card.children.fake_front:set_role({major = card, role_type = 'Glued', draw_major = card})
+            return true end, 0, "akyrs_misc")        end
+    end,
+    prefix_config = {
+        atlas = false
+    },
+    atlas = "centers",
+    pos = { x = 1, y = 0 }
+}
+
+AKYRS.FakeCenter{
+    key = "paperback_pure_crown",
+    akyrs_credits = {
+        art = {
+            "papermoon"
+        },
+        attrib = {
+            ["papermoon"] = "art",
+        },
+    },
+    loc_vars = function (self, info_queue, card)
+        if card and card.area and AKYRS.is_in_typical_area(card.area) then
+            info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
+        end
+    end,
+    set_badges = function (self, card, badges)
+        if self.discovered then SMODS.create_mod_badges({ mod = AKYRS.get_mod_data("paperback") },badges) end
+    end,
+    set_sprites = function (self, card, front)
+        if not card.children.fake_front then
+            AKYRS.simple_event_add(function()
+                card.children.fake_front = Sprite(card.T.x, card.T.y, card.T.w, card.T.h, G.ASSET_ATLAS['akyrs_paperback_pure'], { x = 1, y = (is_hc and 1 or 0)})
+                card.children.fake_front.states.hover = card.states.hover
+                card.children.fake_front.states.click = card.states.click
+                card.children.fake_front.states.drag = card.states.drag
+                card.children.fake_front.states.collide.can = false
+                card.children.fake_front:set_role({major = card, role_type = 'Glued', draw_major = card})
+            return true end, 0, "akyrs_misc")
+        end
+    end,
+    prefix_config = {
+        atlas = false
+    },
+    atlas = "centers",
+    pos = { x = 1, y = 0 }
+}
+
+AKYRS.FakeCenter{
+    key = "paperback_pure_apostle",
+    akyrs_credits = {
+        art = {
+            "papermoon"
+        },
+        attrib = {
+            ["papermoon"] = "art",
+        },
+    },
+    loc_vars = function (self, info_queue, card)
+        if card and card.area and AKYRS.is_in_typical_area(card.area) then
+            info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
+        end
+    end,
+    set_badges = function (self, card, badges)
+        if self.discovered then SMODS.create_mod_badges({ mod = AKYRS.get_mod_data("paperback") },badges) end
+    end,
+    set_sprites = function (self, card, front)
+        if not card.children.fake_front then
+            AKYRS.simple_event_add(function()
+                card.children.fake_front = Sprite(card.T.x, card.T.y, card.T.w, card.T.h, G.ASSET_ATLAS['akyrs_paperback_pure'], { x = 2, y = 0})
+                card.children.fake_front.states.hover = card.states.hover
+                card.children.fake_front.states.click = card.states.click
+                card.children.fake_front.states.drag = card.states.drag
+                card.children.fake_front.states.collide.can = false
+                card.children.fake_front:set_role({major = card, role_type = 'Glued', draw_major = card})
+            return true end, 0, "akyrs_misc")
+        end
+    end,
+    prefix_config = {
+        atlas = false
+    },
+    atlas = "centers",
     pos = { x = 1, y = 0 }
 }

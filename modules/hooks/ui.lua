@@ -1176,7 +1176,7 @@ function buildAdditionsTab(mod)
         tab_definition_function = function()
             SMODS.LAST_SELECTED_MOD_TAB = "additions"
             
-            -- todo: check design mockup on notes
+            -- finished : check design mockup on notes
             -- jokers [non-letter/letter] consumables -- done
             -- blinds boosters vouchers editions others
             -- seals deck tags

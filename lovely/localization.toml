@@ -165,3 +165,45 @@ payload = """if args.akyrs_force_no_popin then _pop_in = nil end"""
 overwrite = true
 match_indent = true
 
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = """            _float = true; _silent = true; _pop_in = 0"""
+position = "after"
+payload = """if args.akyrs_force_no_popin then _pop_in = nil end"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = """    if self.config.center.unlocked == false and not self.bypass_lock then --For everyting that is locked"""
+position = "before"
+payload = """    if not self.bypass_lock and self.config.center.unlocked ~= false and
+((((self or {}).config or {}).center or {}).akyrs_undiscover_tooltip) and
+not self.config.center.discovered and 
+((self.area ~= G.jokers and self.area ~= G.consumeables and self.area) or not self.area) then
+    card_type = 'Undiscovered'
+end"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/overrides.lua"]'
+pattern = """				self.children.center = SMODS.create_sprite(self.T.x, self.T.y, self.T.w, self.T.h, "Voucher", G.v_locked.pos)"""
+position = "after"
+payload = """elseif self.config.center.akyrs_locked_sprites and not self.config.center.unlocked and not self.params.bypass_discovery_center then
+    local spr = self.config.center.akyrs_locked_sprites
+    self.children.center = SMODS.create_sprite(self.T.x, self.T.y, self.T.w, self.T.h, spr.atlas, spr.pos)
+elseif self.config.center.akyrs_undiscovered_sprites and self.config.center.unlocked and not self.config.center.discovered and not self.params.bypass_discovery_center then
+    local spr = self.config.center.akyrs_undiscovered_sprites
+    self.children.center = SMODS.create_sprite(self.T.x, self.T.y, self.T.w, self.T.h, spr.atlas, spr.pos)"""
+overwrite = true
+match_indent = true
+

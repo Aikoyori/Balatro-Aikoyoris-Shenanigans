@@ -1,8 +1,7 @@
 
 
 SMODS.UndiscoveredSprite{
-    key = "akyrs_Bet",
-    prefix_config = false,
+    key = "Bet",
     atlas = "Voucher",
     pos = { x = 8, y = 2}
 }
@@ -10,6 +9,15 @@ SMODS.UndiscoveredSprite{
 AKYRS.Bet = SMODS.Center:extend {
     set = 'Bet',
     cost = 0,
+    akyrs_undiscover_tooltip = true,
+    akyrs_locked_sprites = {
+        atlas = "Voucher",
+        pos = { x = 8, y = 3},
+    },
+    akyrs_undiscovered_sprites = {
+        atlas = "Voucher",
+        pos = { x = 8, y = 2},
+    },
     atlas = 'Voucher',
     discovered = false,
     unlocked = true,

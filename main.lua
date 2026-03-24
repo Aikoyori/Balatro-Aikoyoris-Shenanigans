@@ -63,7 +63,9 @@ if AKYRS.config.experimental_features then
     assert(SMODS.load_file("./modules/content/enchantments.lua"))()
 end
 assert(SMODS.load_file("./modules/content/vouchers.lua"))()
-assert(SMODS.load_file("./modules/content/bets.lua"))()
+if AKYRS.config.experimental_features then
+    assert(SMODS.load_file("./modules/content/bets.lua"))()
+end
 assert(SMODS.load_file("./modules/content/edition.lua"))()
 assert(SMODS.load_file("./modules/content/tags.lua"))()
 assert(SMODS.load_file("./modules/ui.lua"))()

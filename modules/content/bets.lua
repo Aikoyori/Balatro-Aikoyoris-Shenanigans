@@ -30,9 +30,36 @@ AKYRS.Bet = SMODS.Center:extend {
     },
     badge_colour = HEX("CC2332")
 }
+
 AKYRS.Bet {
-    key = "call",
-    atlas = 'aikoyoriVouchers', pos = { x = 8, y = 0 } ,
+    key = "expert_play",
+    atlas = 'aikoyoriBets', pos = { x = 0, y = 0 } ,
+    cost = 0,
+    config = {
+        extras = {
+            slot = 1
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.slot
+            }
+        }
+    end,
+    redeem = function (self, card) 
+        G.GAME.akyrs_allow_hard_bosses = true
+        G.consumeables.config.card_limit = G.consumeables.config.card_limit + card.ability.extras.slot
+    end,
+    unredeem = function (self, card) 
+        G.GAME.akyrs_allow_hard_bosses = true
+        G.consumeables.config.card_limit = G.consumeables.config.card_limit - card.ability.extras.slot
+    end,
+}
+
+AKYRS.Bet {
+    key = "raise_the_stake",
+    atlas = 'aikoyoriBets', pos = { x = 1, y = 0 } ,
     cost = 0,
     config = {
         extras = {

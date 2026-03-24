@@ -3357,11 +3357,18 @@ return {
             },
         },
         Bet={
-            bet_akyrs_call={
-                name="Call",
+            bet_akyrs_expert_play={
+                name="Expert Play!",
                 text={
                     "{C:attention}Expert{} and higher bosses may appear",
                     "{C:dark_edition}+#1#{} Consumable Slot",
+                },
+            },
+            bet_akyrs_raise_the_stake={
+                name="Raise the Stake!",
+                text={
+                    "Applies a random {C:attention}Stake{} (if possible)",
+                    "Applies a random {C:dark_edition}Edition{} to a Joker",
                 },
             },
         },
@@ -4371,6 +4378,9 @@ return {
                 {"BE CRIME DO GAY",} ,
                 {"*NAVAL INVASION ALERT*",},
                 {"x = (-b[+/-]sqrt((b^2)-4ac))/2a",},
+                {"Release the Mona clones!"},
+                {"hop on synthv"},
+                {"{f:akyrs_MochiyPopOne}「[疑]ロキ」簡単w"},
             }
         },
         v_text={

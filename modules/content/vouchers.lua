@@ -65,6 +65,7 @@ SMODS.Voucher {
             addentum = 3
         }
     },
+    requires = { "v_akyrs_alphabet_soup" },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {

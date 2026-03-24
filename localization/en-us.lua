@@ -182,6 +182,97 @@ return {
                     "{C:red}X#1#{} base Blind Size",
                 },
             },
+            b_akyrs_developer_deck = {
+                name = 'Developer Deck',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_prism_deck = {
+                name = 'Prism Deck',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_kaleidoscopic_deck = {
+                name = 'Kaleidoscopic Deck',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_sheared_deck = {
+                name = 'Deck of the Sheared',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_vision_deck = {
+                name = 'Deck of the Vision',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_animosity_deck = {
+                name = 'Deck of the Animosity',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_tier_deck = {
+                name = 'Deck of the Tier',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_puppet_deck = {
+                name = 'Deck of the Puppets',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_shining_deck = {
+                name = 'Deck of the Shining',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_dotted_deck = {
+                name = 'Dotted Deck',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_flora_deck = {
+                name = 'Flora Deck',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_discord_deck = {
+                name = 'Discord Deck',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
+            b_akyrs_nitro_deck = {
+                name = 'Nitro Deck',
+                text = 
+                { 
+                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                },
+            },
         },
         Blind={
             bl_akyrs_the_thought= {

@@ -65,6 +65,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     uv = uv * rotationMatrix(PI * 0.15);
     uv *= 20.1;
     uv += vec2 (iTime / 3.0, iTime / 3.0);
+    uv.y+=sin(iTime*5.0+uv.x*5.0)*0.05;
     
     vec2 color = vec2(step(0.5, fract(uv.x)),step(0.5, fract(uv.y)));
     float luminance = rgb2hsv(tex.rgb).b;

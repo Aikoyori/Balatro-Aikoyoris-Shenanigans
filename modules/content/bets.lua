@@ -2,7 +2,7 @@
 
 SMODS.UndiscoveredSprite{
     key = "akyrs_Bet",
-    prefix_config = false
+    prefix_config = false,
     atlas = "Voucher",
     pos = { x = 8, y = 2}
 }

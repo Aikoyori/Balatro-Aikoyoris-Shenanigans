@@ -250,3 +250,24 @@ SMODS.Voucher {
         G.GAME.akyrs_premium_joker_roll_tier = G.GAME.akyrs_premium_joker_roll_tier - 1
     end,
 }
+
+SMODS.Voucher {
+    key = "call",
+    atlas = 'aikoyoriVouchers', pos = { x = 8, y = 0 } ,
+    cost = 0,
+    akyrs_special_vouchers = "ultra",
+    config = {
+    },
+    set_sprites = set_sprite_with_canvas,
+    loc_vars = function (self, info_queue, card)
+        return {
+        }
+    end,
+    requires = { "v_akyrs_super_free_joker" },
+    redeem = function (self, card) 
+        G.GAME.akyrs_allow_hard_bosses = true
+    end,
+    unredeem = function (self, card) 
+        G.GAME.akyrs_allow_hard_bosses = true
+    end,
+}

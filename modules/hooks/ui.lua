@@ -1450,6 +1450,18 @@ create_UIBox_akyrs_credits_collection = function(author)
     })
 end
 
+create_UIBox_akyrs_collection_bet = function(author)
+    local jkrs = {}
+    for i, v in pairs(G.P_CENTER_POOLS.Bet) do
+        --print(pool)
+        table.insert(jkrs, v)
+    end
+    return SMODS.card_collection_UIBox(jkrs, {5,5,5}, {
+        no_materialize = true, 
+        h_mod = 0.95,
+    })
+end
+
 
 G.FUNCS.akyrs_your_collection_non_letter_jokers = function(e)
     G.SETTINGS.paused = true
@@ -1469,6 +1481,12 @@ G.FUNCS.akyrs_your_collection_credits = function(e)
     G.SETTINGS.paused = true
     G.FUNCS.overlay_menu{
         definition = create_UIBox_akyrs_credits_collection(e.config.ref_table.credit),
+    }
+end
+G.FUNCS.akyrs_your_collection_bet = function(e)
+    G.SETTINGS.paused = true
+    G.FUNCS.overlay_menu{
+        definition = create_UIBox_akyrs_collection_bet(),
     }
 end
 

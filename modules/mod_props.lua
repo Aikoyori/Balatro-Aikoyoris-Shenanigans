@@ -700,3 +700,13 @@ SMODS.current_mod.menu_cards = function ()
         end
 	}
 end
+
+SMODS.current_mod.custom_collection_tabs = function()
+    local tally = 0
+    for _, v in pairs(G.P_CENTER_POOLS["Bet"]) do
+        if v.unlocked and v.discovered then
+            tally = tally + 1
+        end
+    end
+    return {UIBox_button({button = "akyrs_your_collection_bet", label = {localize("b_bet")}, count = {tally = tally, of = #G.P_CENTER_POOLS["Bet"]}, minw = 5, id = "akyrs_your_collection_bet"})}
+end

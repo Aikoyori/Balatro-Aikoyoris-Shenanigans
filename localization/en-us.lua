@@ -2834,6 +2834,14 @@ return {
                     "learn what it does",
                 },
             },
+            undiscovered_bet = {
+                name="Not Discovered",
+                text={
+                    "Redeem this card",
+                    "in an unseeded run to",
+                    "learn what it does",
+                },
+            },
             undiscovered_replicant = {
                 name="Not Discovered",
                 text={
@@ -3345,6 +3353,15 @@ return {
                 name="The Wheel of Fortune (Modified)",
                 text={
                     "Does not do anything.",
+                },
+            },
+        },
+        Bet={
+            bet_akyrs_call={
+                name="Call",
+                text={
+                    "{C:attention}Expert{} and higher bosses may appear",
+                    "{C:dark_edition}+#1#{} Consumable Slot",
                 },
             },
         },
@@ -3985,10 +4002,12 @@ return {
             k_umbral = "Umbral",
             k_replicant = "Replicant",
             k_alphabet = "Alphabet",
+            k_bet = "Bet",
 
             b_akyrs_alphabets="Alphabet Cards",
             k_aikoyoriextrabases = "Extra Base",
             k_akyrs_alphabets = "Alphabet",
+            k_akyrs_bet= "Bet",
             k_akyrs_current_req = "current",
             k_akyrs_alphabets_pack = "Alphabet Pack",
             k_alphabets = "Alphabet Pack",
@@ -4196,6 +4215,8 @@ return {
             k_akyrs_alphabet_pack = "Alphabets",
             k_akyrs_umbral_pack = "Umbral Pack",
             k_akyrs_replica_pack = "Replica Pack",
+
+            b_bet = "Bets"
         },
         high_scores={},
         labels={
@@ -4226,6 +4247,7 @@ return {
             umbral = "Umbral",
             replicant = "Replicant",
             alphabet = "Alphabet",
+            bet = "Bet"
         },
         poker_hand_descriptions=poker_hand_desc,
         poker_hands=poker_hands_name,

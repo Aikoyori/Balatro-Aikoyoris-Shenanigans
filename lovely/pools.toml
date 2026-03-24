@@ -26,3 +26,24 @@ overwrite = true
 match_indent = true
 
 
+
+
+[[patches]]
+[patches.pattern]
+target = """game.lua"""
+pattern = """    self:save_progress()"""
+position = "before"
+payload = """akyrs_init_prototypes(self)"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.copy]
+target = """game.lua"""
+position = "prepend"
+sources = [
+    "modules/hooks/prepend_to_game.lua",
+]
+

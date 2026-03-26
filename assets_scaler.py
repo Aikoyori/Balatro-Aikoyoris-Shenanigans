@@ -5,9 +5,9 @@ from PIL import Image
 import pathlib
 
 
-asset_dir = str(pathlib.Path(__file__).parent.resolve()) + r"\\assets\\"
-input_dir = asset_dir + r"\1x"
-upscale_dir = asset_dir + r"\2x"
+asset_dir = str(pathlib.Path(__file__).parent.resolve()) + r"/assets/"
+input_dir = asset_dir + r"1x"
+upscale_dir = asset_dir + r"2x"
 
 def average_color_of_neighbors(img, x, y):
     width, height = img.size
@@ -71,7 +71,8 @@ def clear_directory(directory):
 def process_and_upscale(input_path, input_directory, upscale_directory):
     relative_path = os.path.relpath(input_path, input_directory)
     output_path = os.path.join(upscale_directory, relative_path)
-
+    if(not str(input_path).endswith(".png")):
+        return
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     print("Processing image: " + input_path)

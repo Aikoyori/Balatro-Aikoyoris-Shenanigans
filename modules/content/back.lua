@@ -333,8 +333,8 @@ if AKYRS.config.experimental_features then
         },
     }
     SMODS.Back{
-        key = "tier_deck",
-        name = "Deck of the Tier",
+        key = "weaver_deck",
+        name = "Deck of the Weaver",
         atlas = 'deckBacks',
         pos = {x = 6, y = 2},
         loc_vars = function (self, info_queue, card)

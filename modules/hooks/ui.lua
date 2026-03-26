@@ -1584,7 +1584,7 @@ function SMODS.create_mod_badges(obj, badges)
                             }}
                     end]]
                     badges[#badges + 1] = {n=G.UIT.R, config={align = "cm"}, nodes={
-                        {n=G.UIT.R, config={no_overflow = true, align = "cm", shader = "akyrs_aiko_mod_badge", minw = 0.6, colour = mod.badge_colour or G.C.GREEN, r = 1, minh = 0.36, emboss = 0.05, padding = 0.03*0.9}, nodes=text_nodes}
+                        {n=G.UIT.R, config={align = "cm", shader = "akyrs_aiko_mod_badge", minw = 0.6, colour = mod.badge_colour or G.C.GREEN, r = 1, minh = 0.36, emboss = 0.05, padding = 0.03*0.9}, nodes=text_nodes}
                     }}
                 end
             end

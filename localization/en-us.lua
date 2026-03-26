@@ -224,8 +224,8 @@ return {
                     '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
                 },
             },
-            b_akyrs_tier_deck = {
-                name = 'Deck of the Tier',
+            b_akyrs_weaver_deck = {
+                name = 'Deck of the Weaver',
                 text = 
                 { 
                     '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',

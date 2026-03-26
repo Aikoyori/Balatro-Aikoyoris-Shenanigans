@@ -1596,3 +1596,6 @@ function AKYRS.get_pool_with_predicate(pool, predicate)
     end
     return pool_export
 end
+
+function AKYRS.get_applicable_stakes()
+end

@@ -3462,6 +3462,27 @@ return {
                     "Applies a random {C:dark_edition}Edition{} to a Joker",
                 },
             },
+            bet_akyrs_a_lock_and_a_hard_place={
+                name="A Lock and a Hard Place!",
+                text={
+                    "A shop item is always {C:attention}locked",
+                    "It {C:attention}must{} be purchased for it to disappear",
+                },
+            },
+            bet_akyrs_flames_of_desires={
+                name="Flames of Desires!",
+                text={
+                    "{C:attention}Destroy{} every cards",
+                    "that has a {C:attention}random{} suit from the deck",
+                },
+            },
+            bet_akyrs_resonance_of_chaos={
+                name="Resonance of Chaos!",
+                text={
+                    "All cards in decks has their enhancements",
+                    "{C:attention}locked{} to any of the {C:attention}Note Cards",
+                },
+            },
         },
         Voucher={
             v_akyrs_alphabet_soup={

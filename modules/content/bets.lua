@@ -74,11 +74,58 @@ AKYRS.Bet {
         }
     end,
     redeem = function (self, card) 
-        G.GAME.akyrs_allow_hard_bosses = true
-        G.consumeables.config.card_limit = G.consumeables.config.card_limit + card.ability.extras.slot
+        -- apply a stake modifier and start a new run i guess
+        -- give random joker edition
     end,
     unredeem = function (self, card) 
-        G.GAME.akyrs_allow_hard_bosses = true
-        G.consumeables.config.card_limit = G.consumeables.config.card_limit - card.ability.extras.slot
+        -- remove stake modifier
+    end,
+}
+
+AKYRS.Bet {
+    key = "a_lock_and_a_hard_place",
+    atlas = 'aikoyoriBets', pos = { x = 2, y = 0 } ,
+    cost = 0,
+    config = {
+        extras = {
+            slot = 1
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.slot
+            }
+        }
+    end,
+    redeem = function (self, card) 
+        G.GAME.akyrs_lock_card_amnt = (G.GAME.akyrs_lock_card_amnt or 0) + 1
+    end,
+    unredeem = function (self, card) 
+        G.GAME.akyrs_lock_card_amnt = (G.GAME.akyrs_lock_card_amnt or 1) - 1
+    end,
+}
+
+AKYRS.Bet {
+    key = "!",
+    atlas = 'aikoyoriBets', pos = { x = 2, y = 0 } ,
+    cost = 0,
+    config = {
+        extras = {
+            slot = 1
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.slot
+            }
+        }
+    end,
+    redeem = function (self, card) 
+        -- burn a suit off a deck
+    end,
+    unredeem = function (self, card) 
+        -- i don't think there's much to do here ngl it's a one way action
     end,
 }

@@ -95,6 +95,7 @@ assert(SMODS.load_file("./modules/compat/ortalab.lua"))()
 assert(SMODS.load_file("./modules/compat/paperback.lua"))()
 assert(SMODS.load_file("./modules/compat/qualatro.lua"))()
 assert(SMODS.load_file("./modules/compat/multiplayer.lua"))()
+assert(SMODS.load_file("./modules/compat/blindside.lua"))()
 
 -- cross mod loading
 for _,mod in pairs(SMODS.Mods) do

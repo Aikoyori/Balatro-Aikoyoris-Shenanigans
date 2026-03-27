@@ -273,6 +273,13 @@ SMODS.Atlas {
     py = 95
 }
 
+SMODS.Atlas {
+    key = "aikoBlindside",
+    path = "crossmod/blindside.png",
+    px = 71,
+    py = 95
+}
+
 -- credits
 
 

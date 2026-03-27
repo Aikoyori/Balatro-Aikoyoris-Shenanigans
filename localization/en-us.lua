@@ -1214,6 +1214,31 @@ return {
             },
         },
         Enhanced={
+            -- blindside :tm:
+            m_bld_the_choice = {
+                name = "The Choice",
+                text = {
+					"{X:dark_edition,C:white}Faded{}",
+                    "{X:red,C:white}X#1#{} Mult",
+                    "Played hand must contain {B:1}#2#{} blinds",
+                }
+            },
+            m_bld_the_reject = {
+                name = "The Reject",
+                text = {
+					"{X:dark_edition,C:white}Faded{}",
+                    "{X:blue,C:white}X#1#{} Chips",
+                    "Played hand must not contain {B:1}#2#{} blinds",
+                }
+            },
+            m_bld_the_redo = {
+                name = "The Redo",
+                text = {
+					"{X:dark_edition,C:white}Yellow{}",
+                    "When played, {C:attention}retrigger{}",
+                    "held in hand effect {C:attention}once",
+                }
+            },
             m_akyrs_brick_card = {
                 name="Brick Card",
                 text={

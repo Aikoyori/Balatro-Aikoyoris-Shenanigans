@@ -146,21 +146,6 @@ SMODS.calculate_individual_effect = function(effect, scored_card, key, amount, f
         if effect == 'akyrs_no_calculate' then
             G.GAME.akyrs_no_calculate = true
         end
-        if (key == 'akyrs_score' or key == "akyrs_h_score") and amount ~= 0 then
-            if effect.card and effect.card ~= scored_card then juice_card(effect.card) end
-            AKYRS.mod_score_instant({ add = amount, card = effect.message_card or effect.juice_card or scored_card or effect.card or effect.focus })
-            return true
-        end
-        if (key == 'akyrs_xscore' or key == "akyrs_h_xscore") and amount ~= 0 then
-            if effect.card and effect.card ~= scored_card then juice_card(effect.card) end
-            AKYRS.mod_score_instant({ mult = amount, card = effect.message_card or effect.juice_card or scored_card or effect.card or effect.focus })
-            return true
-        end
-        if (key == 'akyrs_escore' or key == "akyrs_h_escore") and amount ~= 0 then
-            if effect.card and effect.card ~= scored_card then juice_card(effect.card) end
-            AKYRS.mod_score_instant({ pow = amount, card = effect.message_card or effect.juice_card or scored_card or effect.card or effect.focus })
-            return true
-        end
     return unpack(aaa)
 end
 

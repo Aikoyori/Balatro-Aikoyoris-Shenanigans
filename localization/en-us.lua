@@ -2974,27 +2974,6 @@ return {
             akyrs_no_suit = {
                 text = { "No Suit" }
             },
-            
-            akyrs_perma_score = {
-                text = {
-                    "{C:purple}#1#{} Score",
-                },
-            },
-            akyrs_perma_h_score = {
-                text = {
-                    "{C:purple}#1#{} Score if held in hand",
-                },
-            },
-            akyrs_perma_xscore = {
-                text = {
-                    "{X:purple,C:white}X#1#{} Score",
-                },
-            },
-            akyrs_perma_h_xscore = {
-                text = {
-                    "{X:purple,C:white}X#1#{} Score if held in hand",
-                },
-            },
             -- booster packs
             p_akyrs_letter_pack_normal = { 
                 name = "Letter Pack",

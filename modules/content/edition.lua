@@ -165,7 +165,7 @@ SMODS.Edition{
     calculate =  function (self, card, context)
         if context.main_scoring and (context.cardarea == G.play)  then
             SMODS.calculate_effect({
-                akyrs_score = card.edition.extra.score
+                score = card.edition.extra.score
             }, card)
             return {
                 func = function ()
@@ -175,7 +175,7 @@ SMODS.Edition{
         end
         if context.pre_joker and (context.cardarea == G.jokers)  then
             SMODS.calculate_effect({
-                akyrs_score = card.edition.extra.score
+                score = card.edition.extra.score
             }, card)
             return {
                 func = function ()

@@ -1172,7 +1172,7 @@ SMODS.Blind {
     calculate = function (self, blind, context)
         if context.individual and not context.repetition and context.cardarea == G.play and not G.GAME.blind.disabled then
             return {
-                akyrs_xscore = blind.debuff.akyrs_mult_per_played,
+                xscore = blind.debuff.akyrs_mult_per_played,
             }
         end
     end
@@ -1399,7 +1399,7 @@ SMODS.Blind {
         if context.before and not blind.disabled then
             local xm = pseudorandom(pseudoseed("akyrs_fluctuation"))*(blind.debuff.mult_max - blind.debuff.mult_min) + blind.debuff.mult_min
             return {
-                akyrs_xscore = xm
+                xscore = xm
             }
         end
     end,
@@ -1666,7 +1666,7 @@ SMODS.Blind {
         if context.individual and context.cardarea == G.play and not blind.disabled then
             if context.other_card:is_face() then
                 return {
-                    akyrs_xscore = blind.effect.xscore
+                    xscore = blind.effect.xscore
                 }
             end
         end

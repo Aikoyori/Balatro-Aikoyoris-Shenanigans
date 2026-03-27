@@ -103,12 +103,6 @@ AKYRS.emplace_funcs = {}
 
 AKYRS.emplace_funcs.always_placeable = function(ca,card) return G.OVERLAY_MENU and false or true end
 
-table.insert(SMODS.other_calculation_keys, "akyrs_score")
-table.insert(SMODS.other_calculation_keys, "akyrs_h_score")
-table.insert(SMODS.other_calculation_keys, "akyrs_xscore")
-table.insert(SMODS.other_calculation_keys, "akyrs_h_xscore")
-
-
 function AKYRS.apply_pool(center, pool)
     if not center or not G.P_CENTERS[center] then return end
     G.P_CENTERS[center].pools = G.P_CENTERS[center].pools or {}

@@ -608,7 +608,7 @@ SMODS.Enhancement{
     calculate = function (self, card, context)
         if context.main_scoring and context.cardarea == G.play and G.GAME.current_round.hands_played == 0 then
             return {
-                akyrs_xscore = card.ability.extras.xscore,
+                xscore = card.ability.extras.xscore,
             }
         end
     end

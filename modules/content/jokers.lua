@@ -3845,7 +3845,7 @@ SMODS.Joker {
     calculate = function (self, card, context)
         if context.individual and context.poker_hands and context.poker_hands["Two Pair"] and context.cardarea == G.hand then
             return {
-                akyrs_score = card.ability.extras.score_xbase * (G.GAME.blind.chips or 0)
+                score = card.ability.extras.score_xbase * (G.GAME.blind.chips or 0)
             }
         end
     end,
@@ -3875,7 +3875,7 @@ SMODS.Joker {
     calculate = function (self, card, context)
         if context.joker_main then
             return {
-                akyrs_xscore = card.ability.extras.xscore
+                xscore = card.ability.extras.xscore
             }
         end
     end,
@@ -4092,7 +4092,7 @@ SMODS.Joker {
         end
         if context.joker_main then
             return {
-                akyrs_xscore = card.ability.extras.xscore
+                xscore = card.ability.extras.xscore
             }
         end
     end,

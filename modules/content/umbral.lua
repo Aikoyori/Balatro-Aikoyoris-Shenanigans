@@ -846,7 +846,7 @@ SMODS.Consumable{
             if _c:is_suit("Diamonds") then
                 AKYRS.simple_event_add(
                     function ()
-                        _c.ability.akyrs_perma_score = _c.ability.akyrs_perma_score + G.GAME.akyrs_umbral_atmosphere_score_inc
+                        _c.ability.perma_score = _c.ability.perma_score + G.GAME.akyrs_umbral_atmosphere_score_inc
                         _c:juice_up(0.3, 0.3)
                         play_sound("tarot1")
                         return true
@@ -1089,7 +1089,7 @@ SMODS.Consumable{
             local should = SMODS.pseudorandom_probability(card, "akyrs_umbral_exit_plan" ,card.ability.extras.n, card.ability.extras.d )
             if should then 
                 if AKYRS.is_mp() then
-                    AKYRS.mod_score({ add = get_blind_amount(G.GAME.round_resets.ante) * card.ability.extras.mp_percent_of_req})
+                    SMODS.mod_score({ add = get_blind_amount(G.GAME.round_resets.ante) * card.ability.extras.mp_percent_of_req})
                     if true then
                         AKYRS.simple_event_add(function ()
                             if not AKYRS.is_mp() or not MP.is_pvp_boss() then

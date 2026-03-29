@@ -249,6 +249,28 @@ if AKYRS.config.experimental_features then
         },
     }
     SMODS.Back{
+        key = "judge_deck",
+        name = "Judge Deck",
+        atlas = 'deckBacks',
+        pos = {x = 1, y = 0},
+        loc_vars = function (self, info_queue, card)
+            return {
+                vars = {
+                    self.config.akyrs_starting_life,
+                    self.config.akyrs_life_heal.round,
+                    self.config.joker_slot,
+                }
+            }
+        end,
+        config = {
+            akyrs_starting_life = 500,
+            akyrs_life_heal = {
+                round = 30
+            },
+            joker_slot = 1,
+        },
+    }
+    SMODS.Back{
         key = "prism_deck",
         name = "Prism Deck",
         atlas = 'deckBacks',

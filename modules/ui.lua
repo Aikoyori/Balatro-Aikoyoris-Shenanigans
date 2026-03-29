@@ -926,7 +926,24 @@ function AKYRS.UIDEF.premium_joker_roll()
   return ret
 end
 
+AKYRS.get_life_sprite_pos = function (typer)
+  if typer == "low" then
+    return { x = 1, y = 0 }
+  elseif typer == "verylow" then
+    return { x = 2, y = 0 }
+  elseif typer == "over" then
+    return { x = 3, y = 0 }
+  elseif typer == "kaleidoscope_pre" then
+    return { x = 0, y = 1 }
+  elseif typer == "kaleidoscope" then
+    return { x = 1, y = 1 }
+  end
+  return { x = 0, y = 0}
+end 
+
 function AKYRS.UIDEF.akyrs_life_underlay(mode)
+  local pos = AKYRS.get_life_sprite_pos(G.GAME.akyrs_life_cover_sprite)
+  AKYRS.life_sprite = Sprite(0,0,3,3,G.ASSET_ATLAS.akyrs_life_indicator, pos)
   local dyna = DynaText{
     string = {
       {
@@ -935,7 +952,6 @@ function AKYRS.UIDEF.akyrs_life_underlay(mode)
       }
     },
     colours = { G.C.WHITE },
-    font = SMODS.Fonts.akyrs_MochiyPopOne,
     akyrs_number_format = 1e10,
   }
   return {
@@ -946,22 +962,52 @@ function AKYRS.UIDEF.akyrs_life_underlay(mode)
     },
     nodes = {
       {
-        n = G.UIT.R,
+        n = G.UIT.C,
         config = {
           align = "cm",
-          padding = 0.2,
-          r = 0.1,
-          colour = G.C.BLUE,
-          shadow = true,
+          
         },
         nodes = {
           {
-            n = G.UIT.O,
+            n = G.UIT.R,
             config = {
-              object = dyna,
-              id = "value_container",
+              shader = "akyrs_faded",
+              align = "cm", 
+            },
+            nodes = {
+              {
+                n = G.UIT.O,
+                config = {
+                  object = AKYRS.life_sprite,
+                  id = "life_sprite",
+                }
+              },
             }
-          }
+          },
+          {
+            n = G.UIT.R,
+            config = {
+              padding = -3.8,
+              align = "cm", 
+            },
+            nodes = {
+              {
+                n = G.UIT.C,
+                config = {
+                  align = "rc", 
+                },
+                nodes = {
+                  {
+                    n = G.UIT.O,
+                    config = {
+                      object = dyna,
+                      id = "value_container",
+                    }
+                  }
+                }
+              },
+            }
+          },
         }
       }
     }
@@ -971,6 +1017,9 @@ end
 function AKYRS.update_life_ui(game_ob)
   if game_ob.akyrs_life_ui then
       game_ob.akyrs_life_ui:remove() game_ob.akyrs_life_ui = nil
+  end
+  if AKYRS.life_sprite then
+      AKYRS.life_sprite:remove() AKYRS.life_sprite = nil
   end
   --print(AKYRS.is_life_enabled())
   if AKYRS.is_life_enabled() then

@@ -140,9 +140,8 @@ function card_eval_status_text(card, ...)
     if AKYRS.is_life_enabled() and card then
         AKYRS.simple_event_add(function ()
             G.GAME.akyrs_life = (G.GAME.akyrs_life or 500) + AKYRS.get_life_drain(card)
-            G.GAME.akyrs_life_disp = (""..G.GAME.akyrs_life)
             if G.akyrs_life_ui then
-                G.akyrs_life_ui:get_UIE_by_ID("value_container"):juice_up(0.2,0.2)
+                G.akyrs_life_ui:get_UIE_by_ID("value_container"):juice_up(0.1,0.1)
             end
             if AKYRS.get_life() <= 0 then
                 AKYRS.force_lose()
@@ -150,5 +149,6 @@ function card_eval_status_text(card, ...)
             return true
         end, 0)
     end
-	return card_eval_status_text_ref(card, ...)
+	local returnd = {card_eval_status_text_ref(card, ...)}
+    return unpack(returnd)
 end

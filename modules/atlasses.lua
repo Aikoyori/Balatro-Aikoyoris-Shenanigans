@@ -287,6 +287,13 @@ SMODS.Atlas {
     py = 95
 }
 
+SMODS.Atlas {
+    key = "life_indicator",
+    path = "life_indicator.png",
+    px = 50,
+    py = 50
+}
+
 -- credits
 
 
@@ -385,4 +392,9 @@ SMODS.Shader{
 SMODS.Shader{
     key = "aiko_mod_badge",
     path = "aiko_mod_badge.fs"
+}
+
+SMODS.Shader{
+    key = "faded",
+    path = "faded.fs"
 }

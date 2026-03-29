@@ -1473,6 +1473,7 @@ create_UIBox_akyrs_collection_judgement = function()
         center = "c_base",
         modify_card = function (card, center, i, j)
             card.akyrs_judgement = center.key
+            card.akyrs_collection_judgement = true
         end,
         h_mod = 0.95,
     })

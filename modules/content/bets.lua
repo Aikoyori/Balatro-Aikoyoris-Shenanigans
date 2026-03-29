@@ -107,8 +107,101 @@ AKYRS.Bet {
 }
 
 AKYRS.Bet {
-    key = "!",
-    atlas = 'aikoyoriBets', pos = { x = 2, y = 0 } ,
+    key = "flames_of_desires",
+    atlas = 'aikoyoriBets', pos = { x = 3, y = 0 } ,
+    cost = 0,
+    config = {
+        extras = {
+            slot = 1
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.slot
+            }
+        }
+    end,
+    redeem = function (self, card) 
+        -- burn a suit off a deck
+    end,
+    unredeem = function (self, card) 
+        -- i don't think there's much to do here ngl it's a one way action
+    end,
+}
+
+AKYRS.Bet {
+    key = "flames_of_desires",
+    atlas = 'aikoyoriBets', pos = { x = 3, y = 0 } ,
+    cost = 0,
+    config = {
+        extras = {
+            slot = 1
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.slot
+            }
+        }
+    end,
+    redeem = function (self, card) 
+        -- burn a suit off a deck
+    end,
+    unredeem = function (self, card) 
+        -- i don't think there's much to do here ngl it's a one way action
+    end,
+}
+AKYRS.Bet {
+    key = "resonance_of_chaos",
+    atlas = 'aikoyoriBets', pos = { x = 4, y = 0 } ,
+    cost = 0,
+    config = {
+        extras = {
+            slot = 1
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.slot
+            }
+        }
+    end,
+    redeem = function (self, card) 
+        -- burn a suit off a deck
+    end,
+    unredeem = function (self, card) 
+        -- i don't think there's much to do here ngl it's a one way action
+    end,
+}
+AKYRS.Bet {
+    key = "ghastly_limelight",
+    atlas = 'aikoyoriBets', pos = { x = 5, y = 0 } ,
+    cost = 0,
+    config = {
+        extras = {
+            slot = 1
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.slot
+            }
+        }
+    end,
+    redeem = function (self, card) 
+        -- burn a suit off a deck
+    end,
+    unredeem = function (self, card) 
+        -- i don't think there's much to do here ngl it's a one way action
+    end,
+}
+AKYRS.Bet {
+    key = "kaleidoscope",
+    atlas = 'aikoyoriBets', pos = { x = 5, y = 0 } ,
     cost = 0,
     config = {
         extras = {

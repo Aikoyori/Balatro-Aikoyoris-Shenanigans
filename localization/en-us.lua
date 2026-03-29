@@ -273,6 +273,15 @@ return {
                     '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
                 },
             },
+            b_akyrs_judge_deck = {
+                name = 'Judge Deck',
+                text = 
+                { 
+                    'Start with {X:green,C:white}#1#{} Life',
+                    '{X:green,C:white}+#2#{} Life per round',
+                    '{C:dark_edition}+#3#{} Joker Slot',
+                },
+            },
         },
         Blind={
             bl_akyrs_the_thought= {
@@ -2737,7 +2746,8 @@ return {
             judgement_akyrs_none_none = {
                 name = "None",
                 text = {
-                    "No judgement assigned",
+                    "{C:white,X:green}#1#{} Life on Playing Cards",
+                    "{C:white,X:green}#2#{} Life on Jokers",
                 },
             },
             judgement_akyrs_none_normal = {
@@ -2755,7 +2765,8 @@ return {
             judgement_akyrs_miss_none = {
                 name = "Miss",
                 text = {
-                    "Lowest judgement, most common",
+                    "{C:white,X:green}#1#{} Life on Playing Cards",
+                    "{C:white,X:green}#2#{} Life on Jokers",
                 },
             },
             judgement_akyrs_miss_normal = {
@@ -2773,7 +2784,8 @@ return {
             judgement_akyrs_good_none = {
                 name = "Good",
                 text = {
-                    "OK judgement, less life-draining",
+                    "{C:white,X:green}#1#{} Life on Playing Cards",
+                    "{C:white,X:green}#2#{} Life on Jokers",
                 },
             },
             judgement_akyrs_good_normal = {
@@ -2791,7 +2803,8 @@ return {
             judgement_akyrs_great_none = {
                 name = "Great",
                 text = {
-                    "Great judgement, even less life-draining",
+                    "{C:white,X:green}#1#{} Life on Playing Cards",
+                    "{C:white,X:green}#2#{} Life on Jokers",
                 },
             },
             judgement_akyrs_great_normal = {
@@ -2809,7 +2822,8 @@ return {
             judgement_akyrs_perfect_none = {
                 name = "Perfect",
                 text = {
-                    "Perfect judgement, No life-drain",
+                    "{C:white,X:green}#1#{} Life on Playing Cards",
+                    "{C:white,X:green}#2#{} Life on Jokers",
                 },
             },
             judgement_akyrs_perfect_normal = {
@@ -2827,7 +2841,8 @@ return {
             judgement_akyrs_critical_perfect_none = {
                 name = "Critical Perfect",
                 text = {
-                    "Very Perfect judgement, No life-drain in all situation",
+                    "{C:white,X:green}#1#{} Life on Playing Cards",
+                    "{C:white,X:green}#2#{} Life on Jokers",
                 },
             },
             judgement_akyrs_critical_perfect_normal = {
@@ -3609,8 +3624,8 @@ return {
             bet_akyrs_a_lock_and_a_hard_place={
                 name="A Lock and a Hard Place!",
                 text={
-                    "A shop item is always {C:attention}locked",
-                    "It {C:attention}must{} be purchased for it to disappear",
+                    "A {C:attention}random{} shop item is always {C:attention}locked",
+                    "It {C:attention}must be purchased{} for it to disappear",
                 },
             },
             bet_akyrs_flames_of_desires={
@@ -3622,6 +3637,20 @@ return {
             },
             bet_akyrs_resonance_of_chaos={
                 name="Resonance of Chaos!",
+                text={
+                    "All cards in decks has their enhancements",
+                    "{C:attention}locked{} to any of the {C:attention}Note Cards",
+                },
+            },
+            bet_akyrs_ghastly_limelight={
+                name="Ghastly Limelight!",
+                text={
+                    "All cards in decks has their enhancements",
+                    "{C:attention}locked{} to any of the {C:attention}Note Cards",
+                },
+            },
+            bet_akyrs_kaleidoscope={
+                name="Kaleidoscope!",
                 text={
                     "All cards in decks has their enhancements",
                     "{C:attention}locked{} to any of the {C:attention}Note Cards",

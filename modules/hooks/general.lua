@@ -70,6 +70,8 @@ function Game:init_game_object()
     ret.akyrs_life = 500
     ret.akyrs_life_disp = "500"
     ret.akyrs_life_decay_mode = "none"
+    ret.akyrs_life_cover_sprite = "normal"
+    ret.akyrs_life_heal = { round = 0, ante = 0, }
 
     -- this one will get set to true once player has bought an Emerald OR used one of the Workstation Card
     ret.akyrs_has_capability_to_trade = false
@@ -125,8 +127,31 @@ function Game:update(dt)
         AKYRS.bal_cur_val = AKYRS.bal()
     end
     if G.GAME then
+        
         G.GAME.modifiers.scaling = G.GAME.modifiers.scaling or 1
         local s = gameUpdate(self, dt)
+        G.GAME.akyrs_life_disp = (""..string.format("%.1f",G.GAME.akyrs_life))
+        if AKYRS.life_sprite then
+            if AKYRS.get_life_cover_type() == "normal" then
+                if G.GAME.akyrs_life <= 0 then
+                    AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("over"))
+                elseif G.GAME.akyrs_life < 10 then
+                    AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("verylow"))
+                elseif G.GAME.akyrs_life < 100 then
+                    AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("low"))
+                else
+                    AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("normal"))
+                end
+            else
+                if G.GAME.akyrs_life_decay_mode == "kaleidoscope" then
+                    AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("kaleidoscope"))
+                else
+                    AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("kaleidoscope_pre"))
+                end
+            end
+        end
+
+
         G.GAME.alphabet_rate = G.GAME.alphabet_rate or 0
         if (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled) and G.GAME.alphabet_rate == 0 then
             G.GAME.alphabet_rate = 1
@@ -1542,6 +1567,31 @@ function Back:apply_to_run()
     if self.effect.config.akyrs_down_deck then
         G.GAME.starting_params.akyrs_down_deck = self.effect.config.akyrs_down_deck
     end
+
+    if self.effect.config.akyrs_starting_life then
+        G.GAME.akyrs_life_decay_mode = "normal"
+        G.GAME.akyrs_life = self.effect.config.akyrs_starting_life
+        G.GAME.akyrs_starting_life = self.effect.config.akyrs_starting_life
+    end
+    
+    if self.effect.config.akyrs_life_decay_mode then
+        G.GAME.akyrs_life_decay_mode = self.effect.config.akyrs_life_decay_mode
+    end
+    
+    if self.effect.config.akyrs_life_heal then
+        local t = {
+            round = 0,
+            ante = 0,
+        }
+        if self.effect.config.akyrs_life_heal.round then
+            t.round = self.effect.config.akyrs_life_heal.round
+        end
+        if self.effect.config.akyrs_life_heal.ante then
+            t.ante = self.effect.config.akyrs_life_heal.ante
+        end
+        G.GAME.akyrs_life_heal = t
+    end
+
     if self.effect.config.akyrs_ultimate_freedom then
         G.GAME.starting_params.akyrs_ultimate_freedom = self.effect.config.akyrs_ultimate_freedom
     end

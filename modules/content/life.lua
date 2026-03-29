@@ -2,11 +2,11 @@ AKYRS.Judgements = {}
 AKYRS.Judgement_Buffer = {}
 AKYRS.Judgement_Stickers = {}
 
-function AKYRS.get_life_drain(card)
+function AKYRS.get_life_drain(card, force_mode, force_life_mode)
     if not AKYRS.Judgements[card.akyrs_judgement] then return 0 end
     if not AKYRS.Judgements[card.akyrs_judgement].value then return 0 end
-    if not AKYRS.Judgements[card.akyrs_judgement].value[AKYRS.get_life_mode(card)] then return 0 end
-    return ((AKYRS.Judgements[card.akyrs_judgement]).value[AKYRS.get_life_mode(card)][AKYRS.get_type_for_life_loc(card)] or 0 )
+    if not AKYRS.Judgements[card.akyrs_judgement].value[force_mode or AKYRS.get_life_mode(card)] then return 0 end
+    return ((AKYRS.Judgements[card.akyrs_judgement]).value[force_mode or AKYRS.get_life_mode(card)][force_life_mode or AKYRS.get_type_for_life_loc(card)] or 0 )
 end
 
 function AKYRS.get_type_for_life_loc(card)
@@ -25,6 +25,19 @@ function AKYRS.get_life_mode()
 end
 function AKYRS.get_life()
     return G.GAME.akyrs_life
+end
+
+function AKYRS.get_life_cover_type()
+    return G.GAME.akyrs_life_cover_sprite == "kaleidoscope_pre" or G.GAME.akyrs_life_cover_sprite == "kaleidoscope" and "kaleidoscope" or "normal" 
+end
+
+function AKYRS.heal(life, forced)
+    local life_target = math.min(G.GAME.akyrs_life + life, G.GAME.akyrs_starting_life or 500)
+    local life_to_actually_mod = life_target - G.GAME.akyrs_life
+    if forced then
+        life_to_actually_mod = life
+    end
+    ease_value(G.GAME, "akyrs_life", life_to_actually_mod, nil, 'REAL', true, 0.5, 'lerp')
 end
 
 ---@type SMODS.GameObject 
@@ -49,7 +62,25 @@ AKYRS.Judgement = SMODS.GameObject:extend {
         AKYRS.Judgement.super.register(self)
         self.order = #self.obj_buffer
     end,
+    value = {
+        normal = {
+            joker = 0,
+            playing_card = 0,
+        },
+        kaleidoscope = {
+            joker = 0,
+            playing_card = 0,
+        },
+    },
     loc_vars = function(self, info_queue, card)
+        if card.akyrs_collection_judgement then
+            return {
+                vars = {
+                    self.value[AKYRS.get_life_mode() == "none" and "normal" or AKYRS.get_life_mode()].playing_card,
+                    self.value[AKYRS.get_life_mode() == "none" and "normal" or AKYRS.get_life_mode()].joker,
+                }
+            }
+        end
         return {
             vars = {
                 SMODS.signed(AKYRS.get_life_drain(card))

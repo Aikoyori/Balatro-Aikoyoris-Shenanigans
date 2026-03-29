@@ -59,6 +59,7 @@ assert(SMODS.load_file("./modules/content/stickers.lua"))()
 assert(SMODS.load_file("./modules/content/blinds.lua"))()
 assert(SMODS.load_file("./modules/content/stakes.lua"))()
 assert(SMODS.load_file("./modules/content/cards.lua"))()
+assert(SMODS.load_file("./modules/content/life.lua"))()
 if AKYRS.config.experimental_features then
     assert(SMODS.load_file("./modules/content/enchantments.lua"))()
 end

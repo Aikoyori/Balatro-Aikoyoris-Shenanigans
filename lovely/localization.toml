@@ -72,6 +72,34 @@ elseif _c.set == 'DescriptionDummy' then
     localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
 elseif _c.set == 'FakeCenter' then
     localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
+elseif _c.set == 'Judgement' then
+    localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
+"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = """    if card and card.ability and (card.ability.extra_slots_used or 0) ~= 0 then"""
+position = "before"
+payload = """
+if card then
+    if card.akyrs_judgement then
+        local akyrs_judgement = AKYRS.Judgements[card.akyrs_judgement]
+        if akyrs_judgement then
+            local t = { key = card.akyrs_judgement..("_"..AKYRS.get_life_mode()), set = 'Judgement' }
+            local res = {}
+            if akyrs_judgement.loc_vars and type(akyrs_judgement.loc_vars) == 'function' then
+                res = akyrs_judgement:loc_vars(info_queue, card) or {}
+                t.vars = res.vars or {}
+                t.key = res.key or t.key
+                t.set = res.set or t.set
+            end
+            info_queue[#info_queue+1] = t
+        end
+    end
+end
 """
 overwrite = true
 match_indent = true

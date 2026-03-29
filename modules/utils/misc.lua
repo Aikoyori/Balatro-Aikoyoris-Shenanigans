@@ -1541,5 +1541,14 @@ function AKYRS.get_pool_with_predicate(pool, predicate)
     return pool_export
 end
 
+function AKYRS.force_lose(key)
+    if G.STAGE == G.STAGES.RUN then 
+        G.GAME.akyrs_defeated_by_center = key
+        G.TAROT_INTERRUPT = nil
+        G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false 
+        AKYRS.force_save()
+    end
+end
+
 function AKYRS.get_applicable_stakes()
 end

@@ -563,11 +563,7 @@ SMODS.Consumable{
         local d_dollar = 0
         if die_question_mark then
             if AKYRS.bal("absurd") then
-                if G.STAGE == G.STAGES.RUN then 
-                    G.GAME.akyrs_defeated_by_center = self.key
-                    G.TAROT_INTERRUPT = nil
-                    G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false 
-                end
+                AKYRS.force_lose(self.key)
             else
                 AKYRS.simple_event_add(
                     function ()

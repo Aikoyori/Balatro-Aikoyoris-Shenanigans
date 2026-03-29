@@ -165,6 +165,7 @@ function copy_card(...)
     local other, new_card, card_scale, playing_card, strip_edition = ...
     local c = {copyCardHook(...)}
     c[1].is_null = other.is_null
+    c[1].akyrs_judgement = other.akyrs_judgement
     c[1].akyrs_old_ability = other.ability
     local refresh_sprite = c[1].ability.akyrs_special_card_type ~= other.ability.akyrs_special_card_type
     c[1].ability.akyrs_special_card_type = other.ability.akyrs_special_card_type

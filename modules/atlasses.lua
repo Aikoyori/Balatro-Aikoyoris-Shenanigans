@@ -280,6 +280,13 @@ SMODS.Atlas {
     py = 95
 }
 
+SMODS.Atlas {
+    key = "judgement",
+    path = "judgement.png",
+    px = 71,
+    py = 95
+}
+
 -- credits
 
 
@@ -315,6 +322,13 @@ SMODS.Atlas {
     path = "credits/plasma.png",
     px = 600,
     py = 600
+}
+
+SMODS.Atlas {
+    key = "tsu_credits",
+    path = "credits/tsu.png",
+    px = 708,
+    py = 657
 }
 
 SMODS.Atlas {

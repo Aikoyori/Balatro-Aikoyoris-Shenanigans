@@ -925,3 +925,58 @@ function AKYRS.UIDEF.premium_joker_roll()
   end
   return ret
 end
+
+function AKYRS.UIDEF.akyrs_life_underlay(mode)
+  local dyna = DynaText{
+    string = {
+      {
+        ref_table = G.GAME,
+        ref_value = "akyrs_life_disp"
+      }
+    },
+    colours = { G.C.WHITE },
+    font = SMODS.Fonts.akyrs_MochiyPopOne,
+    akyrs_number_format = 1e10,
+  }
+  return {
+    n = G.UIT.ROOT,
+    config = {
+      align = "cm",
+      colour = G.C.CLEAR,
+    },
+    nodes = {
+      {
+        n = G.UIT.R,
+        config = {
+          align = "cm",
+          padding = 0.2,
+          r = 0.1,
+          colour = G.C.BLUE,
+          shadow = true,
+        },
+        nodes = {
+          {
+            n = G.UIT.O,
+            config = {
+              object = dyna,
+              id = "value_container",
+            }
+          }
+        }
+      }
+    }
+  }
+end
+
+function AKYRS.update_life_ui(game_ob)
+  if game_ob.akyrs_life_ui then
+      game_ob.akyrs_life_ui:remove() game_ob.akyrs_life_ui = nil
+  end
+  --print(AKYRS.is_life_enabled())
+  if AKYRS.is_life_enabled() then
+      game_ob.akyrs_life_ui = UIBox {
+          definition = AKYRS.UIDEF.akyrs_life_underlay(AKYRS.get_life_mode()),
+          config = { align = "mb", offset = { x = 1, y = 0.4 }, major = G.jokers, bond = 'Weak' }
+      }
+  end
+end

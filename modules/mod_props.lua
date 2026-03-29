@@ -307,6 +307,161 @@ SMODS.current_mod.custom_ui = function (mod_nodes)
 end
 
 SMODS.current_mod.extra_tabs = function ()
+  local scrollbox = SMODS.UIScrollBox({
+    content = {
+      definition = { n = G.UIT.ROOT, 
+            config = { colour = G.C.CLEAR },
+              nodes = {
+                {
+                  n = G.UIT.C,
+                  config = {padding = 0.05},
+                  nodes = {
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.T, config = { text = localize("k_akyrs_additional_art_by"), scale = 0.5, colour = G.C.WHITE } }
+                      }
+                    },
+                    AKYRS.create_credits("akyrs_larantula_l_credits", "@larantula_l", "larantula_l", 3.1, nil,
+                    {
+                      n = G.UIT.R,
+                      config = { padding = 0.02 },
+                      nodes = {
+                        AKYRS.create_link_sprite_btn("youtube", "https://www.youtube.com/@Larantula"),
+                      }
+                    }),
+                    AKYRS.create_credits("akyrs_plasma_credits", "@eggymari", "eggymari", 2.7, nil, 
+                    {
+                      n = G.UIT.R,
+                      config = { padding = 0.02 },
+                      nodes = {
+                        AKYRS.create_link_sprite_btn("youtube", "https://www.youtube.com/@PlasmaPhrase"),
+                        AKYRS.create_link_sprite_btn("twitter", "https://twitter.com/plasmaphrase"),
+                      }
+                    }),
+                    AKYRS.create_credits("akyrs_gud_credits", "@gudusername_53951", "gudusername_53951", 3.6),
+                    AKYRS.create_credits("akyrs_lyman_credits", "@Lyman", "lyman", 1.9, nil,
+                    {
+                      n = G.UIT.R,
+                      config = { padding = 0.02 },
+                      nodes = {
+                        AKYRS.create_link_sprite_btn("pixeljoint", "https://pixeljoint.com/p/172299.htm"),
+                      }
+                    }),
+                    AKYRS.create_credits("akyrs_tsu_credits", "@tje.tsu", "tje.tsu", 3.5, nil),
+                  }
+                },
+                {
+                  n = G.UIT.C,
+                  config = {padding = 0.05},
+                  nodes = {
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.T, config = { text = localize("k_akyrs_additional_help_by"), scale = 0.5, colour = G.C.WHITE } }
+                      }
+                    },
+                    AKYRS.create_credits("akyrs_drmonty_credits", "@dr_monty_the_snek", "dr_monty_the_snek", 3.5, nil,
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.T, config = { text = localize("k_akyrs_drmonty_help"), scale = 0.3, colour = G.C.WHITE } }
+                      }
+                    }),
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.T, config = { text = localize("k_akyrs_cross_mods_creds"), scale = 0.5, colour = G.C.WHITE } }
+                      }
+                    },
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.C, config = AKYRS.credits_linker({name = "@TheOneGoofAli", internal_name = "toga"}), nodes = {
+                          { n = G.UIT.T, config = { text = "TheOneGoofAli", scale = 0.3, colour = G.C.BLUE } },
+                        } },
+                        { n = G.UIT.C, nodes = {
+                          { n = G.UIT.T, config = { text = ", ", scale = 0.3, colour = G.C.WHITE } },
+                        } },
+                        { n = G.UIT.C,config = AKYRS.credits_linker({name = "@PaperMoon", internal_name = "papermoon"}), nodes = {
+                          { n = G.UIT.T, config = { text = "PaperMoon", scale = 0.3, colour = G.C.BLUE } },
+                        } },
+                      }
+                    },
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.T, config = { text = localize("k_akyrs_special_thanks"), scale = 0.5, colour = G.C.WHITE } }
+                      }
+                    },
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.T, config = { text = "haya_underscore, SleepyG11", scale = 0.3, colour = G.C.WHITE } },
+                      }
+                    },
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.T, config = { text = "TheCoroboCorner, ThunderEdge", scale = 0.35, colour = G.C.WHITE } },
+                      }
+                    },
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.T, config = { text = "TheUnseenExplosion, focussh0ck, sizaak", scale = 0.3, colour = G.C.WHITE } },
+                      }
+                    },
+                    {
+                      n = G.UIT.R,
+                      nodes = {
+                        { n = G.UIT.C, nodes = {{ n = G.UIT.T, config = { text = "lily.felli", scale = 0.3, colour = G.C.WHITE } }}, },
+                        { n = G.UIT.C, nodes = {{ n = G.UIT.T, config = { text = localize("k_akyrs_please_dont_kill_me"), scale = 0.2, colour = G.C.GREY } }}, },
+                      }
+                    },
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.T, config = { text = localize("k_akyrs_sharetest_cred_1"), scale = 0.3, colour = G.C.WHITE } },
+                      }
+                    },
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.T, config = { text = localize("k_akyrs_sharetest_cred_2"), scale = 0.3, colour = G.C.WHITE } },
+                      }
+                    },
+                    {
+                      n = G.UIT.R,
+                      config = {},
+                      nodes = {
+                        { n = G.UIT.T, config = { text = localize("k_akyrs_thanks_you_for_playing"), scale = 0.3, colour = G.C.WHITE } },
+                      }
+                    },
+                  }
+                }
+              }
+            },
+      config = { align = "cm"}
+    },
+    overflow = {
+			node_config = {
+				maxh = 6,
+				r = 0.1,
+			},
+    }
+  })
   return {
     { 
       label = localize("k_akyrs_credits"),
@@ -322,142 +477,33 @@ SMODS.current_mod.extra_tabs = function ()
           nodes = {
             {
               n = G.UIT.C,
-              config = {padding = 0.05},
+              config = { align = "cm"},
               nodes = {
                 {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.T, config = { text = localize("k_akyrs_additional_art_by"), scale = 0.5, colour = G.C.WHITE } }
+                  n = G.UIT.O,
+                  config = {
+							      align = "cm",
+                    object = scrollbox
                   }
-                },
-                AKYRS.create_credits("akyrs_larantula_l_credits", "@larantula_l", "larantula_l", 3.1, nil,
-                {
-                  n = G.UIT.R,
-                  config = { padding = 0.02 },
-                  nodes = {
-                    AKYRS.create_link_sprite_btn("youtube", "https://www.youtube.com/@Larantula"),
-                  }
-                }),
-                AKYRS.create_credits("akyrs_plasma_credits", "@eggymari", "eggymari", 2.7, nil, 
-                {
-                  n = G.UIT.R,
-                  config = { padding = 0.02 },
-                  nodes = {
-                    AKYRS.create_link_sprite_btn("youtube", "https://www.youtube.com/@PlasmaPhrase"),
-                    AKYRS.create_link_sprite_btn("twitter", "https://twitter.com/plasmaphrase"),
-                  }
-                }),
-                AKYRS.create_credits("akyrs_gud_credits", "@gudusername_53951", "gudusername_53951", 3.6),
-                AKYRS.create_credits("akyrs_lyman_credits", "@Lyman", "lyman", 1.9, nil,
-                {
-                  n = G.UIT.R,
-                  config = { padding = 0.02 },
-                  nodes = {
-                    AKYRS.create_link_sprite_btn("pixeljoint", "https://pixeljoint.com/p/172299.htm"),
-                  }
-                }),
+                }
               }
             },
             {
               n = G.UIT.C,
-              config = {padding = 0.05},
               nodes = {
-                {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.T, config = { text = localize("k_akyrs_additional_help_by"), scale = 0.5, colour = G.C.WHITE } }
-                  }
-                },
-                AKYRS.create_credits("akyrs_drmonty_credits", "@dr_monty_the_snek", "dr_monty_the_snek", 3.5, nil,
-                {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.T, config = { text = localize("k_akyrs_drmonty_help"), scale = 0.3, colour = G.C.WHITE } }
-                  }
-                }),
-                {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.T, config = { text = localize("k_akyrs_cross_mods_creds"), scale = 0.5, colour = G.C.WHITE } }
-                  }
-                },
-                {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.C, config = AKYRS.credits_linker({name = "@TheOneGoofAli", internal_name = "toga"}), nodes = {
-                      { n = G.UIT.T, config = { text = "TheOneGoofAli", scale = 0.3, colour = G.C.BLUE } },
-                    } },
-                    { n = G.UIT.C, nodes = {
-                      { n = G.UIT.T, config = { text = ", ", scale = 0.3, colour = G.C.WHITE } },
-                    } },
-                    { n = G.UIT.C,config = AKYRS.credits_linker({name = "@PaperMoon", internal_name = "papermoon"}), nodes = {
-                      { n = G.UIT.T, config = { text = "PaperMoon", scale = 0.3, colour = G.C.BLUE } },
-                    } },
-                  }
-                },
-                {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.T, config = { text = localize("k_akyrs_special_thanks"), scale = 0.5, colour = G.C.WHITE } }
-                  }
-                },
-                {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.T, config = { text = "haya_underscore, SleepyG11", scale = 0.3, colour = G.C.WHITE } },
-                  }
-                },
-                {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.T, config = { text = "TheCoroboCorner, ThunderEdge", scale = 0.35, colour = G.C.WHITE } },
-                  }
-                },
-                {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.T, config = { text = "TheUnseenExplosion, focussh0ck, sizaak", scale = 0.3, colour = G.C.WHITE } },
-                  }
-                },
-                {
-                  n = G.UIT.R,
-                  nodes = {
-                    { n = G.UIT.C, nodes = {{ n = G.UIT.T, config = { text = "lily.felli", scale = 0.3, colour = G.C.WHITE } }}, },
-                    { n = G.UIT.C, nodes = {{ n = G.UIT.T, config = { text = localize("k_akyrs_please_dont_kill_me"), scale = 0.2, colour = G.C.GREY } }}, },
-                  }
-                },
-                {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.T, config = { text = localize("k_akyrs_sharetest_cred_1"), scale = 0.3, colour = G.C.WHITE } },
-                  }
-                },
-                {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.T, config = { text = localize("k_akyrs_sharetest_cred_2"), scale = 0.3, colour = G.C.WHITE } },
-                  }
-                },
-                {
-                  n = G.UIT.R,
-                  config = {},
-                  nodes = {
-                    { n = G.UIT.T, config = { text = localize("k_akyrs_thanks_you_for_playing"), scale = 0.3, colour = G.C.WHITE } },
-                  }
-                },
+                SMODS.GUI.scrollbar({
+                  h = 6,
+                  w = 0.2,
+                  min = 0,
+                  max = 1,
+                  ---colour = G.C.AKYRS_AIKOYORI_HAIR,
+                  bg_colour = { 0, 0, 0, 0.15 },
+                  scroll_collision_obj = scrollbox,
+                  knob_h = 0.6,
+                  scroll_mult = 1.5
+                })
               }
-            }
+            },
           }
         }
       end
@@ -708,5 +754,16 @@ SMODS.current_mod.custom_collection_tabs = function()
             tally = tally + 1
         end
     end
-    return {UIBox_button({button = "akyrs_your_collection_bet", label = {localize("b_bet")}, count = {tally = tally, of = #G.P_CENTER_POOLS["Bet"]}, minw = 5, id = "akyrs_your_collection_bet"})}
+    local tally_hall = 0
+    local tally_haller = 0
+    for _, v in pairs(AKYRS.Judgements) do
+      tally_haller = tally_haller + 1
+      if v.unlocked and v.discovered then
+          tally_hall = tally_hall + 1
+      end
+    end
+    return {
+      UIBox_button({button = "akyrs_your_collection_bet", label = {localize("b_bet")}, count = {tally = tally, of = #G.P_CENTER_POOLS["Bet"]}, minw = 5, id = "akyrs_your_collection_bet"}),
+      UIBox_button({button = "akyrs_your_collection_judgement", label = {localize("b_judgement")}, count = {tally = tally_hall, of = tally_haller }, minw = 5, id = "akyrs_your_collection_judgement"}),
+    }
 end

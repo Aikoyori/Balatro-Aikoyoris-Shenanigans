@@ -207,3 +207,109 @@ AKYRS.FakeCenter{
     atlas = "centers",
     pos = { x = 1, y = 0 }
 }
+
+AKYRS.FakeCenter{
+    key = "judgement_miss",
+    akyrs_credits = {
+        art = {
+            "tje.tsu"
+        },
+        attrib = {
+            ["tje.tsu"] = "art",
+        },
+    },
+    loc_vars = function (self, info_queue, card)
+        if card and card.area and AKYRS.is_in_typical_area(card.area) then
+            info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
+        end
+    end,
+    prefix_config = {
+    },
+    atlas = "judgement",
+    pos = { x = 0, y = 0 }
+}
+
+
+AKYRS.FakeCenter{
+    key = "judgement_good",
+    akyrs_credits = {
+        art = {
+            "tje.tsu"
+        },
+        attrib = {
+            ["tje.tsu"] = "art",
+        },
+    },
+    loc_vars = function (self, info_queue, card)
+        if card and card.area and AKYRS.is_in_typical_area(card.area) then
+            info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
+        end
+    end,
+    prefix_config = {
+    },
+    atlas = "judgement",
+    pos = { x = 1, y = 0 }
+}
+
+AKYRS.FakeCenter{
+    key = "judgement_great",
+    akyrs_credits = {
+        art = {
+            "tje.tsu"
+        },
+        attrib = {
+            ["tje.tsu"] = "art",
+        },
+    },
+    loc_vars = function (self, info_queue, card)
+        if card and card.area and AKYRS.is_in_typical_area(card.area) then
+            info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
+        end
+    end,
+    prefix_config = {
+    },
+    atlas = "judgement",
+    pos = { x = 2, y = 0 }
+}
+
+AKYRS.FakeCenter{
+    key = "judgement_perfect",
+    akyrs_credits = {
+        art = {
+            "tje.tsu"
+        },
+        attrib = {
+            ["tje.tsu"] = "art",
+        },
+    },
+    loc_vars = function (self, info_queue, card)
+        if card and card.area and AKYRS.is_in_typical_area(card.area) then
+            info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
+        end
+    end,
+    prefix_config = {
+    },
+    atlas = "judgement",
+    pos = { x = 3, y = 0 }
+}
+
+AKYRS.FakeCenter{
+    key = "judgement_cperfect",
+    akyrs_credits = {
+        art = {
+            "tje.tsu"
+        },
+        attrib = {
+            ["tje.tsu"] = "art",
+        },
+    },
+    loc_vars = function (self, info_queue, card)
+        if card and card.area and AKYRS.is_in_typical_area(card.area) then
+            info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
+        end
+    end,
+    prefix_config = {
+    },
+    atlas = "judgement",
+    pos = { x = 4, y = 0 }
+}

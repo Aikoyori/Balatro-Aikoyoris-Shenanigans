@@ -94,6 +94,7 @@ pattern = '''        other = {}'''
 position = "after"
 payload = ''',
 akyrs_desc = {},
+akyrs_life = {},
 akyrs_misc = {}
 '''
 match_indent = true

@@ -207,3 +207,20 @@ SMODS.DrawStep {
     end,
     conditions = { vortex = false, facing = 'front', front_hidden = false },
 }
+
+SMODS.DrawStep {
+    key = 'judgement',
+    order = 41,
+    func = function(self, layer)
+        if self.akyrs_judgement and AKYRS.Judgement_Stickers[self.akyrs_judgement] then
+            ---@type Sprite
+            local stk = AKYRS.Judgement_Stickers[self.akyrs_judgement]
+            stk:set_role({major = self, role_type = 'Minor', draw_major = card})
+            local movex = 0.5
+            local movey = math.sin(G.TIMERS.REAL * 1.5 + self.aiko_draw_delay) * 0.1 - 0.6 * self.aiko_draw_delay_2 - 0.7
+            stk:draw_shader('dissolve', nil, nil, nil, self.children.center, -0.2, math.pi * 0.1, movex, movey)
+            stk:draw_shader('voucher', nil, self.ARGS.send_to_shader, nil, self.children.center, -0.2, math.pi * 0.1, movex, movey)
+        end
+    end,
+    conditions = { vortex = false, facing = 'front' },
+}

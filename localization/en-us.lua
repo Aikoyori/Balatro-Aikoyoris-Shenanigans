@@ -1433,6 +1433,36 @@ return {
                     "Install {C:attention}Paperback{} for {C:attention}Apostle{}!"
                 }
             },
+            fc_akyrs_judgement_miss = {
+                name = "Miss",
+                text = { 
+                    "Used in {C:green}Life{} Mechanics"
+                }
+            },
+            fc_akyrs_judgement_good = {
+                name = "Good",
+                text = { 
+                    "Used in {C:green}Life{} Mechanics"
+                }
+            },
+            fc_akyrs_judgement_great = {
+                name = "Great",
+                text = { 
+                    "Used in {C:green}Life{} Mechanics"
+                }
+            },
+            fc_akyrs_judgement_perfect = {
+                name = "Perfect",
+                text = { 
+                    "Used in {C:green}Life{} Mechanics"
+                }
+            },
+            fc_akyrs_judgement_cperfect = {
+                name = "Critical Perfect",
+                text = { 
+                    "Used in {C:green}Life{} Mechanics"
+                }
+            },
         },
         Joker={
             -- toga
@@ -2701,6 +2731,116 @@ return {
                         "{C:inactive}(Currently {C:white,X:mult} X#1# {C:inactive} Mult)",
                     },
                 }
+            },
+        },
+        Judgement = {
+            judgement_akyrs_none_none = {
+                name = "None",
+                text = {
+                    "No judgement assigned",
+                },
+            },
+            judgement_akyrs_none_normal = {
+                name = "None",
+                text = {
+                    "{C:white,X:green}#1#{} Life",
+                },
+            },
+            judgement_akyrs_none_kaleidoscope = {
+                name = "None",
+                text = {
+                    "{C:white,X:blue}#1#{} Life",
+                },
+            },
+            judgement_akyrs_miss_none = {
+                name = "Miss",
+                text = {
+                    "Lowest judgement, most common",
+                },
+            },
+            judgement_akyrs_miss_normal = {
+                name = "Miss",
+                text = {
+                    "{C:white,X:green}#1#{} Life",
+                },
+            },
+            judgement_akyrs_miss_kaleidoscope = {
+                name = "Miss",
+                text = {
+                    "{C:white,X:blue}#1#{} Life",
+                },
+            },
+            judgement_akyrs_good_none = {
+                name = "Good",
+                text = {
+                    "OK judgement, less life-draining",
+                },
+            },
+            judgement_akyrs_good_normal = {
+                name = "Good",
+                text = {
+                    "{C:white,X:green}#1#{} Life",
+                },
+            },
+            judgement_akyrs_good_kaleidoscope = {
+                name = "Good",
+                text = {
+                    "{C:white,X:blue}#1#{} Life",
+                },
+            },
+            judgement_akyrs_great_none = {
+                name = "Great",
+                text = {
+                    "Great judgement, even less life-draining",
+                },
+            },
+            judgement_akyrs_great_normal = {
+                name = "Great",
+                text = {
+                    "{C:white,X:green}#1#{} Life",
+                },
+            },
+            judgement_akyrs_great_kaleidoscope = {
+                name = "Great",
+                text = {
+                    "{C:white,X:blue}#1#{} Life",
+                },
+            },
+            judgement_akyrs_perfect_none = {
+                name = "Perfect",
+                text = {
+                    "Perfect judgement, No life-drain",
+                },
+            },
+            judgement_akyrs_perfect_normal = {
+                name = "Perfect",
+                text = {
+                    "{C:white,X:green}#1#{} Life",
+                },
+            },
+            judgement_akyrs_perfect_kaleidoscope = {
+                name = "Perfect",
+                text = {
+                    "{C:white,X:blue}#1#{} Life",
+                },
+            },
+            judgement_akyrs_critical_perfect_none = {
+                name = "Critical Perfect",
+                text = {
+                    "Very Perfect judgement, No life-drain in all situation",
+                },
+            },
+            judgement_akyrs_critical_perfect_normal = {
+                name = "Critical Perfect",
+                text = {
+                    "{C:white,X:green}#1#{} Life",
+                },
+            },
+            judgement_akyrs_critical_perfect_kaleidoscope = {
+                name = "Critical Perfect",
+                text = {
+                    "{C:white,X:blue}#1#{} Life",
+                },
             },
         },
         Partner = {
@@ -4339,7 +4479,8 @@ return {
             k_akyrs_umbral_pack = "Umbral Pack",
             k_akyrs_replica_pack = "Replica Pack",
 
-            b_bet = "Bets"
+            b_bet = "Bets",
+            b_judgement = "Judgements",
         },
         high_scores={},
         labels={

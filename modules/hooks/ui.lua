@@ -1462,6 +1462,22 @@ create_UIBox_akyrs_collection_bet = function(author)
     })
 end
 
+create_UIBox_akyrs_collection_judgement = function()
+    local jkrs = {}
+    for i, v in ipairs(AKYRS.Judgement_Buffer) do
+        --print(pool)
+        table.insert(jkrs, AKYRS.Judgements[v])
+    end
+    return SMODS.card_collection_UIBox(jkrs, {6}, {
+        no_materialize = true, 
+        center = "c_base",
+        modify_card = function (card, center, i, j)
+            card.akyrs_judgement = center.key
+        end,
+        h_mod = 0.95,
+    })
+end
+
 
 G.FUNCS.akyrs_your_collection_non_letter_jokers = function(e)
     G.SETTINGS.paused = true
@@ -1487,6 +1503,13 @@ G.FUNCS.akyrs_your_collection_bet = function(e)
     G.SETTINGS.paused = true
     G.FUNCS.overlay_menu{
         definition = create_UIBox_akyrs_collection_bet(),
+    }
+end
+
+G.FUNCS.akyrs_your_collection_judgement = function(e)
+    G.SETTINGS.paused = true
+    G.FUNCS.overlay_menu{
+        definition = create_UIBox_akyrs_collection_judgement(),
     }
 end
 

@@ -66,6 +66,11 @@ function Game:init_game_object()
     -- this one prevents crashes
     ret.modifiers.scaling = ret.modifiers.scaling or 1
 
+    -- this one is for life :3
+    ret.akyrs_life = 500
+    ret.akyrs_life_disp = "500"
+    ret.akyrs_life_decay_mode = "none"
+
     -- this one will get set to true once player has bought an Emerald OR used one of the Workstation Card
     ret.akyrs_has_capability_to_trade = false
     -- 
@@ -310,108 +315,6 @@ function customDeckHooks(self, card_protos)
     return card_protos
 end
 
-local startRunHook = Game.start_run
-function Game:start_run(args)
-    G.AKYRS_DISPLAY_QUEUE = nil
-    G.AKYRS_CARD_EVAL_RAN = nil
-    -- print("PRE RUN")
-    local ret = startRunHook(self, args)
-    -- print("POST RUN")
-    
-    AKYRS.reset_math_parser({
-        vars = G.GAME.akyrs_parser_var or AKYRS.math_default_const,
-    })
-    if self.aiko_wordle then
-        self.aiko_wordle:remove() self.aiko_wordle = nil
-    end
-
-    if not self.aiko_wordle and AKYRS.checkBlindKey("bl_akyrs_the_thought") then
-        --print("CHECK SUCCESS")
-        self.aiko_wordle = UIBox {
-            definition = create_UIBOX_Aikoyori_WordPuzzleBox(),
-            config = { align = "b", offset = { x = 0, y = 0.4 }, major = G.jokers, bond = 'Weak' }
-        }
-    end
-    if self.GAME.modifiers.akyrs_no_tarot_except_twof then
-        for k, v in ipairs(G.P_CENTER_POOLS.Tarot) do
-            if v.key ~= "c_wheel_of_fortune" then
-                G.GAME.banned_keys[v.key] = true
-            end
-        end
-        G.GAME.planet_rate = 0
-    end
-    if self.GAME.modifiers.akyrs_no_joker then
-        for k, v in ipairs(G.P_CENTER_POOLS.Joker) do
-            G.GAME.banned_keys[v.key] = true
-        end
-    end
-    if self.GAME.modifiers.akyrs_no_tarot then
-        for k, v in ipairs(G.P_CENTER_POOLS.Tarot) do
-            G.GAME.banned_keys[v.key] = true
-        end
-        G.GAME.tarot_rate = 0
-    end
-    if self.GAME.modifiers.akyrs_no_planet then
-        for k, v in ipairs(G.P_CENTER_POOLS.Planet) do
-            G.GAME.banned_keys[v.key] = true
-        end
-        G.GAME.planet_rate = 0
-    end
-    if self.GAME.modifiers.akyrs_can_buy_playing_cards then
-        G.GAME.playing_card_rate = 4
-    end
-    
-    if G.GAME.modifiers.akyrs_no_skips then
-        G.GAME.akyrs_no_skips = G.GAME.modifiers.akyrs_no_skips
-    end
-    if G.GAME.modifiers.akyrs_hatena_deck then
-        G.GAME.akyrs_hatena_deck = G.GAME.modifiers.akyrs_hatena_deck
-    end
-    
-    if G.GAME.modifiers.akyrs_always_skip_shops then
-        G.GAME.akyrs_always_skip_shops = G.GAME.modifiers.akyrs_always_skip_shops
-    end
-    if G.GAME.modifiers.akyrs_shops_after_boss then
-        G.GAME.akyrs_shops_after_boss = G.GAME.modifiers.akyrs_shops_after_boss
-    end
-    if G.GAME.modifiers.akyrs_hatena_everything then
-        G.GAME.akyrs_hatena_everything = G.GAME.modifiers.akyrs_hatena_everything
-    end
-    if self.GAME.modifiers.akyrs_no_hints then
-        AKYRS.simple_event_add(
-            function()
-                G.GAME.akyrs_no_hints = true
-                return true
-            end, 0.5
-        )
-    end
-    recalculateHUDUI()
-    if G.GAME.current_round.advanced_blind then
-        recalculateBlindUI()
-    end
-    if G.GAME.akyrs_any_drag then
-        G.GAME.akyrs_temptation_resisted = true
-        AKYRS.simple_event_add(
-            function()
-                G.jokers.states.collide.can = true
-                G.consumeables.states.collide.can = true
-                G.hand.states.collide.can = true
-                G.deck.states.collide.can = true
-                return true
-            end, 0.5
-        )
-    end
-    if #G.play.cards > 0 then
-        for _,c in ipairs(G.play.cards) do
-            G.deck:emplace(c)
-        end
-        G.play.cards = {}
-    end
-    for _,c in ipairs(G.playing_cards) do
-        c:set_sprites(c.config.center,c.config.card)
-    end
-    return ret
-end
 
 local cardSetCostHook = Card.set_cost
 function Card:set_cost()
@@ -1093,6 +996,11 @@ function Card:set_ability(c,i,d)
             end
         end
     end
+    if self then
+        if not self.akyrs_judgement then
+            self.akyrs_judgement = "judgement_akyrs_none"
+        end
+    end
     if self.config.center or c then
         if (self.config.center or c).set == "Joker" and AKYRS.should_conceal_card(self, (self.config.center or c)) then
             self.T.w = G.CARD_W
@@ -1192,6 +1100,7 @@ function Card:set_base(card, initial, manual_sprites)
     end
     local ret = cardBaseHooker(self, card, initial, manual_sprites)
     self.aiko_draw_delay = math.random() * 1.75 + 0.25
+    self.aiko_draw_delay_2 = math.random()
     self.akyrs_impostor_card = false
     if self.base.name and not self.ability.aikoyori_letters_stickers then
         self:set_letters_random()
@@ -1304,6 +1213,7 @@ function Card:save()
     c.akyrs_upgrade_sliced = self.akyrs_upgrade_sliced
     c.akyrs_impostor_card = self.akyrs_impostor_card
     c.debuffed_by_blind = self.debuffed_by_blind
+    c.akyrs_judgement = self.akyrs_judgement
     return c
 end
 
@@ -1316,6 +1226,7 @@ function Card:load(cardTable, other_card)
     self.akyrs_upgrade_sliced = cardTable.akyrs_upgrade_sliced
     self.akyrs_impostor_card = cardTable.akyrs_impostor_card
     self.debuffed_by_blind = cardTable.debuffed_by_blind
+    self.akyrs_judgement = cardTable.akyrs_judgement
     
     _c = self.config.center
 

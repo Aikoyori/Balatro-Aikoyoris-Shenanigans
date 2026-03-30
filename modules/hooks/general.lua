@@ -152,7 +152,7 @@ function Game:update(dt)
             end
         end
 
-        if AKYRS.get_life() <= 0 then
+        if AKYRS.get_life() <= 0 and not G.GAME.AKYRS_DEAD then
             AKYRS.force_lose()
         end
 
@@ -839,6 +839,9 @@ Also technically this crash saves you from bricked runs so thank me later :D
         end
         local w = table.concat(aiko_current_word_split,"")
         check_for_unlock({type = "akyrs_spell_word", word = w, lowercase_word = string.lower(w)})
+        if string.lower(w) == "gaster" then
+            SMODS.restart_game()
+        end
         
         local wordData = {}
         

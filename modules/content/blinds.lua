@@ -746,6 +746,17 @@ SMODS.Blind{
     pos = { x = 0, y = 23 },
     debuff = {
     },
+    config = {
+    },
+    set_blind = function (self)
+        G.hand:change_size(1)
+    end,
+    disable = function (self)
+        G.hand:change_size(-1)
+    end,
+    defeat = function (self)
+        G.hand:change_size(-1)
+    end,
     calculate = function (self, blind, context)
         if not blind.disabled then
             if context.hand_drawn then

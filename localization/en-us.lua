@@ -575,6 +575,7 @@ return {
                 text = {
                     "Randomly select one card to",
                     "discard after any hand is drawn",
+                    "+1 Hand Size",
                 }
             },
             bl_akyrs_the_sinusoidal= {

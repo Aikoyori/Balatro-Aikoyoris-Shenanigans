@@ -131,6 +131,8 @@ function Game:update(dt)
         
         G.GAME.modifiers.scaling = G.GAME.modifiers.scaling or 1
         local s = gameUpdate(self, dt)
+        local life_pulse = false
+        G.GAME.akyrs_last_life = G.GAME.akyrs_last_life or G.GAME.akyrs_life
         G.GAME.akyrs_life_disp = (""..string.format("%.1f",G.GAME.akyrs_life))
         if AKYRS.life_sprite then
             if AKYRS.get_life_cover_type() == "normal" then
@@ -138,8 +140,14 @@ function Game:update(dt)
                     AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("over"))
                 elseif G.GAME.akyrs_life < 10 then
                     AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("verylow"))
+                    if G.GAME.akyrs_last_life >= 10 then
+                        life_pulse = true
+                    end
                 elseif G.GAME.akyrs_life < 100 then
                     AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("low"))
+                    if G.GAME.akyrs_last_life >= 100 then
+                        life_pulse = true
+                    end
                 else
                     AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("normal"))
                 end
@@ -151,6 +159,10 @@ function Game:update(dt)
                 end
             end
         end
+        if life_pulse then
+            AKYRS.life_sprite:juice_up(0.1, 0)
+        end
+        G.GAME.akyrs_last_life = G.GAME.akyrs_life
 
         if AKYRS.get_life() <= 0 and not G.GAME.AKYRS_DEAD then
             AKYRS.force_lose()
@@ -1088,7 +1100,8 @@ end
 
 local cardBaseHooker = Card.set_base
 function Card:set_base(card, initial, manual_sprites)
-    if self.config.card and not initial then
+    -- will fix later
+    if self.config.card and not initial and false then
         local og_suit = self.config.card.suit
         local og_rank = self.config.card.value
         --print("not initial and has card config")

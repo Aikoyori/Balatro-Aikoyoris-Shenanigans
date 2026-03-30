@@ -139,7 +139,7 @@ local card_eval_status_text_ref = card_eval_status_text
 function card_eval_status_text(card, ...)
     if AKYRS.is_life_enabled() and card then
         AKYRS.simple_event_add(function ()
-            G.GAME.akyrs_life = (G.GAME.akyrs_life or 500) + AKYRS.get_life_drain(card)
+            AKYRS.mod_life(AKYRS.get_life_drain(card), false, true)
             if G.akyrs_life_ui then
                 G.akyrs_life_ui:get_UIE_by_ID("value_container"):juice_up(0.1,0.1)
             end

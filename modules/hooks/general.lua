@@ -68,6 +68,7 @@ function Game:init_game_object()
 
     -- this one is for life :3
     ret.akyrs_life = 500
+    ret.akyrs_life_internal = 500
     ret.akyrs_life_disp = "500"
     ret.akyrs_life_decay_mode = "none"
     ret.akyrs_life_cover_sprite = "normal"

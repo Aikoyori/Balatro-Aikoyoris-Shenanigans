@@ -31,13 +31,15 @@ function AKYRS.get_life_cover_type()
     return G.GAME.akyrs_life_cover_sprite == "kaleidoscope_pre" or G.GAME.akyrs_life_cover_sprite == "kaleidoscope" and "kaleidoscope" or "normal" 
 end
 
-function AKYRS.heal(life, forced)
+function AKYRS.mod_life(life, forced, duration, set)
     local life_target = math.min(G.GAME.akyrs_life + life, G.GAME.akyrs_starting_life or 500)
-    local life_to_actually_mod = life_target - G.GAME.akyrs_life
-    if forced then
-        life_to_actually_mod = life
+    if set then life_target = life end
+    G.GAME.akyrs_life_internal = life_target
+    if duration and (duration == true or duration <= 0) then
+        G.GAME.akyrs_life = G.GAME.akyrs_life_internal
+        return
     end
-    ease_value(G.GAME, "akyrs_life", life_to_actually_mod, nil, 'REAL', true, 0.5, 'lerp')
+    AKYRS.better_ease_value(G.GAME, "akyrs_life", G.GAME.akyrs_life_internal, nil, 'REAL', true, true, (duration ~= true and duration or 0.5), 'inexpo')
 end
 
 ---@type SMODS.GameObject 

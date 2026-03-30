@@ -1552,3 +1552,22 @@ end
 
 function AKYRS.get_applicable_stakes()
 end
+
+
+function AKYRS.better_ease_value(ref_table, ref_value, mod, floored, timer_type, not_blockable, blocking, delay, ease_type)
+    mod = mod or 0
+
+    --Ease from current chips to the new number of chips
+    G.E_MANAGER:add_event(Event({
+        trigger = 'ease',
+        blockable = (not_blockable == false),
+        blocking = blocking,
+        ref_table = ref_table,
+        ref_value = ref_value,
+        ease_to = mod,
+        timer = timer_type,
+        delay =  delay or 0.3,
+        type = ease_type or nil,
+        func = (function(t) if floored then return math.floor(t) else return t end end)
+    }), 'akyrs_life')
+end

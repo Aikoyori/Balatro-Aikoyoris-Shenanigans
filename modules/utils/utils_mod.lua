@@ -830,13 +830,16 @@ function AKYRS.end_round_hook()
             card.ability.akyrs_played_this_round = false
         end
     end
+    print(G.GAME.blind_on_deck)
     if G.GAME.akyrs_life_heal then
-        if G.GAME.akyrs_life_heal.round then
-            AKYRS.heal(G.GAME.akyrs_life_heal.round)
+        local life_heal = 0
+        if G.GAME.akyrs_life_heal.ante > 0 and G.GAME.blind_on_deck == "Boss" then
+            life_heal = life_heal + G.GAME.akyrs_life_heal.ante
         end
-        if G.GAME.akyrs_life_heal.ante and G.GAME.blind_on_deck == "Boss" then
-            AKYRS.heal(G.GAME.akyrs_life_heal.ante)
+        if G.GAME.akyrs_life_heal.round > 0 then
+            life_heal = life_heal + G.GAME.akyrs_life_heal.round
         end
+        AKYRS.mod_life(life_heal, false, 1)
     end
     if #SMODS.find_card("j_akyrs_you_tried") > 0 and AKYRS.is_mp() and not MP.is_pvp_boss() then        
         local card = SMODS.find_card("j_akyrs_you_tried")[1]

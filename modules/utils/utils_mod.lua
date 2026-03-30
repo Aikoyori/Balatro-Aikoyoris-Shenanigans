@@ -830,7 +830,7 @@ function AKYRS.end_round_hook()
             card.ability.akyrs_played_this_round = false
         end
     end
-    print(G.GAME.blind_on_deck)
+    --print(G.GAME.blind_on_deck)
     if G.GAME.akyrs_life_heal then
         local life_heal = 0
         if G.GAME.akyrs_life_heal.ante > 0 and G.GAME.blind_on_deck == "Boss" then

@@ -143,9 +143,6 @@ function card_eval_status_text(card, ...)
             if G.akyrs_life_ui then
                 G.akyrs_life_ui:get_UIE_by_ID("value_container"):juice_up(0.1,0.1)
             end
-            if AKYRS.get_life() <= 0 then
-                AKYRS.force_lose()
-            end
             return true
         end, 0)
     end

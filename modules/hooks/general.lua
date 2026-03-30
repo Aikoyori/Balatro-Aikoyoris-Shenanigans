@@ -152,6 +152,9 @@ function Game:update(dt)
             end
         end
 
+        if AKYRS.get_life() <= 0 then
+            AKYRS.force_lose()
+        end
 
         G.GAME.alphabet_rate = G.GAME.alphabet_rate or 0
         if (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled) and G.GAME.alphabet_rate == 0 then

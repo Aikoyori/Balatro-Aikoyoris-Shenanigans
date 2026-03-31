@@ -3849,7 +3849,7 @@ SMODS.Joker {
         }
     end,
     calculate = function (self, card, context)
-        if context.individual and context.poker_hands and context.poker_hands["Two Pair"] and context.cardarea == G.hand then
+        if context.individual and context.poker_hands and next(context.poker_hands["Two Pair"]) and context.cardarea == G.hand then
             return {
                 score = card.ability.extras.score_xbase * (G.GAME.blind.chips or 0)
             }

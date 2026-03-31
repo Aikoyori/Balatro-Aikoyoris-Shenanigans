@@ -4498,7 +4498,7 @@ return {
             
             k_akyrs_card_preview = "Enable Card Previews",
             k_akyrs_toggle_crt = "Enable CRT Shaders",
-            k_akyrs_restart_required = "* = Restart Required",
+            k_akyrs_restart_required = "Options with * means restart is required",
             k_akyrs_toggle_full_dictionary = "Enable Full Dictionary*",
             k_akyrs_toggle_experimental_feature = "Enable Experimental Features*",
             k_akyrs_toggle_colourblind_ui = "High Contrast UI",

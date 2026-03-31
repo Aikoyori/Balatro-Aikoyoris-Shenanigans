@@ -1572,3 +1572,10 @@ function AKYRS.better_ease_value(ref_table, ref_value, mod, floored, timer_type,
         func = (function(t) if floored then return math.floor(t) else return t end end)
     }), 'akyrs_life')
 end
+
+function AKYRS.format_string(number)
+    if number - math.floor(number) == 0 then
+        return string.format("%.1d", number)
+    end
+    return string.format("%.1f", number)
+end

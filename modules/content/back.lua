@@ -265,7 +265,7 @@ if AKYRS.config.experimental_features then
         config = {
             akyrs_starting_life = 500,
             akyrs_life_heal = {
-                round = 30
+                round = 40
             },
             joker_slot = 1,
         },

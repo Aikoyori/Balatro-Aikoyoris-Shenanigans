@@ -3210,7 +3210,6 @@ SMODS.Joker{
     calculate = function (self, card, context)
         if context.before and context.poker_hands and #context.poker_hands["Pair"] > 0 then
             return {
-                message = localize("k_akyrs_ryo_borrowed_money"),
                 func = function ()
                     local pairs_of_clubs = 0
                     for _,e_pair in ipairs(context.poker_hands["Pair"]) do
@@ -3226,8 +3225,12 @@ SMODS.Joker{
                         
                     end
                     
+                    
                     if AKYRS.bal_overridable("absurd",card.ability.extras.obtain_bal) then
                         if pairs_of_clubs > 0 then
+                            SMODS.calculate_effect({
+                                message = message = localize("k_akyrs_ryo_borrowed_money"),
+                            }, card)
                             local old_bkrpt_at = card.ability.extras.debt_absurd -- 6,12,24
                             -- new debt should be 12,24,48, etc.
                             -- was told to leave this here
@@ -3239,6 +3242,9 @@ SMODS.Joker{
                         end
                     else
                         if pairs_of_clubs > 0 then
+                            SMODS.calculate_effect({
+                                message = message = localize("k_akyrs_ryo_borrowed_money"),
+                            }, card)
                             SMODS.scale_card(card, {ref_table = card.ability.extras, ref_value = "debt", scalar_value = "add_debt"})
                             G.GAME.bankrupt_at = G.GAME.bankrupt_at - card.ability.extras.add_debt
                         end

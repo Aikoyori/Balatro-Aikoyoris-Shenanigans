@@ -133,7 +133,7 @@ function Game:update(dt)
         local s = gameUpdate(self, dt)
         local life_pulse = false
         G.GAME.akyrs_last_life = G.GAME.akyrs_last_life or G.GAME.akyrs_life
-        G.GAME.akyrs_life_disp = (""..string.format("%.1f",G.GAME.akyrs_life))
+        G.GAME.akyrs_life_disp = (""..AKYRS.format_string(G.GAME.akyrs_life))
         if AKYRS.life_sprite then
             if AKYRS.get_life_cover_type() == "normal" then
                 if G.GAME.akyrs_life <= 0 then

@@ -3229,7 +3229,7 @@ SMODS.Joker{
                     if AKYRS.bal_overridable("absurd",card.ability.extras.obtain_bal) then
                         if pairs_of_clubs > 0 then
                             SMODS.calculate_effect({
-                                message = message = localize("k_akyrs_ryo_borrowed_money"),
+                                message = localize("k_akyrs_ryo_borrowed_money"),
                             }, card)
                             local old_bkrpt_at = card.ability.extras.debt_absurd -- 6,12,24
                             -- new debt should be 12,24,48, etc.
@@ -3243,7 +3243,7 @@ SMODS.Joker{
                     else
                         if pairs_of_clubs > 0 then
                             SMODS.calculate_effect({
-                                message = message = localize("k_akyrs_ryo_borrowed_money"),
+                                message = localize("k_akyrs_ryo_borrowed_money"),
                             }, card)
                             SMODS.scale_card(card, {ref_table = card.ability.extras, ref_value = "debt", scalar_value = "add_debt"})
                             G.GAME.bankrupt_at = G.GAME.bankrupt_at - card.ability.extras.add_debt

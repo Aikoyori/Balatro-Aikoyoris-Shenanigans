@@ -1579,3 +1579,8 @@ function AKYRS.format_string(number)
     end
     return string.format("%.1f", number)
 end
+
+---@param card Card
+function AKYRS.is_being_used_as_playing_card(card)
+    return card.area and (card.area == G.hand or card.area == G.deck or card.area == G.discard)
+end

@@ -876,12 +876,8 @@ function AKYRS.end_round_hook()
     for _, cardarea in ipairs(G.I.CARDAREA) do
         if cardarea and cardarea.cards then
             
-            cardarea.cards = AKYRS.filter_table(cardarea.cards, function (c)
-                return not c.REMOVED and not c.being_removed
-            end, true, true)
-            AKYRS.remove_dupes(cardarea.cards)
             for i, card in ipairs(cardarea.cards) do
-
+                local is_pc = AKYRS.is_being_used_as_playing_card(card)
                 if card.ability.akyrs_self_destructs then
                     G.E_MANAGER:add_event(Event({
                         func = function()
@@ -966,6 +962,15 @@ function AKYRS.end_round_hook()
                 if card.ability.akyrs_triggered then
                     card.ability.akyrs_triggered = nil
                 end
+                AKYRS.simple_event_add(
+                    function ()
+                        cardarea.cards = AKYRS.filter_table(cardarea.cards, function (c)
+                            return not c.REMOVED and not c.being_removed
+                        end, true, true)
+                        AKYRS.remove_dupes(cardarea.cards)
+                        return true
+                    end, 0
+                )
             end
         end
     end

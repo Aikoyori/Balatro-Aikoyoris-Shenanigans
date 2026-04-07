@@ -177,7 +177,7 @@ return {
                 text = 
                 { 
                     'Letter Deck',
-                    "but {C:blue}+#3#{} Hand Size", 
+                    "but {C:attention}+#3#{} Hand Size", 
                     "you only have {C:red}1 hand{}",
                     "{C:red}X#1#{} base Blind Size",
                 },
@@ -3461,7 +3461,7 @@ return {
             stake_akyrs_inner = {
                 name = "Inner Stake",
                 text = {
-                    "{C:blue}+1{} Hand Size",
+                    "{C:attention}+1{} Hand Size",
                 }
             },
             stake_akyrs_outer = {
@@ -3679,14 +3679,14 @@ return {
                 name="Banquet",
                 text={
                     "{C:akyrs_playable}+#1#{} Card Selection",
-                    "{C:blue}+#1#{} Hand Size",
+                    "{C:attention}+#1#{} Hand Size",
                 },
             },
             v_akyrs_worlds_end={
                 name="World's End",
                 text={
                     "{C:akyrs_playable}+#1#{} Card Selection",
-                    "{C:blue}+#1#{} Hand Size",
+                    "{C:attention}+#1#{} Hand Size",
                 },
             },
             v_akyrs_i_owe_you={
@@ -3742,7 +3742,7 @@ return {
                     "Start with",
                     "{C:white,X:dark_edition}X#1#{} Deck Size",
                     "{C:red}+#2#{} Discards",
-                    "{C:blue}+#3#{} Hand Size",
+                    "{C:attention}+#3#{} Hand Size",
                     "{C:red}X#4#{} base Blind Size",
              }
             },
@@ -3974,7 +3974,7 @@ return {
                 text=
                 {
                     "Give {C:attention}permanent{} bonus of {X:mult,C:white} X#1# {} Mult",
-                    "to {C:attention}all {C:clubs}Clubs{} cards in hands",
+                    "to {C:attention}all {C:clubs}Clubs{} cards in hand",
                 },
             },
             c_akyrs_umbral_mantle = {
@@ -3982,7 +3982,7 @@ return {
                 text=
                 {
                     "Give {C:attention}permanent{} bonus of {X:chips,C:white} X#1# {} Chips",
-                    "to {C:attention}all {C:spades}Spades{} cards in hands",
+                    "to {C:attention}all {C:spades}Spades{} cards in hand",
                 },
             },
             c_akyrs_umbral_core = {
@@ -3990,7 +3990,7 @@ return {
                 text=
                 {
                     "Give {C:attention}permanent{} bonus of {C:money}+$#1#{}",
-                    "to {C:attention}all {C:hearts}Hearts{} cards in hands",
+                    "to {C:attention}all {C:hearts}Hearts{} cards in hand",
                 },
             },
             c_akyrs_umbral_atmosphere = {
@@ -3998,7 +3998,7 @@ return {
                 text=
                 {
                     "Give {C:attention}permanent{} bonus of {C:purple}+#1#{} Score",
-                    "to {C:attention}all {C:diamonds}Diamonds{} cards in hands",
+                    "to {C:attention}all {C:diamonds}Diamonds{} cards in hand",
                     "{C:inactive}(Next use will give {C:purple}+#2#{C:inactive} Score)"
                 },
             },

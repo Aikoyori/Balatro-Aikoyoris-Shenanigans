@@ -232,6 +232,42 @@ SMODS.Back{
         akyrs_down_deck = true,
     },
 }
+SMODS.Back{
+    key = "judge_deck",
+    name = "Judge Deck",
+    atlas = 'deckBacks',
+    pos = {x = 0, y = 3},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                self.config.akyrs_starting_life,
+                self.config.akyrs_life_heal.round,
+                self.config.joker_slot,
+            }
+        }
+    end,
+    config = {
+        akyrs_starting_life = 500,
+        akyrs_life_heal = {
+            round = 40
+        },
+        joker_slot = 1,
+    },
+}
+SMODS.Back{
+    key = "prism_deck",
+    name = "Prism Deck",
+    atlas = 'deckBacks',
+    pos = {x = 1, y = 2},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    config = {
+    },
+}
 
 if AKYRS.config.experimental_features then
     SMODS.Back{
@@ -239,42 +275,6 @@ if AKYRS.config.experimental_features then
         name = "Developer Deck",
         atlas = 'deckBacks',
         pos = {x = 9, y = 1},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
-            }
-        end,
-        config = {
-        },
-    }
-    SMODS.Back{
-        key = "judge_deck",
-        name = "Judge Deck",
-        atlas = 'deckBacks',
-        pos = {x = 1, y = 0},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                    self.config.akyrs_starting_life,
-                    self.config.akyrs_life_heal.round,
-                    self.config.joker_slot,
-                }
-            }
-        end,
-        config = {
-            akyrs_starting_life = 500,
-            akyrs_life_heal = {
-                round = 40
-            },
-            joker_slot = 1,
-        },
-    }
-    SMODS.Back{
-        key = "prism_deck",
-        name = "Prism Deck",
-        atlas = 'deckBacks',
-        pos = {x = 1, y = 2},
         loc_vars = function (self, info_queue, card)
             return {
                 vars = {

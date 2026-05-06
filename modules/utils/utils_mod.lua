@@ -816,7 +816,7 @@ function AKYRS.end_round_hook()
                     if not card.ability.akyrs_played_this_round and G.GAME.blind.debuff.akyrs_destroy_unplayed then
                         card.area:remove_card(card)
                         
-                        card:start_dissolve({ G.C.RED }, nil, 1.6)
+                        SMODS.destroy_cards({card})
                         AKYRS.remove_value_from_table(G.playing_cards, card)
                     end
                     card.ability.akyrs_played_this_round = false
@@ -845,7 +845,7 @@ function AKYRS.end_round_hook()
         local card = SMODS.find_card("j_akyrs_you_tried")[1]
         AKYRS.simple_event_add(function()
             if card.ability.extras.last_life ~= MP.GAME.lives then
-                card:start_dissolve({G.C.YELLOW},1.6)
+                SMODS.destroy_cards({card})
                 card.ability.extras.unset = false
                 if AKYRS.bal("adequate") then
                     --AKYRS.ease_lives_mp(card.ability.extras.lives_mp)
@@ -881,7 +881,7 @@ function AKYRS.end_round_hook()
                 if card.ability.akyrs_self_destructs then
                     G.E_MANAGER:add_event(Event({
                         func = function()
-                            card:start_dissolve({ G.C.BLACK }, nil, 1.6)
+                            SMODS.destroy_cards({card})
                             AKYRS.remove_value_from_table(G.playing_cards,card)
                             return true
                         end,
@@ -891,7 +891,7 @@ function AKYRS.end_round_hook()
                 if card.ability.akyrs_attention then
                     G.E_MANAGER:add_event(Event({
                         func = function()
-                            card:start_dissolve({ G.C.RED }, nil, 1.6)
+                            SMODS.destroy_cards({card})
                             AKYRS.remove_value_from_table(G.playing_cards,card)
                             return true
                         end,
@@ -919,7 +919,7 @@ function AKYRS.end_round_hook()
                     if odder then
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                card:start_dissolve({ G.C.BLACK }, nil, 1.6)
+                                SMODS.destroy_cards({card})
                                 return true
                             end,
                             delay = 0.5,
@@ -930,7 +930,7 @@ function AKYRS.end_round_hook()
                 if SMODS.get_enhancements(card)["m_akyrs_item_box"] and card.ability.akyrs_triggered then
                     G.E_MANAGER:add_event(Event({
                         func = function()
-                            card:start_dissolve({ G.C.DARK_EDITION }, nil, 1.6)
+                            SMODS.destroy_cards({card})
                             return true
                         end,
                         delay = 0.5,
@@ -951,7 +951,7 @@ function AKYRS.end_round_hook()
                                     G.deck.config.card_limit = G.deck.config.card_limit + 1
                                     table.insert(G.playing_cards, c)
                                 end
-                                card:start_dissolve({ G.C.BLACK }, nil, 1.6)
+                                SMODS.destroy_cards({card})
                                 
                                 return true
                             end,

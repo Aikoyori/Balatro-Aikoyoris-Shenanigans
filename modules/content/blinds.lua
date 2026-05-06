@@ -1706,13 +1706,7 @@ SMODS.Blind {
                     if #jkrs > 0 then
                         local card_to_destroy = pseudorandom_element(jkrs, "akyrs_bug_destroy")
                         if card_to_destroy then
-                            card_to_destroy.akyrs_removed = true
-                            AKYRS.simple_event_add(
-                                function ()
-                                    card_to_destroy:start_dissolve({ G.C.RED }, nil, 1.6)
-                                    return true
-                                end, 0
-                            )
+                            SMODS.destroy_cards({card_to_destroy})
                         end
                     end
                 end

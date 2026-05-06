@@ -74,7 +74,7 @@ end
 AKYRS.destroy_existing_cards = function(cardarea)
     if cardarea and cardarea.cards then
         for i,k in ipairs(cardarea.cards) do
-            k:start_dissolve(nil, true)
+            SMODS.destroy_cards({k})
         end
     end
     if cardarea then 

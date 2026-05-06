@@ -537,8 +537,7 @@ SMODS.Joker {
                     if ca and ca.cards then
                         for i,k in ipairs(ca.cards) do
                             if not k.removed then
-                                SMODS.calculate_context({ remove_playing_cards = true, removed = k})
-                                k:start_dissolve({G.C.CHIPS}, true)
+                                SMODS.destroy_cards({k})
                             end
                         end
                     end
@@ -1590,7 +1589,7 @@ SMODS.Joker{
                     func = function ()
                         card.ability.extras.rounds_left = card.ability.extras.rounds_left - 1
                         if card.ability.extras.rounds_left <= 0 then
-                            card:start_dissolve({G.C.BLUE}, nil, 0.5)
+                            SMODS.destroy_cards({card})
                             local c = SMODS.add_card({ key = "j_akyrs_ghastling"})
                             c.ability.akyrs_from_dried = true
                         end
@@ -1648,7 +1647,7 @@ SMODS.Joker{
                         card.ability.extras.rounds_left = card.ability.extras.rounds_left - (#SMODS.find_card("j_ice_cream") + 1)
                         card.ability.extras.rounds_left_absurd = card.ability.extras.rounds_left_absurd - (#SMODS.find_card("j_ice_cream") + 1)
                         if AKYRS.bal_val(card.ability.extras.rounds_left <= 0,card.ability.extras.rounds_left_absurd <= 0) then
-                            card:start_dissolve({G.C.RED}, nil, 0.5)
+                            SMODS.destroy_cards({card})
                             if card.ability.akyrs_from_dried then
                                 check_for_unlock({ type = "akyrs_happy_ghast_grown_from_dried"})
                             end
@@ -2159,7 +2158,7 @@ SMODS.Joker{
                 local othercard = G.jokers.cards[index-1]
                 if not SMODS.is_eternal(othercard,card) then
                     local rarity = othercard.config.center.rarity
-                    othercard:start_dissolve({G.C.AKYRS_PLAYABLE},1.1)
+                    SMODS.destroy_cards({othercard})
                     othercard:remove_from_deck()
                     for i=1, card.ability.extras.create_factor do
                         SMODS.calculate_effect({
@@ -2169,7 +2168,7 @@ SMODS.Joker{
                         }, card)
                     end
                     AKYRS.simple_event_add(function ()
-                        card:start_dissolve({G.C.AKYRS_PLAYABLE},1.1)
+                        SMODS.destroy_cards({card})
                         return true
                     end)
                 end
@@ -2312,7 +2311,7 @@ SMODS.Joker{
                 local othercard = G.jokers.cards[index+1]
                 return {
                     func = function ()
-                        othercard:start_dissolve({G.C.RED},1.6)
+                        SMODS.destroy_cards({othercard})
                     end,
                     dollars = math.max(othercard.sell_cost * card.ability.extras.mulx,0)
                 }
@@ -2364,7 +2363,7 @@ SMODS.Joker{
                     other:set_edition(edition.key)
                 end
                 if SMODS.pseudorandom_probability(card,"akyrs_aether_portal",1,card.ability.extras.odds) then
-                    card:start_dissolve({G.C.BLUE},1.6)
+                    SMODS.destroy_cards({card})
                 end
             end
         end
@@ -2704,7 +2703,7 @@ SMODS.Joker{
                             (context.blueprint_card or card):juice_up(0.8, 0.8)
                             
                             SMODS.add_card{ key = "j_mr_bones", set = "Joker", edition = "e_negative"}
-                            joker_to_destroy:start_dissolve({G.C.RED}, nil, 1.6)
+                            SMODS.destroy_cards({joker_to_destroy})
                         return true end }))
                     end
                 end
@@ -2862,14 +2861,14 @@ SMODS.Joker{
             card.ability.extras.unset = true
         end
         if context.end_of_round and context.game_over and not context.blueprint and not AKYRS.is_mp() then
-            card:start_dissolve({G.C.YELLOW},1.6)
+            SMODS.destroy_cards({card})
             return {
                 saved = localize("k_akyrs_you_tried"),
                 func = function ()
                     if AKYRS.bal("adequate") and not AKYRS.is_mp() then
                         for i,k in ipairs(G.jokers.cards) do
                             if not SMODS.is_eternal(k) then
-                                k:start_dissolve({G.C.YELLOW},1.6)
+                                SMODS.destroy_cards({k})
                             end
                         end
                     end
@@ -3358,7 +3357,7 @@ SMODS.Joker {
         local s = SMODS.find_card("j_akyrs_orange_portal")
         for _,_c in ipairs(s) do
             if _c.ability.extras.link == card.ability.extras.link then
-                _c:start_dissolve({G.C.ORANGE})
+                SMODS.destroy_cards({_c})
             end
         end
     end,
@@ -3409,7 +3408,7 @@ SMODS.Joker {
         local s = SMODS.find_card("j_akyrs_blue_portal")
         for _,_c in ipairs(s) do
             if _c.ability.extras.link == card.ability.extras.link then
-                _c:start_dissolve({G.C.ORANGE})
+                SMODS.destroy_cards({_c})
             end
         end
     end,

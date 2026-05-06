@@ -285,7 +285,7 @@ SMODS.Consumable{
             -- requested by autumm
             c.no_graveyard = true
             -- no destroy context because it technically is not gone
-            c:start_dissolve({ G.C.AKYRS_UMBRAL_P, G.C.AKYRS_UMBRAL_Y, }, 1 )
+            SMODS.destroy_cards({c})
         end
         
     end,
@@ -346,7 +346,7 @@ SMODS.Consumable{
                 SMODS.calculate_context({ playing_card_added = true, cards = { c2 } })
             else
                 SMODS.calculate_context({ remove_playing_cards = true, removed = _card})
-                _card:start_dissolve({G.C.AKYRS_UMBRAL_P,G.C.AKYRS_UMBRAL_P},1)
+                SMODS.destroy_cards({_card})
             end
         end
     end
@@ -400,7 +400,7 @@ SMODS.Consumable{
             end
             AKYRS.simple_event_add(
                 function ()
-                    _c:start_dissolve(nil,2)
+                    SMODS.destroy_cards({_c})
                     return true
                 end, 1
             )
@@ -937,7 +937,7 @@ SMODS.Consumable{
                     end
                 else
                     SMODS.calculate_context({ remove_playing_cards = true, removed = _card})
-                    _card:start_dissolve({G.C.AKYRS_UMBRAL_P, G.C.AKYRS_UMBRAL_Y})
+                    SMODS.destroy_cards({_card})
                 end
             end
         )

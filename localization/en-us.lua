@@ -193,7 +193,11 @@ return {
                 name = 'Prism Deck',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    'Start with {X:dark_edition,C:white}#1#{} Life',
+                    'with {C:red,E:1}heavier{} punishments',
+                    'Life {C:red}does not{} replenish',
+                    '{C:dark_edition}+#2#{} Joker Slot',
+                    '{C:dark_edition}+#3#{} Consumable Slot',
                 },
             },
             b_akyrs_kaleidoscopic_deck = {
@@ -4358,6 +4362,7 @@ return {
             k_akyrs_yee = "Yee!",
             k_akyrs_pissandshittium = "https://pissandshittium.org/",
             k_akyrs_pandora_give_tag = "Re:MASTER 15",
+            k_akyrs_pandora_hit = "Critical!",
             k_akyrs_downgrade_ex = "Downgrade!",
             k_akyrs_woah_undertale = "Woah..",
             k_akyrs_story_of_undertale = "Story of Undertale..",

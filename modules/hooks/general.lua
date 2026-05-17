@@ -1596,6 +1596,9 @@ function Back:apply_to_run()
     
     if self.effect.config.akyrs_life_decay_mode then
         G.GAME.akyrs_life_decay_mode = self.effect.config.akyrs_life_decay_mode
+        if G.GAME.akyrs_life_decay_mode == "kaleidoscope" then
+            G.GAME.akyrs_life_cover_sprite = "kaleidoscope"
+        end
     end
     
     if self.effect.config.akyrs_life_heal then

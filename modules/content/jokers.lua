@@ -1070,54 +1070,24 @@ SMODS.Joker {
         if context.after and not context.blueprint then
             return {
                 func = function()
-                    for i, _card in ipairs(G.play.cards) do
-                        local original_rank = _card:get_id()
-                        local original_suit = _card.base.suit
-                        G.E_MANAGER:add_event(Event {
-                            trigger = 'after',
-                            blocking = false,
-                            delay = 0.2 * AKYRS.get_speed_mult(_card),
-                            func = function()
-                                if G.play and G.play.cards then
-                                    local percent = math.abs(1.15 - (i - 0.999) / (#G.play.cards - 0.998) * 0.3)
-                                    if G.play.cards[i] then
-                                        G.play.cards[i]:flip()
-                                    end
-                                    --G.play.cards[i]:a_cool_fucking_spin(1,math.pi * 100)
-                                    play_sound('card1', percent);
-                                end
-                                return true
-                            end
-                        })
-                        G.E_MANAGER:add_event(Event {
-                            trigger = 'after',
-                            delay = 0.5 * AKYRS.get_speed_mult(card),
-                            blocking = false,
-                            func = function()
-                                if G.play and G.play.cards then
-                                    local _rank = nil
-                                    local _suit = nil
-                                    while _rank == nil or _suit == nil do
-                                        _rank = pseudorandom_element(SMODS.Ranks, pseudoseed('akyrs2far'))
-                                        _suit = pseudorandom_element(SMODS.Suits, pseudoseed('akyrs2fas'))
-                                    end
-                                    if G.play.cards[i] then
-                                        assert(SMODS.change_base(G.play.cards[i], _suit.key, _rank.key))
-                                        G.play.cards[i]:flip()
-                                        if G.play.cards[i]:get_id() == original_rank and AKYRS.bal("absurd") then
-                                            SMODS.scale_card(card, { ref_table = card.ability.extra, ref_value = "xchips", scalar_value = "xchips_gain" })
-                                        end
-                                        if G.play.cards[i].base.suit == original_suit and AKYRS.bal("absurd") then
-                                            SMODS.scale_card(card, { ref_table = card.ability.extra, ref_value = "xmult", scalar_value = "xmult_gain" })
-                                        end
-                                    end
-                                end
-
-                                return true
-                            end
-                        })
-                    end
-                    delay((0.5 * AKYRS.get_speed_mult(card) + 0.2 * #G.play.cards))
+                    AKYRS.do_things_to_card(G.play.cards, function (cdx, index)
+                        local original_rank = cdx:get_id()
+                        local original_suit = cdx.base.suit
+                        local _rank = nil
+                        local _suit = nil
+                        while _rank == nil or _suit == nil do
+                            _rank = pseudorandom_element(SMODS.Ranks, pseudoseed('akyrs2far'))
+                            _suit = pseudorandom_element(SMODS.Suits, pseudoseed('akyrs2fas'))
+                        end
+                        assert(SMODS.change_base(cdx, _suit.key, _rank.key))                            
+                        if cdx == original_rank and AKYRS.bal("absurd") then
+                            SMODS.scale_card(card, { ref_table = card.ability.extra, ref_value = "xchips", scalar_value = "xchips_gain" })
+                        end
+                        if cdx == original_suit and AKYRS.bal("absurd") then
+                            SMODS.scale_card(card, { ref_table = card.ability.extra, ref_value = "xmult", scalar_value = "xmult_gain" })
+                        end
+                    end)
+                    delay(2.0)
                 end,
                 message = localize("k_akyrs_2fa_regen"),
             }
@@ -1187,7 +1157,7 @@ SMODS.Joker{
                     xmult = card.ability.extra.xmult
                 }
             end
-            if context.final_scoring_step and G.GAME.blind then
+            if context.final_scoring_step and G.GAME.blind amd not context.blueprint then
                 
                     G.E_MANAGER:add_event(
                         Event{
@@ -2645,15 +2615,18 @@ SMODS.Joker{
                         card.ability.extras.current = card.ability.extras.current + 1
                         SMODS.calculate_effect({
                             juice_card = _c,
-                            message = card.ability.extras.current
+                            message = localize("k_akyrs_pandora_hit")
                         }, card)
                         if card.ability.extras.current >= card.ability.extras.count then 
                             SMODS.calculate_effect({
                                 message = localize("k_akyrs_pandora_give_tag"),
                                 func = function()
-                                local tag = Tag("tag_standard")
-                                add_tag(tag)
-                                    card.ability.extras.current = 0
+                                    AKYRS.simple_event_add(function()  
+                                        local tag = Tag("tag_standard")
+                                        add_tag(tag)
+                                        card.ability.extras.current = 0
+                                        return true
+                                    end)
                                 end
                             }, card)
                         end

@@ -81,7 +81,7 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
-pattern = """    if card and card.ability and (card.ability.extra_slots_used or 0) ~= 0 then"""
+pattern = """    if not hide_desc and card and card.ability and (card.ability.extra_slots_used or 0) ~= 0 then"""
 position = "before"
 payload = """
 if card then

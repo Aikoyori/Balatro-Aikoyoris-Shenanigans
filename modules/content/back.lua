@@ -262,10 +262,20 @@ SMODS.Back{
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
+                self.config.akyrs_starting_life,
+                self.config.joker_slot,
+                self.config.consumable_slot,
             }
         }
     end,
     config = {
+        akyrs_starting_life = 2500,
+        akyrs_life_decay_mode = "kaleidoscope",
+        akyrs_life_heal = {
+            round = 0
+        },
+        joker_slot = 1,
+        consumable_slot = 1,
     },
 }
 

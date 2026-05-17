@@ -1157,7 +1157,7 @@ SMODS.Joker{
                     xmult = card.ability.extra.xmult
                 }
             end
-            if context.final_scoring_step and G.GAME.blind amd not context.blueprint then
+            if context.final_scoring_step and G.GAME.blind and not context.blueprint then
                 
                     G.E_MANAGER:add_event(
                         Event{

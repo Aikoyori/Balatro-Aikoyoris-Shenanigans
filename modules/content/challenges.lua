@@ -609,5 +609,5 @@ AKYRS.HardcoreChallenge{
             {id = 'akyrs_obtain_every_round', value = "j_campfire", akyrs_localized_value = {type = "name_text", key = "j_campfire", set = "Joker"}},
         }
     },
-    difficulty = 5,
+    difficulty = 2,
 }

@@ -68,6 +68,28 @@ match_indent = true
 target = "back.lua"
 pattern = """    return 
     {n=G.UIT.ROOT, config={align = "cm", minw = min_dims*5, minh = min_dims*2.5, id = self.name, colour = G.C.CLEAR}, nodes={
+        challenge.id and UIBox_button({button = 'deck_view_challenge', label = {localize(challenge.id, 'challenge_names')},  minw = 2.2, minh = 1, scale = 0.6, id = challenge})
+        or desc_from_rows(loc_nodes, true, min_dims*5)
+    }}"""
+position = "before"
+payload = """
+if name_to_check == "Hardcore Challenge Deck" then
+    return 
+    {n=G.UIT.ROOT, config={align = "cm", minw = min_dims*5, minh = min_dims*2.5, id = self.name, colour = G.C.CLEAR}, nodes={
+        challenge.id and UIBox_button({button = 'akyrs_hc_challenge_deck_view_challenge', label = {localize(challenge.id, 'hardcore_challenge_names')},  minw = 2.2, minh = 1, scale = 0.6, id = challenge})
+        or desc_from_rows(loc_nodes, true, min_dims*5)
+    }}
+end
+"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "back.lua"
+pattern = """    return 
+    {n=G.UIT.ROOT, config={align = "cm", minw = min_dims*5, minh = min_dims*2.5, id = self.name, colour = G.C.CLEAR}, nodes={
         name_to_check == 'Challenge Deck' and UIBox_button({button = 'deck_view_challenge', label = {localize(challenge.id, 'challenge_names')},  minw = 2.2, minh = 1, scale = 0.6, id = challenge})
         or desc_from_rows(loc_nodes, true, min_dims*5)
     }}"""

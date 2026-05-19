@@ -839,7 +839,9 @@ function AKYRS.end_round_hook()
         if G.GAME.akyrs_life_heal.round > 0 then
             life_heal = life_heal + G.GAME.akyrs_life_heal.round
         end
-        AKYRS.mod_life(life_heal, false, 1)
+        if life_heal ~= 0 then 
+            AKYRS.mod_life(life_heal, false, 1)
+        end
     end
     if #SMODS.find_card("j_akyrs_you_tried") > 0 and AKYRS.is_mp() and not MP.is_pvp_boss() then        
         local card = SMODS.find_card("j_akyrs_you_tried")[1]

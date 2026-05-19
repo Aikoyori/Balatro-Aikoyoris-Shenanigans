@@ -269,7 +269,7 @@ SMODS.Back{
         }
     end,
     config = {
-        akyrs_starting_life = 2500,
+        akyrs_starting_life = 1500,
         akyrs_life_decay_mode = "kaleidoscope",
         akyrs_life_heal = {
             round = 0

@@ -359,7 +359,7 @@ SMODS.Consumable{
     config = {
         extras = {
             create = 1,
-            take = 12
+            take = 8
         }
     },
     loc_vars = function (self, info_queue, card)

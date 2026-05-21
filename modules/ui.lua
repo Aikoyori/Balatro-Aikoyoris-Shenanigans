@@ -666,6 +666,9 @@ end
 
 
 AKYRS.start_onboarding = function (forced, meet_again)
+  -- i will not show that on startup anymore
+  AKYRS.set_bal("adequate")
+  if false then
     AKYRS.simple_event_add(
         function()
             if not G.PROFILES[G.SETTINGS.profile].akyrs_balance or forced or meet_again then
@@ -689,6 +692,7 @@ AKYRS.start_onboarding = function (forced, meet_again)
             return true
         end, 0,"akyrs_desc"
     )
+  end
 end
 
 function AKYRS.UIBox_HUD_villager_trading()

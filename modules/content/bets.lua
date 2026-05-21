@@ -199,9 +199,10 @@ AKYRS.Bet {
         -- i don't think there's much to do here ngl it's a one way action
     end,
 }
+
 AKYRS.Bet {
     key = "kaleidoscope",
-    atlas = 'aikoyoriBets', pos = { x = 5, y = 0 } ,
+    atlas = 'aikoyoriBets', pos = { x = 6, y = 0 } ,
     cost = 0,
     config = {
         extras = {

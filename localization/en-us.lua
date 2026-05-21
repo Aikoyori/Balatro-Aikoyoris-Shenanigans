@@ -3053,7 +3053,7 @@ return {
                 text={
                     "{C:green}Base 1 in x{C:green,E:akyrs_exponent,s:0.7}2{C:green}chance{} to retrigger {C:attention}x{} times",
                     "where {C:attention}x{} is the number of cards played",
-                    "if all cards in played hand has {C:attention}Fault Seal{}",
+                    "if all cards in played hand has {C:attention}any seal{}",
                     "{C:inactive}(Currently {C:green}#1# in #2#{C:inactive} -> {C:attention}#3# {C:inactive}times)",
                 },
             },

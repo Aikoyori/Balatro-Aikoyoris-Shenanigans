@@ -862,7 +862,6 @@ function AKYRS.end_round_hook()
     if G.GAME.akyrs_sfc_used then
         if AKYRS.is_mp() then
             AKYRS.ease_lives_mp(G.GAME.akyrs_sfc_used)
-            MP.GAME.lives = MP.GAME.lives + 1
         else
             ease_ante(G.GAME.akyrs_sfc_used)
             G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante

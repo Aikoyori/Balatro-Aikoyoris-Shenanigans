@@ -803,7 +803,7 @@ AKYRS.mp_check = function(sp,mp)
 end
 
 AKYRS.ease_lives_mp = function(lives)
-    if MP and MP and (MP.LOBBY.code or MP.LOBBY.ruleset_preview) then ease_lives(lives) MP.GAME.lives = MP.GAME.lives + lives end
+    if MP and MP and (MP.LOBBY.code or MP.LOBBY.ruleset_preview) then MP.UI.ease_lives(lives) MP.GAME.lives = MP.GAME.lives + lives end
 end
 
 function AKYRS.end_round_hook()

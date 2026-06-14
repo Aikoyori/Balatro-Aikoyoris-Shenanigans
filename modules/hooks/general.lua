@@ -634,6 +634,13 @@ G.FUNCS.discard_cards_from_highlighted = function (e,hook)
             )
             return
         end
+        
+        if G.GAME.akyrs_trade_hand_discard then
+            G.GAME.round_resets.discards = G.GAME.round_resets.discards - 1
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands + 1
+            ease_hands_played(1)
+        end
+
         if G.GAME.blind.debuff.akyrs_reduce_other then
             ease_hands_played(-G.GAME.blind.debuff.akyrs_reduce_other)
             AKYRS.simple_event_add(
@@ -642,9 +649,10 @@ G.FUNCS.discard_cards_from_highlighted = function (e,hook)
                         end_round()
                     end
                     return true
-                end
+                end, 0
             )
         end
+        
     end
     G.GAME.current_round.akyrs_last_action = "discard"
     local r = dcfhHook(e,hook)
@@ -659,6 +667,25 @@ G.FUNCS.play_cards_from_highlighted = function(e)
     end
     if G.GAME.starting_params.akyrs_inversion_deck then
         AKYRS.invert_selection(G.hand)
+    end
+    if G.GAME.akyrs_trade_hand_discard then
+        AKYRS.simple_event_add(
+            function ()
+                G.GAME.round_resets.discards = G.GAME.round_resets.discards + 1
+                G.GAME.round_resets.hands = G.GAME.round_resets.hands - 1
+                ease_discard(1)
+                AKYRS.simple_event_add(
+                    function ()
+                        if G.GAME.round_resets.hands <= 0 then
+                            AKYRS.force_lose()
+                        end
+                        return true
+                    end
+                )
+                return true
+            end
+        )
+
     end
     local ret = playCardEval(e)
     return ret
@@ -1177,6 +1204,9 @@ local cardAreaEmplaceFunction = CardArea.emplace
 function CardArea:emplace(c,l,fl)
     if c and type(c) == "table" then
         c.akyrs_lastcardarea = self
+        if self == G.discard then
+            c.ability.akyrs_already_discarded = true
+        end
     end
     return cardAreaEmplaceFunction(self,c,l,fl)
 end
@@ -1654,6 +1684,10 @@ function Back:apply_to_run()
 
     if G.GAME.starting_params.akyrs_hatena_everything then
         G.GAME.akyrs_hatena_deck = G.GAME.starting_params.akyrs_hatena_everything
+    end
+
+    if self.effect.config.akyrs_trade_hand_discard then
+        G.GAME.akyrs_trade_hand_discard = self.effect.config.akyrs_trade_hand_discard
     end
 
     if self.effect.config.akyrs_math_threshold then

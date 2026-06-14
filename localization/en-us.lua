@@ -253,7 +253,16 @@ return {
                 name = 'Dotted Deck',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    --[[
+                    'Lose {C:blue}Hands{} and {C:red}Discards{}',
+                    'but gain the other upon action',
+                    'Lose immediately if you have',
+                    'less than 1 {C:blue}Hand{}',
+                    'Cards that are drawn twice in',
+                    'the round are {C:red,E:akyrs_shrivel}destroyed{}',
+                    ]]
+                    '{C:blue}Hands{} and {C:red}Discards{}',
+                    'are {C:attention}traded',
                 },
             },
             b_akyrs_flora_deck = {
@@ -4673,6 +4682,16 @@ return {
                 {"Release the Mona clones!"},
                 {"hop on synthv"},
                 {"{f:akyrs_MochiyPopOne}「[疑]ロキ」簡単w"},
+                {"\\#downwiththeimposter",},
+                {"lowk why does that one guy in family guy", "look like peter griffin"},
+                {"He is only 20 years old."},
+                {"fuuuck dude this mod cost so much money im so fucked"},
+                {"one of my friends call me Michael Jordan"},
+                {"Watch Cosmic Princess Kaguya!"},
+                {"yuri > yaoi lowk"},
+                {"Spotify is evil"},
+                {"collect my pages"},
+                {"What do you call a mod that's", "complete 180 from Vanilla?"},
             }
         },
         v_text={

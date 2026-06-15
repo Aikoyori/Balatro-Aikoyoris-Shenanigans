@@ -608,6 +608,11 @@ G.FUNCS.discard_cards_from_highlighted = function (e,hook)
     if AKYRS.checkBlindKey("bl_akyrs_the_picker") and not G.GAME.blind.disabled then
         G.GAME.blind.debuff.primed = false
     end
+    if G.hand then
+        for i, jo in ipairs(G.hand.cards) do
+            jo.ability.akyrs_just_drawn = nil
+        end
+    end
     
     if G.hand and G.hand.highlighted then
         for _, _c in ipairs(G.hand.highlighted) do
@@ -664,6 +669,9 @@ local playCardEval = G.FUNCS.play_cards_from_highlighted
 G.FUNCS.play_cards_from_highlighted = function(e)
     if G.GAME.blind.debuff.akyrs_reduce_other then
         ease_discard(-G.GAME.blind.debuff.akyrs_reduce_other)
+    end
+    for i, jo in ipairs(G.playing_cards) do
+        jo.ability.akyrs_just_drawn = nil
     end
     if G.GAME.starting_params.akyrs_inversion_deck then
         AKYRS.invert_selection(G.hand)
@@ -1206,9 +1214,19 @@ function CardArea:emplace(c,l,fl)
         c.akyrs_lastcardarea = self
         if self == G.discard then
             c.ability.akyrs_already_discarded = true
+            c.ability.akyrs_just_drawn = nil
+        end
+        if self == G.hand then
+            c.ability.akyrs_just_drawn = true
         end
     end
-    return cardAreaEmplaceFunction(self,c,l,fl)
+    local x = {cardAreaEmplaceFunction(self,c,l,fl)}
+    if c and type(c) == "table" then
+        if self == G.discard then
+            c.ability.akyrs_auto_discarded = false
+        end
+    end
+    return unpack(x)
 end
 
 local setCAHook = Card.set_card_area

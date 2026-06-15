@@ -4174,3 +4174,124 @@ SMODS.Joker {
         end
     end,
 }
+
+SMODS.Joker {
+    key = "deck_shovel",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 8, y = 7 },
+    pools = {  },
+    config = {
+        extras = {
+            --dug_suits = {"Clubs", "Hearts", "Diamonds", "Spades",},
+            --dug_ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen","King"},
+            dug_suits = {},
+            dug_ranks = {},
+            hooked = false,
+        },
+    },
+    rarity = 2,
+    cost = 4,
+    loc_vars = function (self, info_queue, card)
+        local nodes_suits = {}
+        for _,st in ipairs(card.ability.extras.dug_suits) do
+            nodes_suits[#nodes_suits+1] = {
+                n = G.UIT.T,
+                config = {
+                    colour = G.C.SUITS[st],
+                    scale = 0.4,
+                    text = localize(st, "suits_plural")
+                }
+            }
+        end
+        local nodes_ranks = {}
+        for _,st in ipairs(card.ability.extras.dug_ranks) do
+            nodes_ranks[#nodes_ranks+1] = {
+                n = G.UIT.T,
+                config = {
+                    colour = G.C.UI.TEXT_DARK,
+                    scale = 0.4,
+                    text = localize(st, "ranks")
+                }
+            }
+        end
+        return {
+            vars = {
+                
+            },
+            main_end = {
+                { n = G.UIT.R, config = { padding = 0.1, colour = G.C.CLEAR, r = 0.1}, nodes = {
+                    AKYRS.ui_auto_table(nodes_suits),
+                    AKYRS.ui_auto_table(nodes_ranks),
+                }}
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.hand_drawn then
+            return {
+                func = function()
+                    local bs = nil
+                    for _, cd in ipairs(G.hand.cards) do
+                        if cd.ability.akyrs_just_drawn then
+                            if AKYRS.is_in_table(card.ability.extras.dug_suits, cd.base.suit) and not SMODS.has_no_suit(cd) then
+                                bs = true
+                            end
+                            if AKYRS.is_in_table(card.ability.extras.dug_ranks, cd.base.value) and not SMODS.has_no_rank(cd) then
+                                bs = true
+                            end
+                        end
+                        AKYRS.simple_event_add(function()
+                            if cd.ability.akyrs_just_drawn then
+                                if AKYRS.is_in_table(card.ability.extras.dug_suits, cd.base.suit) and not SMODS.has_no_suit(cd) and not cd.highlighted then
+                                    G.hand:add_to_highlighted(cd)
+                                    cd.ability.akyrs_auto_discarded = true
+                                end
+                                if AKYRS.is_in_table(card.ability.extras.dug_ranks, cd.base.value) and not SMODS.has_no_rank(cd) and not cd.highlighted then
+                                    G.hand:add_to_highlighted(cd)
+                                    cd.ability.akyrs_auto_discarded = true
+                                end
+                            end
+                            return true
+                        end, 0.0)
+
+                    end
+                    if bs then
+                        AKYRS.simple_event_add(function()
+                            G.FUNCS.discard_cards_from_highlighted(nil, true)
+                            if #G.deck.cards > 0 then
+                                AKYRS.simple_event_add(function()
+                                    AKYRS.fill_hand()
+                                    AKYRS.force_save()
+                                    return true
+                                end)
+                            end
+                            return true
+                        end)
+                    end
+                end
+            }
+        end
+        if context.discard and not context.hook then
+            return {
+                func = function()
+                    local cd = context.other_card
+                    if not AKYRS.is_in_table(card.ability.extras.dug_suits, cd.base.suit) and not SMODS.has_no_suit(cd) then
+                        card.ability.extras.dug_suits[#card.ability.extras.dug_suits+1] = cd.base.suit
+                        
+                    end
+                    if not AKYRS.is_in_table(card.ability.extras.dug_ranks, cd.base.value) and not SMODS.has_no_rank(cd) then
+                        card.ability.extras.dug_ranks[#card.ability.extras.dug_ranks+1] = cd.base.value
+                    end
+                end
+            }
+        end
+        if context.after then
+            return {
+                func = function()
+                    card.ability.extras.dug_suits = {}
+                    card.ability.extras.dug_ranks = {}
+                end
+            }
+        end
+    end,
+}

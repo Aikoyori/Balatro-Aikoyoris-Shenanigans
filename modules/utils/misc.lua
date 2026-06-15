@@ -1584,3 +1584,47 @@ end
 function AKYRS.is_being_used_as_playing_card(card)
     return card.area and (card.area == G.hand or card.area == G.deck or card.area == G.discard)
 end
+
+function AKYRS.ui_auto_table(ui_nodes, args)
+    local args = {}
+    local columns = args.columns or 4
+    local starting_node = args.starting_node or G.UIT.C
+    local w = args.w or 0.6
+    local h = args.h or 0.4
+    local cell_conf = args.cell_config or { maxw = w, maxh = h, minw = w, minh = h, r = 0.1, align = "cm" }
+    local row_conf = args.row_config or { padding = 0.1, align = "cl", minh = h, maxh = h }
+    local exp = {
+        n = starting_node,
+        nodes = {
+
+        }
+    }
+    local row = {
+        n = G.UIT.R,
+        config = row_conf,
+        nodes = {
+
+        }
+    }
+    for i, nod in ipairs(ui_nodes) do
+        row.nodes[#row.nodes+1] = {
+            n = G.UIT.C,
+            config = cell_conf,
+            nodes = {
+                nod
+            }
+        }
+        if #row.nodes >= columns then
+            exp.nodes[#exp.nodes+1] = row
+            row = {
+                n = G.UIT.R,
+                config = row_conf,
+                nodes = {
+
+                }
+            }
+        end
+    end
+    exp.nodes[#exp.nodes+1] = row
+    return exp
+end

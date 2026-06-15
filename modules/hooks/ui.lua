@@ -1618,6 +1618,95 @@ function SMODS.create_mod_badges(obj, badges)
     return create_mod_badges_hook(obj, badges)
 end
 
+local cbmb = SMODS.create_blind_mod_badge
+function SMODS.create_blind_mod_badge()
+
+    if G.GAME.blind and G.GAME.blind.config.blind and G.GAME.blind.config.blind.mod then
+        local mod = G.GAME.blind.config.blind.mod
+        if mod == AKYRS then
+            
+            local mnind = pseudorandom("akyrs_mod_name", 1, #G.localization.misc.akyrs_misc.mod_label)
+            local mod_name_node = {
+                n = G.UIT.R, config = {colour = G.C.CLEAR, padding = 0.1}, nodes = {}
+            }
+            localize({ type = "akyrs_misc", key = "mod_label",  index = mnind, nodes = mod_name_node.nodes, scale = 1.2, text_colour = mod.badge_text_colour, akyrs_dynatext_shadow = false, akyrs_default_dynatext_effect = '1' , akyrs_force_no_popin = true, akyrs_y_offset = -0.05})
+            local mod_full_node = {
+                n = G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes = {mod_name_node}
+            } 
+            for k, v in ipairs(mod_name_node.nodes) do
+                mod_name_node.nodes[k] = {n = G.UIT.C, config = { align = "m"}, nodes = mod_name_node.nodes[k]}
+            end
+            --local text = DynaText({string = {{ref_table = G.GAME.blind_badge, ref_value = 'name'}}, colours = {mod.badge_text_colour or G.C.WHITE}, shadow = true, silent = true, float = true, scale = 0.36})
+            local bs = UIBox({
+                        definition = mod_full_node,
+                        config = {
+                            align= 'cm',
+                        }
+                    })
+            local text_scroll = SMODS.UIScrollBox({
+                    content = bs,
+                    container = {
+                        config = {
+                            can_collide = false,
+                        }
+                    },
+                    overflow = {
+                        node_config = {
+                            no_overflow = not mod.no_marquee and "h" or false,
+                            maxw = not mod.no_marquee and 4.4 or nil,
+                        },
+                        config = {
+                            can_collide = false,
+                        }
+                    },
+                    sync_mode = "offset",
+                    scroll_move = function(self, dt)
+                        local dx = self:get_scroll_distance()
+                        if dx == 0 or mod.no_marquee then return end
+                        if not self.scroll_start_pause then
+                            self.scroll_start_pause = 1.5
+                        end
+                        if self.scroll_start_pause > 0 and self.scroll_offset.x >= 0 then
+                            self.scroll_start_pause = self.scroll_start_pause - G.real_dt
+                        else
+                            self.scroll_offset.x = (self.scroll_offset.x or 0) + G.real_dt / 1.5
+                            if self.scroll_offset.x > self.content_container.T.w then
+                                self.scroll_start_pause = 1.5
+                                self.scroll_offset.x = -self.T.w - 0.1
+                            end
+                        end
+                    end,
+                })
+            return {n=G.UIT.R, config={align = "cm", padding = 0.03*0.9, minh = 0.4}, nodes={
+                {n=G.UIT.O, config={object = text_scroll}},
+            }}
+        end
+    end
+    return cbmb()
+end
+local gfhbb = G.FUNCS.HUD_blind_badge
+G.FUNCS.HUD_blind_badge = function(e)
+    if G.GAME.blind.in_blind then
+        if G.GAME.blind.config.blind.mod and G.GAME.blind.config.blind.mod == AKYRS then
+            if G.GAME.blind.config.blind.mod then
+                if not e.children[1] then 
+                    local mod = G.GAME.blind.config.blind.mod
+                    G.GAME.blind_badge.name = mod.display_name
+                    e.UIBox:add_child(SMODS.create_blind_mod_badge(), e)
+                    e.config.colour = mod.badge_colour or G.C.DYN_UI.MAIN
+                    e.config.emboss = 0.05
+                    e.config.shader = 'akyrs_aiko_mod_badge'
+                    e.states.visible = true
+                end
+            elseif e.children[1] then
+                e.states.visible = false
+                e.children[1]:remove()
+                e.children[1] = nil
+            end
+        end
+    end
+end
+
 function AKYRS.mod_loc_vars(card, loc_vars)
     if card.is_null or card.config.center_key == "m_akyrs_scoreless" or card.ability.akyrs_special_card_type == "suit" then
         loc_vars.nominal_chips = nil

@@ -289,3 +289,13 @@ end
 """
 overwrite = true
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = """SMODS.calculate_context({discard = true, other_card =  G.hand.highlighted[i], full_hand = G.hand.highlighted, ignore_other_debuff = true}, effects)"""
+position = "at"
+payload = """SMODS.calculate_context({discard = true, other_card =  G.hand.highlighted[i], full_hand = G.hand.highlighted, ignore_other_debuff = true, hook = hook}, effects)"""
+overwrite = true
+match_indent = true

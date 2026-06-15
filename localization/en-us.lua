@@ -2782,6 +2782,19 @@ return {
                     },
                 }
             },
+            j_akyrs_deck_shovel = {
+                name = {
+                    "Deck Shovel",
+                },
+                text = {
+                    {
+                        "Automatically discards {C:attention}already discarded ranks{}",
+                        "{C:attention}and suits{} this hand at no cost",
+                        "when {C:attention}new cards{} are drawn",
+                    },
+                    
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {
@@ -4638,6 +4651,8 @@ return {
                 {"aish"},
                 {"The Wacky","and Wonderous Shenanigans","in the world of Aikoyori"},
                 {"Solitaireyori","Wordlenanigans"},
+                {"{f:5}アイコヨリ","{f:5}しぇなにがんす"},
+                {"aiko?"},
             },
             flavour_text = {
                 {"now with 1000% more aliases!",},

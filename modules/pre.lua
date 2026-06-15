@@ -56,6 +56,7 @@ AKYRS.C = {
 SMODS.optional_features.cardareas.deck = true
 SMODS.optional_features.cardareas.discard = true
 SMODS.optional_features.retrigger_joker = true
+SMODS.optional_features.object_weights = true
 
 AKYRS.HC_CHALLENGES = {}
 AKYRS.UIDEF = {}

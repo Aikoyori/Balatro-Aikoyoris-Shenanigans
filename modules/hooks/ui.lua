@@ -785,6 +785,9 @@ G.FUNCS.can_play = function(e)
             runOGHook = false
         end
     end
+    if G.AKYRS_DISCARD_STREAKS_ONGOING then
+        shouldDisableButton = true
+    end
     if shouldDisableButton then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
@@ -793,6 +796,35 @@ G.FUNCS.can_play = function(e)
     if runOGHook then
         return canPlayHook(e)
     end
+end
+
+local discardAbilityHook = G.FUNCS.can_discard
+G.FUNCS.can_discard = function(e)
+    
+    local shouldDisableButton = false
+    if G.AKYRS_DISCARD_STREAKS_ONGOING then
+        shouldDisableButton = true
+    end
+    if G.hand and G.hand.highlighted then
+        for _, _c in ipairs(G.hand.highlighted) do
+            if _c.ability.akyrs_attention then
+                shouldDisableButton = true
+                return ret
+            end
+        end
+    end
+    if shouldDisableButton then        
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    else
+        local ret = discardAbilityHook(e)
+        return ret
+    end
+    --[[
+    if #G.hand.highlighted > 0 and G.GAME.blind and G.GAME.blind.config and G.GAME.blind.config.blind and G.GAME.blind.config.blind.debuff and G.GAME.blind.config.blind.debuff.infinite_discards then
+        e.config.colour = G.C.RED
+        e.config.button = 'discard_cards_from_highlighted'
+    end]]
 end
 
 

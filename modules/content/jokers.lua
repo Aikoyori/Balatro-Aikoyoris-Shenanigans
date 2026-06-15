@@ -4256,6 +4256,7 @@ SMODS.Joker {
 
                     end
                     if bs then
+                        G.AKYRS_DISCARD_STREAKS_ONGOING = true
                         AKYRS.simple_event_add(function()
                             G.FUNCS.discard_cards_from_highlighted(nil, true)
                             if #G.deck.cards > 0 then
@@ -4264,9 +4265,13 @@ SMODS.Joker {
                                     AKYRS.force_save()
                                     return true
                                 end)
+                            else
+                                G.AKYRS_DISCARD_STREAKS_ONGOING = nil
                             end
                             return true
                         end)
+                    else
+                        G.AKYRS_DISCARD_STREAKS_ONGOING = nil
                     end
                 end
             }

@@ -371,26 +371,6 @@ function Card:set_cost()
     return ret
 end
 
-local discardAbilityHook = G.FUNCS.can_discard
-G.FUNCS.can_discard = function(e)
-    local ret = discardAbilityHook(e)
-    if G.hand and G.hand.highlighted then
-        for _, _c in ipairs(G.hand.highlighted) do
-            if _c.ability.akyrs_attention then
-                e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-                e.config.button = nil
-                return ret
-            end
-        end
-    end
-
-    if #G.hand.highlighted > 0 and G.GAME.blind and G.GAME.blind.config and G.GAME.blind.config.blind and G.GAME.blind.config.blind.debuff and G.GAME.blind.config.blind.debuff.infinite_discards then
-        e.config.colour = G.C.RED
-        e.config.button = 'discard_cards_from_highlighted'
-    end
-    return ret
-end
-
 
 
 local cardRemoveHookFirst = Card.remove

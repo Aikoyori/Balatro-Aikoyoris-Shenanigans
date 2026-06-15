@@ -1586,13 +1586,13 @@ function AKYRS.is_being_used_as_playing_card(card)
 end
 
 function AKYRS.ui_auto_table(ui_nodes, args)
-    local args = {}
+    args = args or {}
     local columns = args.columns or 4
     local starting_node = args.starting_node or G.UIT.C
-    local w = args.w or 0.6
-    local h = args.h or 0.4
-    local cell_conf = args.cell_config or { maxw = w, maxh = h, minw = w, minh = h, r = 0.1, align = "cm" }
-    local row_conf = args.row_config or { padding = 0.1, align = "cl", minh = h, maxh = h }
+    local w = args.w or 0.7
+    local h = args.h or 0.5
+    local cell_conf = args.cell_config or { maxw = w, maxh = h, minw = w, minh = h, h = h, w = w, r = 0.1, align = "cm" }
+    local row_conf = args.row_config or { padding = 0.1, align = "cl", minh = h, maxh = h, h = h }
     local exp = {
         n = starting_node,
         nodes = {
@@ -1625,6 +1625,6 @@ function AKYRS.ui_auto_table(ui_nodes, args)
             }
         end
     end
-    exp.nodes[#exp.nodes+1] = row
+    if #row.nodes > 0 then exp.nodes[#exp.nodes+1] = row end
     return exp
 end

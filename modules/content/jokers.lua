@@ -3741,24 +3741,23 @@ SMODS.Joker {
         if context.end_of_round and context.cardarea == G.jokers then
             return {
                 func = function()
-                    SMODS.scale_card(card,{
-                        ref_table = card.ability.extras,
-                        ref_value = "xc",
-                        scalar_value = "reduce",
-                        scaling_message = { message = localize("k_akyrs_downgrade_ex") },
-                    })
-
                     AKYRS.simple_event_add(function ()
+                        SMODS.scale_card(card,{
+                            ref_table = card.ability.extras,
+                            ref_value = "xc",
+                            scalar_value = "reduce",
+                            scaling_message = { message = localize("k_akyrs_downgrade_ex") },
+                        })
                         if card.ability.extras.xc <= 1 then
                             card.pinch.x = true
                             SMODS.calculate_effect(
                                 { message = localize("k_akyrs_ate_up")},
                                 card
                             )
-                            card:remove()
+                            SMODS.destroy_cards({card})
                         end
                         return true
-                    end, 0.5)
+                    end, 0)
                 end
             }
         end
@@ -3980,8 +3979,7 @@ SMODS.Joker {
                         })
                     end
                 }, card)
-            end
-            if context.poker_hands and next(context.poker_hands["Flush"]) and not context.other_card:is_suit(card.ability.extras.suit) then
+            elseif context.poker_hands and next(context.poker_hands["Flush"]) and not context.other_card:is_suit(card.ability.extras.suit) then
                 SMODS.calculate_effect({
                     func = function ()
                         SMODS.scale_card(card, {
@@ -4214,14 +4212,15 @@ SMODS.Joker {
                 }
             }
         end
+        local hassmth = (#nodes_suits > 0 or #nodes_ranks > 0)
         return {
             vars = {
                 
             },
-            main_end = {
+            main_end = hassmth and {
                 { n = G.UIT.R, config = { padding = 0.1, colour = G.C.CLEAR, r = 0.1}, nodes = {
-                    AKYRS.ui_auto_table(nodes_suits),
-                    AKYRS.ui_auto_table(nodes_ranks),
+                    AKYRS.ui_auto_table(nodes_suits, { w = 1.5, columns = 2}),
+                    AKYRS.ui_auto_table(nodes_ranks,  { w = 0.9 }),
                 }}
             }
         }
@@ -4257,6 +4256,9 @@ SMODS.Joker {
                     end
                     if bs then
                         G.AKYRS_DISCARD_STREAKS_ONGOING = true
+                        SMODS.calculate_effect({
+                            message = localize("k_akyrs_shoveled_ex"),
+                        }, card)
                         AKYRS.simple_event_add(function()
                             G.FUNCS.discard_cards_from_highlighted(nil, true)
                             if #G.deck.cards > 0 then
@@ -4296,6 +4298,34 @@ SMODS.Joker {
                     card.ability.extras.dug_suits = {}
                     card.ability.extras.dug_ranks = {}
                 end
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = "mikudashi",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 7, y = 7 },
+    pools = { ["Vocaloid"] = true, },
+    config = {
+        extras = {
+            xchips = 1.4,
+        },
+    },
+    rarity = 3,
+    cost = 6,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.xchips,
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.individual and context.cardarea == G.play and context.other_card:is_suit("Hearts") then
+            return {
+                xchips = card.ability.extras.xchips
             }
         end
     end,

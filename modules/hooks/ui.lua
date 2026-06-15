@@ -809,7 +809,11 @@ G.FUNCS.can_discard = function(e)
         for _, _c in ipairs(G.hand.highlighted) do
             if _c.ability.akyrs_attention then
                 shouldDisableButton = true
-                return ret
+                break
+            end
+            if next(SMODS.find_card("j_akyrs_mikudashi")) and _c:is_suit("Hearts") then
+                shouldDisableButton = true
+                break
             end
         end
     end

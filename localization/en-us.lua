@@ -2795,6 +2795,19 @@ return {
                     
                 }
             },
+            j_akyrs_mikudashi = {
+                name = {
+                    "{f:5}ミクだし",
+                    "{s:0.7}[Under My Heel (MIKU dashi)] by hya"
+                },
+                text = {
+                    {
+                        "{C:hearts}Heart{} scored gives {X:chips,C:white} X#1# {} Chips each",
+                        "{C:hearts}Hearts{} cannot be {C:red}discarded{} and must be played",
+                    },
+                    
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {
@@ -4565,6 +4578,10 @@ return {
 
             b_bet = "Bets",
             b_judgement = "Judgements",
+
+
+
+            k_akyrs_shoveled_ex = "Shoveled!",
         },
         high_scores={},
         labels={

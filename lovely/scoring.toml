@@ -10,10 +10,8 @@ target = "card.lua"
 pattern = """    local badges = {}"""
 position = "after"
 payload = """
-            loc_vars = loc_vars or {}
-            -- if (self.is_null or SMODS.has_enhancement(self, "m_akyrs_scoreless")) and loc_vars then
-            --     loc_vars.nominal_chips = nil
-            -- end
+loc_vars = loc_vars or {}
+if loc_vars then AKYRS.mod_loc_vars(self, loc_vars) end
 """
 overwrite = true
 match_indent = true
@@ -259,6 +257,17 @@ position = "after"
 payload = """G.GAME.current_round.akyrs_hands_played = G.GAME.current_round.akyrs_hands_played or {}
 G.GAME.current_round.akyrs_hands_played[text] = true
 """
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = """            draw_card(G.hand, G.play, i*100/#G.hand.highlighted, 'up', nil, G.hand.highlighted[i])"""
+position = "after"
+payload = """SMODS.calculate_context({ akyrs_postdraw_to_play = true, postdraw_card = G.hand.highlighted[i]})"""
 overwrite = true
 match_indent = true
 

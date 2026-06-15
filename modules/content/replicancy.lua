@@ -569,6 +569,7 @@ SMODS.Consumable{
     },
     loc_vars = function (self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_akyrs_wafer_card
+        info_queue[#info_queue+1] = G.P_CENTERS.e_akyrs_dyed
     end,
     can_use = function (self, card)
         local eligible_cards = AKYRS.filter_table(G.hand.cards, function (cfx, ind)

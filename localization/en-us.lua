@@ -2755,6 +2755,33 @@ return {
                     },
                 }
             },
+            j_akyrs_xaleidoscopix = {
+                name = {
+                    "{f:5}Xaleid◆scopiX{}",
+                    "{s:0.7}xi{}",
+                },
+                text = {
+                    {
+                        "Played {C:diamonds}Diamonds{} give {X:chips,C:white} X#1# {} Chips",
+                        "This Joker gains {X:chips,C:white} X#4# {} Chips",
+                        "every #2# {C:inactive}(#3#){} {C:diamonds}Diamonds{} played",
+                    },
+                }
+            },
+            j_akyrs_butcher_vanity = {
+                name = {
+                    "BUTCHER VANITY",
+                    "{s:0.7}FLAVOR FOLEY{}",
+                },
+                text = {
+                    {
+                        "Played {C:attention}Face Cards{} are split",
+                        "into {C:attention}Pure Rank{} and {C:attention}Pure Suit{} cards",
+                        "Pure {C:attention}Face Cards{} give {X:mult,C:white} X#1# {} Mult",
+                        "when {C:attention}held in hand{}",
+                    },
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {

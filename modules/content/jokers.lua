@@ -3776,7 +3776,7 @@ SMODS.Joker {
     pools = { Meme = true },
     atlas = 'AikoyoriJokers',
     pos = { x = 9, y = 6 },
-    pools = {  },
+
     config = {
         extras = {
             xc = 1.6,
@@ -3797,7 +3797,8 @@ SMODS.Joker {
             return {
                 func = function()
                     AKYRS.simple_event_add(function() 
-                        SMODS.add_card({suit = "Diamonds", rank = "Ace", area = G.play})
+                        local c2 = SMODS.add_card({suit = "Diamonds", rank = "Ace", area = G.play})
+                        SMODS.calculate_context({ playing_card_added = true, cards = { c2 } })
                         return true
                     end, 0)
                 end
@@ -3812,7 +3813,7 @@ SMODS.Joker {
     pools = { ["Video Game"] = true, ["Peggle"] = true },
     atlas = 'AikoyoriJokers',
     pos = { x = 0, y = 7 },
-    pools = {  },
+
     config = {
         extras = {
             score_xbase = 0.03
@@ -3842,7 +3843,7 @@ SMODS.Joker {
     atlas = 'AikoyoriJokers',
     pools = { ["Video Game"] = true, ["Plants vs Zombies"] = true },
     pos = { x = 1, y = 7 },
-    pools = {  },
+
     config = {
         extras = {
             xscore = 1.75,
@@ -3872,7 +3873,7 @@ SMODS.Joker {
     atlas = 'AikoyoriJokers',
     pos = { x = 2, y = 7 },
     pools = { ["Vocaloid"] = true, },
-    pools = {  },
+
     config = {
         extras = {
             gain = 0.1,
@@ -3932,7 +3933,6 @@ SMODS.Joker {
     atlas = 'AikoyoriJokers',
     pos = { x = 3, y = 7 },
     pools = { ["Vocaloid"] = true, },
-    pools = {  },
     config = {
         extras = {
             gain = 0.1,
@@ -4015,7 +4015,6 @@ SMODS.Joker {
     atlas = 'AikoyoriJokers',
     pos = { x = 4, y = 7 },
     pools = { ["Vocaloid"] = true, },
-    pools = {  },
     config = {
         extras = {
             gain = 0.4,
@@ -4089,9 +4088,12 @@ SMODS.Joker {
     atlas = 'AikoyoriJokers',
     pos = { x = 5, y = 7 },
     pools = { ["Maimai"] = true, },
-    pools = {  },
     config = {
         extras = {
+            xchips = 1,
+            xchips_gain = 0.5,
+            times_needed = 15,
+            times_achieved = 0,
         },
     },
     rarity = 3,
@@ -4099,9 +4101,76 @@ SMODS.Joker {
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
+                card.ability.extras.xchips,
+                card.ability.extras.times_needed,
+                card.ability.extras.times_achieved,
+                card.ability.extras.xchips_gain,
             }
         }
     end,
     calculate = function (self, card, context)
+        if context.before then
+            return {
+                func = function()
+                    for i, cd in ipairs(G.play.cards) do
+                        if cd:is_suit("Diamonds") then
+                            card.ability.extras.times_achieved = card.ability.extras.times_achieved + 1
+                            if card.ability.extras.times_achieved >= card.ability.extras.times_needed then
+                                card.ability.extras.times_achieved = 0
+                                SMODS.scale_card(card, {
+                                    ref_table = card.ability.extras,
+                                    ref_value = "xchips",
+                                    scalar_value = "xchips_gain"
+                                })
+                            end
+                        end
+                    end
+                end
+            }
+        end
+        if context.individual and context.other_card:is_suit("Diamonds") and context.cardarea == G.play then
+            return {
+                xchips = card.ability.extras.xchips,
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = "butcher_vanity",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 6, y = 7 },
+    pools = { ["Vocaloid"] = true, },
+    config = {
+        extras = {
+            xmult = 1.5,
+        },
+    },
+    rarity = 3,
+    cost = 7,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.xmult,
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.individual and context.other_card:is_face() and context.cardarea == G.hand and context.other_card.ability.akyrs_special_card_type == "rank" then
+            return {
+                xmult = card.ability.extras.xmult
+            }
+        end
+        if context.akyrs_postdraw_to_play then
+            local cd = context.postdraw_card
+            if cd:is_face() and not cd.ability.akyrs_special_card_type then
+                AKYRS.do_things_to_card({cd}, function (card, index)
+                    local cd2 = SMODS.copy_card(cd)
+                    AKYRS.set_special_card_type(cd, "rank")
+                    AKYRS.set_special_card_type(cd2, "suit")
+                    SMODS.calculate_context({ playing_card_added = true, cards = { cd2 } })
+                end)
+            end
+        end
     end,
 }

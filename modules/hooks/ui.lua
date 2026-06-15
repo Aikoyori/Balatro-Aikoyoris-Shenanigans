@@ -1617,3 +1617,9 @@ function SMODS.create_mod_badges(obj, badges)
 
     return create_mod_badges_hook(obj, badges)
 end
+
+function AKYRS.mod_loc_vars(card, loc_vars)
+    if card.is_null or card.config.center_key == "m_akyrs_scoreless" or card.ability.akyrs_special_card_type == "suit" then
+        loc_vars.nominal_chips = nil
+    end
+end

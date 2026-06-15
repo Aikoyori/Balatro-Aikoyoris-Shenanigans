@@ -4083,3 +4083,25 @@ SMODS.Joker {
     end,
     blueprint_compat = true,
 }
+
+SMODS.Joker {
+    key = "xaleidoscopix",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 5, y = 7 },
+    pools = { ["Maimai"] = true, },
+    pools = {  },
+    config = {
+        extras = {
+        },
+    },
+    rarity = 3,
+    cost = 8,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+    end,
+}

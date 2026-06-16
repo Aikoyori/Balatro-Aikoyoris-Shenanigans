@@ -354,6 +354,15 @@ SMODS.current_mod.extra_tabs = function ()
                             }
                           }),
                           AKYRS.create_credits("akyrs_tsu_credits", "@tje.tsu", "tje.tsu", 3.5, nil),
+                          AKYRS.create_credits("akyrs_marcyptata64_credits", "@marcyptata64", "marcyptata64", 3.3, nil,
+                          {
+                            n = G.UIT.R,
+                            config = { padding = 0.02 },
+                            nodes = {
+                              -- TODO: add ng icon
+                              AKYRS.create_link_sprite_btn("pixeljoint", "https://marcyptata64.newgrounds.com/"),
+                            }
+                          }),
                         }
                       },
                       {

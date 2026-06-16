@@ -339,6 +339,13 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
+    key = "marcyptata64_credits",
+    path = "credits/marcyptata64.png",
+    px = 128,
+    py = 128
+}
+
+SMODS.Atlas {
     key = "mystery",
     path = "mystery.png",
     px = 320,

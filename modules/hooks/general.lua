@@ -662,14 +662,15 @@ G.FUNCS.play_cards_from_highlighted = function(e)
                 G.GAME.round_resets.discards = G.GAME.round_resets.discards + 1
                 G.GAME.round_resets.hands = G.GAME.round_resets.hands - 1
                 ease_discard(1)
+                --[[
                 AKYRS.simple_event_add(
                     function ()
-                        if G.GAME.round_resets.hands <= 0 then
+                        if G.GAME.round_resets.hands <= 0 and not G.GAME.akyrs_trade_hand_discard == "mp" then
                             AKYRS.force_lose()
                         end
                         return true
                     end
-                )
+                )]]
                 return true
             end
         )
@@ -1686,6 +1687,9 @@ function Back:apply_to_run()
 
     if self.effect.config.akyrs_trade_hand_discard then
         G.GAME.akyrs_trade_hand_discard = self.effect.config.akyrs_trade_hand_discard
+        if AKYRS.is_mp() then
+            G.GAME.akyrs_trade_hand_discard = "mp"
+        end
     end
 
     if self.effect.config.akyrs_math_threshold then

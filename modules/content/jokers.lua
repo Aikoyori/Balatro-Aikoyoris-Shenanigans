@@ -4230,29 +4230,30 @@ SMODS.Joker {
             return {
                 func = function()
                     local bs = nil
-                    for _, cd in ipairs(G.hand.cards) do
-                        if cd.ability.akyrs_just_drawn then
-                            if AKYRS.is_in_table(card.ability.extras.dug_suits, cd.base.suit) and not SMODS.has_no_suit(cd) then
-                                bs = true
-                            end
-                            if AKYRS.is_in_table(card.ability.extras.dug_ranks, cd.base.value) and not SMODS.has_no_rank(cd) then
-                                bs = true
-                            end
-                        end
-                        AKYRS.simple_event_add(function()
+                    if not G.AKYRS_DISCARD_STREAKS_ONGOING then
+                        for _, cd in ipairs(G.hand.cards) do
                             if cd.ability.akyrs_just_drawn then
-                                if AKYRS.is_in_table(card.ability.extras.dug_suits, cd.base.suit) and not SMODS.has_no_suit(cd) and not cd.highlighted then
-                                    G.hand:add_to_highlighted(cd)
-                                    cd.ability.akyrs_auto_discarded = true
+                                if AKYRS.is_in_table(card.ability.extras.dug_suits, cd.base.suit) and not SMODS.has_no_suit(cd) then
+                                    bs = true
                                 end
-                                if AKYRS.is_in_table(card.ability.extras.dug_ranks, cd.base.value) and not SMODS.has_no_rank(cd) and not cd.highlighted then
-                                    G.hand:add_to_highlighted(cd)
-                                    cd.ability.akyrs_auto_discarded = true
+                                if AKYRS.is_in_table(card.ability.extras.dug_ranks, cd.base.value) and not SMODS.has_no_rank(cd) then
+                                    bs = true
                                 end
                             end
-                            return true
-                        end, 0.0)
-
+                            AKYRS.simple_event_add(function()
+                                if cd.ability.akyrs_just_drawn then
+                                    if AKYRS.is_in_table(card.ability.extras.dug_suits, cd.base.suit) and not SMODS.has_no_suit(cd) and not cd.highlighted then
+                                        G.hand:add_to_highlighted(cd)
+                                        cd.ability.akyrs_auto_discarded = true
+                                    end
+                                    if AKYRS.is_in_table(card.ability.extras.dug_ranks, cd.base.value) and not SMODS.has_no_rank(cd) and not cd.highlighted then
+                                        G.hand:add_to_highlighted(cd)
+                                        cd.ability.akyrs_auto_discarded = true
+                                    end
+                                end
+                                return true
+                            end, 0.0)
+                        end
                     end
                     if bs then
                         G.AKYRS_DISCARD_STREAKS_ONGOING = true

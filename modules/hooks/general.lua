@@ -620,7 +620,7 @@ G.FUNCS.discard_cards_from_highlighted = function (e,hook)
             return
         end
         
-        if G.GAME.akyrs_trade_hand_discard then
+        if G.GAME.akyrs_trade_hand_discard and not hook then
             G.GAME.round_resets.discards = G.GAME.round_resets.discards - 1
             G.GAME.round_resets.hands = G.GAME.round_resets.hands + 1
             ease_hands_played(1)

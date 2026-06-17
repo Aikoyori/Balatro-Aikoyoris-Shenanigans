@@ -1099,7 +1099,7 @@ return {
                     "when a consumable is {C:attention}used{}",
                 },
             },
-            dd_akyrs_break_up_tip  = {
+            dd_akyrs_pure_cards_tip  = {
                 name="Pure Cards",
                 text={
                     "{C:attention}Pure Cards{} can form {C:attention}Pure Hands",
@@ -1110,7 +1110,7 @@ return {
                     "For example, this is a {C:attention}Pure Flush{}",
                 },
             },
-            dd_akyrs_break_up_tip_no_preview  = {
+            dd_akyrs_pure_cards_tip_no_preview  = {
                 name="Pure Cards",
                 text={
                     "{C:attention}Pure Cards{} can form {C:attention}Pure Hands",

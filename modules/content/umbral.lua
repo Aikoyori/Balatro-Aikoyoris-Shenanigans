@@ -247,7 +247,7 @@ SMODS.Consumable{
         max_highlighted = 3
     },
     loc_vars = function (self, info_queue, card)
-        info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_break_up_tip"]
+        info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_pure_cards_tip"]
 
         return {
             vars = {

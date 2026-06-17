@@ -350,7 +350,7 @@ AKYRS.DescriptionDummy{
     key = "copper_scrape_tip",
 }
 AKYRS.DescriptionDummy{
-    key = "break_up_tip",
+    key = "pure_cards_tip",
     loc_vars=function (self, info_queue, card)
         return {
             key = AKYRS.should_show_card_previews() and self.key or self.key.."_no_preview"

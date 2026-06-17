@@ -1574,6 +1574,7 @@ function AKYRS.better_ease_value(ref_table, ref_value, mod, floored, timer_type,
 end
 
 function AKYRS.format_string(number)
+    if not number then return "???" end
     if number - math.floor(number) == 0 then
         return string.format("%.1d", number)
     end

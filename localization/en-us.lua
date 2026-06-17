@@ -2803,7 +2803,7 @@ return {
                 text = {
                     {
                         "{C:hearts}Heart{} scored gives {X:chips,C:white} X#1# {} Chips each",
-                        "{C:hearts}Hearts{} cannot be {C:red}discarded{} and must be played",
+                        "{C:hearts}Hearts{} cannot be {C:red}discarded{}",
                     },
                     
                 }

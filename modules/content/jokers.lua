@@ -4230,7 +4230,7 @@ SMODS.Joker {
             return {
                 func = function()
                     local bs = nil
-                    if not G.AKYRS_DISCARD_STREAKS_ONGOING then
+                    if true then -- TODO: figure out how to make this only activate for one joker
                         for _, cd in ipairs(G.hand.cards) do
                             if cd.ability.akyrs_just_drawn then
                                 if AKYRS.is_in_table(card.ability.extras.dug_suits, cd.base.suit) and not SMODS.has_no_suit(cd) then
@@ -4255,8 +4255,8 @@ SMODS.Joker {
                             end, 0.0)
                         end
                     end
-                    if bs then
-                        G.AKYRS_DISCARD_STREAKS_ONGOING = true
+                    if bs and (not G.AKYRS_DISCARD_STREAKS_ONGOING or G.AKYRS_DISCARD_STREAKS_ONGOING == card) then
+                        G.AKYRS_DISCARD_STREAKS_ONGOING = card
                         SMODS.calculate_effect({
                             message = localize("k_akyrs_shoveled_ex"),
                         }, card)

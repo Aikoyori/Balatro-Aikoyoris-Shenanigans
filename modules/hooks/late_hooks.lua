@@ -32,6 +32,7 @@ local startRunHook = Game.start_run
 function Game:start_run(args)
     G.SCORE_DISPLAY_QUEUE = nil
     G.AKYRS_CARD_EVAL_RAN = nil
+    G.AKYRS_DISCARD_STREAKS_ONGOING = nil
     --print("PRE RUN")
     local ret = startRunHook(self, args)
     --print("POST RUN")

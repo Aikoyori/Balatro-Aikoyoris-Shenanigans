@@ -320,6 +320,8 @@ if AKYRS.config.experimental_features then
             }
         end,
         config = {
+            hands = -2,
+            discards = -2,
             akyrs_trade_hand_discard = true
         },
         calculate = function (self, back, context)

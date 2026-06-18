@@ -1125,5 +1125,5 @@ AKYRS.redemption_codes = {
 }
 
 function AKYRS.get_random_redemption_code(seed)
-    return G.GAME and pseudorandom_element(AKYRS.redemption_codes, seed and "akyrs_redemption_code_voucher_".. G.SEED.."_"..seed or "akyrs_redemption_code") or "?????????"
+    return (G.GAME and G.GAME.pseudorandom) and pseudorandom_element(AKYRS.redemption_codes, seed and "akyrs_redemption_code_voucher_".. G.SEED.."_"..seed or "akyrs_redemption_code") or "?????????"
 end

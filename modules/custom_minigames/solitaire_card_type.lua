@@ -12,25 +12,10 @@ function SolitaireCard:click()
     if self.area == AKYRS.SOL.stockCardArea then
         AKYRS.SOL.draw_from_stock_to_waste(1)
     end
-    if self.akyrs_double_click_wait and self.akyrs_double_click_wait > 0 and self.ability.akyrs_part_of_solitaire and self.facing == "front" then
-        --self.following_cards = nil
-        --print("double click detected")
-        --self:akyrs_calculate_following_cards()
-        --AKYRS.SOL.klondike_quick_stack(self)
-        self.akyrs_double_click_wait = 0
-    else
-        self.akyrs_double_click_wait = G.SETTINGS.GAMESPEED / 1
-    end
     return c
 end
 function SolitaireCard:update(dt)
     local c = Card.update(self,dt)
-    if self.akyrs_double_click_wait then
-        if self.akyrs_double_click_wait == 0 then
-            
-        end
-        self.akyrs_double_click_wait = math.max(0, self.akyrs_double_click_wait - 0.1)
-    end
     return c
 end
 

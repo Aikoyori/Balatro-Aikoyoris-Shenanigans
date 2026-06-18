@@ -312,7 +312,14 @@ function AKYRS.blind_handler()
         G.GAME.round_resets.blind_states[G.GAME.blind_on_deck] = 'Defeated'
     end
     for k, v in ipairs(G.playing_cards) do
-        v.ability.akyrs_already_discarded = nil
+        if v.ability then
+            if v.ability.extras then
+                if (v.ability.extras.akyrs_can_downrank == false) then
+                    v.ability.extras.akyrs_can_downrank = true
+                end
+            end
+            v.ability.akyrs_already_discarded = nil
+        end
     end
 end
 

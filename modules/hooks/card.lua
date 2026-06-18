@@ -317,7 +317,30 @@ end
 
 local card_click = Card.click
 function Card:click()
+    if self.akyrs_double_click_wait and self.akyrs_double_click_wait > 0 and self.facing == "front" then
+        --self.following_cards = nil
+        --print("double click detected")
+        --self:akyrs_calculate_following_cards()
+        --AKYRS.SOL.klondike_quick_stack(self)
+        self:akyrs_double_click()
+        self.akyrs_double_click_wait = 0
+    else
+        self.akyrs_double_click_wait = 0.64
+    end
     return card_click(self)
+end
+
+function Card:akyrs_double_click()
+    --print("double click detected") 
+    if self.config and self.config.center and self.area then
+        if self.config.center.key == "m_akyrs_canopy_card" and self.ability.extras.akyrs_can_downrank and self.area == G.hand and G.STATE ~= G.STATES.HAND_PLAYED then
+            self.ability.extras.akyrs_can_downrank = false
+            AKYRS.do_things_to_card({self}, function (card, index)
+                card = SMODS.modify_rank(card, -1)
+            end)
+        end
+    end
+
 end
 
 AKYRS.should_conceal_card = function(card, center)

@@ -279,25 +279,30 @@ SMODS.Enhancement{
 SMODS.Enhancement{
     key = "canopy_card",
     atlas = 'cardUpgrades',
-    pos = {x = 6, y = 0},
+    config = {
+        extras = {
+            akyrs_can_downrank = true
+        }
+    },
+    pos = {x = 9, y = 1},
     loc_vars = function (self, info_queue, card)
         return {
+            vars = {
+                localize(card.ability.extras.akyrs_can_downrank and "k_canopy_downable_yes" or "k_canopy_downable_no"),
+                colours = {
+                    card.ability.extras.akyrs_can_downrank and G.C.GREEN or G.C.UI.TEXT_INACTIVE,
+                    card.ability.extras.akyrs_can_downrank and G.C.TEXT_INACTIVE or G.C.UI.TEXT_DARK,
+                }
+            }
         }
     end,
     calculate = function (self, card, context)
-        if context.after and context.cardarea == G.hand then
+        if context.after then
             return {
                 func = function ()
                     AKYRS.simple_event_add(
                         function ()
-                            card:akyrs_flip_y()
-                            AKYRS.simple_event_add(
-                                function ()
-                                    card:akyrs_flip_y()
-                                    card = SMODS.modify_rank(card, -1)
-                                    return true
-                                end
-                            )
+                            card.ability.extras.akyrs_can_downrank = true
                             return true
                         end
                     )
@@ -611,5 +616,41 @@ SMODS.Enhancement{
                 xscore = card.ability.extras.xscore,
             }
         end
+    end
+}
+
+SMODS.Enhancement{
+    key = "shore_card",
+    atlas = 'cardUpgrades',
+    pos = {x = 7, y = 1},
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+    end
+}
+
+SMODS.Enhancement{
+    key = "cloud_card",
+    atlas = 'cardUpgrades',
+    pos = {x = 8, y = 1},
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
     end
 }

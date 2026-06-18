@@ -1334,8 +1334,9 @@ return {
             m_akyrs_canopy_card = {
                 name = "Canopy Card",
                 text = {
-                    "Reduce the rank of this card by {C:attention}1{}",
-                    "if {C:attention}held in hand{} after scoring",
+                    "Once per hand, {C:attention}double click{} this card",
+                    "to {C:attention}reduce{} its rank by {C:attention}1{}",
+                    "{B:1,V:2}#1#{}",
                 }
             },
             m_akyrs_thai_tea_card = {
@@ -1415,6 +1416,18 @@ return {
                 text = {
                     "{C:white,X:purple}X#1#{} Score",
                     "on first hand of round",
+                }
+            },
+            m_akyrs_shore_card = {
+                name = "Shore Card",
+                text = {
+                    "{C:white,X:blind}????{}",
+                }
+            },
+            m_akyrs_cloud_card = {
+                name = "Cloud Card",
+                text = {
+                    "{C:white,X:blind}????{}",
                 }
             },
         },
@@ -3592,7 +3605,7 @@ return {
                 name = "High Contrast Stake",
                 text = {
                     "{C:attention}Even faster{} Ante Scaling",
-                    "{s:0.8}Applies Bismuth Stake",
+                    "{s:0.8}Applies Copper Stake",
                 }
             },
             stake_akyrs_hydrogel = {
@@ -4582,6 +4595,8 @@ return {
 
 
             k_akyrs_shoveled_ex = "Shoveled!",
+            k_canopy_downable_yes = "Active!",
+            k_canopy_downable_no = "Activated",
         },
         high_scores={},
         labels={

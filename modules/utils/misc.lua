@@ -1629,3 +1629,11 @@ function AKYRS.ui_auto_table(ui_nodes, args)
     if #row.nodes > 0 then exp.nodes[#exp.nodes+1] = row end
     return exp
 end
+
+local rari = {
+    "Common", "Uncommon", "Rare", "Legendary"
+}
+function AKYRS.rarity_map(inp)
+    return rari[inp] or inp
+end
+

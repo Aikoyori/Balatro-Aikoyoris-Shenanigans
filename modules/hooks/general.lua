@@ -192,6 +192,12 @@ end
 local cardUpdateHook = Card.update
 function Card:update(dt)
     local x = cardUpdateHook(self,dt)
+    if self.akyrs_double_click_wait then
+        if self.akyrs_double_click_wait == 0 then
+            
+        end
+        self.akyrs_double_click_wait = math.max(0, self.akyrs_double_click_wait - dt)
+    end
     if G.GAME.akyrs_ultimate_freedom and not self.states.drag.can then
         self.states.drag.can = true
     end

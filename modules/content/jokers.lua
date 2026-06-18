@@ -2133,7 +2133,7 @@ SMODS.Joker{
                     for i=1, card.ability.extras.create_factor do
                         SMODS.calculate_effect({
                             func = function ()
-                                SMODS.add_card{rarity = rarity, set = "Joker", legendary = (rarity == 4)}
+                                SMODS.add_card{rarity = AKYRS.rarity_map(rarity), set = "Joker", legendary = (rarity == 4)}
                             end
                         }, card)
                     end

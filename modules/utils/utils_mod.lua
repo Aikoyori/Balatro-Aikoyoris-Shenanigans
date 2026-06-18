@@ -1122,8 +1122,13 @@ AKYRS.redemption_codes = {
     "PqpCRSOUuIE", -- ABM signaling
     "e5_XSeN9Y4k", -- aiaigasa ui
     "_gWn38pnmqI", -- snooze shiki ver
+    "F38EuG2dAyM", -- doctor kidori
+    "zO3nTu4rCKQ", -- we are charlie kirk mandarin dub
+    "OHAjc-ayhus", -- abuku yorushika
+    "000-000-000", -- ok what the fuck do i do with this one
 }
 
 function AKYRS.get_random_redemption_code(seed)
-    return (G.GAME and G.GAME.pseudorandom) and pseudorandom_element(AKYRS.redemption_codes, seed and "akyrs_redemption_code_voucher_".. G.SEED.."_"..seed or "akyrs_redemption_code") or "?????????"
+    if not seed or not G.GAME or not G.GAME.pseudorandom then return "WECHALIEKRK" end -- won't you say so, joe
+    return G.GAME and pseudorandom_element(AKYRS.redemption_codes, seed and "akyrs_redemption_code_voucher_".. G.SEED.."_"..seed or "akyrs_redemption_code") or "?????????"
 end

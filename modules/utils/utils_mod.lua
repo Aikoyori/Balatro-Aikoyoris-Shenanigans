@@ -963,16 +963,16 @@ function AKYRS.end_round_hook()
                 if card.ability.akyrs_triggered then
                     card.ability.akyrs_triggered = nil
                 end
-                AKYRS.simple_event_add(
-                    function ()
-                        cardarea.cards = AKYRS.filter_table(cardarea.cards, function (c)
-                            return not c.REMOVED and not c.being_removed
-                        end, true, true)
-                        AKYRS.remove_dupes(cardarea.cards)
-                        return true
-                    end, 0
-                )
             end
+            AKYRS.simple_event_add(
+                function ()
+                    cardarea.cards = AKYRS.filter_table(cardarea.cards, function (c)
+                        return not c.REMOVED and not c.being_removed
+                    end, true, true)
+                    AKYRS.remove_dupes(cardarea.cards)
+                    return true
+                end, 0
+            )
         end
     end
 end

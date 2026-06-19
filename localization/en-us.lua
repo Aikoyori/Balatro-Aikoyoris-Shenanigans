@@ -1415,17 +1415,34 @@ return {
                 name = "Wafer Card",
                 text = {
                     "{C:white,X:purple}X#1#{} Score",
-                    "on first hand of round",
+                    "on last hand of round",
                 }
             },
             m_akyrs_shore_card = {
                 name = "Shore Card",
                 text = {
-                    "{C:white,X:blind}????{}",
+                    "{C:white,X:mult}X#1#{} Mult",
+                    "{C:green}#3# in #4#{} chance",
+                    "to be destroyed when scored",
+                    "{C:green}#5# in #6#{} chance to spread",
+                    "to a random card held in hand",
+                    "with extra {C:white,X:mult}X#2#{} Mult",
                 }
             },
             m_akyrs_cloud_card = {
                 name = "Cloud Card",
+                text = {
+                    "{C:white,X:blind}????{}",
+                }
+            },
+            m_akyrs_nightshade_card = {
+                name = "Nightshade` Card",
+                text = {
+                    "{C:white,X:blind}????{}",
+                }
+            },
+            m_akyrs_tap_card = {
+                name = "Tap Card",
                 text = {
                     "{C:white,X:blind}????{}",
                 }

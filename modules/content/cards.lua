@@ -300,12 +300,7 @@ SMODS.Enhancement{
         if context.after then
             return {
                 func = function ()
-                    AKYRS.simple_event_add(
-                        function ()
-                            card.ability.extras.akyrs_can_downrank = true
-                            return true
-                        end
-                    )
+                    card.ability.extras.akyrs_can_downrank = true
                 end
             }
         end
@@ -611,7 +606,7 @@ SMODS.Enhancement{
         }
     end,
     calculate = function (self, card, context)
-        if context.main_scoring and context.cardarea == G.play and G.GAME.current_round.hands_played == 0 then
+        if context.main_scoring and context.cardarea == G.play and G.GAME.current_round.hands_left == 1 then
             return {
                 xscore = card.ability.extras.xscore,
             }
@@ -625,15 +620,62 @@ SMODS.Enhancement{
     pos = {x = 7, y = 1},
     config = {
         extras = {
+            xmult = 1.4,
+            xmult_gain = 0.3,
+            xmult_gain_cumulative = 0,
+            destroy_chance_n = 1,
+            destroy_chance_d = 3,
+            spread_chance_n = 1,
+            spread_chance_d = 1.5,
         }
     },
     loc_vars = function (self, info_queue, card)
+        local n1, d1 = SMODS.get_probability_vars(card,card.ability.extras.destroy_chance_n,card.ability.extras.destroy_chance_d, "akyrs_nightshade_card_break")
+        local n2, d2 = SMODS.get_probability_vars(card,card.ability.extras.spread_chance_n,card.ability.extras.spread_chance_d, "akyrs_nightshade_card_spread")
         return {
             vars = {
+                card.ability.extras.xmult,
+                card.ability.extras.xmult_gain,
+                n1,d1,
+                n2,d2,
             }
         }
     end,
     calculate = function (self, card, context)
+        if context.destroy_card and context.cardarea == G.play and context.destroy_card == card and
+            SMODS.pseudorandom_probability(card, 'akyrs_nightshade_card_break', card.ability.extras.destroy_chance_n,card.ability.extras.destroy_chance_d) then
+                if SMODS.pseudorandom_probability(card, 'akyrs_nightshade_card_spread', card.ability.extras.spread_chance_n,card.ability.extras.spread_chance_d) then
+                    SMODS.calculate_effect({
+                        func = function()
+                            local cd_target = pseudorandom_element(G.hand.cards, 'akyrs_nightshade_card_spread_pick')
+                            if cd_target then
+                                AKYRS.simple_event_add(function ()
+                                    cd_target:set_ability(G.P_CENTERS.m_akyrs_shore_card)
+                                    cd_target.ability.extras.xmult_gain_cumulative = card.ability.extras.xmult_gain_cumulative
+                                    SMODS.scale_card(cd_target, {
+                                        ref_table = cd_target.ability.extras,
+                                        ref_value = "xmult_gain_cumulative",
+                                        scalar_value = "xmult_gain",
+                                        no_message = true,
+                                    })
+                                    SMODS.scale_card(cd_target, {
+                                        ref_table = cd_target.ability.extras,
+                                        ref_value = "xmult",
+                                        scalar_value = "xmult_gain_cumulative",
+                                    })
+                                    return true
+                                end, 0)
+                            end
+                        end
+                    }, card)
+                end
+            return { remove = true }
+        end
+        if context.main_scoring and context.cardarea == G.play then
+            return {
+                xmult = card.ability.extras.xmult
+            }
+        end
     end
 }
 
@@ -653,4 +695,44 @@ SMODS.Enhancement{
     end,
     calculate = function (self, card, context)
     end
+}
+
+SMODS.Enhancement{
+    key = "nightshade_card",
+    atlas = 'cardUpgrades',
+    pos = {x = 0, y = 2},
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+    end
+}
+
+SMODS.Enhancement{
+    key = "tap_card",
+    atlas = 'cardUpgrades',
+    pos = {x = 1, y = 2},
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+    end,
+    no_rank = true,
+    no_suit = true,
+    always_scores = true,
+    replace_base_card = true,
 }

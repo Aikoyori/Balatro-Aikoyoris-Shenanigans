@@ -685,11 +685,13 @@ SMODS.Enhancement{
     pos = {x = 8, y = 1},
     config = {
         extras = {
+            dollars = 1
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
+                card.ability.extras.xmult_j
             }
         }
     end,
@@ -703,15 +705,34 @@ SMODS.Enhancement{
     pos = {x = 0, y = 2},
     config = {
         extras = {
+            must_be_played_immediately = false,
+            xchips = 2.5,
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
+                card.ability.extras.xchips
             }
         }
     end,
     calculate = function (self, card, context)
+        if context.hand_drawn and card.area == G.hand then
+            if card.ability.extras.must_be_played_immediately then
+                return {
+                    func = function ()
+                        card:set_debuff(true)
+                    end
+                }
+                else
+                    card.ability.extras.must_be_played_immediately = true
+                end
+        end
+        if context.main_scoring and context.cardarea == G.play then
+            return {
+                xchips = card.ability.extras.xchips
+            }
+        end
     end
 }
 
@@ -721,15 +742,23 @@ SMODS.Enhancement{
     pos = {x = 1, y = 2},
     config = {
         extras = {
+            xblindsize = 0.97
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-            }
+                card.ability.extras.xblindsize
+            },
+            key = AKYRS.is_life_enabled() and self.key.."_life" or self.key
         }
     end,
     calculate = function (self, card, context)
+        if context.main_scoring and context.cardarea == G.play then
+            return {
+                xblindsize = card.ability.extras.xblindsize
+            }
+        end
     end,
     no_rank = true,
     no_suit = true,

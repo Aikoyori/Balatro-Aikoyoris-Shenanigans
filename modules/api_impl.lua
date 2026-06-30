@@ -481,3 +481,10 @@ function AKYRS.maxwell_generate_card(cardtype, context)
 
 end
 
+function AKYRS.scenario_modifiers(value, typer)
+    G.GAME.AKYRS_SCENARIOS = G.GAME.AKYRS_SCENARIOS or {}
+    if typer == "cloud" and G.GAME.AKYRS_SCENARIOS then
+        return value * 2
+    end
+    return value
+end

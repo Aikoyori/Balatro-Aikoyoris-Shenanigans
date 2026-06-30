@@ -1088,7 +1088,8 @@ function Card:set_ability(c,i,d)
 end
 
 function AKYRS.change_base_set_card(self)
-    if G.GAME.akyrs_any_drag or G.GAME.akyrs_ultimate_freedom then
+    if not AKYRS.game_areas(self.area) then return end
+    if (G.GAME.akyrs_any_drag or G.GAME.akyrs_ultimate_freedom) then
         AKYRS.simple_event_add(
             function ()
                 if self and not (self.config.center.set == "Enhanced" or self.config.center.set == "Default") then

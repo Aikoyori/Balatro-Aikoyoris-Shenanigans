@@ -64,9 +64,8 @@ if AKYRS.config.experimental_features then
     assert(SMODS.load_file("./modules/content/enchantments.lua"))()
 end
 assert(SMODS.load_file("./modules/content/vouchers.lua"))()
-if AKYRS.config.experimental_features then
-    assert(SMODS.load_file("./modules/content/bets.lua"))()
-end
+assert(SMODS.load_file("./modules/content/bets.lua"))()
+
 assert(SMODS.load_file("./modules/content/edition.lua"))()
 assert(SMODS.load_file("./modules/content/tags.lua"))()
 assert(SMODS.load_file("./modules/ui.lua"))()
@@ -75,6 +74,7 @@ if AKYRS.config.experimental_features then
 end
 assert(SMODS.load_file("./modules/challenges_ui.lua"))()
 assert(SMODS.load_file("./modules/content/jokers.lua"))()
+assert(SMODS.load_file("./modules/content/scenarios.lua"))()
 assert(SMODS.load_file("./modules/content/letterjokers.lua"))()
 assert(SMODS.load_file("./modules/content/legendaries.lua"))()
 assert(SMODS.load_file("./modules/content/achievements.lua"))()

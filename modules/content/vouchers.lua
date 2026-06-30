@@ -155,9 +155,6 @@ SMODS.Voucher {
         return {
         }
     end,
-    in_pool = function (self, args)
-        return AKYRS.config.experimental_features
-    end,
     requires = {  },
     redeem = function (self, card) 
         G.GAME.akyrs_jimbo_owes_you = true

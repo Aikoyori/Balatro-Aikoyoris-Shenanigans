@@ -1637,3 +1637,8 @@ function AKYRS.rarity_map(inp)
     return rari[inp] or inp
 end
 
+function AKYRS.set_whole(cardlist, centerkey)
+    for _, c in ipairs(cardlist) do
+        c:set_ability(G.P_CENTERS[centerkey])
+    end
+end

@@ -325,7 +325,7 @@ function Card:click()
         self:akyrs_double_click()
         self.akyrs_double_click_wait = 0
     else
-        self.akyrs_double_click_wait = 0.64
+        self.akyrs_double_click_wait = 0.2 * G.SETTINGS.GAMESPEED
     end
     return card_click(self)
 end

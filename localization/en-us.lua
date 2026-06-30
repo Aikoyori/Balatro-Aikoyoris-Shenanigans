@@ -1432,19 +1432,39 @@ return {
             m_akyrs_cloud_card = {
                 name = "Cloud Card",
                 text = {
-                    "{C:white,X:blind}????{}",
+                    "Gain {C:money}#1#{} per",
+                    "one of these in your deck",
+                    "at the {C:attention}end of the round",
                 }
             },
             m_akyrs_nightshade_card = {
-                name = "Nightshade` Card",
+                name = "Nightshade Card",
                 text = {
-                    "{C:white,X:blind}????{}",
+                    "{C:white,X:chips}X#1#{} Chips",
+                    "{C:attention}Debuffs itself{} if not",
+                    "played immediately {C:attention}after drawn",
                 }
             },
             m_akyrs_tap_card = {
                 name = "Tap Card",
                 text = {
-                    "{C:white,X:blind}????{}",
+                    {
+                        "{C:white,X:blind}X#1#{} Blind Size",
+                        "No rank, no suit, always scores",
+                    },
+                }
+            },
+            m_akyrs_tap_card_life = {
+                name = "Tap Card",
+                text = {
+                    {
+                        "{C:white,X:blind}X#1#{} Blind Size",
+                        "No rank, no suit, always scores",
+                    },
+                    {
+                        "Lose {C:attention}half as much{}",
+                        "{C:green}Life{} from normal",
+                    },
                 }
             },
         },
@@ -4614,6 +4634,8 @@ return {
             k_akyrs_shoveled_ex = "Shoveled!",
             k_canopy_downable_yes = "Active!",
             k_canopy_downable_no = "Activated",
+            k_akyrs_cloud_card_tally = "Cloud Cards",
+            k_akyrs_cloud_card_tally_buffed = "Cloudy Day",
         },
         high_scores={},
         labels={
@@ -4692,7 +4714,7 @@ return {
                 {"New Super","Aikoyori Shenanigans"},
                 {"An Aikoyori Mod"},
                 {"Shenaiko"},
-                {"Aikoslop","Shenfoid"},
+                {"Aikoslop","Shenslop"},
                 {"Shenanigan","Aikoyori's"},
                 {"Steal the","Aikoshen"},
                 {"Aikoyori the Movie:"," The Game: The Mod"},
@@ -4783,6 +4805,10 @@ return {
                 {"Spotify is evil"},
                 {"collect my pages"},
                 {"What do you call a mod that's", "complete 180 from Vanilla?"},
+                {"what the fuck? aiko this is your 6th redesign"},
+                {"*wheeze*"},
+                {"... ___ ... (sad face)"},
+                {"ts pmo icl"},
             }
         },
         v_text={

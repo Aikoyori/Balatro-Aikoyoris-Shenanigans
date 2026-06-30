@@ -317,6 +317,9 @@ function AKYRS.blind_handler()
                 if (v.ability.extras.akyrs_can_downrank == false) then
                     v.ability.extras.akyrs_can_downrank = true
                 end
+                if (v.ability.extras.must_be_played_immediately == true) then
+                    v.ability.extras.must_be_played_immediately = false
+                end
             end
             v.ability.akyrs_already_discarded = nil
         end
@@ -391,4 +394,24 @@ function AKYRS.defeated_by_center_ui(center_key)
         {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={area}
         },
     }, label
+end
+
+function AKYRS.add_custom_cashout_rows(dollars, pitch)
+    local cloud_cards = AKYRS.filter_table(G.playing_cards, function (cd,i,a)
+        return cd.config.center.key == "m_akyrs_cloud_card"
+    end, true, true)
+    if #cloud_cards > 0 then
+	    add_round_eval_row(
+            { 
+                name = 'custom_akyrs_cloud_add', 
+                dollars = #cloud_cards,
+                pitch = 0.95,
+                bonus = true,
+                text_scale = 0.5,
+                text = localize("k_akyrs_cloud_card_tally"),
+                text_colour = G.C.BLUE,
+            })
+        dollars = dollars + #cloud_cards
+    end
+    return dollars
 end

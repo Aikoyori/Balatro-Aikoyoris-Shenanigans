@@ -279,190 +279,188 @@ SMODS.Back{
     },
 }
 
-if AKYRS.config.experimental_features then
-    SMODS.Back{
-        key = "developer_deck",
-        name = "Developer Deck",
-        atlas = 'deckBacks',
-        pos = {x = 9, y = 1},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+SMODS.Back{
+    key = "developer_deck",
+    name = "Developer Deck",
+    atlas = 'deckBacks',
+    pos = {x = 9, y = 1},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
             }
-        end,
-        config = {
-        },
-    }
-    SMODS.Back{
-        key = "kaleidoscopic_deck",
-        name = "Kaleidoscopic Deck",
-        atlas = 'deckBacks',
-        pos = {x = 2, y = 2},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+        }
+    end,
+    config = {
+    },
+}
+SMODS.Back{
+    key = "kaleidoscopic_deck",
+    name = "Kaleidoscopic Deck",
+    atlas = 'deckBacks',
+    pos = {x = 2, y = 2},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
             }
-        end,
-        config = {
-        },
-    }
-    SMODS.Back{
-        key = "dotted_deck",
-        name = "Dotted Deck",
-        atlas = 'deckBacks',
-        pos = {x = 4, y = 2},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+        }
+    end,
+    config = {
+    },
+}
+SMODS.Back{
+    key = "dotted_deck",
+    name = "Dotted Deck",
+    atlas = 'deckBacks',
+    pos = {x = 4, y = 2},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
             }
-        end,
-        config = {
-            hands = -2,
-            discards = -2,
-            akyrs_trade_hand_discard = true
-        },
-        calculate = function (self, back, context)
-            if context.hand_drawn then
-                return {
-                    func = function()
-                        for i, cd in ipairs(G.hand.cards) do
-                            if cd.ability.akyrs_already_discarded then
-                                SMODS.destroy_cards({cd})
-                                AKYRS.remove_value_from_table(G.playing_cards,cd)
-                            end
+        }
+    end,
+    config = {
+        hands = -2,
+        discards = -2,
+        akyrs_trade_hand_discard = true
+    },
+    calculate = function (self, back, context)
+        if context.hand_drawn then
+            return {
+                func = function()
+                    for i, cd in ipairs(G.hand.cards) do
+                        if cd.ability.akyrs_already_discarded then
+                            SMODS.destroy_cards({cd})
+                            AKYRS.remove_value_from_table(G.playing_cards,cd)
                         end
                     end
-                }
-            end
-        end,
-    }
-    SMODS.Back{
-        key = "sheared_deck",
-        name = "Deck of the Sheared",
-        atlas = 'deckBacks',
-        pos = {x = 0, y = 2},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+                end
             }
-        end,
-        config = {
-        },
-    }
-    SMODS.Back{
-        key = "vision_deck",
-        name = "Deck of the Vision",
-        atlas = 'deckBacks',
-        pos = {x = 3, y = 2},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+        end
+    end,
+}
+SMODS.Back{
+    key = "sheared_deck",
+    name = "Deck of the Sheared",
+    atlas = 'deckBacks',
+    pos = {x = 0, y = 2},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
             }
-        end,
-        config = {
-        },
-    }
-    SMODS.Back{
-        key = "animosity_deck",
-        name = "Deck of the Animosity",
-        atlas = 'deckBacks',
-        pos = {x = 5, y = 2},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+        }
+    end,
+    config = {
+    },
+}
+SMODS.Back{
+    key = "vision_deck",
+    name = "Deck of the Vision",
+    atlas = 'deckBacks',
+    pos = {x = 3, y = 2},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
             }
-        end,
-        config = {
-        },
-    }
-    SMODS.Back{
-        key = "weaver_deck",
-        name = "Deck of the Weaver",
-        atlas = 'deckBacks',
-        pos = {x = 6, y = 2},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+        }
+    end,
+    config = {
+    },
+}
+SMODS.Back{
+    key = "animosity_deck",
+    name = "Deck of the Animosity",
+    atlas = 'deckBacks',
+    pos = {x = 5, y = 2},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
             }
-        end,
-        config = {
-        },
-    }
-    SMODS.Back{
-        key = "puppet_deck",
-        name = "Deck of the Puppets",
-        atlas = 'deckBacks',
-        pos = {x = 7, y = 2},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+        }
+    end,
+    config = {
+    },
+}
+SMODS.Back{
+    key = "weaver_deck",
+    name = "Deck of the Weaver",
+    atlas = 'deckBacks',
+    pos = {x = 6, y = 2},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
             }
-        end,
-        config = {
-        },
-    }
-    SMODS.Back{
-        key = "shining_deck",
-        name = "Deck of the Shining",
-        atlas = 'deckBacks',
-        pos = {x = 8, y = 2},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+        }
+    end,
+    config = {
+    },
+}
+SMODS.Back{
+    key = "puppet_deck",
+    name = "Deck of the Puppets",
+    atlas = 'deckBacks',
+    pos = {x = 7, y = 2},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
             }
-        end,
-        config = {
-        },
-    }
-    SMODS.Back{
-        key = "flora_deck",
-        name = "Flora Deck",
-        atlas = 'deckBacks',
-        pos = {x = 9, y = 2},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+        }
+    end,
+    config = {
+    },
+}
+SMODS.Back{
+    key = "shining_deck",
+    name = "Deck of the Shining",
+    atlas = 'deckBacks',
+    pos = {x = 8, y = 2},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
             }
-        end,
-        config = {
-        },
-    }
-    SMODS.Back{
-        key = "discord_deck",
-        name = "Discord Deck",
-        atlas = 'deckBacks',
-        pos = {x = 1, y = 1},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+        }
+    end,
+    config = {
+    },
+}
+SMODS.Back{
+    key = "flora_deck",
+    name = "Flora Deck",
+    atlas = 'deckBacks',
+    pos = {x = 9, y = 2},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
             }
-        end,
-        config = {
-        },
-    }
-    SMODS.Back{
-        key = "nitro_deck",
-        name = "Nitro Deck",
-        atlas = 'deckBacks',
-        pos = {x = 0, y = 1},
-        loc_vars = function (self, info_queue, card)
-            return {
-                vars = {
-                }
+        }
+    end,
+    config = {
+    },
+}
+SMODS.Back{
+    key = "discord_deck",
+    name = "Discord Deck",
+    atlas = 'deckBacks',
+    pos = {x = 1, y = 1},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
             }
-        end,
-        config = {
-        },
-    }
-end
+        }
+    end,
+    config = {
+    },
+}
+SMODS.Back{
+    key = "nitro_deck",
+    name = "Nitro Deck",
+    atlas = 'deckBacks',
+    pos = {x = 0, y = 1},
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    config = {
+    },
+}

@@ -60,7 +60,7 @@ elseif _c.set == 'AikoyoriExtraBases' then
                 localize{type = 'descriptions', key = "lettersMult", set = _c.set, nodes = desc_nodes, vars = x_loc_vars}
             end
             
-            if(G.GAME.akyrs_letters_xmult_enabled) and loc_vars[2] ~= 0 then
+            if(G.GAME.akyrs_letters_xmult_enabled) and loc_vars[2] ~= 1 then
                 localize{type = 'descriptions', key = "lettersXMult", set = _c.set, nodes = desc_nodes, vars = x_loc_vars}
             end
         end

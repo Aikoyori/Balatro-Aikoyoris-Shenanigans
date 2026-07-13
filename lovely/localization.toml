@@ -24,11 +24,11 @@ elseif _c.set == 'AikoyoriExtraBases' then
             xkey = "numbers"
         end
         if not key then
-            if (G.GAME.akyrs_letters_mult_enabled) and loc_vars[2] ~= 0 then
+            if (G.GAME.akyrs_letters_mult_enabled) and x_loc_vars[2] ~= 0 then
                 localize{type = 'descriptions', key = "lettersMult", set = _c.set, vars = x_loc_vars}
                 gend = true
             end
-            if (G.GAME.akyrs_letters_xmult_enabled) and loc_vars[3] ~= 1 then
+            if (G.GAME.akyrs_letters_xmult_enabled) and x_loc_vars[3] ~= 1 then
                 localize{type = 'descriptions', key = "lettersXMult", set = _c.set, vars = x_loc_vars}
                 gend = true
             end
@@ -56,11 +56,11 @@ elseif _c.set == 'AikoyoriExtraBases' then
         end
         
         if(G.GAME.akyrs_letters_mult_enabled or G.GAME.akyrs_letters_xmult_enabled) then
-            if(G.GAME.akyrs_letters_mult_enabled) and loc_vars[2] ~= 0 then
+            if(G.GAME.akyrs_letters_mult_enabled) and x_loc_vars[2] ~= 0 then
                 localize{type = 'descriptions', key = "lettersMult", set = _c.set, nodes = desc_nodes, vars = x_loc_vars}
             end
             
-            if(G.GAME.akyrs_letters_xmult_enabled) and loc_vars[3] ~= 1 then
+            if(G.GAME.akyrs_letters_xmult_enabled) and x_loc_vars[3] ~= 1 then
                 localize{type = 'descriptions', key = "lettersXMult", set = _c.set, nodes = desc_nodes, vars = x_loc_vars}
             end
         end

@@ -67,7 +67,9 @@ end
 
 AKYRS.should_score_chips = function (_c, card)
     --print(_c)
-    if card.is_null and card:get_chip_bonus() == 0 then return false end
+    if card.is_null 
+    -- add your score chip condition here idk
+    then return false end
     if card.ability.akyrs_special_card_type == "suit" then
         return false
     end

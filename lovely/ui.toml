@@ -828,3 +828,32 @@ n=G.UIT.ROOT, config = {ref_table = card, minw = 1.1, maxw = 1.3, padding = 0.1,
 overwrite = true
 match_indent = true
 
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = """        for i, mod in ipairs(mods) do"""
+position = "after"
+payload = """
+if mod == AKYRS then
+    AKYRS.badge_func(badges)
+else
+"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = """        end
+    end
+end
+
+function SMODS.create_loc_dump()"""
+position = "before"
+payload = """
+end
+"""
+overwrite = true
+match_indent = true

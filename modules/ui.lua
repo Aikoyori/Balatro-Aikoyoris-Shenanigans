@@ -1035,3 +1035,48 @@ function AKYRS.update_life_ui(game_ob)
       }
   end
 end
+
+
+function AKYRS.badge_func(badges) 
+  mod = AKYRS
+  local mod_name_node = {
+      n = G.UIT.C, nodes = {}
+  } 
+  local mod_desc_node = {
+      n = G.UIT.C, nodes = {}
+  } 
+  local mnind = pseudorandom("akyrs_mod_name", 1, #G.localization.misc.akyrs_misc.mod_label)
+  local mftind = pseudorandom("akyrs_mod_flavour_text", 1, #G.localization.misc.akyrs_misc.flavour_text)
+  localize({ type = "akyrs_misc", key = "mod_label",  index = mnind, nodes = mod_name_node.nodes, scale = 1.2, text_colour = mod.badge_text_colour, akyrs_dynatext_shadow = false, akyrs_default_dynatext_effect = '1' , akyrs_force_no_popin = true, akyrs_y_offset = -0.05})
+  localize({ type = "akyrs_misc", key = "flavour_text",  index = mftind, nodes = mod_desc_node.nodes, scale = 0.8, text_colour = mod.badge_text_colour , akyrs_dynatext_shadow = false, akyrs_default_dynatext_effect = '0', akyrs_force_no_popin = true, akyrs_y_offset = -0.05})
+  -- localize jank
+  for k, v in ipairs(mod_name_node.nodes) do
+      mod_name_node.nodes[k] = {n = G.UIT.R, config = { align = "m"}, nodes = mod_name_node.nodes[k]}
+  end
+  for k, v in ipairs(mod_desc_node.nodes) do
+      mod_desc_node.nodes[k] = {n = G.UIT.R, config = { align = "m"}, nodes = mod_desc_node.nodes[k]}
+  end
+  local size = 0.9
+  local size_desc = 0.6
+  --local font = G.LANG.font
+  --local font_desc = mod_flavour_tex.font or G.LANG.font
+  local max_text_width = 2 - 2*0.05 - 4*0.03*size - 2*0.03
+  local calced_text_width = 0
+  local max_calced_text_width = 0
+  local text_nodes =
+      {
+          { n = G.UIT.R, config = {minw =  0.6, align = "cm",}, nodes = {
+              {n=G.UIT.B, config={h=0.1,w=0.03}},
+              mod_name_node,
+              {n=G.UIT.B, config={h=0.1,w=0.03}},
+          }},
+          { n = G.UIT.R, config = {minw =  0.6, align = "cm",}, nodes = {
+              {n=G.UIT.B, config={h=0.1,w=0.03}},
+              mod_desc_node,
+              {n=G.UIT.B, config={h=0.1,w=0.03}},
+          }}
+      }
+  badges[#badges + 1] = {n=G.UIT.R, config={align = "cm"}, nodes={
+      {n=G.UIT.R, config={align = "cm", shader = "akyrs_aiko_mod_badge", minw = 0.6, colour = mod.badge_colour or G.C.GREEN, r = 1, minh = 0.36, emboss = 0.05, padding = 0.03*0.9}, nodes=text_nodes}
+  }}
+end

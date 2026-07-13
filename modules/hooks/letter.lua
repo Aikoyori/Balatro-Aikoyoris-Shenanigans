@@ -130,13 +130,11 @@ end
 
 local getChipBonusHook = Card.get_chip_bonus
 function Card:get_chip_bonus()
-    local nominal_old = self.base.nominal
     if self.is_null then self.base.nominal = 0 end
     local c = getChipBonusHook(self)
     if (self.ability.set == 'Enhanced' and self.config.center_key == "m_akyrs_scoreless") or (not AKYRS.should_score_chips(self.config.center,self)) then
         c = c - self.base.nominal
     end
-    self.base.nominal = nominal_old
     return c
 end
 

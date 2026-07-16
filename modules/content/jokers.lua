@@ -4332,3 +4332,65 @@ SMODS.Joker {
         end
     end,
 }
+SMODS.Joker {
+    key = "companion_cube",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 1, y = 3 },
+    pools = { ["Portal"] = true, },
+    config = {
+    },
+    rarity = 1,
+    cost = 2,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    in_pool = function (self, args)
+        return false
+    end,
+}
+SMODS.Joker {
+    key = "edge",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 2, y = 3 },
+    pools = {  },
+    config = {
+    },
+    rarity = 1,
+    cost = 2,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    in_pool = function (self, args)
+        return false
+    end,
+}
+
+for j = 8, 9 do
+    for i = 0, 9 do
+        SMODS.Joker {
+            key = "test_x"..i.."_y"..j,
+            atlas = 'AikoyoriJokers',
+            pos = { x = i, y = j },
+            pools = {  },
+            config = {
+            },
+            rarity = 1,
+            cost = 2,
+            loc_vars = function (self, info_queue, card)
+                return {
+                    vars = {
+                    }
+                }
+            end,
+            in_pool = function (self, args)
+                return false
+            end,
+        }
+    end
+end

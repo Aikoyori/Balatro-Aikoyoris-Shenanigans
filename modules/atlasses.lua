@@ -7,6 +7,13 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
+    key = "AikoyoriJokers2",
+    path = "aikoyoriJokers2.png",
+    px = 71,
+    py = 95
+}
+
+SMODS.Atlas {
     key = "guestJokerArts",
     path = "guestJokerArts.png",
     px = 71,

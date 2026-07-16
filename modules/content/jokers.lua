@@ -4394,3 +4394,45 @@ for j = 8, 9 do
         }
     end
 end
+
+
+SMODS.Joker {
+    key = "chicken_roll",
+    atlas = 'AikoyoriJokers2',
+    pos = { x = 0, y = 0 },
+    pools = {  },
+    config = {
+    },
+    rarity = 1,
+    cost = 2,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    in_pool = function (self, args)
+        return false
+    end,
+}
+
+
+SMODS.Joker {
+    key = "cartoongirl",
+    atlas = 'AikoyoriJokers2',
+    pos = { x = 1, y = 0 },
+    pools = {  },
+    config = {
+    },
+    rarity = 1,
+    cost = 2,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    in_pool = function (self, args)
+        return false
+    end,
+}

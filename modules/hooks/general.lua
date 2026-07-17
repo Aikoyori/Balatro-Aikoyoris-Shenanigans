@@ -1024,7 +1024,6 @@ Also technically this crash saves you from bricked runs so thank me later :D
     end
     if G.GAME.aikoyori_evaluation_value and G.GAME.akyrs_mathematics_enabled and G.GAME.akyrs_character_stickers_enabled then
         if G.GAME.aikoyori_evaluation_replace then
-            
             ease_chips(G.GAME.aikoyori_evaluation_value)
         else
             ease_chips(G.GAME.chips + G.GAME.aikoyori_evaluation_value)
@@ -1032,6 +1031,10 @@ Also technically this crash saves you from bricked runs so thank me later :D
     end
     if G.GAME.akyrs_mathematics_enabled and G.GAME.akyrs_character_stickers_enabled then
         G.GAME.aikoyori_evaluation_value = 0
+        AKYRS.simple_event_add(function ()
+            G.SCORE_DISPLAY_QUEUE = {}
+            return true
+        end)
     else
         G.GAME.aikoyori_evaluation_value = nil
     end

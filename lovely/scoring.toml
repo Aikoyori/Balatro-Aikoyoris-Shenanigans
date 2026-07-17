@@ -281,15 +281,7 @@ match_indent = true
 target = 'functions/button_callbacks.lua'
 pattern = """  local new_chips_text = number_format(G.GAME.chips)"""
 position = "after"
-payload = """if G.AKYRS_DISPLAY_QUEUE and G.AKYRS_DISPLAY_QUEUE[1] then 
-    new_chips_text = number_format(G.AKYRS_DISPLAY_QUEUE[1])
-    if G.GAME.chips_text ~= new_chips_text then
-        e.config.scale = math.min(0.8, scale_number(G.AKYRS_DISPLAY_QUEUE[1], 1.1))
-        G.GAME.chips_text = new_chips_text
-    end
-    return
-end
-"""
+payload = """"""
 overwrite = true
 match_indent = true
 
@@ -322,3 +314,35 @@ payload = """if SMODS.last_hand_oneshot then -- added by  aiko shen
 end"""
 overwrite = true
 match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = """    for _, card in ipairs(context.cardarea.cards) do"""
+position = "before"
+payload = """
+--[[ added by aikoshen because i dont wanna be intrusive ]]
+local cardarea_cards_og = context.cardarea.cards
+context.cardarea.cards = AKYRS.mod_cards_scoring(context.cardarea.cards, context)
+"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = """            SMODS.score_card(card, context)
+        end
+    end"""
+position = "after"
+payload = """
+if type(context.cardarea) == "table" then
+    context.cardarea.cards = cardarea_cards_og
+end
+"""
+overwrite = true
+match_indent = true
+

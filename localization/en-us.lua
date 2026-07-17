@@ -1886,39 +1886,11 @@ return {
                 name = "Neuro Sama",
                 text = { 
                     {
-                        "If hand {C:attention}DOES NOT{} contain a {C:attention}Flush",
-                    },
-                    {
                         "This Joker gains {X:mult,C:white} X#2# {} Mult",
-                        "for every {C:hearts}Hearts{} scored",
+                        "for every {C:hearts}Hearts{} and {C:spades}Spades{} scored",
+                        "If hand contains both {C:hearts}Hearts{} and {C:spades}Spades{}",
                     },
                     {
-                        
-                        "If {T:j_akyrs_evilneuro,C:red}Evil Neuro{} is present,",
-                        "also gains {X:mult,C:white} X#2# {} Mult",
-                        "for every {C:spades}Spades{} scored",
-                    },
-                    {
-                        "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
-                    }
-                }
-            },
-            j_akyrs_neurosama_absurd = {
-                name = "Neuro Sama",
-                text = { 
-                    {
-                        "If hand {C:attention}DOES NOT{} contain a {C:attention}Flush",
-                    },
-                    {
-                        "This Joker {C:attention}multiplies{} its {X:mult,C:white}XMult{} by {X:mult,C:white} X#2# {}",
-                        "for every {C:hearts}Hearts{} scored",
-                    },{
-                        "If {T:j_akyrs_evilneuro,C:red}Evil Neuro{} is present,",
-                        "also {C:attention}multiplies{} its {X:mult,C:white}XMult{} by {X:mult,C:white} X#2# {}",
-                        "for every {C:spades}Spades{} scored",
-                    },
-                    {
-
                         "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
                     }
                 }
@@ -1927,41 +1899,13 @@ return {
                 name = "Evil Neuro",
                 text = { 
                     {
-                        "If hand {C:attention}DOES NOT{} contain a {C:attention}Flush",
-                    },
-                    {
                         "This Joker gains {X:chips,C:white} X#2# {} Chips",
-                        "for every {C:clubs}Clubs{} scored",
-                    },
-                        {
-                        "If {T:j_akyrs_neurosama,C:red}Neuro Sama{} is present,",
-                        "also gains {X:chips,C:white} X#2# {} Chips",
-                        "for every {C:diamonds}Diamonds{} scored",
+                        "for every {C:clubs}Clubs{} and {C:diamonds}Diamonds{} scored",
+                        "If hand contains both {C:clubs}Clubs{} and {C:diamonds}Diamonds{}",
                     },
                     {
                         "{C:inactive}(Currently {X:chips,C:white} X#1# {C:inactive} Chips)",
                     }
-                }
-            },
-            j_akyrs_evilneuro_absurd = {
-                name = "Evil Neuro",
-                text = { 
-                    {
-                        "If hand {C:attention}DOES NOT{} contain a {C:attention}Flush",
-                    },
-                    {
-                        "This Joker {C:attention}exponentiates{} its {X:chips,C:white}XChips{} by {X:edition,C:purple} ^#2# {}",
-                        "for every {C:clubs}Clubs{} scored",
-                    },
-                    {
-                        "If {T:j_akyrs_neurosama,C:red}Neuro Sama{} is present,",
-                        "also {C:attention}exponentiates{} its {X:chips,C:white}XChips{} by {X:edition,C:purple} ^#2# {}",
-                        "for every {C:diamonds}Diamonds{} scored",
-                    },
-                    {
-                        "{C:inactive}(Currently {X:chips,C:white} X#1# {C:inactive} Chips)",
-                    }
-
                 }
             },
             j_akyrs_dried_ghast = {
@@ -2089,9 +2033,7 @@ return {
             j_akyrs_tetoris = {
                 name = "Tetoris",
                 text = { 
-                    "{X:chips,C:white}X#2#{} Chips if any of",
-                    "{C:attention}L{}, {C:attention}S{}{C:inactive}(pades), {C:attention}O{}, {C:attention}Z{}, {C:attention}J{C:inactive}(ack), {C:attention}I{}, and {C:attention}T{}{C:inactive}(en)",
-                    "are played",
+                    "Cards played are scored again {C:attention}backwards",
                     "{s:0.9,C:inactive,f:5}テテテテト テト テテテテトリス!{}"
                 }
             },
@@ -2267,7 +2209,7 @@ return {
                 text = { 
                     "Tells the URL where to download",
                     "{X:akyrs_pissandshittium,C:white}Pissandshittium{}",
-                    "{C:akyrs_pissandshittium}+#1#{} Mult",
+                    "{C:akyrs_pissandshittium}+$#1#{} when you play a hand",
                 }
             },
             j_akyrs_pissandshittium_absurd = {
@@ -2854,6 +2796,17 @@ return {
                         "{C:hearts}Hearts{} cannot be {C:red}discarded{}",
                     },
                     
+                }
+            },
+            j_akyrs_companion_cube = {
+                name = {
+                    "Companion Cube"
+                },
+                text = {
+                    {
+                        "{C:hearts}Heart{} cards becomes {C:attention}Ash cards",
+                        "{C:attention}Ash cards{} give {C:mult}+#1#{} Mult",
+                    },
                 }
             },
         },

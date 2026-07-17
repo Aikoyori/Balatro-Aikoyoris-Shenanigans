@@ -415,3 +415,12 @@ function Card:add_to_deck()
     AKYRS.check_8H_tldr()
     return x
 end
+
+
+local cuibt = create_UIBox_blind_tag
+function create_UIBox_blind_tag(blind_choice, run_info)
+    
+    local extras = cuibt(blind_choice, run_info)
+    local extras2 = AKYRS.mod_skip_box(blind_choice, run_info, extras)
+    return extras2
+end

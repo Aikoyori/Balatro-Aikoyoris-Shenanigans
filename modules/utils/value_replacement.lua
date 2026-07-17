@@ -270,14 +270,14 @@ end
 function AKYRS.setCashOutDollars(config,scale,stake_sprite, num_dollars)
 end
 
-function AKYRS.mod_skip_box(blind_type, ax, original)
+function AKYRS.mod_skip_box(blind_type, runinfo, original)
     
     blind_type = blind_type or 'Small'
     local blind_choice = {
         config = G.P_BLINDS[G.GAME.round_resets.blind_choices[blind_type]],
     }
 
-    if blind_choice.config.debuff.akyrs_cannot_be_skipped then
+    if blind_choice.config.debuff.akyrs_cannot_be_skipped or G.GAME.akyrs_no_skips then
         return nil
     end
     return original
@@ -414,4 +414,33 @@ function AKYRS.add_custom_cashout_rows(dollars, pitch)
         dollars = dollars + #cloud_cards
     end
     return dollars
+end
+
+
+function AKYRS.mod_cards_scoring(cards_table, context)
+    local returnval = {}
+    for _, c in ipairs(cards_table) do
+        returnval[#returnval+1] = c
+    end
+    local tetorises = SMODS.find_card("j_akyrs_tetoris")
+    if #tetorises >= 1 and (context.cardarea == G.play) then
+        local reverse = true
+        for i = 1, #tetorises do
+            if reverse then
+                for i = #cards_table, 1, -1 do
+                    if SMODS.in_scoring(cards_table[i], context.scoring_hand) then
+                        returnval[#returnval+1] = cards_table[i]
+                    end
+                end
+            else
+                for _, c in ipairs(cards_table) do
+                    if SMODS.in_scoring(c, context.scoring_hand) then
+                        returnval[#returnval+1] = c
+                    end
+                end
+            end 
+            reverse = not reverse
+        end
+    end
+    return returnval
 end

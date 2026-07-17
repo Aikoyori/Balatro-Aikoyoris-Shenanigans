@@ -716,6 +716,12 @@ end
 local useCardHook = G.FUNCS.use_card
 G.FUNCS.use_card = function (e,m,ns)
     local card = e.config.ref_table
+    if card.ability.set == "Replicant" then
+        AKYRS.trigger_tldr_conditions("used_replicant")
+    end
+    if card.config.center.key == "c_akyrs_umbral_intrusive_thoughts" then
+        AKYRS.trigger_tldr_conditions("used_intrusive_thought")
+    end
     local area = card.area
     local prev_state = G.STATE
     local dont_dissolve = nil

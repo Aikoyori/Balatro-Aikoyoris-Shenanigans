@@ -1132,3 +1132,43 @@ function AKYRS.get_random_redemption_code(seed)
     if not seed or not G.GAME or not G.GAME.pseudorandom then return "WECHALIEKRK" end -- won't you say so, joe
     return G.GAME and pseudorandom_element(AKYRS.redemption_codes, seed and "akyrs_redemption_code_voucher_".. G.SEED.."_"..seed or "akyrs_redemption_code") or "?????????"
 end
+
+function AKYRS.trigger_tldr_conditions(condition)
+    if condition and G.GAME.akyrs_tldr_conditions[condition] == false then
+        G.GAME.akyrs_tldr_conditions[condition] = true
+    end
+    for _, c in pairs(G.GAME.akyrs_tldr_conditions) do
+        if not c then
+            return
+        end
+    end
+    G.GAME.akyrs_tldr_conditions_all_done = true
+end
+
+function AKYRS.check_8H_tldr()
+    if G.STAGE ~= G.STAGES.RUN then return end
+    if G.GAME.akyrs_tldr_conditions["have_at_least_two_eight_of_hearts"] then return end
+    local filtered_eight = AKYRS.filter_table(G.playing_cards,function (c,i,d)
+        return c.base.value == "8" and c.base.suit == "Hearts" and not SMODS.has_no_rank(c) and not SMODS.has_no_suit(c)
+    end,true,true)
+    if #filtered_eight > 2 then
+        AKYRS.trigger_tldr_conditions("have_at_least_two_eight_of_hearts")
+    end
+end
+
+local akyrs_tldr_conditions_list = {
+    "won_blind_oneshot",
+    "has_sold_tldr",
+    "got_charm_tag",
+    "used_replicant",
+    "redeemed_voucher",
+    "sold_a_rare_joker",
+    "used_intrusive_thought",
+    "joker_slots_filled",
+    "straight_and_flush_played_in_one_round",
+    "have_at_least_two_eight_of_hearts",
+}
+
+function AKYRS.get_tldr_condition_from_index(index)
+    return G.GAME.akyrs_tldr_conditions[akyrs_tldr_conditions_list[index]]
+end

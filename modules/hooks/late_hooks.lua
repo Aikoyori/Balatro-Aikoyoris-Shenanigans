@@ -7,6 +7,14 @@ G.FUNCS.sell_card = function(e)
         card:sell_card()
         return
     end
+    
+    if card.config.center.rarity == 3 then
+        AKYRS.trigger_tldr_conditions("sold_a_rare_joker")
+    end
+    
+    if card.config.center.key == "j_akyrs_tldr_joker" then
+        AKYRS.trigger_tldr_conditions("has_sold_tldr")
+    end
     sell_hook(e)
 end
 

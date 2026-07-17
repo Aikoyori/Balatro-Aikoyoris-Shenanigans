@@ -200,3 +200,14 @@ function card_eval_status_text(...)
     local r = {cardevalstat(...)}
     return unpack(r)
 end
+
+local add_tag_ref = add_tag
+function add_tag(...)
+    local args = { ... }
+    if args[1] == G.P_TAGS["tag_charm"] then
+        AKYRS.trigger_tldr_conditions("got_charm_tag")
+    end
+    local rx = add_tag_ref(...)
+    return rx
+    
+end

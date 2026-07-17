@@ -860,36 +860,46 @@ SMODS.Joker {
     cost = 2,
     loc_vars = function(self, info_queue, card)
         if AKYRS.bal("absurd") then
-            info_queue[#info_queue+1] = G.P_CENTERS["j_chaos"]
-            info_queue[#info_queue+1] = G.P_CENTERS["c_moon"]
-            info_queue[#info_queue+1] = G.P_CENTERS["v_grabber"]
             info_queue[#info_queue+1] = G.P_CENTERS["j_ceremonial"]
-            if AKYRS.is_mod_loaded("Cryptid") then
-                info_queue[#info_queue+1] = G.P_CENTERS["c_cry_summoning"]
-                info_queue[#info_queue+1] = G.P_CENTERS["j_cry_exponentia"]
-                info_queue[#info_queue+1] = G.P_BLINDS["bl_cry_tax"]
-            end
-            info_queue[#info_queue+1] = G.P_CENTERS["m_lucky"]
-            info_queue[#info_queue+1] = G.P_CENTERS["j_akyrs_shimmer_bucket"]
             info_queue[#info_queue+1] = G.P_CENTERS["m_stone"]
+            info_queue[#info_queue+1] = G.P_CENTERS["j_akyrs_7wonders"]
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_tldr_tldr_absurd", vars = {card.ability.extra.xmult}}
-            info_queue[#info_queue+1] = G.P_CENTERS["v_akyrs_alphabet_soup"]
-            info_queue[#info_queue+1] = G.P_CENTERS["j_oops"]
         else
-            info_queue[#info_queue+1] = G.P_CENTERS["m_stone"]
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_tldr_tldr", vars = {card.ability.extra.mult}}
+            info_queue[#info_queue+1] = G.P_TAGS["tag_charm"]
+            info_queue[#info_queue+1] = G.P_CENTERS["c_akyrs_umbral_intrusive_thoughts"]
+            --info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_tldr_tldr", vars = {card.ability.extra.mult}}
+        end
+        
+        local completed_nodes = {}
+        for i = 1, 10 do
+            local is_completed = AKYRS.get_tldr_condition_from_index(i)
+            completed_nodes[#completed_nodes+1] = {
+                n = G.UIT.T,
+                config = {
+                    colour = is_completed and G.C.GREEN or G.C.RED,
+                    scale = 0.4,
+                    text = i
+                }
+            }
         end
         return {
             key = AKYRS.bal_val(self.key, self.key.."_absurd"), 
-            scale = 0.7,
+            scale = 0.9,
             vars = { 
-                AKYRS.bal_val(card.ability.extra.mult,card.ability.extra.xmult)
+                AKYRS.bal_val(card.ability.extra.xmult_adequate,card.ability.extra.xmult),
+                card.ability.extra.mult_adequate
+            },
+            main_end = {
+                { n = G.UIT.R, config = { padding = 0.1, colour = G.C.CLEAR, r = 0.1}, nodes = {
+                    AKYRS.ui_auto_table(completed_nodes, { columns = 5 })
+                }}
             }
         }
     end,
     config = {
         extra = {
-            mult = 2,
+            mult_adequate = 0.1,
+            xmult_adequate = 4.5,
             xmult = 3
         },
     },
@@ -901,12 +911,17 @@ SMODS.Joker {
                 }
             end
         else
-            if context.joker_main or context.individual and not context.end_of_round and (context.cardarea == G.hand or context.cardarea == G.play) or context.forcetrigger then
+            if context.joker_main and G.GAME.akyrs_tldr_conditions_all_done then
                 return AKYRS.bal_val(
                     {
-                        mult = card.ability.extra.mult
+                        xmult = card.ability.extra.xmult_adequate
                     }
                 )
+            end
+            if context.individual and not context.before and not context.after and not context.end_of_round and not G.GAME.akyrs_tldr_conditions_all_done then
+                return {
+                    mult = card.ability.extra.mult_adequate
+                }
             end
         end
     end,
@@ -4347,14 +4362,34 @@ SMODS.Joker {
             }
         }
     end,
-    in_pool = function (self, args)
-        return false
+    calculate = function (self, card, context)
+        
     end,
 }
 SMODS.Joker {
     key = "edge",
     atlas = 'AikoyoriJokers',
     pos = { x = 2, y = 3 },
+    pools = {  },
+    config = {
+    },
+    rarity = 1,
+    cost = 2,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    in_pool = function (self, args)
+        return false
+    end,
+}
+
+SMODS.Joker {
+    key = "7wonders",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 9, y = 7 },
     pools = {  },
     config = {
     },

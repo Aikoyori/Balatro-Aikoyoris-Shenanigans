@@ -178,6 +178,7 @@ function Card:redeem()
 
         G.GAME.akyrs_generated_but_not_redeemed_vouchers_check[self.config.center_key] = nil
         AKYRS.remove_value_from_table(G.GAME.akyrs_list_of_generated_but_not_redeemed_vouchers,self.config.center_key)
+        AKYRS.trigger_tldr_conditions("redeemed_voucher")
 
     end
     return unpack(x)
@@ -405,4 +406,12 @@ end
 function G.FUNCS.akyrs_sort_alpha(e)
     G.hand:sort('akyrs_alpha asc')
     play_sound('paper1')
+end
+
+
+local ca2d = Card.add_to_deck
+function Card:add_to_deck()
+    local x = ca2d(self)
+    AKYRS.check_8H_tldr()
+    return x
 end

@@ -74,6 +74,20 @@ function Game:init_game_object()
     ret.akyrs_life_cover_sprite = "normal"
     ret.akyrs_life_heal = { round = 0, ante = 0, }
 
+    ret.akyrs_tldr_conditions = {
+        won_blind_oneshot = false,
+        has_sold_tldr = false,
+        got_charm_tag = false,
+        used_replicant = false,
+        redeemed_voucher = false,
+        sold_a_rare_joker = false,
+        used_intrusive_thought = false,
+        joker_slots_filled = false,
+        straight_and_flush_played_in_one_round = false,
+        have_at_least_two_eight_of_hearts = false,
+    }
+    ret.akyrs_tldr_conditions_all_done = false
+
     -- this one will get set to true once player has bought an Emerald OR used one of the Workstation Card
     ret.akyrs_has_capability_to_trade = false
     -- 
@@ -1198,6 +1212,7 @@ end
 
 local cardAreaEmplaceFunction = CardArea.emplace
 function CardArea:emplace(c,l,fl)
+    
     if c and type(c) == "table" then
         c.akyrs_lastcardarea = self
         if self == G.discard then
@@ -1213,6 +1228,9 @@ function CardArea:emplace(c,l,fl)
         if self == G.discard then
             c.ability.akyrs_auto_discarded = false
         end
+    end
+    if self == G.jokers and not AKYRS.has_room(self) then
+        AKYRS.trigger_tldr_conditions("joker_slots_filled")
     end
     return unpack(x)
 end

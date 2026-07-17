@@ -165,6 +165,7 @@ end
 local copyCardHook = copy_card
 function copy_card(...)
     local other, new_card, card_scale, playing_card, strip_edition = ...
+    
     local c = {copyCardHook(...)}
     c[1].is_null = other.is_null
     c[1].akyrs_judgement = other.akyrs_judgement
@@ -181,6 +182,7 @@ function copy_card(...)
     if c[1].base.value then
         c[1]:set_sprites(c[1].config and c[1].config.center,c[1].config and c[1].config.card)
     end
+    AKYRS.check_8H_tldr()
     return unpack(c)
 end
 

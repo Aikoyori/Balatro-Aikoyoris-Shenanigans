@@ -256,6 +256,9 @@ pattern = """    -- TARGET: effects after hand evaluation"""
 position = "after"
 payload = """G.GAME.current_round.akyrs_hands_played = G.GAME.current_round.akyrs_hands_played or {}
 G.GAME.current_round.akyrs_hands_played[text] = true
+if G.GAME.current_round.akyrs_hands_played["Straight"] and G.GAME.current_round.akyrs_hands_played["Flush"] then
+    AKYRS.trigger_tldr_conditions("straight_and_flush_played_in_one_round")
+end
 """
 overwrite = true
 match_indent = true
@@ -306,5 +309,16 @@ target = 'functions/state_events.lua'
 pattern = """    SMODS.cashout_pitch = pitch; SMODS.cashout_index = i; SMODS.cashout_dollars = dollars"""
 position = "before"
 payload = """dollars = AKYRS.add_custom_cashout_rows(dollars, pitch)"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = """    SMODS.last_hand_oneshot = SMODS.last_hand_score >= G.GAME.blind.chips"""
+position = "after"
+payload = """if SMODS.last_hand_oneshot then -- added by  aiko shen
+    AKYRS.trigger_tldr_conditions("won_blind_oneshot")
+end"""
 overwrite = true
 match_indent = true

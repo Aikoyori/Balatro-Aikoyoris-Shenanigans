@@ -1737,14 +1737,14 @@ return {
                     },
                     {
                         "In peace there is cult, in between there is {C:red}Mult{}. Soon as they are blue, finish all of ten clues.",
-                        "First one is a must, won a blind with a {C:red}gust{}. The flame is quite hot, so win round in {C:red}one shot.",
+                        "First one is a must, won a blind with a {C:red}gust{}. The flame is quite hot, so win round with {C:red}one shot.",
                         "Second is for sure, shops are full of allure. This one must be {C:attention}sold, once{} and then you must hold.",
                         "Third time is the {C:purple}Charm{}, as they said getting warm. Some mods made it lag, but for sure get the {C:purple}Tag.",
-                        "Fourth wall made to break, in this case in the wake. {C:akyrs_replicant_o}Replicant{} aren't gold, but {C:attention}use{} it when you hold.",
+                        "Fourth wall made to break, in this case in the wake. \"{C:akyrs_replicant_o}Replicant{} aren't gold, so {C:attention}use{} it\" you are told.",
                         "Fifth one is easy, just make sure they will see. {C:attention}Vouchers{} are not free. {C:attention}Redeem{} one, that's decree.",
-                        "Sixth clue forms a plan, {C:attention}sacrifice{} one of clan. {C:red}Rare{} one you will need, Shows yourself without greed.",
-                        "Seventh makes a note, In the way found a moat. {C:akyrs_umbral_p,X:akyrs_umbral_y}Intrusive{} wins the round. Before luck lost the ground.",
-                        "Eighth one makes a change, in effort to arrange. {C:attention}Fill{} them with {C:attention}Jokers{}, Don't need sort, however.",
+                        "Sixth clue forms a plan, {C:attention}sacrifice{} one of clan. {C:red}Rare{} one you will need, shows yourself without greed.",
+                        "Seventh makes a note, In the way found a moat. {C:akyrs_umbral_p,X:akyrs_umbral_y}Intrusive{} wins the round. before luck lost the ground.",
+                        "Eighth one makes a change, in effort to arrange. {C:attention}Fill{} them with {C:attention}Jokers{}, don't need sort, however.",
                         "Ninth one sounds silly, {C:attention}Straight{}'s played when you see. {C:attention}Flush{} too, the {C:attention}same round{}, all theses suit are abound.",
                         "Tenth clue is the last, it is not but a card. Have {C:attention}two{} 8 of {C:hearts}Hearts{}. Finish all, Mult be yours."
                     }

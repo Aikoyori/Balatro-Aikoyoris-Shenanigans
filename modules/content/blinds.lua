@@ -869,10 +869,10 @@ SMODS.Blind {
                         end, 0.1)
                     end
                     AKYRS.simple_event_add(function ()
-                        G.deck:shuffle("akyrs_razzle_shuffle")
+                        G.deck:shuffle("akyrs_periwinkle_shuffle")
                         return true
                     end, 1)
-                    for i = 1, G.hand.config.card_limit do
+                    for i = 1, math.min(G.hand.config.card_limit, #G.deck.cards) do
                         AKYRS.simple_event_add(function ()
                             local drawn_c = G.deck:remove_card()
                             G.hand:emplace(drawn_c)

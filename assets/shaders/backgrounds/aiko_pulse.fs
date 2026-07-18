@@ -41,13 +41,13 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
 
     PREC vec2 polarcoord = vec2(atan(uv_centered.y / uv_centered.x),distance(uv_centered, vec2(0.,0.)));
 
-    PREC number spumamnt = 0.085 * 20.*(1.*spin_amount*uv_len + (1. - 1.*spin_amount));
+    PREC number spumamnt = 0.025 * 20.*(1.*spin_amount*uv_len + (1. - 1.*spin_amount));
 
     PREC number emit = sin ( time * 0.13 ) * PI * 2.0;
 
-    PREC number colour1_angles = floor ( mod ( ( ( polarcoord.y + (spin_time + ( spumamnt * 0.50) ) * 0.01 + (emit) * 0.15) / (PI / 06.) + time * 0.023  ) , 2.0 ) ) ;
-    PREC number colour2_angles = floor ( mod ( ( ( polarcoord.y + (spin_time + ( spumamnt * 1.50) ) * 0.07 + (time) * 0.30) / (PI / 04.) + time * 0.041  ) , 2.0 ) ) ;
-    PREC number colour3_angles = floor ( mod ( ( ( polarcoord.y + (spin_time + (-spumamnt * 2.75) ) * 0.04 + (emit) * 0.07) / (PI / 22.) + emit * 0.069  ) , 2.0 ) ) ;
+    PREC number colour1_angles = floor ( mod ( ( ( -polarcoord.y + (spin_time + ( spumamnt * 0.50) ) * 0.01 + (emit) * 0.15) / (PI / 06.) + time * 0.023  ) , 2.0 ) ) ;
+    PREC number colour2_angles = floor ( mod ( ( ( -polarcoord.y + (spin_time + ( spumamnt * 1.50) ) * 0.07 + (time) * 0.30) / (PI / 04.) + time * 0.041  ) , 2.0 ) ) ;
+    PREC number colour3_angles = floor ( mod ( ( ( -polarcoord.y + (spin_time + (-spumamnt * 2.75) ) * 0.04 + (emit) * 0.07) / (PI / 22.) + emit * 0.069  ) , 2.0 ) ) ;
 
     PREC vec4 ret_col = vec4(0.0,0.0,0.0,1.);
 

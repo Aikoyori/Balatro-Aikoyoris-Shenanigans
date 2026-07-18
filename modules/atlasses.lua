@@ -419,3 +419,8 @@ SMODS.Shader{
     key = "faded",
     path = "faded.fs"
 }
+
+SMODS.Shader{
+    key = "aiko_bg",
+    path = "aiko_bg.fs"
+}

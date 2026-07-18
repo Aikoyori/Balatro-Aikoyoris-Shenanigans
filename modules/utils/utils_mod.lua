@@ -1172,3 +1172,53 @@ local akyrs_tldr_conditions_list = {
 function AKYRS.get_tldr_condition_from_index(index)
     return G.GAME.akyrs_tldr_conditions[akyrs_tldr_conditions_list[index]]
 end
+
+
+function AKYRS.honest_ease_background_colour(colours_targets, delay) 
+    delay = delay or 0.3
+    for k, v in pairs(colours_targets) do
+        if type(v) == "table" then
+            AKYRS.ease_colour_null_checked(G.C.BACKGROUND[k], v, delay)
+        else
+            ease_value(G.C.BACKGROUND, k, v - G.C.BACKGROUND[k], false, nil, true, delay)
+        end
+    end
+end
+
+
+function AKYRS.ease_colour_null_checked(old_colour, new_colour, delay, alphas)
+    for i, v in ipairs(old_colour) do
+        if old_colour[i] ~= nil and new_colour[i] ~= nil and (i ~= 4 or alphas) then
+            AKYRS.better_ease_value(old_colour, i, new_colour[i] - old_colour[i], false, 'REAL', nil, true, delay, "inoutcirc", "akyrs_bg")
+        else
+            old_colour[i] = old_colour[i]
+        end
+    end
+end
+
+
+function AKYRS.set_background_shaders(shader_key)
+    
+    local old_contrast = G.C.BACKGROUND.contrast
+    AKYRS.simple_event_add(
+    function ()    
+        AKYRS.honest_ease_background_colour({contrast = 0}, 1)
+        AKYRS.simple_event_add(
+        function ()
+            G.SPLASH_BACK:define_draw_steps({{
+            shader = shader_key,
+            send = {
+                {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL_SHADER'},
+                {name = 'spin_time', ref_table = G.TIMERS, ref_value = 'BACKGROUND'},
+                {name = 'colour_1', ref_table = G.C.BACKGROUND, ref_value = 'C'},
+                {name = 'colour_2', ref_table = G.C.BACKGROUND, ref_value = 'L'},
+                {name = 'colour_3', ref_table = G.C.BACKGROUND, ref_value = 'D'},
+                {name = 'contrast', ref_table = G.C.BACKGROUND, ref_value = 'contrast'},
+                {name = 'spin_amount', ref_table = G.ARGS.spin, ref_value = 'amount'}
+            }}})
+            AKYRS.honest_ease_background_colour({contrast = old_contrast}, 1)
+            return true
+        end, 1.2, "akyrs_bg")
+        return true
+    end, 0, "akyrs_bg")
+end

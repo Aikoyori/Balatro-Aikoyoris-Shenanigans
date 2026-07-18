@@ -95,7 +95,8 @@ position = "after"
 payload = ''',
 akyrs_desc = {},
 akyrs_life = {},
-akyrs_misc = {}
+akyrs_misc = {},
+akyrs_bg = {}
 '''
 match_indent = true
 

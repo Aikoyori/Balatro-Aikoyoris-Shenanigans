@@ -1,0 +1,19 @@
+[manifest]
+version = "1.2"
+dump_lua = true
+priority = 70
+
+[[patches]]
+[patches.pattern]
+target = ' Cartomancer - cartomancer.view-deck '
+pattern = """    if not Cartomancer.SETTINGS.deck_view_stack_chips then"""
+position = "before"
+payload = """
+if self.ability.akyrs_special_card_type == "rank" then
+    suit = ""
+end
+if self.ability.akyrs_special_card_type == "suit" then
+    rank = ""
+end
+"""
+match_indent = true

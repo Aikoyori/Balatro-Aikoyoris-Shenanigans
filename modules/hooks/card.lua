@@ -298,7 +298,7 @@ end
 local cardarea_sort = CardArea.sort
 function CardArea:sort(method)
     if G.GAME and G.GAME.akyrs_character_stickers_enabled and not method then
-        self.config.sort = nil
+        self.config.sort = ""
         return cardarea_sort(self,self.config.sort)
     end
     return cardarea_sort(self,method)

@@ -243,7 +243,6 @@ SMODS.Consumable{
     key = "umbral_break_up",
     atlas = "umbra",
     config = {
-        min_highlighted = 3,
         max_highlighted = 3
     },
     loc_vars = function (self, info_queue, card)

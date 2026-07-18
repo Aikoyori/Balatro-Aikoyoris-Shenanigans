@@ -39,7 +39,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
 
     // convert to polar coordinates
 
-    PREC vec2 polarcoord = vec2(atan(uv_centered.y / uv_centered.x),distance(uv_centered, vec2(0.5, 0.5)));
+    PREC vec2 polarcoord = vec2(atan(uv_centered.y / uv_centered.x),distance(uv_centered, vec2(0.,0.)));
 
     PREC number spumamnt = 0.085 * 20.*(1.*spin_amount*uv_len + (1. - 1.*spin_amount));
 

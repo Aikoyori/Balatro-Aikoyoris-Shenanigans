@@ -429,3 +429,13 @@ SMODS.Shader{
     key = "aiko_gradiented_wheel",
     path = "backgrounds/aiko_gradiented_wheel.fs"
 }
+
+SMODS.Shader{
+    key = "aiko_pulse",
+    path = "backgrounds/aiko_pulse.fs"
+}
+
+SMODS.Shader{
+    key = "aiko_gradiented_pulse",
+    path = "backgrounds/aiko_gradiented_pulse.fs"
+}

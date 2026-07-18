@@ -1568,9 +1568,7 @@ function AKYRS.better_ease_value(ref_table, ref_value, mod, floored, timer_type,
         ease_to = mod,
         timer = timer_type,
         delay =  delay or 0.3,
-        ease = {
-            type = ease_type or nil,
-        },
+        ease = ease_type,
         func = (function(t) if floored then return math.floor(t) else return t end end)
     }), queue or 'akyrs_life')
 end

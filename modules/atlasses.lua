@@ -421,6 +421,11 @@ SMODS.Shader{
 }
 
 SMODS.Shader{
-    key = "aiko_bg",
-    path = "aiko_bg.fs"
+    key = "aiko_pinwheel",
+    path = "backgrounds/aiko_pinwheel.fs"
+}
+
+SMODS.Shader{
+    key = "aiko_gradiented_wheel",
+    path = "backgrounds/aiko_gradiented_wheel.fs"
 }

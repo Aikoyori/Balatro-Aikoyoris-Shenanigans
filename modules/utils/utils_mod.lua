@@ -1180,7 +1180,7 @@ function AKYRS.honest_ease_background_colour(colours_targets, delay)
         if type(v) == "table" then
             AKYRS.ease_colour_null_checked(G.C.BACKGROUND[k], v, delay)
         else
-            ease_value(G.C.BACKGROUND, k, v - G.C.BACKGROUND[k], false, nil, true, delay)
+            AKYRS.better_ease_value(G.C.BACKGROUND, k, v - G.C.BACKGROUND[k], false, 'REAL', nil, true, delay, "inoutcirc", "akyrs_bg")
         end
     end
 end
@@ -1189,6 +1189,9 @@ end
 function AKYRS.ease_colour_null_checked(old_colour, new_colour, delay, alphas)
     for i, v in ipairs(old_colour) do
         if old_colour[i] ~= nil and new_colour[i] ~= nil and (i ~= 4 or alphas) then
+            if delay == 0 then
+                old_colour[i] = new_colour[i]
+            end
             AKYRS.better_ease_value(old_colour, i, new_colour[i] - old_colour[i], false, 'REAL', nil, true, delay, "inoutcirc", "akyrs_bg")
         else
             old_colour[i] = old_colour[i]
@@ -1200,6 +1203,12 @@ end
 function AKYRS.set_background_shaders(shader_key)
     
     local old_contrast = G.C.BACKGROUND.contrast
+    
+    G.ARGS.spin = G.ARGS.spin or {
+        amount = 0,
+        real = 0,
+        eased = 0
+    }
     AKYRS.simple_event_add(
     function ()    
         AKYRS.honest_ease_background_colour({contrast = 0}, 1)

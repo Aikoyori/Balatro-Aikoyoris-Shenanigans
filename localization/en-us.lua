@@ -2701,11 +2701,11 @@ return {
                 text = {
                     {
                         "This Joker gains {C:white,X:chips} X#1# {} Chips",
-                        "per card if played hand contains a {C:attention}Flush",
+                        "per scored card if played hand contains a {C:attention}Flush",
                     },
                     {
                         "This Joker loses {C:white,X:chips} X#2# {} Chips instead",
-                        "per {V:1}#4#{} scored",
+                        "per {V:1}#4#{} played",
                         "{C:inactive}Suit changes every hand",
                     },
                     {
@@ -4587,6 +4587,22 @@ return {
             k_canopy_downable_no = "Activated",
             k_akyrs_cloud_card_tally = "Cloud Cards",
             k_akyrs_cloud_card_tally_buffed = "Cloudy Day",
+
+
+            k_akyrs_shop_close = "Close",
+
+            k_akyrs_chicanery_round = "This Round",
+            k_akyrs_chicanery_ante = "This Ante",
+            k_akyrs_chicanery_rolls_common = "Common",
+            k_akyrs_chicanery_rolls_uncommon = "Uncommon",
+            k_akyrs_chicanery_rolls_rare = "Rare",
+            k_akyrs_chicanery_rolls_common_arrows = "▲",
+            k_akyrs_chicanery_rolls_uncommon_arrows = "",
+            k_akyrs_chicanery_rolls_rare_arrows = "",
+            k_akyrs_chicanery_rolls_left="Rolls Left",
+            k_akyrs_chicanery_buy="BUY",
+            k_akyrs_chicanery_btn="J",
+
         },
         high_scores={},
         labels={
@@ -4651,6 +4667,7 @@ return {
             k_akyrs_word_check_valid="#1# is a VALID word!",
             k_akyrs_word_check_invalid="#1# is NOT a VALID word.",
             k_akyrs_click_for_credits_of="Click to view credits for #1#",
+            k_akyrs_chicanery_rolls_left="#1#/#2# Rolls Left",
         },
         akyrs_misc = {
             mod_label = {

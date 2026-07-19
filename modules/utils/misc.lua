@@ -1642,3 +1642,7 @@ function AKYRS.set_whole(cardlist, centerkey)
         c:set_ability(G.P_CENTERS[centerkey])
     end
 end
+
+function AKYRS.should_give_eternal_likes(area)
+    return (area == G.shop_jokers) or (area == G.pack_cards) 
+end

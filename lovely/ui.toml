@@ -859,3 +859,82 @@ overwrite = true
 match_indent = true
 
 
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = """            config = {align='tmi', offset = {x=0,y=G.ROOM.T.y+11},major = G.hand, bond = 'Weak'}
+        }"""
+position = "after"
+payload = """
+AKYRS.shop_hooks(dt)
+"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = """          G.shop:remove()"""
+position = "after"
+payload = """
+AKYRS.end_shop_hooks()
+
+"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = """    local shop_sign = AnimatedSprite(0,0, 4.4, 2.2, G.ANIMATION_ATLAS['shop_sign'])"""
+position = "before"
+payload = """end"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = """    G.SHOP_SIGN = UIBox{"""
+position = "before"
+payload = """local akyrs_shop_ui_additions = AKYRS.shop_sign_add()"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = """              {n=G.UIT.O, config={object = DynaText({string = {localize('ph_improve_run')}, colours = {lighten(G.C.GOLD, 0.3)},shadow = true, rotate = true, float = true, bump = true, scale = 0.5, spacing = 1, pop_in = 1.5, maxw = 4.3})}}
+            }},"""
+position = "after"
+payload = """#akyrs_shop_ui_additions > 0 and {n=G.UIT.R, config={align = "cm"}, nodes=akyrs_shop_ui_additions},"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = """function G.UIDEF.shop()"""
+position = "after"
+payload = """if not G.AKYRS_SHOP_SIGN_REFRESH_ONLY then"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = """    local t = {n=G.UIT.ROOT, config = {align = 'cl', colour = G.C.CLEAR}, nodes={"""
+position = "before"
+payload = """if G.AKYRS_SHOP_SIGN_REFRESH_ONLY then return end"""
+overwrite = true
+match_indent = true
+

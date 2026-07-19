@@ -159,9 +159,11 @@ SMODS.Voucher {
     redeem = function (self, card) 
         G.GAME.akyrs_jimbo_owes_you = true
         G.GAME.akyrs_premium_joker_roll_tier = 0
+        AKYRS.refresh_shop_sign()
     end,
     unredeem = function (self, card) 
         G.GAME.akyrs_jimbo_owes_you = nil
+        AKYRS.refresh_shop_sign()
     end,
     calculate = function (self, card, context)
         if context.starting_shop then
@@ -179,7 +181,7 @@ SMODS.Voucher {
 SMODS.Voucher {
     key = "premium_free_joker",
     atlas = 'aikoyoriVouchers', pos = { x = 5, y = 0 } ,
-    cost = 0,
+    cost = 5,
     config = {
     },
     loc_vars = function (self, info_queue, card)
@@ -195,9 +197,13 @@ SMODS.Voucher {
     requires = { "v_akyrs_i_owe_you" },
     redeem = function (self, card) 
         G.GAME.akyrs_premium_joker_roll_tier = (G.GAME.akyrs_premium_joker_roll_tier or 0) + 1
+        G.GAME.akyrs_chicanery_rerolls_info.common_has = G.GAME.akyrs_chicanery_rerolls_info.common_has + 3
+        G.GAME.akyrs_chicanery_rerolls_info.common_left = G.GAME.akyrs_chicanery_rerolls_info.common_left + 3
     end,
     unredeem = function (self, card) 
         G.GAME.akyrs_premium_joker_roll_tier = (G.GAME.akyrs_premium_joker_roll_tier or 0) - 1
+        G.GAME.akyrs_chicanery_rerolls_info.common_has = G.GAME.akyrs_chicanery_rerolls_info.common_has - 3
+        G.GAME.akyrs_chicanery_rerolls_info.common_left = G.GAME.akyrs_chicanery_rerolls_info.common_left - 3
     end,
 }
 
@@ -219,9 +225,13 @@ SMODS.Voucher {
     requires = { "v_akyrs_premium_free_joker" },
     redeem = function (self, card) 
         G.GAME.akyrs_premium_joker_roll_tier = G.GAME.akyrs_premium_joker_roll_tier + 1
+        G.GAME.akyrs_chicanery_rerolls_info.uncommon_has = G.GAME.akyrs_chicanery_rerolls_info.uncommon_has + 1
+        G.GAME.akyrs_chicanery_rerolls_info.uncommon_left = G.GAME.akyrs_chicanery_rerolls_info.uncommon_left + 1
     end,
     unredeem = function (self, card) 
         G.GAME.akyrs_premium_joker_roll_tier = G.GAME.akyrs_premium_joker_roll_tier - 1
+        G.GAME.akyrs_chicanery_rerolls_info.uncommon_has = G.GAME.akyrs_chicanery_rerolls_info.uncommon_has - 1
+        G.GAME.akyrs_chicanery_rerolls_info.uncommon_left = G.GAME.akyrs_chicanery_rerolls_info.uncommon_left - 1
     end,
 }
 SMODS.Voucher {
@@ -242,8 +252,12 @@ SMODS.Voucher {
     requires = { "v_akyrs_super_free_joker" },
     redeem = function (self, card) 
         G.GAME.akyrs_premium_joker_roll_tier = G.GAME.akyrs_premium_joker_roll_tier + 1
+        G.GAME.akyrs_chicanery_rerolls_info.rare_has = G.GAME.akyrs_chicanery_rerolls_info.rare_has + 1
+        G.GAME.akyrs_chicanery_rerolls_info.rare_left = G.GAME.akyrs_chicanery_rerolls_info.rare_left + 1
     end,
     unredeem = function (self, card) 
         G.GAME.akyrs_premium_joker_roll_tier = G.GAME.akyrs_premium_joker_roll_tier - 1
+        G.GAME.akyrs_chicanery_rerolls_info.rare_has = G.GAME.akyrs_chicanery_rerolls_info.rare_has - 1
+        G.GAME.akyrs_chicanery_rerolls_info.rare_left = G.GAME.akyrs_chicanery_rerolls_info.rare_left - 1
     end,
 }

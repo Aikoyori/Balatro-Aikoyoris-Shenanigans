@@ -34,6 +34,14 @@ function Card:sell_card()
     end
 end
 
+local csc = Card.can_sell_card
+function Card:can_sell_card(ctx) 
+    if self.ability.akyrs_latticed then
+        return false
+    end
+   return csc(self,ctx) 
+end
+
 
 
 local startRunHook = Game.start_run

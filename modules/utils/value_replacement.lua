@@ -444,3 +444,33 @@ function AKYRS.mod_cards_scoring(cards_table, context)
     end
     return returnval
 end
+
+function AKYRS.shop_hooks(dt)
+    G.akyrs_jimbo_chicanery = G.akyrs_jimbo_chicanery or UIBox{
+            definition = AKYRS.dyn_container_maker({
+                AKYRS.close_button_prefab("akyrs_jimbo_chicanery"),
+                AKYRS.jimbo_chance_chicanery()}),
+            config = {align='tmi', offset = {x=0,y=G.ROOM.T.y+11},major = G.hand, bond = 'Weak'}
+        }
+end
+
+function AKYRS.end_shop_hooks(dt)
+    G.akyrs_jimbo_chicanery:remove()
+    G.akyrs_jimbo_chicanery = nil
+end
+function AKYRS.shop_sign_add()
+    local ret = {}
+    if G.GAME.akyrs_jimbo_owes_you then
+        ret[#ret+1] = AKYRS.button_prefab({
+            children = {
+                AKYRS.text_prefab{ text = localize("k_akyrs_chicanery_btn"), scale = 0.3 }
+            },
+            colour = G.C.GREEN,
+            padding = 0.02,
+            ref_table = "akyrs_jimbo_chicanery",
+            func = "akyrs_shop_btn_func",
+            button = "akyrs_open_shop_window",
+        })
+    end
+    return ret
+end

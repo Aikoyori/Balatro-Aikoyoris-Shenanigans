@@ -1092,63 +1092,277 @@ function AKYRS.debug_ui(ui)
   })
 end
 
+function AKYRS.chicanery_reroll_btns(level) 
+  local per = "round"
+  local scale = 0.3
+  if level == "rare" then per = "ante" end
+  return 
+      {
+        n = G.UIT.R, config = { colour = G.C.GREEN, minw = 3, minh = 1, r = 0.05, padding = 0.1, align = "cm", emboss = 0.1, hover = true, button = 'akyrs_reroll_jimbo', func = 'akyrs_reroll_jimbo_can_use', ref_table = { level } },
+        nodes = {
+          { n = G.UIT.R, config = { padding = 0.05 },nodes = { 
+            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = "`" , scale = scale, font = SMODS.Fonts["akyrs_611aiko"] } } } },
+            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = localize("k_akyrs_chicanery_rolls_"..level), scale = scale } } } },
+            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = localize("k_akyrs_chicanery_rolls_"..level.."_arrows") , scale = scale, font = SMODS.Fonts["akyrs_611aiko"] } } } },
+          },},
+          { n = G.UIT.R, config = { padding = 0.05 },nodes = { 
+            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, ref_table = G.GAME.akyrs_chicanery_rerolls_info, ref_value = level.."_left", scale = scale * 1.4 } } } },
+            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = "/", scale = scale * 1.4 } } } },
+            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, ref_table = G.GAME.akyrs_chicanery_rerolls_info, ref_value = level.."_has", scale = scale * 1.4 } } } },
+            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = localize("k_akyrs_chicanery_rolls_left") , scale = scale * 1.4 } } } },
+          },},
+          { n = G.UIT.R, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = localize("k_akyrs_chicanery_"..per), scale = scale, } } } },
+        }
+      }
+end
+
+function AKYRS.chicanery_purchase_button() 
+  local scale = 0.4
+  return 
+      {
+        n = G.UIT.R, config = { colour = G.C.GREEN, minw = 3, minh = 0.75, r = 0.05, padding = 0.05, align = "cm", emboss = 0.1, hover = true, button = 'akyrs_buy_jimbo', func = 'akyrs_can_buy_jimbo' },
+        nodes = {
+          { n = G.UIT.C, config = { padding = 0, align = "cm" },nodes = { 
+            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = localize("k_akyrs_chicanery_buy"), scale = scale } } } },
+          },},
+          { n = G.UIT.C, config = { padding = 0, align = "cm" },nodes = { 
+            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = "$", scale = scale * 1.4 } } } },
+            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, ref_table = G.GAME.akyrs_chicanery_rerolls_info, ref_value = "buy_cost", scale = scale * 1.4 } } } },
+          },},
+        }
+      }
+end
+
+
+function AKYRS.singly_padded_shop_box(childrens, uit)
+  return 
+    {n=uit or G.UIT.C, config={align = "cm", padding = 0.15, r=0.2, colour = G.C.L_BLACK, emboss = 0.05}, nodes=childrens}
+end
+
+function AKYRS.doubly_padded_shop_box(childrens, uit)
+  return AKYRS.singly_padded_shop_box({
+      {n=uit or G.UIT.C, config={align = "cm", padding = 0.2, r=0.2, colour = G.C.BLACK, maxh = G.shop_vouchers.T.h+0.4}, nodes=childrens}
+    })
+end
+
+function AKYRS.dyn_container_maker(childrens)
+    local t = {n=G.UIT.ROOT, config = {align = 'cl', colour = G.C.CLEAR}, nodes={
+            UIBox_dyn_container({
+                {n=G.UIT.C, config={align = "cm", padding = 0.1, emboss = 0.05, r = 0.1, colour = G.C.DYN_UI.BOSS_MAIN}, nodes=childrens
+              },
+              }, false)
+        }}
+    return t
+end
+
 function AKYRS.jimbo_chance_chicanery()
+  local parameters = {
+    set = "Joker",
+    area = G.akyrs_jimbo_chicanery_cardarea,
+    key_append = "akyrs_jimbo_chicanery_starting",
+  }
 
   G.akyrs_jimbo_chicanery_cardarea = CardArea(
     0,
     0,
     1.05*G.CARD_W,
     1.05*G.CARD_H, 
-    {card_limit = 1, type = 'shop', highlight_limit = 1, negative_info = true})
+    {card_limit = 1, type = 'akyrs_credits', highlight_limit = 1, negative_info = true})
 
+  AKYRS.simple_event_add(function ()
+    local c = SMODS.create_card(parameters)
+    c.T.y = G.ROOM.T.y + 11
+    c.VT.y = G.ROOM.T.y + 11
+    G.akyrs_jimbo_chicanery_cardarea:emplace(c)
+    c:juice_up()
+    return true
+  end, 0)
   return {
     n = G.UIT.R, -- TODO: dont forget to change this to root when adding to the UI or not actually
-    config = { minw = 12, minh = 8, colour = G.C.UI.TRANSPARENT_DARK, r = 0.1, padding = 0.25 },
+    config = { minw = 12, minh = 8, colour = G.C.UI.TRANSPARENT_DARK, r = 0.1, padding = 0.25, align = "cm" },
     nodes = {
       -- first bullshit
       {
         n = G.UIT.R,
-        config = { minw = 12, minh = 8, align = "cm", padding = 0.25,
+        config = { minw = 0, minh = 8, align = "cm", padding = 0.25,
         },
         nodes = {
-          {
-            n = G.UIT.C,
-            config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 5.5, minh = 7.5, padding = 0.25, r = 0.07, align = "cm",
-            },
-            nodes = {
+          AKYRS.singly_padded_shop_box({
               {
-                n = G.UIT.R,
-                nodes = {
-                  {
-                    n = G.UIT.O,
-                    config = {
-                      object = G.akyrs_jimbo_chicanery_cardarea, -- fucking death
+              n = G.UIT.C,
+              config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 4, minh = 5.5, padding = 0.25, r = 0.07, align = "cm",
+              },
+              nodes = {
+                {
+                  n = G.UIT.R,
+                  config = { align = "cm" },
+                  nodes = {
+                    {
+                      n = G.UIT.O,
+                      config = {
+                        object = G.akyrs_jimbo_chicanery_cardarea, -- fucking death
+                      }
                     }
                   }
-                }
-              }
-            },
-          },
-          {
-            n = G.UIT.C,
-            config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 5.5, minh = 7.5, r = 0.07, align = "cm",
-            },
-            nodes = {
-              {
-                n = G.UIT.R, config = { colour = G.C.RED, minw = 5, minh = 2, r = 0.05, padding = 0.1, align = "cm", emboss = 0.1, hover = true, button = 'akyrs_reroll_jimbo_common' },
-                nodes = {
-                  { n = G.UIT.R, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = "PLACEHOLDER 1 []", scale = 0.4, } } } },
-                  { n = G.UIT.R, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = "PLACEHOLDER 2 []", scale = 0.4, } } } },
-                }
+                },
+                AKYRS.chicanery_purchase_button() 
+              },
+            }
+          })
+          ,{
+              n = G.UIT.C,
+              config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 4, minh = 5.5, r = 0.07, align = "cm", padding = 0.05,
+              },
+              nodes = {
+                AKYRS.chicanery_reroll_btns("common"),
+                AKYRS.chicanery_reroll_btns("uncommon"),
+                AKYRS.chicanery_reroll_btns("rare"),
               },
             },
-          },
         },
       }
     }
   }
 end
 
-function G.FUNCS.akyrs_reroll_jimbo_common()
-  print("success!")
+function G.FUNCS.akyrs_reroll_jimbo(e)
+  local info_table = e.config.ref_table
+  local level = info_table[1]
+  if G.akyrs_jimbo_chicanery_cardarea and G.akyrs_jimbo_chicanery_cardarea.cards then
+    for _, c in ipairs(G.akyrs_jimbo_chicanery_cardarea.cards) do
+      c:remove()
+    end
+    local parameters = {
+      set = "Joker",
+      area = G.akyrs_jimbo_chicanery_cardarea,
+      key_append = "akyrs_jimbo_chicanery_"..info_table[1],
+    }
+    if info_table[1] == "uncommon" then
+      parameters.rarity = "Uncommon"
+    elseif info_table[1] == "rare" then
+      parameters.rarity = "Rare"
+    end
+    play_sound('coin2')
+    G.GAME.akyrs_chicanery_rerolls_info[level.."_left"] = math.max(G.GAME.akyrs_chicanery_rerolls_info[level.."_left"] - 1, 0)
+    local c = SMODS.create_card(parameters)
+    G.akyrs_jimbo_chicanery_cardarea:emplace(c)
+    c:juice_up()
+  end
+end
+
+function G.FUNCS.akyrs_reroll_jimbo_can_use(e)
+  local info_table = e.config.ref_table
+  local level = info_table[1]
+  if G.GAME.akyrs_chicanery_rerolls_info[level.."_left"] > 0 and not G.GAME.akyrs_chicanery_rerolls_info.purchased_this_round then
+    e.config.button = "akyrs_reroll_jimbo"
+    if info_table[1] == "uncommon" then
+      e.config.colour = G.C.RARITY[2]
+    elseif info_table[1] == "rare" then
+      e.config.colour = G.C.RARITY[3]
+    else
+      e.config.colour = G.C.RARITY[1]
+    end
+  else
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+  end
+end
+
+function G.FUNCS.akyrs_buy_jimbo(e)
+  ease_dollars(-G.GAME.akyrs_chicanery_rerolls_info.buy_cost)
+  if G.akyrs_jimbo_chicanery_cardarea and G.akyrs_jimbo_chicanery_cardarea.cards then
+    for _, c in ipairs(G.akyrs_jimbo_chicanery_cardarea.cards) do
+      G.akyrs_jimbo_chicanery_cardarea:remove_card(c)
+      SMODS.add_to_deck(c)
+    end
+  end
+  G.GAME.akyrs_chicanery_rerolls_info.purchased_this_round = true
+end
+
+function G.FUNCS.akyrs_can_buy_jimbo(e)
+  if not G.GAME.akyrs_chicanery_rerolls_info.purchased_this_round and #G.akyrs_jimbo_chicanery_cardarea.cards > 0 then
+    e.config.button = "akyrs_buy_jimbo"
+    e.config.colour = G.C.GREEN
+  else
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+  end
+end
+
+function G.FUNCS.akyrs_open_shop_window(e)
+  G.AKYRS_ACTIVE_SHOP = e.config.ref_table
+  G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = -5.7 
+end
+
+function G.FUNCS.akyrs_close_shop_window(e)
+  if G[e.config.ref_table] then
+    G[e.config.ref_table].alignment.offset.y = 11
+    G.AKYRS_ACTIVE_SHOP = nil
+  end
+end
+
+function G.FUNCS.akyrs_close_active_shop_window(e)
+  G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = 11
+  G.AKYRS_ACTIVE_SHOP = nil
+end
+
+function G.FUNCS.akyrs_shop_btn_func(e)
+  local shop = e.config.ref_table
+  if G.AKYRS_ACTIVE_SHOP ~= shop and G.STATE == G.STATES.SHOP then
+    e.config.button = "akyrs_open_shop_window"
+    e.config.colour = G.C.RED
+  else
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+  end
+end
+
+function G.FUNCS.akyrs_shop_close_btn_func(e)
+  local shop = e.config.ref_table
+  if G.AKYRS_ACTIVE_SHOP == shop then
+    e.config.button = "akyrs_close_shop_window"
+    e.config.colour = G.C.RED
+  else
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+  end
+end
+
+function AKYRS.button_prefab(args) 
+  args = args or {}
+  return 
+      {
+        n = args.uit or G.UIT.R, config = { colour = args.colour or G.C.RED, minw = args.w or 0.5, minh = args.h or 0.5, r = 0.05, padding = args.padding or 0.05, align = "cm", emboss = 0.1, hover = true, button = args.button, func = args.func, ref_table = args.ref_table, ref_value = args.ref_value },
+        nodes = args.children or {}
+      }
+end
+
+
+function AKYRS.text_prefab(args) 
+  args = args or {}
+  return { n = args.uit or G.UIT.C, nodes = { { n = G.UIT.T, config = args.config or { colour = G.C.WHITE, text = args.text or "AIKO U SUCK WTFF", scale = args.scale or 0.4 } } } }
+end
+
+function AKYRS.close_button_prefab(shop)
+  return AKYRS.button_prefab({
+      children = {
+          AKYRS.text_prefab{ text = localize("k_akyrs_shop_close"), scale = 0.4 }
+      },
+      colour = G.C.RED,
+      w = 1.5,
+      h = 0.5,
+      padding = 0.02,
+      ref_table = shop,
+      func = "akyrs_shop_close_btn_func",
+      button = "akyrs_close_shop_window",
+  })
+end
+
+function AKYRS.refresh_shop_sign()
+  if not G.SHOP_SIGN then return end
+  G.SHOP_SIGN:remove()
+  G.SHOP_SIGN = nil
+  G.AKYRS_SHOP_SIGN_REFRESH_ONLY = true
+  G.UIDEF.shop()
+  G.AKYRS_SHOP_SIGN_REFRESH_ONLY = nil
 end

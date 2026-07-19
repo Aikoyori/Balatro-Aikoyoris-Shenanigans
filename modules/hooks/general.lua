@@ -88,6 +88,17 @@ function Game:init_game_object()
     }
     ret.akyrs_tldr_conditions_all_done = false
 
+    ret.akyrs_chicanery_rerolls_info = {
+        common_left = 0,
+        common_has = 0,
+        uncommon_left = 0,
+        uncommon_has = 0,
+        rare_left = 0,
+        rare_has = 0,
+        purchased_this_round = false,
+        buy_cost = 2,
+    }
+
     -- this one will get set to true once player has bought an Emerald OR used one of the Workstation Card
     ret.akyrs_has_capability_to_trade = false
     -- 

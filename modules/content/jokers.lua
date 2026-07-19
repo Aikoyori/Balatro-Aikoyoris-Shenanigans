@@ -3885,24 +3885,31 @@ SMODS.Joker {
         }
     end,
     calculate = function (self, card, context)
+        if context.before then
+            return {
+                func = function ()
+                    for _,cd in ipairs(G.play.cards) do
+                        if cd:is_suit(card.ability.extras.suit) then
+                            SMODS.scale_card(card, {
+                                ref_table = card.ability.extras,
+                                ref_value = 'xchips',
+                                scalar_value = 'lose',
+                                scaling_message = { localize("k_akyrs_downgrade_ex") },
+                                operation = function(ref_table, ref_value, initial, scalar_value)
+                                    ref_table[ref_value] = math.max(ref_table[ref_value] - scalar_value, 1)
+                                end,
+                            })
+                        end
+                    end
+                end
+            }
+        end
         if context.individual and not context.blueprint and context.cardarea == G.play then
             if not card.ability.extras.suit then
                 card.ability.extras.suit = pseudorandom_element(SMODS.Suits,"akyrs_yamadaperfect_suit").key
             end
             if context.other_card and context.other_card:is_suit(card.ability.extras.suit) then
-                SMODS.calculate_effect({
-                    func = function ()
-                        SMODS.scale_card(card, {
-                            ref_table = card.ability.extras,
-                            ref_value = 'xchips',
-                            scalar_value = 'lose',
-                            scaling_message = { localize("k_akyrs_downgrade_ex") },
-                            operation = function(ref_table, ref_value, initial, scalar_value)
-                                ref_table[ref_value] = math.max(ref_table[ref_value] - scalar_value, 1)
-                            end,
-                        })
-                    end
-                }, card)
+                -- moved to per card effect
             elseif context.poker_hands and next(context.poker_hands["Flush"]) and not context.other_card:is_suit(card.ability.extras.suit) then
                 SMODS.calculate_effect({
                     func = function ()

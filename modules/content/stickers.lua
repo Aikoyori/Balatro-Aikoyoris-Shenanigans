@@ -86,9 +86,9 @@ SMODS.Sticker{
         }
     end,
     apply = function(self, card, val)
-        if val == true then val = 1 else val = 0 end
+        if val == true then val = 1 else val = nil end
         card.ability[self.key] = val
-        card.ability.akyrs_oxidising_round = 2
+        card.ability.akyrs_oxidising_round = val > 0 and 2 or nil
         card.cost = math.floor(card.cost / 2)
     end,
     calculate = function (self, card, context)
@@ -290,7 +290,7 @@ SMODS.Sticker{
     badge_colour = HEX("54bcc0"),
     sets =  { ["Joker"] = true },
     should_apply = function (self, card, center, area, bypass_reroll)
-        if self.sets[card.ability.set] then
+        if self.sets[card.ability.set] and AKYRS.should_give_eternal_likes(area) then
             if G.GAME.modifiers.akyrs_spawn_latticed and center.eternal_compat and pseudorandom((area == G.pack_cards and 'akyrs_packs_latticed_' or 'akyrs_latticed_')..G.GAME.round_resets.ante) > 0.7 then
                 return true
             end

@@ -830,6 +830,12 @@ function AKYRS.end_round_hook()
             card.ability.akyrs_played_this_round = false
         end
     end
+    for _, level in ipairs({"common","uncommon","rare"}) do
+        if level ~= "rare" or G.GAME.blind_on_deck == "Boss" then
+            G.GAME.akyrs_chicanery_rerolls_info[level.."_left"] = G.GAME.akyrs_chicanery_rerolls_info[level.."_has"]
+        end
+    end
+    G.GAME.akyrs_chicanery_rerolls_info.purchased_this_round = false
     --print(G.GAME.blind_on_deck)
     if G.GAME.akyrs_life_heal then
         local life_heal = 0

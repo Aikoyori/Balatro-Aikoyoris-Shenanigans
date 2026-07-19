@@ -1169,14 +1169,16 @@ function AKYRS.jimbo_chance_chicanery()
     1.05*G.CARD_H, 
     {card_limit = 1, type = 'akyrs_credits', highlight_limit = 1, negative_info = true})
 
-  AKYRS.simple_event_add(function ()
-    local c = SMODS.create_card(parameters)
-    c.T.y = G.ROOM.T.y + 11
-    c.VT.y = G.ROOM.T.y + 11
-    G.akyrs_jimbo_chicanery_cardarea:emplace(c)
-    c:juice_up()
-    return true
-  end, 0)
+  if not G.GAME.akyrs_chicanery_rerolls_info.purchased_this_round then
+    AKYRS.simple_event_add(function ()
+      local c = SMODS.create_card(parameters)
+      c.T.y = G.ROOM.T.y + 11
+      c.VT.y = G.ROOM.T.y + 11
+      G.akyrs_jimbo_chicanery_cardarea:emplace(c)
+      c:juice_up()
+      return true
+    end, 0)
+  end
   return {
     n = G.UIT.R, -- TODO: dont forget to change this to root when adding to the UI or not actually
     config = { minw = 12, minh = 8, colour = G.C.UI.TRANSPARENT_DARK, r = 0.1, padding = 0.25, align = "cm" },

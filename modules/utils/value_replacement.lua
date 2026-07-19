@@ -474,3 +474,7 @@ function AKYRS.shop_sign_add()
     end
     return ret
 end
+function AKYRS.deal_with_leftover_uis(self) -- game
+    G.AKYRS_ACTIVE_SHOP = nil
+    if self.akyrs_jimbo_chicanery then self.akyrs_jimbo_chicanery:remove(); self.akyrs_jimbo_chicanery = nil end
+end

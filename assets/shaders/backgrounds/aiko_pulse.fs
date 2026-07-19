@@ -45,8 +45,8 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
 
     PREC number emit = sin ( time * 0.13 ) * PI * 2.0;
 
-    PREC number colour1_angles = floor ( mod ( ( ( -polarcoord.y + (spin_time + ( spumamnt * 0.50) ) * 0.01 + (emit) * 0.15) / (PI / 06.) + time * 0.023  ) , 2.0 ) ) ;
-    PREC number colour2_angles = floor ( mod ( ( ( -polarcoord.y + (spin_time + ( spumamnt * 1.50) ) * 0.07 + (time) * 0.30) / (PI / 04.) + time * 0.041  ) , 2.0 ) ) ;
+    PREC number colour1_angles = floor ( mod ( ( ( -polarcoord.y + (spin_time + (-spumamnt * 0.50) ) * 0.01 + (emit) * 0.15) / (PI / 06.) + time * 0.023  ) , 2.0 ) ) ;
+    PREC number colour2_angles = floor ( mod ( ( ( -polarcoord.y + (spin_time + (-spumamnt * 1.50) ) * 0.07 + (time) * 0.30) / (PI / 04.) + time * 0.041  ) , 2.0 ) ) ;
     PREC number colour3_angles = floor ( mod ( ( ( -polarcoord.y + (spin_time + (-spumamnt * 2.75) ) * 0.04 + (emit) * 0.07) / (PI / 22.) + emit * 0.069  ) , 2.0 ) ) ;
 
     PREC vec4 ret_col = vec4(0.0,0.0,0.0,1.);

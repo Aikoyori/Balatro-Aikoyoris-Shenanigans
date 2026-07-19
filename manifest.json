@@ -9,7 +9,7 @@
 	"badge_colour": "acce6b",
 	"badge_text_colour": "522e50",
 	"display_name": "AikoShen",
-	"version": "0.2.0-alpha-260720c",
+	"version": "0.2.0-alpha-260720d",
 	"dependencies": [
 		"Steamodded (>=1.0.0~BETA-1620a)", 
 		"Lovely (>=0.9.0)", 

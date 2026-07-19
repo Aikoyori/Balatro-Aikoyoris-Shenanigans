@@ -2204,7 +2204,7 @@ SMODS.Joker{
                 local othercard = G.jokers.cards[index+1]
                 return {
                     func = function ()
-                        SMODS.destroy_cards({othercard})
+                        SMODS.destroy_cards({othercard}, {bypass_eternal = true})
                     end,
                     dollars = math.max(othercard.sell_cost * card.ability.extras.mulx,0)
                 }

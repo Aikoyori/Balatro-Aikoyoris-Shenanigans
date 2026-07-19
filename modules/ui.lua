@@ -1280,7 +1280,7 @@ function G.FUNCS.akyrs_buy_jimbo(e)
 end
 
 function G.FUNCS.akyrs_can_buy_jimbo(e)
-  if not G.GAME.akyrs_chicanery_rerolls_info.purchased_this_round and #G.akyrs_jimbo_chicanery_cardarea.cards > 0 then
+  if not G.GAME.akyrs_chicanery_rerolls_info.purchased_this_round and #G.akyrs_jimbo_chicanery_cardarea.cards > 0 and G.GAME.dollars - G.GAME.akyrs_chicanery_rerolls_info.buy_cost >= G.GAME.bankrupt_at then
     e.config.button = "akyrs_buy_jimbo"
     e.config.colour = G.C.GREEN
   else

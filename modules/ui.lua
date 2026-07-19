@@ -1081,7 +1081,74 @@ function AKYRS.badge_func(badges)
   }}
 end
 
+function AKYRS.debug_ui(ui) 
+  G.FUNCS.overlay_menu({
+    definition = create_UIBox_generic_options({
+        contents = {
+          ui
+        }
+      }),
+		config = { align = "cm", offset = { x = 0, y = 0 }, major = G.ROOM_ATTACH, bond = 'Weak' }
+  })
+end
 
 function AKYRS.jimbo_chance_chicanery()
-  
+
+  G.akyrs_jimbo_chicanery_cardarea = CardArea(
+    0,
+    0,
+    1.05*G.CARD_W,
+    1.05*G.CARD_H, 
+    {card_limit = 1, type = 'shop', highlight_limit = 1, negative_info = true})
+
+  return {
+    n = G.UIT.R, -- TODO: dont forget to change this to root when adding to the UI or not actually
+    config = { minw = 12, minh = 8, colour = G.C.UI.TRANSPARENT_DARK, r = 0.1, padding = 0.25 },
+    nodes = {
+      -- first bullshit
+      {
+        n = G.UIT.R,
+        config = { minw = 12, minh = 8, align = "cm", padding = 0.25,
+        },
+        nodes = {
+          {
+            n = G.UIT.C,
+            config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 5.5, minh = 7.5, padding = 0.25, r = 0.07, align = "cm",
+            },
+            nodes = {
+              {
+                n = G.UIT.R,
+                nodes = {
+                  {
+                    n = G.UIT.O,
+                    config = {
+                      object = G.akyrs_jimbo_chicanery_cardarea, -- fucking death
+                    }
+                  }
+                }
+              }
+            },
+          },
+          {
+            n = G.UIT.C,
+            config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 5.5, minh = 7.5, r = 0.07, align = "cm",
+            },
+            nodes = {
+              {
+                n = G.UIT.R, config = { colour = G.C.RED, minw = 5, minh = 2, r = 0.05, padding = 0.1, align = "cm", emboss = 0.1, hover = true, button = 'akyrs_reroll_jimbo_common' },
+                nodes = {
+                  { n = G.UIT.R, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = "PLACEHOLDER 1 []", scale = 0.4, } } } },
+                  { n = G.UIT.R, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = "PLACEHOLDER 2 []", scale = 0.4, } } } },
+                }
+              },
+            },
+          },
+        },
+      }
+    }
+  }
+end
+
+function G.FUNCS.akyrs_reroll_jimbo_common()
+  print("success!")
 end

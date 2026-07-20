@@ -180,7 +180,7 @@ SMODS.Stake {
     key = "aluminium",
     atlas = "aikoStakes", pos = {x = 2, y = 0},
     sticker_atlas = "aikoStakeStickers", sticker_pos = {x = 2, y = 0},
-    applied_stakes = { "akyrs_hydrogel" },
+    applied_stakes = { "akyrs_spotify" },
     prefix_config = { applied_stakes = { mod = false } },
     colour = HEX("c4cbd9"),
     modifiers = function ()

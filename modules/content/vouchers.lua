@@ -176,6 +176,7 @@ SMODS.Voucher {
             end
         end
     end,
+    disable_shine = true,
 }
 
 SMODS.Voucher {

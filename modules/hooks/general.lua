@@ -1327,6 +1327,7 @@ function Card:save()
     c.akyrs_impostor_card = self.akyrs_impostor_card
     c.debuffed_by_blind = self.debuffed_by_blind
     c.akyrs_judgement = self.akyrs_judgement
+    c.akyrs_enchantments = self.akyrs_enchantments
     return c
 end
 
@@ -1339,7 +1340,7 @@ function Card:load(cardTable, other_card)
     self.akyrs_upgrade_sliced = cardTable.akyrs_upgrade_sliced
     self.akyrs_impostor_card = cardTable.akyrs_impostor_card
     self.debuffed_by_blind = cardTable.debuffed_by_blind
-    self.akyrs_judgement = cardTable.akyrs_judgement
+    self.akyrs_enchantments = cardTable.akyrs_enchantments
     
     _c = self.config.center
 

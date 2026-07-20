@@ -1224,15 +1224,21 @@ return {
                 text={
                     "When this card gets {C:attention}destroyed{}",
                     "{C:attention}Fixed {C:green}#1#%{} chance to",
-                    "duplicate this card",
+                    "duplicate this card without enchantment",
                 },
             },
             ench_akyrs_effeciency = {
                 name="Efficiency",
                 text={
-                    "When this card gets {C:attention}destroyed{}",
                     "{C:attention}Fixed {C:green}#1#%{} chance to",
-                    "duplicate this card",
+                    "retrigger this card once",
+                },
+            },
+            ench_akyrs_effeciency = {
+                name="Efficiency",
+                text={
+                    "{C:attention}Fixed {C:green}#1#%{} chance to",
+                    "retrigger this card",
                 },
             },
         },
@@ -3767,7 +3773,7 @@ return {
             v_akyrs_premium_free_joker={
                 name="Premium Free Joker",
                 text={
-                    "Allows {C:attention}3{} rerolls and obtaining",
+                    "Allows {C:attention}3{} {C:blue}Common{} rerolls for",
                     "joker from the {C:attention}Jimbo's Chance Chicanery",
                 },
             },

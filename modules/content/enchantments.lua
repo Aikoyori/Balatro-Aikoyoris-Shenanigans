@@ -12,9 +12,36 @@ SMODS.Edition{
         }
     end,
     calculate = function (self, card, context)
+        for _,en in ipairs(card.akyrs_enchantments) do
+            AKYRS.Enchantments[en].calculate(AKYRS.Enchantments[en], card, context)
+        end
+    end,
+    on_apply = function (card)
+        card.akyrs_enchantments = {}
+    end,
+    on_remove = function (card)
+        card.akyrs_enchantments = {}
     end,
     weight = 0,
 }
+
+function AKYRS.apply_enchantment(card, enchantment_key)
+    if not card.edition or not card.edition.key == "akyrs_enchanted" then card:set_edition({ akyrs_enchanted = true }) end
+    card.akyrs_enchantments = card.akyrs_enchantments or {}
+    if not AKYRS.Enchantments[enchantment_key] then print("Enchantment not found?") end
+    card.akyrs_enchantments[#card.akyrs_enchantments+1] = enchantment_key
+end
+function AKYRS.remove_enchantment(card, enchantment_key)
+    card.akyrs_enchantments = card.akyrs_enchantments or {}
+    AKYRS.remove_value_from_table(card.akyrs_enchantments, key)
+    if #card.akyrs_enchantments == 0 then card:set_edition({}) end
+end
+function AKYRS.clear_enchantments(card, enchantment_key)
+    if not card.edition or not card.edition.key == "akyrs_enchanted" then return end
+    card.akyrs_enchantments = card.akyrs_enchantments or {}
+    AKYRS.remove_value_from_table(card.akyrs_enchantments, key)
+    if #card.akyrs_enchantments == 0 then card:set_edition({}) end
+end
 
 AKYRS.Enchantments = {}
 
@@ -45,5 +72,4 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
         end
         return weights
     end,
-
 }

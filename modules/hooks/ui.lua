@@ -88,6 +88,11 @@ function Card:generate_UIBox_ability_table(vars)
             end
         end
     end
+    if self.akyrs_enchantments and #self.akyrs_enchantments > 0 then
+        for i, enchstr in ipairs(self.akyrs_enchantments) do
+            generate_card_ui({ key = enchstr[1], set = 'Enchantment', vars = loc_vars }, ret)
+        end
+    end
     return ret
 end
 
@@ -1521,6 +1526,18 @@ create_UIBox_akyrs_collection_judgement = function()
     })
 end
 
+create_UIBox_akyrs_collection_enchantment = function()
+    local jkrs = {}
+    for i, v in ipairs(AKYRS.Enchantments_Buffer) do
+        --print(pool)
+        table.insert(jkrs, AKYRS.Enchantments[v])
+    end
+    return SMODS.card_collection_UIBox(jkrs, {5,5,5}, {
+        no_materialize = true, 
+        h_mod = 0.95,
+    })
+end
+
 
 G.FUNCS.akyrs_your_collection_non_letter_jokers = function(e)
     G.SETTINGS.paused = true
@@ -1556,9 +1573,19 @@ G.FUNCS.akyrs_your_collection_judgement = function(e)
     }
 end
 
-local create_mod_badges_hook = SMODS.create_mod_badges
-function SMODS.create_mod_badges(obj, badges)
-    return create_mod_badges_hook(obj, badges)
+G.FUNCS.akyrs_your_collection_enchantment = function(e)
+    G.SETTINGS.paused = true
+    G.FUNCS.overlay_menu{
+        definition = create_UIBox_akyrs_collection_enchantment(),
+    }
+end
+
+local create_mod_badge_hook = SMODS.create_mod_badge
+function SMODS.create_mod_badge(mod, obj, width, text_height)
+    if mod == AKYRS then
+        return AKYRS.badge_func()
+    end
+    return create_mod_badge_hook(mod, obj, width, text_height)
 end
 
 local cbmb = SMODS.create_blind_mod_badge

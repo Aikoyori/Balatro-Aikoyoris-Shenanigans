@@ -1037,7 +1037,7 @@ function AKYRS.update_life_ui(game_ob)
 end
 
 
-function AKYRS.badge_func(badges) 
+function AKYRS.badge_func() 
   mod = AKYRS
   local mod_name_node = {
       n = G.UIT.C, nodes = {}
@@ -1076,7 +1076,7 @@ function AKYRS.badge_func(badges)
               {n=G.UIT.B, config={h=0.1,w=0.03}},
           }}
       }
-  badges[#badges + 1] = {n=G.UIT.R, config={align = "cm"}, nodes={
+  return {n=G.UIT.R, config={align = "cm"}, nodes={
       {n=G.UIT.R, config={align = "cm", shader = "akyrs_aiko_mod_badge", minw = 0.6, colour = mod.badge_colour or G.C.GREEN, r = 1, minh = 0.36, emboss = 0.05, padding = 0.03*0.9}, nodes=text_nodes}
   }}
 end

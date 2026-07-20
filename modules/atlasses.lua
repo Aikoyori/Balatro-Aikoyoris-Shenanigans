@@ -302,6 +302,13 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
+    key = "enchantedbook",
+    path = "enchantedbook.png",
+    px = 71,
+    py = 95
+}
+
+SMODS.Atlas {
     key = "life_indicator",
     path = "life_indicator.png",
     px = 50,

@@ -264,7 +264,7 @@ SMODS.Consumable{
                 has_no_rank = true
             end
         end
-        return (#G.hand.highlighted <= card.ability.max_highlighted and #G.hand.highlighted >= card.ability.min_highlighted) and not (has_no_rank and has_no_suit)
+        return (#G.hand.highlighted <= card.ability.max_highlighted and #G.hand.highlighted > 0) and not (has_no_rank and has_no_suit)
     end,
     use = function (self, card, area, copier)
         AKYRS.juice_like_tarot(card)

@@ -2,9 +2,14 @@
 
 SMODS.UndiscoveredSprite{
     key = "Bet",
+    prefix_config = {
+        atlas = false
+    },
     atlas = "Voucher",
     pos = { x = 8, y = 2}
 }
+
+SMODS.UndiscoveredCompat["Bet"] = true
 ---@type SMODS.Center
 AKYRS.Bet = SMODS.Center:extend {
     set = 'Bet',
@@ -20,8 +25,6 @@ AKYRS.Bet = SMODS.Center:extend {
     },
     atlas = 'Voucher',
     discovered = false,
-    unlocked = true,
-    available = false,
     pos = { x = 0, y = 0 },
     config = {},
     class_prefix = 'bet',

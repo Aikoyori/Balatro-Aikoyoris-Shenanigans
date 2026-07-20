@@ -13,6 +13,8 @@ AKYRS.FakeCenter = SMODS.Center:extend {
     required_params = {
         'key',
     },
+    discovered = true,
+    unlocked = true,
     inject = function(self)
         -- call the parent function to ensure all pools are set
         SMODS.Center.inject(self)

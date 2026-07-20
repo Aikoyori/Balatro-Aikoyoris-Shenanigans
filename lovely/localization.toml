@@ -74,6 +74,8 @@ elseif _c.set == 'FakeCenter' then
     localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
 elseif _c.set == 'Judgement' then
     localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
+elseif _c.set == 'Enchantment' then
+    localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
 """
 overwrite = true
 match_indent = true
@@ -238,3 +240,37 @@ elseif self.config.center.akyrs_undiscovered_sprites and self.config.center.unlo
 overwrite = true
 match_indent = true
 
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = """    elseif _c.set == 'Edition' then"""
+position = "after"
+payload = """
+--print("lowk??? ".._c.key)
+local truecenter = G.P_CENTERS[_c.key]
+if truecenter.generate_ui and type(truecenter.generate_ui) == 'function' then -- added by aikoyori shenanigans lol
+    truecenter:generate_ui(info_queue, full_UI_table.akyrs_card, desc_nodes, specific_vars, full_UI_table)
+else
+"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = """    elseif _c.set == 'Default' and specific_vars then """
+position = "before"
+payload = """end"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = """        generate_card_ui(v, full_UI_table)"""
+position = "before"
+payload = """full_UI_table.akyrs_card = card"""
+overwrite = true
+match_indent = true

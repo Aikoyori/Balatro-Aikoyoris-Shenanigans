@@ -134,7 +134,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     c.a *= y * 2.;
     c += vec4(0.5*y);
     c.rgb *= 3.;
-    vec4 colout = tex+c*vec4(target*0.2,0.0);
+    vec4 colout = tex+c*vec4(target*0.3,0.0);
     colout.rgb *= 0.8;
     colout.rgb += 0.05;
 

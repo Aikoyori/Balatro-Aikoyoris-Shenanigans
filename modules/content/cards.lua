@@ -606,7 +606,7 @@ SMODS.Enhancement{
         }
     end,
     calculate = function (self, card, context)
-        if context.main_scoring and context.cardarea == G.play and G.GAME.current_round.hands_left == 1 then
+        if context.main_scoring and context.cardarea == G.play and G.GAME.current_round.hands_left == 0 then
             return {
                 xscore = card.ability.extras.xscore,
             }

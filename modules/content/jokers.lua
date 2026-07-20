@@ -130,7 +130,7 @@ SMODS.Joker {
             }
         end
     end,
-    blueprint_compat = true,
+    blueprint_compat = false,
 	demicoloncompat = true,
 }
 

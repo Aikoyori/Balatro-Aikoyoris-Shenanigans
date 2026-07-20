@@ -52,6 +52,29 @@ vec4 dissolve_mask(vec4 tex, vec2 texture_coords, vec2 uv)
     return vec4(shadow ? vec3(0.,0.,0.) : tex.xyz, res > adjusted_dissolve ? (shadow ? tex.a*0.3: tex.a) : .0);
 }
 
+vec4 HSL(vec4 c)
+{
+	number low = min(c.r, min(c.g, c.b));
+	number high = max(c.r, max(c.g, c.b));
+	number delta = high - low;
+	number sum = high+low;
+
+	vec4 hsl = vec4(.0, .0, .5 * sum, c.a);
+	if (delta == .0)
+		return hsl;
+
+	hsl.y = (hsl.z < .5) ? delta / sum : delta / (2.0 - sum);
+
+	if (high == c.r)
+		hsl.x = (c.g - c.b) / delta;
+	else if (high == c.g)
+		hsl.x = (c.b - c.r) / delta + 2.0;
+	else
+		hsl.x = (c.r - c.g) / delta + 4.0;
+
+	hsl.x = mod(hsl.x / 6., 1.);
+	return hsl;
+}
 
 vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
 {
@@ -61,7 +84,10 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     // modify tex.rgb for output
 	// maxfac is probably max factor for like shine or something idk
     // DO NOT FORGET to use ALL variables or the game will complain about it
-    tex.xyz *= vec3(0.4, 0.3, 0.8+dyed.g*0.001);
+    vec3 colour_mult = vec3(0.4, 0.3, 0.8+dyed.g*0.001);
+    vec4 hel = HSL(tex);
+    float way = smoothstep(0.2,0.8,hel.g * hel.b);
+    tex.xyz += ((fract( (way * 2. - 1.) * ((-dyed.y / 2.) + ((way * 2. - 1.) *(uv.y))) * 1.618033)  * colour_mult.xyz)) * 0.6;
 
     return dissolve_mask(tex*colour, texture_coords, uv);
 }

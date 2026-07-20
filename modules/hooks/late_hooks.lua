@@ -166,3 +166,15 @@ function card_eval_status_text(card, ...)
 	local returnd = {card_eval_status_text_ref(card, ...)}
     return unpack(returnd)
 end
+
+local cuibdttp = create_UIBox_detailed_tooltip
+function create_UIBox_detailed_tooltip(_center)
+    if AKYRS.should_hide_ui() then
+        return {
+            n = G.UIT.ROOT,
+            config = { maxw = 0, maxh = 0, colour = G.C.CLEAR},
+            nodes = {}
+        }
+    end
+    return create_UIBox_detailed_tooltip(_center)
+end

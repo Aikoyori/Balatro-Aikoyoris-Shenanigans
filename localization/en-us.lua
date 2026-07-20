@@ -1214,7 +1214,6 @@ return {
             e_akyrs_enchanted = {
                 name = "Enchanted",
                 text = {
-                    "[WIP]",
                 }
             },
         },
@@ -1227,18 +1226,17 @@ return {
                     "duplicate this card without enchantment",
                 },
             },
-            ench_akyrs_effeciency = {
+            ench_akyrs_efficiency = {
                 name="Efficiency",
                 text={
                     "{C:attention}Fixed {C:green}#1#%{} chance to",
-                    "retrigger this card once",
+                    "copy ability of the {C:attention}right card",
                 },
             },
-            ench_akyrs_effeciency = {
-                name="Efficiency",
+            ench_akyrs_mending = {
+                name="Mending",
                 text={
-                    "{C:attention}Fixed {C:green}#1#%{} chance to",
-                    "retrigger this card",
+                    "{C:attention}Retrigger{} this card once",
                 },
             },
         },
@@ -3204,6 +3202,15 @@ return {
                     "to discover what it does",
                 },
             },
+            undiscovered_enchantment = {
+                name="Not Discovered",
+                text={
+                    "Obtain Enchanted Book",
+                    "or enchant something with this",
+                    "in a unseeded run",
+                    "to discover what it does",
+                },
+            },
             pinned_left={
                 name="Pinned",
                 text={
@@ -4369,11 +4376,13 @@ return {
             k_replicant = "Replicant",
             k_alphabet = "Alphabet",
             k_bet = "Bet",
+            k_enchantment = "Enchantment",
 
             b_akyrs_alphabets="Alphabet Cards",
             k_aikoyoriextrabases = "Extra Base",
             k_akyrs_alphabets = "Alphabet",
             k_akyrs_bet= "Bet",
+            k_akyrs_enchantment= "Enchantment",
             k_akyrs_current_req = "current",
             k_akyrs_alphabets_pack = "Alphabet Pack",
             k_alphabets = "Alphabet Pack",
@@ -4585,6 +4594,7 @@ return {
 
             b_bet = "Bets",
             b_judgement = "Judgements",
+            b_enchantment = "Enchantments",
 
 
 
@@ -4608,6 +4618,8 @@ return {
             k_akyrs_chicanery_rolls_left="Rolls Left",
             k_akyrs_chicanery_buy="BUY",
             k_akyrs_chicanery_btn="J",
+
+            k_akyrs_enchantment_none="Enchantments will appear here",
 
         },
         high_scores={},
@@ -4639,6 +4651,7 @@ return {
             umbral = "Umbral",
             replicant = "Replicant",
             alphabet = "Alphabet",
+            enchantment = "Enchantment",
             bet = "Bet"
         },
         poker_hand_descriptions=poker_hand_desc,
@@ -4674,6 +4687,8 @@ return {
             k_akyrs_word_check_invalid="#1# is NOT a VALID word.",
             k_akyrs_click_for_credits_of="Click to view credits for #1#",
             k_akyrs_chicanery_rolls_left="#1#/#2# Rolls Left",
+            k_akyrs_enchantment_lvl="#1# Lv.#2#",
+            k_akyrs_enchantment_lvl_single_level="#1#",
         },
         akyrs_misc = {
             mod_label = {

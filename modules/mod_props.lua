@@ -765,14 +765,23 @@ SMODS.current_mod.custom_collection_tabs = function()
     end
     local tally_hall = 0
     local tally_haller = 0
+    local ench_tally = 0
+    local ench_tally_unlocked = 0
     for _, v in pairs(AKYRS.Judgements) do
       tally_haller = tally_haller + 1
       if v.unlocked and v.discovered then
           tally_hall = tally_hall + 1
       end
     end
+    for _, v in pairs(AKYRS.Enchantments) do
+      ench_tally = ench_tally + 1
+      if v.unlocked and v.discovered then
+          ench_tally_unlocked = ench_tally_unlocked + 1
+      end
+    end
     return {
       UIBox_button({button = "akyrs_your_collection_bet", label = {localize("b_bet")}, count = {tally = tally, of = #G.P_CENTER_POOLS["Bet"]}, minw = 5, id = "akyrs_your_collection_bet"}),
       UIBox_button({button = "akyrs_your_collection_judgement", label = {localize("b_judgement")}, count = {tally = tally_hall, of = tally_haller }, minw = 5, id = "akyrs_your_collection_judgement"}),
+      UIBox_button({button = "akyrs_your_collection_enchantment", label = {localize("b_enchantment")}, count = {tally = ench_tally_unlocked, of = ench_tally }, minw = 5, id = "akyrs_your_collection_enchantment"}),
     }
 end

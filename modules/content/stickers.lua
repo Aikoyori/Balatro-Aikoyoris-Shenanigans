@@ -353,7 +353,6 @@ SMODS.Sticker{
     apply = function (self, card, val)
         card.ability[self.key] = val
         card.cost = 1
-        card.sell_cost = 1
     end,
     calculate = function(self, card, context)
         if context.end_of_round and not context.repetition and not context.individual then

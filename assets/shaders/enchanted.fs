@@ -113,19 +113,19 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     vec4 tex = Texel( texture, texture_coords);
     vec2 uv = (((texture_coords)*(image_details)) - texture_details.xy*texture_details.ba)/texture_details.ba;
 	vec2 floored_uv = (floor((uv*texture_details.ba)))/max(texture_details.b, texture_details.a);
-    vec2 st = (floored_uv - 0.5) * 2.3 * max(texture_details.b, texture_details.a);
+    vec2 st = (floored_uv - 0.5) * 2.3 * max(texture_details.b, texture_details.a) / 1.5;
 
     // modify tex.rgb for output
-    st *= rotationMatrix(PI*0.15);
+    st *= rotationMatrix(PI*0.2);
 
-    float time = (fract(enchanted.g*0.001))*2500.;
-    float time2 = (fract(enchanted.g*0.001))*1000.;
+    float time = (fract(enchanted.g*0.001))*1700.;
+    float time2 = (fract(enchanted.g*0.0008))*700.;
     vec4 c = vec4(0.0);
     vec3 target = vec3(0.7,0.1,0.9);
     float val0 = (st.x*0.03-time);
     float val1 = fract(val0)+1.0;
     float x = mix(rand(floor(val0)),rand(floor(val0)+1.0),fract(val1))*2.0;
-    st *= rotationMatrix(PI*0.25);
+    st *= rotationMatrix(PI*0.35);
     val0 = (st.x*.04+time2);
     val1 = fract(val0)+1.0;
     float y = mix(rand(floor(val0)),rand(floor(val0)+1.0),fract(val1))*2.0;
@@ -134,9 +134,9 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     c.a *= y * 2.;
     c += vec4(0.5*y);
     c.rgb *= 3.;
-    vec4 colout = tex+c*vec4(target*0.3,0.0);
-    colout.rgb *= 0.8;
-    colout.rgb += 0.05;
+    vec4 colout = tex+c*vec4(target*0.15,0.0);
+    //colout.rgb *= 0.8;
+    //colout.rgb += 0.05;
 
     return dissolve_mask(colout, texture_coords, uv);
 }

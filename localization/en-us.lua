@@ -1230,13 +1230,14 @@ return {
                 name="Efficiency #1#",
                 text={
                     "{C:attention}Fixed {C:green}#2#%{} chance to",
-                    "copy ability of the {C:attention}right card",
+                    "copy ability of the {C:attention}left card",
+                    "{B:1,C:white} #3# {}",
                 },
             },
             ench_akyrs_mending = {
                 name="Mending",
                 text={
-                    "{C:attention}Retrigger{} this card once",
+                    "{C:attention}Retrigger{} once",
                 },
             },
         },

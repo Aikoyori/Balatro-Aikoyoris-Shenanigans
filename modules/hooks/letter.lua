@@ -170,6 +170,7 @@ function copy_card(...)
     c[1].is_null = other.is_null
     c[1].akyrs_judgement = other.akyrs_judgement
     c[1].akyrs_old_ability = other.ability
+    c[1].akyrs_enchantments = other.akyrs_enchantments
     local refresh_sprite = c[1].ability.akyrs_special_card_type ~= other.ability.akyrs_special_card_type
     c[1].ability.akyrs_special_card_type = other.ability.akyrs_special_card_type
 

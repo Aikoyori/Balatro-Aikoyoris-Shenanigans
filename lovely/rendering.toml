@@ -40,7 +40,7 @@ pattern = """            self.children.center:draw_shader('dissolve')"""
 position = "before"
 payload = '''
 if self.config.center.akyrs_shader_overlay then
-    self.children.center:draw_shader(self.config.center.akyrs_shader_overlay)
+    self.children.center:draw_shader(self.config.center.akyrs_shader_overlay, nil, self.ARGS.send_to_shader)
 else
 '''
 match_indent = true

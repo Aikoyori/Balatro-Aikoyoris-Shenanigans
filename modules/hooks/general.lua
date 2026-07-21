@@ -393,11 +393,9 @@ function Card:set_cost()
     local ret = cardSetCostHook(self)
     if self.ability.akyrs_self_destructs then
         self.cost = 1
-        self.sell_cost = 1
     end
     if self.ability.akyrs_sale then
         self.cost = 1
-        self.sell_cost = 1
     end
     return ret
 end

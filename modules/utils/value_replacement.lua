@@ -333,7 +333,7 @@ function AKYRS.back_render_override(card, sprite, overlay)
     -- performance wise it should not be TOO bad from general testing
     if sprite.atlas.key == "akyrs_deckBacks" and sprite.sprite_pos.x == 3 and sprite.sprite_pos.y == 1 then
         --sprite:draw_shader('dissolve',nil,nil,overlay and true)
-        sprite:draw_shader('akyrs_enchanted',nil,nil,overlay and true)
+        sprite:draw_shader('akyrs_enchanted',nil,card.ARGS.send_to_shader,overlay and true)
         return true
     end
     return nil

@@ -429,7 +429,7 @@ end]]
 
 AKYRS.deep_copy = function(orig, seen, depth)
     depth = depth or 10
-    if depth == 0 then return orig end
+    if depth <= 0 then return orig end
     seen = seen or {}
     if type(orig) ~= 'table' then
         return orig

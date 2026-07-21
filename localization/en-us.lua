@@ -1219,10 +1219,10 @@ return {
         },
         Enchantment = {
             ench_akyrs_unbreaking = {
-                name="Unbreaking",
+                name="Unbreaking #1#",
                 text={
                     "When this card gets {C:attention}destroyed{}",
-                    "{C:attention}Fixed {C:green}#1#%{} chance to",
+                    "{C:attention}Fixed {C:green}#2#%{} chance to",
                     "duplicate this card without enchantment",
                 },
             },

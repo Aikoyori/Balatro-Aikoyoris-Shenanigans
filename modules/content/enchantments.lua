@@ -49,9 +49,9 @@ SMODS.Edition{
     -- localize("k_akyrs_enchantment_none")
     calculate = function (self, card, context)
         local fx = {}
-        if card and context then
+        if card and context and next(card.akyrs_enchantments) then
             for _,en in ipairs(card.akyrs_enchantments) do
-                fx[#fx+1] = AKYRS.Enchantments[en[1]]:calculate(card, context, en[2])
+                fx[#fx+1] = AKYRS.Enchantments[en[1]]:enchantment_calculate(card, context, en[2])
             end
         end
         return SMODS.merge_effects(fx)
@@ -76,6 +76,7 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
     end
     if not card.edition or not (card.edition.key == "e_akyrs_enchanted") then card:set_edition({ akyrs_enchanted = true }) end
     AKYRS.Enchantments[enchantment_key].discovered = true
+    AKYRS.Enchantments[enchantment_key].unlocked = true
     local upgraded_from = nil
     if not forced then
         local ench_obj = {enchantment_key, level}
@@ -162,7 +163,7 @@ SMODS.UndiscoveredCompat["Enchantment"] = true
 
 ---@class AKYRS.Enchantment: SMODS.Center
 ---@field loc_vars? fun(self: SMODS.Center|table, info_queue: table, card: Card|table, level: number): table? Provides simple control over displaying descriptions and tooltips of the card. See [`loc_vars`](https://github.com/Steamodded/smods/wiki/Localization#loc_vars) documentation for return value details. 
----@field calculate? fun(self: SMODS.Center|table, card: Card|table, context: CalcContext|table, level: number): table?, boolean?  Calculates effects based on parameters in `context`. See [SMODS calculation](https://github.com/Steamodded/smods/wiki/calculate_functions) docs for details. 
+---@field enchantment_calculate? fun(self: SMODS.Center|table, card: Card|table, context: CalcContext|table, level: number): table?, boolean?  Calculates effects based on parameters in `context`. See [SMODS calculation](https://github.com/Steamodded/smods/wiki/calculate_functions) docs for details. 
 ---@field use? fun(self: SMODS.Center|table, card: Card|table, area: CardArea|table, copier?: table) Defines behaviour when this consumable is used. 
 ---@field can_use? fun(self: SMODS.Center|table, card: Card|table): boolean? Return `true` if the consumable is allowed to be used. 
 ---@field apply?  fun(self: SMODS.Center|table, card: Card|table, level: number)? 
@@ -250,7 +251,7 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
         if not self.allowed_set[other_card.ability.set] then return false end
         return true
     end,
-    calculate = function (self, card, context, level)
+    enchantment_calculate = function (self, card, context, level)
         
     end,
     loc_vars = function (self, info_queue, card, level)
@@ -311,7 +312,7 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
 
 AKYRS.Enchantment {
     key = "mending",
-    calculate = function (self, card, context, level)
+    enchantment_calculate = function (self, card, context, level)
         if (context.repetition or context.retrigger_joker_check) and context.other_card == card then
             return {
                 repetitions = 1,
@@ -333,7 +334,7 @@ AKYRS.Enchantment {
         if card and card.area and card.area.cards then
             local ind = AKYRS.find_index(card.area.cards,card)
             if ind > 1 then 
-                local copying = card.area.cards[ind + 1]
+                local copying = card.area.cards[ind - 1]
                 compatible = copying and copying ~= card and copying.config.center.blueprint_compat
             end
         end
@@ -348,12 +349,29 @@ AKYRS.Enchantment {
             },
         }
     end,
-    calculate = function (self, card, context, level)
+    enchantment_calculate = function (self, card, context, level)
         if card and card.area and card.area.cards then
+            local result = SMODS.pseudorandom_probability(card, "akyrs_ench_efficiency", level * 16, 100, nil, true)
             local ind = AKYRS.find_index(card.area.cards,card)
             if ind == 1 then return {} end
-            local copying = card.area.cards[ind + 1]
-            return SMODS.blueprint_effect(card, copying, context)
+            local copying = card.area.cards[ind - 1]
+            if result then
+                return SMODS.blueprint_effect(card, copying, context)
+            end
         end
     end
+}
+
+AKYRS.Enchantment {
+    key = "unbreaking",
+    max_level = 3,
+    loc_vars = function (self, info_queue, card, level)
+        local n, d = SMODS.get_probability_vars(card, level * 25, 100, "akyrs_ench_unbreaking", nil, true)
+        return {
+            vars = {
+                localize("f_akyrs_localize_enchantment_level")(level),
+                n
+            }
+        }
+    end,
 }

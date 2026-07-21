@@ -346,3 +346,13 @@ end
 overwrite = true
 match_indent = true
 
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = """        if not card.getting_sliced then return false end"""
+position = "after"
+payload = """AKYRS.cards_being_destroyed(card)"""
+overwrite = true
+match_indent = true
+

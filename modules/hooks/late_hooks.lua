@@ -163,6 +163,8 @@ function card_eval_status_text(card, ...)
             return true
         end, 0)
     end
+    
+    
 	local returnd = {card_eval_status_text_ref(card, ...)}
     return unpack(returnd)
 end

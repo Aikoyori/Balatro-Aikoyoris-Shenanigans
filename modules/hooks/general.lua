@@ -177,7 +177,7 @@ function Game:update(dt)
                     AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("normal"))
                 end
             else
-                if G.GAME.akyrs_life_decay_mode == "kaleidoscope" then
+                if AKYRS.get_life_mode() == "kaleidoscope" then
                     AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("kaleidoscope"))
                 else
                     AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("kaleidoscope_pre"))

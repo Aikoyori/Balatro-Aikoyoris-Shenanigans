@@ -480,20 +480,21 @@ function AKYRS.deal_with_leftover_uis(self) -- game
 end
 
 function AKYRS.cards_being_destroyed(card)
-    if #card.akyrs_enchantments > 0 then
-        local unbreaking = AKYRS.filter_table(card.akyrs_enchantments, function (en, i)
-            return en[1] == "ench_akyrs_unbreaking"
-        end, true, true)
-        local max_ub = 0
-        for i, j in ipairs(unbreaking) do
-            if j[2] > max_ub then max_ub = j[2] end
-        end
-        if max_ub > 0 then
-            local result = SMODS.pseudorandom_probability(card, "akyrs_ench_unbreaking", max_ub * 25, 100, nil, true)
-            if result then
-                local card = SMODS.copy_card(card, { strip_edition = true})
+    if card.akyrs_enchantments then
+        if #card.akyrs_enchantments > 0 then
+            local unbreaking = AKYRS.filter_table(card.akyrs_enchantments, function (en, i)
+                return en[1] == "ench_akyrs_unbreaking"
+            end, true, true)
+            local max_ub = 0
+            for i, j in ipairs(unbreaking) do
+                if j[2] > max_ub then max_ub = j[2] end
+            end
+            if max_ub > 0 then
+                local result = SMODS.pseudorandom_probability(card, "akyrs_ench_unbreaking", max_ub * 25, 100, nil, true)
+                if result then
+                    local card = SMODS.copy_card(card, { strip_edition = true})
+                end
             end
         end
-
     end
 end

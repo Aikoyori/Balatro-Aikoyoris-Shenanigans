@@ -351,13 +351,17 @@ AKYRS.Enchantment {
     end,
     enchantment_calculate = function (self, card, context, level)
         if card and card.area and card.area.cards then
-            local result = SMODS.pseudorandom_probability(card, "akyrs_ench_efficiency", level * 16, 100, nil, true)
             local ind = AKYRS.find_index(card.area.cards,card)
             if ind == 1 then return {} end
             local copying = card.area.cards[ind - 1]
-            if result then
-                return SMODS.blueprint_effect(card, copying, context)
+            local bp_result = SMODS.blueprint_effect(card, copying, context)
+            if bp_result and bp_result ~= {} then
+                local result = SMODS.pseudorandom_probability(card, "akyrs_ench_efficiency", level * 16, 100, nil, true)
+                if result then
+                    return bp_result
+                end
             end
+
         end
     end
 }
@@ -374,4 +378,41 @@ AKYRS.Enchantment {
             }
         }
     end,
+}
+AKYRS.Enchantment {
+    key = "fire_aspect",
+    max_level = 2,
+    loc_vars = function (self, info_queue, card, level)
+        return {
+            vars = {
+                localize("f_akyrs_localize_enchantment_level")(level),
+                level * 2
+            }
+        }
+    end,
+    allowed_set = {
+        Joker = true
+    },
+    enchantment_calculate = function (self, card, context, level)
+    end
+}
+
+AKYRS.Enchantment {
+    key = "fortune",
+    max_level = 3,
+    loc_vars = function (self, info_queue, card, level)
+        return {
+            vars = {
+                localize("f_akyrs_localize_enchantment_level")(level),
+                level * 50
+            }
+        }
+    end,
+    enchantment_calculate = function (self, card, context, level)
+        if context.mod_probability and context.trigger_obj == card then
+            return {
+                numerator = context.numerator * (1 + (0.5 * level))
+            }
+        end
+    end
 }

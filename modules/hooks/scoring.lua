@@ -146,6 +146,21 @@ SMODS.calculate_individual_effect = function(effect, scored_card, key, amount, f
         if effect == 'akyrs_no_calculate' then
             G.GAME.akyrs_no_calculate = true
         end
+        local real_card = effect.message_card or effect.juice_card or scored_card or effect.card or effect.focus
+        if real_card.akyrs_enchantments then
+            if #real_card.akyrs_enchantments > 0 then
+                local fire_aspect = AKYRS.filter_table(scored_card.akyrs_enchantments, function (en, i)
+                    return en[1] == "ench_akyrs_fire_aspect"
+                end, true, true)
+                local max_fa = 0
+                for i, j in ipairs(fire_aspect) do
+                    if j[2] > max_fa then max_fa = j[2] end
+                end
+                if max_fa > 0 then
+                    SMODS.mod_score({ mult = max_fa * 0.02 + 1, card = real_card, effect = effect })
+                end
+            end
+        end
     return unpack(aaa)
 end
 

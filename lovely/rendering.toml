@@ -36,6 +36,28 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = """            self.children.center:draw_shader('dissolve')"""
+position = "before"
+payload = '''
+if self.config.center.akyrs_shader_overlay then
+    self.children.center:draw_shader(self.config.center.akyrs_shader_overlay)
+else
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = """            self.children.center:draw_shader('dissolve')"""
+position = "after"
+payload = '''
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
 pattern = """            self.children.back:draw_shader('dissolve')"""
 position = "after"
 payload = '''

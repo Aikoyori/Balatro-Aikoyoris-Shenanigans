@@ -2083,3 +2083,12 @@ function SMODS.showman(c_k)
     end
     return showman_hook(c_k)
 end
+
+
+function AKYRS.save_unlocks(meta)
+    AKYRS.save_pool(AKYRS.Enchantments)
+end
+
+function AKYRS.load_unlocks(meta)
+    AKYRS.load_pool(AKYRS.Enchantments, meta)
+end

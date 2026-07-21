@@ -90,7 +90,10 @@ function Card:generate_UIBox_ability_table(vars)
     end
     if self.akyrs_enchantments and #self.akyrs_enchantments > 0 then
         for i, enchstr in ipairs(self.akyrs_enchantments) do
-            generate_card_ui({ key = enchstr[1], set = 'Enchantment', vars = loc_vars }, ret)
+            local lx = AKYRS.Enchantments[enchstr[1]]:loc_vars({}, self, enchstr[2]) or {}
+            lx.key = enchstr[1]
+            lx.set = 'Enchantment'
+            generate_card_ui(lx, ret)
         end
     end
     return ret
@@ -1530,7 +1533,12 @@ create_UIBox_akyrs_collection_enchantment = function()
     local jkrs = {}
     for i, v in ipairs(AKYRS.Enchantments_Buffer) do
         --print(pool)
-        table.insert(jkrs, AKYRS.Enchantments[v])
+        local en = AKYRS.Enchantments[v]
+        for i = 1, en.max_level do
+            local en_clone = AKYRS.deep_copy(en, nil, 3)
+            en_clone.config.akyrs_level = i
+            table.insert(jkrs, en_clone)
+        end
     end
     return SMODS.card_collection_UIBox(jkrs, {5,5,5}, {
         no_materialize = true, 

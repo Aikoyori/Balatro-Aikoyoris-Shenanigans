@@ -1368,3 +1368,4 @@ function AKYRS.refresh_shop_sign()
   G.UIDEF.shop()
   G.AKYRS_SHOP_SIGN_REFRESH_ONLY = nil
 end
+

@@ -1227,9 +1227,9 @@ return {
                 },
             },
             ench_akyrs_efficiency = {
-                name="Efficiency",
+                name="Efficiency #1#",
                 text={
-                    "{C:attention}Fixed {C:green}#1#%{} chance to",
+                    "{C:attention}Fixed {C:green}#2#%{} chance to",
                     "copy ability of the {C:attention}right card",
                 },
             },
@@ -4620,7 +4620,22 @@ return {
             k_akyrs_chicanery_btn="J",
 
             k_akyrs_enchantment_none="Enchantments will appear here",
-
+            f_akyrs_localize_enchantment_level = function (level)
+                if math.abs(level) > 3999 then
+                    return level > 0 and "+INF" or "-INF"
+                end
+                if level == 0 then return "0" end
+                local strout = level > 0 and "" or "-"
+                local ones        = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}
+                local tenths      = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"}
+                local hundredths  = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"}
+                local thousandths = { "", "M", "MM", "MMM", "M?", "?", "?M", "?MM", "?MMM", "M?"}
+                local places = { thousandths, hundredths, tenths, ones }
+                for i, v in ipairs({1000,100,10,1}) do
+                    strout = strout .. places[i][math.floor(math.fmod(math.abs(level), v * 10) / v) + 1]
+                end
+                return strout
+            end
         },
         high_scores={},
         labels={

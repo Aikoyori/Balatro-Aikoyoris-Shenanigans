@@ -1234,3 +1234,26 @@ function AKYRS.set_background_shaders(shader_key)
         return true
     end, 0, "akyrs_bg")
 end
+
+
+function AKYRS.load_pool(pool, meta)
+    for k, v in pairs(pool) do
+        v.key = k
+        if not v.wip and not v.demo then
+            if not v.discovered and meta.discovered[k] then
+                v.discovered = true
+            end
+            if v.discovered and meta.alerted[k] then
+                v.alerted = true
+            elseif v.discovered then
+                v.alerted = false
+            end
+        end
+    end
+end
+
+function AKYRS.save_pool(pool)
+    for k, v in pairs(pool) do
+        G.ARGS.save_progress.UDA[k] = (v.unlocked and 'u' or '')..(v.discovered and 'd' or '')..(v.alerted and 'a' or '')
+    end
+end

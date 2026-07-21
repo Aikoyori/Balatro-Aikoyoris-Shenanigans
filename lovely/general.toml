@@ -146,3 +146,42 @@ payload = '''
 end
 '''
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '''game.lua'''
+pattern = '''    table.sort(self.P_LOCKED, function (a, b) return not a.order or not b.order or a.order < b.order end)'''
+position = "after"
+payload = '''
+if AKYRS then
+    AKYRS.load_unlocks(meta)
+end
+'''
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''    table.sort(G.P_LOCKED, function (a, b) return a.order and b.order and a.order < b.order end)'''
+position = "after"
+payload = '''
+if AKYRS then
+    AKYRS.load_unlocks(meta)
+end
+'''
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '''game.lua'''
+pattern = '''    G.ARGS.save_progress.PROFILE = G.PROFILES[G.SETTINGS.profile]'''
+position = "after"
+payload = '''
+if AKYRS then
+    AKYRS.save_unlocks()
+end
+'''
+match_indent = true

@@ -407,7 +407,10 @@ function AKYRS.embedded_ui_sprite( sprite_atlas, sprite_pos, desc_nodes, config 
     return uiEX
 end
 
-AKYRS.deep_copy = function(orig, seen)
+--[[
+AKYRS.deep_copy = function(orig, seen, depth)
+    depth = depth or 10
+    if depth == 0 then return orig end
     seen = seen or {}
     if type(orig) ~= 'table' then
         return orig
@@ -418,8 +421,28 @@ AKYRS.deep_copy = function(orig, seen)
     local copy = {}
     seen[orig] = copy
     for orig_key, orig_value in next, orig, nil do
-        copy[AKYRS.deep_copy(orig_key, seen)] = AKYRS.deep_copy(orig_value, seen)
+        copy[AKYRS.deep_copy(orig_key, seen, depth - 1)] = AKYRS.deep_copy(orig_value, seen, depth - 1)
     end
+    setmetatable(copy, AKYRS.deep_copy(getmetatable(orig), seen, depth - 1))
+    return copy
+end]]
+
+AKYRS.deep_copy = function(orig, seen, depth)
+    depth = depth or 10
+    if depth == 0 then return orig end
+    seen = seen or {}
+    if type(orig) ~= 'table' then
+        return orig
+    end
+    if seen[orig] then
+        return seen[orig]
+    end
+    local copy = {}
+    seen[orig] = copy
+    for orig_key, orig_value in next, orig, nil do
+        copy[AKYRS.deep_copy(orig_key, seen, depth - 1)] = AKYRS.deep_copy(orig_value, seen, depth - 1)
+    end
+    setmetatable(copy, (getmetatable(orig)))
     return copy
 end
 

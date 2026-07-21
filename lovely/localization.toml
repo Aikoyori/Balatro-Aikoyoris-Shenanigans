@@ -75,7 +75,8 @@ elseif _c.set == 'FakeCenter' then
 elseif _c.set == 'Judgement' then
     localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
 elseif _c.set == 'Enchantment' then
-    localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
+    local locvard = ((AKYRS.Enchantments[_c.key] or {})['loc_vars'] or function() return {} end)(AKYRS.Enchantments[_c.key], info_queue, card, card.ability.akyrs_level) or {}
+    localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = locvard.vars or _c.vars or loc_vars}
 """
 overwrite = true
 match_indent = true
@@ -272,5 +273,38 @@ target = "functions/common_events.lua"
 pattern = """        generate_card_ui(v, full_UI_table)"""
 position = "before"
 payload = """full_UI_table.akyrs_card = card"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = """full_UI_table.name = localize{type = 'name', set = _c.set, key = _c.key, nodes = full_UI_table.name}"""
+position = "before"
+payload = """
+-- aikoshen added this shit bro
+local loc_variable = {}
+if _c.loc_vars and type(_c.loc_vars) == 'function' then
+    if _c.set == "Enchantment" then
+        loc_variable = _c:loc_vars(info_queue, card, card.ability.akyrs_level)
+    else
+        loc_variable = _c:loc_vars(info_queue, card)
+    end
+end
+if loc_variable ~= {} and loc_variable then
+    full_UI_table.name = localize{type = 'name', set = _c.set, key = _c.key, nodes = full_UI_table.name, vars = loc_variable.name_vars or loc_variable.vars or {}}
+else
+"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = """full_UI_table.name = localize{type = 'name', set = _c.set, key = _c.key, nodes = full_UI_table.name}"""
+position = "after"
+payload = """
+end
+"""
 overwrite = true
 match_indent = true

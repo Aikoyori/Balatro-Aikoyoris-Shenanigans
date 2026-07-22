@@ -3891,6 +3891,12 @@ return {
 					"Card selection is {C:attention}inverted",
 				},
             },
+            sleeve_akyrs_inversion_double_inverted={
+                name="Double Inversion Sleeve",
+				text = {
+					"Card selection is {E:akyrs_snaking,C:dark_edition}doubly {C:attention}inverted",
+				},
+            },
         },
         Umbral = {
             c_akyrs_umbral_graduate = {

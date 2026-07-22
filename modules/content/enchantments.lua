@@ -101,6 +101,9 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
                 if not max_ench[enchantment_key] then table.insert(ench_order, enchantment_key) end
                 upgraded_from = {enchantment_key, max_ench[enchantment_key] or 0}
                 --print("from",max_ench[enchantment_key],"to",target_lvl,"for",enchantment_key)
+                if max_ench[enchantment_key] > 0 then
+                    SMODS.calculate_context({ akyrs_enchantment_removed = true, removed_enchantments = {{enchantment_key, max_ench[enchantment_key] or 0}} })
+                end
                 max_ench[enchantment_key] = target_lvl
                 AKYRS.Enchantments[enchantment_key]:apply(card, level)
             end

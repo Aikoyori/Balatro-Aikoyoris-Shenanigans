@@ -1260,6 +1260,20 @@ return {
                     "of its sell cost to {C:attention}this{} card",
                 },
             },
+            ench_akyrs_silk_touch = {
+                name="Silk Touch #1#",
+                text={
+                    "When discarded, remove {C:attention}enhancement{}",
+                    "and add bonus {C:white,X:mult} X#2# {} Mult to this card",
+                },
+            },
+            ench_akyrs_cornucopia = {
+                name="Cornucopia",
+                text={
+                    "When played, create a copy {C:attention}this card{}",
+                    "and add to played hand, {C:attention}removing{} Enchantment from the copy",
+                },
+            },
         },
         Enhanced={
             -- blindside :tm:

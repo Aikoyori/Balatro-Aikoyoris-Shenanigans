@@ -446,6 +446,9 @@ AKYRS.Enchantment {
             }
         }
     end,
+    allowed_func = function (self, card)
+        return true
+    end,
     enchantment_calculate = function (self, card, context, level)
         if context.mod_probability and context.trigger_obj == card then
             return {
@@ -483,6 +486,65 @@ AKYRS.Enchantment {
                 }
             })
             card:set_cost()
+        end
+    end
+}
+
+AKYRS.Enchantment {
+    key = "silk_touch",
+    max_level = 2,
+    loc_vars = function (self, info_queue, card, level)
+        return {
+            vars = {
+                localize("f_akyrs_localize_enchantment_level")(level),
+                level * 0.25
+            }
+        }
+    end,
+    allowed_set = {
+        ["Default"] = true,
+        ["Enhanced"] = true,
+    },
+    enchantment_calculate = function (self, card, context, level)
+        if context.discard and context.other_card == card then
+            if card.ability.set ~= "Default" then
+                return {
+                    func = function ()
+                        card:set_ability(G.P_CENTERS.c_base)
+                        SMODS.scale_card(card, {
+                            ref_table = card.ability,
+                            ref_value = "perma_x_mult",
+                            scalar_table = { level * 0.25 },
+                            scalar_value = 1,
+                            scaling_message = {
+                                colour = G.C.MONEY
+                            }
+                        })
+                    end
+                }
+            end
+        end
+    end
+}
+AKYRS.Enchantment {
+    key = "cornucopia",
+    max_level = 1,
+    allowed_set = {
+        ["Default"] = true,
+        ["Enhanced"] = true,
+    },
+    enchantment_calculate = function (self, card, context, level)
+        
+        if context.press_play then
+            return {
+                func = function()
+                    AKYRS.simple_event_add(function() 
+                        local c2 = SMODS.copy_card(card, { strip_edition = true })
+                        SMODS.calculate_context({ playing_card_added = true, cards = { c2 } })
+                        return true
+                    end, 0)
+                end
+            }
         end
     end
 }

@@ -1271,14 +1271,24 @@ function G.FUNCS.akyrs_reroll_jimbo_can_use(e)
 end
 
 function G.FUNCS.akyrs_buy_jimbo(e)
-  ease_dollars(-G.GAME.akyrs_chicanery_rerolls_info.buy_cost)
+  local bought_at_least_one = false
   if G.akyrs_jimbo_chicanery_cardarea and G.akyrs_jimbo_chicanery_cardarea.cards then
     for _, c in ipairs(G.akyrs_jimbo_chicanery_cardarea.cards) do
-      G.akyrs_jimbo_chicanery_cardarea:remove_card(c)
-      SMODS.add_to_deck(c)
+      if not AKYRS.has_room(G.jokers) then
+        if not bought_at_least_one then
+          alert_no_space(c, G.jokers)
+          goto buy_jimbo_break
+        end
+      else
+        G.akyrs_jimbo_chicanery_cardarea:remove_card(c)
+        SMODS.add_to_deck(c)
+        ease_dollars(-G.GAME.akyrs_chicanery_rerolls_info.buy_cost)
+        G.GAME.akyrs_chicanery_rerolls_info.purchased_this_round = true
+        bought_at_least_one = true
+      end
     end
   end
-  G.GAME.akyrs_chicanery_rerolls_info.purchased_this_round = true
+  ::buy_jimbo_break::
 end
 
 function G.FUNCS.akyrs_can_buy_jimbo(e)

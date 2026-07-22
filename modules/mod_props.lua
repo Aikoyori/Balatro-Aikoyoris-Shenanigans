@@ -495,7 +495,7 @@ SMODS.current_mod.extra_tabs = function ()
           config = {
             r = 0.5,
             padding = 0.5,
-            colour = G.C.AKYRS_HAIR_DARKER,
+            colour = G.C.AKYRS_AIKOYORI_ALT,
             align = "cm",
           },
           nodes = {

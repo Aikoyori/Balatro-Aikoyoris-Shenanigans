@@ -137,6 +137,13 @@ SMODS.Atlas {
     py = 95
 }
 
+SMODS.Atlas {
+    key = "aikoyoriSelfInsert",
+    path = "aikoyoriSelfInsert.png",
+    px = 71,
+    py = 95
+}
+
 SMODS.Atlas({
     key = "modicon",
     path = "aikoyoriModIcon.png",

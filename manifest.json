@@ -6,10 +6,10 @@
 	"prefix": "akyrs",
 	"main_file": "main.lua",
 	"priority": 700,
-	"badge_colour": "acce6b",
-	"badge_text_colour": "522e50",
+	"badge_colour": "ff00ff",
+	"badge_text_colour": "ffffff",
 	"display_name": "AikoShen",
-	"version": "0.2.0-alpha-260722l",
+	"version": "0.2.0-alpha-260723a",
 	"dependencies": [
 		"Steamodded (>=1.0.0~BETA-1919b)", 
 		"Lovely (>=0.9.0)", 

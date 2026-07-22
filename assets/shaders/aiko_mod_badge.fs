@@ -60,7 +60,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     uv.x = uv.x * (love_ScreenSize.x/love_ScreenSize.y);
     uv.y = uv.y / (20.);
     */
-    float iTime = aiko_mod_badge.g;
+    float iTime = aiko_mod_badge.g / 5.0;
     vec2 oguv = screen_coords / vec2(love_ScreenSize.x/love_ScreenSize.y) * 0.05;
     vec2 uv = screen_coords / vec2(love_ScreenSize.x/love_ScreenSize.y) * 0.00140;
     uv = uv * rotationMatrix(PI * 0.15);
@@ -72,7 +72,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     float luminance = rgb2hsv(tex.rgb).b;
     number factor = 1.0;
     if (color.x != color.y){
-        tex.rgb = vec3(0.71,0.51,0.81);
+        tex.rgb = vec3(0, 0, 0);
         factor = step(0.65,luminance)*0.8+0.4;
     }
 

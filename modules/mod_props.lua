@@ -1,5 +1,6 @@
 -- steamodded wtf why was i not told about this
 
+--[[ -- old value
 SMODS.current_mod.ui_config = {
     colour = G.C.AKYRS_AIKOYORI_HAIR_MAIN_HAIR_DARK, -- Main UI box
     bg_colour = G.C.AKYRS_AIKOYORI_BG, -- Background
@@ -14,7 +15,21 @@ SMODS.current_mod.ui_config = {
     collection_outline_colour = G.C.AKYRS_AIKOYORI_HAIR, -- Collection background (Defaults to outline_colour)
     collection_option_cycle_colour = G.C.AKYRS_AIKOYORI_BOW_SHADE, -- Collection option cycle button
 }
-
+]]
+SMODS.current_mod.ui_config = {
+    colour = G.C.AKYRS_AIKOYORI_ALT, -- Main UI box
+    bg_colour = G.C.AKYRS_AIKOYORI_ALT_CLEAR, -- Background
+    back_colour = G.C.AKYRS_AIKOYORI_MAIN, -- Back button
+    tab_button_colour = G.C.AKYRS_AIKOYORI_MAIN, -- Tabs buttons
+    outline_colour = G.C.AKYRS_AIKOYORI_TERTIARY, -- Main UI box outline
+    author_colour = G.C.AKYRS_AIKOYORI_HAIR, -- Author text
+    author_bg_colour = G.C.AKYRS_AIKOYORI_ALT, -- Author box background
+    author_outline_colour = G.C.AKYRS_AIKOYORI_TERTIARY, -- Author box outline
+    collection_bg_colour = G.C.AKYRS_AIKOYORI_ALT_CLEAR,
+    collection_back_colour = G.C.AKYRS_AIKOYORI_MAIN, -- Collection background (Defaults to back_colour)
+    collection_outline_colour = G.C.AKYRS_AIKOYORI_TERTIARY, -- Collection background (Defaults to outline_colour)
+    collection_option_cycle_colour = G.C.AKYRS_AIKOYORI_MAIN, -- Collection option cycle button
+}
 SMODS.current_mod.extra_tabs = function()
   return {
     --[[
@@ -233,7 +248,7 @@ SMODS.current_mod.custom_ui = function (mod_nodes)
   aikocard.click = AKYRS.aiko_click
   local node1 = {
     n = G.UIT.C,
-    config = { w = 8, align = "tm", r = 0.1 , h = 6, padding = 0.2, colour = G.C.AKYRS_HAIR_DARKER},
+    config = { w = 8, align = "tm", r = 0.1 , h = 6, padding = 0.2, colour = G.C.AKYRS_AIKOYORI_ALT},
     nodes = {
       {
         n = G.UIT.R,

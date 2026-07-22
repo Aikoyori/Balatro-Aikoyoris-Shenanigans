@@ -471,7 +471,6 @@ AKYRS.Enchantment {
     end,
     enchantment_calculate = function (self, card, context, level)
         if context.selling_card and context.card and context.card ~= card then
-            print("hanaichi monnme")
             SMODS.scale_card(card, {
                 ref_table = card.ability,
                 ref_value = "extra_value",

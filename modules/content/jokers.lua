@@ -4110,6 +4110,7 @@ SMODS.Joker {
     atlas = 'AikoyoriJokers',
     pos = { x = 8, y = 7 },
     pools = {  },
+    akyrs_no_retriggers = true,
     config = {
         extras = {
             --dug_suits = {"Clubs", "Hearts", "Diamonds", "Spades",},
@@ -4158,7 +4159,7 @@ SMODS.Joker {
         }
     end,
     calculate = function (self, card, context)
-        if context.hand_drawn then
+        if context.hand_drawn and not context.repetition_only then
             return {
                 func = function()
                     local bs = nil
@@ -4211,7 +4212,7 @@ SMODS.Joker {
                 end
             }
         end
-        if context.discard and not context.hook then
+        if context.discard and not context.hook and not context.repetition_only then
             return {
                 func = function()
                     local cd = context.other_card
@@ -4225,7 +4226,7 @@ SMODS.Joker {
                 end
             }
         end
-        if context.after then
+        if context.after and not context.repetition_only then
             return {
                 func = function()
                     card.ability.extras.dug_suits = {}
@@ -4246,6 +4247,7 @@ SMODS.Joker {
             xchips = 1.4,
         },
     },
+    blueprint_compat = true,
     rarity = 3,
     cost = 6,
     loc_vars = function (self, info_queue, card)
@@ -4283,6 +4285,7 @@ SMODS.Joker {
             }
         }
     end,
+    blueprint_compat = true,
     calculate = function (self, card, context)
         if context.individual and context.cardarea == G.play then
             if context.other_card.config.center.key == "m_akyrs_ash_card" then

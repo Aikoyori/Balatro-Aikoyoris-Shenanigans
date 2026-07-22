@@ -101,7 +101,7 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
                 if not max_ench[enchantment_key] then table.insert(ench_order, enchantment_key) end
                 upgraded_from = {enchantment_key, max_ench[enchantment_key] or 0}
                 --print("from",max_ench[enchantment_key],"to",target_lvl,"for",enchantment_key)
-                if max_ench[enchantment_key] > 0 then
+                if max_ench[enchantment_key] and max_ench[enchantment_key] > 0 then
                     SMODS.calculate_context({ akyrs_enchantment_removed = true, removed_enchantments = {{enchantment_key, max_ench[enchantment_key] or 0}} })
                 end
                 max_ench[enchantment_key] = target_lvl
@@ -150,6 +150,38 @@ function AKYRS.clear_enchantments(card, forced)
     if #card.akyrs_enchantments == 0 then
         card:set_edition({})
     end
+end
+
+function AKYRS.has_enchantment(card, enchantment_key)
+    if not card.akyrs_enchantments then return false end
+    for _, en in ipairs(card.akyrs_enchantments) do
+        if en[1] == enchantment_key then return true end
+    end
+    return false
+end
+
+-- returns a list of matching enchantments
+function AKYRS.get_enchantment(card, enchantment_key)
+    if not card.akyrs_enchantments then return {} end
+    if not enchantment_key then return card.akyrs_enchantments end
+    local enchantments = AKYRS.filter_table(card.akyrs_enchantments, function (en, i)
+        return en[1] == enchantment_key
+    end, true, true)
+    return enchantments
+end
+
+function AKYRS.get_max_level_enchantments_for(card, enchantment_key)
+    if not card.akyrs_enchantments then return nil end
+    if not enchantment_key then return nil end
+    local max_lvl = nil
+    for _, en in ipairs(card.akyrs_enchantments) do
+        if en[1] == enchantment_key then 
+            if not max_lvl or en[2] > max_lvl then
+                max_lvl = en[2]
+            end
+        end
+    end
+    return max_lvl
 end
 
 AKYRS.Enchantments = {}

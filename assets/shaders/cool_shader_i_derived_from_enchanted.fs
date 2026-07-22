@@ -135,13 +135,9 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     c += vec4(0.5*y);
     c.rgb *= 3.;
 
-    float x2 = (pow(distance(vec2(0.5,0.5), uv) * 1.1,3.));
-    vec3 x3 = ((smoothstep(0.8,0.9,hslcol.b)*0.1+0.3) * pow((1.- x2) * 1.70, 3.) * target);
-    vec4 colout = tex+((c*vec4(target*(x2 * 0.3 + 0.2),0.0)*vec4(x3,1.)));
-    //colout.rgb *= min(((x3)*3.), vec3(1.));
-    colout.rgb -= vec3(x2);
-    //colout.rgb += vec3(0.3);
-    
+    float x2 = (pow(distance(vec2(0.5,0.5), uv) * 1.5,3.));
+    vec4 colout = tex+((c*vec4(target*(x2 * 0.3 + 0.2),0.0)));
+    colout.rgb *= (hslcol.b * (1 - x2) * target);
     //colout.rgb *= 0.8;
     //colout.rgb += 0.05;
     return dissolve_mask(colout, texture_coords, uv);

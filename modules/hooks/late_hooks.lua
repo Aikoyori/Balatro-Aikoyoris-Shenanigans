@@ -147,6 +147,12 @@ function Game:start_run(args)
         c:set_sprites(c.config.center,c.config.card)
     end
     AKYRS.update_life_ui(self)
+    if G.jokers then
+        G.jokers.config.highlighted_limit = 9e9
+    end
+    if G.consumeables then
+        G.consumeables.config.highlighted_limit = 9e9
+    end
     return ret
 end
 

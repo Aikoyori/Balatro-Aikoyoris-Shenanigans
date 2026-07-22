@@ -206,6 +206,8 @@ SMODS.UndiscoveredCompat["Enchantment"] = true
 ---@field can_be_removed? fun(self: SMODS.Center|table, card: Card|table, level: number): boolean?
 ---@field keep_on_use? fun(self: SMODS.Center|table, card: Card|table): boolean? Return `true` if the consumable should stay after use.
 ---@field can_apply? fun(self: SMODS.Center|table, level:number,  other_card: Card|table): boolean? 
+---@field allowed_func? fun(self: SMODS.Center|table, card: Card|table): boolean? Function to ask if you can apply achievement
+---@field allowed_set? table? sets that you can apply the enchantment with, overridden by allowed_func
 ---@field in_pool? fun(self: SMODS.Center|table, args: table): boolean? , table? Allows configuring if the card is allowed to spawn. 
 ---@overload fun(self: AKYRS.Enchantment): AKYRS.Enchantment
 AKYRS.Enchantment = SMODS.GameObject:extend{
@@ -271,6 +273,10 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
         ["Default"] = true,
         ["Enhanced"] = true,
     },
+    allowed_func = function(self, card)
+        if not self.allowed_set[card.ability.set] then return false end
+        return true
+    end,
     in_pool = function (self, args)
         if not args.treasure and self.treasure then return false end
         return true
@@ -283,7 +289,7 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
                 end
             end
         end
-        if not self.allowed_set[other_card.ability.set] then return false end
+        if not self:allowed_func(other_card) then return false end 
         return true
     end,
     enchantment_calculate = function (self, card, context, level)
@@ -425,9 +431,6 @@ AKYRS.Enchantment {
             }
         }
     end,
-    allowed_set = {
-        Joker = true
-    },
     enchantment_calculate = function (self, card, context, level)
     end
 }
@@ -448,6 +451,39 @@ AKYRS.Enchantment {
             return {
                 numerator = context.numerator * (1 + (0.5 * level))
             }
+        end
+    end
+}
+
+AKYRS.Enchantment {
+    key = "greed",
+    max_level = 4,
+    loc_vars = function (self, info_queue, card, level)
+        return {
+            vars = {
+                localize("f_akyrs_localize_enchantment_level")(level),
+                level * 50
+            }
+        }
+    end,
+    allowed_func = function (self, card)
+        return card.ability.set == "Joker" or card.ability.consumeable
+    end,
+    enchantment_calculate = function (self, card, context, level)
+        if context.selling_card and context.card and context.card ~= card then
+            print("hanaichi monnme")
+            SMODS.scale_card(card, {
+                ref_table = card.ability,
+                ref_value = "extra_value",
+                scalar_table = context.card,
+                scalar_value = "sell_cost",
+                scalar_factor = level * 0.5,
+                scaling_message = {
+                    message = localize('k_val_up'),
+                    colour = G.C.MONEY
+                }
+            })
+            card:set_cost()
         end
     end
 }

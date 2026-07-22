@@ -1253,6 +1253,13 @@ return {
                     "on {C:attention}this{} card",
                 },
             },
+            ench_akyrs_greed = {
+                name="Greed #1#",
+                text={
+                    "Selling a card gives {C:money}+#2#%{}",
+                    "of its sell cost to {C:attention}this{} card",
+                },
+            },
         },
         Enhanced={
             -- blindside :tm:

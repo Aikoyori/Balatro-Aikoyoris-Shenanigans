@@ -1534,7 +1534,9 @@ SMODS.Joker{
             }
         end
         if context.selling_card and context.card == card and not context.blueprint then
-            G.GAME.current_round.discards_left = card.ability.current_round_discards 
+            if not card.ability.current_round_discards then
+                G.GAME.current_round.discards_left = card.ability.current_round_discards 
+            end
         end
         if (context.end_of_round and context.cardarea == G.jokers or context.forcetrigger) and not context.blueprint then
             if not card.ability.do_not_decrease then

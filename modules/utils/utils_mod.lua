@@ -1260,3 +1260,25 @@ function AKYRS.save_pool(pool)
         G.ARGS.save_progress.UDA[k] = (v.unlocked and 'u' or '')..(v.discovered and 'd' or '')..(v.alerted and 'a' or '')
     end
 end
+
+function AKYRS.merge_effects(...)
+    local t = {}
+    for _, v in ipairs({...}) do
+        for _, vv in ipairs(v) do
+            if vv == true or (type(vv) == "table" and next(vv)) then
+                table.insert(t, vv)
+            end
+        end
+    end
+    local returnval = table.remove(t, 1)
+    local function merge(fxlist, returntbl, ind)
+        if type(fxlist) == "table" and type(returntbl) == "table" then
+            if fxlist[ind] == nil then return end
+            returntbl.extra = fxlist[ind]
+            return merge(fxlist, returntbl.extra, ind + 1)
+        end
+        return returntbl
+    end
+    merge(t, returnval, 1)
+    return returnval
+end

@@ -51,10 +51,18 @@ SMODS.Edition{
         local fx = {}
         if card and context and next(card.akyrs_enchantments) then
             for _,en in ipairs(card.akyrs_enchantments) do
-                fx[#fx+1] = AKYRS.Enchantments[en[1]]:enchantment_calculate(card, context, en[2])
+                local enchant_obj = AKYRS.Enchantments[en[1]]
+                local effect = enchant_obj:enchantment_calculate(card, context, en[2])
+                if effect then
+                    if enchant_obj.requires_effect_calc then
+                        SMODS.calculate_effect(effect, card)
+                    else
+                        fx[#fx+1] = effect
+                    end
+                end
             end
         end
-        return SMODS.merge_effects(fx)
+        return AKYRS.merge_effects(fx)
     end,
     on_apply = function (card)
         card.akyrs_enchantments = card.akyrs_enchantments or {}
@@ -209,6 +217,7 @@ SMODS.UndiscoveredCompat["Enchantment"] = true
 ---@field can_apply? fun(self: SMODS.Center|table, level:number,  other_card: Card|table): boolean? 
 ---@field allowed_func? fun(self: SMODS.Center|table, card: Card|table): boolean? Function to ask if you can apply achievement
 ---@field allowed_set? table? sets that you can apply the enchantment with, overridden by allowed_func
+---@field requires_effect_calc? bool? instead of adding it to return calculates individually
 ---@field in_pool? fun(self: SMODS.Center|table, args: table): boolean? , table? Allows configuring if the card is allowed to spawn. 
 ---@overload fun(self: AKYRS.Enchantment): AKYRS.Enchantment
 AKYRS.Enchantment = SMODS.GameObject:extend{
@@ -368,6 +377,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "efficiency",
     max_level = 5,
+    requires_effect_calc = true,
     allowed_set = {
         Joker = true
     },
@@ -398,13 +408,13 @@ AKYRS.Enchantment {
             if ind == 1 then return {} end
             local copying = card.area.cards[ind - 1]
             local bp_result = SMODS.blueprint_effect(card, copying, context)
-            if bp_result and bp_result ~= {} then
+            if bp_result then
+                --print("real 2")
                 local result = SMODS.pseudorandom_probability(card, "akyrs_ench_efficiency", level * 16, 100, nil, true)
                 if result then
                     return bp_result
                 end
             end
-
         end
     end
 }

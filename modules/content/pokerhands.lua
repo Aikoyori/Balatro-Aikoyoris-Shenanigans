@@ -108,10 +108,17 @@ elseif AKYRS.config.wildcard_behaviour == 4 then
     -- warn on unset: this should set pretend letters to that of the card
 end
 
-function AKYRS.check_word(str_arr_in)
+
+function AKYRS.get_dictionary()
+    return AKYRS_WORDS
+end
+
+
+function AKYRS._INTERNAL_check_word_coroutine(str_arr_in)
     --print("what")
     local wild_positions = {}
     local wild_count = 0
+    local d = AKYRS.get_dictionary()
 
     for i = 1, #str_arr_in do
         if str_arr_in[i] == "#" then
@@ -124,13 +131,13 @@ function AKYRS.check_word(str_arr_in)
     if wild_count == 0 then
         local word_str = table.concat(str_arr_in)
         local firstletter = string.sub(word_str, 1,3)
-        return { valid = firstletter and AKYRS_WORDS[firstletter] and AKYRS_WORDS[firstletter][word_str], word = firstletter and AKYRS_WORDS[firstletter] and AKYRS_WORDS[firstletter][word_str] and word_str or nil }
+        return { valid = firstletter and d[firstletter] and d[firstletter][word_str], word = firstletter and d[firstletter] and d[firstletter][word_str] and word_str or nil }
     end
     local function backtrack(index)
         if index > wild_count then
             local word_str = table.concat(str_arr_in)
             local firstletter = string.sub(word_str, 1, 3)
-            if firstletter and AKYRS_WORDS[firstletter] and AKYRS_WORDS[firstletter][word_str] and #word_str == #str_arr_in then
+            if firstletter and d[firstletter] and d[firstletter][word_str] and #word_str == #str_arr_in then
                 return { valid = true, word = word_str }
             end
             return nil
@@ -147,6 +154,16 @@ function AKYRS.check_word(str_arr_in)
     end
 
     return backtrack(1) or { valid = false, word = nil }
+end
+
+function AKYRS.check_word(str_arr_in)
+    local check_coroutine = coroutine.create(AKYRS._INTERNAL_check_word_coroutine)
+    local success, result = coroutine.resume(check_coroutine, str_arr_in)
+    if success then
+        return result
+    else
+        return { valid = false, word = nil}
+    end
 end
 
 AKYRS.WORD_CHECKED = {

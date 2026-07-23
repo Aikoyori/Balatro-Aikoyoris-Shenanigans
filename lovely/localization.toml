@@ -251,7 +251,7 @@ position = "after"
 payload = """
 --print("lowk??? ".._c.key)
 local truecenter = G.P_CENTERS[_c.key]
-if truecenter.generate_ui and type(truecenter.generate_ui) == 'function' then -- added by aikoyori shenanigans lol
+if truecenter and truecenter.generate_ui and type(truecenter.generate_ui) == 'function' then -- added by aikoyori shenanigans lol
     truecenter:generate_ui(info_queue, full_UI_table.akyrs_card, desc_nodes, specific_vars, full_UI_table)
 else
 """

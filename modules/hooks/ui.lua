@@ -235,7 +235,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             info = {},
             type = {},
             name = nil,
-            badges = badges or {}
+            badges = badges or {},
         }
     end
     return genCardUIHook(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)

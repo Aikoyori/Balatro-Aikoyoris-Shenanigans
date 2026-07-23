@@ -325,28 +325,6 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
     remove = function (self, card, level)
         
     end,
-    inject = function(self)
-        G.P_CENTERS[self.key] = self
-        if not self.omit then SMODS.insert_pool(G.P_CENTER_POOLS[self.set], self) end
-        for k, v in pairs(SMODS.ObjectTypes) do
-            -- Should "cards" be formatted as `{[<center key>] = true}` or {<center key>}?
-            -- Changing "cards" and "pools" wouldn't be hard to do, just depends on preferred format
-            if ((self.pools and self.pools[k]) or (v.cards and v.cards[self.key])) then
-                v:inject_card(self)
-            end
-        end
-        if self.attributes then
-            for _, attribute in ipairs(self.attributes) do
-                if SMODS.Attributes[attribute] then
-                    self.attributes[attribute] = true
-                    SMODS.Attributes[attribute].keys = SMODS.merge_lists({SMODS.Attributes[attribute].keys or {}, {self.key}})
-                end
-            end
-        end
-        if self.soul_atlas and not self.soul_pos then
-            self.soul_pos = { x = 0, y = 0 }
-        end
-    end,
     akyrs_shader_overlay = 'akyrs_enchanted',
 }
 

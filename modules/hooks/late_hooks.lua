@@ -184,5 +184,5 @@ function create_UIBox_detailed_tooltip(_center)
             nodes = {}
         }
     end
-    return create_UIBox_detailed_tooltip(_center)
+    return cuibdttp(_center)
 end

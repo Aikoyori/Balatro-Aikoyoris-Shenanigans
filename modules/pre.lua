@@ -24,6 +24,9 @@ AKYRS.DescriptionDummy = SMODS.Center:extend{
     required_params = {
         'key',
     },
+    unlocked = true,
+    discovered = true,
+    available = true,
     pre_inject_class = function(self)
         G.P_CENTER_POOLS[self.set] = {}
     end,

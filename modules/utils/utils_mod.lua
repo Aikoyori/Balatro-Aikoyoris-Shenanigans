@@ -1212,14 +1212,7 @@ function AKYRS.set_background_shaders(shader_key)
         real = 0,
         eased = 0
     }
-    AKYRS.simple_event_add(
-    function ()    
-        AKYRS.honest_ease_background_colour({contrast = 0}, 1)
-        AKYRS.simple_event_add(
-        function ()
-            G.SPLASH_BACK:define_draw_steps({{
-            shader = shader_key,
-            send = {
+    local send_t = SMODS.Shaders[shader_key].send_vars and SMODS.Shaders[shader_key]:send_vars() or {
                 {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL_SHADER'},
                 {name = 'spin_time', ref_table = G.TIMERS, ref_value = 'BACKGROUND'},
                 {name = 'colour_1', ref_table = G.C.BACKGROUND, ref_value = 'C'},
@@ -1227,7 +1220,15 @@ function AKYRS.set_background_shaders(shader_key)
                 {name = 'colour_3', ref_table = G.C.BACKGROUND, ref_value = 'D'},
                 {name = 'contrast', ref_table = G.C.BACKGROUND, ref_value = 'contrast'},
                 {name = 'spin_amount', ref_table = G.ARGS.spin, ref_value = 'amount'}
-            }}})
+            }
+    AKYRS.simple_event_add(
+    function ()    
+        AKYRS.honest_ease_background_colour({contrast = 0}, 1)
+        AKYRS.simple_event_add(
+        function ()
+            G.SPLASH_BACK:define_draw_steps({{
+            shader = shader_key,
+            send = send_t}})
             AKYRS.honest_ease_background_colour({contrast = old_contrast}, 1)
             return true
         end, 1.2, "akyrs_bg")

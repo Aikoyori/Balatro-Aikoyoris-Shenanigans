@@ -15,6 +15,7 @@ SMODS.ConsumableType{
     default = "c_akyrs_alphabet_a",
 }
 
+SMODS.UndiscoveredCompat["Alphabet"] = true
 
 for k, v in ipairs(aiko_alphabets_no_wilds) do
     local upper = string.upper(v)

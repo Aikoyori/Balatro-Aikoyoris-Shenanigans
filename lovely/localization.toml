@@ -251,8 +251,8 @@ position = "after"
 payload = """
 --print("lowk??? ".._c.key)
 local truecenter = G.P_CENTERS[_c.key]
-if truecenter and truecenter.generate_ui and type(truecenter.generate_ui) == 'function' then -- added by aikoyori shenanigans lol
-    truecenter:generate_ui(info_queue, full_UI_table.akyrs_card, desc_nodes, specific_vars, full_UI_table)
+if truecenter and AKYRS.LOC_CURRENT_CARD and truecenter.generate_ui and type(truecenter.generate_ui) == 'function' then -- added by aikoyori shenanigans lol
+    truecenter:generate_ui(info_queue, AKYRS.LOC_CURRENT_CARD, desc_nodes, specific_vars, full_UI_table)
 else
 """
 overwrite = true
@@ -272,7 +272,16 @@ match_indent = true
 target = "functions/common_events.lua"
 pattern = """        generate_card_ui(v, full_UI_table)"""
 position = "before"
-payload = """full_UI_table.akyrs_card = card"""
+payload = """AKYRS.LOC_CURRENT_CARD = card"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = """        generate_card_ui(v, full_UI_table)"""
+position = "after"
+payload = """AKYRS.LOC_CURRENT_CARD = nil"""
 overwrite = true
 match_indent = true
 

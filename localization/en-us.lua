@@ -1318,6 +1318,7 @@ return {
                 name="Ash Card",
                 text={
                     "{C:blue}+#1#{} Chips",
+                    "No rank, no suits",
                     "{C:green}#2# in #3#{} chance",
                     "of disintegrating into nothing",
                     "at the end of the round"
@@ -1327,6 +1328,7 @@ return {
                 name="Ash Card",
                 text={
                     "{C:purple,X:edition} ^#1# {} Chips",
+                    "No rank, no suits",
                     "{C:attention}Always{} disintegrating into nothing",
                     "at the end of the round"
                 },

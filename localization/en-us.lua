@@ -1270,8 +1270,8 @@ return {
             ench_akyrs_cornucopia = {
                 name="Cornucopia",
                 text={
-                    "When played, create a copy {C:attention}this card{}",
-                    "and add to played hand, {C:attention}removing{} Enchantment from the copy",
+                    "When played, create a copy {C:attention}this card{} and add to played hand",
+                    "{C:attention}removing Enchantment{} from the copy",
                 },
             },
         },

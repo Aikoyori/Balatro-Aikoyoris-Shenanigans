@@ -437,7 +437,7 @@ AKYRS.Enchantment {
 
 AKYRS.Enchantment {
     key = "fortune",
-    max_level = 3,
+    max_level = 6,
     loc_vars = function (self, info_queue, card, level)
         return {
             vars = {

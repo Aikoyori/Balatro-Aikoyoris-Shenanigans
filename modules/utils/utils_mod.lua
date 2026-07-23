@@ -1254,6 +1254,7 @@ function AKYRS.load_pool(pool, meta)
 end
 
 function AKYRS.save_pool(pool)
+    if not pool then return end
     for k, v in pairs(pool) do
         G.ARGS.save_progress.UDA[k] = (v.unlocked and 'u' or '')..(v.discovered and 'd' or '')..(v.alerted and 'a' or '')
     end

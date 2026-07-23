@@ -185,3 +185,24 @@ if AKYRS then
 end
 '''
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '''game.lua'''
+pattern = '''    meta.alerted = meta.alerted or {}'''
+position = "after"
+payload = '''
+if AKYRS then AKYRS.reset_pools() end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''    meta.alerted = meta.alerted or {}'''
+position = "after"
+payload = '''
+if AKYRS then AKYRS.reset_pools() end
+'''
+match_indent = true

@@ -146,7 +146,7 @@ function AKYRS._INTERNAL_check_word_coroutine()
         function backtrack(index)
             if word_to_check ~= AKYRS.CURRENT_WORD_CHECK then
                 word_to_check = AKYRS.CURRENT_WORD_CHECK
-                return { cancel_calc = true }
+                return { cancel_calc = true, valid = false }
             end
             if index > wild_count then
                 local word_str = table.concat(word_to_check)

@@ -1534,9 +1534,7 @@ SMODS.Joker{
             }
         end
         if context.selling_card and context.card == card and not context.blueprint then
-            if not card.ability.current_round_discards then
-                G.GAME.current_round.discards_left = card.ability.current_round_discards 
-            end
+            G.GAME.current_round.discards_left = card.ability.current_round_discards 
         end
         if (context.end_of_round and context.cardarea == G.jokers or context.forcetrigger) and not context.blueprint then
             if not card.ability.do_not_decrease then
@@ -4318,16 +4316,35 @@ SMODS.Joker {
     config = {
     },
     rarity = 1,
-    cost = 2,
+    cost = 4,
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
             }
         }
     end,
-    in_pool = function (self, args)
-        return false
-    end,
+    calculate = function (self, card, context)
+        if context.hand_drawn then
+            return {
+                func = function ()
+                    local candidates = AKYRS.filter_table(G.hand.cards, function (c, i)
+                        return not (c.edition and c.edition.key == "e_polychrome")
+                    end, true, true)
+                    if #candidates == #G.hand.cards then
+                        SMODS.calculate_effect({
+                            func = function ()
+                                local candidate = pseudorandom_element(candidates, "akyrs_edge_pick")
+                                AKYRS.do_things_to_card({candidate}, function (c, i)
+                                    c:set_edition({ ["polychrome"] = true })
+                                end)
+                            end,
+                            message = localize("k_akyrs_edge_prism")
+                        }, card)
+                    end
+                end
+            }
+        end
+    end
 }
 
 SMODS.Joker {

@@ -1218,6 +1218,12 @@ return {
             },
         },
         Enchantment = {
+            ench_akyrs_multi_enchant_book = {
+                name="Enchanted Book",
+                text={
+                    "Contains {C:attention}more than one{} enchantments",
+                },
+            },
             ench_akyrs_unbreaking = {
                 name="Unbreaking #1#",
                 text={
@@ -2847,6 +2853,18 @@ return {
                     {
                         "{C:hearts}Heart{} cards becomes {C:attention}Ash cards",
                         "{C:attention}Ash cards{} give {C:mult}+#1#{} Mult",
+                    },
+                }
+            },
+            j_akyrs_edge = {
+                name = {
+                    "EDGE Extended"
+                },
+                text = {
+                    {
+                        "Apply {C:dark_edition}Polychrome{} to a {C:attention}random card",
+                        "every time you draw cards",
+                        "if {C:attention}no {C:dark_edition}Polychrome{} is held in hand",
                     },
                 }
             },
@@ -4663,6 +4681,9 @@ return {
             k_akyrs_chicanery_btn="J",
 
             k_akyrs_enchantment_none="Allows multiple abilities to be added",
+            k_akyrs_enchantment_none_blank="None :(",
+            k_akyrs_edge_prism="<PRISM>",
+
             f_akyrs_localize_enchantment_level = function (level)
                 if math.abs(level) > 3999 then
                     return level > 0 and "+INF" or "-INF"

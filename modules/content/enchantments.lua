@@ -39,7 +39,7 @@ SMODS.Edition{
                 cx[#cx+1] = ench_row(localize{ type = "name_text", key = en[1], set = "Enchantment", vars = {localize("f_akyrs_localize_enchantment_level")(en[2])}}, en)
             end
         else
-            cx[#cx+1] = ench_row(localize("k_akyrs_enchantment_none"))
+            cx[#cx+1] = ench_row(localize("k_akyrs_enchantment_none_blank"))
         end
         desc_nodes[#desc_nodes+1] = {
                 { n = G.UIT.R, config = { padding = 0.1, colour = G.C.CLEAR, r = 0.1}, nodes = cx }
@@ -190,6 +190,22 @@ function AKYRS.get_max_level_enchantments_for(card, enchantment_key)
         end
     end
     return max_lvl
+end
+
+
+function AKYRS.create_enchanted_book(enchantment_list)
+    local card = {}
+    if #enchantment_list == 1 then
+        card = SMODS.add_card{ set = "Enchantment", key = enchantment_list[1][1], area = G.consumeables }
+        card.ability.akyrs_level = enchantment_list[1][2] or 1
+    else
+        card = SMODS.add_card{ set = "Enchantment", key = "ench_akyrs_multi_enchant_book", area = G.consumeables }
+        for _, k in ipairs(enchantment_list) do
+            if not k[2] then k[2] = 1 end
+        end
+        card.akyrs_stored_enchantments = enchantment_list
+    end
+    return card
 end
 
 AKYRS.Enchantments = {}
@@ -362,6 +378,71 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
 }
 
 
+AKYRS.Enchantment {
+    key = "multi_enchant_book",
+    weight = 0,
+    in_pool = function (self, args)
+        return false
+    end,
+    can_apply = function (self, level, other_card)
+        return false
+    end,
+    
+    generate_ui = function (self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+        SMODS.Joker.super.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+        local cx = {}
+        if (card and card.akyrs_stored_enchantments and #card.akyrs_stored_enchantments > 0) then
+            for _,en in ipairs(card.akyrs_stored_enchantments) do
+                --print(en[1],en[2])
+                local o = AKYRS.Enchantments[en[1]]
+                cx[#cx+1] = ench_row(localize{ type = "name_text", key = en[1], set = "Enchantment", vars = {localize("f_akyrs_localize_enchantment_level")(en[2])}}, en)
+            end
+        else
+            cx[#cx+1] = ench_row(localize("k_akyrs_enchantment_none"))
+        end
+        desc_nodes[#desc_nodes+1] = {
+                { n = G.UIT.R, config = { padding = 0.1, colour = G.C.CLEAR, r = 0.1}, nodes = cx }
+            }
+    end,
+    
+    can_use = function (self, card)
+        local cards = AKYRS.filter_table(AKYRS.combine_table(G.jokers.highlighted, G.consumeables.highlighted, G.hand.highlighted),
+        function (ca)
+            if card.akyrs_stored_enchantments then
+                for _, en in ipairs(card.akyrs_stored_enchantments) do
+                    if AKYRS.Enchantments[en[1]]:can_apply(en[2], ca) then
+                        return true
+                    end
+                end
+            end
+            return false
+        end, true, true)
+        return #cards >= card.ability.min_highlighted and #cards <= card.ability.max_highlighted
+    end,
+    use = function (self, card, area, copier)
+        AKYRS.juice_like_tarot(card)
+        local cards = AKYRS.filter_table(AKYRS.combine_table(G.jokers.highlighted, G.consumeables.highlighted, G.hand.highlighted),
+        function (ca)
+            if card.akyrs_stored_enchantments then
+                for _, en in ipairs(card.akyrs_stored_enchantments) do
+                    if AKYRS.Enchantments[en[1]]:can_apply(en[2], ca) then
+                        return true
+                    end
+                end
+            end
+            return false
+        end, true, true)
+        AKYRS.do_things_to_card(cards, function (card2, index)
+            if card.akyrs_stored_enchantments then
+                for _, en in ipairs(card.akyrs_stored_enchantments) do
+                    if AKYRS.Enchantments[en[1]]:can_apply(en[2], card2) then
+                        AKYRS.apply_enchantment(card2, en[1], en[2])
+                    end
+                end
+            end
+        end)
+    end,
+}
 AKYRS.Enchantment {
     key = "mending",
     enchantment_calculate = function (self, card, context, level)

@@ -813,7 +813,7 @@ function Card:highlight(is_higlighted)
                 parent = self }
         }
     end
-    if AKYRS.can_card_be_used(self) then
+    if AKYRS.can_card_be_used(self) and self.area then
         self.children.akyrs_use_box = UIBox {
             definition = AKYRS.UIDEF.special_joker_use(self),
             config = { align =

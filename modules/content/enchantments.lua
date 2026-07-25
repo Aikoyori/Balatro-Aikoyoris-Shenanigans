@@ -32,7 +32,7 @@ SMODS.Edition{
     generate_ui = function (self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
         SMODS.Joker.super.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
         local cx = {}
-        if (card and #card.akyrs_enchantments > 0) then
+        if (card and card.akyrs_enchantments and #card.akyrs_enchantments > 0) then
             for _,en in ipairs(card.akyrs_enchantments) do
                 --print(en[1],en[2])
                 local o = AKYRS.Enchantments[en[1]]
@@ -49,7 +49,7 @@ SMODS.Edition{
     -- localize("k_akyrs_enchantment_none")
     calculate = function (self, card, context)
         local fx = {}
-        if card and context and next(card.akyrs_enchantments) then
+        if card and context and card.akyrs_enchantments and next(card.akyrs_enchantments) then
             for _,en in ipairs(card.akyrs_enchantments) do
                 local enchant_obj = AKYRS.Enchantments[en[1]]
                 local effect = enchant_obj:enchantment_calculate(card, context, en[2])
@@ -79,10 +79,10 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
     if not AKYRS.Enchantments[enchantment_key]:is_valid_level(level) and not forced then
 
     end
-    if not AKYRS.Enchantments[enchantment_key]:can_apply(level, card) and not forced then
+    if not AKYRS.Enchantments[enchantment_key]:can_apply(level, card) and not card.ability.set == "Enchantment" and not forced then
         error("Incompatible")
     end
-    if not card.edition or not (card.edition.key == "e_akyrs_enchanted") then card:set_edition({ akyrs_enchanted = true }) end
+    if ((not card.edition or not (card.edition.key == "e_akyrs_enchanted")) and not card.ability.set == "Enchantment" ) then card:set_edition({ akyrs_enchanted = true }) end
     AKYRS.Enchantments[enchantment_key].discovered = true
     AKYRS.Enchantments[enchantment_key].unlocked = true
     local upgraded_from = nil
@@ -125,6 +125,21 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
         card.akyrs_enchantments[#card.akyrs_enchantments+1] = {enchantment_key, level}
         AKYRS.Enchantments[enchantment_key]:apply(card, level)
     end
+    if card.ability.set == "Enchantment" and card.config.center.key ~= "ench_akyrs_multi_enchant_book" then
+        local ogench = { card.config.center.key, card.ability.akyrs_level }
+        local combined_enchant = {ogench}
+        for _, en2 in ipairs(card.akyrs_enchantments) do
+            combined_enchant[#combined_enchant+1] = en2
+        end
+        card:set_ability(AKYRS.Enchantments["ench_akyrs_multi_enchant_book"])
+        card.akyrs_enchantments = nil
+        card.akyrs_stored_enchantments = combined_enchant
+    elseif card.config.center.key == "ench_akyrs_multi_enchant_book" then
+        for _, en2 in ipairs(card.akyrs_enchantments) do
+            card.akyrs_stored_enchantments[#card.akyrs_stored_enchantments+1] = en2
+        end
+        card.akyrs_enchantments = nil
+    end 
     SMODS.calculate_context({ akyrs_enchantment_applied = true, applied_enchantment_data = {enchantment_key, level}, upgraded_from = upgraded_from })
 end
 function AKYRS.remove_enchantment(card, enchantment_key, forced)
@@ -331,7 +346,7 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
     can_use = function (self, card)
         local cards = AKYRS.filter_table(AKYRS.combine_table(G.jokers.highlighted, G.consumeables.highlighted, G.hand.highlighted),
         function (ca)
-            return ca ~= card and self:can_apply(card.ability.akyrs_level, ca)
+            return ca ~= card and (self:can_apply(card.ability.akyrs_level, ca) or ca.ability.set == "Enchantment")
         end, true, true)
         return #cards >= card.ability.min_highlighted and #cards <= card.ability.max_highlighted
     end,
@@ -339,7 +354,7 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
         AKYRS.juice_like_tarot(card)
         local cards = AKYRS.filter_table(AKYRS.combine_table(G.jokers.highlighted, G.consumeables.highlighted, G.hand.highlighted),
         function (ca)
-            return ca ~= card and self:can_apply(card.ability.akyrs_level, ca)
+            return ca ~= card and (self:can_apply(card.ability.akyrs_level, ca) or ca.ability.set == "Enchantment")
         end, true, true)
         AKYRS.do_things_to_card(cards, function (card2, index)
             AKYRS.apply_enchantment(card2, self.key, card.ability.akyrs_level)

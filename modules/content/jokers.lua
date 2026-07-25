@@ -4410,7 +4410,7 @@ SMODS.Joker {
     loc_vars = function (self, info_queue, card)
         local key = card.ability.extras.copying_key or nil
         local ui = false
-        if key then
+        if key and card.akyrs_sulphur_card then
             card.akyrs_sulphur_card.ability_UIBox_table = card.akyrs_sulphur_card:generate_UIBox_ability_table()
             ui = G.UIDEF.card_h_popup(card.akyrs_sulphur_card)
             ui.n = G.UIT.R
@@ -4434,6 +4434,8 @@ SMODS.Joker {
         if card.akyrs_sulphur_card then
             card.akyrs_sulphur_card.T.x = card.T.x
             card.akyrs_sulphur_card.T.y = card.T.y
+            card.akyrs_sulphur_card.T.w = 0
+            card.akyrs_sulphur_card.T.h = 0
         else
             card.akyrs_sulphur_card = nil
         end

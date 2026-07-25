@@ -500,7 +500,7 @@ function AKYRS.cards_being_destroyed(card)
 end
 
 AKYRS.can_card_be_used = function (card)
-    
+    if not AKYRS.is_in_typical_area(card) then return false end
     if card.config.center.key == "j_akyrs_sulfur_cube" then
         return true
     end

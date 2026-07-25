@@ -4464,25 +4464,27 @@ SMODS.Joker {
 }
 for j = 8, 9 do
     for i = 0, 9 do
-        SMODS.Joker {
-            key = "test_x"..i.."_y"..j,
-            atlas = 'AikoyoriJokers',
-            pos = { x = i, y = j },
-            pools = {  },
-            config = {
-            },
-            rarity = 1,
-            cost = 2,
-            loc_vars = function (self, info_queue, card)
-                return {
-                    vars = {
+        if i + j * 10 >= 81 then
+            SMODS.Joker {
+                key = "test_x"..i.."_y"..j,
+                atlas = 'AikoyoriJokers',
+                pos = { x = i, y = j },
+                pools = {  },
+                config = {
+                },
+                rarity = 1,
+                cost = 2,
+                loc_vars = function (self, info_queue, card)
+                    return {
+                        vars = {
+                        }
                     }
-                }
-            end,
-            in_pool = function (self, args)
-                return false
-            end,
-        }
+                end,
+                in_pool = function (self, args)
+                    return false
+                end,
+            }
+        end
     end
 end
 

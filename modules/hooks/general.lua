@@ -410,6 +410,11 @@ function Card:remove()
         end
         self.akyrs_letter = nil
     end
+    if self.akyrs_sulphur_card then
+        self.akyrs_sulphur_card:remove_from_deck()
+        self.akyrs_sulphur_card:remove()
+        self.akyrs_sulphur_card = nil
+    end
     return cardRemoveHookFirst(self)
 end
 
@@ -1327,6 +1332,9 @@ function Card:save()
     c.akyrs_judgement = self.akyrs_judgement
     c.akyrs_enchantments = self.akyrs_enchantments
     c.akyrs_stored_enchantments = self.akyrs_stored_enchantments
+    if self.akyrs_sulphur_card then
+        c.akyrs_sulphur_card = self.akyrs_sulphur_card:save()
+    end
     return c
 end
 
@@ -1341,6 +1349,16 @@ function Card:load(cardTable, other_card)
     self.debuffed_by_blind = cardTable.debuffed_by_blind
     self.akyrs_enchantments = cardTable.akyrs_enchantments
     self.akyrs_stored_enchantments = cardTable.akyrs_stored_enchantments
+
+    if cardTable.akyrs_sulphur_card then
+        self.akyrs_sulphur_card = Card(self.T.x, self.T.y, 0, 0, nil, G.P_CENTERS.c_base)
+        Card.load(self.akyrs_sulphur_card, cardTable.akyrs_sulphur_card)
+        self.akyrs_sulphur_card.akyrs_parent = self
+        AKYRS.simple_event_add(function()
+            AKYRS.remove_value_from_table(G.I.CARD, self.akyrs_sulphur_card)
+        return true
+        end, 0.1, "akyrs_misc")
+    end
     
     _c = self.config.center
 
@@ -1363,6 +1381,14 @@ function Card:load(cardTable, other_card)
         end
     end
     return c
+end
+
+local crui = Card.remove_UI
+function Card:remove_UI()
+    if self.akyrs_sulphur_card then
+        crui(self.akyrs_sulphur_card)
+    end
+    return crui(self)
 end
 
 local getNominalHook = Card.get_nominal
@@ -2096,4 +2122,20 @@ function AKYRS.load_unlocks(meta)
 end
 
 function AKYRS.reset_pools()
+end
+
+local fchook = SMODS.find_card
+function SMODS.find_card(key, count_debuffed)
+    local results = fchook(key, count_debuffed)
+    if not G.jokers or not G.jokers.cards then return {} end
+    for _, area in ipairs(SMODS.get_card_areas('jokers')) do
+        if area.cards then
+            for _, v in pairs(area.cards) do
+                if v and type(v) == 'table' and v.akyrs_sulphur_card and v.akyrs_sulphur_card.config.center.key == key and (count_debuffed or not v.debuff) then
+                    table.insert(results, v.akyrs_sulphur_card)
+                end
+            end
+        end
+    end
+    return results
 end

@@ -3783,9 +3783,14 @@ SMODS.Joker {
     end,
     calculate = function (self, card, context)
         if context.joker_main then
-            return {
-                xscore = card.ability.extras.xscore
-            }
+            local clubs_100 = AKYRS.filter_table(context.full_hand, function (c)
+                return (not SMODS.has_any_suit(c)) and c:is_suit("Clubs")
+            end, true, true)
+            if #clubs_100 == #context.full_hand then
+                return {
+                    xscore = card.ability.extras.xscore
+                }
+            end
         end
     end,
     blueprint_compat = true,
@@ -4353,20 +4358,110 @@ SMODS.Joker {
     pos = { x = 9, y = 7 },
     pools = {  },
     config = {
+        extras = {
+            xscore = 2.5
+        },
     },
-    rarity = 1,
-    cost = 2,
+    rarity = 3,
+    cost = 7,
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
+                card.ability.extras.xscore
             }
         }
     end,
-    in_pool = function (self, args)
-        return false
-    end,
+    calculate = function (self, card, context)
+        if context.before then 
+            local all_sevens = AKYRS.filter_table(G.playing_cards, function (c, i)
+                return c:get_id() == 7
+            end, true, true)
+            local all_scored_sevens = AKYRS.filter_table(all_sevens, function (c, i)
+                return c.ability.akyrs_scored_this_round
+            end, true, true)
+            local non_matching = AKYRS.filter_table(all_sevens, function (c, i)
+                return AKYRS.find_index(all_scored_sevens, c) == nil
+            end, true, true)
+            if #non_matching == 0 then
+                AKYRS.SEVEN_WONDERS_CARDS_THAT_SHOULD_GIVE_XSCORE = all_sevens[#all_sevens]
+            end
+        end
+        if context.individual and context.cardarea == G.play and context.other_card == AKYRS.SEVEN_WONDERS_CARDS_THAT_SHOULD_GIVE_XSCORE then
+            AKYRS.SEVEN_WONDERS_CARDS_THAT_SHOULD_GIVE_XSCORE = nil
+            return {
+                xscore = card.ability.extras.xscore
+            }
+        end
+    end
 }
-
+SMODS.Joker {
+    key = "sulfur_cube",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 0, y = 8 },
+    pools = {  },
+    config = {
+        extras = {
+            cost = 1,
+            copying_key = nil
+        }
+    },
+    rarity = 1,
+    cost = 3,
+    loc_vars = function (self, info_queue, card)
+        local key = card.ability.extras.copying_key or nil
+        local ui = false
+        if key then
+            card.akyrs_sulphur_card.ability_UIBox_table = card.akyrs_sulphur_card:generate_UIBox_ability_table()
+            ui = G.UIDEF.card_h_popup(card.akyrs_sulphur_card)
+            ui.n = G.UIT.R
+        end
+        return {
+            vars = {
+                SMODS.signed_dollars(card.ability.extras.cost)
+            },
+            main_end = ui and {ui}
+        }
+    end,
+    add_to_deck = function (self, card, from_debuff)
+        local k = SMODS.poll_object{ type = "Joker", seed = "akyrs_sulfur_cube" }
+        card.ability.extras.copying_key = k
+        card.akyrs_sulphur_card = Card(card.T.x, card.T.y, 0, 0, nil, G.P_CENTERS[k] )
+        AKYRS.remove_value_from_table(G.I.CARD, card.akyrs_sulphur_card)
+        card.akyrs_sulphur_card.akyrs_parent = card
+        card.akyrs_sulphur_card:add_to_deck()
+    end,
+    update = function (self, card, dt)
+        if card.akyrs_sulphur_card then
+            card.akyrs_sulphur_card.T.x = card.T.x
+            card.akyrs_sulphur_card.T.y = card.T.y
+        else
+            card.akyrs_sulphur_card = nil
+        end
+    end,
+    calculate = function (self, card, context)
+        if context.end_of_round and context.cardarea == card.area then
+            SMODS.calculate_effect({
+                func = function()
+                    local k = SMODS.poll_object{ type = "Joker", seed = "akyrs_sulfur_cube" }
+                    card.ability.extras.copying_key = k
+                    if card.akyrs_sulphur_card then
+                        card.akyrs_sulphur_card:remove()
+                        card.akyrs_sulphur_card = nil
+                    end
+                    card.akyrs_sulphur_card = Card(card.T.x, card.T.y, 0, 0, nil, G.P_CENTERS[k] )
+                    AKYRS.remove_value_from_table(G.I.CARD, card.akyrs_sulphur_card)
+                    card.akyrs_sulphur_card.akyrs_parent = card
+                    card.akyrs_sulphur_card:add_to_deck()
+                end,
+                message = localize("k_reset")
+            }, card)
+        end
+        if card.akyrs_sulphur_card then
+            local ret = {card.akyrs_sulphur_card:calculate_joker(context)}
+            return unpack(ret)
+        end
+    end
+}
 for j = 8, 9 do
     for i = 0, 9 do
         SMODS.Joker {

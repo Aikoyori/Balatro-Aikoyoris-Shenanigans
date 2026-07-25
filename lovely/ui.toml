@@ -919,3 +919,19 @@ payload = """AKYRS.deal_with_leftover_uis(self)"""
 overwrite = true
 match_indent = true
 
+
+
+[[patches]]
+[patches.pattern]
+target = '''card.lua'''
+pattern = """    if delay_sprites then """
+position = "before"
+payload = '''if not self.fake_key then'''
+match_indent = true
+[[patches]]
+[patches.pattern]
+target = '''card.lua'''
+pattern = """    if self.ability and old_center and old_center.config.bonus then"""
+position = "before"
+payload = '''end'''
+match_indent = true

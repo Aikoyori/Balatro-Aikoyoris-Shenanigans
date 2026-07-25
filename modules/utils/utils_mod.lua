@@ -807,6 +807,7 @@ AKYRS.ease_lives_mp = function(lives)
 end
 
 function AKYRS.end_round_hook()
+    AKYRS.SEVEN_WONDERS_CARDS_THAT_SHOULD_GIVE_XSCORE = nil
     local x = G.playing_cards
     if G.GAME.blind.debuff.akyrs_destroy_unplayed then
         for i, card in ipairs(x) do
@@ -820,6 +821,7 @@ function AKYRS.end_round_hook()
                         AKYRS.remove_value_from_table(G.playing_cards, card)
                     end
                     card.ability.akyrs_played_this_round = false
+                    card.ability.akyrs_scored_this_round = false
                     return true
                 end,
                 delay = 0,
@@ -828,6 +830,7 @@ function AKYRS.end_round_hook()
     else
         for i, card in ipairs(x) do
             card.ability.akyrs_played_this_round = false
+            card.ability.akyrs_scored_this_round = false
         end
     end
     for _, level in ipairs({"common","uncommon","rare"}) do
@@ -1281,4 +1284,15 @@ function AKYRS.merge_effects(...)
     end
     merge(t, returnval, 1)
     return returnval
+end
+
+AKYRS.set_fake_ability = function(card, center_key, ogcard)
+    card.fake_key = center_key
+    card.params = {} 
+    card.T = { x = 0, y = 0, w = 0, h = 0, scale = 1}
+    card.original_T = { x = 0, y = 0, w = 0, h = 0, scale = 1}
+    card.config = card.config or {}
+    setmetatable(card, Card)
+    Card.set_ability(card, G.P_CENTERS[center_key])
+    setmetatable(card, nil)
 end

@@ -356,3 +356,17 @@ payload = """AKYRS.cards_being_destroyed(card)"""
 overwrite = true
 match_indent = true
 
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = """    -- TARGET: adding to hand effects"""
+position = "after"
+payload = """for _,cx in ipairs(final_scoring_hand) do
+    cx.ability.akyrs_scored_this_round = true
+end"""
+overwrite = true
+match_indent = true
+
+

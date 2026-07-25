@@ -2718,7 +2718,8 @@ return {
                     "Snow Pea",
                 },
                 text = {
-                    "{C:white,X:purple}X#1#{} Score",
+                    "{C:white,X:purple}X#1#{} Score if played hand",
+                    "contains {C:attention}no {C:clubs}non-Clubs{} cards",
                 }
             },
             j_akyrs_konton_boogie = {
@@ -2866,6 +2867,32 @@ return {
                         "every time you draw cards",
                         "if {C:attention}no {C:dark_edition}Polychrome{} is held in hand",
                     },
+                }
+            },
+            j_akyrs_7wonders = {
+                name = {
+                    "7 Wonders",
+                    "{s:0.8}Sakuzyo"
+                },
+                text = {
+                    {
+                        "After {C:attention}all other 7s{} in your deck were {C:attention}scored{} this round",
+                        "{X:purple,C:white} X#1# {} Score on the {C:attention}last one{} that scores",
+                    },
+                }
+            },
+            j_akyrs_sulfur_cube = {
+                name = {
+                    "Sulfur Cube",
+                },
+                text = {
+                    {
+                        "Copy a {C:attention}random Joker{}'s ability from the collection",
+                        "Changes {C:attention}at the end of the round",
+                    },
+                    {
+                        "You can spend {C:money}#1#{} to reroll this ability"
+                    }
                 }
             },
         },

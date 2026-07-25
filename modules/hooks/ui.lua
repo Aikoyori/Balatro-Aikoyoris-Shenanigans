@@ -690,6 +690,103 @@ function AKYRS.UIDEF.use_ui(card)
     end
 end
 
+function AKYRS.UIDEF.special_joker_use(card)
+    local colour = G.C.RED
+    local text_colour = G.C.UI.TEXT_LIGHT
+    local added_to_deck = card.added_to_deck
+    
+    local text = localize("b_use")
+    if card.config.center.key == "j_akyrs_sulfur_cube" then
+        text = localize("k_reroll")
+    end
+    if card.area then
+        return {
+            n = G.UIT.ROOT,
+            config = { padding = 0, colour = G.C.CLEAR },
+            nodes = {
+                {
+                    n = G.UIT.C,
+                    config = { padding = 0.15, align = 'cl' },
+                    nodes = {
+                        {
+                            n = G.UIT.R,
+                            config = { align = 'cl' },
+                            nodes = {
+                                {
+
+                                    n = G.UIT.C,
+                                    config = { align = "cr" },
+                                    nodes = {
+                                        {
+                                            n = G.UIT.C,
+                                            config = { 
+                                                    ref_table = card, 
+                                                    align = "cr", 
+                                                    maxw = 1.25, 
+                                                    padding = 0.1, 
+                                                    r = 0.08, 
+                                                    func = "akyrs_can_use_special",
+                                                    minw = 2.2, 
+                                                    minh = 0.6, 
+                                                    hover = true, 
+                                                    shadow = true, 
+                                                    colour = colour, 
+                                                    button = "akyrs_use_special", 
+                                                },
+                                            nodes = {
+                                                {
+                                                    n = G.UIT.R,
+                                                    nodes = {
+                                                        { n = G.UIT.T, config = { text = text, colour = text_colour, scale = 0.4, shadow = true } },
+                                                    }
+                                                },
+                                            }
+                                        },
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+            }
+        }
+    end
+end
+G.FUNCS.akyrs_can_use_special = function(e)
+    local card = e.config.ref_table
+    local can_use = true
+    if card.config.center.key == "j_akyrs_sulfur_cube" then
+        if G.GAME.dollars - card.ability.extras.cost < G.GAME.bankrupt_at then
+            can_use = false
+        end
+    end
+    if can_use then
+        e.config.colour = G.C.RED
+        e.config.button = "akyrs_use_special"
+    else
+        e.config.colour = UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+G.FUNCS.akyrs_use_special = function (e)
+    local card = e.config.ref_table
+    
+    if card.config.center.key == "j_akyrs_sulfur_cube" then
+        ease_dollars(card.ability.extras.cost)
+        local k = SMODS.poll_object{ type = "Joker", seed = "akyrs_sulfur_cube" }
+        card.ability.extras.copying_key = k
+        if card.akyrs_sulphur_card then
+            card.akyrs_sulphur_card:remove()
+            card.akyrs_sulphur_card = nil
+        end
+        card.akyrs_sulphur_card = Card(card.T.x, card.T.y, 0, 0, nil, G.P_CENTERS[k] )
+        AKYRS.remove_value_from_table(G.I.CARD, card.akyrs_sulphur_card)
+        card.akyrs_sulphur_card.akyrs_parent = card
+        card.akyrs_sulphur_card:add_to_deck()
+    end
+    
+end
+
 -- add buttons n shi
 local cardhighlighthook = Card.highlight
 function Card:highlight(is_higlighted)
@@ -716,6 +813,15 @@ function Card:highlight(is_higlighted)
                 parent = self }
         }
     end
+    if AKYRS.can_card_be_used(self) then
+        self.children.akyrs_use_box = UIBox {
+            definition = AKYRS.UIDEF.special_joker_use(self),
+            config = { align =
+                "cr",
+                offset = { x = -1, y = 0.85 },
+                parent = self }
+        }
+    end
     if not is_higlighted then
         if self.children.akyrs_wildcard then
             self.children.akyrs_wildcard:remove()
@@ -724,6 +830,10 @@ function Card:highlight(is_higlighted)
         if self.children.akyrs_redeem_voucher then
             self.children.akyrs_redeem_voucher:remove()
             self.children.akyrs_redeem_voucher = nil
+        end
+        if self.children.akyrs_use_box then
+            self.children.akyrs_use_box:remove()
+            self.children.akyrs_use_box = nil
         end
     end
     return ret

@@ -186,3 +186,17 @@ function create_UIBox_detailed_tooltip(_center)
     end
     return cuibdttp(_center)
 end
+
+
+local eq_meta = Card.__eq or function (a,b) return rawequal(a, b) end
+function Card:__eq(other)
+    if G.STAGE == G.STAGES.RUN then
+        if ((other.config or {}).center or {}).key == "j_akyrs_sulfur_cube" and other.akyrs_sulphur_card then
+            return rawequal(self, other) or rawequal(self.akyrs_sulphur_card, other)
+        end
+        if ((other.config or {}).center or {}).key == "j_akyrs_sulfur_cube" and other.akyrs_sulphur_card then
+            return rawequal(other, self) or rawequal(other.akyrs_sulphur_card, self)
+        end
+    end
+    return rawequal(self, other)
+end

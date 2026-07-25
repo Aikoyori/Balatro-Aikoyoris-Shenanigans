@@ -498,3 +498,12 @@ function AKYRS.cards_being_destroyed(card)
         end
     end
 end
+
+AKYRS.can_card_be_used = function (card)
+    
+    if card.config.center.key == "j_akyrs_sulfur_cube" then
+        return true
+    end
+    return false
+    
+end

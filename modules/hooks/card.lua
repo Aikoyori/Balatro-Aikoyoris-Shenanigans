@@ -410,8 +410,8 @@ end
 
 
 local ca2d = Card.add_to_deck
-function Card:add_to_deck()
-    local x = ca2d(self)
+function Card:add_to_deck(frdb)
+    local x = ca2d(self, frdb)
     AKYRS.check_8H_tldr()
     return x
 end

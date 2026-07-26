@@ -186,9 +186,11 @@ pattern = "    elseif G.consumeables then G.consumeables:emplace(card) end"
 position = "after"
 payload = """
 if G.CONTROLLER.hovering.target then
-   if G.CONTROLLER.hovering.target.ability.akyrs_level then
-        card.ability.akyrs_level = G.CONTROLLER.hovering.target.ability.akyrs_level
-   end 
+    if G.CONTROLLER.hovering.target.ability then
+        if G.CONTROLLER.hovering.target.ability.akyrs_level then
+            card.ability.akyrs_level = G.CONTROLLER.hovering.target.ability.akyrs_level
+        end 
+    end 
 end
 """
 overwrite = true

@@ -424,3 +424,4 @@ function create_UIBox_blind_tag(blind_choice, run_info)
     local extras2 = AKYRS.mod_skip_box(blind_choice, run_info, extras)
     return extras2
 end
+

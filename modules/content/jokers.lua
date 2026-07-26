@@ -4444,6 +4444,7 @@ SMODS.Joker {
         if context.end_of_round and context.cardarea == card.area then
             SMODS.calculate_effect({
                 func = function()
+                    card.ability_UIBox_table = nil
                     local k = SMODS.poll_object{ type = "Joker", seed = "akyrs_sulfur_cube" }
                     card.ability.extras.copying_key = k
                     if card.akyrs_sulphur_card then

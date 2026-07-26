@@ -200,3 +200,9 @@ function Card:__eq(other)
     end
     return rawequal(self, other)
 end
+
+local asds = AnimatedSprite.draw_self
+function AnimatedSprite:draw_self()
+    if not self.state then self.state = {} end
+    return asds(self)
+end

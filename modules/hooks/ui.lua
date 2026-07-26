@@ -764,7 +764,7 @@ G.FUNCS.akyrs_can_use_special = function(e)
         e.config.colour = G.C.RED
         e.config.button = "akyrs_use_special"
     else
-        e.config.colour = UI.BACKGROUND_INACTIVE
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     end
 end

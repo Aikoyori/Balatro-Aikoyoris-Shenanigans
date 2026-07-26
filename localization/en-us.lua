@@ -4459,9 +4459,11 @@ return {
         dictionary={
             b_umbral_cards = "Umbral Cards",
             b_replicant_cards = "Replicant Cards",
+            b_scenario_cards = "Scenario Cards",
             b_alphabet_cards = "Alphabet Cards",
             k_umbral = "Umbral",
             k_replicant = "Replicant",
+            k_scenario = "Scenario",
             k_alphabet = "Alphabet",
             k_bet = "Bet",
             k_enchantment = "Enchantment",
@@ -4604,6 +4606,7 @@ return {
             k_akyrs_plus_alphabet = "+1 Alphabet Card",
             k_akyrs_plus_umbral = "+1 Umbral Card",
             k_akyrs_plus_replicant = "+1 Replicant Card",
+            k_akyrs_plus_scenario = "+1 Scenario Card",
 
             k_akyrs_solitaire_redeal = "Redeal",
 
@@ -4756,6 +4759,7 @@ return {
             k_fakecenter = "???",
             umbral = "Umbral",
             replicant = "Replicant",
+            scenario = "Scenario",
             alphabet = "Alphabet",
             enchantment = "Enchantment",
             bet = "Bet"

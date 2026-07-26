@@ -34,7 +34,7 @@ function Card:akyrs_flip_y()
     end
 end
 -- basically function get_front_spriteinfo(_front) returns pos n shit
-AKYRS.sprite_info_override = function (_center,_front, card, orig_a, orig_p)
+AKYRS.sprite_info_override = function (_center,_front, card, orig_a, orig_p, cardargs)
     --if not _center or not _front then return end
     --print(card.config.center_key,_front.suit,_front.value)
     _center = _center or card.config.center

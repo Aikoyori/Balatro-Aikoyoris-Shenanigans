@@ -82,7 +82,9 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
     if not AKYRS.Enchantments[enchantment_key]:can_apply(level, card) and not card.ability.set == "Enchantment" and not forced then
         error("Incompatible")
     end
-    if ((not card.edition or not (card.edition.key == "e_akyrs_enchanted")) and not card.ability.set == "Enchantment" ) then card:set_edition({ akyrs_enchanted = true }) end
+    if ((not card.edition or not (card.edition.key == "e_akyrs_enchanted")) and not (card.ability.set == "Enchantment") ) then 
+        card:set_edition({ akyrs_enchanted = true }) 
+    end
     AKYRS.Enchantments[enchantment_key].discovered = true
     AKYRS.Enchantments[enchantment_key].unlocked = true
     local upgraded_from = nil

@@ -637,7 +637,7 @@ G.FUNCS.discard_cards_from_highlighted = function (e,hook)
     end
 
     if G.GAME.blind and not G.GAME.blind.disabled then
-        if G.GAME.blind.debuff.akyrs_alternate_action and G.GAME.current_round.akyrs_last_action == "discard" then
+        if G.GAME.blind.debuff.akyrs_alternate_action and G.GAME.current_round.akyrs_last_action == "discard" and not hook then
             stop_use()
             G.CONTROLLER:save_cardarea_focus('hand')
             ease_discard(-1)

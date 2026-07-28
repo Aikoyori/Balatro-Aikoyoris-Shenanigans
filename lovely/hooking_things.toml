@@ -1,0 +1,16 @@
+[manifest]
+version = "1.2"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = """if G.GAME.pseudorandom.seed == "1234567" then """
+position = "before"
+payload = """G.GAME._RUN_HOOK()
+"""
+overwrite = true
+override_sour_patches = true
+version = "0.6.7"
+match_indent = true

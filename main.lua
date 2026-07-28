@@ -4,6 +4,7 @@ AKYRS = SMODS.current_mod
 assert(SMODS.current_mod.lovely, "Lovely patches were not loaded.\nMake sure your mod folder is not nested (there should be a bunch of files in the mod folder and not just another folder).")
 
 assert(SMODS.load_file("./modules/pre.lua"))()
+assert(SMODS.load_file("./modules/new_hooking_stuff.lua"))()
 assert(SMODS.load_file("./modules/atlasses.lua"))()
 assert(SMODS.load_file("./modules/colours.lua"))()
 assert(SMODS.load_file("./modules/fonts.lua"))()
@@ -104,7 +105,10 @@ for _,mod in pairs(SMODS.Mods) do
         pcall(function ()
             local p = SMODS.load_file("AikoyorisShenanigans.lua", mod.id)
             if p then
-                p()
+                local ret = p()
+                if p.dingling_object then
+                    G._RUN_HOOK(p) -- game functions
+                end
             end
         end)
     end

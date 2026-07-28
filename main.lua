@@ -74,7 +74,6 @@ if AKYRS.config.experimental_features then
 end
 assert(SMODS.load_file("./modules/challenges_ui.lua"))()
 assert(SMODS.load_file("./modules/content/jokers.lua"))()
-assert(SMODS.load_file("./modules/content/scenarios.lua"))()
 assert(SMODS.load_file("./modules/content/letterjokers.lua"))()
 assert(SMODS.load_file("./modules/content/legendaries.lua"))()
 assert(SMODS.load_file("./modules/content/achievements.lua"))()

@@ -1206,7 +1206,7 @@ function AKYRS.ease_colour_null_checked(old_colour, new_colour, delay, alphas)
 end
 
 
-function AKYRS.set_background_shaders(shader_key)
+function AKYRS.set_background_shaders(shader_key, colours_to)
     
     local old_contrast = G.C.BACKGROUND.contrast
     
@@ -1230,10 +1230,11 @@ function AKYRS.set_background_shaders(shader_key)
         AKYRS.honest_ease_background_colour({contrast = 0}, 1)
         AKYRS.simple_event_add(
         function ()
+            colours_to = colours_to or {contrast = old_contrast}
             G.SPLASH_BACK:define_draw_steps({{
             shader = shader_key,
             send = send_t}})
-            AKYRS.honest_ease_background_colour({contrast = old_contrast}, 1)
+            AKYRS.honest_ease_background_colour(colours_to, 1)
             return true
         end, 1.2, "akyrs_bg")
         return true

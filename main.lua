@@ -4,7 +4,6 @@ AKYRS = SMODS.current_mod
 assert(SMODS.current_mod.lovely, "Lovely patches were not loaded.\nMake sure your mod folder is not nested (there should be a bunch of files in the mod folder and not just another folder).")
 
 assert(SMODS.load_file("./modules/pre.lua"))()
-assert(SMODS.load_file("./modules/new_hooking_stuff.lua"))()
 assert(SMODS.load_file("./modules/atlasses.lua"))()
 assert(SMODS.load_file("./modules/colours.lua"))()
 assert(SMODS.load_file("./modules/fonts.lua"))()
@@ -30,6 +29,7 @@ assert(SMODS.load_file("./modules/hooks/letter.lua"))() -- for letter & null car
 assert(SMODS.load_file("./modules/hooks/scoring.lua"))() -- pure scoring
 assert(SMODS.load_file("./modules/hooks/debug.lua"))() -- debug
 assert(SMODS.load_file("./modules/hooks/ui.lua"))() -- uir
+assert(SMODS.load_file("./modules/hooks/new_hooking_stuff.lua"))()
 
 assert(SMODS.load_file("./modules/sounds.lua"))()
 assert(SMODS.load_file("./modules/desc.lua"))()

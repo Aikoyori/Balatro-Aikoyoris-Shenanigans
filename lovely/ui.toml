@@ -935,3 +935,22 @@ pattern = """    if self.ability and old_center and old_center.config.bonus then
 position = "before"
 payload = '''end'''
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '''game.lua'''
+pattern = """    self.ROOM_ATTACH:set_container(self.ROOM)"""
+position = "after"
+payload = '''
+self.AKYRS_ROOM_ATTACH = Moveable{T={
+    x = 0,
+    y = 0,
+    w = self.TILE_W,
+    h = self.TILE_H}
+}
+self.AKYRS_ROOM_ATTACH.akyrs_stay_on_top = true
+self.AKYRS_ROOM_ATTACH.states.drag.can = false
+self.AKYRS_ROOM_ATTACH:set_container(self.ROOM)
+'''
+match_indent = true

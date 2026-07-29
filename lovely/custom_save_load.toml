@@ -29,6 +29,7 @@ target = "game.lua"
 pattern = """    check_and_set_high_score('most_money', G.GAME.dollars)"""
 position = "after"
 payload = '''
+G.AKYRS_SCENARIO_TAG_HUD = {}
 if saveTable then
     AKYRS.custom_load_field(saveTable)
 end

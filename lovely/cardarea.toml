@@ -101,7 +101,7 @@ position = "before"
 payload = """
 for k, v in pairs(self.I.MOVEABLE) do
     if v.akyrs_stay_on_top then
-        if not v.parent or not v.parent.akyrs_stay_on_top then
+        if not v.parent or v.parent.akyrs_stay_on_top then
             love.graphics.push()
             v:translate_container()
             v:draw()

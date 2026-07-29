@@ -244,12 +244,25 @@ end
 
 function AKYRS.custom_save_field()
     local ret = {}
-    -- save to table here
+    local tags = {}
+    for k, v in ipairs(G.GAME.akyrs_scenario) do
+        if (type(v) == "table") and v.is and v:is(AKYRS.Scenario_Tag) then 
+        local tagSer = v:save()
+        if tagSer then tags[k] = tagSer end
+        end
+    end
+    ret.scenario_tags = tags
     return ret
 end
-function AKYRS.custom_load_field(saveTable)
-    if saveTable and saveTable.akyrs_custom_save then
-        local sav = saveTable.akyrs_custom_save
-        -- load here
+function AKYRS.custom_load_field(st)
+    if st and st.akyrs_custom_save then
+        local saveTable = st.akyrs_custom_save
+        G.GAME.akyrs_scenario = {}
+        local tags = saveTable.scenario_tags or {}
+        for k, v in ipairs(tags) do
+            local _tag = AKYRS.Scenario_Tag('sc_akyrs_scenario_0_0')
+            _tag:load(v)
+            AKYRS.add_scenario_tag(_tag)
+        end
     end
 end

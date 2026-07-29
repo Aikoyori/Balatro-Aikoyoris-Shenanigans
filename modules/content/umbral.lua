@@ -389,6 +389,7 @@ SMODS.Consumable{
             local _c = SMODS.create_card{ set = "Voucher", key = to_redeem }
             _c.cost = 0
             G.play:emplace(_c)
+            _c.akyrs_from_fomo = true
             _c:redeem()
             if G.shop_vouchers and G.shop_vouchers.cards then
                 for _,_cds in ipairs(G.shop_vouchers.cards) do

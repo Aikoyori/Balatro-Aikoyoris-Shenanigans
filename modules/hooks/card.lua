@@ -175,6 +175,7 @@ function Card:redeem()
     if self.ability.set == "Voucher" then
         G.GAME.akyrs_list_of_generated_but_not_redeemed_vouchers = G.GAME.akyrs_list_of_generated_but_not_redeemed_vouchers or {}
         G.GAME.akyrs_generated_but_not_redeemed_vouchers_check = G.GAME.akyrs_generated_but_not_redeemed_vouchers_check or {}
+        if self.akyrs_from_fomo then G.GAME.current_round.voucher.spawn[G.GAME.current_round.voucher[1]] = false end
 
         G.GAME.akyrs_generated_but_not_redeemed_vouchers_check[self.config.center_key] = nil
         AKYRS.remove_value_from_table(G.GAME.akyrs_list_of_generated_but_not_redeemed_vouchers,self.config.center_key)

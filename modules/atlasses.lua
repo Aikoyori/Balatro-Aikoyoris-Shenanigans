@@ -124,6 +124,14 @@ SMODS.Atlas {
 
 
 SMODS.Atlas {
+    key = "scenarioTags",
+    path = "scenarioTags.png",
+    px = 34,
+    py = 34
+}
+
+
+SMODS.Atlas {
     key = "misc_overlay",
     path = "misc_overlay.png",
     px = 71,
@@ -311,6 +319,13 @@ SMODS.Atlas {
 SMODS.Atlas {
     key = "enchantedbook",
     path = "enchantedbook.png",
+    px = 71,
+    py = 95
+}
+
+SMODS.Atlas {
+    key = "undiscoveredScenario",
+    path = "undiscoveredScenario.png",
     px = 71,
     py = 95
 }

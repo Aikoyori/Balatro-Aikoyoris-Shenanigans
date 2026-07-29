@@ -1,0 +1,36 @@
+[manifest]
+version = "1.2"
+dump_lua = true
+priority = 100
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = """  G.culled_table =  recursive_table_cull{"""
+position = "before"
+payload = '''
+local akyrs_custom_save = AKYRS.custom_save_field()
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = """  G.culled_table =  recursive_table_cull{"""
+position = "after"
+payload = '''
+    akyrs_custom_save = akyrs_custom_save,
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = """    check_and_set_high_score('most_money', G.GAME.dollars)"""
+position = "after"
+payload = '''
+if saveTable then
+    AKYRS.custom_load_field(saveTable)
+end
+'''
+match_indent = true

@@ -240,3 +240,16 @@ SMODS.insert_repetitions = function(ret, eval, effect_card, _type)
     return rep_in(ret, eval, effect_card, _type)
 
 end
+
+
+function AKYRS.custom_save_field()
+    local ret = {}
+    -- save to table here
+    return ret
+end
+function AKYRS.custom_load_field(saveTable)
+    if saveTable and saveTable.akyrs_custom_save then
+        local sav = saveTable.akyrs_custom_save
+        -- load here
+    end
+end

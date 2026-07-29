@@ -116,6 +116,8 @@ function Game:init_game_object()
     ret.akyrs_curent_trades = {}
     ret.akyrs_trade_unlocked = {}
 
+    ret.akyrs_scenario = {}
+
     return ret
 end
 

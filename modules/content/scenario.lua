@@ -58,7 +58,7 @@ function AKYRS.Scenario_Tag:juice_up(_scale, _rot)
 end
 
 
-function AKYRS.Scenario_Tag:generate_UI(_size)
+function AKYRS.Scenario_Tag:generate_UI(_size, z)
     _size = _size or 0.8
 
     local tag_sprite_tab = nil
@@ -73,11 +73,11 @@ function AKYRS.Scenario_Tag:generate_UI(_size)
         {shader = 'dissolve'},
     })
     tag_sprite.float = true
-    tag_sprite.akyrs_stay_on_top = true
+    tag_sprite.T.z = z
     tag_sprite.states.hover.can = true
     tag_sprite.states.drag.can = false
     tag_sprite.states.collide.can = true
-    tag_sprite.config = {tag = self, force_focus = true}
+    tag_sprite.config = {scenario_tag = self, force_focus = true}
 
     tag_sprite.hover = function(_self)
         if not G.CONTROLLER.dragging.target or G.CONTROLLER.using_touch then 
@@ -135,9 +135,10 @@ function AKYRS.Scenario_Tag:remove()
     if HUD_tag_key then 
         if G.AKYRS_SCENARIO_TAG_HUD and G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1] then
             if HUD_tag_key == 1 then
-                G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1]:set_alignment({type = 'bri',
+                G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1]:set_alignment({type = 'bl',
                 offset = offset,
                 xy_bond = 'Weak',
+                role_type = 'Minor', 
                 major = G.AKYRS_ROOM_ATTACH})
             else
                 G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1]:set_role({
@@ -175,21 +176,26 @@ AKYRS.Scenario = SMODS.GameObject:extend{
 
 function AKYRS.add_scenario_tag(_tag)
   G.AKYRS_SCENARIO_TAG_HUD = G.AKYRS_SCENARIO_TAG_HUD or {}
-  local tag_sprite_ui = _tag:generate_UI()
+  local z = 10 + #G.AKYRS_SCENARIO_TAG_HUD * 0.001
+  local tag_sprite_ui = _tag:generate_UI(nil, z)
+  ---@type UIBox
   G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD+1] = UIBox{
-      definition = {n=G.UIT.ROOT, config={align = "cm",padding = 0.05, colour = G.C.CLEAR}, nodes={
+      definition = {n=G.UIT.ROOT, config={align = "cm",padding = 0.0, colour = G.C.CLEAR}, nodes={
         tag_sprite_ui
       }},
       config = {
+        z = z,
         align = G.AKYRS_SCENARIO_TAG_HUD[1] and 'rc' or 'bli',
         offset = G.AKYRS_SCENARIO_TAG_HUD[1] and offset_each or offset,
+        role_type = (not G.AKYRS_SCENARIO_TAG_HUD[1]) and 'Minor' or nil, 
         major = G.AKYRS_SCENARIO_TAG_HUD[1] and G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD] or G.AKYRS_ROOM_ATTACH}
   }
+  G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD].role.major.T.z = z
   discover_card(AKYRS.Scenarios[_tag.key])
 
   for i = 1, #G.GAME.akyrs_scenario do
   end
-  
+  AKYRS.sort_depth()
   G.GAME.akyrs_scenario[#G.GAME.akyrs_scenario+1] = _tag
   if not _tag.from_load then SMODS.calculate_context({akyrs_scenario_applied = _tag}) end
   _tag.from_load = nil

@@ -947,10 +947,24 @@ self.AKYRS_ROOM_ATTACH = Moveable{T={
     x = 0,
     y = 0,
     w = self.TILE_W,
-    h = self.TILE_H}
+    h = self.TILE_H,
+    z = 10
+    }
 }
+self.AKYRS_ROOM_ATTACH.T.z = 10
 self.AKYRS_ROOM_ATTACH.akyrs_stay_on_top = true
 self.AKYRS_ROOM_ATTACH.states.drag.can = false
-self.AKYRS_ROOM_ATTACH:set_container(self.ROOM)
+self.AKYRS_ROOM_ATTACH:set_role{major = self.ROOM, role_type = "Minor"}
+'''
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '''engine/ui.lua'''
+pattern = """        args.config.major = args.config.major or args.config.parent or self"""
+position = "before"
+payload = '''
+self.T.z = self.config.z or 0
 '''
 match_indent = true

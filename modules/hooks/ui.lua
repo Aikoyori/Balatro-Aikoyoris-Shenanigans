@@ -1889,3 +1889,45 @@ function AKYRS.mod_loc_vars(card, loc_vars)
         loc_vars.nominal_chips = nil
     end
 end
+local sort_z = function (a, b)
+    return a.T.z < b.T.z
+end
+function AKYRS.sort_depth()
+    for tbl_k, instance_tables in pairs(G.I) do
+        local neg_z = {}
+        local zero_z = {}
+        local pos_z = {}
+        for _, inst in ipairs(instance_tables) do
+            inst.T.z = inst.T.z or 0
+            if inst.T.z > 0 then
+                pos_z[#pos_z+1] = inst
+            elseif inst.T.z < 0 then
+                neg_z[#neg_z+1] = inst
+            else
+                zero_z[#zero_z+1] = inst
+            end
+        end
+        local should_even_do_anything = #neg_z > 0 or #pos_z > 0
+        if should_even_do_anything then
+            local tbl_set = {}
+            for _, zs in ipairs({neg_z, zero_z, pos_z}) do
+                if #zs > 0 then
+                    if zs ~= zero_z then
+                        table.sort(zs, sort_z)
+                    end
+                    for _, v in ipairs(zs) do
+                        tbl_set[#tbl_set+1] = v
+                    end
+                end
+            end
+            G.I[tbl_k] = tbl_set
+        end
+        
+    end
+end
+local uiboxinit = UIBox.init
+function UIBox:init(...)
+    local ts = {uiboxinit(self,...)}
+    AKYRS.sort_depth()
+    return unpack(ts)
+end

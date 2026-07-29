@@ -940,31 +940,32 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = '''game.lua'''
-pattern = """    self.ROOM_ATTACH:set_container(self.ROOM)"""
-position = "after"
+pattern = """        if G.SPLASH_FRONT then"""
+position = "before"
 payload = '''
-self.AKYRS_ROOM_ATTACH = Moveable{T={
-    x = 0,
-    y = 0,
-    w = self.TILE_W,
-    h = self.TILE_H,
-    z = 10
-    }
-}
-self.AKYRS_ROOM_ATTACH.T.z = 10
-self.AKYRS_ROOM_ATTACH.akyrs_stay_on_top = true
-self.AKYRS_ROOM_ATTACH.states.drag.can = false
-self.AKYRS_ROOM_ATTACH:set_role{major = self.ROOM, role_type = "Minor"}
+for k, v in pairs(self.I.ABOVE_UIBOX) do
+    if not v.attention_text then 
+        love.graphics.push()
+        v:translate_container()
+        v:draw()
+        love.graphics.pop()
+    end
+end
+for k, v in pairs(self.I.ABOVE_UIBOX) do
+    if v.attention_text and v ~= self.debug_tools and v ~= self.online_leaderboard and v ~= self.achievement_notification  then 
+        love.graphics.push()
+        v:translate_container()
+        v:draw()
+        love.graphics.pop()
+    end
+end
 '''
 match_indent = true
 
-
 [[patches]]
 [patches.pattern]
-target = '''engine/ui.lua'''
-pattern = """        args.config.major = args.config.major or args.config.parent or self"""
-position = "before"
-payload = '''
-self.T.z = self.config.z or 0
-'''
+target = '''globals.lua'''
+pattern = """        CARDAREA = {},"""
+position = "after"
+payload = '''ABOVE_UIBOX = {},'''
 match_indent = true

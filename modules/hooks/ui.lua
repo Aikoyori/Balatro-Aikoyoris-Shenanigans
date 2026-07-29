@@ -1925,9 +1925,3 @@ function AKYRS.sort_depth()
         
     end
 end
-local uiboxinit = UIBox.init
-function UIBox:init(...)
-    local ts = {uiboxinit(self,...)}
-    AKYRS.sort_depth()
-    return unpack(ts)
-end

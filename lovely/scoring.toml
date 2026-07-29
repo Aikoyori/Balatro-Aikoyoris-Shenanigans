@@ -370,3 +370,25 @@ overwrite = true
 match_indent = true
 
 
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = """        -- TARGET: add your own individual scoring targets"""
+position = "after"
+payload = """t = AKYRS.custom_scoring_targets(t, _context)"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = """    local config = {}"""
+position = "before"
+payload = """if card.is_scenario_tag then y_off = -0.2 card_aligned = 'tm' card:juice_up() end"""
+overwrite = true
+match_indent = true
+
+

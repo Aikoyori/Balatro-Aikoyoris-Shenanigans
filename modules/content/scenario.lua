@@ -2,7 +2,7 @@ AKYRS.Scenarios = {}
 AKYRS.Scenarios_Buffer = {}
 
 local offset = {x = 4.8,y = 0.5}
-local offset_each = {x = -0.3,y = 0}
+local offset_each = {x = 0.2,y = 0}
 
 AKYRS.Scenario_Tag = Object:extend()
 
@@ -139,7 +139,7 @@ function AKYRS.Scenario_Tag:remove()
                 offset = offset,
                 xy_bond = 'Weak',
                 role_type = 'Minor', 
-                major = G.AKYRS_ROOM_ATTACH})
+                major = G.ROOM_ATTACH})
             else
                 G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1]:set_role({
                 xy_bond = 'Weak',
@@ -152,14 +152,24 @@ function AKYRS.Scenario_Tag:remove()
     self.HUD_tag:remove()
 end
 
+function AKYRS.Scenario_Tag:calculate(context)
+    local obj = AKYRS.Scenarios[self.key]
+    if type(obj.calculate) == 'function' then
+        return obj:calculate(self, context)
+    end
+end
 
 
 
+---@type SMODS.Center
 AKYRS.Scenario = SMODS.GameObject:extend{
     required_params = {
         "key"
     },
     class_prefix = "sc",
+    set = "Scenario",
+    calculate = function (self, card, context)
+    end,
     atlas = "akyrs_scenarioTags",
     obj_table = AKYRS.Scenarios,
     obj_buffer = AKYRS.Scenarios_Buffer,
@@ -184,11 +194,11 @@ function AKYRS.add_scenario_tag(_tag)
         tag_sprite_ui
       }},
       config = {
-        z = z,
+        instance_type = "ABOVE_UIBOX",
         align = G.AKYRS_SCENARIO_TAG_HUD[1] and 'rc' or 'bli',
         offset = G.AKYRS_SCENARIO_TAG_HUD[1] and offset_each or offset,
         role_type = (not G.AKYRS_SCENARIO_TAG_HUD[1]) and 'Minor' or nil, 
-        major = G.AKYRS_SCENARIO_TAG_HUD[1] and G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD] or G.AKYRS_ROOM_ATTACH}
+        major = G.AKYRS_SCENARIO_TAG_HUD[1] and G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD] or G.ROOM_ATTACH}
   }
   G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD].role.major.T.z = z
   discover_card(AKYRS.Scenarios[_tag.key])
@@ -199,6 +209,7 @@ function AKYRS.add_scenario_tag(_tag)
   G.GAME.akyrs_scenario[#G.GAME.akyrs_scenario+1] = _tag
   if not _tag.from_load then SMODS.calculate_context({akyrs_scenario_applied = _tag}) end
   _tag.from_load = nil
+  G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD].is_scenario_tag = true
   _tag.HUD_tag = G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD]
 end
 
@@ -219,6 +230,13 @@ for i = 0, 2 do
             key = "scenario_"..i.."_"..j,
             set = "Scenario",
             pos = { x = j, y = i },
+            calculate = function (self, card, context)
+                if context.main_scoring then
+                    return {
+                        mult = 10,
+                    }
+                end
+            end
         }
     end
 end

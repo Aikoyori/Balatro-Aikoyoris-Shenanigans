@@ -1077,7 +1077,7 @@ function AKYRS.badge_func()
           }}
       }
   return {n=G.UIT.R, config={align = "cm"}, nodes={
-      {n=G.UIT.R, config={align = "cm", shader = "akyrs_aiko_mod_badge", minw = 0.6, colour = HEX("b000b0"), r = 1, minh = 0.36, emboss = 0.05, padding = 0.03*0.9}, nodes=text_nodes}
+      {n=G.UIT.R, config={align = "cm", shader = "akyrs_aiko_mod_badge", minw = 0.6, colour = HEX("7f007f"), r = 1, minh = 0.36, emboss = 0.05, padding = 0.03*0.9}, nodes=text_nodes}
   }}
 end
 

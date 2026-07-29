@@ -266,3 +266,22 @@ function AKYRS.custom_load_field(st)
         end
     end
 end
+
+function AKYRS.custom_scoring_targets(t, _context)
+    for _, scenario_pair in ipairs(AKYRS.get_scenario_scoring_targets(_context)) do
+        t[#t + 1] = { object = scenario_pair[1], scored_card = scenario_pair[1].HUD_tag or (G.deck and G.deck.cards[1] or G.deck), set = "Scenario", key = scenario_pair[1].key }
+    end
+    return t
+end
+
+function AKYRS.get_scenario_scoring_targets(_context)
+    local ret = {}
+    for _, scenario_key in ipairs(G.GAME.akyrs_scenario) do
+        local scenario_obj = AKYRS.Scenarios[scenario_key.key]
+        local func = type(_context) == "string" and _context or 'calculate'
+        if scenario_obj and type(scenario_key[func]) == "function" then
+            table.insert(ret, {scenario_key, scenario_obj})
+        end
+    end
+    return ret
+end

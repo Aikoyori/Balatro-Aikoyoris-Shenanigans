@@ -2,7 +2,7 @@ AKYRS.Scenarios = {}
 AKYRS.Scenarios_Buffer = {}
 
 local offset = {x = 4.8,y = 0.5}
-local offset_each = {x = 0.2,y = 0}
+local offset_each = {x = -0.2,y = 0}
 
 AKYRS.Scenario_Tag = Object:extend()
 

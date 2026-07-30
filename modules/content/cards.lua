@@ -69,15 +69,6 @@ SMODS.Enhancement{
     atlas = 'cardUpgrades',
     pos = {x = 2, y = 0},
     loc_vars = function (self, info_queue, card)
-        
-        if AKYRS.bal("absurd") then
-            return {
-                key = self.key .. "_absurd",
-                vars = {
-                    card.ability.extras.echips,
-                }
-            }
-        end
         local n,d = SMODS.get_probability_vars(card,1,card.ability.extras.odds,"akyrs_ash_card")
         return { vars = {
             card.ability.extras.chips,
@@ -96,11 +87,9 @@ SMODS.Enhancement{
     end,
     calculate = function (self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-            return AKYRS.bal_val({
+            return {
                 chips = card.ability.extras.chips
-            }, {
-                echips = card.ability.extras.echips
-            })
+            }
         end
     end,
     no_rank = true,
@@ -324,15 +313,6 @@ SMODS.Enhancement{
     end,
     calculate = function (self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-            if AKYRS.bal("absurd") and AKYRS.checkBlindKey("bl_mouth") and #G.play.cards == 1 then
-                SMODS.calculate_effect(
-                    {
-                        func = function ()
-                            G.GAME.blind:set_blind(G.P_BLINDS['bl_water'])
-                        end
-                    },card
-                )
-            end
             return {
                 xmult = card.ability.extras.xmult
             }
@@ -345,20 +325,23 @@ SMODS.Enhancement{
     pos = {x = 8, y = 0},
     config = {
         extras = {
-            xchips = 1.4,
+            xscore = 1.5,
+            xblind = 1.1,
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                card.ability.extras.xchips
+                card.ability.extras.xscore,
+                card.ability.extras.xblind,
             }
         }
     end,
     calculate = function (self, card, context)
         if context.main_scoring and context.cardarea == G.play then
             return {
-                xchips = card.ability.extras.xchips
+                xscore = card.ability.extras.xscore,
+                xblind = card.ability.extras.xblind,
             }
         end
     end

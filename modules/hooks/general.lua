@@ -150,10 +150,6 @@ end
 local gameUpdate = Game.update
 
 function Game:update(dt)
-    if AKYRS.bal_cur_val ~= AKYRS.bal() then
-        AKYRS.mod_debug_info_set()
-        AKYRS.bal_cur_val = AKYRS.bal()
-    end
     if G.GAME then
         
         G.GAME.modifiers.scaling = G.GAME.modifiers.scaling or 1
@@ -268,10 +264,10 @@ function Card:update(dt)
             end
         end
     end
-    if self.config.center_key == "j_akyrs_emerald" and self.sell_cost ~= self.cost * self.ability.extras.xcost then
+    if self.config.center_key == "j_akyrs_emerald" then
         local emerald = SMODS.find_card("j_akyrs_emerald")
         self.ability.extras.amnt = #emerald
-        self.sell_cost = AKYRS.bal_val((self.cost + #emerald) * self.ability.extras.xcost,(self.cost + self.ability.extras.pluscost) ^ self.ability.extras.ecost)
+        self.sell_cost = (self.cost + #emerald) * self.ability.extras.xcost
     end
     if G.STATE == G.STATES.SELECTING_HAND then
         if not self.ability.akyrs_executed_debuff and G.GAME.blind and not G.GAME.blind.disabled then
@@ -1283,15 +1279,10 @@ function Card:akyrs_mod_card_value_init(center, initial, delay)
     
     if #SMODS.find_card("j_akyrs_chicken_jockey") > 0 and self.config.center_key == "j_popcorn" then
         local jj = SMODS.find_card("j_akyrs_chicken_jockey")
-        if AKYRS.bal("absurd") then
-            self.ability.extra = jj[#jj].ability.extras.decrease_popcorn_absurd
-            self.ability.mult = jj[#jj].ability.extras.popcorn_original_absurd
-        else
-            self.ability.extra = jj[#jj].ability.extras.decrease_popcorn
-        end
+        self.ability.extra = jj[#jj].ability.extras.decrease_popcorn
     end
     if self.config.center_key == "j_akyrs_emerald" then
-        self.sell_cost = AKYRS.bal_val(self.cost * self.ability.extras.xcost,(self.cost + self.ability.extras.pluscost) ^ self.ability.extras.ecost)
+        self.sell_cost = self.cost * self.ability.extras.xcost
         if self.sell_cost ~= self.sell_cost then self.sell_cost = 1e300 end
     end
     if #SMODS.find_card("j_akyrs_gift_voucher") > 0 then

@@ -619,6 +619,7 @@ SMODS.current_mod.config_tab = function ()
       },
       -- wildcard description
       -- balance
+      --[[
       not MP and { n = G.UIT.R, config = {align = "rt"}, nodes = {
           { n = G.UIT.C, config = {
             align = "cm", padding = 0.1,
@@ -648,7 +649,7 @@ SMODS.current_mod.config_tab = function ()
           },
           AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_balance_settings" }
         } 
-      },
+      },]]
       -- joker previews
       
       { n = G.UIT.R, config = { align = "rt"}, nodes = {

@@ -513,7 +513,7 @@ end
 
 AKYRS.mod_debug_info_set = function ()
     AKYRS.debug_info = {
-        ["Balance"] = AKYRS.bal() or "BALANCE NOT SET."
+        -- ["Balance"] = AKYRS.bal() or "BALANCE NOT SET."
     }
 end
 AKYRS.mod_debug_info_set()
@@ -858,12 +858,7 @@ function AKYRS.end_round_hook()
             if card.ability.extras.last_life ~= MP.GAME.lives then
                 SMODS.destroy_cards({card})
                 card.ability.extras.unset = false
-                if AKYRS.bal("adequate") then
-                    --AKYRS.ease_lives_mp(card.ability.extras.lives_mp)
-                    ease_dollars(card.ability.extras.lives_mp_set_money)
-                else
-                    AKYRS.ease_lives_mp(-G.GAME.round_resets.ante + card.ability.extras.lives_mp_set)
-                end
+                ease_dollars(card.ability.extras.lives_mp_set_money)
             end
             return true
         end, 0)   
@@ -925,7 +920,7 @@ function AKYRS.end_round_hook()
                     }), 'base')
                 end
                 if SMODS.get_enhancements(card)["m_akyrs_ash_card"] or card.config.center_key == "j_akyrs_ash_joker" then
-                    local odder = AKYRS.bal("absurd") or SMODS.pseudorandom_probability(card,"akyrs_ash_card",1,card.ability.extras.odds)
+                    local odder = SMODS.pseudorandom_probability(card,"akyrs_ash_card",1,card.ability.extras.odds)
                     if odder then
                         G.E_MANAGER:add_event(Event({
                             func = function()

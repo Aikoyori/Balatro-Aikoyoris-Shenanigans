@@ -667,9 +667,8 @@ end
 
 AKYRS.start_onboarding = function (forced, meet_again)
   -- i will not show that on startup anymore
-  if not AKYRS.bal() then
-    AKYRS.set_bal("adequate")
-  end
+  -- update i will force it on adequate now
+  AKYRS.set_bal("adequate")
   if false then
     AKYRS.simple_event_add(
         function()

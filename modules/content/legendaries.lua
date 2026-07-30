@@ -54,38 +54,17 @@ SMODS.Joker {
     rarity = 4,
     cost = 50,
     loc_vars = function(self, info_queue, card)
-        if AKYRS.bal("absurd") then
-            info_queue[#info_queue+1] = {key = "akyrs_chip_mult_xchip_xmult", set = 'Other', vars = 
-                { 
-                    card.ability.extra.chips_absurd,
-                    card.ability.extra.mult_absurd,
-                    card.ability.extra.Xchips_absurd,
-                    card.ability.extra.Xmult_absurd,
-                }
-            }
-            info_queue[#info_queue+1] = {key = "akyrs_gain_chip_mult_xchip_xmult", set = 'Other', vars = 
-                { 
-                    card.ability.extra.gain_chips_absurd,
-                    card.ability.extra.gain_mult_absurd,
-                    card.ability.extra.gain_Xchips_absurd,
-                    card.ability.extra.gain_Xmult_absurd,
-                }
-            }
-        end
-        if AKYRS.bal("adequate") then
-            local total = 0
-            if G.hand and G.hand.highlighted then
-                for i,k in ipairs(G.hand.highlighted) do
-                    total = total + k:get_chip_bonus()
-                end
+        local total = 0
+        if G.hand and G.hand.highlighted then
+            for i,k in ipairs(G.hand.highlighted) do
+                total = total + k:get_chip_bonus()
             end
-            info_queue[#info_queue+1] = {key = "akyrs_tsunagite_scores", set = 'Other', vars = {
-                total
-            } }
         end
+        info_queue[#info_queue+1] = {key = "akyrs_tsunagite_scores", set = 'Other', vars = {
+            total
+        } }
         info_queue[#info_queue+1] = {key = "akyrs_tsunagite_name", set = 'Other', }
         return {
-            key = AKYRS.bal_val(self.key, self.key.."_absurd"), 
             vars = { 
                 15,
                 card.ability.extra.gain_Xmult,
@@ -113,26 +92,7 @@ SMODS.Joker {
         }
     },
     calculate = function(self, card, context)
-        if context.individual and context.cardarea == G.play and AKYRS.bal("absurd") then
-            return {
-                chips = card.ability.extra.chips_absurd,
-                xchips = card.ability.extra.Xchips_absurd,
-                mult = card.ability.extra.mult_absurd,
-                xmult = card.ability.extra.Xmult_absurd,
-            }
-        end		
-        if context.using_consumeable or context.forcetrigger and AKYRS.bal("absurd") then
-            if context.consumeable.config.center_key == 'c_wheel_of_fortune' or context.forcetrigger then
-                SMODS.scale_card(card, { no_message = true, ref_table = card.ability.extra, ref_value = "chips_absurd", scalar_value = "gain_chips_absurd" })
-                SMODS.scale_card(card, { no_message = true, ref_table = card.ability.extra, ref_value = "Xchips_absurd", scalar_value = "gain_Xchips_absurd" })
-                SMODS.scale_card(card, { no_message = true, ref_table = card.ability.extra, ref_value = "mult_absurd", scalar_value = "gain_mult_absurd" })
-                SMODS.scale_card(card, { no_message = true, ref_table = card.ability.extra, ref_value = "Xmult_absurd", scalar_value = "gain_Xmult_absurd" })
-                SMODS.calculate_effect({
-                    message = localize('k_upgrade_ex')
-                }, card)
-            end
-        end
-        if context.akyrs_pre_play and AKYRS.bal("adequate") then
+        if context.akyrs_pre_play then
             return {
                 func = function ()
                     local total = 0
@@ -270,11 +230,7 @@ SMODS.Joker {
         card.ability.akyrs_aiko_sprite = pseudorandom("akyrs_sprite_"..dt, 0 ,5)
     end,
     loc_vars = function (self, info_queue, card)
-        if AKYRS.bal_val("adequate") then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_base_ability", vars = {card.ability.extras.base.xmult}}
-        else
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_base_ability_absurd", vars = {card.ability.extras.base.emult}}
-        end
+        info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_base_ability", vars = {card.ability.extras.base.xmult}}
         if AKYRS.is_mod_loaded("Cryptid")  then
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_cryptid_ability"}
         end
@@ -463,14 +419,9 @@ SMODS.Joker {
         end
         if context.individual and context.cardarea == G.play then
             if not context.other_card:is_face() then
-                return AKYRS.bal_val(
-                    {
+                return {
                         xmult = card.ability.extras.base.xmult
-                    },
-                    {
-                        emult = card.ability.extras.base.emult
-                    }
-                )
+                }
             end
         end
         if context.akyrs_round_eval then

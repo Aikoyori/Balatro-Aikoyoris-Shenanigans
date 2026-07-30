@@ -208,13 +208,6 @@ function Card:get_id()
             return -math.random(100, 1000000)
         end
     end
-    if #SMODS.find_card("j_akyrs_henohenomoheji") > 0 and AKYRS.bal("absurd") then
-        if self and self.get_letter_with_pretend and self.ability and self.ability.aikoyori_letters_stickers and G.GAME.akyrs_character_stickers_enabled then
-            if self:get_letter_with_pretend():lower() == "j" then return 11 end
-            if self:get_letter_with_pretend():lower() == "q" then return 12 end
-            if self:get_letter_with_pretend():lower() == "k" then return 13 end
-        end
-    end
     local c = getIDHook(self)
     return c
 end

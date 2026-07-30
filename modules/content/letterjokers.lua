@@ -68,7 +68,6 @@ AKYRS.LetterJoker{
     },
     loc_vars = function(self, info_queue, card)
         return {
-            key = AKYRS.bal_val(self.key, self.key.."_absurd"), 
         }
     end,
     rarity = 1,
@@ -99,15 +98,6 @@ AKYRS.LetterJoker{
         }
     },
     loc_vars = function (self, info_queue, card)
-        if AKYRS.bal("absurd") then
-            return {
-                key = self.key .. "_absurd" ..(AKYRS.is_mod_loaded("Cryptid") and "_cass_none" or ""),
-                vars = {
-                    card.ability.extras.xchips_add,
-                    card.ability.extras.xchips,
-                }
-            }
-        end
         return {
             vars = {
                 card.ability.extras.chips,
@@ -116,45 +106,14 @@ AKYRS.LetterJoker{
         }
     end,
     calculate = function (self, card, context)
-        if AKYRS.bal("absurd") then
-            if context.akyrs_pre_play then
+        if context.individual and context.cardarea == G.play and G.GAME.aiko_current_word then
+            local w = AKYRS.get_letter_freq_from_cards(G.play.cards)
+            local l = string.lower(context.other_card:get_letter_with_pretend())
+            if (w["y"] and w["y"] >= 1 and w["e"] and w["e"] >= 2) and (l == "y" or l == "e") then
                 return {
-                    message = localize("k_akyrs_yee"),
-                    colour = G.C.GREEN,
-                    func = function ()
-                        AKYRS.change_letter_to(context.akyrs_pre_play_cards[1],"y", true)
-                        context.akyrs_pre_play_cards[1]:juice_up(0.5,1)
-                        AKYRS.change_letter_to(context.akyrs_pre_play_cards[2],"e", true)
-                        context.akyrs_pre_play_cards[2]:juice_up(0.5,1)
-                    end
+                    mult = card.ability.extras.mult,
+                    chips = card.ability.extras.chips
                 }
-            end
-            if context.before then
-                if not (context.scoring_name == "High Card" or context.scoring_name == "cry_None") then
-                    return {
-                        message = localize("k_upgrade_ex"),
-                        message_card = card,
-                        func = function ()
-                            SMODS.scale_card(card,{ ref_table = card.ability.extras, ref_value = 'xchips', scalar_value = "xchips_add"})
-                        end
-                    }
-                end
-            end
-            if context.joker_main then
-                return {
-                    xchips = card.ability.extras.xchips
-                }
-            end
-        else
-            if context.individual and context.cardarea == G.play and G.GAME.aiko_current_word then
-                local w = AKYRS.get_letter_freq_from_cards(G.play.cards)
-                local l = string.lower(context.other_card:get_letter_with_pretend())
-                if (w["y"] and w["y"] >= 1 and w["e"] and w["e"] >= 2) and (l == "y" or l == "e") then
-                    return {
-                        mult = card.ability.extras.mult,
-                        chips = card.ability.extras.chips
-                    }
-                end
             end
         end
 

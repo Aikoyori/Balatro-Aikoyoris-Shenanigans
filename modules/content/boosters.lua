@@ -482,7 +482,7 @@ SMODS.Booster{
 SMODS.Booster{
     key = "replica_pack_2",
     set = "Booster",
-    config = { extra = 4, choose = 1 },
+    config = { extra = 3, choose = 1 },
     loc_vars = function(self, info_queue, card)
         return {
             vars = {

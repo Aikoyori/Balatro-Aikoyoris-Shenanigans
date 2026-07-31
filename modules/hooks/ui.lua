@@ -792,8 +792,9 @@ G.FUNCS.akyrs_use_special = function (e)
         card.akyrs_sulphur_card:add_to_deck()
     end
     if card.config.center.key == "j_akyrs_ryou" then
-        ease_dollars(card.ability.extras.deduct)
-        card.ability.extras.reserve = card.ability.extras.reserve - card.ability.extras.deduct
+        local moneyz = math.min(card.ability.extras.deduct,card.ability.extras.reserve)
+        ease_dollars(moneyz)
+        card.ability.extras.reserve = card.ability.extras.reserve - moneyz
         card.ability.extras.used = true
         if card.ability.extras.reserve <= 0 then
             SMODS.calculate_effect({

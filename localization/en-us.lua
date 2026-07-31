@@ -2144,7 +2144,7 @@ return {
                     {
                         "Once per round, use this {C:attention}card{}",
                         "to immediately gain {C:money}#1#{}",
-                        "{C:inactive}(Reserve: #2#, #3#)",
+                        "{C:inactive}(Left: {C:money}#2#{C:inactive}, #3# this round)",
                     },
                 }
             },

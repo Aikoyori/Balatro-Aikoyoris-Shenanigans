@@ -2449,6 +2449,7 @@ SMODS.Joker{
 
 SMODS.Joker{
     key = "ryou",
+    evalx = function (card) return card.ability.extras.used end
     atlas = 'AikoyoriJokers',
     pools = { ["Anime"] = true, ["Bocchi the Rock"] = true, ["Kessoku Band"] = true, },
     pos = {
@@ -2477,7 +2478,9 @@ SMODS.Joker{
             return {
                 func = function ()
                     card.ability.extras.used = false
-                end
+                    juice_card_until(card, self.evalx, true)
+                end,
+                message = localize("k_reset"),
             }
         end
     end,

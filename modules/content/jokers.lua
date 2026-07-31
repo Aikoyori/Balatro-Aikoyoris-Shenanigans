@@ -2449,7 +2449,7 @@ SMODS.Joker{
 
 SMODS.Joker{
     key = "ryou",
-    evalx = function (card) return card.ability.extras.used end
+    evalx = function (card) return card.ability.extras.used end,
     atlas = 'AikoyoriJokers',
     pools = { ["Anime"] = true, ["Bocchi the Rock"] = true, ["Kessoku Band"] = true, },
     pos = {

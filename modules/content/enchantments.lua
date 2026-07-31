@@ -87,13 +87,23 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
     end
     AKYRS.Enchantments[enchantment_key].discovered = true
     AKYRS.Enchantments[enchantment_key].unlocked = true
+    
+    if card.ability.set == "Enchantment" and card.config.center.key ~= "ench_akyrs_multi_enchant_book" then
+        local ogench = { card.config.center.key, card.ability.akyrs_level }
+        local combined_enchant = {ogench}
+        card:set_ability(AKYRS.Enchantments["ench_akyrs_multi_enchant_book"])
+        card.akyrs_enchantments = nil
+        card.akyrs_stored_enchantments = combined_enchant
+    end 
+    local table_set = card.config.center.key == "ench_akyrs_multi_enchant_book" and 'akyrs_stored_enchantments' or 'akyrs_enchantments'
     local upgraded_from = nil
+    
     if not forced then
         local ench_obj = {enchantment_key, level}
         local max_ench = {}
         local ench_order = {}
         --print(card.akyrs_enchantments)
-        for _, val in ipairs(card.akyrs_enchantments) do
+        for _, val in ipairs(card[table_set]) do
             table.insert(ench_order, val[1])
             
             --print(val[1]," level ",val[2])
@@ -122,26 +132,11 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
         for _,ench_key in ipairs(ench_order) do
             ench_table[#ench_table+1] = {ench_key, max_ench[ench_key]}
         end
-        card.akyrs_enchantments = ench_table
+        card[table_set] = ench_table
     else
-        card.akyrs_enchantments[#card.akyrs_enchantments+1] = {enchantment_key, level}
+        card[table_set][#card[table_set]+1] = {enchantment_key, level}
         AKYRS.Enchantments[enchantment_key]:apply(card, level)
     end
-    if card.ability.set == "Enchantment" and card.config.center.key ~= "ench_akyrs_multi_enchant_book" then
-        local ogench = { card.config.center.key, card.ability.akyrs_level }
-        local combined_enchant = {ogench}
-        for _, en2 in ipairs(card.akyrs_enchantments) do
-            combined_enchant[#combined_enchant+1] = en2
-        end
-        card:set_ability(AKYRS.Enchantments["ench_akyrs_multi_enchant_book"])
-        card.akyrs_enchantments = nil
-        card.akyrs_stored_enchantments = combined_enchant
-    elseif card.config.center.key == "ench_akyrs_multi_enchant_book" then
-        for _, en2 in ipairs(card.akyrs_enchantments) do
-            card.akyrs_stored_enchantments[#card.akyrs_stored_enchantments+1] = en2
-        end
-        card.akyrs_enchantments = nil
-    end 
     SMODS.calculate_context({ akyrs_enchantment_applied = true, applied_enchantment_data = {enchantment_key, level}, upgraded_from = upgraded_from })
 end
 function AKYRS.remove_enchantment(card, enchantment_key, forced)
@@ -317,7 +312,7 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
         ["Enhanced"] = true,
     },
     allowed_func = function(self, card)
-        if not self.allowed_set[card.ability.set] then return false end
+        if not self.allowed_set[card.ability.set] and card.ability.set ~= "Enchantment" then return false end
         return true
     end,
     in_pool = function (self, args)
@@ -428,11 +423,11 @@ AKYRS.Enchantment {
             if card.akyrs_stored_enchantments then
                 for _, en in ipairs(card.akyrs_stored_enchantments) do
                     if AKYRS.Enchantments[en[1]]:can_apply(en[2], ca) then
-                        return true
+                        return card ~= ca
                     end
                 end
             end
-            return false
+            return card ~= ca
         end, true, true)
         return #cards >= card.ability.min_highlighted and #cards <= card.ability.max_highlighted
     end,
@@ -443,11 +438,11 @@ AKYRS.Enchantment {
             if card.akyrs_stored_enchantments then
                 for _, en in ipairs(card.akyrs_stored_enchantments) do
                     if AKYRS.Enchantments[en[1]]:can_apply(en[2], ca) then
-                        return true
+                        return card ~= ca
                     end
                 end
             end
-            return false
+            return card ~= ca
         end, true, true)
         AKYRS.do_things_to_card(cards, function (card2, index)
             if card.akyrs_stored_enchantments then

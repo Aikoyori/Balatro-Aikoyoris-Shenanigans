@@ -917,7 +917,7 @@ G.FUNCS.can_play = function(e)
             runOGHook = false
         end
     end
-    if G.AKYRS_DISCARD_STREAKS_ONGOING then
+    if G.AKYRS_LOCK_CARD_SELECTION then
         shouldDisableButton = true
     end
     if shouldDisableButton then
@@ -934,7 +934,7 @@ local discardAbilityHook = G.FUNCS.can_discard
 G.FUNCS.can_discard = function(e)
     
     local shouldDisableButton = false
-    if G.AKYRS_DISCARD_STREAKS_ONGOING then
+    if G.AKYRS_LOCK_CARD_SELECTION then
         shouldDisableButton = true
     end
     if G.hand and G.hand.highlighted then

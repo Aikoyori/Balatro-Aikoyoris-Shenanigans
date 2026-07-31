@@ -3565,7 +3565,7 @@ SMODS.Joker {
             return {
                 func = function()
                     local bs = nil
-                    if true then -- TODO: figure out how to make this only activate for one joker
+                    if SMODS.find_card(self.key)[1] == card then -- TODO: figure out how to make this only activate for one joker
                         for _, cd in ipairs(G.hand.cards) do
                             if cd.ability.akyrs_just_drawn then
                                 if AKYRS.is_in_table(card.ability.extras.dug_suits, cd.base.suit) and not SMODS.has_no_suit(cd) then
@@ -3590,8 +3590,8 @@ SMODS.Joker {
                             end, 0.0)
                         end
                     end
-                    if bs and (not G.AKYRS_DISCARD_STREAKS_ONGOING or G.AKYRS_DISCARD_STREAKS_ONGOING == card) then
-                        G.AKYRS_DISCARD_STREAKS_ONGOING = card
+                    if bs and (not G.AKYRS_LOCK_CARD_SELECTION or G.AKYRS_LOCK_CARD_SELECTION == card) then
+                        G.AKYRS_LOCK_CARD_SELECTION = card
                         SMODS.calculate_effect({
                             message = localize("k_akyrs_shoveled_ex"),
                         }, card)
@@ -3604,12 +3604,12 @@ SMODS.Joker {
                                     return true
                                 end)
                             else
-                                G.AKYRS_DISCARD_STREAKS_ONGOING = nil
+                                G.AKYRS_LOCK_CARD_SELECTION = nil
                             end
                             return true
                         end)
                     else
-                        G.AKYRS_DISCARD_STREAKS_ONGOING = nil
+                        G.AKYRS_LOCK_CARD_SELECTION = nil
                     end
                 end
             }

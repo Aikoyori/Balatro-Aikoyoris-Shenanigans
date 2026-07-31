@@ -526,7 +526,6 @@ SMODS.Consumable{
         extras = {
             xmoney = 3,
             setdollarmult = 2,
-            emoney = 2,
             odds = 0.5,
         }
     },
@@ -546,7 +545,6 @@ SMODS.Consumable{
     loc_vars = function (self, info_queue, card)
         G.GAME.akyrs_umbral_intrusive_usage_set = G.GAME.akyrs_umbral_intrusive_usage_set or -4
         return {
-            key = self.key .. (AKYRS.bal("absurd") and "_absurd" or ""),
             vars = {
                 AKYRS.bal("absurd") and card.ability.extras.emoney or card.ability.extras.xmoney,
                 card.ability.extras.odds * 100,
@@ -562,41 +560,23 @@ SMODS.Consumable{
         local die_question_mark = SMODS.pseudorandom_probability(card,"akyrs_umbral_intrusive",card.ability.extras.odds ,1, "akyrs_umbral_intrusive", true)
         local d_dollar = 0
         if die_question_mark then
-            if AKYRS.bal("absurd") then -- todo split itout
-                AKYRS.force_lose(self.key)
-            else
-                AKYRS.simple_event_add(
-                    function ()
-                        d_dollar = -G.GAME.dollars + G.GAME.akyrs_umbral_intrusive_usage_set
-                        ease_dollars(d_dollar)
-                        G.GAME.akyrs_umbral_intrusive_usage_set = -4
-                        return true
-                    end, 0
-                )
-            end
+            AKYRS.simple_event_add(
+                function ()
+                    d_dollar = -G.GAME.dollars + G.GAME.akyrs_umbral_intrusive_usage_set
+                    ease_dollars(d_dollar)
+                    G.GAME.akyrs_umbral_intrusive_usage_set = -4
+                    return true
+                end, 0
+            )
         else
-            if AKYRS.bal("absurd") then
-                AKYRS.simple_event_add(
-                    function ()
-                        if Talisman and type(to_big(G.GAME.dollars)) == "table" then
-                            d_dollar = to_big(G.GAME.dollars):pow(card.ability.extras.emoney) - to_big(G.GAME.dollars)
-                        else
-                            d_dollar = G.GAME.dollars ^ card.ability.extras.emoney - G.GAME.dollars
-                        end
-                        ease_dollars(d_dollar)
-                        return true
-                    end, 0
-                )
-            else
-                AKYRS.simple_event_add(
-                    function ()
-                        d_dollar = G.GAME.dollars * ( card.ability.extras.xmoney - 1 )
-                        G.GAME.akyrs_umbral_intrusive_usage_set = (G.GAME.akyrs_umbral_intrusive_usage_set or -4) * card.ability.extras.setdollarmult
-                        ease_dollars(d_dollar)
-                        return true
-                    end, 0
-                )
-            end
+            AKYRS.simple_event_add(
+                function ()
+                    d_dollar = G.GAME.dollars * ( card.ability.extras.xmoney - 1 )
+                    G.GAME.akyrs_umbral_intrusive_usage_set = (G.GAME.akyrs_umbral_intrusive_usage_set or -4) * card.ability.extras.setdollarmult
+                    ease_dollars(d_dollar)
+                    return true
+                end, 0
+            )
         end
         AKYRS.force_save()
     end

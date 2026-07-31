@@ -2,7 +2,7 @@ SMODS.ConsumableType{
     key = "Replicant",
     primary_colour = HEX("a30262"),
     secondary_colour = HEX("ff9a56"),
-    collection_rows = { 4, 4 },
+    collection_rows = { 4, 5 },
     shop_rate = 0,
     default = "c_akyrs_replicant_music_streaming"
 }
@@ -593,6 +593,65 @@ SMODS.Consumable{
         AKYRS.do_things_to_card(candidates_edition, function (cardx, index)
             cardx:set_edition('e_akyrs_dyed')
         end)
+    end
+}
+
+
+SMODS.Consumable{
+    key = "replicant_get_rich_quick",
+    set = "Replicant",
+    atlas = "replicant",
+    pos = {x=6, y=1},
+    config = {
+        extras = {
+            emoney = 2,
+            odds = 0.5,
+        }
+    },
+    
+    calculate = function (self, card, context)
+        if context.selling_card and context.card == card then
+            local die_question_mark = SMODS.pseudorandom_probability(card,"akyrs_replicant_get_rich_quick",1 ,2, nil, true)
+            return {
+                message = localize("k_akyrs_replicant_get_rich_quick_"..(die_question_mark and "would_die" or "would_win")),
+                colour = (die_question_mark and G.C.GREEN or G.C.RED),
+                func = function ()
+                    AKYRS.force_save()
+                end
+            }
+        end
+    end,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.emoney,
+                card.ability.extras.odds * 100,
+            }
+        }
+    end,
+    can_use = function (self, card)
+        return true
+    end,
+    use = function (self, card, area, copier)
+        AKYRS.juice_like_tarot(card)
+        local die_question_mark = SMODS.pseudorandom_probability(card,"akyrs_replicant_get_rich_quick",card.ability.extras.odds ,1, nil , true)
+        local d_dollar = 0
+        if die_question_mark then
+            AKYRS.force_lose(self.key)
+        else
+            AKYRS.simple_event_add(
+                function ()
+                    if Talisman and type(to_big(G.GAME.dollars)) == "table" then
+                        d_dollar = to_big(G.GAME.dollars):pow(card.ability.extras.emoney) - to_big(G.GAME.dollars)
+                    else
+                        d_dollar = G.GAME.dollars ^ card.ability.extras.emoney - G.GAME.dollars
+                    end
+                    ease_dollars(d_dollar)
+                    return true
+                end, 0
+            )
+        end
+        AKYRS.force_save()
     end
 }
 

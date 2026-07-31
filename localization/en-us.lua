@@ -3754,19 +3754,6 @@ return {
                     }
                     },
             },
-            c_akyrs_umbral_intrusive_thoughts_absurd = {
-                name="Intrusive Thoughts",
-                text={
-                    {
-                        "{X:akyrs_money_x,C:akyrs_money_c}$^#1#{} but {C:green}fixed #2#% chance{} to",
-                        "{E:1,C:red}Lose the run immediately{}",
-                    },
-                    
-                    {
-                        "{C:attention}Sell{} this card to see {C:attention}if you would have lost{}",
-                    }
-                    },
-            },
             c_akyrs_umbral_weeping_angel = {
                 name="Weeping Angel",
                 text=
@@ -4048,6 +4035,19 @@ return {
                     "{C:dark_edition}Dyed{} applied to it",
                 }
             },
+            c_akyrs_replicant_get_rich_quick = {
+                name="Get Rich Quick",
+                text={
+                    {
+                        "{X:akyrs_money_x,C:akyrs_money_c}$^#1#{} but {C:green}fixed #2#% chance{} to",
+                        "{E:1,C:red}Lose the run immediately{}",
+                    },
+                    
+                    {
+                        "{C:attention}Sell{} this card to see {C:attention}if you would have lost{}",
+                    }
+                    },
+            },
         }
     },
     misc = {
@@ -4213,8 +4213,10 @@ return {
 
             k_akyrs_random_letter = "randomly selected letter",
             k_akyrs_tsunagi_absurd_wheel_nope = "1 Miss!",
-            k_akyrs_umbral_intrusive_would_die = "Safe!",
-            k_akyrs_umbral_intrusive_would_win = "Missed!",
+            k_akyrs_umbral_intrusive_would_die = "Lucky!",
+            k_akyrs_umbral_intrusive_would_win = "Aw Dangit!",
+            k_akyrs_replicant_get_rich_quick_would_die = "Lucky!",
+            k_akyrs_replicant_get_rich_quick_would_win = "Aw Dangit!",
             k_akyrs_solitaire = "Klondike",
 
             k_akyrs_cannot_be_disabled = "Cannot Be Disabled",

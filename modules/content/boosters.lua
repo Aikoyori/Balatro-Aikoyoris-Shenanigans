@@ -457,7 +457,7 @@ SMODS.Booster{
 SMODS.Booster{
     key = "replica_pack_1",
     set = "Booster",
-    config = { extra = 2, choose = 1 },
+    config = { extra = 3, choose = 1 },
     loc_vars = function(self, info_queue, card)
         return {
             vars = {
@@ -482,7 +482,7 @@ SMODS.Booster{
 SMODS.Booster{
     key = "replica_pack_2",
     set = "Booster",
-    config = { extra = 2, choose = 1 },
+    config = { extra = 4, choose = 1 },
     loc_vars = function(self, info_queue, card)
         return {
             vars = {
@@ -507,7 +507,7 @@ SMODS.Booster{
 SMODS.Booster{
     key = "jumbo_replica_pack_1",
     set = "Booster",
-    config = { extra = 3, choose = 1 },
+    config = { extra = 4, choose = 1 },
     loc_vars = function(self, info_queue, card)
         return {
             vars = {
@@ -532,7 +532,7 @@ SMODS.Booster{
 SMODS.Booster{
     key = "mega_replica_pack_1",
     set = "Booster",
-    config = { extra = 4, choose = 1 },
+    config = { extra = 4, choose = 2 },
     loc_vars = function(self, info_queue, card)
         return {
             vars = {

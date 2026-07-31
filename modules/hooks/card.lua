@@ -321,6 +321,9 @@ end
 
 local card_click = Card.click
 function Card:click()
+    if G.AKYRS_LOCK_CARD_SELECTION and not G.OVERLAY_MENU then
+        return
+    end
     if self.akyrs_double_click_wait and self.akyrs_double_click_wait > 0 and self.facing == "front" then
         --self.following_cards = nil
         --print("double click detected")

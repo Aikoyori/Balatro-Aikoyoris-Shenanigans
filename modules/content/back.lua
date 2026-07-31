@@ -323,20 +323,6 @@ SMODS.Back{
         discards = -2,
         akyrs_trade_hand_discard = true
     },
-    calculate = function (self, back, context)
-        if context.hand_drawn then
-            return {
-                func = function()
-                    for i, cd in ipairs(G.hand.cards) do
-                        if cd.ability.akyrs_already_discarded then
-                            SMODS.destroy_cards({cd})
-                            AKYRS.remove_value_from_table(G.playing_cards,cd)
-                        end
-                    end
-                end
-            }
-        end
-    end,
 }
 SMODS.Back{
     key = "sheared_deck",

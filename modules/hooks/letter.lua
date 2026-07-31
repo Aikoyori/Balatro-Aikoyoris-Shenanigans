@@ -100,7 +100,7 @@ function Card:stop_drag()
     end
     local c = cardReleaseRecalcHook(self)
 
-    if G.hand and self.area and self.area == G.hand and G.STATE == G.STATES.SELECTING_HAND and G.GAME.akyrs_character_stickers_enabled then
+    if (G.hand and self.area and self.area == G.hand and G.STATE == G.STATES.SELECTING_HAND and AKYRS.full_hand_recalc())  then
         G.GAME.aikoyori_evaluation_value = 0
         self.area:parse_highlighted()
     end
@@ -197,6 +197,19 @@ end
 
 local getIDHook = Card.get_id
 function Card:get_id()
+    if next(SMODS.find_card("j_akyrs_liar_dancer")) and self.area then
+        local held_cards = AKYRS.filter_table(G.hand.cards, function (cd)
+            return not cd.highlighted
+        end,true,true)
+        local selected_cards = AKYRS.filter_table(AKYRS.combine_table(G.hand.cards,G.play.cards), function (cd)
+            return cd.highlighted or cd.area == G.play
+        end,true,true)
+        local i = AKYRS.find_index(selected_cards, self)
+        if i and held_cards[i] then
+            return getIDHook(held_cards[i])
+        end
+        
+    end
     if (self.ability.set ~= "Default" and self.ability.set ~= "Enhanced") and not AKYRS.is_mod_loaded("Cryptid") then
         return -math.random(100, 1000000)
     end

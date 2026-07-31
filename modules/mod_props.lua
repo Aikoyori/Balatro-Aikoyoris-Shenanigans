@@ -44,6 +44,15 @@ SMODS.current_mod.extra_tabs = function()
   }
 end
 
+AKYRS.calculate = function (self, context)
+  if context.remove_playing_cards then
+    G.GAME.akyrs_cards_removed = (G.GAME.akyrs_cards_removed or 0) + #context.removed
+    if G.GAME.akyrs_cards_removed >= 5 then
+      G.GAME.akyrs_ut_route = "genocide"
+    end
+  end
+end
+
 AKYRS.create_credits_big = function(sprite_atlas, name, width)
   local cards_print = AKYRS.word_to_cards(name)
 

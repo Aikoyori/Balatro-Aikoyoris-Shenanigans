@@ -54,7 +54,9 @@ match_indent = true
 target = "functions/state_events.lua"
 pattern = """            G.STATE = G.STATES.HAND_PLAYED"""
 position = "before"
-payload = """SMODS.calculate_context({akyrs_pre_play = true, akyrs_pre_play_cards = G.hand.highlighted})
+payload = """
+
+SMODS.calculate_context({akyrs_pre_play = true, akyrs_pre_play_cards = held_cards, akyrs_pre_play_held = held_cards})
 """
 overwrite = true
 match_indent = true
@@ -70,7 +72,14 @@ pattern = """    for k, v in ipairs(G.playing_cards) do
     
     table.sort(G.hand.highlighted, function(a,b) return a.T.x < b.T.x end)"""
 position = "after"
-payload = """SMODS.calculate_context({akyrs_extremely_pre_play = true, akyrs_pre_play_cards = G.hand.highlighted})
+payload = """
+local held_cards = AKYRS.filter_table(G.hand.cards, function (cd)
+    return not cd.highlighted
+end,true,true)
+local selected_cards = AKYRS.filter_table(AKYRS.combine_table(G.hand.cards,G.play.cards), function (cd)
+    return cd.highlighted or cd.area == G.play
+end,true,true)
+SMODS.calculate_context({akyrs_extremely_pre_play = true, akyrs_pre_play_cards = selected_cards, akyrs_pre_play_held = held_cards})
 """
 overwrite = true
 match_indent = true

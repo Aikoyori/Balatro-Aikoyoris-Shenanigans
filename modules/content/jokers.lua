@@ -1483,63 +1483,33 @@ SMODS.Joker{
     pos = {
         x = 9, y = 2
     },
-    rarity = 3,
-    cost = 4,
+    rarity = 2,
+    cost = 6,
     config = {
         name = "Chicken Jockey",
         extras = {
-            xmult = 1,
-            xmult_inc = 1,
-            emult = 1,
-            emult_inc = 1,
-            decrease_popcorn = 9,
-            popcorn_original_absurd = 5,
-            decrease_popcorn_absurd = 1,
         }
     },
     loc_vars = function (self, info_queue, card)
         info_queue[#info_queue+1] = localize{key = "j_popcorn", vars = {20,4}}
         return {
             vars = {
-                card.ability.extras.xmult_inc,
-                card.ability.extras.xmult,
-                card.ability.extras.decrease_popcorn,
             }
         }
     end,
     blueprint_compat = true,
 	demicoloncompat = true,
     calculate = function (self, card, context)
-        if context.buying_card and context.card.config.center.pools and context.card.config.center.pools["Food"] and not context.blueprint then
+        if context.buying_card and context.card.ability.set ~= "Joker" then
             --- @type Card
             local _c = context.card
             AKYRS.simple_event_add(function ()
-                _c:flip()
-                delay(1)
-                AKYRS.simple_event_add(function ()
+                if AKYRS.has_room(G.jokers) then
+                    SMODS.add_card({ set = "Joker", key = "j_popcorn"})
                     unlock_achievement("ach_akyrs_average_daily_scrandle")
-                    _c:set_ability(G.P_CENTERS.j_popcorn)
-                    _c:flip()
-                    return true
-                end,0)
+                end
                 return true
             end,0)
-        end
-        if context.joker_main then
-            return {
-                xmult = card.ability.extras.xmult
-            }
-        end
-
-        if context.akyrs_card_remove  and not context.being_sold
-        and (context.card_getting_removed.config and context.card_getting_removed.config.center_key and context.card_getting_removed.config.center_key == "j_popcorn") then
-            if context.card_getting_removed.ability.mult - context.card_getting_removed.ability.extra <= 0 then
-                return {
-                    func = function ()
-                        SMODS.scale_card(card, { ref_table = card.ability.extras, ref_value = "xmult", scalar_value = "xmult_inc" })
-                    end
-                }
-            end
         end
     end
 }
@@ -1751,11 +1721,6 @@ SMODS.Joker{
                 card.ability.extras.played,
             }
         }
-    end,
-    set_ability = function (self, card, initial, delay_sprites)
-        if initial then
-
-        end
     end,
     add_to_deck = function (self, card, from_debuff)
         local r = pseudorandom_element(AKYRS.get_p_card_ranks(card.ability.extras.ranks_chosen),pseudoseed("akyrs_space_elevator")) 
@@ -2003,42 +1968,19 @@ SMODS.Joker{
 }
 
 SMODS.Joker{
-    key = "liar_dancer", --TODO: REWORK
+    key = "liar_dancer", 
     atlas = 'AikoyoriJokers',
     pools = { ["Vocaloid"] = true, ["J-POP"] = true },
     pos = {
         x = 1, y = 4
     },
-    rarity = 3,
-    cost = 7,
+    rarity = 2,
+    cost = 6,
     config = {
-        extras = {
-            level_down = 1,
-            level_up_mult = 1,
-        }
     },
     loc_vars = function (self, info_queue, card)
-        return {
-            vars = {
-                card.ability.extras.level_down,
-                card.ability.extras.level_down * card.ability.extras.level_up_mult
-            }
-        }
     end,
     calculate = function (self, card, context)
-        if context.before and not context.blueprint then
-            local cx = false
-            if Talisman then
-                cx = G.GAME.hands[context.scoring_name].level:gt(to_big(1))
-            else
-                cx = G.GAME.hands[context.scoring_name].level > 1
-            end
-            if not context.poker_hands["Straight"] or (context.poker_hands["Straight"] and not next(context.poker_hands["Straight"])) and cx then
-                SMODS.smart_level_up_hand(card,context.scoring_name,nil,-card.ability.extras.level_down)
-                SMODS.smart_level_up_hand(card,"Straight",nil,card.ability.extras.level_down * card.ability.extras.level_up_mult)
-                SMODS.smart_level_up_hand(card,"Straight Flush",nil,card.ability.extras.level_down * card.ability.extras.level_up_mult)
-            end
-        end
     end
 }
 SMODS.Joker{
@@ -2141,42 +2083,48 @@ SMODS.Joker{
         x = 6, y = 4
     },
     rarity = 2,
-    cost = 6,
+    cost = 9,
     config = {
+        extras = {
+            route = "neutral",
+            xmult = 2.5,
+        }
     },
+    in_pool = function (self, args)
+        return G.GAME.round_resets.ante >= 4
+    end,
     loc_vars = function (self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS['j_mr_bones']
+        return {
+            key = self.key .. (card.ability.extras.route ~= "neutral" and ("_"..card.ability.extras.route) or ""),
+            vars = {
+                card.ability.extras.xmult
+            }
+        }
+    end,
+    set_ability = function (self, card, initial, delay_sprites)
+        card.ability.extras.route = G.GAME.akyrs_ut_route or card.ability.extras.route
     end,
     calculate = function (self, card, context)
-        if context.blind_defeated then
-            SMODS.calculate_effect({
-                card = card,
-                message = localize("k_akyrs_woah_undertale"),
-            })
+        if context.buying_card and context.buying_self then
+            if card.ability.extras.route == "genocide" then
+                SMODS.Stickers.eternal:apply(card, true)
+            end
+        end
+        if context.end_of_round and context.cardarea == G.jokers then
             return {
-                message = localize("k_akyrs_story_of_undertale"),
                 func = function ()
-                    local destructable_jokers = {}
-                    for i = 1, #G.jokers.cards do
-                        if G.jokers.cards[i] ~= card 
-                        and not SMODS.is_eternal(G.jokers.cards[i]) 
-                        and not G.jokers.cards[i].getting_sliced 
-                        and G.jokers.cards[i].config.center_key ~= "j_mr_bones" 
-                        then destructable_jokers[#destructable_jokers+1] = G.jokers.cards[i] end
-                    end
-                    local joker_to_destroy = destructable_jokers[#destructable_jokers]
-    
-                    if joker_to_destroy and not (context.blueprint_card or card).getting_sliced then 
-                        joker_to_destroy.getting_sliced = true
-                        G.E_MANAGER:add_event(Event({func = function()
-                            (context.blueprint_card or card):juice_up(0.8, 0.8)
-                            
-                            SMODS.add_card{ key = "j_mr_bones", set = "Joker", edition = "e_negative"}
-                            SMODS.destroy_cards({joker_to_destroy})
-                        return true end }))
-                    end
+                    local rarity = card.ability.extras.route == "pacifist" and "Legendary" or "Rare"
+                    SMODS.add_card{rarity = rarity, legendary = rarity == "Legendary", set = "Joker"}
+                    SMODS.destroy_cards({card})
                 end
             }
+        end
+        if card.ability.extras.route == "genocide" then
+            if context.joker_main then
+                return {
+                    xmult = card.ability.extras.xmult
+                }
+            end
         end
     end,
     blueprint_compat = false
@@ -2223,34 +2171,24 @@ SMODS.Joker{
     cost = 6,
     config = {
         extras = {
-            xchips = 2,
-            xchips_absurd = 1,
-            xchips_gain_absurd = 2,
         }
     },
     loc_vars = function (self, info_queue, card)
-        return {
-            vars = {
-                card.ability.extras.xchips,
-            }
-        }
     end,
     calculate = function (self, card, context)
         if context.press_play then
-            local cardsers = G.hand.highlighted
-            local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(cardsers)
-            if next(poker_hands["Flush"]) then
-                return {
-                    func = function()
-                        local filtered = AKYRS.filter_table(cardsers, function (cr)
-                            return cr.config and cr.config.center_key == "m_wild"
-                        end, true, true)
-                        AKYRS.do_things_to_card(filtered, function (card, index)
-                            SMODS.modify_rank(card, 1)
-                        end, {stay_flipped_delay = 1,stagger = 0.5,finish_flipped_delay = 0.5, fifo = true, dont_unhighlight = true})
+            local held_cards = AKYRS.filter_table(G.hand.cards, function (cd)
+                return not cd.highlighted
+            end,true,true)
+            return {
+                func = function ()
+                    if held_cards[1] then
+                        local cx = held_cards[1] 
+                        cx.area:remove_card(cx)
+                        G.play:emplace(cx)
                     end
-                }
-            end
+                end
+            }
         end
     end,
     blueprint_compat = true
@@ -2437,7 +2375,7 @@ SMODS.Joker{
     config = {
         extras = {
             xmult = 1,
-            xmult_g = 0.25,
+            xmult_g = 0.04,
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -2449,15 +2387,13 @@ SMODS.Joker{
         }
     end,
     calculate = function (self, card, context)
-        if context.before or context.forcetrigger then
+        if context.before then
             return {
                 func = function ()
                     local x = AKYRS.filter_table(G.jokers.cards,function(t) return AKYRS.is_in_pool(t,"Kessoku Band") end, true, true)
-                    local sts, stschk = AKYRS.get_suits(G.play.cards)
-                    if ((#G.play.cards) == 1 and G.play.cards[1]:is_suit("Spades")) or context.forcetrigger then
-                        SMODS.scale_card(card, {ref_table = card.ability.extras, ref_value = "xmult", scalar_value = "xmult_g", operation = function (rt,rv,int,sc)
-                                rt[rv] = int + sc * #x
-                            end})
+                    for i = 1, #x do
+                        local seal = SMODS.poll_seal({guaranteed = true, key = "akyrs_bocchi_seals"})
+                        SMODS.add_card{ set = "Enhanced", suit = "Spades", seal = seal, area = G.hand }
                     end
                 end
             }
@@ -2518,59 +2454,33 @@ SMODS.Joker{
     pos = {
         x = 5, y = 5
     },
-    rarity = 1,
-    cost = 2,
+    rarity = 2,
+    cost = 4,
     config = {
         extras = {
-            debt = 12,
-            add_debt = 3,
+            reserve = 24,
+            deduct = 8,
+            used = false,
         }
     },
-    add_to_deck = function (self, card, from_debuff)
-        G.GAME.bankrupt_at = G.GAME.bankrupt_at - card.ability.extras.debt
-    end,
-    remove_from_deck =function (self, card, from_debuff)
-        G.GAME.bankrupt_at = G.GAME.bankrupt_at + card.ability.extras.debt
-    end,
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                card.ability.extras.debt,
-                card.ability.extras.add_debt,
+                SMODS.signed_dollars(card.ability.extras.deduct),
+                SMODS.signed_dollars(card.ability.extras.reserve),
+                localize("k_akyrs_"..(card.ability.extras.used and "" or "not_").."used"),
             }
         }
     end,
     calculate = function (self, card, context)
-        if context.before and context.poker_hands and #context.poker_hands["Pair"] > 0 then
+        if context.end_of_round and context.cardarea == G.jokers then
             return {
                 func = function ()
-                    local pairs_of_clubs = 0
-                    for _,e_pair in ipairs(context.poker_hands["Pair"]) do
-                        local is_pair_of_clubs = true
-                        for _,e_card in ipairs(e_pair) do
-                            if not e_card:is_suit("Clubs") then
-                                is_pair_of_clubs = false
-                            end
-                        end
-                        if is_pair_of_clubs then
-                            pairs_of_clubs = pairs_of_clubs + 1
-                        end
-                        
-                    end
-                    
-                    
-                    if pairs_of_clubs > 0 then
-                        SMODS.calculate_effect({
-                            message = localize("k_akyrs_ryo_borrowed_money"),
-                        }, card)
-                        SMODS.scale_card(card, {ref_table = card.ability.extras, ref_value = "debt", scalar_value = "add_debt"})
-                        G.GAME.bankrupt_at = G.GAME.bankrupt_at - card.ability.extras.add_debt
-                    end
+                    card.ability.extras.used = false
                 end
             }
         end
     end,
-	demicoloncompat = true,
     hpot_unbreedable = true,
 }
 

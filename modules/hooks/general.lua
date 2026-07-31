@@ -117,6 +117,8 @@ function Game:init_game_object()
     ret.akyrs_trade_unlocked = {}
 
     ret.akyrs_scenario = {}
+    ret.akyrs_ut_route = "pacifist"
+    ret.akyrs_cards_modified = 0
 
     return ret
 end
@@ -1079,6 +1081,12 @@ function Card:set_ability(c,i,d)
         self.is_null = true
     end
     local r = AKYRS.original_set_ability(self,c,i,d)
+    
+    if G.GAME.akyrs_trade_hand_discard then
+        if c.key == "j_akyrs_kyoufuu_all_back" then
+            SMODS.Stickers.akyrs_self_destructs:apply(self, true)
+        end
+    end
     self:akyrs_mod_card_value_init(c, i, d)
 
     if self.config.center and self.config.card then
@@ -1153,6 +1161,14 @@ end
 local cardBaseHooker = Card.set_base
 function Card:set_base(card, initial, manual_sprites)
     -- will fix later
+    if not initial and card and card.value and self and self.base then
+        if card.value ~= self.base.value then
+            G.GAME.akyrs_cards_modified = (G.GAME.akyrs_cards_modified or 0) + 1
+            if G.GAME.akyrs_ut_route ~= "genocide" then
+                G.GAME.akyrs_ut_route = "neutral"
+            end
+        end
+    end
     if self.config.card and not initial and false then
         local og_suit = self.config.card.suit
         local og_rank = self.config.card.value
@@ -1277,10 +1293,6 @@ function Card:akyrs_mod_card_value_init(center, initial, delay)
         self.ability.misprinted = true
     end
     
-    if #SMODS.find_card("j_akyrs_chicken_jockey") > 0 and self.config.center_key == "j_popcorn" then
-        local jj = SMODS.find_card("j_akyrs_chicken_jockey")
-        self.ability.extra = jj[#jj].ability.extras.decrease_popcorn
-    end
     if self.config.center_key == "j_akyrs_emerald" then
         self.sell_cost = self.cost * self.ability.extras.xcost
         if self.sell_cost ~= self.sell_cost then self.sell_cost = 1e300 end

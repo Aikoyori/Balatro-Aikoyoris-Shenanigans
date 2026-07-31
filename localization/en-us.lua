@@ -1906,12 +1906,9 @@ return {
                 name = "Chicken Jockey",
                 text = {
                     { 
-                        "{C:attention}Every{} food Joker becomes {C:red}Popcorn{} when {C:attention}bought",
-                        "Every {C:red}Popcorn{} obtained while this Joker",
-                        "is present decreases Mult by {C:red}-#3#{} per round instead",
-                        "Gain {X:mult,C:white}X#1#{} Mult per {C:red}Popcorn{} eaten.",
-                        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
-                        "{s:0.7,C:inactive}Absolute Cinema.{}"
+                        "{C:attention}Obtain{} a {C:red}Popcorn{} when {C:attention}buying{} a non-Joker card",
+                        "{C:inactive}(Must have room){}",
+                        "{s:0.7,C:inactive}Absolute Cinema.{}",
                     }
                 }
             },
@@ -1967,18 +1964,10 @@ return {
                 name = "Space Elevator",
                 text = { 
                     {
-                        "{s:1.4,C:attention}Phase {s:1.4,C:blue}#3#",
-                        "Score {s:1.4,C:attention}#1# {s:1.4,C:blue}#2#s{} {C:inactive}(#4#){}",
-                        "to move on to the next {C:attention}Phase",
+                        "Score {C:attention}#1# {C:blue}#2#s{} {C:inactive}(#4#){}",
+                        "to move on to the next {C:attention}Phase{} {C:inactive}(#3#/6)",
+                        "Get {C:dark_edition}Negative {C:spectral}Spectral{} when completing a phase",
                     },
-                    {
-                        "Completing each {C:attention}Phase",
-                        "grants you a {C:dark_edition}Negative Spectral Card",
-                        "Finishing Phase {C:blue}5",
-                        "grants you a {C:dark_edition}Negative Soul Card",
-                        "and resets to Phase {C:blue}1",
-                        "Rank changes every {C:attention}phase{}",
-                    }
                 }
             },
             j_akyrs_turret = {
@@ -2022,12 +2011,8 @@ return {
             j_akyrs_liar_dancer = {
                 name = "Liar Dancer",
                 text = { 
-                    "If hand does not contain a {C:attention}Straight{}",
-                    "{C:attention}reduce{} the level of it by {C:red}-#1#{}",
-                    "and level up {C:attention}Straight{} and",
-                    "{C:attention}Straight Flush{} by {C:blue}#2#{}",
-                    "{C:inactive}(Hand cannot be downgraded below 1){}",
-                    "{C:inactive,f:5}(踊れ 踊れ 嘘に踊れ){}",
+                    "{C:attention}All played cards'{} ranks are considered",
+                    "as cards {C:attention}held in hand{} in the same position",
                 }
             },
             j_akyrs_pissandshittium = {
@@ -2047,15 +2032,27 @@ return {
                 }
             },
             j_akyrs_story_of_undertale = {
-                name = "Story of Undertale",
+                name = "Story of Undertale (N)",
                 text = { 
-                    "When blind is {C:attention}defeated",
-                    "Destroy the rightmost {C:attention}destructible{}",
-                    "{C:attention}non-Mr.Bones{} Joker and create",
-                    "a {C:dark_edition}Negative {C:attention}Mr.Bones{}",
-                    "{C:inactive}(Must have room in between...?)",
-                    "Mr.Bones {E:akyrs_snaking,C:red}does not need{}",
-                    "score requirements to activate",
+                    "Create a {C:red}Rare{} Joker & {C:red}self-destructs{}",
+                    "at the end of the round",
+                    "{C:inactive}(Neutral Route: A card rank has been modified){}",
+                }
+            },
+            j_akyrs_story_of_undertale_genocide = {
+                name = "Story of Undertale (G)",
+                text = { 
+                    "{X:mult,C:white} X#1# {} Mult",
+                    "Becomes {C:purple}Eternal{} on purchase",
+                    "{C:inactive}(Genocide Route: At least 5 cards destroyed){}",
+                }
+            },
+            j_akyrs_story_of_undertale_pacifist = {
+                name = "Story of Undertale (P)",
+                text = { 
+                    "Create a {C:red}Legendary{} Joker & {C:red}self-destructs{}",
+                    "at the end of the round",
+                    "{C:inactive}(Pacifist Route: You have been kind to the cards){}",
                 }
             },
             j_akyrs_no_hints_here = {
@@ -2068,10 +2065,7 @@ return {
             j_akyrs_brushing_clothes_pattern = {
                 name = "Brushing Clothes Pattern",
                 text = { 
-                    "If played hand contains a {C:attention}Flush",
-                    "and at least one of them is {C:attention}Wild Card",
-                    "Increase the Rank of all played",
-                    "{C:attention}Wild Cards{} by 1",
+                    "Add {C:attention}first held{} card to played hand",
                 }
             },
             j_akyrs_you_tried = {
@@ -2122,10 +2116,8 @@ return {
                 },
                 text = { 
                     {
-                        "This Joker gains {C:white,X:mult} X#1# {} Mult",
+                        "Add an {C:attention}Enhanced Sealed {C:spades}Spades{} to hand",
                         "per {C:attention}Kessoku Band{} Jokers held",
-                        "if played hand contains {C:attention}a single {C:spades}Spade",
-                        "{C:inactive}(Currently {C:white,X:mult} X#2# {C:inactive} Mult)",
                     }
                 }
             },
@@ -2150,9 +2142,9 @@ return {
                 },
                 text = { 
                     {
-                        "Go up to {C:red}-$#1#{} in debt",
-                        "Debt limit {C:red}-$#2#{}",
-                        "if hand contains a {C:attention}Pair{} of {C:clubs}Clubs{}",
+                        "Once per round, use this {C:attention}card{}",
+                        "to immediately gain {C:money}#1#{}",
+                        "{C:inactive}(Reserve: #2#, #3#)",
                     },
                 }
             },
@@ -2823,8 +2815,7 @@ return {
             akyrs_sale={
                 name="90% Sale",
                 text={
-                    "Lose {C:money}$#1#{} at",
-                    "end of round",
+                    "Sell value cannot change",
                 },
             },
             akyrs_carmine_seal={
@@ -4347,10 +4338,13 @@ return {
 
 
             k_akyrs_shoveled_ex = "Shoveled!",
-            k_canopy_downable_yes = "Active!",
-            k_canopy_downable_no = "Activated",
+            k_akyrs_canopy_downable_yes = "Active!",
+            k_akyrs_canopy_downable_no = "Activated",
             k_akyrs_cloud_card_tally = "Cloud Cards",
             k_akyrs_cloud_card_tally_buffed = "Cloudy Day",
+
+            k_akyrs_not_used = "Not used",
+            k_akyrs_used = "Used",
 
 
             k_akyrs_shop_close = "Close",

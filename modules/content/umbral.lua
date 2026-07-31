@@ -344,7 +344,6 @@ SMODS.Consumable{
                 local c2 = AKYRS.copy_p_card(_card)
                 SMODS.calculate_context({ playing_card_added = true, cards = { c2 } })
             else
-                SMODS.calculate_context({ remove_playing_cards = true, removed = _card})
                 SMODS.destroy_cards({_card})
             end
         end
@@ -916,7 +915,6 @@ SMODS.Consumable{
                         end
                     end
                 else
-                    SMODS.calculate_context({ remove_playing_cards = true, removed = _card})
                     SMODS.destroy_cards({_card})
                 end
             end

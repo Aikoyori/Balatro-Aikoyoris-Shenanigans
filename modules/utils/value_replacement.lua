@@ -499,11 +499,20 @@ function AKYRS.cards_being_destroyed(card)
     end
 end
 
+AKYRS.cards_that_can_be_used = {
+    ["j_akyrs_sulfur_cube"] = true,
+    ["j_akyrs_ryou"] = true,
+}
+
 AKYRS.can_card_be_used = function (card)
     if not AKYRS.is_in_typical_area(card.area) then return false end
-    if card.config.center.key == "j_akyrs_sulfur_cube" then
+    if AKYRS.cards_that_can_be_used[card.config.center.key] then
         return true
     end
     return false
     
+end
+
+AKYRS.full_hand_recalc = function ()
+    return next(SMODS.find_card("j_akyrs_liar_dancer")) or G.GAME.akyrs_character_stickers_enabled
 end

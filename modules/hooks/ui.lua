@@ -698,6 +698,8 @@ function AKYRS.UIDEF.special_joker_use(card)
     local text = localize("b_use")
     if card.config.center.key == "j_akyrs_sulfur_cube" then
         text = localize("k_reroll")
+    else
+        text = localize("b_use")
     end
     if card.area then
         return {
@@ -760,6 +762,11 @@ G.FUNCS.akyrs_can_use_special = function(e)
             can_use = false
         end
     end
+    if card.config.center.key == "j_akyrs_ryou" then
+        if card.ability.extras.used then
+            can_use = false
+        end
+    end
     if can_use then
         e.config.colour = G.C.RED
         e.config.button = "akyrs_use_special"
@@ -783,6 +790,17 @@ G.FUNCS.akyrs_use_special = function (e)
         AKYRS.remove_value_from_table(G.I.CARD, card.akyrs_sulphur_card)
         card.akyrs_sulphur_card.akyrs_parent = card
         card.akyrs_sulphur_card:add_to_deck()
+    end
+    if card.config.center.key == "j_akyrs_ryou" then
+        ease_dollars(card.ability.extras.deduct)
+        card.ability.extras.reserve = card.ability.extras.reserve - card.ability.extras.deduct
+        card.ability.extras.used = true
+        if card.ability.extras.reserve <= 0 then
+            SMODS.calculate_effect({
+                message = localize("k_eaten_ex")
+            }, card)
+            SMODS.destroy_cards({card})
+        end
     end
     
 end

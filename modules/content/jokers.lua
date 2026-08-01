@@ -2095,7 +2095,7 @@ SMODS.Joker{
     end,
     loc_vars = function (self, info_queue, card)
         return {
-            key = self.key .. (card.ability.extras.route ~= "neutral" and ("_"..card.ability.extras.route) or ""),
+            key = self.key .. (AKYRS.is_in_typical_area(card.area) and ("_"..card.ability.extras.route) or ""),
             vars = {
                 card.ability.extras.xmult
             }
@@ -2103,13 +2103,11 @@ SMODS.Joker{
     end,
     set_ability = function (self, card, initial, delay_sprites)
         card.ability.extras.route = G.GAME.akyrs_ut_route or card.ability.extras.route
+        if card.ability.extras.route == "genocide" then
+            SMODS.Stickers.eternal:apply(card, true)
+        end
     end,
     calculate = function (self, card, context)
-        if context.buying_card and context.buying_self then
-            if card.ability.extras.route == "genocide" then
-                SMODS.Stickers.eternal:apply(card, true)
-            end
-        end
         if context.end_of_round and context.cardarea == G.jokers then
             return {
                 func = function ()
@@ -2460,7 +2458,7 @@ SMODS.Joker{
     config = {
         extras = {
             reserve = 24,
-            deduct = 8,
+            deduct = 6,
             used = false,
         }
     },

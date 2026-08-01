@@ -1162,7 +1162,7 @@ local cardBaseHooker = Card.set_base
 function Card:set_base(card, initial, manual_sprites)
     -- will fix later
     if not initial and card and card.value and self and self.base then
-        if card.value ~= self.base.value then
+        if card.value ~= self.base.value or card.suit ~= self.base.suit then
             G.GAME.akyrs_cards_modified = (G.GAME.akyrs_cards_modified or 0) + 1
             if G.GAME.akyrs_ut_route ~= "genocide" then
                 G.GAME.akyrs_ut_route = "neutral"

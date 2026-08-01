@@ -2032,19 +2032,29 @@ return {
                 }
             },
             j_akyrs_story_of_undertale = {
+                name = "Story of Undertale",
+                text = { 
+                    "Appears on {C:attention}Ante 4{} and above",
+                    "Your actions have {C:attention}consequences.",
+                    "{C:inactive}(Genocide Route: At least 10 playing cards are destroyed){}",
+                    "{C:inactive}(Neutral Route: At least one playing card has been modified or destroyed){}",
+                    "{C:inactive}(Pacifist Route: Playing cards are not modified or destroyed){}",
+                }
+            },
+            j_akyrs_story_of_undertale_neutral = {
                 name = "Story of Undertale (N)",
                 text = { 
                     "Create a {C:red}Rare{} Joker & {C:red}self-destructs{}",
                     "at the end of the round",
-                    "{C:inactive}(Neutral Route: A card rank has been modified){}",
+                    "{C:inactive}(Neutral Route: A card has been modified or destroyed){}",
                 }
             },
             j_akyrs_story_of_undertale_genocide = {
                 name = "Story of Undertale (G)",
                 text = { 
                     "{X:mult,C:white} X#1# {} Mult",
-                    "Becomes {C:purple}Eternal{} on purchase",
-                    "{C:inactive}(Genocide Route: At least 5 cards destroyed){}",
+                    "Always {C:purple}Eternal{}",
+                    "{C:inactive}(Genocide Route: At least 10 cards are destroyed){}",
                 }
             },
             j_akyrs_story_of_undertale_pacifist = {
@@ -2052,7 +2062,7 @@ return {
                 text = { 
                     "Create a {C:red}Legendary{} Joker & {C:red}self-destructs{}",
                     "at the end of the round",
-                    "{C:inactive}(Pacifist Route: You have been kind to the cards){}",
+                    "{C:inactive}(Pacifist Route: Cards are not modified or destroyed){}",
                 }
             },
             j_akyrs_no_hints_here = {

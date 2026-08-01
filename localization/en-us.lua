@@ -1610,8 +1610,8 @@ return {
             },
             j_akyrs_observer = {
                 name = "Observer",
-                text = { "This Joker gains {C:mult}#1#{} Mult", "for every{C:attention} #4# {}times {C:inactive}(#3#)",
-                    "a card gets triggered.",
+                text = { "This Joker gains {C:mult}+#1#{} Mult", "for every{C:attention} #4# {}times {C:inactive}(#3#)",
+                    "a card that is not Observer {C:attention}wiggles",
                     "{s:0.8}Times needed increases by {C:attention}#5#{}",
                     "{s:0.8}every time this Joker gains {C:mult}Mult{}",
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}" }

@@ -147,8 +147,8 @@ SMODS.Joker {
             mult = 4,
             xmult = 1,
             times = 2,
-            total_times = 2,
-            times_increment = 1,
+            total_times = 4,
+            times_increment = 3,
             mult_change = 0,
             chip_change = 0
         },
@@ -161,38 +161,30 @@ SMODS.Joker {
                 card.ability.extra.total_times, card.ability.extra.times_increment }
         }
     end,
-    calculate = function(self, card, context)
-        if context.akyrs_score_change and not context.blueprint then
-            SMODS.calculate_effect({
-                message = localize { type = 'variable', key = 'a_remaining', vars = { card.ability.extra.times }},
-                card = card,
-                func = function ()
-                    card.ability.extra.times = card.ability.extra.times - 1
-                    if card.ability.extra.times <= 0 then
-                        SMODS.calculate_effect({
-                            func = function ()
-                                -- same deal here
-                                SMODS.scale_card(card,{
-                                    ref_table = card.ability.extra,
-                                    ref_value = "mult_stored",
-                                    scalar_value = "mult",
-                                })
-                                if context.other_card then
-                                    AKYRS.simple_event_add(
-                                        function()
-                                        if context.other_card then AKYRS.juice_like_tarot(context.other_card) 
-                                        end return true end
-                                    )
-                                end
-                                card.ability.extra.total_times = card.ability.extra.total_times + card.ability.extra.times_increment
-                                card.ability.extra.times = card.ability.extra.total_times
-                            end,
-                            card = card,
-                        })
-                    end
-                end
-            })
+    cm_modified = function(self, card, data)
+        if data.card ~= card then
+            SMODS.calculate_effect({message = localize { type = 'variable', key = 'a_remaining', vars = { card.ability.extra.times }},}, card)
         end
+        card.ability.extra.times = card.ability.extra.times - 1
+        if card.ability.extra.times <= 0 then
+            SMODS.calculate_effect({
+                func = function ()
+                    -- same deal here
+                    SMODS.scale_card(card,{
+                        ref_table = card.ability.extra,
+                        ref_value = "mult_stored",
+                        scalar_value = "mult",
+                        no_message = card == data.card
+                    })
+                    card.ability.extra.total_times = card.ability.extra.total_times + card.ability.extra.times_increment
+                    card.ability.extra.times = card.ability.extra.total_times
+                end,
+                no_message = card == data.card,
+                card = card,
+            }, card)
+        end
+    end,
+    calculate = function(self, card, context)
         if context.joker_main or context.forcetrigger then
             return {
                 mult = card.ability.extra.mult_stored

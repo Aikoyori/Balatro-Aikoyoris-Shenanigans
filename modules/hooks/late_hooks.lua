@@ -160,6 +160,7 @@ end
 -- life is on the line that's why it's here too
 local card_eval_status_text_ref = card_eval_status_text
 function card_eval_status_text(card, ...)
+
     if AKYRS.is_life_enabled() and card then
         AKYRS.simple_event_add(function ()
             AKYRS.mod_life(AKYRS.get_life_drain(card), false, true)
@@ -205,4 +206,21 @@ local asds = AnimatedSprite.draw_self
 function AnimatedSprite:draw_self()
     if not self.state then self.state = {} end
     return asds(self)
+end
+
+local cju = Card.juice_up
+function Card:juice_up(x,y)
+    for _, observers in ipairs(SMODS.find_card("j_akyrs_observer")) do
+        ---@type Card
+        observers = observers
+        if observers ~= self and AKYRS.hover_anti_juice ~= self and self.config.center.key ~= "j_akyrs_observer" then
+            G.P_CENTERS.j_akyrs_observer:cm_modified(observers, {
+                {
+                    akyrs_score_change = true,
+                    card = self,
+                }
+            })
+        end
+    end
+    return cju(self,x,y)
 end

@@ -205,7 +205,9 @@ end
 local cardHoverHook = Card.hover
 function Card:hover()
     AKYRS.current_hover_card = self
+    AKYRS.hover_anti_juice = self
     local ret = cardHoverHook(self)
+    AKYRS.hover_anti_juice = nil
     return ret
 end
 local nodeHoverHook = Node.hover

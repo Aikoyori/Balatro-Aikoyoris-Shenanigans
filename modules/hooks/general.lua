@@ -334,19 +334,7 @@ function AKYRS.expensive_calculation()
     if G.STATE == G.STATES.HAND_PLAYED then
         G.GAME.current_round.akyrs_executed_debuff = false
 
-        if G.GAME.aiko_last_chips ~= G.GAME.current_round.current_hand.chips or G.GAME.aiko_last_mult ~=
-            G.GAME.current_round.current_hand.mult then
-            SMODS.calculate_context(
-            {
-                akyrs_score_change = true,
-                last_mult = G.GAME.aiko_last_mult, 
-                last_chips = G.GAME.aiko_last_chips,
-                current_mult = G.GAME.current_round.current_hand.mult,
-                current_chips  = G.GAME.current_round.current_hand.chips
-            })
-            G.GAME.aiko_last_mult = G.GAME.current_round.current_hand.mult
-            G.GAME.aiko_last_chips = G.GAME.current_round.current_hand.chips
-        end
+
         if G.GAME.akyrs_mathematics_enabled and G.GAME.akyrs_character_stickers_enabled and not G.GAME.blind.debuff.akyrs_scoring_set then
             AKYRS.set_scoring_parameter_backup('akyrs_math_display')
             G.GAME.blind.debuff = G.GAME.blind.debuff or {}

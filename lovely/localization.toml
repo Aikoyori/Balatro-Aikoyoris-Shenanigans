@@ -77,6 +77,8 @@ elseif _c.set == 'Judgement' then
 elseif _c.set == 'Enchantment' then
     local locvard = ((AKYRS.Enchantments[_c.key] or {})['loc_vars'] or function() return {} end)(AKYRS.Enchantments[_c.key], info_queue, card, (((card or {}).ability or {}).akyrs_level) or 1) or {}
     localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or locvard.vars or loc_vars}
+elseif _c.set == 'Scenario' then
+    localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
 """
 overwrite = true
 match_indent = true

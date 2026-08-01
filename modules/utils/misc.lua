@@ -1413,6 +1413,17 @@ function AKYRS.combine_table(...)
 end
 
 
+function AKYRS.combine_key_table(...)
+    local out = {}
+    for _, tab in ipairs({...}) do
+        for ki,ele in pairs(tab) do
+            out[ki] = ele
+        end
+    end
+    return out
+end
+
+
 
 function AKYRS.filter_table(tbl, predicate, ordered_in, ordered_out) 
     if not tbl or not predicate then return {} end

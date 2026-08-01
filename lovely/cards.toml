@@ -209,3 +209,27 @@ overwrite = true
 match_indent = true
 
 
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "    self.config.center = G.P_CENTERS[self.config.center_key]"
+position = "after"
+payload = """if not self.config.center then self.config.center = AKYRS.get_additional_center(self, cardTable) end"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "    if self.params.discover and not center.discovered then"
+position = "before"
+payload = """
+for k, v in pairs(AKYRS.get_additional_center_lists()) do
+    if center == v then self.config.center_key = k end
+end"""
+overwrite = true
+match_indent = true
+

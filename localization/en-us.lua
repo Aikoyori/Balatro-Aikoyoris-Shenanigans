@@ -1152,6 +1152,12 @@ return {
                     "{C:red,E:akyrs_shrivel,s:1.8}will NOT work!",
                 },
             },
+            dd_akyrs_uses_left = {
+                name="Scenario",
+                text={
+                    "#1#/#2# Rounds Left",
+                },
+            },
         },
         Edition={
             e_akyrs_texelated = {
@@ -2839,9 +2845,7 @@ return {
                 name="Neon Seal",
                 text={
                     "Create an {C:akyrs_umbral_p,X:akyrs_umbral_y} Umbral {} Card",
-                    "per number of cards with {C:attention}Neon Seal{}",
-                    "held or played, {C:attention}whichever is less{}",
-                    "when hand is played",
+                    "if this card is played but {C:attention}not{} scored",
                     "{C:inactive}(Must have room)",
                 },
             },
@@ -3273,6 +3277,20 @@ return {
                     "Multiplier: {C:mult}#2#{} + {C:attention}#3#",
                 },
             }
+        },
+        Scenario= {
+            sc_akyrs_genesis = {
+                name="Genesis",
+                text={
+                    "Clear {C:attention}Yellow Light{} Scenarios",
+                },
+            },
+            sc_akyrs_day = {
+                name="Day",
+                text={
+                    "{C:mult}+#1#{} Mult",
+                },
+            },
         },
         Spectral={},
         Stake={

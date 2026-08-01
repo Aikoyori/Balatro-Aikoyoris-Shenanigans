@@ -260,7 +260,7 @@ function AKYRS.custom_load_field(st)
         G.GAME.akyrs_scenario = {}
         local tags = saveTable.scenario_tags or {}
         for k, v in ipairs(tags) do
-            local _tag = AKYRS.Scenario_Tag('sc_akyrs_scenario_0_0')
+            local _tag = AKYRS.Scenario_Tag('sc_akyrs_genesis')
             _tag:load(v)
             AKYRS.add_scenario_tag(_tag)
         end

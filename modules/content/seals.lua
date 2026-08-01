@@ -21,30 +21,21 @@ SMODS.Seal{
     end,
 
     calculate = function(self, card, context)
-        if context.main_scoring then
-            local h = AKYRS.filter_table(G.hand.cards, function (item)
-                return item.seal == "akyrs_neon"
-            end, true, true)
-            local p = AKYRS.filter_table(G.play.cards, function (item)
-                return item.seal == "akyrs_neon"
-            end, true, true)
-            local index = AKYRS.find_index(p, card)
-            if index and index <= math.min(#h,#p) then
-                return {
-                    func = function ()
-                        if AKYRS.has_room(G.consumeables) then
-                            SMODS.calculate_effect({
-                                message = localize("k_akyrs_plus_umbral"),
-                            }, card)
-                            AKYRS.simple_event_add(function ()
-                                SMODS.add_card{ set = "Umbral" }
-                                h[index]:juice_up(0.5,0.5)
-                                return true
-                            end, 0)
-                        end
-                    end,
-                }
-            end
+        if context.main_scoring and context.cardarea == "unscored" then
+            return {
+                func = function ()
+                    if AKYRS.has_room(G.consumeables) then
+                        SMODS.calculate_effect({
+                            message = localize("k_akyrs_plus_umbral"),
+                        }, card)
+                        AKYRS.simple_event_add(function ()
+                            SMODS.add_card{ set = "Umbral" }
+                            h[index]:juice_up(0.5,0.5)
+                            return true
+                        end, 0)
+                    end
+                end,
+            }
         end
     end,
 }

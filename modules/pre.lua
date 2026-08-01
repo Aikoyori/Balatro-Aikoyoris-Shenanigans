@@ -122,3 +122,10 @@ AKYRS.apply_pool("j_cavendish", "Food")
 AKYRS.apply_pool("j_turtle_bean", "Food")
 AKYRS.apply_pool("j_diet_cola", "Food")
 AKYRS.apply_pool("j_ramen", "Food")
+
+function AKYRS.get_additional_center(card, savetbl)
+    return AKYRS.Scenarios[savetbl.save_fields.center]
+end
+function AKYRS.get_additional_center_lists()
+    return AKYRS.combine_key_table(AKYRS.Scenarios)
+end

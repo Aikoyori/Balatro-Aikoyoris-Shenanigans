@@ -468,3 +468,8 @@ SMODS.Shader{
     key = "aiko_gradiented_pulse",
     path = "backgrounds/aiko_gradiented_pulse.fs"
 }
+
+SMODS.Shader{
+    key = "pinwheel_progress",
+    path = "pinwheel_progress.fs"
+}

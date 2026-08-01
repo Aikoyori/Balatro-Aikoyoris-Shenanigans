@@ -56,7 +56,7 @@ pattern = """            G.STATE = G.STATES.HAND_PLAYED"""
 position = "before"
 payload = """
 
-SMODS.calculate_context({akyrs_pre_play = true, akyrs_pre_play_cards = held_cards, akyrs_pre_play_held = held_cards})
+SMODS.calculate_context({akyrs_pre_play = true, akyrs_pre_play_cards = selected_cards, akyrs_pre_play_held = held_cards})
 """
 overwrite = true
 match_indent = true

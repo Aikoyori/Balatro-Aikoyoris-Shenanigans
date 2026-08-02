@@ -156,7 +156,11 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
 end
 
 function AKYRS.Scenario_Tag:remove_from_game()
+    if self.tag_removed then
+        self:tag_removed()
+    end
     local tag_key = nil
+    
     for k, v in pairs(G.GAME.akyrs_scenario) do
         if v == self then tag_key = k end
     end
@@ -285,7 +289,12 @@ function AKYRS.add_scenario_tag(_tag)
   discover_card(AKYRS.Scenarios[_tag.key])
 
   G.GAME.akyrs_scenario[#G.GAME.akyrs_scenario+1] = _tag
-  if not _tag.from_load then SMODS.calculate_context({akyrs_scenario_applied = _tag}) end
+  if not _tag.from_load then 
+    SMODS.calculate_context({akyrs_scenario_applied = _tag}) 
+    if _tag.tag_added then
+        _tag:tag_added()
+    end
+   end
   _tag.from_load = nil
   G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD].is_scenario_tag = true
   _tag.HUD_tag = G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD]

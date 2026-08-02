@@ -147,7 +147,7 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
         localize(self.scenario.colour, "akyrs_colour"), 
         localize(self.scenario.side, "akyrs_colour"),
         colours = {
-            colour_map[self.scenario.colour..self.scenario.side],
+            colour_map[self.scenario.colour..(self.scenario.side or "dark")],
             self.scenario.side == "light" and G.C.UI.TEXT_DARK or G.C.UI.TEXT_LIGHT
         }
     }
@@ -243,8 +243,9 @@ AKYRS.Scenario = SMODS.Center:extend{
         if card.ability.akyrs_scenario_random then
             newkey = SMODS.poll_object{ pool = self.obj_buffer, filter = function(pool)
                 return AKYRS.filter_table(pool,function(obj) 
-                    local cm, sc = self.obj_table[obj].scenario, self.scenario
-                    return cm.colour == sc.colour and not self.obj_table[obj].akyrs_scenario_random and not (self.obj_table[obj].config or {}).akyrs_clean_scenario
+                    local obj_tbl = self.obj_table[obj]
+                    local cm, sc = obj_tbl.scenario, self.scenario
+                    return cm.colour == sc.colour and not obj_tbl.akyrs_scenario_random and not obj_tbl.akyrs_clean_scenario
                 end,true,true)
             end, seed = "akyrs_scenario_"..(self.scenario or {colour = "?"}).colour}
         end
@@ -252,11 +253,11 @@ AKYRS.Scenario = SMODS.Center:extend{
         AKYRS.remove_scenarios(function (cd)
             if AKYRS.Scenarios[cd.key] then
                 local sc, cm = AKYRS.Scenarios[cd.key].scenario, newobj.scenario
-                return cm.side == sc.side and cm.colour == sc.colour
+                return (cm.side == sc.side) and cm.colour == sc.colour
             end
             return false
         end)
-        if not card.ability.akyrs_clean_scenario then
+        if not self.akyrs_clean_scenario then
             AKYRS.add_scenario_tag(AKYRS.Scenario_Tag(newobj.key))
         end
     end
@@ -316,9 +317,7 @@ AKYRS.Scenario {
         colour = "yellow",
         side = "light",
     },
-    config = {
-        akyrs_clean_scenario = true
-    }
+    akyrs_clean_scenario = true
 }
 AKYRS.Scenario {
     key = "day",
@@ -497,7 +496,5 @@ AKYRS.Scenario {
     scenario = {
         colour = "yellow",
     },
-    config = {
-        akyrs_scenario_random = true
-    },
+    akyrs_scenario_random = true
 }

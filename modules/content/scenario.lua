@@ -244,7 +244,7 @@ AKYRS.Scenario = SMODS.Center:extend{
             newkey = SMODS.poll_object{ pool = self.obj_buffer, filter = function(pool)
                 return AKYRS.filter_table(pool,function(obj) 
                     local cm, sc = self.obj_table[obj].scenario, self.scenario
-                    return cm.colour == sc.colour and not self.obj_table[obj].akyrs_scenario_random and not (self.obj_table[obj].config or {}).akyrs_scenario_random
+                    return cm.colour == sc.colour and not self.obj_table[obj].akyrs_scenario_random and not (self.obj_table[obj].config or {}).akyrs_clean_scenario
                 end,true,true)
             end, seed = "akyrs_scenario_"..(self.scenario or {colour = "?"}).colour}
         end

@@ -309,3 +309,87 @@ AKYRS.Scenario {
         end
     end
 }
+AKYRS.Scenario {
+    key = "night",
+    set = "Scenario",
+    pos = { x = 2, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "light",
+    },
+    config = {
+        extras = {
+            chips = 25
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.chips
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then
+            return {
+                chips = card.ability.extras.chips
+            }
+        end
+    end
+}
+AKYRS.Scenario {
+    key = "sunrise",
+    set = "Scenario",
+    pos = { x = 3, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "light",
+    },
+    config = {
+        extras = {
+            xmult = 1.4
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.xmult
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then
+            return {
+                xmult = card.ability.extras.xmult
+            }
+        end
+    end
+}
+AKYRS.Scenario {
+    key = "sunset",
+    set = "Scenario",
+    pos = { x = 4, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "light",
+    },
+    config = {
+        extras = {
+            dollars = 2
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed_dollars(card.ability.extras.dollars)
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then
+            return {
+                dollars = card.ability.extras.dollars
+            }
+        end
+    end
+}

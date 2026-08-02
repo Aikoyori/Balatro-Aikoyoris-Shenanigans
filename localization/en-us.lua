@@ -3291,6 +3291,24 @@ return {
                     "{C:mult}+#1#{} Mult",
                 },
             },
+            sc_akyrs_night = {
+                name="Night",
+                text={
+                    "{C:chips}+#1#{} Chips",
+                },
+            },
+            sc_akyrs_sunrise = {
+                name="Sunrise",
+                text={
+                    "{X:mult,C:white}X#1#{} Mult",
+                },
+            },
+            sc_akyrs_sunset = {
+                name="Sunset",
+                text={
+                    "Gain {C:money}#1#{}",
+                },
+            },
         },
         Spectral={},
         Stake={
@@ -4563,7 +4581,7 @@ return {
                 {"As seen on (Twitch.)TV!"},
                 {"And we're (not) out of beta", "we're (never) releasing on time"},
                 {"Harikitte Ikou!"},
-                {"catgirls are the best","{s:0.6}ophelia said it not me"},
+                {"catgirls are the best","{s:0.6}ivy said it not me"},
                 {"Re:Re:MASTER 15+"},
                 {"it's so sad Steve Jobs died of ligma","Who's Steve Jobs?","Ligma Balls."},
                 {"Be proud of your death count!"},

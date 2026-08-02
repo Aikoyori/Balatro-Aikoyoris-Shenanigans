@@ -75,20 +75,6 @@ SMODS.Joker {
         extra = {
             total = 15,
             gain_Xmult = 0.15,
-            -- absurd
-            chips_absurd = 150,
-            Xchips_absurd = 15,
-            mult_absurd = 150,
-            Xmult_absurd = 15,
-            base_chips_absurd = 150,
-            base_Xchips_absurd = 1.5,
-            base_mult_absurd = 15,
-            base_Xmult_absurd = 1.5,
-            
-            gain_chips_absurd = 150,
-            gain_Xchips_absurd = 15,
-            gain_mult_absurd = 150,
-            gain_Xmult_absurd = 15,
         }
     },
     calculate = function(self, card, context)

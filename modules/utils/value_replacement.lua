@@ -505,7 +505,7 @@ AKYRS.cards_that_can_be_used = {
 }
 
 AKYRS.can_card_be_used = function (card)
-    if not AKYRS.is_in_typical_area(card.area) then return false end
+    if not AKYRS.is_in_typical_area(card.area) and not card.akyrs_parent then return false end
     if AKYRS.cards_that_can_be_used[card.config.center.key] then
         return true
     end

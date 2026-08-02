@@ -16,7 +16,7 @@ if Partner_API then
         unlocked = false,
         discovered = true,
         pos = {x = 1, y = 0},
-        config = {extra = {related_card = "j_akyrs_aikoyori", chips = 0, retrigg = 1, retrigg_absurd = 2}},
+        config = {extra = {related_card = "j_akyrs_aikoyori", chips = 0, retrigg = 1}},
         loc_vars = function(self, info_queue, card)
             local rtx = 1
             local me = SMODS.find_card("j_akyrs_aikoyori")

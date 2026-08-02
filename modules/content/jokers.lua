@@ -215,7 +215,6 @@ SMODS.Joker {
         name = "Quasi Connectivity",
         extra = {
             mult = 6,
-            emult = 4,
             first_hand = true
         }
     },
@@ -265,7 +264,7 @@ SMODS.Joker {
         end
         if context.joker_main or context.forcetrigger then
             return  {
-                    emult = card.ability.extra.emult,
+                    xmult = card.ability.extra.xmult,
                 }
         end
         if context.selling_card then
@@ -303,7 +302,6 @@ SMODS.Joker {
             chip_add = 64,
             chips_adequate = 0,
             chips_take = 10,
-            chip_add_stack_absurd = 12,
         }
     },
     add_to_deck = function (self, card, from_debuff)
@@ -382,7 +380,6 @@ SMODS.Joker {
 
             
             chip_add = 64,
-            chip_add_stack_absurd = 18,
         }
     },
     generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
@@ -497,7 +494,6 @@ SMODS.Joker {
     config = {
         extra = {
             mult = 1.5,
-            emult_absurd = 1.2,
         }
     },
     calculate = function(self, card, context)
@@ -549,10 +545,8 @@ SMODS.Joker {
     config = {
         extra = {
             extra = 16,
-            extra_absurd = 2,
             card_target = 4,
             Xmult = 1,
-            Xmult_absurd = 1,
         }
     },
     calculate = function(self, card, context)
@@ -866,8 +860,6 @@ SMODS.Joker{
         extra = {
             xmult = 1,
             extra = 0.5,
-            eemult = 1.21,
-            eemult_negative = 0.35,
             chance = 3,
             super_mario = 1,
         },
@@ -1062,6 +1054,7 @@ SMODS.Joker{
                         return true
                     end
                 })
+                --[[
                 G.E_MANAGER:add_event(
                     Event{
                         trigger = 'after',
@@ -1084,7 +1077,7 @@ SMODS.Joker{
                             return true
                         end
                     }
-                )
+                )]]
             end
             delay(0.1*AKYRS.get_speed_mult(card)+0.3*#G.play.cards)
         end
@@ -1185,7 +1178,7 @@ SMODS.Joker{
         end
         if context.joker_main or context.forcetrigger then
             return {
-                xchips = card.ability.extras.xchips,card.ability.extras.xchips_absurd
+                xchips = card.ability.extras.xchips
             }
         end
     end,
@@ -1274,7 +1267,6 @@ SMODS.Joker{
         name = "Ghastling",
         extras = {
             rounds_left = 20,
-            rounds_left_absurd = 20,
             mult = 21.6
         }
     },
@@ -1340,7 +1332,6 @@ SMODS.Joker{
         name = "Happy Ghast",
         extras = {
             xmult = 4.32,
-            eemult_absurd = 2.16
         }
     },
     in_pool = function (self, args)
@@ -1545,7 +1536,6 @@ SMODS.Joker{
         name = "躯樹の墓守",
         extras = {
             xmult = 1,
-            xmult_absurd = 1,
             xmult_add = 0.5,
         }
     },
@@ -1877,7 +1867,7 @@ SMODS.Joker{
     rarity = 1,
     cost = 3,
     config = {
-        extras = { xmult = 2.2, emult = 1, immutable = {index = 1} }
+        extras = { xmult = 2.2, immutable = {index = 1} }
     },
     loc_vars = function (self, info_queue, card)
         return {
@@ -1890,7 +1880,6 @@ SMODS.Joker{
         if card.area and card.area.cards then
             local current = AKYRS.find_index(card.area.cards,card)
             card.ability.extras.immutable.index = current
-            card.ability.extras.emult = AKYRS.pos_to_val(card.ability.extras.immutable.index,#card.area.cards)
         end
     end,
     calculate = function (self, card, context)
@@ -1903,7 +1892,6 @@ SMODS.Joker{
                         card.area.cards[where],card.area.cards[current or 1] = card.area.cards[current],card.area.cards[where]
                         card.ability.extras.immutable.index = current
                         card.area:align_cards()
-                        card.ability.extras.emult = AKYRS.pos_to_val(card.ability.extras.immutable.index,#card.area.cards)
                     end
                 }
             end
@@ -1988,7 +1976,6 @@ SMODS.Joker{
         extras = {
             mult = 6.000,
             dola = 1,
-            eeemult = 0.1
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -2023,7 +2010,6 @@ SMODS.Joker{
         extras = {
             count = 15,
             current = 0,
-            odds_absurd = 3
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -2143,7 +2129,7 @@ SMODS.Joker{
     calculate = function (self, card, context)
         if context.joker_main then
             return {
-                emult = card.ability.extras.emult
+                xmult = card.ability.extras.xmult
             }
         end
     end,
@@ -3728,14 +3714,18 @@ SMODS.Joker {
         card.akyrs_sulphur_card = Card(card.T.x, card.T.y, 0, 0, nil, G.P_CENTERS[k] )
         AKYRS.remove_value_from_table(G.I.CARD, card.akyrs_sulphur_card)
         card.akyrs_sulphur_card.akyrs_parent = card
+        card.akyrs_sulphur_card.akyrs_super_parent = card.akyrs_super_parent or card
         card.akyrs_sulphur_card:add_to_deck()
     end,
     update = function (self, card, dt)
         if card.akyrs_sulphur_card then
-            card.akyrs_sulphur_card.T.x = card.T.x
-            card.akyrs_sulphur_card.T.y = card.T.y
+            card.akyrs_sulphur_card.T.x = card.T.x + G.CARD_W / 2
+            card.akyrs_sulphur_card.T.y = card.T.y + G.CARD_H / 2
             card.akyrs_sulphur_card.T.w = 0
             card.akyrs_sulphur_card.T.h = 0
+            card.akyrs_sulphur_card.akyrs_parent = card
+            card.akyrs_sulphur_card.akyrs_super_parent = card.akyrs_super_parent or card
+            card.akyrs_sulphur_card.akyrs_recurse_level = (card.akyrs_recurse_level or 0) + 1
         else
             card.akyrs_sulphur_card = nil
         end

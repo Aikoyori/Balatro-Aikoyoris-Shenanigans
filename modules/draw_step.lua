@@ -141,6 +141,11 @@ SMODS.DrawStep {
         if self.children.akyrs_redeem_voucher then self.children.akyrs_redeem_voucher:draw() end
         if self.children.akyrs_collection_ui then self.children.akyrs_collection_ui:draw() end
         if self.children.akyrs_use_box then self.children.akyrs_use_box:draw() end
+        if self.akyrs_use_boxes then 
+            for _, uiboxes in ipairs(self.akyrs_use_boxes) do
+                uiboxes:draw()
+            end
+         end
     end,
 } 
 

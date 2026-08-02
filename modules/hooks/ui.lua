@@ -703,7 +703,7 @@ function AKYRS.UIDEF.special_joker_use(card)
     else
         text = localize("b_use")
     end
-    if card.area then
+    if card.area or card.akyrs_parent then
         return {
             n = G.UIT.ROOT,
             config = { padding = 0, colour = G.C.CLEAR },
@@ -769,6 +769,9 @@ G.FUNCS.akyrs_can_use_special = function(e)
             can_use = false
         end
     end
+    if ((G.GAME.STOP_USE and G.GAME.STOP_USE > 0)) then
+        can_use = false
+    end
     if can_use then
         e.config.colour = G.C.RED
         e.config.button = "akyrs_use_special"
@@ -813,6 +816,9 @@ local cardhighlighthook = Card.highlight
 function Card:highlight(is_higlighted)
     local ret = cardhighlighthook(self, is_higlighted)
 
+    if self.akyrs_sulphur_card and self.akyrs_sulphur_card:is(Card) then
+        self.akyrs_sulphur_card:highlight(is_higlighted)
+    end
     if self.base and (self.area and self.area == G.hand) and self.ability.aikoyori_letters_stickers == "#" then
         if is_higlighted and self.area and self.area ~= G.play and self.area.config.type ~= 'shop' then
 
@@ -834,13 +840,14 @@ function Card:highlight(is_higlighted)
                 parent = self }
         }
     end
-    if AKYRS.can_card_be_used(self) and self.area then
-        self.children.akyrs_use_box = UIBox {
+    if AKYRS.can_card_be_used(self) and (self.area or self.akyrs_parent) then
+        local card_target = self.akyrs_super_parent or self
+        card_target.akyrs_use_boxes = card_target.akyrs_use_boxes or {}
+        card_target.akyrs_use_boxes[#card_target.akyrs_use_boxes+1] = UIBox {
             definition = AKYRS.UIDEF.special_joker_use(self),
-            config = { align =
-                "cr",
-                offset = { x = -1, y = 0.85 },
-                parent = self }
+            config = { align = "cr",
+                offset = { x = -1, y = 0.85 + (self.akyrs_recurse_level or 0) * 0.6 },
+                parent = card_target }
         }
     end
     if not is_higlighted then
@@ -855,6 +862,12 @@ function Card:highlight(is_higlighted)
         if self.children.akyrs_use_box then
             self.children.akyrs_use_box:remove()
             self.children.akyrs_use_box = nil
+        end
+        if self.akyrs_use_boxes then
+            for _, uibox in ipairs(self.akyrs_use_boxes) do
+                uibox:remove()
+            end
+            self.akyrs_use_boxes = nil
         end
     end
     return ret
@@ -1667,6 +1680,17 @@ create_UIBox_akyrs_collection_judgement = function()
         h_mod = 0.95,
     })
 end
+create_UIBox_akyrs_collection_scenarios = function()
+    local scn = {}
+    for i, v in ipairs(AKYRS.Scenarios_Buffer) do
+        --print(pool)
+        table.insert(scn, AKYRS.Scenarios[v])
+    end
+    return SMODS.card_collection_UIBox(scn, {5,5,5}, {
+        no_materialize = true, 
+        h_mod = 0.95,
+    })
+end
 AKYRS.enchantment_collection_UIBox = function(_pool, rows, args)
     args = args or {}
     args.w_mod = args.w_mod or 1
@@ -1805,6 +1829,13 @@ G.FUNCS.akyrs_your_collection_enchantment = function(e)
     G.SETTINGS.paused = true
     G.FUNCS.overlay_menu{
         definition = create_UIBox_akyrs_collection_enchantment(),
+    }
+end
+
+G.FUNCS.akyrs_your_collection_scenarios = function(e)
+    G.SETTINGS.paused = true
+    G.FUNCS.overlay_menu{
+        definition = create_UIBox_akyrs_collection_scenarios(),
     }
 end
 

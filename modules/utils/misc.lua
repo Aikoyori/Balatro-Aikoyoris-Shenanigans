@@ -1477,53 +1477,56 @@ function AKYRS.keyvalue_to_list(tbl)
 end
 
 AKYRS.modify_blind_size = function(params)
-    if not params or type(params) ~= "table" then return end
-    if params.set then
-        G.E_MANAGER:add_event(Event({
-            trigger = "after",
-            func = function ()
-                G.GAME.blind.chips = Talisman and to_big(params.set) or params.set
-                return true
-            end
-        }))
-    end
-    if params.mult then
-        G.E_MANAGER:add_event(Event({
-            trigger = "after",
-            func = function ()
-                G.GAME.blind.chips = G.GAME.blind.chips * params.mult
-                return true
-            end
-        }))
-    end
-    if params.add then
-        G.E_MANAGER:add_event(Event({
-            trigger = "after",
-            func = function ()
-                G.GAME.blind.chips = G.GAME.blind.chips + params.add
-                return true
-            end
-        }))
-    end
-    if not params.no_sound then
-        G.E_MANAGER:add_event(Event({
-            trigger = "after",
-            func = function ()
-                play_sound('timpani')
-                return true
-            end,
-        }))
-    end
-    G.E_MANAGER:add_event(Event({
-        trigger = "after",
-        func = function ()
-            G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-            if not params.no_juice then
-                G.HUD_blind:get_UIE_by_ID("HUD_blind_count"):juice_up()
-            end
-            return true
+    SMODS.mod_blind_size(params)
+    if false then
+        if not params or type(params) ~= "table" then return end
+        if params.set then
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                func = function ()
+                    G.GAME.blind.chips = Talisman and to_big(params.set) or params.set
+                    return true
+                end
+            }))
         end
-    }))
+        if params.mult then
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                func = function ()
+                    G.GAME.blind.chips = G.GAME.blind.chips * params.mult
+                    return true
+                end
+            }))
+        end
+        if params.add then
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                func = function ()
+                    G.GAME.blind.chips = G.GAME.blind.chips + params.add
+                    return true
+                end
+            }))
+        end
+        if not params.no_sound then
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                func = function ()
+                    play_sound('timpani')
+                    return true
+                end,
+            }))
+        end
+        G.E_MANAGER:add_event(Event({
+            trigger = "after",
+            func = function ()
+                G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
+                if not params.no_juice then
+                    G.HUD_blind:get_UIE_by_ID("HUD_blind_count"):juice_up()
+                end
+                return true
+            end
+        }))
+    end
 end
 AKYRS.get_true_original_blind_amount = function(mult)
     return get_blind_amount(G.GAME.round_resets.ante)*mult*G.GAME.starting_params.ante_scaling

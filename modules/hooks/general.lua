@@ -1317,7 +1317,6 @@ local cardSave = Card.save
 function Card:save()
     local c = cardSave(self)
     c.is_null = self.is_null
-    c.highlighted = self.highlighted
     c.akyrs_old_ability = self.akyrs_old_ability
     c.akyrs_upgrade_sliced = self.akyrs_upgrade_sliced
     c.akyrs_impostor_card = self.akyrs_impostor_card
@@ -1335,7 +1334,6 @@ local cardLoad = Card.load
 function Card:load(cardTable, other_card)
     local c = cardLoad(self, cardTable, other_card)
     self.is_null = cardTable.is_null
-    self.highlighted = cardTable.highlighted
     self.akyrs_old_ability = cardTable.akyrs_old_ability
     self.akyrs_upgrade_sliced = cardTable.akyrs_upgrade_sliced
     self.akyrs_impostor_card = cardTable.akyrs_impostor_card
@@ -2107,11 +2105,13 @@ end
 function AKYRS.save_unlocks()
     AKYRS.save_pool(AKYRS.Enchantments)
     AKYRS.save_pool(AKYRS.Judgements)
+    AKYRS.save_pool(AKYRS.Scenarios)
 end
 
 function AKYRS.load_unlocks(meta)
     AKYRS.load_pool(AKYRS.Enchantments, meta)
     AKYRS.load_pool(AKYRS.Judgements, meta)
+    AKYRS.load_pool(AKYRS.Scenarios, meta)
 end
 
 function AKYRS.reset_pools()

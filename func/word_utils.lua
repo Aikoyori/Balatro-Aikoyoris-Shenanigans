@@ -40,6 +40,7 @@ AKYRS.math_deck_pro_distribution = {
 }
 
 AKYRS.scrabble_letters = {}
+AKYRS.scrabble_letters_sorted_score = {}
 AKYRS.raw_scrabble_letters = {}
 AKYRS.math_deck_characters = {}
 AKYRS.math_deck_pro_characters = {}

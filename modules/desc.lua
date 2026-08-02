@@ -425,7 +425,7 @@ AKYRS.DescriptionDummy{
 }
 
 AKYRS.DescriptionDummy{
-    key = "uses_left",
+    key = "scenario_tooltip",
 }
 
 if SMODS.DynaTextEffect then

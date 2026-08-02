@@ -1152,10 +1152,11 @@ return {
                     "{C:red,E:akyrs_shrivel,s:1.8}will NOT work!",
                 },
             },
-            dd_akyrs_uses_left = {
+            dd_akyrs_scenario_tooltip = {
                 name="Scenario",
                 text={
-                    "#1#/#2# Rounds Left",
+                    "{B:1,V:2}#3# #4#{}",
+                    "{C:blue}#1#{} / #2# Rounds Left",
                 },
             },
         },
@@ -2953,6 +2954,14 @@ return {
                     "to discover what it does",
                 },
             },
+            undiscovered_scenario = {
+                name="Not Discovered",
+                text={
+                    "Hold or Begin this Scenario",
+                    "in a unseeded run",
+                    "to discover what it does",
+                },
+            },
             pinned_left={
                 name="Pinned",
                 text={
@@ -3306,7 +3315,27 @@ return {
             sc_akyrs_sunset = {
                 name="Sunset",
                 text={
-                    "Gain {C:money}#1#{}",
+                    "Gain {C:money}#1#{} when playing a hand",
+                },
+            },
+            sc_akyrs_high_noon = {
+                name="High Noon",
+                text={
+                    "Create a {C:attention}Joker{}",
+                    "when blind is {C:attention}selected",
+                    "{C:inactive}(Must have room)",
+                },
+            },
+            sc_akyrs_eclipse = {
+                name="Eclipse",
+                text={
+                    "{X:blind,C:white}X#1#{} Blind Size",
+                },
+            },
+            sc_akyrs_yellow_hatena = {
+                name="Randomize Yellow",
+                text={
+                    "Randomize a {X:akyrs_scenario_yellow}Yellow{} Scenario",
                 },
             },
         },
@@ -4155,8 +4184,8 @@ return {
             b_alphabet_cards = "Alphabet Cards",
             k_umbral = "Umbral",
             k_replicant = "Replicant",
-            k_scenario = "Scenario",
             k_alphabet = "Alphabet",
+            k_scenario = "Scenario",
             k_bet = "Bet",
             k_enchantment = "Enchantment",
 
@@ -4380,6 +4409,7 @@ return {
             b_bet = "Bets",
             b_judgement = "Judgements",
             b_enchantment = "Enchantments",
+            b_scenario = "Scenarios",
 
 
 
@@ -4460,6 +4490,13 @@ return {
             alphabet = "Alphabet",
             enchantment = "Enchantment",
             bet = "Bet"
+        },
+        akyrs_colour = {
+            yellow = "Yellow",
+            pink = "Pink",
+            blue = "Blue",
+            dark = "Dark",
+            light = "Light",
         },
         poker_hand_descriptions=poker_hand_desc,
         poker_hands=poker_hands_name,

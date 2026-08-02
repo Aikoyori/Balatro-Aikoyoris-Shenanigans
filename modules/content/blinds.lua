@@ -723,7 +723,7 @@ SMODS.Blind{
         }
     end,
     disable = function (self)
-        AKYRS.modify_blind_size({set = AKYRS.get_true_original_blind_amount(self.mult)})
+        AKYRS.modify_blind_size({set = AKYRS.get_true_original_blind_amount(2)})
     end,
     calculate = function (self, blind, context)
         if context.before and not G.GAME.current_round.akyrs_hands_played[context.scoring_name] and not blind.disabled then

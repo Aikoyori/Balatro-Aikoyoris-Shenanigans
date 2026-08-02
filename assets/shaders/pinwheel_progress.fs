@@ -24,6 +24,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     vec2 uv = (((texture_coords)*(image_details)) - texture_details.xy*texture_details.ba)/texture_details.ba;
     PREC vec2 uv_centered = (uv-vec2(0.5, 0.5)) * 2.;
     // convert to polar coordinates
+    uv_centered *= rotationMatrix( - PI / 2.);
 
     PREC vec2 polarcoord = vec2(atan(uv_centered.y, uv_centered.x) + PI,distance(uv_centered, vec2(0.,0.)));
     

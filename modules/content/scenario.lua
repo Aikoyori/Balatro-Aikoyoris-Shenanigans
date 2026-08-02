@@ -124,6 +124,16 @@ function AKYRS.Scenario_Tag:generate_UI(_size, z)
     return tag_sprite_tab, tag_sprite
 end
 
+local colour_map = {
+    yellowlight = G.C.AKYRS_AKYRS_SCENARIO_YELLOW,
+    pinklight = G.C.AKYRS_AKYRS_SCENARIO_PINK,
+    bluelight = G.C.AKYRS_AKYRS_SCENARIO_BLUE,
+    yellowdark = G.C.AKYRS_AKYRS_SCENARIO_DARK_YELLOW,
+    pinkdark = G.C.AKYRS_AKYRS_SCENARIO_DARK_PINK,
+    bluedark = G.C.AKYRS_AKYRS_SCENARIO_DARK_BLUE,
+
+}
+
 function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
     tag_sprite = tag_sprite or self.tag_sprite
     
@@ -131,7 +141,17 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
     if AKYRS.Scenarios[self.key].loc_vars then loc_vars = AKYRS.Scenarios[self.key]:loc_vars({},self) end
     local cntr = { key = loc_vars.key or self.key, set = 'Scenario', vars = loc_vars.vars }
     tag_sprite.ability_UIBox_table = generate_card_ui(cntr, nil, loc_vars.vars, (self.hide_ability) and 'Undiscovered' or 'Scenario', nil, (self.hide_ability), loc_vars.main_start, loc_vars.main_end, self)
-    generate_card_ui(AKYRS.DescriptionDummies["dd_akyrs_uses_left"], tag_sprite.ability_UIBox_table, {self.akyrs_rounds_left,self.akyrs_rounds_total})
+    local info_vars = {
+        self.akyrs_rounds_left,
+        self.akyrs_rounds_total, 
+        localize(self.scenario.colour, "akyrs_colour"), 
+        localize(self.scenario.side, "akyrs_colour"),
+        colours = {
+            colour_map[self.scenario.colour..self.scenario.side],
+            self.scenario.side == "light" and G.C.UI.TEXT_DARK or G.C.UI.TEXT_LIGHT
+        }
+    }
+    generate_card_ui(AKYRS.DescriptionDummies["dd_akyrs_scenario_tooltip"], tag_sprite.ability_UIBox_table, info_vars)
     return tag_sprite
 end
 
@@ -179,6 +199,15 @@ end
 
 
 
+SMODS.UndiscoveredSprite{
+    key = "Scenario",
+    atlas = "undiscoveredScenario",
+    pos = { x = 0, y = 0 }
+}
+
+G.P_CENTER_POOLS.Enchantment = {}
+SMODS.UndiscoveredCompat["Scenario"] = true
+
 ---@type SMODS.Center
 AKYRS.Scenario = SMODS.Center:extend{
     required_params = {
@@ -201,6 +230,7 @@ AKYRS.Scenario = SMODS.Center:extend{
     badge_colour = HEX("645474FF"),
     pos = { x = j, y = i },
     inject = function(self) 
+        self.config.consumeable = {}
     end,
     config = {
 
@@ -209,16 +239,25 @@ AKYRS.Scenario = SMODS.Center:extend{
         return true
     end,
     use = function (self, card, area, copier)
-        AKYRS.juice_like_tarot(card)
+        local newkey = self.key
+        if card.ability.akyrs_scenario_random then
+            newkey = SMODS.poll_object{ pool = self.obj_buffer, filter = function(pool)
+                return AKYRS.filter_table(pool,function(obj) 
+                    local cm, sc = self.obj_table[obj].scenario, self.scenario
+                    return cm.colour == sc.colour and not self.obj_table[obj].akyrs_scenario_random
+                end,true,true)
+            end, seed = "akyrs_scenario_"..(self.scenario or {colour = "?"}).colour}
+        end
+        local newobj = AKYRS.Scenarios[newkey]
         AKYRS.remove_scenarios(function (cd)
             if AKYRS.Scenarios[cd.key] then
-                local sc, cm = AKYRS.Scenarios[cd.key].scenario, self.scenario 
+                local sc, cm = AKYRS.Scenarios[cd.key].scenario, newobj.scenario
                 return cm.side == sc.side and cm.colour == sc.colour
             end
             return false
         end)
         if not card.ability.akyrs_clean_scenario then
-            AKYRS.add_scenario_tag(AKYRS.Scenario_Tag(self.key))
+            AKYRS.add_scenario_tag(AKYRS.Scenario_Tag(newobj.key))
         end
     end
 }
@@ -392,4 +431,73 @@ AKYRS.Scenario {
             }
         end
     end
+}
+AKYRS.Scenario {
+    key = "high_noon",
+    set = "Scenario",
+    pos = { x = 5, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "light",
+    },
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.setting_blind then
+            return {
+                func = function ()
+                    if AKYRS.has_room(G.jokers) then
+                        SMODS.add_card{ set = "Joker" }
+                    end
+                end
+            }
+        end
+    end
+}
+AKYRS.Scenario {
+    key = "eclipse",
+    set = "Scenario",
+    pos = { x = 6, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "light",
+    },
+    config = {
+        extras = {
+            xblindsize = 0.95
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.xblindsize
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then
+            return {
+                xblindsize = card.ability.extras.xblindsize
+            }
+        end
+    end
+}
+AKYRS.Scenario {
+    key = "yellow_hatena",
+    set = "Scenario",
+    pos = { x = 7, y = 0 },
+    scenario = {
+        colour = "yellow",
+    },
+    config = {
+        akyrs_scenario_random = true
+    },
 }

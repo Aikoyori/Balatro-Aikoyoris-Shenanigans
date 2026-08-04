@@ -151,8 +151,8 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
     local info_vars = {
         self.akyrs_rounds_left,
         self.akyrs_total_rounds, 
-        localize(self.scenario.colour, "akyrs_colour"), 
         localize(self.scenario.side, "akyrs_colour"),
+        localize(self.scenario.colour, "akyrs_colour"), 
         colours = {
             colour_map[self.scenario.colour..(self.scenario.side or "dark")],
             self.scenario.side == "light" and G.C.UI.TEXT_DARK or G.C.UI.TEXT_LIGHT
@@ -217,7 +217,6 @@ function AKYRS.Scenario_Tag:calculate(context)
         return obj:calculate(self, context)
     end
 end
-
 
 
 SMODS.UndiscoveredSprite{
@@ -332,6 +331,14 @@ function AKYRS.remove_scenarios(func)
         return x:remove()
     end ,true,true)
 end
+
+function AKYRS.is_scenario_active(key)
+    return (next(AKYRS.filter_table(G.GAME.akyrs_scenario, function (x)
+        return x.key == key
+    end, true, true)) or next(SMODS.find_card(key))) and true or false
+end
+
+
 
 
 --[[
@@ -735,4 +742,47 @@ AKYRS.Scenario {
             }
         end
     end,
+}
+
+AKYRS.Scenario {
+    key = "tornado",
+    set = "Scenario",
+    pos = { x = 14, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            hands = 1
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.hands)
+            }
+        }
+    end,
+    akyrs_total_rounds = 2,
+    calculate = function (self, card, context)
+        if context.setting_blind then
+            return {
+                func = function ()
+                    ease_hands_played(card.ability.extras.hands)
+                end
+            }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "void",
+    set = "Scenario",
+    pos = { x = 0, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "light",
+    },
+    akyrs_clean_scenario = true
 }

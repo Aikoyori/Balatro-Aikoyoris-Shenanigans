@@ -661,6 +661,14 @@ G.FUNCS.discard_cards_from_highlighted = function (e,hook)
         end
         
     end
+    if AKYRS.is_scenario_active("sc_akyrs_tornado") then
+        local hlght = {}
+        for _, cd in ipairs(G.hand.cards) do
+            cd:highlight(false)
+            table.insert(hlght, cd)
+        end
+        G.hand.highlighted = hlght
+    end
     G.GAME.current_round.akyrs_last_action = "discard"
     local r = dcfhHook(e,hook)
     return r

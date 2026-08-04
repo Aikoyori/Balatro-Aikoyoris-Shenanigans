@@ -3288,7 +3288,7 @@ return {
             sc_akyrs_genesis = {
                 name="Genesis",
                 text={
-                    "Clear {C:akyrs_scenario_dark_yellow}Yellow Light{} Scenarios",
+                    "Clear {C:akyrs_scenario_dark_yellow}Light Yellow{} Scenarios",
                 },
             },
             sc_akyrs_day = {
@@ -3338,7 +3338,7 @@ return {
             sc_akyrs_clear = {
                 name="Clear",
                 text={
-                    "Clear {X:akyrs_scenario_dark_yellow,C:akyrs_scenario_yellow}Yellow{} {X:akyrs_scenario_dark_yellow,C:akyrs_scenario_yellow}Dark{} Scenarios",
+                    "Clear {X:akyrs_scenario_dark_yellow,C:akyrs_scenario_yellow}Dark{} {X:akyrs_scenario_dark_yellow,C:akyrs_scenario_yellow}Yellow{} Scenarios",
                 },
             },
             sc_akyrs_cloudy = {
@@ -3372,6 +3372,19 @@ return {
                 name="Thunder",
                 text={
                     "Random card in hand becomes a {C:dark_edition}Charged{} {C:attention}Zap Card{}",
+                },
+            },
+            sc_akyrs_tornado = {
+                name="Tornado",
+                text={
+                    "Discarding discards {C:red}all{} cards in hand",
+                    "{C:blue}#1#{} Hand when setting blind",
+                },
+            },
+            sc_akyrs_void = {
+                name="Genesis",
+                text={
+                    "Clear {C:akyrs_scenario_dark_pink}Light Pink{} Scenarios",
                 },
             },
         },

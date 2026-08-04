@@ -814,7 +814,7 @@ SMODS.Joker {
                 chips = card.ability.extra.chips
             }
         end
-        if context.end_of_round and context.cardarea == G.jokers then
+        if context.end_of_round and context.main_eval then
             return {
                 message = localize("k_akyrs_2fa_reset"),
                 func = function()
@@ -957,7 +957,7 @@ SMODS.Joker{
         }
     end,
     calculate = function (self, card, context)
-        if (context.end_of_round or context.forcetrigger) and context.cardarea == G.jokers then
+        if ((context.end_of_round and context.main_eval) or context.forcetrigger) then
             if card.ability.immutable.akyrs_cycler ~= 1 and card.ability.immutable.akyrs_cycler ~= 2 and card.ability.immutable.akyrs_cycler ~= 3 and card.ability.immutable.akyrs_cycler ~= 4 then
                 card.ability.immutable.akyrs_cycler = 1
             end
@@ -1228,7 +1228,7 @@ SMODS.Joker{
         if context.selling_card and context.card == card and not context.blueprint then
             G.GAME.current_round.discards_left = card.ability.current_round_discards 
         end
-        if (context.end_of_round and context.cardarea == G.jokers or context.forcetrigger) and not context.blueprint then
+        if ((context.end_of_round and context.main_eval) or context.forcetrigger) and not context.blueprint then
             if not card.ability.do_not_decrease then
                 return {
                     message = localize("k_akyrs_moisture"),
@@ -1447,7 +1447,7 @@ SMODS.Joker{
                 chips = card.ability.extras.chips
             }
         end
-        if context.end_of_round and context.cardarea == G.jokers then
+        if (context.end_of_round and context.main_eval) then
             local odder = SMODS.pseudorandom_probability(card,"akyrs_ash_joker_adequate", 1, card.ability.extras.odds)
             if odder then
                 card.ability.akyrs_ash_disintegrate = odder
@@ -2086,7 +2086,7 @@ SMODS.Joker{
         end
     end,
     calculate = function (self, card, context)
-        if context.end_of_round and context.cardarea == G.jokers then
+        if (context.end_of_round and context.main_eval) then
             return {
                 func = function ()
                     local rarity = card.ability.extras.route == "pacifist" and "Legendary" or "Rare"
@@ -2207,13 +2207,6 @@ SMODS.Joker{
             return {
                 saved = localize("k_akyrs_you_tried"),
                 func = function ()
-                    if not AKYRS.is_mp() then
-                        for i,k in ipairs(G.jokers.cards) do
-                            if not SMODS.is_eternal(k) then
-                                SMODS.destroy_cards({k})
-                            end
-                        end
-                    end
                     local old_ante = G.GAME.round_resets.ante
                     ease_ante((-math.floor(G.GAME.round_resets.ante/2)))
                 end
@@ -2450,7 +2443,7 @@ SMODS.Joker{
         }
     end,
     calculate = function (self, card, context)
-        if context.end_of_round and context.cardarea == G.jokers then
+        if (context.end_of_round and context.main_eval) then
             return {
                 func = function ()
                     card.ability.extras.used = false
@@ -2721,7 +2714,7 @@ SMODS.Joker {
     },
     loc_vars = function (self, info_queue, card)
         local n, d = SMODS.get_probability_vars(card, 2, 2, "koshian_calc")
-        card.sell_cost = n + d
+        card.sell_cost = n * d
         return {
             vars = { n, d },
         }
@@ -2733,7 +2726,7 @@ SMODS.Joker {
     },
     add_to_deck = function (self, card, dt)
         local n, d = SMODS.get_probability_vars(card, 2, 2, "koshian_calc")
-        card.sell_cost = n + d
+        card.sell_cost = n * d
     end,
     
     calculate = function (self, card, context)
@@ -2762,7 +2755,7 @@ SMODS.Joker {
     rarity = 2,
     cost = 5,
     config = {
-        extra = 1
+        extra = 3
     },
     calculate = function (self, card, context)
         if context.individual and context.cardarea == G.play and not context.blueprint then
@@ -2819,7 +2812,7 @@ SMODS.Joker {
         card.ability.extras.type = pseudorandom_element(sts, "akyrs_gift_voucher_initial")
     end,
     calculate = function (self, card, context)
-        if context.end_of_round and context.cardarea == G.jokers then
+        if (context.end_of_round and context.main_eval) then
             return {
                 func = function()
                     local sts = AKYRS.get_consumable_set()
@@ -2948,7 +2941,7 @@ SMODS.Joker {
         }
     end,
     calculate = function (self, card, context)
-        if context.end_of_round and context.cardarea == G.jokers then
+        if (context.end_of_round and context.main_eval) then
             return {
                 func = function()
                     AKYRS.simple_event_add(function ()
@@ -3731,7 +3724,7 @@ SMODS.Joker {
         end
     end,
     calculate = function (self, card, context)
-        if context.end_of_round and context.cardarea == card.area then
+        if (context.end_of_round and context.main_eval) then
             SMODS.calculate_effect({
                 func = function()
                     card.ability_UIBox_table = nil

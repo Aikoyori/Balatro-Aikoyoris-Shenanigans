@@ -65,6 +65,9 @@ G.ARGS.LOC_COLOURS.akyrs_gappie_cred = G.C.AKYRS_AIKOYORI_GAPPIE_CRED_COLOR
 G.ARGS.LOC_COLOURS.akyrs_scenario_yellow  = G.C.AKYRS_AKYRS_SCENARIO_YELLOW
 G.ARGS.LOC_COLOURS.akyrs_scenario_pink    = G.C.AKYRS_AKYRS_SCENARIO_PINK
 G.ARGS.LOC_COLOURS.akyrs_scenario_blue    = G.C.AKYRS_AKYRS_SCENARIO_BLUE
+G.ARGS.LOC_COLOURS.akyrs_scenario_dark_yellow  = G.C.AKYRS_AKYRS_SCENARIO_DARK_YELLOW
+G.ARGS.LOC_COLOURS.akyrs_scenario_dark_pink    = G.C.AKYRS_AKYRS_SCENARIO_DARK_PINK
+G.ARGS.LOC_COLOURS.akyrs_scenario_dark_blue    = G.C.AKYRS_AKYRS_SCENARIO_DARK_BLUE
 """
 overwrite = true
 match_indent = true

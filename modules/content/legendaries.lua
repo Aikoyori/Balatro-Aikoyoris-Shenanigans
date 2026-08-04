@@ -167,7 +167,7 @@ SMODS.Joker{
                 }
             end
         end
-        if context.end_of_round and context.cardarea == G.jokers then
+        if (context.end_of_round and context.main_eval) then
             return {
                 message = localize("k_reset"),
                 func = function ()

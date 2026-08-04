@@ -1167,6 +1167,10 @@ function AKYRS.is_in_typical_area(area)
     return area == G.jokers or area == G.hand or area == G.consumeables
 end
 
+function AKYRS.is_in_joker_type_area(area)
+    return area == G.jokers or area == G.consumeables
+end
+
 -- value and weight are them props
 function AKYRS.weighted_randomiser(list_of_things, seed)
     local total = 0
@@ -1685,3 +1689,9 @@ end
 function AKYRS.should_give_eternal_likes(area)
     return (area == G.shop_jokers) or (area == G.pack_cards) 
 end
+
+
+function AKYRS.end_of_round_scenario_check(cd, area)
+    return cd and (AKYRS.Scenario_Tag:is(cd)) or (cd.area == area) 
+end
+

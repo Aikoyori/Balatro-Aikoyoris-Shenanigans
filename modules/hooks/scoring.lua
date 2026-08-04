@@ -234,7 +234,7 @@ SMODS.insert_repetitions = function(ret, eval, effect_card, _type)
     if G.GAME.blind and G.GAME.blind.debuff.akyrs_no_retriggers and not G.GAME.blind.disabled then
         return 
     end
-    if effect_card.config.center.akyrs_no_retriggers then
+    if ((effect_card.config or {}).center or {}).akyrs_no_retriggers then
         return 
     end
     return rep_in(ret, eval, effect_card, _type)

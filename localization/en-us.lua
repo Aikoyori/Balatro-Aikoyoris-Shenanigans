@@ -2083,13 +2083,13 @@ return {
                 name = "Brushing Clothes Pattern",
                 text = { 
                     "Add {C:attention}first held{} card to played hand",
+                    "{C:inactive}(The card will be on the leftmost)"
                 }
             },
             j_akyrs_you_tried = {
                 name = "You Tried",
                 text = { 
                     "{C:attention}Prevents death{} and",
-                    "{C:red}Destroy all your Jokers",
                     "Halves your current Ante {C:inactive}(rounding up)",
                     "Sets money to {C:money}$#2#",
                     "then {E:akyrs_snaking,C:red}self-destructs",
@@ -2099,8 +2099,6 @@ return {
                 name = "You Tried",
                 text = { 
                     "When losing to {C:attention}non-PvP{} blinds",
-                    --"{C:red}Destroy all your Jokers",
-                    --"{C:attention}+#1#{} Life",
                     "Gain {C:money}$#2#",
                     "then {E:akyrs_snaking,C:red}self-destructs",
                 }
@@ -2134,7 +2132,7 @@ return {
                 text = { 
                     {
                         "Add an {C:attention}Enhanced Sealed {C:spades}Spades{} to hand",
-                        "per {C:attention}Kessoku Band{} Jokers held",
+                        "per {C:attention}Kessoku Band{} Jokers held when {C:attention}hand is played",
                     }
                 }
             },
@@ -2260,7 +2258,7 @@ return {
                 },
                 text = {
                     'This Joker\'s {C:attention}sell value{} is equal to',
-                    'sum of {C:green}numerator and denominator{} of probability',
+                    'product of {C:green}numerator and denominator{} of probability',
                     'with base chance of {C:attention}2 in 2',
                     "{C:inactive}(Currently {C:green}#1# in #2#{C:inactive})",
                 }
@@ -3291,7 +3289,7 @@ return {
             sc_akyrs_genesis = {
                 name="Genesis",
                 text={
-                    "Clear {C:attention}Yellow Light{} Scenarios",
+                    "Clear {C:akyrs_scenario_dark_yellow}Yellow Light{} Scenarios",
                 },
             },
             sc_akyrs_day = {
@@ -3315,7 +3313,7 @@ return {
             sc_akyrs_sunset = {
                 name="Sunset",
                 text={
-                    "Gain {C:money}#1#{} when playing a hand",
+                    "Gain {C:money}#1#{} every hand",
                 },
             },
             sc_akyrs_high_noon = {
@@ -3336,6 +3334,25 @@ return {
                 name="Randomize Yellow",
                 text={
                     "Randomize a {X:akyrs_scenario_yellow}Yellow{} Scenario",
+                },
+            },
+            sc_akyrs_clear = {
+                name="Clear",
+                text={
+                    "Clear {X:akyrs_scenario_dark_yellow,C:akyrs_scenario_yellow}Yellow{} {X:akyrs_scenario_dark_yellow,C:akyrs_scenario_yellow}Dark{} Scenarios",
+                },
+            },
+            sc_akyrs_cloudy = {
+                name="Cloudy",
+                text={
+                    "Gain {C:money}#1#{} every hand",
+                },
+            },
+            sc_akyrs_rain = {
+                name="Rain",
+                text={
+                    "When hand is played, {C:red}#1#{} Discards",
+                    "and {C:attention}#2#{} Hand Size until the end of round"
                 },
             },
         },

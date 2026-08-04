@@ -17,8 +17,8 @@ function AKYRS.Scenario_Tag:init(_scenario, for_collection, _blind_type)
     self.name = proto.name
     self.akyrs_scenario_tally = G.GAME.akyrs_scenario_tally or 0
     self.triggered = false
-    self.akyrs_rounds_total = self.config.akyrs_rounds_total or 4
-    self.akyrs_rounds_left = self.config.akyrs_rounds_left or 4
+    self.akyrs_total_rounds = proto.akyrs_total_rounds or 4
+    self.akyrs_rounds_left = proto.akyrs_rounds_left or proto.akyrs_total_rounds or 4
     G.akyrs_scenario_id = G.akyrs_scenario_id or 0
     self.ID = G.akyrs_scenario_id
     G.akyrs_scenario_id = G.akyrs_scenario_id + 1
@@ -32,6 +32,8 @@ function AKYRS.Scenario_Tag:set_ability()
     local obj = AKYRS.Scenarios[self.key]
     self.ability = copy_table(obj.config)
     self.scenario = copy_table(obj.scenario)
+    self.akyrs_total_rounds = obj.akyrs_total_rounds or 4
+    self.akyrs_rounds_left = obj.akyrs_rounds_left or obj.akyrs_total_rounds or 4
     if obj and obj.set_ability and type(obj.set_ability) == 'function' then
         obj:set_ability(self)
     end
@@ -54,6 +56,7 @@ function AKYRS.Scenario_Tag:load(tag_savetable)
     self.config = copy_table(proto.config)
     self.pos = proto.pos
     self.name = proto.name
+    self.scenario = proto.scenario
     self.akyrs_rounds_left = tag_savetable.rounds_left
     self.akyrs_total_rounds = tag_savetable.total_rounds
     self.akyrs_scenario_tally = tag_savetable.akyrs_scenario_tally
@@ -87,7 +90,7 @@ function AKYRS.Scenario_Tag:generate_UI(_size, z)
         shader = 'akyrs_pinwheel_progress',
         send = {
             {name = 'left', ref_table = self, ref_value = 'akyrs_rounds_left'},
-            {name = 'total', ref_table = self, ref_value = 'akyrs_rounds_total'},
+            {name = 'total', ref_table = self, ref_value = 'akyrs_total_rounds'},
             {name = 'image_details', func = function() return tag_sprite:get_image_dims() end},
             {name = 'texture_details', func = function() return tag_sprite:get_pos_pixel() end},
         }}})
@@ -143,7 +146,7 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
     tag_sprite.ability_UIBox_table = generate_card_ui(cntr, nil, loc_vars.vars, (self.hide_ability) and 'Undiscovered' or 'Scenario', nil, (self.hide_ability), loc_vars.main_start, loc_vars.main_end, self)
     local info_vars = {
         self.akyrs_rounds_left,
-        self.akyrs_rounds_total, 
+        self.akyrs_total_rounds, 
         localize(self.scenario.colour, "akyrs_colour"), 
         localize(self.scenario.side, "akyrs_colour"),
         colours = {
@@ -177,13 +180,14 @@ function AKYRS.Scenario_Tag:remove()
     if HUD_tag_key then 
         if G.AKYRS_SCENARIO_TAG_HUD and G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1] then
             if HUD_tag_key == 1 then
-                G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1]:set_alignment({type = 'bl',
+                G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1]:set_alignment({type = 'bli',
                 offset = offset,
                 xy_bond = 'Weak',
                 role_type = 'Minor', 
                 major = G.ROOM_ATTACH})
             else
                 G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1]:set_role({
+                offset = offset_each,
                 xy_bond = 'Weak',
                 major = G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key-1]})
             end
@@ -244,12 +248,12 @@ AKYRS.Scenario = SMODS.Center:extend{
     end,
     use = function (self, card, area, copier)
         local newkey = self.key
-        if card.ability.akyrs_scenario_random then
+        if self.akyrs_scenario_random then
             newkey = SMODS.poll_object{ pool = self.obj_buffer, filter = function(pool)
                 return AKYRS.filter_table(pool,function(obj) 
                     local obj_tbl = self.obj_table[obj]
                     local cm, sc = obj_tbl.scenario, self.scenario
-                    return cm.colour == sc.colour and not obj_tbl.akyrs_scenario_random and not obj_tbl.akyrs_clean_scenario
+                    return cm.colour == sc.colour and cm.side == sc.side and not obj_tbl.akyrs_scenario_random and not obj_tbl.akyrs_clean_scenario
                 end,true,true)
             end, seed = "akyrs_scenario_"..(self.scenario or {colour = "?"}).colour}
         end
@@ -262,7 +266,14 @@ AKYRS.Scenario = SMODS.Center:extend{
             return false
         end)
         if not self.akyrs_clean_scenario then
-            AKYRS.add_scenario_tag(AKYRS.Scenario_Tag(newobj.key))
+            local scnrtag = AKYRS.Scenario_Tag(newobj.key)
+            for k, v in pairs(scnrtag.ability) do
+                scnrtag.ability[k] = card.ability[k]
+            end
+            AKYRS.add_scenario_tag(scnrtag)
+            if self.use_extras then
+                self:use_extras(card, area, copier, scnrtag)
+            end
         end
     end
 }
@@ -394,7 +405,7 @@ AKYRS.Scenario {
     },
     config = {
         extras = {
-            xmult = 1.4
+            xmult = 1.3
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -506,4 +517,100 @@ AKYRS.Scenario {
         colour = "yellow",
     },
     akyrs_scenario_random = true
+}
+
+AKYRS.Scenario {
+    key = "clear",
+    set = "Scenario",
+    pos = { x = 8, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "dark",
+    },
+    akyrs_clean_scenario = true,
+}
+AKYRS.Scenario {
+    key = "cloudy",
+    set = "Scenario",
+    pos = { x = 9, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "dark",
+    },
+    akyrs_total_rounds = 2,
+    config = {
+        extras = {
+            dollars = 3,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed_dollars(card.ability.extras.dollars)
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then 
+            return {
+                dollars = card.ability.extras.dollars
+            }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "rain",
+    set = "Scenario",
+    pos = { x = 10, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            discards = 3,
+            hand_size = -1,
+            hand_size_taken = 0
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.discards),
+                SMODS.signed(card.ability.extras.hand_size),
+                SMODS.signed(card.ability.extras.hand_size_taken),
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then
+            return {
+                func = function ()
+                    ease_discard(card.ability.extras.discards)
+                    G.hand:change_size(card.ability.extras.hand_size)
+                    card.ability.extras.hand_size_taken = card.ability.extras.hand_size_taken + card.ability.extras.hand_size
+                end
+            }
+        end
+        if context.end_of_round and context.main_eval then
+            return {
+                func = function ()
+                    G.hand:change_size(-card.ability.extras.hand_size_taken)
+                    card.ability.extras.hand_size_taken = 0
+                end
+            }
+        end
+    end,
+    remove_from_deck = function (self, card, from_debuff)
+        G.hand:change_size(-card.ability.extras.hand_size_taken)
+    end,
+    use_extras = function(self, card, area, copier, tag)
+    end,
+    tag_added = function (self, tag)
+        G.hand:change_size(card.ability.extras.hand_size_taken)
+    end,
+    tag_removed = function (self, tag)
+        G.hand:change_size(-card.ability.extras.hand_size_taken)
+    end,
 }

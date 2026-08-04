@@ -1132,8 +1132,7 @@ return {
             j_hatena  = {
                 name="????????",
                 text={
-                    "This card is {C:attention}completely{} unknown",
-                    "{C:inactive}(and you will never know what it is)",
+                    "This card's ability {C:attention}hidden{}",
                 },
             },
             dd_akyrs_neon_seal_ex  = {
@@ -1196,11 +1195,11 @@ return {
                     "{C:white,X:mult}X#2#{} Mult"
                 }
             },
-            e_akyrs_dyed = {
-                name = "Dyed",
+            e_akyrs_charged = {
+                name = "Charged",
                 text = {
                     "{C:purple}+#1#{} Score",
-                    "Gain {C:purple}+#2#{} every trigger",
+                    "Gain {C:purple}+#2# {C:inactive}[+#3#]{} every trigger",
                 }
             },
             e_akyrs_sliced = {
@@ -3355,6 +3354,26 @@ return {
                     "and {C:attention}#2#{} Hand Size until the end of round"
                 },
             },
+            sc_akyrs_snow = {
+                name="Snow",
+                text={
+                    "{X:chips,C:white}X#1#{} Chips",
+                    "When hand is played",
+                    "{C:blue}#2#{} Hand until the end of round",
+                },
+            },
+            sc_akyrs_hail = {
+                name="Hail",
+                text={
+                    "{C:chips}#1#{} Chips and {X:chips,C:white} X#2#{} Chips per card scored",
+                },
+            },
+            sc_akyrs_thunder = {
+                name="Thunder",
+                text={
+                    "Random card in hand becomes a {C:dark_edition}Charged{} {C:attention}Zap Card{}",
+                },
+            },
         },
         Spectral={},
         Stake={
@@ -4115,7 +4134,7 @@ return {
                     "Two random card in hand is",
                     "converted into {C:attention}Wafer Card{}",
                     "Another two random card in hand will have",
-                    "{C:dark_edition}Dyed{} applied to it",
+                    "{C:dark_edition}Charged{} applied to it",
                 }
             },
             c_akyrs_replicant_get_rich_quick = {
@@ -4495,7 +4514,7 @@ return {
             akyrs_noire = "Noire",
             akyrs_sliced = "Sliced",
             akyrs_burnt = "Burnt",
-            akyrs_dyed = "Dyed",
+            akyrs_charged = "Charged",
             akyrs_enchanted = "Enchanted",
             k_akyrs_emerald = "Emerald",
             k_akyrs_supercommon = "Supercommon",
@@ -4567,7 +4586,7 @@ return {
                 {"Aikoslop","Shenslop"},
                 {"Shenanigan","Aikoyori's"},
                 {"Steal the","Aikoshen"},
-                {"Aikoyori the Movie:"," The Game: The Mod"},
+                {"Aikoyori the Movie:","The Game: The Mod"},
                 {"iroyokia's","playbook real"},
                 {"aish"},
                 {"The Wacky","and Wonderous Shenanigans","in the world of Aikoyori"},

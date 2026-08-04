@@ -89,8 +89,8 @@ SMODS.Sound({
 })
 
 SMODS.Sound({
-    key = "dyed",
-    path = "dyed.ogg",
+    key = "charged",
+    path = "charged.ogg",
 })
 
 -- hook to play randomized sounds 

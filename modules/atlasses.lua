@@ -436,8 +436,8 @@ SMODS.Shader{
     path = "aiko_splash.fs"
 }
 SMODS.Shader{
-    key = "dyed",
-    path = "dyed.fs"
+    key = "charged",
+    path = "charged.fs"
 }
 SMODS.Shader{
     key = "aiko_mod_badge",

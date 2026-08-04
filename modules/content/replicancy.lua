@@ -569,7 +569,7 @@ SMODS.Consumable{
     },
     loc_vars = function (self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_akyrs_wafer_card
-        info_queue[#info_queue+1] = G.P_CENTERS.e_akyrs_dyed
+        info_queue[#info_queue+1] = G.P_CENTERS.e_akyrs_charged
     end,
     can_use = function (self, card)
         local eligible_cards = AKYRS.filter_table(G.hand.cards, function (cfx, ind)
@@ -591,7 +591,7 @@ SMODS.Consumable{
             cardx:set_ability(G.P_CENTERS.m_akyrs_wafer_card)
         end)
         AKYRS.do_things_to_card(candidates_edition, function (cardx, index)
-            cardx:set_edition('e_akyrs_dyed')
+            cardx:set_edition('e_akyrs_charged')
         end)
     end
 }

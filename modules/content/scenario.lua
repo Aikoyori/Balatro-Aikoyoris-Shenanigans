@@ -12,7 +12,8 @@ AKYRS.Scenario_Tag = Object:extend()
 function AKYRS.Scenario_Tag:init(_scenario, for_collection, _blind_type)
     self.key = _scenario
     local proto = AKYRS.Scenarios[_scenario]
-    self.config = copy_table(proto.config)
+    self.sc_config = copy_table(proto.config)
+    self.config = proto
     self.pos = proto.pos
     self.name = proto.name
     self.akyrs_scenario_tally = G.GAME.akyrs_scenario_tally or 0
@@ -53,7 +54,8 @@ end
 function AKYRS.Scenario_Tag:load(tag_savetable)
     self.key = tag_savetable.key
     local proto = AKYRS.Scenarios[self.key]
-    self.config = copy_table(proto.config)
+    self.sc_config = copy_table(proto.config)
+    self.config = proto
     self.pos = proto.pos
     self.name = proto.name
     self.scenario = proto.scenario
@@ -141,9 +143,11 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
     tag_sprite = tag_sprite or self.tag_sprite
     
     local name_to_check, loc_vars = self.name, {}
-    if AKYRS.Scenarios[self.key].loc_vars then loc_vars = AKYRS.Scenarios[self.key]:loc_vars({},self) end
+    local info_q = {}
+    local bgs = {}
+    if AKYRS.Scenarios[self.key].loc_vars then loc_vars = AKYRS.Scenarios[self.key]:loc_vars(info_q,self) end
     local cntr = { key = loc_vars.key or self.key, set = 'Scenario', vars = loc_vars.vars }
-    tag_sprite.ability_UIBox_table = generate_card_ui(cntr, nil, loc_vars.vars, (self.hide_ability) and 'Undiscovered' or 'Scenario', nil, (self.hide_ability), loc_vars.main_start, loc_vars.main_end, self)
+    tag_sprite.ability_UIBox_table = generate_card_ui(cntr, nil, loc_vars.vars, (self.hide_ability) and 'Undiscovered' or 'Scenario', bgs, (self.hide_ability), loc_vars.main_start, loc_vars.main_end, self)
     local info_vars = {
         self.akyrs_rounds_left,
         self.akyrs_total_rounds, 
@@ -155,6 +159,15 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
         }
     }
     generate_card_ui(AKYRS.DescriptionDummies["dd_akyrs_scenario_tooltip"], tag_sprite.ability_UIBox_table, info_vars)
+    for _, iq in ipairs(info_q) do
+        generate_card_ui(iq, tag_sprite.ability_UIBox_table)
+    end
+    --print(tag_sprite.ability_UIBox_table)
+    tag_sprite.ability_UIBox_table.badges = tag_sprite.ability_UIBox_table.badges or {}
+    tag_sprite.ability_UIBox_table.badges.card_type = "Scenario"
+    tag_sprite.config.center = self.config
+    tag_sprite.ability = self.ability
+
     return tag_sprite
 end
 
@@ -216,6 +229,7 @@ SMODS.UndiscoveredSprite{
 G.P_CENTER_POOLS.Enchantment = {}
 SMODS.UndiscoveredCompat["Scenario"] = true
 
+G.C.SECONDARY_SET.Scenario = HEX("645474FF")
 ---@type SMODS.Center
 AKYRS.Scenario = SMODS.Center:extend{
     required_params = {
@@ -309,6 +323,7 @@ function AKYRS.add_scenario_tag(_tag)
   _tag.from_load = nil
   G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD].is_scenario_tag = true
   _tag.HUD_tag = G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD]
+  _tag.HUD_tag_sprites = tag_sprite_ui
 end
 
 function AKYRS.remove_scenarios(func)
@@ -612,5 +627,112 @@ AKYRS.Scenario {
     end,
     tag_removed = function (self, tag)
         G.hand:change_size(-card.ability.extras.hand_size_taken)
+    end,
+}
+
+AKYRS.Scenario {
+    key = "snow",
+    set = "Scenario",
+    pos = { x = 11, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            xchips = 3,
+            hand_ease_down = -1
+        }
+    },
+    akyrs_total_rounds = 3,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                (card.ability.extras.xchips),
+                SMODS.signed(card.ability.extras.hand_ease_down),
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then 
+            return {
+                xchips = card.ability.extras.xchips,
+                func = function ()
+                    ease_hands_played(card.ability.extras.hand_ease_down)
+                end
+            }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "hail",
+    set = "Scenario",
+    pos = { x = 12, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            chips = 62.5,
+            xchips = 0.8
+        }
+    },
+    akyrs_total_rounds = 5,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.chips),
+                (card.ability.extras.xchips),
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.individual and context.cardarea == G.play then 
+            return {
+                chips = card.ability.extras.chips,
+                xchips = card.ability.extras.xchips,
+            }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "thunder",
+    set = "Scenario",
+    pos = { x = 13, y = 0 },
+    scenario = {
+        colour = "yellow",
+        side = "dark",
+    },
+    config = {
+        extras = {
+        }
+    },
+    akyrs_total_rounds = 2,
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS['e_akyrs_charged']
+        info_queue[#info_queue+1] = G.P_CENTERS['m_akyrs_zap_card']
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.chips),
+                (card.ability.extras.xchips),
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.before then 
+            return {
+                func = function ()
+                    local cardy = pseudorandom_element(G.hand.cards, "akyrs_thunder_pick")
+                    local cds = { cardy }
+                    AKYRS.do_things_to_card(cds, function (cd, index)
+                        cd:set_ability(G.P_CENTERS['m_akyrs_zap_card'])
+                        cd:set_edition({ akyrs_charged = true }, true)
+                    end)
+                end
+            }
+        end
     end,
 }

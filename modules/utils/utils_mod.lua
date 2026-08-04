@@ -808,11 +808,14 @@ end
 
 function AKYRS.end_round_hook()
     for _, sc in ipairs(G.GAME.akyrs_scenario) do
-        SMODS.calculate_effect({ message = localize("k_akyrs_downgrade_ex"), message_card = sc.HUD_tag, func = function ()
-            sc.akyrs_rounds_left = sc.akyrs_rounds_left - 1
-            if sc.akyrs_rounds_left <= 0 then
-                sc:remove()
-            end
+        SMODS.calculate_effect({ message = localize("k_akyrs_downgrade_ex"), juice_card = sc, message_card = sc.HUD_tag, func = function ()
+            AKYRS.simple_event_add(function ()
+                sc.akyrs_rounds_left = sc.akyrs_rounds_left - 1
+                if sc.akyrs_rounds_left <= 0 then
+                    sc:remove()
+                end
+                return true
+            end, 0)
         end }, sc)
     end
     AKYRS.SEVEN_WONDERS_CARDS_THAT_SHOULD_GIVE_XSCORE = nil

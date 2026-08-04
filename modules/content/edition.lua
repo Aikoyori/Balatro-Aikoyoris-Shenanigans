@@ -144,21 +144,23 @@ SMODS.Edition{
 
 
 SMODS.Edition{
-    key = "dyed",
-    shader = "akyrs_dyed",
+    key = "charged",
+    shader = "akyrs_charged",
     config = {
         extra = {
             score = 100,
             score_gain = 20,
+            score_gain_gain = 5,
         },
     },
-    sound = { sound = "akyrs_dyed", per = 0.8, vol = 0.3 },
+    sound = { sound = "akyrs_charged", per = 0.8, vol = 0.3 },
     in_shop = true,
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
                 (card.edition or self.config).extra.score,
                 (card.edition or self.config).extra.score_gain,
+                (card.edition or self.config).extra.score_gain_gain,
             }
         }
     end,
@@ -170,6 +172,7 @@ SMODS.Edition{
             return {
                 func = function ()
                     card.edition.extra.score = card.edition.extra.score + card.edition.extra.score_gain
+                    card.edition.extra.score_gain = card.edition.extra.score_gain + card.edition.extra.score_gain_gain
                 end
             }
         end
@@ -180,6 +183,7 @@ SMODS.Edition{
             return {
                 func = function ()
                     card.edition.extra.score = card.edition.extra.score + card.edition.extra.score_gain
+                    card.edition.extra.score_gain = card.edition.extra.score_gain + card.edition.extra.score_gain_gain
                 end
             }
         end

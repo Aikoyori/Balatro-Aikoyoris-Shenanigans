@@ -233,6 +233,10 @@ function AKYRS.create_link_sprite_btn(platform, link)
     px, py = 3, 0
   end
   
+  if platform == "newgrounds" then
+    col = G.C.FILTER
+    px, py = 4, 0
+  end
   return 
   {
     n = G.UIT.C,
@@ -390,7 +394,7 @@ SMODS.current_mod.extra_tabs = function ()
                             config = { padding = 0.02 },
                             nodes = {
                               -- TODO: add ng icon
-                              AKYRS.create_link_sprite_btn("pixeljoint", "https://marcyptata64.newgrounds.com/"),
+                              AKYRS.create_link_sprite_btn("newgrounds", "https://marcyptata64.newgrounds.com/"),
                             }
                           }),
                         }

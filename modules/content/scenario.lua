@@ -270,7 +270,7 @@ AKYRS.Scenario = SMODS.Center:extend{
                 return AKYRS.filter_table(pool,function(obj) 
                     local obj_tbl = self.obj_table[obj]
                     local cm, sc = obj_tbl.scenario, self.scenario
-                    return cm.colour == sc.colour and cm.side == sc.side and not obj_tbl.akyrs_scenario_random and not obj_tbl.akyrs_clean_scenario
+                    return cm.colour == sc.colour and (cm.side == sc.side or self.akyrs_scenario_random) and not obj_tbl.akyrs_scenario_random and not obj_tbl.akyrs_clean_scenario
                 end,true,true)
             end, seed = "akyrs_scenario_"..(self.scenario or {colour = "?"}).colour}
         end
@@ -284,8 +284,10 @@ AKYRS.Scenario = SMODS.Center:extend{
         end)
         if not self.akyrs_clean_scenario then
             local scnrtag = AKYRS.Scenario_Tag(newobj.key)
-            for k, v in pairs(scnrtag.ability) do
-                scnrtag.ability[k] = card.ability[k]
+            if not self.akyrs_scenario_random then
+                for k, v in pairs(scnrtag.ability) do
+                    scnrtag.ability[k] = card.ability[k]
+                end
             end
             AKYRS.add_scenario_tag(scnrtag)
             if self.use_extras then

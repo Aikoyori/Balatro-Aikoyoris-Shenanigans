@@ -225,7 +225,6 @@ SMODS.UndiscoveredSprite{
     pos = { x = 0, y = 0 }
 }
 
-G.P_CENTER_POOLS.Enchantment = {}
 SMODS.UndiscoveredCompat["Scenario"] = true
 
 G.C.SECONDARY_SET.Scenario = HEX("645474FF")
@@ -251,8 +250,13 @@ AKYRS.Scenario = SMODS.Center:extend{
     badge_colour = HEX("645474FF"),
     pos = { x = j, y = i },
     inject = function(self) 
+        
+        G.P_CENTER_POOLS.Scenario = G.P_CENTER_POOLS.Scenario or {}
         self.config.consumeable = {}
+        G.P_CENTER_POOLS.Scenario[#G.P_CENTER_POOLS.Scenario+1] = self
+        G.P_CENTERS[self.key] = self
     end,
+    discovered = false,
     config = {
 
     },
@@ -262,7 +266,7 @@ AKYRS.Scenario = SMODS.Center:extend{
     use = function (self, card, area, copier)
         local newkey = self.key
         if self.akyrs_scenario_random then
-            newkey = SMODS.poll_object{ pool = self.obj_buffer, filter = function(pool)
+            newkey = SMODS.poll_object{ pool = AKYRS.Scenarios_Buffer, filter = function(pool)
                 return AKYRS.filter_table(pool,function(obj) 
                     local obj_tbl = self.obj_table[obj]
                     local cm, sc = obj_tbl.scenario, self.scenario

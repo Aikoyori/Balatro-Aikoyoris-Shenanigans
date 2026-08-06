@@ -247,19 +247,17 @@ SMODS.add_attribute(
 
 SMODS.add_attribute(
     'rank', {
-        'j_akyrs_2fa'
+        'j_akyrs_2fa',
         -- A
         'j_akyrs_hibana',
         'j_akyrs_shine_bright_like_a_diamond',
         -- 4
         'j_akyrs_yona_yona_dance',
         -- 5 
-        'j_akyrs_hibana',
         -- 7 [yona is a dupe]
         'j_akyrs_7wonders',
 
         -- Face Cards
-        'j_akyrs_hibana',
         'j_akyrs_butcher_vanity',
 
     }
@@ -376,7 +374,8 @@ SMODS.add_attribute(
 )
 
 SMODS.add_attribute(
-    'hand', {
+    'hands', {
+        
     }
 )
 

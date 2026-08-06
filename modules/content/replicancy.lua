@@ -543,13 +543,8 @@ SMODS.Consumable{
     use = function (self, card, area, copier)
         AKYRS.juice_like_tarot(card)
         local to_create = G.jokers.config.card_limit - #G.jokers.cards
-        local food_jokers = AKYRS.map(AKYRS.filter_table(G.P_CENTER_POOLS.Joker, function (val, ind)
-            return val.pools and val.pools.Food
-        end, true, true), function (val, index)
-            return val.key
-        end)
-        for _, key in ipairs(candidates) do
-            local cdx = SMODS.add_card({key = key, set = "Joker", attributes = "food"})
+        for i = 1, to_create do
+            local cdx = SMODS.add_card({key = key, set = "Joker", attributes = {"food"}})
             local latticed = SMODS.pseudorandom_probability(card, "c_akyrs_replicant_third_party_cookies_lattice_chance", card.ability.extras.n,card.ability.extras.d)
             if latticed then
                 SMODS.Stickers.akyrs_latticed:apply(cdx, true)  

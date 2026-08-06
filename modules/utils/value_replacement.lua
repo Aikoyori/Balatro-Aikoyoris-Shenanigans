@@ -401,17 +401,19 @@ function AKYRS.add_custom_cashout_rows(dollars, pitch)
         return cd.config.center.key == "m_akyrs_cloud_card"
     end, true, true)
     if #cloud_cards > 0 then
+        local is_cloudy = AKYRS.is_scenario_active("sc_akyrs_cloudy")
+        local mony =  (#cloud_cards * (is_cloudy and 3 or 1))
 	    add_round_eval_row(
             { 
                 name = 'custom_akyrs_cloud_add', 
-                dollars = #cloud_cards,
+                dollars = mony,
                 pitch = 0.95,
                 bonus = true,
                 text_scale = 0.5,
-                text = localize("k_akyrs_cloud_card_tally"),
+                text = localize("k_akyrs_cloud_card_tally"..(is_cloudy and "_buffed" or "")),
                 text_colour = G.C.BLUE,
             })
-        dollars = dollars + #cloud_cards
+        dollars = dollars + mony
     end
     return dollars
 end

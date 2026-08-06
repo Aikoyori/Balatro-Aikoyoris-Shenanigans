@@ -167,8 +167,8 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
     local cntr = { key = loc_vars.key or self.key, set = 'Scenario', vars = loc_vars.vars }
     tag_sprite.ability_UIBox_table = generate_card_ui(cntr, nil, loc_vars.vars, (self.hide_ability) and 'Undiscovered' or 'Scenario', bgs, (self.hide_ability), loc_vars.main_start, loc_vars.main_end, self)
     local info_vars = {
-        self.akyrs_rounds_left,
-        self.akyrs_total_rounds, 
+        self.akyrs_rounds_left or 4,
+        self.akyrs_total_rounds or 4, 
         localize(self.scenario.side or "none", "akyrs_colour"),
         localize(self.scenario.colour or "none", "akyrs_colour"), 
         colours = {
@@ -176,7 +176,9 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
             AKYRS.sc_text_colour_map[self.scenario.colour..(self.scenario.side or "dark")],
         }
     }
-    generate_card_ui(AKYRS.DescriptionDummies["dd_akyrs_scenario_tooltip"], tag_sprite.ability_UIBox_table, info_vars)
+    local multiboxone = {}
+    localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_scenario_tooltip', nodes = multiboxone }
+    AKYRS.add_box_to_uitable(tag_sprite.ability_UIBox_table, multiboxone)
     for _, iq in ipairs(info_q) do
         generate_card_ui(iq, tag_sprite.ability_UIBox_table)
     end
@@ -278,6 +280,9 @@ AKYRS.Scenario = SMODS.Center:extend{
     config = {
 
     },
+    get_total_rounds = function (self, instance) 
+        if self.akyrs_clean_scenario or self.akyrs_scenario_random then return "???" end
+    end,
     can_use = function (self, card)
         return true
     end,
@@ -911,4 +916,165 @@ AKYRS.Scenario {
             }
         end
     end,
+}
+
+AKYRS.Scenario {
+    key = "river",
+    set = "Scenario",
+    pos = { x = 3, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "light",
+    },
+    config = {
+        extras = {
+            dsc = 1
+        }
+    },
+    akyrs_total_rounds = 2,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.dsc)
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.pre_discard and not context.hook and G.GAME.current_round.hands_left == 1 then
+            return {
+                func = function()
+                    ease_discard(card.ability.extras.dsc, true)
+                end
+            }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "desert",
+    set = "Scenario",
+    pos = { x = 4, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "light",
+    },
+    config = {
+        extras = {
+            dollars = 16,
+        }
+    },
+    akyrs_total_rounds = 4,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed_dollars(card.ability.extras.dollars)
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.pre_discard and not context.hook then
+            return {
+                func = function()
+                    if card.ability.extras.dollars <= 1 then
+                        if card.is and card:is(Card) and card.shatter then
+                            card:shatter()
+                        else
+                            card:remove()
+                        end
+                    end
+                    card.ability.extras.dollars = card.ability.extras.dollars / 2
+                end,
+                message = localize("k_akyrs_downgrade_ex")
+            }
+        end
+        if context.modify_final_cashout then
+            return {
+                modify = card.ability.extras.dollars,
+                cashout_row = { 
+                    name = 'custom_akyrs_desert', 
+                    pitch = 0.95,
+                    bonus = true,
+                    text_scale = 0.5,
+                    text = localize("k_akyrs_desert_money"),
+                    text_colour = G.C.AKYRS_AKYRS_SCENARIO_PINK,
+                }
+            }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "city",
+    set = "Scenario",
+    pos = { x = 5, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "light",
+    },
+    config = {
+        extras = {
+        }
+    },
+    akyrs_total_rounds = 2,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.repetition and context.other_card.area and AKYRS.is_in_playing_card_area(context.other_card.area) and not context.end_of_round then
+            local cdx = context.other_card
+            local repetitions = 0
+            local i = AKYRS.find_index(cdx.area.cards, cdx)
+            local left, rght = i > 1 and cdx.area.cards[i - 1], i < #cdx.area.cards and cdx.area.cards[i + 1]
+            repetitions = repetitions + (left and left.config and left.config.center and left.config.center.key == "m_stone" and 1 or 0)
+                                      + (rght and rght.config and rght.config.center and rght.config.center.key == "m_stone" and 1 or 0)
+            if repetitions > 0 then
+                return {
+                    repetitions = repetitions
+                }
+            end
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "underground",
+    set = "Scenario",
+    pos = { x = 6, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "light",
+    },
+    config = {
+        extras = {
+            xmult = 1.5,
+        }
+    },
+    akyrs_total_rounds = 3,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                (card.ability.extras.xmult)
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.individual and context.cardarea == 'unscored' then
+            return {
+                xmult = card.ability.extras.xmult
+            }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "pink_hatena",
+    set = "Scenario",
+    pos = { x = 6, y = 1 },
+    scenario = {
+        colour = "pink",
+    },
+    akyrs_scenario_random = true,
 }

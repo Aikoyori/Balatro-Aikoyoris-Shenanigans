@@ -674,7 +674,7 @@ SMODS.Enhancement{
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                card.ability.extras.xmult_j
+                SMODS.signed_dollars(card.ability.extras.dollars * (AKYRS.is_scenario_active("sc_akyrs_cloudy") and 3 or 1))
             }
         }
     end,

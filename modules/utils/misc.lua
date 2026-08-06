@@ -1167,6 +1167,10 @@ function AKYRS.is_in_typical_area(area)
     return area == G.jokers or area == G.hand or area == G.consumeables
 end
 
+function AKYRS.is_in_playing_card_area(area)
+    return area == G.hand or area == G.play or area == G.deck or area == G.discard
+end
+
 function AKYRS.is_in_joker_type_area(area)
     return area == G.jokers or area == G.consumeables
 end
@@ -1695,3 +1699,9 @@ function AKYRS.end_of_round_scenario_check(cd, area)
     return cd and (AKYRS.Scenario_Tag:is(cd)) or (cd.area == area) 
 end
 
+function AKYRS.add_box_to_uitable(fulluitable, nodes)
+    if not fulluitable then return end
+    fulluitable.main.main_box_flag = true
+    fulluitable.multi_box = fulluitable.multi_box or {}
+    fulluitable.multi_box[#fulluitable.multi_box+1] = nodes
+end

@@ -3424,6 +3424,32 @@ return {
                     "{C:red}#1#{} Discard every Discard on your {C:attention}last hand",
                 },
             },
+            sc_akyrs_desert = {
+                name="Desert",
+                text={
+                    "{C:money}#1#{} every round",
+                    "Halves upon {C:red}discarding",
+                },
+            },
+            sc_akyrs_city = {
+                name="Desert",
+                text={
+                    "Retrigger {C:attention}every card",
+                    "adjacent to {C:attention}Stone Card",
+                },
+            },
+            sc_akyrs_underground = {
+                name="Underground",
+                text={
+                    "{C:attention}Unscored cards{} give {X:mult,C:white}X#1#{} Mult",
+                },
+            },
+            sc_akyrs_pink_hatena = {
+                name="Randomize Pink",
+                text={
+                    "Randomize a {X:akyrs_scenario_pink}Yellow{} Scenario",
+                },
+            },
         },
         Spectral={},
         Stake={
@@ -4505,6 +4531,7 @@ return {
             k_akyrs_canopy_downable_no = "Activated",
             k_akyrs_cloud_card_tally = "Cloud Cards",
             k_akyrs_cloud_card_tally_buffed = "Cloudy Day",
+            k_akyrs_desert_money = "Desert Well",
 
             k_akyrs_not_used = "Not used",
             k_akyrs_used = "Used",

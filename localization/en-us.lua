@@ -966,17 +966,17 @@ return {
             dd_akyrs_mukuroju_no_hakamori = {
                 name = "{f:5}躯樹の墓守",
                 text = { 
-                    "{f:5}このジョーカーは、君は#3#{C:inactive,f:5}「#4#」{f:5}回に",
-                    "{f:5}カードのランクを{C:attention,f:5}変換する{f:5}たびに{f:5}倍率 {X:mult,C:white} X#1# {f:5} を得る",
+                    "{f:5}このジョーカーは、カードのランクを#3#{C:inactive,f:5}「#4#」{f:5}回",
+                    "{C:attention,f:5}変換する{f:5}たびに{f:5}倍率 {X:mult,C:white} X#1# {f:5} を得る",
                     "{C:inactive}({C:inactive,f:5}現在 倍率 {X:mult,C:white} X#2# {C:inactive})",
                 }
             },
             dd_akyrs_mukuroju_no_hakamori_en = {
                 name = "Mukuroju no Hakamori",
                 text = { 
-                    "{f:5}このジョーカーは、カードのランクを#3#{C:inactive,f:5}「#4#」{f:5}回",
-                    "{C:attention,f:5}変換する{f:5}たびに{f:5}倍率 {X:mult,C:white} X#1# {f:5} を得る",
-                    "{C:inactive}({C:inactive,f:5}現在 倍率 {X:mult,C:white} X#2# {C:inactive})",
+                    "This Joker gains {X:mult,C:white} X#1# {} Mult",
+                    "every #3# {C:inactive}[#4#]{} cards whose rank have {C:attention}changed",
+                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
                 }
             },
             -- blind icons

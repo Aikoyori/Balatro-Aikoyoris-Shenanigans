@@ -224,3 +224,11 @@ function Card:juice_up(x,y)
     end
     return cju(self,x,y)
 end
+
+
+local game_start_up_ref = Game.start_up
+function Game:start_up(...)
+    local result = {game_start_up_ref(self, ...)}
+    assert(SMODS.load_file("./modules/attribs.lua", 'aikoyorisshenanigans'))()
+	return unpack(result)
+end

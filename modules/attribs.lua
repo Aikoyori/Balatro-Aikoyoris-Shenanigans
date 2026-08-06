@@ -10,7 +10,16 @@ SMODS.Attribute{
     -- for jokers that has effects in letter mode only
     key = "letter",
     keys = {
-
+        'j_akyrs_maxwells_notebook',
+        'j_akyrs_henohenomoheji',
+        'j_akyrs_yee',
+        'j_akyrs_g',
+        'j_akyrs_d_se_dab',
+        'j_akyrs_c',
+        'j_akyrs_e',
+        'j_akyrs_catchphrase',
+        'j_akyrs_press_f',
+        'j_akyrs_ojisan_koubun',
     }
 }
 SMODS.Attribute{
@@ -71,6 +80,14 @@ SMODS.Attribute{
     }
 }
 
+SMODS.Attribute{
+    -- for jokers that affect discard size
+    key = "umbral",
+    keys = {
+        'j_akyrs_press_f',
+    }
+}
+
 
 SMODS.add_attribute(
     'mult', {
@@ -81,6 +98,9 @@ SMODS.add_attribute(
         'j_akyrs_don_chan',
         'j_akyrs_nokotan',
         'j_akyrs_ghastling',
+        'j_akyrs_yee',
+        'j_akyrs_e',
+        'j_akyrs_catchphrase',
     }
 )
 
@@ -92,6 +112,8 @@ SMODS.add_attribute(
         'j_akyrs_katsu_chan',
         'j_akyrs_lagtrain',
         'j_akyrs_sushi',
+        'j_akyrs_yee',
+        'j_akyrs_c',
     }
 )
 
@@ -121,6 +143,7 @@ SMODS.add_attribute(
         'j_akyrs_mikudashi',
     }
 )
+
 
 SMODS.add_attribute(
     'score', {
@@ -179,6 +202,7 @@ SMODS.add_attribute(
         'j_akyrs_yamada_perfect',
         'j_akyrs_trend_angelina',
         'j_akyrs_xaleidoscopix',
+        'j_akyrs_d_se_dab',
     }
 )
 
@@ -259,6 +283,7 @@ SMODS.add_attribute(
 
         -- Face Cards
         'j_akyrs_butcher_vanity',
+        'j_akyrs_henohenomoheji',
 
     }
 )
@@ -338,6 +363,7 @@ SMODS.add_attribute(
     'face', {
         'j_akyrs_hibana',
         'j_akyrs_butcher_vanity',
+        'j_akyrs_henohenomoheji',
     }
 )
 
@@ -360,6 +386,8 @@ SMODS.add_attribute(
         'j_akyrs_chicken_jockey',
         'j_akyrs_biochamber',
         'j_akyrs_shine_bright_like_a_diamond',
+        'j_akyrs_maxwells_notebook',
+        'j_akyrs_press_f',
     }
 )
 
@@ -458,6 +486,8 @@ SMODS.add_attribute(
         'j_akyrs_charred_roach',
         'j_akyrs_bashame',
         'j_akyrs_mikudashi',
+        'j_akyrs_maxwells_notebook',
+        'j_akyrs_g',
     }
 )
 
@@ -471,12 +501,14 @@ SMODS.add_attribute(
     'editions', {
         'j_akyrs_aether_portal',
         'j_akyrs_edge',
+        'j_akyrs_maxwells_notebook',
     }
 )
 
 SMODS.add_attribute(
     'tag', {
         'j_akyrs_pandora_paradoxxx',
+        'j_akyrs_ojisan_koubun',
     }
 )
 
@@ -493,12 +525,14 @@ SMODS.add_attribute(
         'j_akyrs_mukuroju_no_hakamori',
         'j_akyrs_liar_dancer',
         'j_akyrs_story_of_undertale',
+        'j_akyrs_maxwells_notebook',
     }
 )
 
 SMODS.add_attribute(
     'perma_bonus', {
         'j_akyrs_lagtrain',
+        'j_akyrs_d_se_dab',
     }
 )
 
@@ -544,3 +578,5 @@ SMODS.add_attribute(
     'space', {
     }
 )
+
+SMODS.populate_attributes()

@@ -80,7 +80,6 @@ assert(SMODS.load_file("./modules/content/achievements.lua"))()
 
 assert(SMODS.load_file("./modules/content/challenges.lua"))()
 assert(SMODS.load_file("./modules/content/pokerhands.lua"))()
-assert(SMODS.load_file("./modules/attribs.lua"))()
 
 assert(SMODS.load_file("./modules/compat/malverk.lua"))()
 assert(SMODS.load_file("./modules/compat/cryptid.lua"))()

@@ -87,7 +87,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     vec3 colour_mult = vec3(0.4, 0.3, 0.8+charged.g*0.001);
     vec4 hel = HSL(tex);
     float way = smoothstep(0.2,0.8,hel.g * hel.b);
-    tex.xyz += ((fract( (way * 2. - 1.) * ((-charged.y / 2.) + ((way * 2. - 1.) *(uv.y))) * 1.618033)  * colour_mult.xyz)) * 0.6;
+    tex.xyz += ((fract( (way * 2. - 1.) * ((-charged.y / 2.) + ((way * 2. - 1.) *(uv.y))) * 1.618033)  * colour_mult.xyz)) * 0.8;
 
     return dissolve_mask(tex*colour, texture_coords, uv);
 }

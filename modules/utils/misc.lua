@@ -571,8 +571,8 @@ AKYRS.check_type = function(d)
     return type(d)
 end
 
-function AKYRS.is_in_table(table, value)
-    for _, v in pairs(table) do
+function AKYRS.is_in_table(tbl, value)
+    for _, v in pairs(tbl) do
         if v == value then
             return true
         end
@@ -580,8 +580,8 @@ function AKYRS.is_in_table(table, value)
     return false
 end
 
-function AKYRS.find_index(table, value)
-    for index, v in ipairs(table) do
+function AKYRS.find_index(tbl, value)
+    for index, v in ipairs(tbl) do
         if v == value then
             return index
         end

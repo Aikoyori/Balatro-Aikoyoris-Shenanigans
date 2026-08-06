@@ -974,9 +974,9 @@ return {
             dd_akyrs_mukuroju_no_hakamori_en = {
                 name = "Mukuroju no Hakamori",
                 text = { 
-                    "This Joker gains {X:mult,C:white} X#1# {} Mult",
-                    "every #3# {C:inactive}[#4#]{} cards whose rank have {C:attention}changed",
-                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+                    "{f:5}このジョーカーは、カードのランクを#3#{C:inactive,f:5}「#4#」{f:5}回",
+                    "{C:attention,f:5}変換する{f:5}たびに{f:5}倍率 {X:mult,C:white} X#1# {f:5} を得る",
+                    "{C:inactive}({C:inactive,f:5}現在 倍率 {X:mult,C:white} X#2# {C:inactive})",
                 }
             },
             -- blind icons
@@ -1761,8 +1761,8 @@ return {
                     "{X:chips,C:white}Chips{} divided by {X:mult,C:white}Mult{}",
                 }
             },
-            j_akyrs_reciprocal_joker_absurd = { -- TODO: find a couple for the reciprocal
-                name = "Reciprocal Joker",
+            j_akyrs_inverse_joker = { -- TODO: find a couple for the reciprocal
+                name = "Inverse Joker",
                 text = { 
                     "Set {X:chips,C:white}Chips{} to",
                     "{X:mult,C:white}Mult{} divided by {X:chips,C:white}Chips{}",
@@ -1936,8 +1936,8 @@ return {
             j_akyrs_mukuroju_no_hakamori = {
                 name = "{f:5}躯樹の墓守",
                 text = { 
-                    "{f:5}このジョーカーは、君は#3#{C:inactive,f:5}「#4#」{f:5}回に",
-                    "{f:5}カードのランクを{C:attention,f:5}変換する{f:5}たびに{f:5}倍率 {X:mult,C:white} X#1# {f:5} を得る",
+                    "{f:5}このジョーカーは、カードのランクを#3#{C:inactive,f:5}「#4#」{f:5}回",
+                    "{C:attention,f:5}変換する{f:5}たびに{f:5}倍率 {X:mult,C:white} X#1# {f:5} を得る",
                     "{C:inactive}({C:inactive,f:5}現在 倍率 {X:mult,C:white} X#2# {C:inactive})",
                 }
             },
@@ -2165,9 +2165,12 @@ return {
                 text = { 
                     {
                         "Once per round, use this {C:attention}card{}",
-                        "to immediately gain {C:money}#1#{}",
+                        "to immediately gain up to {C:money}#1#{}",
                         "{C:inactive}(Left: {C:money}#2#{C:inactive}, #3# this round)",
                     },
+                    {
+                        "Gain {C:money}#4#{} per unscored {C:clubs}Clubs{}"
+                    }
                 }
             },
             j_akyrs_nijika = {
@@ -4280,6 +4283,7 @@ return {
             akyrs_stored_open = "(Currently",
             akyrs_stored_close = ")",
             k_akyrs_reciprocaled = "Reciprocal'd!",
+            k_akyrs_inversed = "Inverse'd!",
             k_akyrs_centrifuged = "Centrifuged!",
             k_akyrs_drawn_discard = "All Back!",
             k_akyrs_2fa_generate = "Generated!",

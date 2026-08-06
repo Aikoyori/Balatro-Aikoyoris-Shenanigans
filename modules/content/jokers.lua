@@ -8,7 +8,6 @@ SMODS.Joker {
         y = 0
     },
     pools = { ["Minecraft"] = true, ["Redstone"] = true },
-    attributes = { "xmult" },
     key = "redstone_repeater",
     rarity = 2,
     cost = 5,
@@ -727,6 +726,42 @@ SMODS.Joker {
 
 SMODS.Joker {
     atlas = 'AikoyoriJokers',
+    key = "inverse_joker",
+    pos = {
+        x = 1,
+        y = 1
+    },
+    rarity = 1,
+    cost = 2,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_placeholder_art"]
+        return {
+            vars = {
+            }
+        }
+    end,
+    config = {
+        extra = {
+        },
+    },
+    calculate = function(self, card, context)
+        if context.joker_main or context.forcetrigger then
+            return {
+                message = localize('k_akyrs_inversed'),
+                func = function()
+                    hand_chips = mod_mult(mult / hand_chips)
+
+                    update_hand_text({ delay = 0, immediate = false }, { mult = mult, chips = hand_chips })
+                end
+            }
+        end
+    end,
+	demicoloncompat = true,
+    blueprint_compat = true,
+}
+
+SMODS.Joker {
+    atlas = 'AikoyoriJokers',
     key = "kyoufuu_all_back",
     pools = { ["Vocaloid"] = true, ["J-POP"] = true },
     pos = {
@@ -793,15 +828,10 @@ SMODS.Joker {
         extra = {
             chips = 0,
             extra = 8,
-
-            xmult = 1,
-            xchips = 1,
-            xmult_gain = .1,
-            xchips_gain = 0.3,
         },
     },
     calculate = function(self, card, context)
-        if context.before or context.forcetrigger then
+        if context.before or context.forcetrigger and not context.blueprint then
             for i, _card in ipairs(G.play.cards) do
                 SMODS.scale_card(card, { ref_table = card.ability.extra, ref_value = "chips", scalar_value = "extra" })
             end
@@ -814,7 +844,7 @@ SMODS.Joker {
                 chips = card.ability.extra.chips
             }
         end
-        if context.end_of_round and context.main_eval then
+        if context.end_of_round and context.main_eval and not context.blueprint then
             return {
                 message = localize("k_akyrs_2fa_reset"),
                 func = function()
@@ -836,14 +866,14 @@ SMODS.Joker {
                         end
                         assert(SMODS.change_base(cdx, _suit.key, _rank.key))          
                     end)
-                    delay(2.0)
+                    delay(4.0)
                 end,
                 message = localize("k_akyrs_2fa_regen"),
             }
         end
     end,
     demicoloncompat = true,
-    blueprint_compat = false,
+    blueprint_compat = true,
 }
 -- gaslighting 
 SMODS.Joker{
@@ -1946,7 +1976,7 @@ SMODS.Joker{
             end
         end
 
-    end
+    end,
 }
 
 SMODS.Joker{
@@ -2088,7 +2118,7 @@ SMODS.Joker{
         end
     end,
     calculate = function (self, card, context)
-        if (context.end_of_round and context.main_eval) then
+        if (context.end_of_round and context.main_eval) and not context.blueprint and card.ability.extras.route ~= "genocide" then
             return {
                 func = function ()
                     local rarity = card.ability.extras.route == "pacifist" and "Legendary" or "Rare"
@@ -2105,7 +2135,7 @@ SMODS.Joker{
             end
         end
     end,
-    blueprint_compat = false
+    blueprint_compat = true
 }
 SMODS.Joker{
     key = "no_hints_here",
@@ -2139,7 +2169,6 @@ SMODS.Joker{
 }
 SMODS.Joker{
     key = "brushing_clothes_pattern",
-    enhancement_gate = "m_wild",
     atlas = 'AikoyoriJokers',
     pools = { ["Rhythm Games"] = true, ["Chunithm"] = true },
     pos = {
@@ -2306,9 +2335,7 @@ SMODS.Joker{
     config = {
         extras = {
             chips = 0,
-            xchips = 1,
             chips_g = 12,
-            xchips_g = 0.1,
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -2345,8 +2372,6 @@ SMODS.Joker{
     cost = 9,
     config = {
         extras = {
-            xmult = 1,
-            xmult_g = 0.04,
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -2367,11 +2392,6 @@ SMODS.Joker{
                         SMODS.add_card{ set = "Enhanced", suit = "Spades", seal = seal, area = G.hand }
                     end
                 end
-            }
-        end
-        if context.joker_main or context.forcetrigger then
-            return {
-                xmult = card.ability.extras.xmult
             }
         end
     end,
@@ -2427,11 +2447,12 @@ SMODS.Joker{
         x = 5, y = 5
     },
     rarity = 2,
-    cost = 4,
+    cost = 6,
     config = {
         extras = {
             reserve = 24,
             deduct = 6,
+            gain = 1,
             used = false,
         }
     },
@@ -2441,10 +2462,22 @@ SMODS.Joker{
                 SMODS.signed_dollars(card.ability.extras.deduct),
                 SMODS.signed_dollars(card.ability.extras.reserve),
                 localize("k_akyrs_"..(card.ability.extras.used and "" or "not_").."used"),
+                SMODS.signed_dollars(card.ability.extras.gain),
             }
         }
     end,
     calculate = function (self, card, context)
+        if context.individual and context.cardarea == 'unscored' and other_card:is_suit('Clubs') then
+            return {
+                func = function ()
+                    SMODS.scale_card( card, {
+                        ref_table = card.ability.extras,
+                        ref_value = "reserve",
+                        scalar_value = "gain"
+                    })
+                end
+            }
+        end
         if (context.end_of_round and context.main_eval) then
             return {
                 func = function ()
@@ -2983,8 +3016,6 @@ SMODS.Joker {
 
     config = {
         extras = {
-            xc = 1.6,
-            reduce = -0.2
         }
     },
     rarity = 2,
@@ -3232,7 +3263,7 @@ SMODS.Joker {
     pools = { ["Vocaloid"] = true, },
     config = {
         extras = {
-            gain = 0.4,
+            gain = 0.3,
             lose = 0.1,
             xscore = 1,
         },

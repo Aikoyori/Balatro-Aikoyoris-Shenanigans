@@ -428,6 +428,10 @@ AKYRS.DescriptionDummy{
     key = "scenario_tooltip",
 }
 
+AKYRS.DescriptionDummy{
+    key = "scenario_tag_tooltip",
+}
+
 if SMODS.DynaTextEffect then
     SMODS.DynaTextEffect {
         key = "obfuscate",

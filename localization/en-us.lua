@@ -1158,6 +1158,13 @@ return {
                     "{C:blue}#1#{} / #2# Rounds Left",
                 },
             },
+            dd_akyrs_scenario_tag_tooltip = {
+                name="Scenario",
+                text={
+                    "{B:1,V:2}#3# #4#{}",
+                    "Will last {C:blue}#2#{} Rounds in Tag form",
+                },
+            },
         },
         Edition={
             e_akyrs_texelated = {
@@ -3405,6 +3412,18 @@ return {
                     "gives {X:mult,C:white}X#1#{} Mult and {X:chips,C:white}X#2#{} Chips, respectively",
                 },
             },
+            sc_akyrs_forest = {
+                name="Forest",
+                text={
+                    "Retrigger all {C:attention}Canopy{} Cards played",
+                },
+            },
+            sc_akyrs_river = {
+                name="River",
+                text={
+                    "{C:red}#1#{} Discard every Discard on your {C:attention}last hand",
+                },
+            },
         },
         Spectral={},
         Stake={
@@ -4565,6 +4584,7 @@ return {
             blue = "Blue",
             dark = "Dark",
             light = "Light",
+            none = "???",
         },
         poker_hand_descriptions=poker_hand_desc,
         poker_hands=poker_hands_name,

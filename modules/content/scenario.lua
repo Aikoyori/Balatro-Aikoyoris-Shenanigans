@@ -140,7 +140,7 @@ function AKYRS.Scenario_Tag:generate_UI(_size, z)
     return tag_sprite_tab, tag_sprite
 end
 
-local colour_map = {
+AKYRS.sc_colour_map = {
     yellowlight = G.C.AKYRS_AKYRS_SCENARIO_YELLOW,
     pinklight = G.C.AKYRS_AKYRS_SCENARIO_PINK,
     bluelight = G.C.AKYRS_AKYRS_SCENARIO_BLUE,
@@ -148,7 +148,7 @@ local colour_map = {
     pinkdark = G.C.AKYRS_AKYRS_SCENARIO_DARK_PINK,
     bluedark = G.C.AKYRS_AKYRS_SCENARIO_DARK_BLUE,
 }
-local text_colour_map = {
+AKYRS.sc_text_colour_map = {
     yellowlight = G.C.UI.TEXT_DARK,
     pinklight = G.C.UI.TEXT_LIGHT,
     bluelight = G.C.UI.TEXT_LIGHT,
@@ -169,11 +169,11 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
     local info_vars = {
         self.akyrs_rounds_left,
         self.akyrs_total_rounds, 
-        localize(self.scenario.side, "akyrs_colour"),
-        localize(self.scenario.colour, "akyrs_colour"), 
+        localize(self.scenario.side or "none", "akyrs_colour"),
+        localize(self.scenario.colour or "none", "akyrs_colour"), 
         colours = {
-            colour_map[self.scenario.colour..(self.scenario.side or "dark")],
-            text_colour_map[self.scenario.colour..(self.scenario.side or "dark")],
+            AKYRS.sc_colour_map[self.scenario.colour..(self.scenario.side or "dark")],
+            AKYRS.sc_text_colour_map[self.scenario.colour..(self.scenario.side or "dark")],
         }
     }
     generate_card_ui(AKYRS.DescriptionDummies["dd_akyrs_scenario_tooltip"], tag_sprite.ability_UIBox_table, info_vars)
@@ -855,40 +855,60 @@ AKYRS.Scenario {
 AKYRS.Scenario {
     key = "forest",
     set = "Scenario",
-    pos = { x = 1, y = 1 },
+    pos = { x = 2, y = 1 },
     scenario = {
         colour = "pink",
         side = "light",
     },
     config = {
         extras = {
-            xmult = 1.2,
-            xchips = 1.3,
         }
     },
-    akyrs_total_rounds = 3,
+    akyrs_total_rounds = 2,
     loc_vars = function (self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.m_mult
-        info_queue[#info_queue+1] = G.P_CENTERS.m_bonus
+        info_queue[#info_queue+1] = G.P_CENTERS.m_akyrs_canopy_card
         return {
             vars = {
-                card.ability.extras.xmult,
-                card.ability.extras.xchips,
             }
         }
     end,
     calculate = function (self, card, context)
-        if context.individual and context.cardarea == G.hand and not context.end_of_round then
-            if context.other_card.config.center.key == "m_mult" then
-                return {
-                    xmult = card.ability.extras.xmult
-                }
-            end
-            if context.other_card.config.center.key == "m_bonus" then
-                return {
-                    xchips = card.ability.extras.xchips
-                }
-            end
+        if context.repetition and context.other_card.config.center.key == "m_akyrs_canopy_card" and context.cardarea == G.play then
+            return {
+                repetitions = 1,
+            }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "river",
+    set = "Scenario",
+    pos = { x = 3, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "light",
+    },
+    config = {
+        extras = {
+            dsc = 1
+        }
+    },
+    akyrs_total_rounds = 2,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.dsc)
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.pre_discard and not context.hook and G.GAME.current_round.hands_left == 1 then
+            return {
+                func = function()
+                    ease_discard(card.ability.extras.dsc, true)
+                end
+            }
         end
     end,
 }

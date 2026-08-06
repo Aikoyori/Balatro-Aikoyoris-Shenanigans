@@ -22,7 +22,7 @@ SMODS.Joker {
     rarity = 4,
     cost = 30,
     config = {
-        extra = 1
+        extra = 2
     },
     calculate = function (self, card, context)
         if context.press_play then

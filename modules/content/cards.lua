@@ -280,7 +280,7 @@ SMODS.Enhancement{
                 localize(card.ability.extras.akyrs_can_downrank and "k_akyrs_canopy_downable_yes" or "k_akyrs_canopy_downable_no"),
                 colours = {
                     card.ability.extras.akyrs_can_downrank and G.C.GREEN or G.C.UI.TEXT_INACTIVE,
-                    card.ability.extras.akyrs_can_downrank and G.C.TEXT_INACTIVE or G.C.UI.TEXT_DARK,
+                    card.ability.extras.akyrs_can_downrank and G.C.UI.TEXT_LIGHT or G.C.UI.TEXT_DARK,
                 }
             }
         }

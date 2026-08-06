@@ -98,6 +98,9 @@ assert(SMODS.load_file("./modules/compat/multiplayer.lua"))()
 assert(SMODS.load_file("./modules/compat/blindside.lua"))()
 assert(SMODS.load_file("./modules/compat/tmj.lua"))()
 
+
+assert(SMODS.load_file("./modules/attribs.lua"))()
+
 -- cross mod loading
 for _,mod in pairs(SMODS.Mods) do
     if mod.can_load and mod.path and not mod.meta_mod then

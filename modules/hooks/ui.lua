@@ -104,6 +104,22 @@ function Card:generate_UIBox_ability_table(vars)
             generate_card_ui(lx, ret)
         end
     end
+    if self.ability.set == "Scenario" then
+        local _c = self.config.center
+        if _c then
+            local info_vars = {
+                _c.akyrs_rounds_left,
+                _c.akyrs_total_rounds, 
+                localize(_c.scenario.side or "none", "akyrs_colour"),
+                localize(_c.scenario.colour or "none", "akyrs_colour"), 
+                colours = {
+                    AKYRS.sc_colour_map[_c.scenario.colour..(_c.scenario.side or "dark")],
+                    AKYRS.sc_text_colour_map[_c.scenario.colour..(_c.scenario.side or "dark")],
+                }
+            }
+            generate_card_ui(AKYRS.DescriptionDummies["dd_akyrs_scenario_tag_tooltip"], ret, info_vars)
+        end
+    end
     return ret
 end
 

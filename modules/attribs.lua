@@ -27,6 +27,7 @@ SMODS.Attribute{
     key = "pure",
     keys = {
         'j_akyrs_butcher_vanity',
+        'j_akyrs_butcher_vanity',
     }
 }
 
@@ -130,6 +131,9 @@ SMODS.add_attribute(
         'j_akyrs_no_hints_here',
         'j_akyrs_konton_boogie',
         'j_akyrs_butcher_vanity',
+        'j_akyrs_tsunagite',
+        'j_akyrs_gappie',
+        'j_akyrs_aikoyori',
     }
 )
 
@@ -284,7 +288,7 @@ SMODS.add_attribute(
         -- Face Cards
         'j_akyrs_butcher_vanity',
         'j_akyrs_henohenomoheji',
-
+        'j_akyrs_aikoyori',
     }
 )
 
@@ -403,7 +407,8 @@ SMODS.add_attribute(
 
 SMODS.add_attribute(
     'hands', {
-        
+        'j_akyrs_furina',
+        'j_akyrs_gappie',
     }
 )
 
@@ -412,11 +417,14 @@ SMODS.add_attribute(
         'j_akyrs_kyoufuu_all_back',
         'j_akyrs_dried_ghast',
         'j_akyrs_deck_shovel',
+        'j_akyrs_furina',
+        'j_akyrs_gappie',
     }
 )
 
 SMODS.add_attribute(
     'hand_size', {
+        'j_akyrs_gappie',
     }
 )
 
@@ -533,6 +541,7 @@ SMODS.add_attribute(
     'perma_bonus', {
         'j_akyrs_lagtrain',
         'j_akyrs_d_se_dab',
+        'j_akyrs_tsunagite',
     }
 )
 

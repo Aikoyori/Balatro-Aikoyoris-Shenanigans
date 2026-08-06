@@ -957,26 +957,26 @@ return {
                     "{C:attention}Rip{} gains 1 {C:attention}Quality",
                 },
             },
-            dd_akyrs_mukuroju_en = {
-                name = "Mukuroju no Hakamori",
-                text = { 
-                    "This Joker gains {X:mult,C:white} X#1# {} Mult",
-                    "per {C:tarot}The Star{} used",
-                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
-                }
-            },
-            dd_akyrs_mukuroju_en_absurd = {
-                name = "Mukuroju no Hakamori",
-                text = { 
-                    "This Joker {C:attention}octuples{} ({X:mult,C:white} X8 {})",
-                    "its {X:mult,C:white} XMult {} every time {C:tarot}The Star{} is used",
-                    "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
-                }
-            },
             dd_akyrs_nhh_cryptid = {
                 name = "If Cryptid is installed...",
                 text = { 
                     "Gives {X:dark_edition,C:white} ^#1# {} Mult instead",
+                }
+            },
+            dd_akyrs_mukuroju_no_hakamori = {
+                name = "{f:5}躯樹の墓守",
+                text = { 
+                    "{f:5}このジョーカーは、君は#3#{C:inactive,f:5}「#4#」{f:5}回に",
+                    "{f:5}カードのランクを{C:attention,f:5}変換する{f:5}たびに{f:5}倍率 {X:mult,C:white} X#1# {f:5} を得る",
+                    "{C:inactive}({C:inactive,f:5}現在 倍率 {X:mult,C:white} X#2# {C:inactive})",
+                }
+            },
+            dd_akyrs_mukuroju_no_hakamori_en = {
+                name = "Mukuroju no Hakamori",
+                text = { 
+                    "This Joker gains {X:mult,C:white} X#1# {} Mult",
+                    "every #3# {C:inactive}[#4#]{} cards whose rank have {C:attention}changed",
+                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
                 }
             },
             -- blind icons
@@ -1936,9 +1936,17 @@ return {
             j_akyrs_mukuroju_no_hakamori = {
                 name = "{f:5}躯樹の墓守",
                 text = { 
-                    "{f:5}このジョーカーは、{f:5,C:tarot}星{f:5}を使用するたびに",
-                    "{f:5}倍率 {X:mult,C:white} X#1# {f:5} を得る",
+                    "{f:5}このジョーカーは、君は#3#{C:inactive,f:5}「#4#」{f:5}回に",
+                    "{f:5}カードのランクを{C:attention,f:5}変換する{f:5}たびに{f:5}倍率 {X:mult,C:white} X#1# {f:5} を得る",
                     "{C:inactive}({C:inactive,f:5}現在 倍率 {X:mult,C:white} X#2# {C:inactive})",
+                }
+            },
+            j_akyrs_mukuroju_no_hakamori_en = {
+                name = "Mukuroju no Hakamori",
+                text = { 
+                    "This Joker gains {X:mult,C:white} X#1# {} Mult",
+                    "every #3# {C:inactive}[#4#]{} cards whose rank have {C:attention}changed",
+                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
                 }
             },
             j_akyrs_emerald = {
@@ -3382,9 +3390,16 @@ return {
                 },
             },
             sc_akyrs_void = {
-                name="Genesis",
+                name="Void",
                 text={
                     "Clear {C:akyrs_scenario_dark_pink}Light Pink{} Scenarios",
+                },
+            },
+            sc_akyrs_plains = {
+                name="Plains",
+                text={
+                    "Held {C:mult}Mult{} and {C:chips}Bonus{} Cards",
+                    "gives {X:mult,C:white}X#1#{} Mult and {X:chips,C:white}X#2#{} Chips, respectively",
                 },
             },
         },

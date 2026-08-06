@@ -1537,30 +1537,32 @@ SMODS.Joker{
         extras = {
             xmult = 1,
             xmult_add = 0.5,
+            target = 8,
+            reached = 0,
         }
     },
     loc_vars = function (self, info_queue, card)
-        info_queue[#info_queue+1] = {key = 'dd_akyrs_mukuroju_en', vars = { card.ability.extras.xmult_add, card.ability.extras.xmult }, set = "DescriptionDummy"}
-
-        info_queue[#info_queue+1] = G.P_CENTERS['c_star']
-        if MoreFluff then
-            info_queue[#info_queue+1] = G.P_CENTERS['c_mf_rot_star']
-        end
-        return {
-            vars = {
+        local vars = {
                 card.ability.extras.xmult_add,
-                card.ability.extras.xmult
+                card.ability.extras.xmult,
+                card.ability.extras.target,
+                card.ability.extras.reached,
             }
+        info_queue[#info_queue+1] = { key = "dd_akyrs_mukuroju_no_hakamori"..((card.akyrs_hover_num) % 2 == 0 and "_en" or ""), set = "DescriptionDummy", vars = vars}
+        return {
+            key = self.key ..((card.akyrs_hover_num) % 2 == 0 and "" or "_en"),
+            vars = vars
         }
     end,
     calculate = function (self, card, context)
-        if context.using_consumeable and not context.blueprint and (
-        AKYRS.is_star(context.consumeable.config.center_key)
-        ) then
-
+        if context.change_rank then
             return {
                 func = function()
-                    SMODS.scale_card(card, { ref_table = card.ability.extras, ref_value = "xmult", scalar_value = "xmult_add" })
+                    card.ability.extras.reached = card.ability.extras.reached + 1 
+                    if card.ability.extras.reached >= card.ability.extras.target then
+                        SMODS.scale_card(card, { ref_table = card.ability.extras, ref_value = "xmult", scalar_value = "xmult_add" })
+                        card.ability.extras.reached = 0
+                    end
                 end
             }
         end

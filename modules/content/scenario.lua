@@ -71,6 +71,16 @@ function AKYRS.Scenario_Tag:juice_up(_scale, _rot)
     if self.tag_sprite then self.tag_sprite:juice_up(_scale, _rot) end
 end
 
+function AKYRS.get_scenario_wheel_progress_offset(sc_proto)
+    if sc_proto.scenario and sc_proto.scenario.colour == "pink" then
+        if sc_proto.scenario.side == "light" then
+            return { 0, -0.41 }
+        else
+            return { 0, 0.41 }
+        end
+    end
+    return { 0, 0 }
+end
 
 function AKYRS.Scenario_Tag:generate_UI(_size, z)
     _size = _size or 0.8
@@ -95,6 +105,7 @@ function AKYRS.Scenario_Tag:generate_UI(_size, z)
             {name = 'total', ref_table = self, ref_value = 'akyrs_total_rounds'},
             {name = 'image_details', func = function() return tag_sprite:get_image_dims() end},
             {name = 'texture_details', func = function() return tag_sprite:get_pos_pixel() end},
+            {name = 'pinwheel_offset', func = function() return AKYRS.get_scenario_wheel_progress_offset(self) end},
         }}})
 
     tag_sprite.hover = function(_self)
@@ -136,7 +147,14 @@ local colour_map = {
     yellowdark = G.C.AKYRS_AKYRS_SCENARIO_DARK_YELLOW,
     pinkdark = G.C.AKYRS_AKYRS_SCENARIO_DARK_PINK,
     bluedark = G.C.AKYRS_AKYRS_SCENARIO_DARK_BLUE,
-
+}
+local text_colour_map = {
+    yellowlight = G.C.UI.TEXT_DARK,
+    pinklight = G.C.UI.TEXT_LIGHT,
+    bluelight = G.C.UI.TEXT_LIGHT,
+    yellowdark = G.C.UI.TEXT_LIGHT,
+    pinkdark = G.C.UI.TEXT_LIGHT,
+    bluedark = G.C.UI.TEXT_LIGHT,
 }
 
 function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
@@ -155,7 +173,7 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
         localize(self.scenario.colour, "akyrs_colour"), 
         colours = {
             colour_map[self.scenario.colour..(self.scenario.side or "dark")],
-            self.scenario.side == "light" and G.C.UI.TEXT_DARK or G.C.UI.TEXT_LIGHT
+            text_colour_map[self.scenario.colour..(self.scenario.side or "dark")],
         }
     }
     generate_card_ui(AKYRS.DescriptionDummies["dd_akyrs_scenario_tooltip"], tag_sprite.ability_UIBox_table, info_vars)
@@ -791,4 +809,86 @@ AKYRS.Scenario {
         side = "light",
     },
     akyrs_clean_scenario = true
+}
+
+AKYRS.Scenario {
+    key = "plains",
+    set = "Scenario",
+    pos = { x = 1, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "light",
+    },
+    config = {
+        extras = {
+            xmult = 1.2,
+            xchips = 1.3,
+        }
+    },
+    akyrs_total_rounds = 3,
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_mult
+        info_queue[#info_queue+1] = G.P_CENTERS.m_bonus
+        return {
+            vars = {
+                card.ability.extras.xmult,
+                card.ability.extras.xchips,
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.individual and context.cardarea == G.hand and not context.end_of_round then
+            if context.other_card.config.center.key == "m_mult" then
+                return {
+                    xmult = card.ability.extras.xmult
+                }
+            end
+            if context.other_card.config.center.key == "m_bonus" then
+                return {
+                    xchips = card.ability.extras.xchips
+                }
+            end
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "forest",
+    set = "Scenario",
+    pos = { x = 1, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "light",
+    },
+    config = {
+        extras = {
+            xmult = 1.2,
+            xchips = 1.3,
+        }
+    },
+    akyrs_total_rounds = 3,
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_mult
+        info_queue[#info_queue+1] = G.P_CENTERS.m_bonus
+        return {
+            vars = {
+                card.ability.extras.xmult,
+                card.ability.extras.xchips,
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.individual and context.cardarea == G.hand and not context.end_of_round then
+            if context.other_card.config.center.key == "m_mult" then
+                return {
+                    xmult = card.ability.extras.xmult
+                }
+            end
+            if context.other_card.config.center.key == "m_bonus" then
+                return {
+                    xchips = card.ability.extras.xchips
+                }
+            end
+        end
+    end,
 }

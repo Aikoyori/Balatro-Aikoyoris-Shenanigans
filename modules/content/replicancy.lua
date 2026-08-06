@@ -548,9 +548,8 @@ SMODS.Consumable{
         end, true, true), function (val, index)
             return val.key
         end)
-        local candidates = AKYRS.pseudorandom_elements(food_jokers, to_create, "akyrs_replicant_3rdparty")
         for _, key in ipairs(candidates) do
-            local cdx = SMODS.add_card({key = key, set = "Joker"})
+            local cdx = SMODS.add_card({key = key, set = "Joker", attributes = "food"})
             local latticed = SMODS.pseudorandom_probability(card, "c_akyrs_replicant_third_party_cookies_lattice_chance", card.ability.extras.n,card.ability.extras.d)
             if latticed then
                 SMODS.Stickers.akyrs_latticed:apply(cdx, true)  

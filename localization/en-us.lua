@@ -3447,7 +3447,7 @@ return {
             sc_akyrs_pink_hatena = {
                 name="Randomize Pink",
                 text={
-                    "Randomize a {X:akyrs_scenario_pink}Yellow{} Scenario",
+                    "Randomize a {X:akyrs_scenario_pink,C:white}Pink{} Scenario",
                 },
             },
         },

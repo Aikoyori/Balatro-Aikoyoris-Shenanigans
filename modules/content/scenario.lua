@@ -1116,3 +1116,40 @@ AKYRS.Scenario {
         end
     end,
 }
+
+AKYRS.Scenario {
+    key = "dusty",
+    set = "Scenario",
+    pos = { x = 10, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            xmult = 1.67,
+        }
+    },
+    akyrs_total_rounds = 5,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.xmult
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then 
+            return {
+                func = function() 
+                    for _, tg in ipairs(G.GAME.tags) do
+                        SMODS.calculate_effect({
+                            xmult = card.ability.extras.xmult,
+                            juice_card = tg.HUD_tag,
+                        }, card)
+                    end
+                end
+            }
+        end
+    end,
+}

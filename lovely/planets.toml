@@ -24,6 +24,10 @@ end
 if not softlocked then
     add = true
 end
+
+if v.akyrs_planet_show_up then
+    add = true
+end
 '''
 match_indent = true
 

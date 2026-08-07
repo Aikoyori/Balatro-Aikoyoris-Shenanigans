@@ -2,10 +2,12 @@ SMODS.Consumable{
     set = "Planet",
     key = "planet_bishop_ring",
     atlas = "aikoPlanets",
+    akyrs_planet_show_up = true,
     pos = {x=0, y=0},
     config = {
         extra = 1,
     },
+    weight = 20,
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
@@ -19,10 +21,9 @@ SMODS.Consumable{
         return true
     end,
     in_pool = function (self, args)
-        return G.GAME.akyrs_pure_unlocked, { override_base_checks = true }
+        return G.GAME.akyrs_pure_unlocked
     end,
     use = function (self, card, area, copier)
-        
         G.GAME.akyrs_pure_unlocked = true
         update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_akyrs_pure_hands'),chips = '...', mult = '...', level=''})
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()

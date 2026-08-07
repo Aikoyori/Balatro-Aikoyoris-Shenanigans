@@ -3453,7 +3453,7 @@ return {
             sc_akyrs_clean = {
                 name="Clean",
                 text={
-                    "Clear {X:akyrs_scenario_dark_pink,C:akyrs_scenario_pink}Dark{} {X:akyrs_scenario_dark_pink,C:akyrs_scenario_pink}Pink{} Scenarios",
+                    "Clear {X:akyrs_scenario_dark_pink,C:white}Dark{} {X:akyrs_scenario_dark_pink,C:white}Pink{} Scenarios",
                 },
             },
             sc_akyrs_purified = {
@@ -3462,6 +3462,12 @@ return {
                     "Retrigger all {C:attention}Pure{} Cards",
                     "Split {C:attention}first played{} card into {C:attention}Pure Rank{}",
                     "and {C:attention}Pure Suit{} cards",
+                },
+            },
+            sc_akyrs_dusty = {
+                name="Dusty",
+                text={
+                    "Tags give {C:white,X:mult}X#1#{} Mult each",
                 },
             },
         },

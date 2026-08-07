@@ -725,16 +725,15 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
-    atlas = 'AikoyoriJokers',
+    atlas = 'AikoyoriJokers2',
     key = "inverse_joker",
     pos = {
-        x = 1,
-        y = 1
+        x = 3,
+        y = 0,
     },
     rarity = 1,
     cost = 2,
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_placeholder_art"]
         return {
             vars = {
             }

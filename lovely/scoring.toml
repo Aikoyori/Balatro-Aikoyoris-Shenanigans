@@ -279,7 +279,7 @@ match_indent = true
 target = 'functions/state_events.lua'
 pattern = """            draw_card(G.hand, G.play, i*100/#G.hand.highlighted, 'up', nil, G.hand.highlighted[i])"""
 position = "after"
-payload = """SMODS.calculate_context({ akyrs_postdraw_to_play = true, postdraw_card = G.hand.highlighted[i]})"""
+payload = """SMODS.calculate_context({ akyrs_postdraw_to_play = true, postdraw_card = G.hand.highlighted[i], card_index = i})"""
 overwrite = true
 match_indent = true
 

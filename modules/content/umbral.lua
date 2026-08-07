@@ -269,22 +269,7 @@ SMODS.Consumable{
     use = function (self, card, area, copier)
         AKYRS.juice_like_tarot(card)
         for _, c in ipairs(G.hand.highlighted) do
-            if not SMODS.has_no_suit(c) then
-                local c2 = AKYRS.copy_p_card(c, nil, nil, G.playing_card)
-                c2.ability.akyrs_special_card_type = "rank"
-                c2:set_sprites(c2.config.center,c2.config.card)
-                SMODS.calculate_context({ playing_card_added = true, cards = { c2 } })
-            end
-            if not SMODS.has_no_rank(c) then
-                local c2 = AKYRS.copy_p_card(c, nil, nil, G.playing_card)
-                c2.ability.akyrs_special_card_type = "suit"
-                c2:set_sprites(c2.config.center,c2.config.card)
-                SMODS.calculate_context({ playing_card_added = true, cards = { c2 } })
-            end
-            -- requested by autumm
-            c.no_graveyard = true
-            -- no destroy context because it technically is not gone
-            SMODS.destroy_cards({c})
+            AKYRS.pure_card_split(c)
         end
         
     end,

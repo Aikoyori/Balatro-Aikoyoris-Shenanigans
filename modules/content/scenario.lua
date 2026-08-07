@@ -76,7 +76,7 @@ function AKYRS.get_scenario_wheel_progress_offset(sc_proto)
         if sc_proto.scenario.side == "light" then
             return { 0, -0.41 }
         else
-            return { 0, 0.41 }
+            return { 0, 0.21 }
         end
     end
     return { 0, 0 }
@@ -1023,7 +1023,7 @@ AKYRS.Scenario {
         }
     end,
     calculate = function (self, card, context)
-        if context.repetition and context.other_card.area and AKYRS.is_in_playing_card_area(context.other_card.area) and not context.end_of_round then
+        if context.repetition and context.other_card.area and AKYRS.is_in_playing_card_area(context.other_card.area) and context.cardarea == context.other_card.area then
             local cdx = context.other_card
             local repetitions = 0
             local i = AKYRS.find_index(cdx.area.cards, cdx)
@@ -1077,4 +1077,42 @@ AKYRS.Scenario {
         colour = "pink",
     },
     akyrs_scenario_random = true,
+}
+AKYRS.Scenario {
+    key = "clean",
+    set = "Scenario",
+    pos = { x = 8, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "dark",
+    },
+    akyrs_clean_scenario = true,
+}
+AKYRS.Scenario {
+    key = "purified",
+    set = "Scenario",
+    pos = { x = 9, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "dark",
+    },
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_pure_cards_tip"]
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.akyrs_postdraw_to_play and context.card_index == 1 and not context.postdraw_card.ability.akyrs_special_card_type then
+            return {
+                func = function() AKYRS.pure_card_split(context.postdraw_card, nil, nil, G.play) end
+            }
+        end
+        if context.repetition and context.other_card.ability.akyrs_special_card_type and context.cardarea == context.other_card.area then
+            return {
+                repetitions = 1,
+            }
+        end
+    end,
 }

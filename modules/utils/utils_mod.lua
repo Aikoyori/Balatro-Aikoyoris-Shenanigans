@@ -1303,3 +1303,26 @@ AKYRS.set_fake_ability = function(card, center_key, ogcard)
     Card.set_ability(card, G.P_CENTERS[center_key])
     setmetatable(card, nil)
 end
+
+AKYRS.pure_card_split = function (crd, no_pure_rank, no_pure_suit, area)
+    local cardies = {}
+    if not SMODS.has_no_suit(crd) and not no_pure_rank then
+        local c2 = SMODS.copy_card(crd, { area = area })
+        c2.ability.akyrs_special_card_type = "rank"
+        c2:set_sprites(c2.config.center,c2.config.card)
+        table.insert(cardies, c2)
+        SMODS.calculate_context({ playing_card_added = true, cards = { c2 } })
+    end
+    if not SMODS.has_no_rank(crd) and not no_pure_suit then
+        local c3 = SMODS.copy_card(crd, { area = area })
+        c3.ability.akyrs_special_card_type = "suit"
+        c3:set_sprites(c3.config.center,c3.config.card)
+        table.insert(cardies, c2)
+        SMODS.calculate_context({ playing_card_added = true, cards = { c3 } })
+    end
+    -- requested by autumm
+    crd.no_graveyard = true
+    -- no destroy context because it technically is not gone
+    SMODS.destroy_cards({crd})
+    return cardies
+end

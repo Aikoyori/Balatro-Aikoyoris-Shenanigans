@@ -3450,6 +3450,20 @@ return {
                     "Randomize a {X:akyrs_scenario_pink,C:white}Pink{} Scenario",
                 },
             },
+            sc_akyrs_clean = {
+                name="Clean",
+                text={
+                    "Clear {X:akyrs_scenario_dark_pink,C:akyrs_scenario_pink}Dark{} {X:akyrs_scenario_dark_pink,C:akyrs_scenario_pink}Pink{} Scenarios",
+                },
+            },
+            sc_akyrs_purified = {
+                name="Purified",
+                text={
+                    "Retrigger all {C:attention}Pure{} Cards",
+                    "Split {C:attention}first played{} card into {C:attention}Pure Rank{}",
+                    "and {C:attention}Pure Suit{} cards",
+                },
+            },
         },
         Spectral={},
         Stake={

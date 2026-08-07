@@ -3432,7 +3432,7 @@ return {
                 },
             },
             sc_akyrs_city = {
-                name="Desert",
+                name="City",
                 text={
                     "Retrigger {C:attention}every card",
                     "adjacent to {C:attention}Stone Card",

@@ -1072,7 +1072,7 @@ AKYRS.Scenario {
 AKYRS.Scenario {
     key = "pink_hatena",
     set = "Scenario",
-    pos = { x = 6, y = 1 },
+    pos = { x = 7, y = 1 },
     scenario = {
         colour = "pink",
     },

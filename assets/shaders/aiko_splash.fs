@@ -85,11 +85,11 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     PREC number pixel_size = length(love_ScreenSize.xy)/PIXEL_SIZE_FAC;
     uv = (floor(screen_coords.xy*(1./pixel_size))*pixel_size - 0.5*love_ScreenSize.xy)/length(love_ScreenSize.xy);
     uv *= 15.1;
-    vec2 uvc = (uv + vec2(0.5,0.5));
-    uvc = uvc * rotationMatrix(-PI * 0.075 * iTime + 0.572);
+    vec2 uvc = (uv);
+    uvc = uvc * rotationMatrix(-PI * 0.075 * iTime * pow(vort_speed * 5., 2.) + 0.572);
     PREC number dist = distance(uvc, vec2(0.5,0.5));
     
-    uvc = uvc * rotationMatrix(-PI * 0.075 * sin(pow(dist, 1.3)));
+    uvc = uvc * rotationMatrix(-PI * 0.075 * pow(vort_speed * 3., 1.2) * sin(pow(dist, 1.3)));
     vec2 color = vec2(step(0.5, fract(uvc.x)),step(0.5, fract(uvc.y)));
     float luminance = rgb2hsv(tex.rgb).b;
     number factor = 1.0;
@@ -98,8 +98,8 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
         //factor = step(0.65,luminance)*0.8+0.4;
     }
     number dist_pow = pow((dist * 0.15), 2.4);
-    tex.rgb *= vec3(1.,0.,1.) * (1. - dist_pow);
-    tex.rgb += vec3(1.,0.,1.) * 0.3 * (1. - dist_pow);
+    tex.rgb *= (vec3(1.,0.,1.) * (1. - dist_pow)) * min(time * 0.1 ,1.);
+    tex.rgb += vec3(1.,0.,1.) * 0.3 * (1. - dist_pow) * min(time * 0.3 ,1.);
 
     //tex.rgb = tex.rgb * (factor + 0.3*((sin(iTime * 2.0 + length(oguv) * 5.0) + 1.0)*0.5));
     

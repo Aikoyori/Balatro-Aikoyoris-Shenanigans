@@ -3876,7 +3876,7 @@ return {
             c_akyrs_umbral_kingpin = {
                 name="Kingpin",
 				text = {
-                    "Adds {C:attention}#1#{} sealed {C:attention}Pinned{} Kings",
+                    "Adds {C:attention}#1#{} sealed {C:attention}Left-Pinned{} Kings",
                     "to hand",
 				},
             },

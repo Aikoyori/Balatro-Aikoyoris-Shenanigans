@@ -242,13 +242,13 @@ local caalign = CardArea.align_cards
 function CardArea:align_cards()
     if self.cards then
         for _, c in ipairs(self.cards) do
-            AKYRS.post_rotate_cards(c, self)
+            AKYRS.post_rotate_cards(c)
         end
     end
     local x = caalign(self)
     if self.cards then
         for _, c in ipairs(self.cards) do
-            AKYRS.rotate_cards(c, self)
+            AKYRS.rotate_cards(c)
         end
     end
     return x

@@ -46,6 +46,14 @@ end
 
 -- parse hand on cards rearrangement
 
+local cardDragHook = Card.drag
+function Card:drag(os)
+    if self.is and not self:is(SolitaireCard) then
+        self.akyrs_rotated = nil
+    end
+    AKYRS.rotate_cards(self)
+    return cardDragHook(self,os)
+end
 local cardReleaseRecalcHook = Card.stop_drag
 function Card:stop_drag()
     local area = self.area
@@ -99,6 +107,7 @@ function Card:stop_drag()
 
     end
     local c = cardReleaseRecalcHook(self)
+    AKYRS.post_rotate_cards(self)
 
     if (G.hand and self.area and self.area == G.hand and G.STATE == G.STATES.SELECTING_HAND and AKYRS.full_hand_recalc())  then
         G.GAME.aikoyori_evaluation_value = 0

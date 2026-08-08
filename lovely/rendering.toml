@@ -99,21 +99,6 @@ match_indent = true
 
 [[patches]]
 [patches.pattern]
-target = '''engine/moveable.lua'''
-pattern = """    if math.abs(self.VT.r - self.T.r) < 0.001 and  math.abs(self.velocity.r) < 0.001 then self.VT.r = self.T.r; self.velocity.r = 0 end"""
-position = "after"
-payload = '''AKYRS.rotate_cards(self)'''
-match_indent = true
-[[patches]]
-[patches.pattern]
-target = '''engine/moveable.lua'''
-pattern = """    local des_r = self.T.r +0.015*vel.x/dt + (self.juice and self.juice.r*2 or 0) """
-position = "before"
-payload = '''AKYRS.post_rotate_cards(self)'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
 target = '''tag.lua'''
 pattern = """    if not for_collection then self:set_ability() end"""
 position = "after"

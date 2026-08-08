@@ -433,18 +433,24 @@ function AKYRS.get_card_rotation(card)
     return card.akyrs_rot_force
 end
 
-function AKYRS.rotate_cards(c, is_cardarea)
+function AKYRS.non_fanning_areas(ca)
+    return ca == G.pack_cards
+end
+
+function AKYRS.rotate_cards(c, is_rapid_update)
     if AKYRS.get_card_rotation(c) and (not c.states.drag.is) and not c.akyrs_rotated then
         c.akyrs_T = c.T.r
         c.T.r = c.T.r + AKYRS.get_card_rotation(c)
+        c.akyrs_rotated_times = (c.akyrs_rotated_times or 0) + 1
         c.akyrs_rotated = true
     end
 end
 
-function AKYRS.post_rotate_cards(c, is_cardarea)
+function AKYRS.post_rotate_cards(c, is_rapid_update)
     if AKYRS.get_card_rotation(c) and c.akyrs_rotated then
-        c.akyrs_rotated = false
-        if c.states.drag.is then
+        c.akyrs_rotated_times = (c.akyrs_rotated_times or 0) - 1
+        if not AKYRS.non_fanning_areas(c.area) and c.area then
+            c.akyrs_rotated = false
             c.T.r = c.T.r - (AKYRS.get_card_rotation(c) or 0) 
         end
     end

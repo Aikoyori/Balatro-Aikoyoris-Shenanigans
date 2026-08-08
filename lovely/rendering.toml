@@ -104,6 +104,13 @@ pattern = """    if math.abs(self.VT.r - self.T.r) < 0.001 and  math.abs(self.ve
 position = "after"
 payload = '''AKYRS.rotate_cards(self)'''
 match_indent = true
+[[patches]]
+[patches.pattern]
+target = '''engine/moveable.lua'''
+pattern = """    local des_r = self.T.r +0.015*vel.x/dt + (self.juice and self.juice.r*2 or 0) """
+position = "before"
+payload = '''AKYRS.post_rotate_cards(self)'''
+match_indent = true
 
 [[patches]]
 [patches.pattern]

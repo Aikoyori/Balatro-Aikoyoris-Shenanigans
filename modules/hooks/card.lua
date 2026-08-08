@@ -429,21 +429,24 @@ function create_UIBox_blind_tag(blind_choice, run_info)
     return extras2
 end
 
-function AKYRS.rotate_cards(c)
-    if c.akyrs_rot_force and not c.states.drag.is then
+function AKYRS.get_card_rotation(card)
+    return card.akyrs_rot_force
+end
+
+function AKYRS.rotate_cards(c, is_cardarea)
+    if AKYRS.get_card_rotation(c) and (not c.states.drag.is) and not c.akyrs_rotated then
         c.akyrs_T = c.T.r
-        c.akyrs_VT = c.VT.r
-        c.T.r = c.T.r + c.akyrs_rot_force
-        c.VT.r = c.VT.r + c.akyrs_rot_force
+        c.T.r = c.T.r + AKYRS.get_card_rotation(c)
         c.akyrs_rotated = true
     end
 end
 
-function AKYRS.post_rotate_cards(c)
-    if c.akyrs_rot_force and not c.states.drag.is then
+function AKYRS.post_rotate_cards(c, is_cardarea)
+    if AKYRS.get_card_rotation(c) and c.akyrs_rotated then
         c.akyrs_rotated = false
-        c.T.r = c.T.r - (c.akyrs_T or 0)
-        c.VT.r = c.VT.r - (c.akyrs_VT or 0)
+        if c.states.drag.is then
+            c.T.r = c.T.r - (AKYRS.get_card_rotation(c) or 0) 
+        end
     end
 end
 

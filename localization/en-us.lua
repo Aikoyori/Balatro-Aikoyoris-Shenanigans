@@ -4616,6 +4616,8 @@ return {
         high_scores={},
         labels={
             akyrs_self_destructs="Self-Destructive",
+            akyrs_pinned_right=">> Pinned >>",
+            pinned="<< Pinned <<",
             akyrs_sigma="Sigma",
             akyrs_oxidising="Oxidising",
             akyrs_attention="Attention",

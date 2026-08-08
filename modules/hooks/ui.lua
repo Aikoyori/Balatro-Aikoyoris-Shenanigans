@@ -1322,7 +1322,39 @@ function Tag:generate_UI(_size)
         tag_sprite.atlas = G.ASSET_ATLAS["akyrs_aikoyoriTags"]
         tag_sprite:set_sprite_pos({x = 0, y = 9})
     end
+    tag_sprite.click = function ( _self )
+        self.akyrs_enabled = not self.akyrs_enabled
+        local steps = {
+            {shader = 'dissolve', shadow_height = 0.05},
+            {shader = 'dissolve' },
+        }
+        _self:juice_up()
+        play_sound('tarot2')
+        if self.akyrs_enabled then
+            if not self.akyrs_is_collection then
+                self:apply_to_run({ type = "immediate" })
+                if G.STATE == G.STATES.BLIND_SELECT then
+                    self:apply_to_run({ type = "new_blind_choice" })
+                end
+            end
+        else
+            steps[#steps+1] = {shader = 'akyrs_debuff_fix'}
+        end
+        _self:define_draw_steps(steps) 
+        
+        return Sprite.click( _self )
+    end
     return tag_sprite_tab, tag_sprite
+end
+
+local guibt = Tag.get_uibox_table
+function Tag:get_uibox_table(tag_sprite)
+    local fulluit = guibt(self, tag_sprite)
+    fulluit.ability_UIBox_table.main.main_box_flag = true
+    local multiboxone = {}
+    localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_tag_toggle_tooltip', nodes = multiboxone }
+    AKYRS.add_box_to_uitable(fulluit.ability_UIBox_table, multiboxone)
+    return fulluit
 end
 
 

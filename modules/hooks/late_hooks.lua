@@ -231,3 +231,25 @@ function Game:start_up(...)
     local result = {game_start_up_ref(self, ...)}
 	return unpack(result)
 end
+
+local tag_apply = Tag.apply_to_run
+function Tag:apply_to_run(context)
+    if not self.akyrs_enabled then return end
+    return tag_apply(self,context)
+end
+
+local caalign = CardArea.align_cards
+function CardArea:align_cards()
+    if self.cards then
+        for _, c in ipairs(self.cards) do
+            AKYRS.post_rotate_cards(c)
+        end
+    end
+    local x = caalign(self)
+    if self.cards then
+        for _, c in ipairs(self.cards) do
+            AKYRS.rotate_cards(c)
+        end
+    end
+    return x
+end

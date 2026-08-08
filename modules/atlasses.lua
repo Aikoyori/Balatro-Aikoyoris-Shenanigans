@@ -473,3 +473,8 @@ SMODS.Shader{
     key = "pinwheel_progress",
     path = "pinwheel_progress.fs"
 }
+
+SMODS.Shader{
+    key = "debuff_fix",
+    path = "debuff_fix.fs"
+}

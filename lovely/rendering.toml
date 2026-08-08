@@ -74,3 +74,42 @@ payload = '''
 if G.GAME.blind then G.GAME.blind.children = G.GAME.blind.children or {} end
 '''
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = """    if not self.states.visible then return end"""
+position = "after"
+payload = '''
+AKYRS.rotate_cards(self)
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = """        if SMODS.DrawSteps[k]:check_conditions(self, layer) then SMODS.DrawSteps[k].func(self, layer) end
+    end"""
+position = "after"
+payload = '''
+AKYRS.post_rotate_cards(self)
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''engine/moveable.lua'''
+pattern = """    if math.abs(self.VT.r - self.T.r) < 0.001 and  math.abs(self.velocity.r) < 0.001 then self.VT.r = self.T.r; self.velocity.r = 0 end"""
+position = "after"
+payload = '''AKYRS.rotate_cards(self)'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''tag.lua'''
+pattern = """    if not for_collection then self:set_ability() end"""
+position = "after"
+payload = '''if for_collection then self.akyrs_enabled = true end
+self.akyrs_is_collection = for_collection'''
+match_indent = true

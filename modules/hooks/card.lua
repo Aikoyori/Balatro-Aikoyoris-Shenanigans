@@ -429,3 +429,49 @@ function create_UIBox_blind_tag(blind_choice, run_info)
     return extras2
 end
 
+function AKYRS.rotate_cards(c)
+    if c.akyrs_rot_force and not c.states.drag.is then
+        c.akyrs_T = c.T.r
+        c.akyrs_VT = c.VT.r
+        c.T.r = c.T.r + c.akyrs_rot_force
+        c.VT.r = c.VT.r + c.akyrs_rot_force
+        c.akyrs_rotated = true
+    end
+end
+
+function AKYRS.post_rotate_cards(c)
+    if c.akyrs_rot_force and not c.states.drag.is then
+        c.akyrs_rotated = false
+        c.T.r = c.T.r - (c.akyrs_T or 0)
+        c.VT.r = c.VT.r - (c.akyrs_VT or 0)
+    end
+end
+
+local tag_save = Tag.save
+function Tag:save()
+    local x = tag_save(self)
+    x.akyrs_enabled = self.akyrs_enabled
+    return x
+end
+
+local tag_load = Tag.load
+function Tag:load(tag_savetable)
+    local loaded = tag_load(self, tag_savetable)
+    self.akyrs_enabled = tag_savetable.akyrs_enabled
+    return loaded
+end
+
+local adtg = add_tag
+function add_tag(tagg)
+    local adtgrt = {adtg(tagg)}
+    
+    local steps = {
+        {shader = 'dissolve', shadow_height = 0.05},
+        {shader = 'dissolve' },
+    }
+    if not tagg.akyrs_enabled then
+        steps[#steps+1] = {shader = 'akyrs_debuff_fix'}
+    end
+    tagg.tag_sprite:define_draw_steps(steps) 
+    return unpack(adtgrt)
+end

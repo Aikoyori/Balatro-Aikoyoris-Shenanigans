@@ -531,21 +531,20 @@ function Card:a_cool_fucking_spin(time, radian)
     Moveable.a_cool_fucking_spin(self, time, radian)
 end
 
-function Moveable:a_cool_fucking_spin(time, radian)
+function Moveable:a_cool_fucking_spin(time, radian, ease)
     if G.SETTINGS.reduced_motion then return end
     local radian = radian or math.pi * 2
 
     G.E_MANAGER:add_event(Event({
         trigger = 'ease',
         blockable = false,
-        type = 'lerp',
+        type = ease or 'lerp',
         ref_table = self.VT,
         ref_value = 'r',
         ease_to = radian,
         delay = time,
         func = (function(t)
-            self.VT.r = t
-            self.T.r = t
+            self.akyrs_rot_force = t
             return t
         end)
     }))

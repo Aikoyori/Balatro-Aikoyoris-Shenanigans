@@ -1165,6 +1165,13 @@ return {
                     "Will last {C:blue}#2#{} Rounds in Tag form",
                 },
             },
+            dd_akyrs_tag_toggle_tooltip = {
+                name="Tags",
+                text={
+                    "Click to {C:attention}toggle{}",
+                    "ability activation",
+                },
+            },
         },
         Edition={
             e_akyrs_texelated = {

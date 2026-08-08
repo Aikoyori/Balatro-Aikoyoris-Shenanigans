@@ -4617,7 +4617,7 @@ return {
         labels={
             akyrs_self_destructs="Self-Destructive",
             akyrs_pinned_right=">> Pinned >>",
-            pinned="<< Pinned <<",
+            pinned_left="<< Pinned <<",
             akyrs_sigma="Sigma",
             akyrs_oxidising="Oxidising",
             akyrs_attention="Attention",

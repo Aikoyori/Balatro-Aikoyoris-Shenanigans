@@ -1153,3 +1153,35 @@ AKYRS.Scenario {
         end
     end,
 }
+
+AKYRS.Scenario {
+    key = "foggy",
+    set = "Scenario",
+    pos = { x = 11, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            xscore_low_bound = 0.8,
+            xscore_hi_bound = 2.5,
+        }
+    },
+    akyrs_total_rounds = 5,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.xscore_low_bound,
+                card.ability.extras.xscore_hi_bound,
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then 
+            return {
+                xscore = (pseudorandom("akyrs_scenarios_foggy_xscore") * (card.ability.extras.xscore_hi_bound - card.ability.extras.xscore_low_bound) + card.ability.extras.xscore_low_bound)
+            }
+        end
+    end,
+}

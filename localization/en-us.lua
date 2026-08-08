@@ -2985,11 +2985,19 @@ return {
                 },
             },
             pinned_left={
-                name="Pinned",
+                name="Pinned Left",
                 text={
                     "This card stays",
                     "pinned to the",
                     "leftmost position",
+                },
+            },
+            akyrs_pinned_right={
+                name="Pinned Right",
+                text={
+                    "This card stays",
+                    "pinned to the",
+                    "rightmost position",
                 },
             },
             akyrs_playing_card_suit={
@@ -3475,6 +3483,12 @@ return {
                 name="Dusty",
                 text={
                     "Tags give {C:white,X:mult}X#1#{} Mult each",
+                },
+            },
+            sc_akyrs_foggy = {
+                name="Foggy",
+                text={
+                    "{C:white,X:purple}X#1#-X#2#{} Score",
                 },
             },
         },

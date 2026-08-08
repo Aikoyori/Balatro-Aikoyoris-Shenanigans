@@ -119,8 +119,8 @@ SMODS.DrawStep{
                 AKYRS.pinned_sticker = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS["akyrs_aikoyoriStickers"], {x = 4,y = 0}) 
             end
             AKYRS.pinned_sticker.role.draw_major = self
-            AKYRS.pinned_sticker:draw_shader('dissolve', nil, nil, nil, self.children.center,nil,nil,nil,-0.3)
-            AKYRS.pinned_sticker:draw_shader('voucher', nil, nil, nil, self.children.center,nil,nil,nil,-0.3)
+            AKYRS.pinned_sticker:draw_shader('dissolve', nil, nil, nil, self.children.center,nil,nil,-0.15,-0.4)
+            AKYRS.pinned_sticker:draw_shader('voucher', nil, nil, nil, self.children.center,nil,nil,-0.15,-0.4)
         end
     end,
     conditions = { vortex = false, facing = 'front' },

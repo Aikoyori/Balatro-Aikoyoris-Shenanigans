@@ -1425,6 +1425,14 @@ function Card:get_nominal(mod)
     return ret
 end
 
+AKYRS.types_to_sort_sticker = {
+        joker = true,
+        consumeable = true,
+        shop = true,
+        hand = true,
+        play = true,
+        voucher = true,
+}
 
 local cardAreaAlignHook = CardArea.align_cards
 function CardArea:align_cards()
@@ -1582,6 +1590,10 @@ function CardArea:align_cards()
         end
         table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*(a.pinned and a.sort_id or 0) < b.T.x + b.T.w/2 - 100*(b.pinned and b.sort_id or 0) end)
     end   
+    if self.config and self.config.type and AKYRS.types_to_sort_sticker[self.config.type] then
+        table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*(a.pinned and a.sort_id or a.akyrs_pinned_right and 1e200 or 0) < b.T.x + b.T.w/2 - 100*(b.pinned and b.sort_id or b.akyrs_pinned_right and 1e200 or 0) end)
+    end
+
     if G.GAME.akyrs_ultimate_freedom and not self.states.collide.can then
         self.states.collide.can = true
     end

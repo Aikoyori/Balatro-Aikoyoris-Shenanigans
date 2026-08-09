@@ -588,4 +588,4 @@ SMODS.add_attribute(
     }
 )
 
-SMODS.populate_attributes()
+-- SMODS.populate_attributes()

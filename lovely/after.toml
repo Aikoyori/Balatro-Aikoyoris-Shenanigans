@@ -53,3 +53,30 @@ position = "append"
 sources = [
     "modules/hooks/late_hooks.lua",
 ]
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = """      if AUT.badges.card_type or AUT.badges.force_rarity then"""
+position = "before"
+payload = """
+local multi_boxes = {}
+local info_cols = {}
+if obj and AKYRS.should_conceal_card(card, obj) then
+
+else"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = """          table.insert(info_cols, {n=G.UIT.C, config = {align="cm"}, nodes = col})
+      end"""
+position = "after"
+payload = """end"""
+overwrite = true
+match_indent = true

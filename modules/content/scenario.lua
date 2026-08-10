@@ -1237,7 +1237,7 @@ AKYRS.Scenario {
     config = {
         extras = {
             xscore = 2,
-            xmult_decrease = 0.5,
+            xmult_decrease = 0.75,
         }
     },
     akyrs_total_rounds = 3,

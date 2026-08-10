@@ -1705,3 +1705,12 @@ function AKYRS.add_box_to_uitable(fulluitable, nodes)
     fulluitable.multi_box = fulluitable.multi_box or {}
     fulluitable.multi_box[#fulluitable.multi_box+1] = nodes
 end
+
+function AKYRS.should_act_as_consumable(center)
+    if not center or not center.set then
+        return false
+    end
+    local s = center.set
+    return s == "Scenario" or s == "Enchantment"
+    
+end

@@ -1155,9 +1155,49 @@ AKYRS.Scenario {
 }
 
 AKYRS.Scenario {
-    key = "foggy",
+    key = "leaves",
     set = "Scenario",
     pos = { x = 11, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            carbon = 1,
+            dioxide = 3,
+        }
+    },
+    akyrs_total_rounds = 2,
+    loc_vars = function (self, info_queue, card)
+        local n,d = SMODS.get_probability_vars(card,card.ability.extras.carbon,card.ability.extras.dioxide, "akyrs_scenario_leaves_retrigger")
+        return {
+            vars = {
+                n,
+                d,
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.debuff_card and context.debuff_card.seal then
+            return {
+                debuff = true
+            }
+        end
+        if context.repetition and context.cardarea == context.other_card.area and not context.other_card.seal then 
+            if SMODS.pseudorandom_probability(card, "akyrs_scenario_leaves_retrigger", card.ability.extras.carbon,card.ability.extras.dioxide) then
+                return {
+                    repetitions = 1
+                }
+            end
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "foggy",
+    set = "Scenario",
+    pos = { x = 12, y = 1 },
     scenario = {
         colour = "pink",
         side = "dark",
@@ -1181,6 +1221,48 @@ AKYRS.Scenario {
         if context.main_scoring or context.joker_main then 
             return {
                 xscore = (pseudorandom("akyrs_scenarios_foggy_xscore") * (card.ability.extras.xscore_hi_bound - card.ability.extras.xscore_low_bound) + card.ability.extras.xscore_low_bound)
+            }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "smoke",
+    set = "Scenario",
+    pos = { x = 13, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            xscore = 2,
+            xmult_decrease = 0.5,
+        }
+    },
+    akyrs_total_rounds = 3,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.xscore,
+                card.ability.extras.xmult_decrease,
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then 
+            return {
+                func = function ()
+                    local c = 0
+                    while SMODS.calculate_round_score() >= G.GAME.blind.chips and c < 100 do
+                        SMODS.calculate_effect({
+                            xmult = card.ability.extras.xmult_decrease,
+                            xscore = card.ability.extras.xscore,
+                            message_card = card,
+                        }, card)
+                        c = c + 1
+                    end
+                end
             }
         end
     end,

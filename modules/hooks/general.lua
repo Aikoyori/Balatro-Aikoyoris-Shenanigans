@@ -1110,6 +1110,9 @@ function Card:set_ability(c,i,d)
                     return true
             end, 0)
         end
+        if AKYRS.should_act_as_consumable(self.config.center or c) then
+            self.ability.consumeable = {}
+        end
     end
 
 

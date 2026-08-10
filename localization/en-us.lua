@@ -1506,7 +1506,7 @@ return {
                 name = "Nightshade Card",
                 text = {
                     "{C:white,X:chips}X#1#{} Chips",
-                    "{C:attention}Debuffs itself{} if not",
+                    "{C:attention}Debuffs itself{} for the round if not",
                     "played immediately {C:attention}after drawn",
                 }
             },
@@ -3485,10 +3485,26 @@ return {
                     "Tags give {C:white,X:mult}X#1#{} Mult each",
                 },
             },
+            sc_akyrs_leaves = {
+                name="Leaves",
+                text={
+                    "Debuff {C:attention}all{} sealed cards",
+                    "{C:green}#1# in #2# chance{} to retrigger all non-sealed cards",
+                },
+            },
             sc_akyrs_foggy = {
                 name="Foggy",
                 text={
                     "{C:white,X:purple}X#1#-X#2#{} Score",
+                },
+            },
+            sc_akyrs_smoke = {
+                name="Smoke",
+                text={
+                    "If score is {}on fire",
+                    "{C:white,X:mult}X#2#{} Mult and {C:white,X:purple}X#1#{} Score",
+                    "{C:attention}until{} it isn't",
+                    "{C:inactive}(Up to 100 times)",
                 },
             },
         },

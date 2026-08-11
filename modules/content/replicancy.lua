@@ -68,7 +68,7 @@ SMODS.Consumable{
                     local s = pseudorandom_element(SMODS.Suits, "akyrs_replicant_connection_suit")
                     local r = pseudorandom_element(SMODS.Ranks, "akyrs_replicant_connection_rank")
                     SMODS.change_base(cnew, s.key, r.key)
-                    SMODS.Stickers.akyrs_crystalised:apply(cnew, true)
+                    cnew:add_sticker('akyrs_crystalised', true)
                     SMODS.calculate_context({ playing_card_added = true, cards = { cnew }})
                     return true
                 end, 0)
@@ -106,7 +106,7 @@ SMODS.Consumable{
             AKYRS.simple_event_add(function ()
                 if AKYRS.has_room(G.jokers) then
                     local cnew = SMODS.add_card{ set = "Joker", rarity = 'Rare'}
-                    SMODS.Stickers.akyrs_concealed:apply(cnew, true)
+                    cnew:add_sticker('akyrs_concealed', true)
                 end
                 return true
             end, 0)
@@ -226,7 +226,7 @@ SMODS.Consumable{
                 SMODS.smart_level_up_hand(card, h, false, card.ability.extras)
                 AKYRS.do_things_to_card(G.hand.highlighted,
                     function (cx)
-                        SMODS.Stickers.akyrs_attention:apply(cx, true)
+                        cx:add_sticker('akyrs_attention', true)
                     end
                 )
             end
@@ -262,7 +262,7 @@ SMODS.Consumable{
         end, true, true)
         AKYRS.do_things_to_card(filtered,
             function (cx)
-                SMODS.Stickers.perishable:apply(cx, true)
+                cx:add_sticker('perishable', true)
                 SMODS.add_card{ set = "Spectral", edition = "e_negative" }
             end
         )
@@ -348,7 +348,7 @@ SMODS.Consumable{
         local selected = AKYRS.pseudorandom_elements(filtered, card.ability.extras.select, "akyrs_replicant_ota_jkr_select")
         AKYRS.do_things_to_card(selected,
             function (cx)
-                SMODS.Stickers.rental:apply(cx, true)
+                cx:add_sticker('rental', true)
                 SMODS.add_card{ set = "Tarot", edition = "e_negative" }
                 SMODS.add_card{ set = "Tarot", edition = "e_negative" }
             end
@@ -442,8 +442,8 @@ SMODS.Consumable{
     use = function (self, card, area, copier)
         AKYRS.juice_like_tarot(card)
         local cd = SMODS.add_card({ edition = "e_negative", set = "Joker"})
-        SMODS.Stickers.eternal:apply(cd, true)
-        SMODS.Stickers.rental:apply(cd, true)
+        cd:add_sticker('eternal', true)
+        cd:add_sticker('rental', true)
     end
 }
 
@@ -547,7 +547,7 @@ SMODS.Consumable{
             local cdx = SMODS.add_card({key = key, set = "Joker", attributes = {"food"}})
             local latticed = SMODS.pseudorandom_probability(card, "c_akyrs_replicant_third_party_cookies_lattice_chance", card.ability.extras.n,card.ability.extras.d)
             if latticed then
-                SMODS.Stickers.akyrs_latticed:apply(cdx, true)  
+                cdx:add_sticker('akyrs_latticed', true)
             end
         end
     end

@@ -65,7 +65,7 @@ SMODS.Stake {
             end)
             local c2a = pseudorandom_element(cards_with_no_crystals, "akyrs_amethyst_stake")
             if c2a then
-                SMODS.Stickers.akyrs_crystalised:apply(c2a, true)
+                c2a:add_sticker('akyrs_crystalised', true)
             end
         end
     end,
@@ -141,12 +141,12 @@ SMODS.Stake {
     colour = HEX("f4ff12"),
     calculate = function (self, context)
         if context.blind_defeated then
-            local cards_with_no_crystals = AKYRS.filter_table(G.playing_cards, function (_card)
-                return not _card.ability.akyrs_crystalised
+            local candidates = AKYRS.filter_table(G.playing_cards, function (_card)
+                return not _card.ability.akyrs_sus
             end)
-            local c2a = pseudorandom_element(cards_with_no_crystals, "akyrs_amethyst_stake")
+            local c2a = pseudorandom_element(candidates, "akyrs_hydrogel_stake")
             if c2a then
-                SMODS.Stickers.akyrs_sus:apply(c2a, true)
+                c2a:add_sticker('akyrs_sus', true)
             end
         end
     end,
@@ -166,9 +166,9 @@ SMODS.Stake {
             local cards_with_no_rental = AKYRS.filter_table(G.jokers.cards, function (_card)
                 return not _card.ability.rental
             end)
-            local c2a = pseudorandom_element(cards_with_no_rental, "akyrs_amethyst_stake")
+            local c2a = pseudorandom_element(cards_with_no_rental, "akyrs_spotify_stake")
             if c2a then
-                SMODS.Stickers.rental:apply(c2a, true)
+                c2a:add_sticker('rental', true)
             end
         end
     end,

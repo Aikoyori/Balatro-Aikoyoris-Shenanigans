@@ -129,7 +129,7 @@ SMODS.Seal{
                 func = function()
                     AKYRS.simple_event_add(function() 
                         local c = AKYRS.copy_p_card(card, nil, nil, nil, nil, G.play)
-                        SMODS.Stickers.akyrs_self_destructs:apply(c, true)
+                        c:add_sticker('akyrs_self_destructs', true)
                         return true
                     end, 0)
                 end

@@ -1079,7 +1079,7 @@ function Card:set_ability(c,i,d)
     
     if G.GAME.akyrs_trade_hand_discard then
         if c.key == "j_akyrs_kyoufuu_all_back" then
-            SMODS.Stickers.akyrs_self_destructs:apply(self, true)
+            self:add_sticker('akyrs_self_destructs', true)
         end
     end
     self:akyrs_mod_card_value_init(c, i, d)

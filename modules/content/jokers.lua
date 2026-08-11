@@ -2113,7 +2113,7 @@ SMODS.Joker{
     set_ability = function (self, card, initial, delay_sprites)
         card.ability.extras.route = G.GAME.akyrs_ut_route or card.ability.extras.route
         if card.ability.extras.route == "genocide" then
-            SMODS.Stickers.eternal:apply(card, true)
+            card:add_sticker('eternal', true)
         end
     end,
     calculate = function (self, card, context)

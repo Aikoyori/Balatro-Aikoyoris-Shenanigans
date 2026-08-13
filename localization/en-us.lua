@@ -1682,10 +1682,8 @@ return {
             j_akyrs_it_is_forbidden_to_dog = {
                 name = "It is forbidden to dog",
                 text = { 
-                    "When this Joker scores",
-                    "debuffed cards held in hand each",
+                    "Debuffed cards held in hand each",
                     "give {X:mult,C:white} X#1#{} Mult",
-                    "{C:inactive}(Due to technical limitations)",
                     "A {C:attention}random{} card in hand is debuffed",
                     "every hand {C:attention}drawn"
                 }

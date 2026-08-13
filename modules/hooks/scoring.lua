@@ -197,7 +197,7 @@ SMODS.calculate_repetitions = function(card, context, reps)
         return {}
     end
 	local reps = calcrep(card, context, reps)
-	reps = reps or { 1 }
+	reps = reps or {}
 	return reps
 end
 
@@ -231,6 +231,10 @@ function add_tag(...)
 end
 local rep_in = SMODS.insert_repetitions
 SMODS.insert_repetitions = function(ret, eval, effect_card, _type)
+    
+    print(ret)
+    print(eval)
+    print(_type)
     if G.GAME.blind and G.GAME.blind.debuff.akyrs_no_retriggers and not G.GAME.blind.disabled then
         return 
     end

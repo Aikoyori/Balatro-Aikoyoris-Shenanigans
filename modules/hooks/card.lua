@@ -484,3 +484,12 @@ function add_tag(tagg)
     tagg.tag_sprite:define_draw_steps(steps) 
     return unpack(adtgrt)
 end
+
+local evalCardHook = eval_card
+function eval_card(card, context)
+    local echrtt = {evalCardHook(card, context)}
+    if ((echrtt[1] or {}).repetitions or 0) <= 0 and context.akyrs_calculating_debuffed and context.repetition then
+        return {}
+    end
+    return unpack(echrtt)
+end

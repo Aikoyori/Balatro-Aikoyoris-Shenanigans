@@ -79,11 +79,18 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS _ "src/utils.lua"]'''
-pattern = '''                card_eval_status_text(card, 'debuff')
-            end'''
+pattern = '''            SMODS.score_card(card, context)
+        end'''
 position = "after"
 payload = '''
-eval_card(card, context)
+if card.debuff then
+    if scoring_hand then
+        if in_scoring then context.cardarea = G.play else context.cardarea = 'unscored' end
+    end
+    context.akyrs_calculating_debuffed = true
+    SMODS.score_card(card, context)
+    context.akyrs_calculating_debuffed = nil
+end
 '''
 match_indent = true
 

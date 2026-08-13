@@ -404,3 +404,62 @@ overwrite = true
 match_indent = true
 
 
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = """        context.main_scoring = true"""
+position = "after"
+payload = """if context.akyrs_calculating_debuffed and context.main_scoring then
+    context.main_scoring = false
+    context.ignore_debuff = true
+    context.akyrs_debuffed_main_scoring = true
+end
+"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = """        context.individual = true"""
+position = "after"
+payload = """
+context.akyrs_debuffed_main_scoring = nil
+if context.akyrs_calculating_debuffed and context.individual then
+    context.individual = false
+    context.akyrs_debuffed_individual = true
+    context.ignore_debuff = true
+    context.ignore_other_debuff = true
+end
+"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = """            context.individual = nil"""
+position = "after"
+payload = """
+context.akyrs_debuffed_individual = nil
+"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = """function SMODS.calculate_card_areas(_type, context, return_table, args)"""
+position = "after"
+payload = """
+
+"""
+overwrite = true
+match_indent = true
+

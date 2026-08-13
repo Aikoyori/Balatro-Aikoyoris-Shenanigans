@@ -509,12 +509,8 @@ SMODS.Joker {
                 }
             end
         end
-        if context.joker_main then
-            local debuffed = {}
-            for _, _card in ipairs(G.hand.cards) do if _card.debuff then table.insert(debuffed, _card) end end
-            for _, _card in ipairs(debuffed) do
-                SMODS.calculate_effect({ xmult = card.ability.extra.mult }, _card)
-            end
+        if context.akyrs_debuffed_individual and context.other_card.debuff and (context.cardarea == G.hand) then
+            return { xmult = card.ability.extra.mult }
         end
     end,
 	demicoloncompat = true,

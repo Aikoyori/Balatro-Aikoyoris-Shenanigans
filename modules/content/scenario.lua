@@ -1267,3 +1267,48 @@ AKYRS.Scenario {
         end
     end,
 }
+
+AKYRS.Scenario {
+    key = "smog",
+    set = "Scenario",
+    pos = { x = 14, y = 1 },
+    scenario = {
+        colour = "pink",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            xbl_min = 0.5,
+            xbl_max = 0.9,
+        }
+    },
+    akyrs_total_rounds = 3,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.xbl_min,
+                card.ability.extras.xbl_max,
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.setting_blind then 
+            return {
+                xblindsize = pseudorandom("akyrs_scenario_smoke_blind_size") * (card.ability.extras.xbl_max - card.ability.extras.xbl_min) + card.ability.extras.xbl_min,
+                remove_default_message = true,
+                message = localize({ type = "variable", key = "a_xblind_size", vars = {"???"}}),
+                colour = G.C.DYN_UI.DARK,
+                sound_override = 'xblindsize',
+            }
+        end
+    end,
+    add_to_deck = function (self, card, from_debuff)
+        recalculateBlindUI()
+    end,
+    remove_from_deck = function (self, card, from_debuff)
+        recalculateBlindUI()
+    end,
+    tag_removed = function (self, tag)
+        recalculateBlindUI()
+    end
+}

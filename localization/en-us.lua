@@ -3505,6 +3505,13 @@ return {
                     "{C:inactive}(Up to 100 times)",
                 },
             },
+            sc_akyrs_smog = {
+                name="Smog",
+                text={
+                    "{C:white,X:blind}X#1#-X#2#{} Blind Size when entering blind",
+                    "Score & Blind Size are {C:attention}hidden",
+                },
+            },
         },
         Spectral={},
         Stake={

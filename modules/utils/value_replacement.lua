@@ -238,6 +238,9 @@ function AKYRS.getBlindText(key, collection)
         --print(collection, times_left)
         return {localize("ph_akyrs_play_for"),localize({ type = "variable", vars = { times_left }, key = "ph_akyrs_hand" .. (times_left ~= 1 and "s" or "") })}
     else
+        if AKYRS.is_scenario_active("sc_akyrs_smog") then
+            return {nil, "?????"}
+        end
         return {nil,nil}
     end
 end

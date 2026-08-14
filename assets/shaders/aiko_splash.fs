@@ -57,6 +57,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     */
     //Convert to 0-1.. coordinates but...
     vec4 tex = vec4(0.,0.,0.,1.);
+    
     if (mid_flash < 0.0001) {
         tex.r = tex.r + mid_flash * 0.00001;
     }
@@ -85,11 +86,12 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     PREC number pixel_size = length(love_ScreenSize.xy)/PIXEL_SIZE_FAC;
     uv = (floor(screen_coords.xy*(1./pixel_size))*pixel_size - 0.5*love_ScreenSize.xy)/length(love_ScreenSize.xy);
     uv *= 15.1;
-    vec2 uvc = (uv);
-    uvc = uvc * rotationMatrix(-PI * 0.075 * iTime * pow(vort_speed * 5., 2.) + 0.572);
-    PREC number dist = distance(uvc, vec2(0.5,0.5));
+    vec2 uvc = (uv);    
+    PREC number dist = distance(uvc, vec2(0.45,0.45));
+    uvc = uvc * rotationMatrix(-PI * 0.075 * iTime * pow(vort_speed * 5., 0.6 * (step(0.7,vort_speed) * iTime) + 0.572) + 0.572);
+
     
-    uvc = uvc * rotationMatrix(-PI * 0.075 * pow(vort_speed * 3., 1.2) * sin(pow(dist, 1.3)));
+    uvc = uvc * rotationMatrix(-PI * 0.075 * pow(vort_speed * 3., 1.2) * (pow(dist, 1.3)) + 7. * pow(step(0.7,vort_speed) * iTime * 2., 2. ));
     vec2 color = vec2(step(0.5, fract(uvc.x)),step(0.5, fract(uvc.y)));
     float luminance = rgb2hsv(tex.rgb).b;
     number factor = 1.0;

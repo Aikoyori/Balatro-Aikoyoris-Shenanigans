@@ -1187,6 +1187,13 @@ return {
                     "ability activation",
                 },
             },
+            dd_akyrs_scenario_tag_charges_decreases = {
+                name="Scenario",
+                text={
+                    "{C:red}-1{} Charge",
+                    "at the end of round",
+                },
+            },
         },
         Edition={
             e_akyrs_texelated = {
@@ -1706,12 +1713,9 @@ return {
             j_akyrs_eat_pant = {
                 name = "eat pant",
                 text = { 
-                    "If played hand contains exactly {C:attention}4{} cards",
-                    "{C:red}destroys first two played cards{} and loses",
-                    "{X:mult,C:white} 1/#2# {} of its current {X:mult,C:white}XMult{} {C:inactive}(cumulative)",
-                    "per card destroyed",
-                    "{C:inactive}(Currently {X:mult,C:white} X#3# {C:inactive} Mult)",
-                    "{C:inactive}(Can underflow below {X:mult,C:white} X1 {C:inactive})",
+                    "If played hand is a {C:attention}Two Pair{}",
+                    "{C:red}destroys {}all played cards",
+                    "that has the rank of the first played card",
                 }
             },
             j_akyrs_tsunagite = {
@@ -2889,7 +2893,7 @@ return {
                 name="Twin Seal",
                 text={
                     "Copies a {C:attention}random{} Joker's",
-                    "{C:attention}main{} ability when scored",
+                    "{C:attention}ability{} when scored",
                 },
             },
             akyrs_fault_seal={
@@ -3416,7 +3420,8 @@ return {
             sc_akyrs_thunder = {
                 name="Thunder",
                 text={
-                    "Random card in hand becomes a {C:dark_edition}Charged{} {C:attention}Zap Card{}",
+                    "Random card in hand becomes a",
+                    "{C:dark_edition}Charged{} {C:attention}Zap Card{}",
                 },
             },
             sc_akyrs_tornado = {
@@ -3546,6 +3551,19 @@ return {
                     "{C:chips}#1#{} Chips",
                     "Gain {C:chips}#2#{} Chips when scoring an {C:attention}Ace, {}or Letter {C:attention}H, A",
                     "Gain {C:attention}#3#{} Charge when scoring a {C:attention}5, {}or Letter {C:attention}X, D",
+                },
+            },
+            sc_akyrs_sad = {
+                name="Sad",
+                text={
+                    {
+                        "{C:mult}#1#{} Mult",
+                        "Gain {C:mult}#2#{} Mult after hand is play",
+                    },
+                    {
+                        "Gain {C:blue}+1{} Charge when discarding a card",
+                        "Loses {C:blue}-1{} Charge when playing a card",
+                    }
                 },
             },
         },

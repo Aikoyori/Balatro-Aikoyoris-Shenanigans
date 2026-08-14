@@ -531,9 +531,6 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         return {
             vars = { 
-                math.floor(card.ability.extra.card_target),
-                card.ability.extra.extra,
-                card.ability.extra.Xmult,
              },
         }
     end,
@@ -545,21 +542,11 @@ SMODS.Joker {
         }
     },
     calculate = function(self, card, context)
-        if context.joker_main then	
-            return {
-                xmult = card.ability.extra.Xmult
-            }
-        end
         if context.destroy_card then
-            if #context.full_hand == 4 then
-                if context.destroy_card == context.full_hand[1] or context.destroy_card == context.full_hand[2] then
+            if context.scoring_name == 'Two Pair' then
+                if context.destroy_card:get_id() == context.full_hand[1]:get_id() then
                     return {
-                        message = localize('k_akyrs_downgrade_ex'),
-                        colour = G.C.MULT,
                         remove = true,
-                        func = function ()
-                            card.ability.extra.Xmult = card.ability.extra.Xmult * (1-(1)/card.ability.extra.extra)
-                        end
                     }
                 end
             end

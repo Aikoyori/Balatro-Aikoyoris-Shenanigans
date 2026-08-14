@@ -163,9 +163,10 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
     local name_to_check, loc_vars = self.name, {}
     local info_q = {}
     local bgs = {}
-    if AKYRS.Scenarios[self.key].loc_vars then loc_vars = AKYRS.Scenarios[self.key]:loc_vars(info_q,self) end
+    local obj = AKYRS.Scenarios[self.key]
+    if obj.loc_vars then loc_vars = obj:loc_vars(info_q,self) end
     local cntr = { key = loc_vars.key or self.key, set = 'Scenario', vars = loc_vars.vars }
-    tag_sprite.ability_UIBox_table = generate_card_ui(cntr, nil, loc_vars.vars, (self.hide_ability) and 'Undiscovered' or 'Scenario', bgs, (self.hide_ability), loc_vars.main_start, loc_vars.main_end, self)
+    tag_sprite.ability_UIBox_table = generate_card_ui(obj, nil, loc_vars.vars, (self.hide_ability) and 'Undiscovered' or 'Scenario', bgs, (self.hide_ability), loc_vars.main_start, loc_vars.main_end, self)
     local info_vars = {
         self.akyrs_rounds_left or 4,
         self.akyrs_total_rounds or 4, 
@@ -177,8 +178,14 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
         }
     }
     local multiboxone = {}
+    tag_sprite.ability_UIBox_table.info = tag_sprite.ability_UIBox_table.info or {}
     localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_scenario_tooltip', nodes = multiboxone }
     AKYRS.add_box_to_uitable(tag_sprite.ability_UIBox_table, multiboxone)
+    if not obj.akyrs_no_decays then 
+        local multiboxtwo = {}
+        localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_scenario_tag_charges_decreases', nodes = multiboxtwo } 
+        AKYRS.add_box_to_uitable(tag_sprite.ability_UIBox_table, multiboxtwo)
+    end
     for _, iq in ipairs(info_q) do
         generate_card_ui(iq, tag_sprite.ability_UIBox_table)
     end
@@ -1411,53 +1418,48 @@ AKYRS.Scenario {
     },
     config = {
         extras = {
-            mult = 4,
-            mult_g = 2,
-            rounds_gain = 1,
+            mult = 5,
+            mult_g = 3,
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             key = self.key .. (AKYRS.should_calculate_word() and "_letter" or ""), 
             vars = {
-                SMODS.signed(card.ability.extras.chips),
-                SMODS.signed(card.ability.extras.chips_g),
-                card.ability.extras.rounds_gain,
+                SMODS.signed(card.ability.extras.mult),
+                SMODS.signed(card.ability.extras.mult_g),
             }
         }
     end,
-    akyrs_total_rounds = 4,
-    akyrs_rounds_left = 2,
+    akyrs_total_rounds = 30,
+    akyrs_rounds_left = 15,
+    akyrs_no_decays = true,
     calculate = function (self, card, context)
         if context.main_scoring or context.joker_main then
             return {
-                chips = card.ability.extras.chips
+                mult = card.ability.extras.mult,
+                func = function ()
+                    SMODS.scale_card(card,{
+                        ref_table = card.ability.extras,
+                        ref_value = "mult",
+                        scalar_value = "mult_g",
+                    })
+                end
             }
         end
-        if context.individual and context.cardarea == G.play then
-            if context.other_card.config.center.key ~= "" then
-                return {
-                    func = function ()
-                        SMODS.scale_card(card, {
-                            ref_table = card.ability.extras,
-                            ref_value = "mult",
-                            scalar_value = "mult_g",
-                        })
-                    end
-                }
-            end
-            if (context.other_card:get_id() == 5 or ({ x = true, d = true })[context.other_card:get_letter_with_pretend(true) or ""]) and AKYRS.is_scenario_tag(card) then
-                return {
-                    func = function ()
-                        AKYRS.simple_event_add(function ()
-                            card.akyrs_rounds_left = math.min(card.akyrs_rounds_left + card.ability.extras.rounds_gain, self.akyrs_total_rounds)
-                            return true
-                        end, 0 )
-                    end,
-                    message = localize("k_upgrade_ex"),
-                    message_card = card,
-                }
-            end
+        if context.discard then
+            return {
+                func = function ()
+                    AKYRS.mod_scenario_rounds(card, 1)
+                end
+            }
+        end
+        if context.akyrs_postdraw_to_play then
+            return {
+                func = function ()
+                    AKYRS.mod_scenario_rounds(card, -1)
+                end
+            }
         end
     end,
 }

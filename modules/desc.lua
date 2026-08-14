@@ -441,7 +441,7 @@ AKYRS.DescriptionDummy{
 }
 
 AKYRS.DescriptionDummy{
-    key = "tag_toggle_tooltip",
+    key = "scenario_tag_charges_decreases",
 }
 if SMODS.DynaTextEffect then
     SMODS.DynaTextEffect {

@@ -943,3 +943,13 @@ pattern = """        CARDAREA = {},"""
 position = "after"
 payload = '''ABOVE_UIBOX = {},'''
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = """        args.AUT.multi_box = args.AUT.multi_box or {}"""
+position = "after"
+payload = """        args.AUT.info = args.AUT.info or {}"""
+overwrite = true
+match_indent = true

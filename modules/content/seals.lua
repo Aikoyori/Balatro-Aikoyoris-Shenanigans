@@ -49,33 +49,39 @@ SMODS.Seal{
     sound = { sound = 'generic1', per = 1.2, vol = 0.4 },
 
     calculate = function(self, card, context)
-        if context.press_play then
+        if context.akyrs_pre_play and AKYRS.is_in_table(context.akyrs_pre_play_cards, card) then
             local copyable = AKYRS.filter_table(G.jokers.cards, function (item)
-                return item.config.center
+                return item.config.center and item.ability.set == "Joker"
             end, true, true)
             card.akyrs_copying_joker = pseudorandom_element(copyable, "akyrs_twin_seal_select_jonkler")
             return {
                 func = function()
-                    AKYRS.simple_event_add(function ()
-                        card:set_sprites(card.akyrs_copying_joker.config.center)
-                        return true
-                    end, 0)
+                    if card.akyrs_copying_joker then 
+                        AKYRS.simple_event_add(function ()
+                            card:juice_up(0.3,0.3) 
+                            play_sound('tarot2', 0.5, 0.5)
+                            card:set_sprites(card.akyrs_copying_joker.config.center) 
+                            return true
+                        end, 0.5)
+                    end
                 end
             }
         end
-        if context.after then
+        if context.after and card.akyrs_copying_joker and context.cardarea == G.play then
             return {
                 func = function()
                     AKYRS.simple_event_add(function ()
+                        card:juice_up(0.3,0.3) 
                         card:set_sprites(card.config.center)
+                        play_sound('tarot2', 1.2 ,0.5)
+                        card.akyrs_copying_joker = nil
                         return true
-                    end, 0)
+                    end, 0.5)
                 end
             }
         end
         if card.akyrs_copying_joker and not context.joker_main then  
             local changed = false
-            local individual = false
             local jkr_main_real = context.joker_main
             local old_area
             if context.main_scoring and context.cardarea == G.play then
@@ -84,18 +90,19 @@ SMODS.Seal{
                 context.joker_main = true
                 changed = true
             end
-            if context.individual then
-                individual = true
-                --print(AKYRS.get_card_area_name(context.cardarea))
-            end
-            local x = card.akyrs_copying_joker:calculate_joker(context)
+            local og_config = card.config
+            local og_ability = card.ability
+            card.config = card.akyrs_copying_joker.config
+            card.ability = card.akyrs_copying_joker.ability
+            if card.akyrs_copying_joker.akyrs_sulphur_card then card.akyrs_sulphur_card = card.akyrs_copying_joker.akyrs_sulphur_card end
+            local x = card:calculate_joker(context)
+            card.config = og_config
+            card.ability = og_ability
+            card.akyrs_sulphur_card = nil
             if changed then
                 context.cardarea = old_area
                 context.main_scoring = true
                 context.joker_main = nil
-            end
-            if individual then
-                
             end
             return x
         end

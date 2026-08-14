@@ -806,17 +806,25 @@ AKYRS.ease_lives_mp = function(lives)
     if MP and MP and (MP.LOBBY.code or MP.LOBBY.ruleset_preview) then MP.UI.ease_lives(lives) MP.GAME.lives = MP.GAME.lives + lives end
 end
 
+AKYRS.mod_scenario_rounds = function (sc, mod, instant)
+    if not AKYRS.is_scenario_tag(sc) then return end
+    local fx = function ()
+        sc.akyrs_rounds_left = math.max(0,math.min(sc.akyrs_rounds_left + mod, sc.akyrs_total_rounds))
+        if sc.akyrs_rounds_left <= 0 then
+            sc:remove()
+        end
+        return true
+    end
+    if instant then fx() else AKYRS.simple_event_add(fx, 0) end
+end
+
 function AKYRS.end_round_hook()
     for _, sc in ipairs(G.GAME.akyrs_scenario) do
-        SMODS.calculate_effect({ message = localize("k_akyrs_downgrade_ex"), juice_card = sc, message_card = sc.HUD_tag, func = function ()
-            AKYRS.simple_event_add(function ()
-                sc.akyrs_rounds_left = sc.akyrs_rounds_left - 1
-                if sc.akyrs_rounds_left <= 0 then
-                    sc:remove()
-                end
-                return true
-            end, 0)
-        end }, sc)
+        if not sc.config.akyrs_no_decays then 
+            SMODS.calculate_effect({ message = localize("k_akyrs_downgrade_ex"), juice_card = sc, message_card = sc.HUD_tag, func = function ()
+                AKYRS.mod_scenario_rounds(sc, -1)
+            end }, sc)
+        end
     end
     AKYRS.SEVEN_WONDERS_CARDS_THAT_SHOULD_GIVE_XSCORE = nil
     local x = G.playing_cards

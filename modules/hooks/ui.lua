@@ -267,6 +267,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             main = {},
             info = {},
             type = {},
+            multi_box = {},
             name = nil,
             badges = badges or {},
         }

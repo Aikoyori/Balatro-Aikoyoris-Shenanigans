@@ -107,7 +107,11 @@ function Card:set_sprites(_c,_f)
             end
         end
     end
-    
+    --[[
+    if self.seal == "akyrs_twin" and self.akyrs_copying_joker then
+        cardSetSpriteHook(self, akyrs_copying_joker.config.center)
+    end
+    ]]
     if AKYRS.should_draw_letter(self) then
         if self:get_letter_with_pretend() then
             local letters = AKYRS.word_splitter(self:get_letter_with_pretend())

@@ -49,21 +49,55 @@ SMODS.Seal{
     sound = { sound = 'generic1', per = 1.2, vol = 0.4 },
 
     calculate = function(self, card, context)
-        if context.main_scoring and G.jokers and G.jokers.cards and context.area == G.play then
+        if context.press_play then
             local copyable = AKYRS.filter_table(G.jokers.cards, function (item)
-                return item.config.center and item.config.center.blueprint_compat
+                return item.config.center
             end, true, true)
-            local joker = pseudorandom_element(copyable, "akyrs_twin_seal_select_jonkler")
-            if joker then
-                AKYRS.simple_event_add(function ()
-                    joker:juice_up(0.5,0.5)
-                    return true
-                end, 0)
-                local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-                local ctx = {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true}
-                local x = SMODS.blueprint_effect(card, joker, ctx)
-                return x
+            card.akyrs_copying_joker = pseudorandom_element(copyable, "akyrs_twin_seal_select_jonkler")
+            return {
+                func = function()
+                    AKYRS.simple_event_add(function ()
+                        card:set_sprites(card.akyrs_copying_joker.config.center)
+                        return true
+                    end, 0)
+                end
+            }
+        end
+        if context.after then
+            return {
+                func = function()
+                    AKYRS.simple_event_add(function ()
+                        card:set_sprites(card.config.center)
+                        return true
+                    end, 0)
+                end
+            }
+        end
+        if card.akyrs_copying_joker and not context.joker_main then  
+            local changed = false
+            local individual = false
+            local jkr_main_real = context.joker_main
+            local old_area
+            if context.main_scoring and context.cardarea == G.play then
+                old_area = context.cardarea
+                context.main_scoring = nil
+                context.joker_main = true
+                changed = true
             end
+            if context.individual then
+                individual = true
+                --print(AKYRS.get_card_area_name(context.cardarea))
+            end
+            local x = card.akyrs_copying_joker:calculate_joker(context)
+            if changed then
+                context.cardarea = old_area
+                context.main_scoring = true
+                context.joker_main = nil
+            end
+            if individual then
+                
+            end
+            return x
         end
     end,
 }

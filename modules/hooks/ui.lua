@@ -107,6 +107,7 @@ function Card:generate_UIBox_ability_table(vars)
     if self.ability.set == "Scenario" then
         local _c = self.config.center
         if _c then
+            local full_ver = not not _c.akyrs_rounds_left
             local info_vars = {
                 _c.akyrs_rounds_left or 4,
                 (_c:get_total_rounds(self)) or _c.akyrs_total_rounds or 4, 
@@ -117,8 +118,9 @@ function Card:generate_UIBox_ability_table(vars)
                     AKYRS.sc_text_colour_map[_c.scenario.colour..(_c.scenario.side or "dark")],
                 }
             }
+            local mini = _c.akyrs_clean_scenario or _c.akyrs_scenario_random
             local multiboxone = {}
-            localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_scenario_tag_tooltip', nodes = multiboxone }
+            localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_scenario_tag_tooltip'..(full_ver and "_full" or (mini and "_colour_only" or "")), nodes = multiboxone }
             AKYRS.add_box_to_uitable(ret, multiboxone)
         end
     end

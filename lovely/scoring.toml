@@ -463,3 +463,19 @@ payload = """
 overwrite = true
 match_indent = true
 
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = """        -- TARGET: add your own CardAreas for joker evaluation"""
+position = "after"
+payload = """
+if G.play and G.play.cards then 
+    local twin_cards = AKYRS.filter_table(G.play.cards, function(c) return c.seal == "akyrs_twin" end, true, true)
+    if #twin_cards > 0 then table.insert(t, 1, {cards = twin_cards}) end
+end
+"""
+overwrite = true
+match_indent = true
+

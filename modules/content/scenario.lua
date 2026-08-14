@@ -238,6 +238,24 @@ function AKYRS.Scenario_Tag:calculate(context)
     end
 end
 
+function AKYRS.get_random_scenario_key(colour, side, config)
+    config = config or {}
+    local any_colour = config.any_colour or nil
+    local any_side = config.any_side or nil
+    -- this is for if i need them
+    local pick_randoms = config.pick_randoms or nil
+    local pick_cleans = config.pick_cleans or nil
+    local seed = config.seed or ("akyrs_scenario" .. (colour and ("_"..colour) or "") .. (side and ("_"..side) or ""))
+
+    newkey = SMODS.poll_object{ pool = AKYRS.Scenarios_Buffer, filter = function(pool)
+        return AKYRS.filter_table(pool,function(obj) 
+            local obj_tbl = AKYRS.Scenarios[obj]
+            local cm = obj_tbl.scenario
+            return (not any_colour or colour == cm.colour) and (not any_side or sode == cm.side) and (not obj_tbl.akyrs_scenario_random or pick_randoms) and (not obj_tbl.akyrs_clean_scenario or pick_cleans)
+        end,true,true)
+    end, seed = seed}
+end
+
 
 SMODS.UndiscoveredSprite{
     key = "Scenario",
@@ -289,13 +307,7 @@ AKYRS.Scenario = SMODS.Center:extend{
     use = function (self, card, area, copier)
         local newkey = self.key
         if self.akyrs_scenario_random then
-            newkey = SMODS.poll_object{ pool = AKYRS.Scenarios_Buffer, filter = function(pool)
-                return AKYRS.filter_table(pool,function(obj) 
-                    local obj_tbl = self.obj_table[obj]
-                    local cm, sc = obj_tbl.scenario, self.scenario
-                    return cm.colour == sc.colour and (cm.side == sc.side or self.akyrs_scenario_random) and not obj_tbl.akyrs_scenario_random and not obj_tbl.akyrs_clean_scenario
-                end,true,true)
-            end, seed = "akyrs_scenario_"..(self.scenario or {colour = "?"}).colour}
+            newkey = AKYRS.get_random_scenario_key(self.scenario.colour, nil, { any_colour = true })
         end
         local newobj = AKYRS.Scenarios[newkey]
         AKYRS.remove_scenarios(function (cd)
@@ -322,7 +334,7 @@ AKYRS.Scenario = SMODS.Center:extend{
 
 
 
-function AKYRS.add_scenario_tag(_tag)
+function AKYRS.add_scenario_tag(_tag, card_source)
   G.AKYRS_SCENARIO_TAG_HUD = G.AKYRS_SCENARIO_TAG_HUD or {}
   local z = 10 + #G.AKYRS_SCENARIO_TAG_HUD * 0.001
   local tag_sprite_ui = _tag:generate_UI(nil, z)
@@ -345,7 +357,7 @@ function AKYRS.add_scenario_tag(_tag)
   if not _tag.from_load then 
     SMODS.calculate_context({akyrs_scenario_applied = _tag}) 
     if _tag.tag_added then
-        _tag:tag_added()
+        _tag:tag_added(_tag, card_source)
     end
    end
   _tag.from_load = nil
@@ -658,7 +670,7 @@ AKYRS.Scenario {
     end,
     use_extras = function(self, card, area, copier, tag)
     end,
-    tag_added = function (self, tag)
+    tag_added = function (self, tag, card)
         G.hand:change_size(card.ability.extras.hand_size_taken)
     end,
     tag_removed = function (self, tag)
@@ -1311,4 +1323,141 @@ AKYRS.Scenario {
     tag_removed = function (self, tag)
         recalculateBlindUI()
     end
+}
+
+AKYRS.Scenario {
+    key = "neutral",
+    set = "Scenario",
+    pos = { x = 0, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "light",
+    },
+    config = {
+        extras = {
+        }
+    },
+    akyrs_clean_scenario = true,
+}
+
+AKYRS.Scenario {
+    key = "happy",
+    set = "Scenario",
+    pos = { x = 1, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "light",
+    },
+    config = {
+        extras = {
+            chips = 15,
+            chips_g = 5,
+            rounds_gain = 1,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            key = self.key .. (AKYRS.should_calculate_word() and "_letter" or ""), 
+            vars = {
+                SMODS.signed(card.ability.extras.chips),
+                SMODS.signed(card.ability.extras.chips_g),
+                card.ability.extras.rounds_gain,
+            }
+        }
+    end,
+    akyrs_total_rounds = 4,
+    akyrs_rounds_left = 2,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then
+            return {
+                chips = card.ability.extras.chips
+            }
+        end
+        if context.individual and context.cardarea == G.play then
+            if context.other_card:get_id() == 14 or ({ h = true, a = true })[context.other_card:get_letter_with_pretend(true) or ""] then
+                return {
+                    func = function ()
+                        SMODS.scale_card(card, {
+                            ref_table = card.ability.extras,
+                            ref_value = "chips",
+                            scalar_value = "chips_g",
+                        })
+                    end
+                }
+            end
+            if (context.other_card:get_id() == 5 or ({ x = true, d = true })[context.other_card:get_letter_with_pretend(true) or ""]) and AKYRS.is_scenario_tag(card) then
+                return {
+                    func = function ()
+                        AKYRS.simple_event_add(function ()
+                            card.akyrs_rounds_left = math.min(card.akyrs_rounds_left + card.ability.extras.rounds_gain, self.akyrs_total_rounds)
+                            return true
+                        end, 0 )
+                    end,
+                    message = localize("k_upgrade_ex"),
+                    message_card = card,
+                }
+            end
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "sad",
+    set = "Scenario",
+    pos = { x = 2, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "light",
+    },
+    config = {
+        extras = {
+            mult = 4,
+            mult_g = 2,
+            rounds_gain = 1,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            key = self.key .. (AKYRS.should_calculate_word() and "_letter" or ""), 
+            vars = {
+                SMODS.signed(card.ability.extras.chips),
+                SMODS.signed(card.ability.extras.chips_g),
+                card.ability.extras.rounds_gain,
+            }
+        }
+    end,
+    akyrs_total_rounds = 4,
+    akyrs_rounds_left = 2,
+    calculate = function (self, card, context)
+        if context.main_scoring or context.joker_main then
+            return {
+                chips = card.ability.extras.chips
+            }
+        end
+        if context.individual and context.cardarea == G.play then
+            if context.other_card.config.center.key ~= "" then
+                return {
+                    func = function ()
+                        SMODS.scale_card(card, {
+                            ref_table = card.ability.extras,
+                            ref_value = "mult",
+                            scalar_value = "mult_g",
+                        })
+                    end
+                }
+            end
+            if (context.other_card:get_id() == 5 or ({ x = true, d = true })[context.other_card:get_letter_with_pretend(true) or ""]) and AKYRS.is_scenario_tag(card) then
+                return {
+                    func = function ()
+                        AKYRS.simple_event_add(function ()
+                            card.akyrs_rounds_left = math.min(card.akyrs_rounds_left + card.ability.extras.rounds_gain, self.akyrs_total_rounds)
+                            return true
+                        end, 0 )
+                    end,
+                    message = localize("k_upgrade_ex"),
+                    message_card = card,
+                }
+            end
+        end
+    end,
 }

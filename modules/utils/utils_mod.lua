@@ -1326,3 +1326,18 @@ AKYRS.pure_card_split = function (crd, no_pure_rank, no_pure_suit, area)
     SMODS.destroy_cards({crd})
     return cardies
 end
+
+function AKYRS.is_scenario_tag(c)
+    return (c.is and c:is(AKYRS.Scenario_Tag))
+end
+
+function AKYRS.get_card_area_name(ca) -- for debugging purposes lol
+    if ca == G.play then return "play" end
+    if ca == G.hand then return "hand" end
+    if ca == G.deck then return "deck" end
+    if ca == G.jokers then return "jokers" end
+    if ca == G.consumeables then return "consumeables" end
+    if ca == G.discard then return "discard" end
+    if ca == 'unscored' then return "unscored" end
+    return "wtf?"
+end

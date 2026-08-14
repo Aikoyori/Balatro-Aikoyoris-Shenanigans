@@ -1155,14 +1155,29 @@ return {
                 name="Scenario",
                 text={
                     "{B:1,V:2}#3# #4#{}",
-                    "{C:blue}#1#{} / #2# Rounds Left",
+                    "{C:blue}#1#{} / #2# Charges Left",
+                },
+            },
+            dd_akyrs_scenario_tag_tooltip_colour_only = {
+                name="Scenario",
+                text={
+                    "{B:1,V:2}#3# #4#{}",
                 },
             },
             dd_akyrs_scenario_tag_tooltip = {
                 name="Scenario",
                 text={
                     "{B:1,V:2}#3# #4#{}",
-                    "Will last {C:blue}#2#{} Rounds in Tag form",
+                    "Will last {C:blue}#2#{} Charges",
+                    "in Tag form",
+                },
+            },
+            dd_akyrs_scenario_tag_tooltip_full = {
+                name="Scenario",
+                text={
+                    "{B:1,V:2}#3# #4#{}",
+                    "Will start at {C:blue}#1#{} / #2#{} Charges",
+                    "in Tag form",
                 },
             },
             dd_akyrs_tag_toggle_tooltip = {
@@ -2875,7 +2890,6 @@ return {
                 text={
                     "Copies a {C:attention}random{} Joker's",
                     "{C:attention}main{} ability when scored",
-                    "{C:inactive}(Will not copy per-card ability){}",
                 },
             },
             akyrs_fault_seal={
@@ -3510,6 +3524,28 @@ return {
                 text={
                     "{C:white,X:blind}X#1#-X#2#{} Blind Size when entering blind",
                     "Score & Blind Size are {C:attention}hidden",
+                },
+            },
+            sc_akyrs_neutral = {
+                name="Neutral",
+                text={
+                    "Clear {C:akyrs_scenario_dark_blue}Light Blue{} Scenarios",
+                },
+            },
+            sc_akyrs_happy = {
+                name="Happy",
+                text={
+                    "{C:chips}#1#{} Chips",
+                    "Gain {C:chips}#2#{} Chips when scoring an {C:attention}Ace",
+                    "Gain {C:attention}#3#{} Charge when scoring a {C:attention}5",
+                },
+            },
+            sc_akyrs_happy_letter = {
+                name="Happy",
+                text={
+                    "{C:chips}#1#{} Chips",
+                    "Gain {C:chips}#2#{} Chips when scoring an {C:attention}Ace, {}or Letter {C:attention}H, A",
+                    "Gain {C:attention}#3#{} Charge when scoring a {C:attention}5, {}or Letter {C:attention}X, D",
                 },
             },
         },

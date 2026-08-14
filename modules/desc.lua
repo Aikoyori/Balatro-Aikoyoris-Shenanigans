@@ -433,6 +433,14 @@ AKYRS.DescriptionDummy{
 }
 
 AKYRS.DescriptionDummy{
+    key = "scenario_tag_tooltip_colour_only",
+}
+
+AKYRS.DescriptionDummy{
+    key = "scenario_tag_tooltip_full",
+}
+
+AKYRS.DescriptionDummy{
     key = "tag_toggle_tooltip",
 }
 if SMODS.DynaTextEffect then

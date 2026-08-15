@@ -1553,7 +1553,6 @@ AKYRS.Scenario {
     },
     loc_vars = function (self, info_queue, card)
         return {
-            key = self.key .. (AKYRS.should_calculate_word() and "_letter" or ""), 
             vars = {
                 (card.ability.extras.xmult),
             }
@@ -1619,9 +1618,8 @@ AKYRS.Scenario {
     },
     loc_vars = function (self, info_queue, card)
         return {
-            key = self.key .. (AKYRS.should_calculate_word() and "_letter" or ""), 
             vars = {
-                (card.ability.extras.xmult),
+                
             }
         }
     end,
@@ -1673,5 +1671,32 @@ AKYRS.Scenario {
                 end
             }
         end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "kyne",
+    set = "Scenario",
+    pos = { x = 6, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "light",
+    },
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            key = self.key .. (AKYRS.should_calculate_word() and "_letter" or ""), 
+            vars = {
+                (card.ability.extras.xmult),
+            }
+        }
+    end,
+    akyrs_total_rounds = 6,
+    akyrs_no_decays = true,
+    calculate = function (self, card, context)
+
     end,
 }

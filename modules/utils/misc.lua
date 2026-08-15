@@ -1727,3 +1727,13 @@ function AKYRS.remove_phantom_cards()
     end
     AKYRS.remove_dupes(G.playing_cards)
 end
+function AKYRS.deselect_all_from_all_areas()
+    for _, cara in ipairs(G.I.CARDAREA) do
+        if next(cara.highlighted) then
+            for i = #cara.highlighted, 1, -1 do
+                c = cara.highlighted[i]
+                if c and not c.ability.akyrs_forced_selection then cara:remove_from_highlighted(c) end
+            end
+        end
+    end
+end

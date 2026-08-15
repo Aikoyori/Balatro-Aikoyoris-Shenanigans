@@ -284,6 +284,6 @@ match_indent = true
 target = 'game.lua'
 pattern = "                    G.STATE = G.STATES.SELECTING_HAND"
 position = "before"
-payload = """if AKYRS.NO_UNHIGHLIGHT then AKYRS.NO_UNHIGHLIGHT = nil G.hand:unhighlight_all() end"""
+payload = """if AKYRS.NO_UNHIGHLIGHT then AKYRS.NO_UNHIGHLIGHT = nil AKYRS.remove_phantom_cards() G.hand:unhighlight_all() end"""
 overwrite = true
 match_indent = true

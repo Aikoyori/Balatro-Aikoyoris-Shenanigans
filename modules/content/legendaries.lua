@@ -318,7 +318,11 @@ SMODS.Joker {
                 func = function ()
                     AKYRS.simple_event_add(
                         function()
-                            SMODS.smart_level_up_hand(card, context.zodiac_proto.config.extra.hand_type)
+                            SMODS.upgrade_poker_hands({
+                                from = card, 
+                                hands = {context.zodiac_proto.config.extra.hand_type},
+                                level_up = 1,
+                            })
                             return true
                         end
                     )

@@ -1714,3 +1714,16 @@ function AKYRS.should_act_as_consumable(center)
     return s == "Scenario" or s == "Enchantment"
     
 end
+
+function AKYRS.remove_phantom_cards()
+    
+    for _, cara in ipairs(G.I.CARDAREA) do
+        for _, c in ipairs(G.I.CARD) do
+            if cara ~= c.area then
+                AKYRS.remove_value_from_table(cara.cards, c)
+            end
+            AKYRS.remove_dupes(cara.cards)
+        end
+    end
+    AKYRS.remove_dupes(G.playing_cards)
+end

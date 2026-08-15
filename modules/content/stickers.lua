@@ -190,7 +190,7 @@ SMODS.Sticker{
                 }
             end
         end
-        if context.destroy_card and context.cardarea == G.play then
+        if context.destroy_card and (context.cardarea == G.play or context.cardarea == 'unscored') then
             if card == context.destroy_card then
                 return {
                     remove = true

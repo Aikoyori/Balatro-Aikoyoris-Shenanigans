@@ -48,6 +48,7 @@ local startRunHook = Game.start_run
 function Game:start_run(args)
     G.SCORE_DISPLAY_QUEUE = nil
     G.AKYRS_CARD_EVAL_RAN = nil
+    AKYRS.NO_UNHIGHLIGHT = nil
     G.AKYRS_LOCK_CARD_SELECTION = nil
     --print("PRE RUN")
     local ret = startRunHook(self, args)
@@ -208,22 +209,6 @@ function AnimatedSprite:draw_self()
     return asds(self)
 end
 
-local cju = Card.juice_up
-function Card:juice_up(x,y)
-    for _, observers in ipairs(SMODS.find_card("j_akyrs_observer")) do
-        ---@type Card
-        observers = observers
-        if observers ~= self and AKYRS.hover_anti_juice ~= self and self.config.center.key ~= "j_akyrs_observer" then
-            G.P_CENTERS.j_akyrs_observer:cm_modified(observers, {
-                {
-                    akyrs_score_change = true,
-                    card = self,
-                }
-            })
-        end
-    end
-    return cju(self,x,y)
-end
 
 
 local game_start_up_ref = Game.start_up

@@ -146,7 +146,9 @@ SMODS.Consumable{
         local actual_cards_discarded_count = #cards
         table.sort(cards, AKYRS.hand_sort_function)
         for _,c in ipairs(cards) do
-            draw_card(c.area, G.deck, 0, "down", nil, c)
+            if c.area == G.hand then
+                draw_card(c.area, G.deck, 0, "down", nil, c)
+            end
         end
         AKYRS.simple_event_add(function ()
             ease_discard(card.ability.extras.disca * math.floor(actual_cards_discarded_count / card.ability.extras.per_card))
@@ -223,7 +225,11 @@ SMODS.Consumable{
                 table.sort(G.hand.highlighted or {},AKYRS.hand_sort_function_immute)
                 AKYRS.juice_like_tarot(card)
                 local h = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
-                SMODS.smart_level_up_hand(card, h, false, card.ability.extras)
+                SMODS.upgrade_poker_hands({
+                    from = card,
+                    hands = { h },
+                    level_up = card.ability.extras,
+                })
                 AKYRS.do_things_to_card(G.hand.highlighted,
                     function (cx)
                         cx:add_sticker('akyrs_attention', true)
@@ -299,17 +305,19 @@ SMODS.Consumable{
         end, true, true)
         local card1 = cards[1]
         local card2 = cards[2]
-        local card1ogarea = card1.area
-        local card2ogarea = card2.area
-        if card1 and card2 and card1.area and card2.area then
-            if not AKYRS.is_playing_card(card1) then
-                AKYRS.apply_random_p_attrib(card1)
+        if card1 and card2 then
+            local card1ogarea = card1.area
+            local card2ogarea = card2.area
+            if card1 and card2 and card1.area and card2.area then
+                if not AKYRS.is_playing_card(card1) then
+                    AKYRS.apply_random_p_attrib(card1)
+                end
+                if not AKYRS.is_playing_card(card2) then
+                    AKYRS.apply_random_p_attrib(card2)
+                end
+                AKYRS.draw_cards_back_to_hand({card1}, card2ogarea)
+                AKYRS.draw_cards_back_to_hand({card2}, card1ogarea)
             end
-            if not AKYRS.is_playing_card(card2) then
-                AKYRS.apply_random_p_attrib(card2)
-            end
-            AKYRS.draw_cards_back_to_hand({card1}, card2ogarea)
-            AKYRS.draw_cards_back_to_hand({card2}, card1ogarea)
         end
     end
 }

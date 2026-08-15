@@ -283,7 +283,7 @@ function AKYRS.get_scenario_scoring_targets(_context)
     for _, scenario_key in ipairs(G.GAME.akyrs_scenario) do
         local scenario_obj = AKYRS.Scenarios[scenario_key.key]
         local func = type(_context) == "string" and _context or 'calculate'
-        if scenario_obj and type(scenario_key[func]) == "function" then
+        if scenario_obj and type(scenario_key[func]) == "function" and not scenario_key.removed then
             table.insert(ret, {scenario_key, scenario_obj})
         end
     end

@@ -1652,11 +1652,9 @@ return {
             },
             j_akyrs_observer = {
                 name = "Observer",
-                text = { "This Joker gains {C:mult}+#1#{} Mult", "for every{C:attention} #4# {}times {C:inactive}(#3#)",
-                    "a card that is not Observer {C:attention}wiggles",
-                    "{s:0.8}Times needed increases by {C:attention}#5#{}",
-                    "{s:0.8}every time this Joker gains {C:mult}Mult{}",
-                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}" }
+                text = { "This Joker gains {C:mult}+#2#{} Mult every time",
+                    "a card next to it {C:attention}triggers",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult){}" }
             },
             j_akyrs_quasi_connectivity = {
                 name = "Quasi Connectivity",
@@ -1740,7 +1738,8 @@ return {
                         "{C:white,X:mult} X#1# {} Mult only if",
                         "{C:attention}all{} of the following conditions",
                         "are satisfied at least once this run",
-                        "Otherwise {C:mult}+#2#{} Mult per card"
+                        "Otherwise {C:mult}+#2#{} Mult per card",
+                        "{C:attention}held in hand and in play",
                     },
                     {
                         "In peace there is cult, in between there is {C:red}Mult{}. Soon as they are blue, finish all of ten clues.",
@@ -3558,12 +3557,64 @@ return {
                 text={
                     {
                         "{C:mult}#1#{} Mult",
-                        "Gain {C:mult}#2#{} Mult after hand is play",
+                        "Gain {C:mult}#2#{} Mult per cards in scoring hand",
                     },
                     {
-                        "Gain {C:blue}+1{} Charge when discarding a card",
-                        "Loses {C:blue}-1{} Charge when playing a card",
+                        "In {C:attention}Tag{} form",
+                        "{C:blue}+1{} Charge when discarding a card",
+                        "{C:blue}-2{} Charge when playing a card",
                     }
+                },
+            },
+            sc_akyrs_sad = {
+                name="Sad",
+                text={
+                    {
+                        "{C:mult}#1#{} Mult",
+                        "Gain {C:mult}#2#{} Mult per cards in scoring hand",
+                    },
+                    {
+                        "In {C:attention}Tag{} form",
+                        "{C:blue}+1{} Charge when discarding a card",
+                        "{C:red}-2{} Charge when playing a card",
+                    }
+                },
+            },
+            sc_akyrs_excited = {
+                name="Excited",
+                text={
+                    {
+                        "In {C:attention}Card{} form",
+                        "{C:money}#1#{} at the end of round",
+                    },
+                    {
+                        "In {C:attention}Tag{} form",
+                        "Gain {C:money}#2#{} per Hand played",
+                        "Gain {C:money}#3#{} per Card played",
+                        "{C:red}-1{} Charge when any of those happen",
+                        "{X:money}$X#4#{} when tag runs out charges"
+                    },
+                },
+            },
+            sc_akyrs_anger = {
+                name="Anger",
+                text={
+                    {
+                        "{X:mult,C:white}X#1#{} Mult",
+                        "{C:attention}halves{} it after score is on fire",
+                        "{C:red}-1{} Charge when an effect {C:attention}triggers",
+                    },
+                },
+            },
+            sc_akyrs_surprise = {
+                name="Surprise",
+                text={
+                    {
+                        "When hand is discarded",
+                        "force apply a {C:attention}random{}",
+                        "consumable effect to discarded hand",
+                        "{C:red}-1{} Charge per hand {C:attention}triggers",
+                    },
                 },
             },
         },
@@ -3707,14 +3758,6 @@ return {
                 text={
                     "Gives a free",
                     "{C:akyrs_replicant_o}Replica Pack",
-                },
-            },
-        },
-        Tarot={
-            c_akyrs_wof_nopes = {
-                name="The Wheel of Fortune (Modified)",
-                text={
-                    "Does not do anything.",
                 },
             },
         },

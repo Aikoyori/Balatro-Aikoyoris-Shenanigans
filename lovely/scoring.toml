@@ -20,26 +20,6 @@ match_indent = true
 
 [[patches]]
 [patches.pattern]
-target = "card.lua"
-pattern = """    if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' then"""
-position = "before"
-payload = """
-if self.ability.name == 'The Wheel of Fortune' then
-    if next(SMODS.find_card("j_akyrs_tsunagite")) then
-        SMODS.calculate_effect({
-            message = localize("k_akyrs_tsunagi_absurd_wheel_nope")
-        },self)
-        return
-    end
-end
-"""
-overwrite = true
-match_indent = true
-
-
-
-[[patches]]
-[patches.pattern]
 target = "functions/common_events.lua"
 pattern = """            text = localize{type='variable',key='a_xchips'..(amt<0 and '_minus' or ''),vars={math.abs(amt)}}"""
 position = "at"
@@ -80,6 +60,33 @@ local selected_cards = AKYRS.filter_table(AKYRS.combine_table(G.hand.cards,G.pla
     return cd.highlighted or cd.area == G.play
 end,true,true)
 SMODS.calculate_context({akyrs_extremely_pre_play = true, akyrs_pre_play_cards = selected_cards, akyrs_pre_play_held = held_cards})
+"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = """    if G.CONTROLLER.focused.target and G.CONTROLLER.focused.target.area == G.hand then G.card_area_focus_reset = {area = G.hand, rank = G.CONTROLLER.focused.target.rank} end"""
+position = "after"
+payload = """
+SMODS.calculate_context({akyrs_pre_pre_discard = true, akyrs_pre_discard_cards = G.hand.highlighted, hook = hook})
+"""
+overwrite = true
+match_indent = true
+
+
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = """        -- TARGET: effects after cards destroyed in discard"""
+position = "after"
+payload = """
+SMODS.calculate_context({akyrs_post_discard = true, hook = hook})
 """
 overwrite = true
 match_indent = true

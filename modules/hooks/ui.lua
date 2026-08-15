@@ -923,6 +923,11 @@ local canPlayHook = G.FUNCS.can_play
 G.FUNCS.can_play = function(e)
     local shouldDisableButton = false
     local runOGHook = true
+    if AKYRS.NO_UNHIGHLIGHT then 
+        shouldDisableButton = true
+        runOGHook = false
+    end
+
     if AKYRS.config.wildcard_behaviour == 2 and G.GAME.akyrs_character_stickers_enabled then
         
         for i,k in ipairs(G.hand.highlighted) do
@@ -995,6 +1000,10 @@ G.FUNCS.can_discard = function(e)
     if G.AKYRS_LOCK_CARD_SELECTION then
         shouldDisableButton = true
     end
+    if AKYRS.NO_UNHIGHLIGHT then 
+        shouldDisableButton = true
+    end
+
     if G.hand and G.hand.highlighted then
         for _, _c in ipairs(G.hand.highlighted) do
             if _c.ability.akyrs_attention then

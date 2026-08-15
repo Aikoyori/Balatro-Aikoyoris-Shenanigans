@@ -74,6 +74,7 @@ _atlas, _pos = AKYRS.sprite_info_override(_center, _front, self, _atlas, _pos)
 overwrite = true
 match_indent = true
 
+
 # thanks steamodded weird route
 [[patches]]
 [patches.pattern]
@@ -233,3 +234,56 @@ end"""
 overwrite = true
 match_indent = true
 
+
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "                local edition = nil"
+position = "before"
+payload = """
+if not eligible_card then return true end"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "        local chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('ankh_choice'))"
+position = "after"
+payload = """
+if not chosen_joker then return true end"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.regex]
+target = 'card.lua'
+pattern = "G\\.hand\\.highlighted\\[i\\]:"
+position = "before"
+payload = """if not G.hand.highlighted[i] then return true end"""
+overwrite = true
+match_indent = true
+
+
+# thanks steamodded sword route
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = "                        G.hand.highlighted[i]:flip(); play_sound('card1', percent); G.hand.highlighted[i]:juice_up(0.3,"
+position = "before"
+payload = """if not G.hand.highlighted[i] then return true end -- aikoshen :3
+"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = "                    G.STATE = G.STATES.SELECTING_HAND"
+position = "before"
+payload = """if AKYRS.NO_UNHIGHLIGHT then AKYRS.NO_UNHIGHLIGHT = nil G.hand:unhighlight_all() end"""
+overwrite = true
+match_indent = true

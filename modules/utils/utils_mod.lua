@@ -163,9 +163,13 @@ function AKYRS.silent_bulk_level_up(center, card, area, copier, number)
         return true end }))
     update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+1'})
     delay(1.3)
-    for k, v in pairs(card.config.center.config.akyrs_hand_types) do
-		SMODS.smart_level_up_hand(used_consumable, v, true, number)
-    end
+    
+    SMODS.upgrade_poker_hands({
+        from = card,
+        hands = card.config.center.config.akyrs_hand_types,
+        level_up = number,
+        instant = true,
+    })
     update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
 end
 
@@ -810,7 +814,8 @@ AKYRS.mod_scenario_rounds = function (sc, mod, instant)
     if not AKYRS.is_scenario_tag(sc) then return end
     local fx = function ()
         sc.akyrs_rounds_left = math.max(0,math.min(sc.akyrs_rounds_left + mod, sc.akyrs_total_rounds))
-        if sc.akyrs_rounds_left <= 0 then
+        if sc.akyrs_rounds_left <= 0 and not sc.removed then
+            if sc.config.tag_expire then sc.config:tag_expire(sc) end
             sc:remove()
         end
         return true

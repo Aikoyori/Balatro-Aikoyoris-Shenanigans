@@ -199,8 +199,8 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
 end
 
 function AKYRS.Scenario_Tag:remove_from_game()
-    if self.tag_removed then
-        self:tag_removed()
+    if self.config and self.config.tag_removed then
+        self.config:tag_removed(self)
     end
     local tag_key = nil
     
@@ -212,6 +212,7 @@ end
 
 function AKYRS.Scenario_Tag:remove()
     self:remove_from_game()
+    self.removed = true
     local HUD_tag_key = nil
     for k, v in pairs(G.AKYRS_SCENARIO_TAG_HUD) do
         if v == self.HUD_tag then HUD_tag_key = k end
@@ -1395,10 +1396,7 @@ AKYRS.Scenario {
             if (context.other_card:get_id() == 5 or ({ x = true, d = true })[context.other_card:get_letter_with_pretend(true) or ""]) and AKYRS.is_scenario_tag(card) then
                 return {
                     func = function ()
-                        AKYRS.simple_event_add(function ()
-                            card.akyrs_rounds_left = math.min(card.akyrs_rounds_left + card.ability.extras.rounds_gain, self.akyrs_total_rounds)
-                            return true
-                        end, 0 )
+                        AKYRS.mod_scenario_rounds(card, card.ability.extras.rounds_gain)
                     end,
                     message = localize("k_upgrade_ex"),
                     message_card = card,
@@ -1419,7 +1417,7 @@ AKYRS.Scenario {
     config = {
         extras = {
             mult = 5,
-            mult_g = 3,
+            mult_g = 1,
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -1435,16 +1433,21 @@ AKYRS.Scenario {
     akyrs_rounds_left = 15,
     akyrs_no_decays = true,
     calculate = function (self, card, context)
-        if context.main_scoring or context.joker_main then
+        if context.before then
             return {
-                mult = card.ability.extras.mult,
                 func = function ()
                     SMODS.scale_card(card,{
                         ref_table = card.ability.extras,
                         ref_value = "mult",
                         scalar_value = "mult_g",
+                        scalar_factor = #context.scoring_hand
                     })
                 end
+            }
+        end
+        if context.main_scoring or context.joker_main then
+            return {
+                mult = card.ability.extras.mult,
             }
         end
         if context.discard then
@@ -1457,7 +1460,216 @@ AKYRS.Scenario {
         if context.akyrs_postdraw_to_play then
             return {
                 func = function ()
+                    AKYRS.mod_scenario_rounds(card, -2)
+                end
+            }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "excited",
+    set = "Scenario",
+    pos = { x = 3, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "light",
+    },
+    config = {
+        extras = {
+            c_dollars = 2,
+            t_p_dollars = 5,
+            t_c_dollars = 1,
+            xdollars = 0.5,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            key = self.key .. (AKYRS.should_calculate_word() and "_letter" or ""), 
+            vars = {
+                SMODS.signed_dollars(card.ability.extras.c_dollars),
+                SMODS.signed_dollars(card.ability.extras.t_p_dollars),
+                SMODS.signed_dollars(card.ability.extras.t_c_dollars),
+                (card.ability.extras.xdollars),
+            }
+        }
+    end,
+    akyrs_total_rounds = 30,
+    akyrs_no_decays = true,
+    calculate = function (self, card, context)
+        if AKYRS.is_scenario_tag(card) and not card.removed then
+            if context.main_scoring or context.joker_main then
+                return {
+                    func = function ()
+                        AKYRS.simple_event_add(function ()
+                            if not card.removed then
+                                ease_dollars(card.ability.extras.t_p_dollars, true)
+                                AKYRS.mod_scenario_rounds(card, -1, true)
+                            end
+                            return true
+                        end, 0)
+                    end
+                }
+            end
+            if context.akyrs_postdraw_to_play then
+                return {
+                    func = function ()
+                        AKYRS.simple_event_add(function ()
+                            if not card.removed then
+                                ease_dollars(card.ability.extras.t_c_dollars, true)
+                                AKYRS.mod_scenario_rounds(card, -1, true)
+                            end
+                            return true
+                        end, 0)
+                    end
+                }
+            end
+        else
+            if context.end_of_round and context.main_eval then
+                return {
+                    dollars = card.ability.extras.c_dollars
+                }
+            end
+        end
+    end,
+    tag_expire = function (self, tag)
+        ease_dollars(- G.GAME.dollars + G.GAME.dollars * tag.ability.extras.xdollars, true)
+    end
+}
+
+AKYRS.Scenario {
+    key = "anger",
+    set = "Scenario",
+    pos = { x = 4, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "light",
+    },
+    config = {
+        extras = {
+            xmult = 16,
+            xmult_multer = 0.5,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            key = self.key .. (AKYRS.should_calculate_word() and "_letter" or ""), 
+            vars = {
+                (card.ability.extras.xmult),
+            }
+        }
+    end,
+    akyrs_total_rounds = 50,
+    akyrs_no_decays = true,
+    calculate = function (self, card, context)
+        if AKYRS.is_scenario_tag(card) and context.post_trigger then
+            return {
+                func = function ()
                     AKYRS.mod_scenario_rounds(card, -1)
+                end
+            }
+        end
+        if context.joker_main or context.main_scoring then
+            return {
+                xmult = card.ability.extras.xmult,
+                func = function ()
+                end
+            }
+        end
+        if context.after then
+            if SMODS.last_hand_oneshot then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extras,
+                    ref_value = 'xmult',
+                    scalar_factor = 0.5,
+                    operation = 'X',
+                    scaling_message = { message = localize('k_akyrs_downgrade_ex') },
+                })
+            end
+            return {
+                func = function ()
+                    AKYRS.simple_event_add(function()
+                        if card.ability.extras.xmult <= 1 then
+                            if AKYRS.is_scenario_tag(card) then 
+                                card:remove()
+                            else
+                                SMODS.shatters(card)
+                            end
+                        end
+                    return true 
+                        
+                    end, 0)
+                end
+            }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "surprise",
+    set = "Scenario",
+    pos = { x = 5, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "light",
+    },
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            key = self.key .. (AKYRS.should_calculate_word() and "_letter" or ""), 
+            vars = {
+                (card.ability.extras.xmult),
+            }
+        }
+    end,
+    akyrs_total_rounds = 6,
+    akyrs_no_decays = true,
+    calculate = function (self, card, context)
+        if context.akyrs_pre_pre_discard and not context.hook then
+            return {
+                func = function ()
+                    AKYRS.NO_UNHIGHLIGHT = card
+
+                    local consumable = SMODS.add_card{ set = 'Consumeables', seed = "akyrs_scenario_surprise", key = AKYRS.surprise_debug }
+                    local sel = math.max(G.GAME.starting_params.discard_limit, G.GAME.starting_params.play_limit)
+
+
+                    AKYRS.simple_event_add(function ()
+                        if #G.hand.highlighted == 0 then
+                            ---@type Card[]|nil
+                            local random_so_no_crash = AKYRS.pseudorandom_elements(G.hand.cards, sel, "akyrs_scenario_surprise_anti_crash")
+                            for _, rsnc in ipairs(random_so_no_crash) do
+                                if rsnc.area and not rsnc.REMOVED and not rsnc.getting_sliced then
+                                    rsnc.area:add_to_highlighted(rsnc)
+                                end
+                            end
+                        end
+                        return #G.hand.highlighted > 0 
+                    end, 0)
+
+                    G.FUNCS.use_card({ config = { ref_table = consumable, } })
+                    AKYRS.simple_event_add(function ()
+                        G.STATE_COMPLETE = false
+                        return true
+                    end, 0)
+                    
+
+                    if AKYRS.is_scenario_tag(card) then
+                        AKYRS.mod_scenario_rounds(card, -1)
+                    end
+                end
+            }
+        end
+        if context.akyrs_post_discard and not context.hook then
+            return {
+                func = function ()
+                    AKYRS.simple_event_add(function ()
+                        AKYRS.remove_phantom_cards()
+                        return true
+                    end, 0)
                 end
             }
         end

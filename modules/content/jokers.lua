@@ -137,53 +137,49 @@ SMODS.Joker {
         y = 0
     },
     key = "observer",
-    rarity = 2,
-    cost = 5,
+    rarity = 3,
+    cost = 8,
     config = {
         extra = {
             mult_stored = 0,
-            xmult_stored = 1,
-            mult = 4,
-            xmult = 1,
-            times = 2,
-            total_times = 4,
-            times_increment = 3,
-            mult_change = 0,
-            chip_change = 0
+            multinc = 1,
         },
         name = "Observer"
     },
 
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { card.ability.extra.mult, card.ability.extra.mult_stored, card.ability.extra.times,
-                card.ability.extra.total_times, card.ability.extra.times_increment }
+            vars = { card.ability.extra.mult_stored, card.ability.extra.multinc }
         }
     end,
-    cm_modified = function(self, card, data)
-        if data.card ~= card then
-            SMODS.calculate_effect({message = localize { type = 'variable', key = 'a_remaining', vars = { card.ability.extra.times }},}, card)
-        end
-        card.ability.extra.times = card.ability.extra.times - 1
-        if card.ability.extra.times <= 0 then
-            SMODS.calculate_effect({
-                func = function ()
-                    -- same deal here
-                    SMODS.scale_card(card,{
-                        ref_table = card.ability.extra,
-                        ref_value = "mult_stored",
-                        scalar_value = "mult",
-                        no_message = card == data.card
-                    })
-                    card.ability.extra.total_times = card.ability.extra.total_times + card.ability.extra.times_increment
-                    card.ability.extra.times = card.ability.extra.total_times
-                end,
-                no_message = card == data.card,
-                card = card,
-            }, card)
-        end
-    end,
     calculate = function(self, card, context)
+        if context.post_trigger and context.other_card and card.area and card.area.cards then
+            local ind = AKYRS.find_index(card.area.cards, card)
+            local scales = false
+            if ind then
+                if ind > 1 then
+                    if card.area.cards[ind - 1] == context.other_card then
+                        scales = true
+                    end
+                end
+                if ind < #card.area.cards then
+                    if card.area.cards[ind + 1] == context.other_card then
+                        scales = true
+                    end
+                end
+            end
+            if scales then
+                return {
+                    func = function ()
+                        SMODS.scale_card(card, {
+                            ref_table = card.ability.extra,
+                            ref_value = "mult_stored",
+                            scalar_value = "multinc",
+                        })
+                    end
+                }
+            end
+        end
         if context.joker_main or context.forcetrigger then
             return {
                 mult = card.ability.extra.mult_stored
@@ -658,14 +654,14 @@ SMODS.Joker {
             },
             main_end = {
                 { n = G.UIT.R, config = { padding = 0.1, colour = G.C.CLEAR, r = 0.1}, nodes = {
-                    AKYRS.ui_auto_table(completed_nodes, { columns = 5 })
+                    AKYRS.ui_auto_table(completed_nodes, { columns = 5, w = 0.5, h = 0.25 })
                 }}
             }
         }
     end,
     config = {
         extra = {
-            mult_adequate = 0.1,
+            mult_adequate = 2,
             xmult_adequate = 4.5,
             xmult = 3
         },
@@ -677,9 +673,11 @@ SMODS.Joker {
             }
         end
         if context.individual and not context.before and not context.after and not context.end_of_round and not G.GAME.akyrs_tldr_conditions_all_done then
-            return {
-                mult = card.ability.extra.mult_adequate
-            }
+            if context.cardarea == G.hand or context.cardarea == G.play then
+                return {
+                    mult = card.ability.extra.mult_adequate
+                }
+            end 
         end
     end,
     blueprint_compat = true,

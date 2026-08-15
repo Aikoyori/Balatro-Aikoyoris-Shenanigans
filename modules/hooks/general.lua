@@ -574,6 +574,9 @@ function CardArea:remove_from_highlighted(card, force)
     if self and self == G.hand and G.STATE == G.STATES.SELECTING_HAND then
         G.GAME.aikoyori_evaluation_value = 0
     end
+    if AKYRS.NO_UNHIGHLIGHT and G.STATE == G.STATES.DRAW_TO_HAND then
+        return
+    end
     local ret = removeFhighlightHook(self,card, force)
     if AKYRS.checkBlindKey("bl_akyrs_the_picker") and not G.GAME.blind.disabled and self == G.hand then
         if G.GAME.blind.debuff.primed and not G.GAME.blind.debuff.lock and AKYRS.picker_primed_action and not G.GAME.blind.debuff.acted and G.STATE == G.STATES.SELECTING_HAND then
@@ -587,6 +590,9 @@ local unhighlightallHook = CardArea.unhighlight_all
 function CardArea:unhighlight_all()
     if self and self == G.hand and G.STATE == G.STATES.SELECTING_HAND then
         G.GAME.aikoyori_evaluation_value = 0
+    end
+    if AKYRS.NO_UNHIGHLIGHT and G.STATE == G.STATES.DRAW_TO_HAND then
+        return
     end
     local ret = unhighlightallHook(self)
 

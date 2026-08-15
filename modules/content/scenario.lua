@@ -67,6 +67,9 @@ function AKYRS.Scenario_Tag:load(tag_savetable)
     self.from_load = true
 end
 
+function AKYRS.Scenario_Tag:update(scaled_dt, real_dt)
+    
+end
 function AKYRS.Scenario_Tag:juice_up(_scale, _rot)
     if self.tag_sprite then self.tag_sprite:juice_up(_scale, _rot) end
 end
@@ -259,9 +262,10 @@ function AKYRS.get_random_scenario_key(colour, side, config)
         return AKYRS.filter_table(pool,function(obj) 
             local obj_tbl = AKYRS.Scenarios[obj]
             local cm = obj_tbl.scenario
-            return (not any_colour or colour == cm.colour) and (not any_side or sode == cm.side) and (not obj_tbl.akyrs_scenario_random or pick_randoms) and (not obj_tbl.akyrs_clean_scenario or pick_cleans)
+            return (any_colour or colour == cm.colour) and (any_side or side == cm.side) and (not obj_tbl.akyrs_scenario_random or pick_randoms) and (not obj_tbl.akyrs_clean_scenario or pick_cleans)
         end,true,true)
     end, seed = seed}
+    return newkey
 end
 
 
@@ -315,7 +319,7 @@ AKYRS.Scenario = SMODS.Center:extend{
     use = function (self, card, area, copier)
         local newkey = self.key
         if self.akyrs_scenario_random then
-            newkey = AKYRS.get_random_scenario_key(self.scenario.colour, nil, { any_colour = true })
+            newkey = AKYRS.get_random_scenario_key(self.scenario.colour, nil, { any_side = true })
         end
         local newobj = AKYRS.Scenarios[newkey]
         AKYRS.remove_scenarios(function (cd)
@@ -1670,6 +1674,108 @@ AKYRS.Scenario {
                     end, 0)
                 end
             }
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "kyne",
+    set = "Scenario",
+    pos = { x = 6, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "light",
+    },
+    config = {
+        extras = {
+            card_gain = 4,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed_dollars(card.ability.extras.card_gain),
+                card.akyrs_rounds_left and SMODS.signed_dollars(card.akyrs_rounds_left) or "$???",
+            }
+        }
+    end,
+    akyrs_total_rounds = 30,
+    akyrs_no_decays = true,
+    calculate = function (self, card, context)
+        if context.money_altered then
+            return {
+                func = function ()
+                    if context.amount < 0 then
+                        AKYRS.mod_scenario_rounds(card, context.amount)
+                    end
+                end
+            }
+        end
+        if context.ending_shop then
+            return {
+                dollars = AKYRS.is_scenario_tag and card.akyrs_rounds_left or card.ability.extras.card_gain
+            }
+        end
+    end,
+}
+AKYRS.Scenario {
+    key = "blue_hatena",
+    set = "Scenario",
+    pos = { x = 7, y = 2 },
+    scenario = {
+        colour = "blue",
+    },
+    akyrs_scenario_random = true,
+}
+AKYRS.Scenario {
+    key = "water",
+    set = "Scenario",
+    pos = { x = 8, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "dark",
+    },
+    config = {
+        extras = {
+        }
+    },
+    akyrs_clean_scenario = true,
+}
+AKYRS.Scenario {
+    key = "snack",
+    set = "Scenario",
+    pos = { x = 9, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            seconds_gain = 2.5
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.seconds_gain)
+            }
+        }
+    end,
+    akyrs_total_rounds = 30,
+    akyrs_no_decays = true,
+    calculate = function (self, card, context)
+        if context.akyrs_postdraw_to_play then
+            return {
+                message = localize{type='variable', key = "k_akyrs_seconds", vars = {card.ability.extras.seconds_gain}},
+                func = function ()
+                    AKYRS.mod_scenario_rounds(card, card.ability.extras.seconds_gain)
+                end
+            }
+        end
+    end,
+    tag_update = function (self, tag, dt, real_dt) 
+        if not G.SETTINGS.paused then
+            AKYRS.mod_scenario_rounds(tag, -real_dt, true)
         end
     end,
 }

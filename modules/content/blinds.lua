@@ -272,7 +272,8 @@ SMODS.Blind{
 
 }
 AKYRS.picker_primed_action = function ()
-    AKYRS.modify_blind_size({ mult = G.GAME.blind.debuff.score_change })
+    SMODS.mod_blind_size({ mult = G.GAME.blind.debuff.score_change })
+    G.BLIND_SIZE_DISPLAY_QUEUE = nil
 end
 AKYRS.picker_initial_action = function() 
     G.E_MANAGER:add_event(Event({
@@ -330,14 +331,14 @@ SMODS.Blind{
         initial_action_act_set = false,
         hand_per_hand = 3,
         lock = false,
-        score_change = 1.25,
+        score_change = 1.1,
         akyrs_pick_cards = true,
     },
     loc_vars = function(self)
         return { vars = {G.hand.config.highlighted_limit, self.debuff.score_change}, key = self.key }
     end,
     collection_loc_vars = function(self)
-        return { vars = { localize("k_akyrs_up_to_sel"), 1.2 }, key = self.key }
+        return { vars = { localize("k_akyrs_up_to_sel"), 1.1 }, key = self.key }
     end,
     set_blind = function(self)
         G.GAME.blind.debuff.orig_chips = G.GAME.blind.chips

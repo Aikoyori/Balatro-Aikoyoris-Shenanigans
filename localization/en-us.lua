@@ -1318,7 +1318,8 @@ return {
             ench_akyrs_cornucopia = {
                 name="Cornucopia",
                 text={
-                    "When played, create a copy {C:attention}this card{} and add to played hand",
+                    "When played, create a copy of {C:attention}this card{}",
+                    "and add to played hand",
                     "{C:attention}removing Enchantment{} from the copy",
                 },
             },
@@ -3617,6 +3618,44 @@ return {
                     },
                 },
             },
+            sc_akyrs_kyne = {
+                name="Kyne",
+                text={
+                    {
+                        "In {C:attention}Card{} form",
+                        "{C:money}#1#{} at the end of shop",
+                    },
+                    {
+                        "In {C:attention}Tag{} form",
+                        "{C:money}#2#{} {C:inactive}( = Charges left) at the end of shop",
+                        "Charges drains equal to money {C:attention}lost/spent",
+                    },
+                },
+            },
+            sc_akyrs_blue_hatena = {
+                name="Randomize Blue",
+                text={
+                    "Randomize a {X:akyrs_scenario_blue,C:white}Blue{} Scenario",
+                },
+            },
+            sc_akyrs_water = {
+                name="Water",
+                text={
+                    "Clear {X:akyrs_scenario_dark_blue,C:white}Dark{} {X:akyrs_scenario_dark_blue,C:white}Blue{} Scenarios",
+                },
+            },
+            sc_akyrs_snack = {
+                name="Snack",
+                text={
+                    {
+                        "?????",
+                    },
+                    {
+                        "Decays over {C:attention}time",
+                        "{C:attention}#1#s{} per card played",
+                    }
+                },
+            },
         },
         Spectral={},
         Stake={
@@ -4809,6 +4848,7 @@ return {
             k_akyrs_chicanery_rolls_left="#1#/#2# Rolls Left",
             k_akyrs_enchantment_lvl="#1# Lv.#2#",
             k_akyrs_enchantment_lvl_single_level="#1#",
+            k_akyrs_seconds="+#1#s",
         },
         akyrs_misc = {
             mod_label = {

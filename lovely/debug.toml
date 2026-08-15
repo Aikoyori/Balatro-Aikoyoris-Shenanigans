@@ -28,6 +28,9 @@ match_indent = true
 target = "game.lua"
 pattern = """        if G.check and G.SETTINGS.perf_mode then"""
 position = "before"
-payload = """if AKYRS.debug then love.graphics.print("Garbage Count: "..collectgarbage("count"), 10, 80) end"""
+payload = """if AKYRS.debug then 
+love.graphics.print("Garbage Count: "..collectgarbage("count"), 10, 80) 
+love.graphics.print("Time: ".. G.TIMERS.REAL, 10, 120) 
+end"""
 overwrite = true
 match_indent = true

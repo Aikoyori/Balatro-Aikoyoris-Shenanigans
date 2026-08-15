@@ -1343,7 +1343,7 @@ AKYRS.pure_card_split = function (crd, no_pure_rank, no_pure_suit, area)
 end
 
 function AKYRS.is_scenario_tag(c)
-    return (c.is and c:is(AKYRS.Scenario_Tag))
+    return (c and c.is and c:is(AKYRS.Scenario_Tag))
 end
 
 function AKYRS.get_card_area_name(ca) -- for debugging purposes lol

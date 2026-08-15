@@ -287,3 +287,19 @@ position = "before"
 payload = """if AKYRS.NO_UNHIGHLIGHT then AKYRS.NO_UNHIGHLIGHT = nil AKYRS.remove_phantom_cards() G.hand:unhighlight_all() AKYRS.deselect_all_from_all_areas() end"""
 overwrite = true
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = "    self.CONTROLLER:update(self.real_dt) "
+position = "before"
+payload = """if G.GAME and G.GAME.akyrs_scenario then
+  for _, sc in ipairs(G.GAME.akyrs_scenario) do
+    if sc.config.tag_update then
+      sc.config:tag_update(sc, dt*self.SPEEDFACTOR, self.real_dt)
+    end
+  end
+end"""
+overwrite = true
+match_indent = true

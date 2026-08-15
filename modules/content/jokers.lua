@@ -505,9 +505,23 @@ SMODS.Joker {
                 return {
                     func = function ()
                         card_to_debuff:set_debuff(true)
+                        card_to_debuff.ability.akyrs_debuffed_by_dog = true
                     end
                 }
             end
+        end
+        if context.debuff_card and context.debuff_card.ability.akyrs_debuffed_by_dog then
+            return {
+                debuff = true
+            }
+        end
+        if context.after then
+            for i, cx in ipairs(context.full_hand) do
+                cx.ability.akyrs_debuffed_by_dog = nil
+            end
+        end
+        if context.discard and context.other_card then
+            context.other_card.ability.akyrs_debuffed_by_dog = nil
         end
         if context.akyrs_debuffed_individual and context.other_card.debuff and (context.cardarea == G.hand) then
             return { xmult = card.ability.extra.mult }

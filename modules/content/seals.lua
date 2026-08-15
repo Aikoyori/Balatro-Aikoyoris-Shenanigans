@@ -17,7 +17,7 @@ SMODS.Seal{
     badge_colour = HEX('5bbee0'),
     sound = { sound = 'generic1', per = 1.2, vol = 0.4 },
     loc_vars =function (self, info_queue, card)
-        info_queue[#info_queue+1] = AKYRS.DescriptionDummies['dd_akyrs_neon_seal_ex']
+        --info_queue[#info_queue+1] = AKYRS.DescriptionDummies['dd_akyrs_neon_seal_ex']
     end,
 
     calculate = function(self, card, context)
@@ -30,7 +30,6 @@ SMODS.Seal{
                         }, card)
                         AKYRS.simple_event_add(function ()
                             SMODS.add_card{ set = "Umbral" }
-                            h[index]:juice_up(0.5,0.5)
                             return true
                         end, 0)
                     end

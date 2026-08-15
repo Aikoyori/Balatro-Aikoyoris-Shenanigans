@@ -841,6 +841,7 @@ function AKYRS.end_round_hook()
                     end
                     card.ability.akyrs_played_this_round = false
                     card.ability.akyrs_scored_this_round = false
+                    card.ability.akyrs_debuffed_by_dog = nil
                     return true
                 end,
                 delay = 0,
@@ -850,6 +851,7 @@ function AKYRS.end_round_hook()
         for i, card in ipairs(x) do
             card.ability.akyrs_played_this_round = false
             card.ability.akyrs_scored_this_round = false
+            card.ability.akyrs_debuffed_by_dog = nil
         end
     end
     for _, level in ipairs({"common","uncommon","rare"}) do

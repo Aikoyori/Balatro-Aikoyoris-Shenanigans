@@ -3651,7 +3651,7 @@ return {
                         "?????",
                     },
                     {
-                        "Decays over {C:attention}time",
+                        "Decays over {C:attention}time{} you're in control",
                         "{C:attention}#1#s{} per card played",
                     }
                 },

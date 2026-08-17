@@ -133,14 +133,14 @@ SMODS.Enhancement{
     calculate = function (self, card, context)
         if context.main_scoring and context.cardarea == G.play then
             if SMODS.pseudorandom_probability(card,"akyrs_hatena_d1",1,card.ability.extras.odds_d) then
-                return {
+                SMODS.calculate_effect({
                     dollars = card.ability.extras.d
-                }
+                }, card)
             end
             if SMODS.pseudorandom_probability(card,"akyrs_hatena_d10",1,card.ability.extras.odds_d10) then
-                return {
+                SMODS.calculate_effect({
                     dollars = card.ability.extras.d10
-                }
+                }, card)
             end
             if SMODS.pseudorandom_probability(card,"akyrs_hatena_mults",card.ability.extras.nom_mults,card.ability.extras.denom_mults) then
                 if card.akyrs_triggered then
@@ -156,13 +156,13 @@ SMODS.Enhancement{
                     }
                 end
             end
-            if context.final_scoring_step then
-                return {
-                    func = function()
-                        card.akyrs_triggered = nil
-                    end
-                }
-            end
+        end
+        if context.final_scoring_step then
+            return {
+                func = function()
+                    card.akyrs_triggered = nil
+                end
+            }
         end
     end
 }

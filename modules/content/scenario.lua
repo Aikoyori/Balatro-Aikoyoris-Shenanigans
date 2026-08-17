@@ -1751,7 +1751,7 @@ AKYRS.Scenario {
     },
     config = {
         extras = {
-            seconds_gain = 2.5
+            seconds_gain = 2
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -1774,7 +1774,7 @@ AKYRS.Scenario {
         end
     end,
     tag_update = function (self, tag, dt, real_dt) 
-        if not G.SETTINGS.paused then
+        if G.SETTINGS.paused or #G.E_MANAGER.queues.base <= 1 then
             AKYRS.mod_scenario_rounds(tag, -real_dt, true)
         end
     end,

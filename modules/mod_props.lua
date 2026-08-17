@@ -781,7 +781,7 @@ SMODS.current_mod.menu_cards = function ()
             if mecardonlyone then
                 --- @Card
                 mecardonlyone = mecardonlyone
-                if AKYRS.is_mod_loaded("Entropy") then
+                if AKYRS.is_mod_loaded("entr") then
                     mecardonlyone:set_edition("e_entr_freaky")
                 end
                 mecardonlyone.click = AKYRS.aiko_click

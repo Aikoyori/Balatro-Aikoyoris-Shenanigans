@@ -1,0 +1,14 @@
+[manifest]
+version = "1.2"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS entr "lib/loader.lua"]'
+pattern = """            return ret"""
+position = "before"
+payload = """if AKYRS then AKYRS.set_splash_shader(change_context) end"""
+overwrite = true
+match_indent = true
+

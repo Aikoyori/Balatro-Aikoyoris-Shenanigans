@@ -953,3 +953,13 @@ position = "after"
 payload = """        args.AUT.info = args.AUT.info or {}"""
 overwrite = true
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = """            --spawn in splash card"""
+position = "after"
+payload = """AKYRS.set_splash_shader(nil, 1)"""
+overwrite = true
+match_indent = true

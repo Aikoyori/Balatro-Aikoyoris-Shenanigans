@@ -1282,7 +1282,8 @@ AKYRS.Scenario {
                         SMODS.calculate_effect({
                             xmult = card.ability.extras.xmult_decrease,
                             xscore = card.ability.extras.xscore,
-                            message_card = card,
+                            message_card = card.HUD_tag or card,
+                            juice_card = card,
                         }, card)
                         c = c + 1
                     end
@@ -1403,7 +1404,8 @@ AKYRS.Scenario {
                         AKYRS.mod_scenario_rounds(card, card.ability.extras.rounds_gain)
                     end,
                     message = localize("k_upgrade_ex"),
-                    message_card = card,
+                    message_card = card.HUD_tag or card,
+                    juice_card = card,
                 }
             end
         end
@@ -1751,30 +1753,135 @@ AKYRS.Scenario {
     },
     config = {
         extras = {
-            seconds_gain = 2
+            seconds_gain = 1,
+            rounds_held = 0,
+            rounds_max = 3,
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                SMODS.signed(card.ability.extras.seconds_gain)
+                SMODS.signed(card.ability.extras.seconds_gain),
+                (card.ability.extras.rounds_held),
+                (card.ability.extras.rounds_max),
             }
         }
     end,
     akyrs_total_rounds = 30,
     akyrs_no_decays = true,
     calculate = function (self, card, context)
-        if context.akyrs_postdraw_to_play then
-            return {
-                message = localize{type='variable', key = "k_akyrs_seconds", vars = {card.ability.extras.seconds_gain}},
-                func = function ()
-                    AKYRS.mod_scenario_rounds(card, card.ability.extras.seconds_gain)
-                end
-            }
+        if AKYRS.is_scenario_tag(card) then
+            if context.akyrs_postdraw_to_play then
+                return {
+                    func = function ()
+                        AKYRS.mod_scenario_rounds(card, card.ability.extras.seconds_gain)
+                        SMODS.calculate_effect({                
+                            message = localize{type='variable', key = "k_akyrs_seconds", vars = {card.ability.extras.seconds_gain}},
+                            message_card = card.HUD_tag,
+                            juice_card = card,
+                        }, card)
+                    end
+                }
+            end
+            if context.end_of_round and not context.repetition and not context.individual then
+                return {
+                    func = function ()
+                        AKYRS.simple_event_add(function ()
+                            card.ability.extras.rounds_held = card.ability.extras.rounds_held + 1
+                            if card.ability.extras.rounds_held >= card.ability.extras.rounds_max and AKYRS.has_room(G.jokers) then
+                                card.ability.extras.rounds_held = card.ability.extras.rounds_held - card.ability.extras.rounds_max
+                                SMODS.add_card{ set = "Joker", rarity = "Rare" }
+                            end
+                            return true
+                        end)
+                    end
+                }
+            end
+        else
+            if context.end_of_round and not context.repetition and not context.individual then
+                return {
+                    func = function ()
+                        AKYRS.simple_event_add(function ()
+                            if AKYRS.has_room(G.jokers) then
+                                SMODS.add_card{ set = "Joker",}
+                            end
+                            return true
+                        end)
+                    end
+                }
+            end
         end
     end,
     tag_update = function (self, tag, dt, real_dt) 
-        if G.SETTINGS.paused or #G.E_MANAGER.queues.base <= 1 then
+        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or #G.E_MANAGER.queues.base <= 1 then
+            AKYRS.mod_scenario_rounds(tag, -real_dt, true)
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "dish",
+    set = "Scenario",
+    pos = { x = 10, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            c_dollars = 2,
+            t_dollars = 0,
+            t_dollars_g = 1,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed_dollars(card.ability.extras.c_dollars),
+                (card.ability.extras.t_dollars_g),
+                SMODS.signed_dollars(card.ability.extras.t_dollars),
+            }
+        }
+    end,
+    akyrs_total_rounds = 20,
+    akyrs_no_decays = true,
+    calculate = function (self, card, context)
+        if AKYRS.is_scenario_tag(card) then
+            if context.money_altered and context.from_shop then
+                return {
+                    func = function ()
+                        if context.amount < 0 then
+                                SMODS.scale_card(card,{
+                                    ref_table = card.ability.extras,
+                                    ref_value = "t_dollars",
+                                    scalar_value = 't_dollars_g',
+                                })
+                        end
+                    end
+                }
+            end
+            if context.ending_shop then
+                return {
+                    dollars = card.ability.extras.t_dollars,
+                    func = function ()
+                        card.ability.extras.t_dollars = 0
+                        card.akyrs_rounds_left = card.akyrs_total_rounds 
+                        SMODS.calculate_effect({                
+                            message = localize("k_reset"),
+                        }, card)
+                    end
+                }
+            end
+        else
+            if context.ending_shop then
+                return {
+                    dollars = card.ability.extras.c_dollars,
+                }
+            end
+        end
+    end,
+    tag_update = function (self, tag, dt, real_dt) 
+        if G.shop and #G.E_MANAGER.queues.base <= 1 then
             AKYRS.mod_scenario_rounds(tag, -real_dt, true)
         end
     end,

@@ -3129,12 +3129,13 @@ SMODS.Joker {
     calculate = function (self, card, context)
         if context.before and #context.full_hand == #context.scoring_hand and not context.blueprint then
             return {
+                message = localize('k_plus_joker'),
                 func = function ()
                     SMODS.scale_card(card, {
                         ref_table = card.ability.extras,
                         ref_value = 'xmult',
                         scalar_value = 'lose',
-                        scaling_message = { localize("k_akyrs_downgrade_ex") },
+                        scaling_message = { message = localize("k_akyrs_downgrade_ex") },
                         operation = function(ref_table, ref_value, initial, scalar_value)
                             ref_table[ref_value] = math.max(ref_table[ref_value] - scalar_value, 1)
                         end,
@@ -3142,9 +3143,10 @@ SMODS.Joker {
                 end
             }
         end
-        if context.individual and context.cardarea == 'unscored' and not context.blueprint then
+        if context.individual and context.cardarea == 'unscored' and not context.blueprint and not (#context.full_hand == #context.scoring_hand) then
             return {
                 func = function ()
+                    message = localize('k_plus_joker'),
                     SMODS.scale_card(card, {
                         ref_table = card.ability.extras,
                         ref_value = 'xmult',
@@ -3205,7 +3207,7 @@ SMODS.Joker {
                                 ref_table = card.ability.extras,
                                 ref_value = 'xchips',
                                 scalar_value = 'lose',
-                                scaling_message = { localize("k_akyrs_downgrade_ex") },
+                                scaling_message = { message = localize("k_akyrs_downgrade_ex") },
                                 operation = function(ref_table, ref_value, initial, scalar_value)
                                     ref_table[ref_value] = math.max(ref_table[ref_value] - scalar_value, 1)
                                 end,
@@ -3302,7 +3304,7 @@ SMODS.Joker {
                                         ref_table = card.ability.extras,
                                         ref_value = 'xscore',
                                         scalar_value = 'lose',
-                                        scaling_message = { localize("k_akyrs_downgrade_ex") },
+                                        scaling_message = { message = localize("k_akyrs_downgrade_ex") },
                                         operation = function(ref_table, ref_value, initial, scalar_value)
                                             ref_table[ref_value] = math.max(ref_table[ref_value] - scalar_value, 1)
                                         end,
@@ -3331,7 +3333,7 @@ SMODS.Joker {
     config = {
         extras = {
             xchips = 1,
-            xchips_gain = 0.5,
+            xchips_gain = 0.3,
             times_needed = 15,
             times_achieved = 0,
         },

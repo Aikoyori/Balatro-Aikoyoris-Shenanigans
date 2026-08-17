@@ -404,8 +404,8 @@ target = 'functions/common_events.lua'
 pattern = """    local config = {}"""
 position = "before"
 payload = """
-if card.is_scenario_tag then y_off = -0.2 card_aligned = 'tm' card:juice_up() end
 if (card.config or {}).tag then x_off = -0.7 y_off = 0 card_aligned = 'lc' card:juice_up() end
+if AKYRS.is_scenario_tag(card) then y_off = -0.2 card_aligned = 'tm' card:juice_up() card = card.HUD_tag end
 """
 overwrite = true
 match_indent = true

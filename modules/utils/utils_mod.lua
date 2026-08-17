@@ -1356,3 +1356,26 @@ function AKYRS.get_card_area_name(ca) -- for debugging purposes lol
     if ca == 'unscored' then return "unscored" end
     return "wtf?"
 end
+
+function AKYRS.set_splash_shader(ctx, vor_spd)
+    local splash_args = {mid_flash = ctx == 'splash' and 1.6 or 0.}
+    ease_value(splash_args, 'mid_flash', -(ctx == 'splash' and 1.6 or 0), nil, nil, nil, 4)
+    local colour1 = {name = 'colour_1', ref_table = G.C, ref_value = 'AKYRS_AIKOYORI_MAIN'}
+    local colour2 = {name = 'colour_2', ref_table = G.C, ref_value = 'AKYRS_AIKOYORI_ALT'}
+    if Entropy then
+        colour1.ref_table = Entropy
+        colour1.ref_value = "entropic_gradient"
+        colour2.ref_table = Entropy
+        colour2.ref_value = "reverse_legendary_gradient"
+    end
+    G.SPLASH_BACK:define_draw_steps({{
+        shader = 'akyrs_aiko_splash',
+        send = {
+            {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL_SHADER'},
+            {name = 'vort_speed', val = vor_spd or 0.4},
+            colour1,
+            colour2,
+            {name = 'mid_flash', ref_table = splash_args, ref_value = 'mid_flash'},
+            {name = 'vort_offset', val = 0},
+        }}})
+end

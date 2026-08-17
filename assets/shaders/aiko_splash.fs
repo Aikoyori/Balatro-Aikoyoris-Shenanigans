@@ -56,7 +56,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     PREC number uv_len = length(uv);
     */
     //Convert to 0-1.. coordinates but...
-    vec4 tex = vec4(0.,0.,0.,1.);
+    vec4 tex = colour_1;
     
     if (mid_flash < 0.0001) {
         tex.r = tex.r + mid_flash * 0.00001;
@@ -96,9 +96,9 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     float luminance = rgb2hsv(tex.rgb).b;
     number factor = 1.0;
     if (color.x != color.y){
-        tex.rgb = vec3(1.,0.,1.) * 0.7;
+        tex.rgb = colour_2.rgb * 0.7;
         //factor = step(0.65,luminance)*0.8+0.4;
-    }
+    } 
     number dist_pow = pow((dist * 0.15), 2.4);
     tex.rgb *= (vec3(1.,0.,1.) * (1. - dist_pow)) * min(time * 0.1 ,1.);
     tex.rgb += vec3(1.,0.,1.) * 0.3 * (1. - dist_pow) * min(time * 0.3 ,1.);

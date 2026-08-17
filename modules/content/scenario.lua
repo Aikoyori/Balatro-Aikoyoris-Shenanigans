@@ -1831,7 +1831,7 @@ AKYRS.Scenario {
         extras = {
             c_dollars = 2,
             t_dollars = 0,
-            t_dollars_g = 1,
+            t_dollars_g = 2,
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -1839,11 +1839,12 @@ AKYRS.Scenario {
             vars = {
                 SMODS.signed_dollars(card.ability.extras.c_dollars),
                 (card.ability.extras.t_dollars_g),
+                SMODS.signed_dollars(card.ability.extras.t_dollars / 2),
                 SMODS.signed_dollars(card.ability.extras.t_dollars),
             }
         }
     end,
-    akyrs_total_rounds = 20,
+    akyrs_total_rounds = 24,
     akyrs_no_decays = true,
     calculate = function (self, card, context)
         if AKYRS.is_scenario_tag(card) then
@@ -1854,7 +1855,9 @@ AKYRS.Scenario {
                                 SMODS.scale_card(card,{
                                     ref_table = card.ability.extras,
                                     ref_value = "t_dollars",
-                                    scalar_value = 't_dollars_g',
+                                    scalar_table = context,
+                                    scalar_value = 'amount',
+                                    scalar_factor = -1
                                 })
                         end
                     end
@@ -1862,7 +1865,7 @@ AKYRS.Scenario {
             end
             if context.ending_shop then
                 return {
-                    dollars = card.ability.extras.t_dollars,
+                    dollars = card.ability.extras.t_dollars / 2,
                     func = function ()
                         card.ability.extras.t_dollars = 0
                         card.akyrs_rounds_left = card.akyrs_total_rounds 

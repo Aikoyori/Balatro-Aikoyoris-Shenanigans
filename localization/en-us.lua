@@ -3672,8 +3672,8 @@ return {
                     },
                     {
                         "In {C:attention}Tag form{}",
-                        "Store {C:money}$#2#{} every time you {C:attention}spend/lost{} money",
-                        "Gain {C:money}#3#{} at the {C:attention}end of shop{} and {C:attention}reset{}",
+                        "Every time you {C:attention}spend/lost{} money, stores half of it",
+                        "Earn {C:money}#3#{} at the {C:attention}end of shop{} and {C:attention}reset{}",
                     },
                     {
                         "Decays over {C:attention}time{} you {C:attention}spend in shop",

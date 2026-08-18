@@ -3707,12 +3707,12 @@ return {
                 text={
                     {
                         "In {C:attention}Card form{}",
-                        "{C:booster}#1#{} Booster Pack Slot",
+                        "{C:enhanced}#1#{} Booster Pack Slot",
                     },
                     {
                         "In {C:attention}Tag form{}",
-                        "{C:attention}Double{} booster pack cards and choices",
-                        "of your spending {C:attention}after shop",
+                        "{C:attention}#2#{} booster pack options",
+                        "{C:attention}#3#{} booster pack choice",
                     },
                     {
                         "Decays over {C:attention}time{} you {C:attention}spend in booster packs",

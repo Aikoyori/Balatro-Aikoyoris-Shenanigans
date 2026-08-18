@@ -380,12 +380,12 @@ function AKYRS.add_scenario_tag(_tag, card_source)
   }
   G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD].role.major.T.z = z
   discover_card(AKYRS.Scenarios[_tag.key])
-
+  local tagobj = AKYRS.Scenarios[_tag.key]
   G.GAME.akyrs_scenario[#G.GAME.akyrs_scenario+1] = _tag
   if not _tag.from_load then 
     SMODS.calculate_context({akyrs_scenario_applied = _tag}) 
-    if _tag.tag_added then
-        _tag:tag_added(_tag, card_source)
+    if tagobj.tag_added then
+        tagobj:tag_added(_tag, card_source)
     end
    end
   _tag.from_load = nil
@@ -695,8 +695,6 @@ AKYRS.Scenario {
     end,
     remove_from_deck = function (self, card, from_debuff)
         G.hand:change_size(-card.ability.extras.hand_size_taken)
-    end,
-    use_extras = function(self, card, area, copier, tag)
     end,
     tag_added = function (self, tag, card)
         G.hand:change_size(card.ability.extras.hand_size_taken)
@@ -1917,44 +1915,26 @@ AKYRS.Scenario {
     config = {
         extras = {
             c_bpc = 1,
-            t_dollars = 0,
-            t_dollars_g = 2,
+            t_bpsz = 3,
+            t_bpch = 1,
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                SMODS.signed_dollars(card.ability.extras.c_dollars),
-                (card.ability.extras.t_dollars_g),
-                SMODS.signed_dollars(card.ability.extras.t_dollars / 2),
-                SMODS.signed_dollars(card.ability.extras.t_dollars),
+                SMODS.signed(card.ability.extras.c_bpc),
+                SMODS.signed(card.ability.extras.t_bpsz),
+                SMODS.signed(card.ability.extras.t_bpch),
             }
         }
     end,
-    akyrs_total_rounds = 6,
+    akyrs_total_rounds = 5,
     akyrs_no_decays = true,
     calculate = function (self, card, context)
         if AKYRS.is_scenario_tag(card) then
-            if context.money_altered and context.from_shop then
+            if context.skipping_booster then
                 return {
                     func = function ()
-                        if context.amount < 0 then
-                                SMODS.scale_card(card,{
-                                    ref_table = card.ability.extras,
-                                    ref_value = "t_dollars",
-                                    scalar_table = context,
-                                    scalar_value = 'amount',
-                                    scalar_factor = -1
-                                })
-                        end
-                    end
-                }
-            end
-            if context.ending_shop then
-                return {
-                    dollars = card.ability.extras.t_dollars / 2,
-                    func = function ()
-                        card.ability.extras.t_dollars = 0
                         card.akyrs_rounds_left = card.akyrs_total_rounds 
                         SMODS.calculate_effect({                
                             message = localize("k_reset"),
@@ -1963,12 +1943,22 @@ AKYRS.Scenario {
                 }
             end
         else
-            if context.ending_shop then
-                return {
-                    dollars = card.ability.extras.c_dollars,
-                }
-            end
+            
         end
+    end,
+    add_to_deck = function (self, card, from_debuff)
+        G.GAME.modifiers.extra_boosters = (G.GAME.modifiers.extra_boosters or 0) + card.ability.extras.c_bpc
+    end,
+    remove_from_deck = function (self, card, area, copier, tag)
+        G.GAME.modifiers.extra_boosters = (G.GAME.modifiers.extra_boosters or 0) - card.ability.extras.c_bpc
+    end,
+    tag_added = function (self, _tag, card_source)
+        G.GAME.modifiers.booster_size_mod = (G.GAME.modifiers.booster_size_mod or 0) + _tag.ability.extras.t_bpsz
+        G.GAME.modifiers.booster_choice_mod = (G.GAME.modifiers.booster_choice_mod or 0) + _tag.ability.extras.t_bpch
+    end,
+    tag_removed = function (self, _tag)
+        G.GAME.modifiers.booster_size_mod = (G.GAME.modifiers.booster_size_mod or 0) - _tag.ability.extras.t_bpsz
+        G.GAME.modifiers.booster_choice_mod = (G.GAME.modifiers.booster_choice_mod or 0) - _tag.ability.extras.t_bpch
     end,
     tag_update = function (self, tag, dt, real_dt) 
         if G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 and #G.E_MANAGER.queues.base <= 1 then

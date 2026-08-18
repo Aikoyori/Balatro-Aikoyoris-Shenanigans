@@ -2809,7 +2809,7 @@ return {
                 name = "Attention!",
                 text = {
                     "{C:attention}Aikoyori's Shenanigans{}",
-                    "requires a {C:attention}newer{} Steamodded version",
+                    "requires a {C:attention}newer{} Steamodded version.",
                     "You can download it from the {C:attention}button{} below",
                     "{C:inactive}(Click on source code .zip)",
                 }
@@ -2818,7 +2818,7 @@ return {
                 name = "Attention!",
                 text = {
                     "It seems that you are on a development version of",
-                    "{C:attention}Aikoyori's Shenanigans{} and it failed to load",
+                    "{C:attention}Aikoyori's Shenanigans{} and it failed to load.",
                     "I recommend using {C:attention}stable releases{}.",
                     "You can download it from the {C:attention}button{} below",
                     "{C:inactive}(Click on source code .zip)",

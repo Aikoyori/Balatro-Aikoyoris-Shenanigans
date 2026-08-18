@@ -6,13 +6,14 @@ AKPOP.aikoshen_is_dev_ver = false
 AKPOP.aikoshen = SMODS.Mods.aikoyorisshenanigans
 
 if AKPOP.aikoshen then
-    print("AikoShen version "..AKPOP.aikoshen.version)
+    print("Aikoyori's Shenanigans version "..AKPOP.aikoshen.version)
     if not AKPOP.aikoshen.can_load then
-        print("AikoShen cannot load!")
+        print("Aikoyori's Shenanigans cannot load!")
     else
         AKPOP.aikoshen_loaded = true
     end
     if AKPOP.aikoshen.version:find("-dev") then
+        print("Dev version detected! You're on your own.")
         AKPOP.aikoshen_is_dev_ver = true
     end
 end
@@ -57,9 +58,9 @@ function SMODS.load_mod_localization(paz, modid, depth)
                 break
             end
         end
-        print(is_pop_in and "exist" or "not exist")
+        -- print(is_pop_in and "exist" or "not exist")
         if not is_pop_in then
-            print("added")
+            -- print("added")
             SMODS.mod_list[#SMODS.mod_list+1] = AKPOP
         end
     end
@@ -69,7 +70,7 @@ function SMODS.load_mod_localization(paz, modid, depth)
     if modid == AKPOP.id and (depth or 0) < 1 then
         for k, v in ipairs(SMODS.mod_list) do
             if v.id == AKPOP.id then
-                print("found pop, removing")
+                -- print("found pop, removing")
                 table.remove(SMODS.mod_list, k)
             end
         end

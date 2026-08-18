@@ -2805,6 +2805,25 @@ return {
             },
         },
         Other={
+            akpop_warning_stable_outdated_smods = {
+                name = "Attention!",
+                text = {
+                    "{C:attention}Aikoyori's Shenanigans{}",
+                    "requires a {C:attention}newer{} Steamodded version",
+                    "You can download it from the {C:attention}button{} below",
+                    "{C:inactive}(Click on source code .zip)",
+                }
+            },
+            akpop_warning_dev_mod_version = {
+                name = "Attention!",
+                text = {
+                    "It seems that you are on a development version of",
+                    "{C:attention}Aikoyori's Shenanigans{} and it failed to load",
+                    "I recommend using {C:attention}stable releases{}.",
+                    "You can download it from the {C:attention}button{} below",
+                    "{C:inactive}(Click on source code .zip)",
+                }
+            },
             akyrs_self_destructs={
                 name="Self-Destructive",
                 text={
@@ -4513,6 +4532,11 @@ return {
         },
         collabs={},
         dictionary={
+            -- aikopop section
+            k_akpop_download_smods = "Download stable SMODS",
+            k_akpop_download_aikoshen  = "Download stable version",
+            k_akpop_open_mod_dir  = "Show Mods Folder",
+
             b_umbral_cards = "Umbral Cards",
             b_replicant_cards = "Replicant Cards",
             b_scenario_cards = "Scenario Cards",

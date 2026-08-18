@@ -1,0 +1,23 @@
+[manifest]
+version = "1.2"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/ui.lua"]'
+pattern = """                if condition(modInfo) then"""
+position = "after"
+payload = """if not modInfo.hide_in_list then"""
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/ui.lua"]'
+pattern = """                            current_row = {}
+                        end
+                    end"""
+position = "after"
+payload = """end"""
+match_indent = true
+

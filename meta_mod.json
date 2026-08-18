@@ -1,0 +1,22 @@
+{
+	"id": "aiko_meta",
+	"name": "AikoShen Warning",
+	"author": ["Aikoyori"],
+	"description": "This is for telling people to not download dev version when they shouldn't",
+	"prefix": "akpop",
+	"main_file": "meta/main.lua",
+	"priority": 701,
+	"badge_colour": "7f007f",
+	"badge_text_colour": "ffffff",
+	"display_name": "Warning!",
+	"version": "0.0.0",
+	"dependencies": [
+		"Balatro",
+		"Steamodded",
+		"Lovely"
+	],
+	"conflicts": [
+	],
+	"provides": [
+	]
+}

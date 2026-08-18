@@ -2812,6 +2812,7 @@ return {
                     "requires a {C:attention}newer{} Steamodded version.",
                     "You can download it from the {C:attention}button{} below",
                     "{C:inactive}(Click on source code .zip)",
+                    "{C:inactive,s:0.9}(P.S. if you report this i will strap you on a rocket to the Kuiper Belt)",
                 }
             },
             akpop_warning_dev_mod_version = {
@@ -2822,6 +2823,7 @@ return {
                     "I recommend using {C:attention}stable releases{}.",
                     "You can download it from the {C:attention}button{} below",
                     "{C:inactive}(Click on source code .zip)",
+                    "{C:inactive,s:0.9}(P.S. if you report this i will strap you on a rocket to the Oort Cloud)",
                 }
             },
             akyrs_self_destructs={

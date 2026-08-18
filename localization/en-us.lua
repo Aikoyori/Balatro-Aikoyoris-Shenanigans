@@ -2811,8 +2811,8 @@ return {
                     "{C:attention}Aikoyori's Shenanigans{}",
                     "requires a {C:attention}newer{} Steamodded version.",
                     "You can download it from the {C:attention}button{} below",
-                    "{C:inactive}(Click on source code .zip)",
-                    "{C:inactive,s:0.9}(P.S. if you report this i will strap you on a rocket to the Kuiper Belt)",
+                    "{C:edition}(Click on source code .zip)",
+                    "{C:enhanced,s:1.2}(P.S. if you report this i will strap you on a rocket to the Kuiper Belt)",
                 }
             },
             akpop_warning_dev_mod_version = {
@@ -2822,8 +2822,8 @@ return {
                     "{C:attention}Aikoyori's Shenanigans{} and it failed to load.",
                     "I recommend using {C:attention}stable releases{}.",
                     "You can download it from the {C:attention}button{} below",
-                    "{C:inactive}(Click on source code .zip)",
-                    "{C:inactive,s:0.9}(P.S. if you report this i will strap you on a rocket to the Oort Cloud)",
+                    "{C:edition}(Click on source code .zip)",
+                    "{C:enhanced,s:1.2}(P.S. if you report this i will strap you on a rocket to the Oort Cloud)",
                 }
             },
             akyrs_self_destructs={

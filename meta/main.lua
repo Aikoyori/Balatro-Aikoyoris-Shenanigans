@@ -101,7 +101,9 @@ function Game:main_menu(chctx)
                                                 UIBox_button({
                                                     label = { localize(key_btn) },
                                                     button = 'akpop_open_link',
+                                                    shadow = 0,
                                                     minw = 8,
+                                                    colour = G.C.DARK_EDITION,
                                                     ref_table = {
                                                         AKPOP.aikoshen_is_dev_ver and
                                                         "https://github.com/Aikoyori/Balatro-Aikoyoris-Shenanigans/releases/latest" or

@@ -2,7 +2,7 @@
 A Balatro mod that adds things I want to add.
 
 > [!IMPORTANT]
-> # DO NOT DOWNLOAD FROM THE GREEN BUTTON
+> # DO NOT DOWNLOAD FROM THE GREEN (CODE) BUTTON
 > If you are specifically told to "download from main" by me then click [this](https://github.com/Aikoyori/Balatro-Aikoyoris-Shenanigans/archive/refs/heads/main.zip) link
 
 Mod Discord is [here](https://discord.gg/JVg8Bynm7k)!

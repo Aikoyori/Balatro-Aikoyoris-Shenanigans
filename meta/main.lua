@@ -46,6 +46,41 @@ G.FUNCS.akpop_can_open_mods_folder = function(e)
     end
 end
 
+local smods_loc_hook = SMODS.load_mod_localization
+function SMODS.load_mod_localization(paz, modid, depth)
+
+    local is_pop_in = false
+    if modid == '_' and (depth or 0) < 1 then
+        for k, v in ipairs(SMODS.mod_list) do
+            if v.id == AKPOP.id then
+                is_pop_in = true
+                break
+            end
+        end
+        print(is_pop_in and "exist" or "not exist")
+        if not is_pop_in then
+            print("added")
+            SMODS.mod_list[#SMODS.mod_list+1] = AKPOP
+        end
+    end
+
+    local returnx = {smods_loc_hook(paz, modid, depth)}
+
+    if modid == AKPOP.id and (depth or 0) < 1 then
+        for k, v in ipairs(SMODS.mod_list) do
+            if v.id == AKPOP.id then
+                print("found pop, removing")
+                table.remove(SMODS.mod_list, k)
+            end
+        end
+    end
+
+
+    return unpack(returnx)
+    
+end
+
+
 local gmainmenuhook = Game.main_menu
 function Game:main_menu(chctx)
     if not AKPOP.aikoshen_loaded then
@@ -61,10 +96,8 @@ function Game:main_menu(chctx)
         localize{type = "name", key = key, set = "Other", default_col = G.C.WHITE, nodes = uinodes_text, vars = {}, scale = 2}
         G.E_MANAGER:add_event(
             Event{
-                blocking = false,
-                blockable = false,
                 trigger = "after",
-                delay = 0,
+                delay = 0.1,
                 func = function ()
                     G.FUNCS.overlay_menu{
                         definition = create_UIBox_generic_options({

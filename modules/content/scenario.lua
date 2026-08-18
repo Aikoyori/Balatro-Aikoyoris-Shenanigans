@@ -1,14 +1,24 @@
+---@type table<string,AKYRS.Scenario>
 AKYRS.Scenarios = {}
+---@type AKYRS.Scenario[]
 AKYRS.Scenarios_Buffer = {}
 
 
 local offset = {x = 4.8,y = 0.5}
 local offset_each = {x = -0.2,y = 0}
-
+---@class AKYRS.Scenario_Tag: Object
+---@field sc_config? AKYRS.Scenario_Tag
+---@field key? string
+---@field akyrs_total_rounds? number
+---@field akyrs_rounds_left? number
 AKYRS.Scenario_Tag = Object:extend()
 
 -- honestly this is just tag code but modified because it works
 
+---comment
+---@param _scenario string
+---@param for_collection boolean
+---@param _blind_type any
 function AKYRS.Scenario_Tag:init(_scenario, for_collection, _blind_type)
     self.key = _scenario
     local proto = AKYRS.Scenarios[_scenario]
@@ -278,7 +288,13 @@ SMODS.UndiscoveredSprite{
 SMODS.UndiscoveredCompat["Scenario"] = true
 
 G.C.SECONDARY_SET.Scenario = HEX("645474FF")
----@type SMODS.Center
+---@class AKYRS.Scenario: SMODS.Center
+---@field tag_added? fun(self: AKYRS.Scenario|table, _tag:AKYRS.Scenario_Tag, card_source: Card): nil m
+---@field use_extras? fun(self: AKYRS.Scenario|table, card:Card, area:CardArea, copier:Card, tag:AKYRS.Tag ): nil
+---@field tag_removed? fun(self: AKYRS.Scenario|table, _tag:AKYRS.Scenario_Tag): nil
+---@field tag_expire? fun(self: AKYRS.Scenario|table, _tag:AKYRS.Scenario_Tag): nil
+---@field tag_update? fun(self: AKYRS.Scenario|table, tag:AKYRS.Scenario_Tag, dt: number, real_dt:number): nil
+---@overload fun(self: AKYRS.Scenario): AKYRS.Scenario
 AKYRS.Scenario = SMODS.Center:extend{
     required_params = {
         "key",
@@ -1885,6 +1901,77 @@ AKYRS.Scenario {
     end,
     tag_update = function (self, tag, dt, real_dt) 
         if G.shop and #G.E_MANAGER.queues.base <= 1 then
+            AKYRS.mod_scenario_rounds(tag, -real_dt, true)
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "meal",
+    set = "Scenario",
+    pos = { x = 11, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            c_bpc = 1,
+            t_dollars = 0,
+            t_dollars_g = 2,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed_dollars(card.ability.extras.c_dollars),
+                (card.ability.extras.t_dollars_g),
+                SMODS.signed_dollars(card.ability.extras.t_dollars / 2),
+                SMODS.signed_dollars(card.ability.extras.t_dollars),
+            }
+        }
+    end,
+    akyrs_total_rounds = 6,
+    akyrs_no_decays = true,
+    calculate = function (self, card, context)
+        if AKYRS.is_scenario_tag(card) then
+            if context.money_altered and context.from_shop then
+                return {
+                    func = function ()
+                        if context.amount < 0 then
+                                SMODS.scale_card(card,{
+                                    ref_table = card.ability.extras,
+                                    ref_value = "t_dollars",
+                                    scalar_table = context,
+                                    scalar_value = 'amount',
+                                    scalar_factor = -1
+                                })
+                        end
+                    end
+                }
+            end
+            if context.ending_shop then
+                return {
+                    dollars = card.ability.extras.t_dollars / 2,
+                    func = function ()
+                        card.ability.extras.t_dollars = 0
+                        card.akyrs_rounds_left = card.akyrs_total_rounds 
+                        SMODS.calculate_effect({                
+                            message = localize("k_reset"),
+                        }, card)
+                    end
+                }
+            end
+        else
+            if context.ending_shop then
+                return {
+                    dollars = card.ability.extras.c_dollars,
+                }
+            end
+        end
+    end,
+    tag_update = function (self, tag, dt, real_dt) 
+        if G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 and #G.E_MANAGER.queues.base <= 1 then
             AKYRS.mod_scenario_rounds(tag, -real_dt, true)
         end
     end,

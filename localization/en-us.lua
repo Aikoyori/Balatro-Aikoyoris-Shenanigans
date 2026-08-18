@@ -3693,12 +3693,30 @@ return {
                     },
                     {
                         "In {C:attention}Tag form{}",
-                        "Every time you {C:attention}spend/lost{} money in shop, stores half of it",
-                        "Earn {C:money}#3#{} at the {C:attention}end of shop{} and {C:attention}reset{}",
+                        "Refunds half {C:inactive}({C:money}#3#{}{C:inactive}) ",
+                        "of your spending {C:attention}after shop",
                     },
                     {
                         "Decays over {C:attention}time{} you {C:attention}spend in shop",
                         "Resets at the {C:attention}end of shop",
+                    }
+                },
+            },
+            sc_akyrs_meal = {
+                name="Meal",
+                text={
+                    {
+                        "In {C:attention}Card form{}",
+                        "{C:booster}#1#{} Booster Pack Slot",
+                    },
+                    {
+                        "In {C:attention}Tag form{}",
+                        "{C:attention}Double{} booster pack cards and choices",
+                        "of your spending {C:attention}after shop",
+                    },
+                    {
+                        "Decays over {C:attention}time{} you {C:attention}spend in booster packs",
+                        "Resets when you skip {C:attention}booster packs",
                     }
                 },
             },

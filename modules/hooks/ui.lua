@@ -119,8 +119,9 @@ function Card:generate_UIBox_ability_table(vars)
                 }
             }
             local mini = _c.akyrs_clean_scenario or _c.akyrs_scenario_random
+            local timed = _c.akyrs_timed_scenario
             local multiboxone = {}
-            localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_scenario_tag_tooltip'..(full_ver and "_full" or (mini and "_colour_only" or "")), nodes = multiboxone }
+            localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_scenario_tag_tooltip'..(full_ver and "_full" or (mini and "_colour_only" or "") .. (timed and "_time" or "")), nodes = multiboxone }
             AKYRS.add_box_to_uitable(ret, multiboxone)
         end
     end

@@ -441,6 +441,14 @@ AKYRS.DescriptionDummy{
 }
 
 AKYRS.DescriptionDummy{
+    key = "scenario_tag_tooltip_time",
+}
+
+AKYRS.DescriptionDummy{
+    key = "scenario_tag_tooltip_full_time",
+}
+
+AKYRS.DescriptionDummy{
     key = "scenario_tag_charges_decreases",
 }
 if SMODS.DynaTextEffect then

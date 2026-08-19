@@ -192,7 +192,7 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
     }
     local multiboxone = {}
     tag_sprite.ability_UIBox_table.info = tag_sprite.ability_UIBox_table.info or {}
-    localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_scenario_tooltip', nodes = multiboxone }
+    localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_scenario_tooltip'..(self.config.akyrs_timed_scenario and "_time" or ""), nodes = multiboxone }
     AKYRS.add_box_to_uitable(tag_sprite.ability_UIBox_table, multiboxone)
     if not obj.akyrs_no_decays then 
         local multiboxtwo = {}
@@ -411,6 +411,12 @@ function AKYRS.is_scenario_active(key)
     return (next(AKYRS.filter_table(G.GAME.akyrs_scenario, function (x)
         return x.key == key
     end, true, true)) or next(SMODS.find_card(key))) and true or false
+end
+
+function AKYRS.is_scenario_tag_active(key)
+    return (next(AKYRS.filter_table(G.GAME.akyrs_scenario, function (x)
+        return x.key == key
+    end, true, true)))
 end
 
 function AKYRS.is_scenario_type_active(scenario_config, ignore_side, ignore_colour)
@@ -1387,8 +1393,6 @@ AKYRS.Scenario {
                         SMODS.calculate_effect({
                             xmult = card.ability.extras.xmult_decrease,
                             xscore = card.ability.extras.xscore,
-                            message_card = card.HUD_tag or card,
-                            juice_card = card,
                         }, card)
                         c = c + 1
                     end
@@ -1525,11 +1529,9 @@ AKYRS.Scenario {
             if (context.other_card:get_id() == 5 or ({ x = true, d = true })[context.other_card:get_letter_with_pretend(true) or ""]) and AKYRS.is_scenario_tag(card) then
                 return {
                     func = function ()
-                        AKYRS.mod_scenario_rounds(card, card.ability.extras.rounds_gain)
+                        AKYRS.mod_scenario_rounds(card, card.ability.extras.rounds_gain, nil, nil, true)
                     end,
                     message = localize("k_upgrade_ex"),
-                    message_card = card.HUD_tag or card,
-                    juice_card = card,
                 }
             end
         end
@@ -1583,14 +1585,14 @@ AKYRS.Scenario {
         if context.discard then
             return {
                 func = function ()
-                    AKYRS.mod_scenario_rounds(card, 1)
+                    AKYRS.mod_scenario_rounds(card, 1, nil, true)
                 end
             }
         end
         if context.akyrs_postdraw_to_play then
             return {
                 func = function ()
-                    AKYRS.mod_scenario_rounds(card, -2)
+                    AKYRS.mod_scenario_rounds(card, -2, nil, true)
                 end
             }
         end
@@ -1634,7 +1636,7 @@ AKYRS.Scenario {
                         AKYRS.simple_event_add(function ()
                             if not card.removed then
                                 ease_dollars(card.ability.extras.t_p_dollars, true)
-                                AKYRS.mod_scenario_rounds(card, -1, true)
+                                AKYRS.mod_scenario_rounds(card, -1, true, true)
                             end
                             return true
                         end, 0)
@@ -1647,7 +1649,7 @@ AKYRS.Scenario {
                         AKYRS.simple_event_add(function ()
                             if not card.removed then
                                 ease_dollars(card.ability.extras.t_c_dollars, true)
-                                AKYRS.mod_scenario_rounds(card, -1, true)
+                                AKYRS.mod_scenario_rounds(card, -1, true, true)
                             end
                             return true
                         end, 0)
@@ -1694,7 +1696,7 @@ AKYRS.Scenario {
         if AKYRS.is_scenario_tag(card) and context.post_trigger then
             return {
                 func = function ()
-                    AKYRS.mod_scenario_rounds(card, -1)
+                    AKYRS.mod_scenario_rounds(card, -1, nil, true)
                 end
             }
         end
@@ -1786,7 +1788,7 @@ AKYRS.Scenario {
                     
 
                     if AKYRS.is_scenario_tag(card) then
-                        AKYRS.mod_scenario_rounds(card, -1)
+                        AKYRS.mod_scenario_rounds(card, -1, nil, true)
                     end
                 end
             }
@@ -1832,7 +1834,7 @@ AKYRS.Scenario {
             return {
                 func = function ()
                     if context.amount < 0 then
-                        AKYRS.mod_scenario_rounds(card, context.amount)
+                        AKYRS.mod_scenario_rounds(card, context.amount, nil, true)
                     end
                 end
             }
@@ -1910,16 +1912,15 @@ AKYRS.Scenario {
     end,
     akyrs_total_rounds = 30,
     akyrs_no_decays = true,
+    akyrs_timed_scenario = true,
     calculate = function (self, card, context)
         if AKYRS.is_scenario_tag(card) then
             if context.akyrs_postdraw_to_play then
                 return {
                     func = function ()
-                        AKYRS.mod_scenario_rounds(card, card.ability.extras.seconds_gain)
+                        AKYRS.mod_scenario_rounds(card, card.ability.extras.seconds_gain, nil, true)
                         SMODS.calculate_effect({                
                             message = localize{type='variable', key = "k_akyrs_seconds", vars = {card.ability.extras.seconds_gain}},
-                            message_card = card.HUD_tag,
-                            juice_card = card,
                         }, card)
                     end
                 }
@@ -1955,7 +1956,7 @@ AKYRS.Scenario {
     end,
     tag_update = function (self, tag, dt, real_dt) 
         if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or #G.E_MANAGER.queues.base <= 1 then
-            AKYRS.mod_scenario_rounds(tag, -real_dt, true)
+            AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
         end
     end,
 }
@@ -1987,6 +1988,7 @@ AKYRS.Scenario {
     end,
     akyrs_total_rounds = 24,
     akyrs_no_decays = true,
+    akyrs_timed_scenario = true,
     calculate = function (self, card, context)
         if AKYRS.is_scenario_tag(card) then
             if context.money_altered and context.from_shop then
@@ -2026,7 +2028,7 @@ AKYRS.Scenario {
     end,
     tag_update = function (self, tag, dt, real_dt) 
         if G.shop and #G.E_MANAGER.queues.base <= 1 then
-            AKYRS.mod_scenario_rounds(tag, -real_dt, true)
+            AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
         end
     end,
 }
@@ -2057,6 +2059,7 @@ AKYRS.Scenario {
     end,
     akyrs_total_rounds = 5,
     akyrs_no_decays = true,
+    akyrs_timed_scenario = true,
     calculate = function (self, card, context)
         if AKYRS.is_scenario_tag(card) then
             if context.skipping_booster then
@@ -2089,7 +2092,97 @@ AKYRS.Scenario {
     end,
     tag_update = function (self, tag, dt, real_dt) 
         if G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 and #G.E_MANAGER.queues.base <= 1 then
-            AKYRS.mod_scenario_rounds(tag, -real_dt, true)
+            AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "buffet",
+    set = "Scenario",
+    pos = { x = 12, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "dark",
+    },
+    config = {
+        card_limit = 2,
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed(card.ability.card_limit)
+            }
+        }
+    end,
+    akyrs_total_rounds = 15,
+    akyrs_no_decays = true,
+    akyrs_timed_scenario = true,
+    calculate = function (self, card, context)
+        if AKYRS.is_scenario_tag(card) then
+            if context.modify_shop_card then
+                return {
+                    func = function ()
+                        AKYRS.simple_event_add(function() 
+                            context.card.ability.couponed = true
+                            context.card:set_cost()
+                        return true end, 0)
+                    end
+                }
+            end
+            if context.starting_shop then
+                return {
+                    func = function ()
+                        G.GAME.current_round.reroll_cost = 0
+                        AKYRS.simple_event_add(function() 
+                            if G.shop_jokers and G.shop_booster then 
+                                for k, v in pairs(G.shop_jokers.cards) do
+                                    v.ability.couponed = true
+                                    v:set_cost()
+                                end
+                                for k, v in pairs(G.shop_booster.cards) do
+                                    v.ability.couponed = true
+                                    v:set_cost()
+                                end
+                                return true
+                            end
+                            return true
+                        end, 0)
+                    end
+                }
+                
+            end
+            if context.buying_card then
+                card.ability.akyrs_shop_purchased = true
+            end
+            if context.selling_card and G.STATE == G.STATES.SHOP then
+                return {
+                    func = function ()
+                        AKYRS.mod_scenario_rounds(card, -card.akyrs_rounds_left, nil, nil, true)
+                    end
+                }
+            end
+            if context.ending_shop then
+                if not card.ability.akyrs_shop_purchased then
+                    card.ability.akyrs_shop_purchased = false
+                    return {
+                        func = function ()
+                            card.akyrs_rounds_left = card.akyrs_total_rounds 
+                            SMODS.calculate_effect({                
+                                message = localize("k_reset"),
+                            }, card)
+                        end
+                    }
+                end
+                card.ability.akyrs_shop_purchased = false
+            end
+        else
+            
+        end
+    end,
+    tag_update = function (self, tag, dt, real_dt) 
+        if ((G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 ) or G.STATE == G.STATES.SHOP) and #G.E_MANAGER.queues.base <= 1 then
+            AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
         end
     end,
 }

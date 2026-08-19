@@ -497,3 +497,12 @@ function eval_card(card, context)
     end
     return unpack(echrtt)
 end
+
+local ccrrc = calculate_reroll_cost
+function calculate_reroll_cost(skip_increment)
+    if AKYRS.is_scenario_tag_active("sc_akyrs_buffet") then
+        G.GAME.current_round.reroll_cost = 0
+        return
+    end
+    return ccrrc(skip_increment)
+end

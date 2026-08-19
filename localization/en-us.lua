@@ -1158,6 +1158,13 @@ return {
                     "{C:blue}#1#{} / #2# Charges Left",
                 },
             },
+            dd_akyrs_scenario_tooltip_time = {
+                name="Scenario",
+                text={
+                    "{B:1,V:2}#3# #4#{}",
+                    "{C:blue}#1#{} / #2# seconds Left",
+                },
+            },
             dd_akyrs_scenario_tag_tooltip_colour_only = {
                 name="Scenario",
                 text={
@@ -1178,6 +1185,20 @@ return {
                     "{B:1,V:2}#3# #4#{}",
                     "Will start at {C:blue}#1#{} / #2#{} Charges",
                     "in Tag form",
+                },
+            },
+            dd_akyrs_scenario_tag_tooltip_time = {
+                name="Scenario",
+                text={
+                    "{B:1,V:2}#3# #4#{}",
+                    "Will last {C:blue}#2#{} seconds in Tag form",
+                },
+            },
+            dd_akyrs_scenario_tag_tooltip_full_time = {
+                name="Scenario",
+                text={
+                    "{B:1,V:2}#3# #4#{}",
+                    "Will start at {C:blue}#1#{} / #2#{} seconds in Tag form",
                 },
             },
             dd_akyrs_tag_toggle_tooltip = {
@@ -3733,6 +3754,25 @@ return {
                     }
                 },
             },
+            sc_akyrs_buffet = {
+                name="Buffet",
+                text={
+                    {
+                        "In {C:attention}Card form{}",
+                        "{C:dark_edition}#1#{} Card Limit",
+                    },
+                    {
+                        "In {C:attention}Tag form{}",
+                        "All shop items are {C:attention}free{} {C:inactive}(excl. Voucher)",
+                        "Rerolls are {C:attention}free{}",
+                    },
+                    {
+                        "Decays over {C:attention}time{} you {C:attention}spend in shop",
+                        "Resets when you don't buy {C:attention}anything{} in the shop",
+                        "Breaks immediately if you {C:attention}sell anything{} in the shop",
+                    }
+                },
+            },
         },
         Spectral={},
         Stake={
@@ -4956,6 +4996,9 @@ return {
                 {"Solitaireyori","Wordlenanigans"},
                 {"{f:5}アイコヨリ","{f:5}しぇなにがんす"},
                 {"aiko?"},
+                {"Avant Garde"},
+                {"aikonanigans"},
+                {"Best of Aiko"},
             },
             flavour_text = {
                 {"now with 1000% more aliases!",},

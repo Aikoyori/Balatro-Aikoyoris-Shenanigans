@@ -810,12 +810,36 @@ AKYRS.ease_lives_mp = function(lives)
     if MP and MP and (MP.LOBBY.code or MP.LOBBY.ruleset_preview) then MP.UI.ease_lives(lives) MP.GAME.lives = MP.GAME.lives + lives end
 end
 
-AKYRS.mod_scenario_rounds = function (sc, mod, instant)
+AKYRS.mod_scenario_rounds = function (sc, mod, instant, juice, timer)
     if not AKYRS.is_scenario_tag(sc) then return end
     local fx = function ()
-        sc.akyrs_rounds_left = math.max(0,math.min(sc.akyrs_rounds_left + mod, sc.akyrs_total_rounds))
+        local fnl = math.max(0,math.min(sc.akyrs_rounds_left + mod, sc.akyrs_total_rounds))
+        if not timer then 
+            local returnval = SMODS.calculate_context({ akyrs_scenario_ticks = sc, original_amnt = sc.akyrs_rounds_left, mod = mod, final_amount = fnl }) 
+            -- TODO: do something with return values
+        end
+        sc.akyrs_rounds_left = fnl
+        if sc.config.akyrs_timed_scenario then
+            sc.akyrs_previous_left_number = sc.akyrs_previous_left_number or sc.akyrs_total_rounds
+            local decreases = (sc.akyrs_rounds_left <= 3) and 0.25 or (sc.akyrs_rounds_left < 10) and 0.5 or 1
+            if mod < 0 then
+                if math.floor(sc.akyrs_previous_left_number / decreases - 1) ~= math.floor(sc.akyrs_rounds_left / decreases) then
+                    sc.akyrs_previous_left_number = sc.akyrs_previous_left_number - decreases
+                    sc:juice_up(0.1,0.1)
+                    play_sound('button', 2, 0.3)
+                    play_sound('button', 0.5, 0.3)
+                end
+            else
+                sc.akyrs_previous_left_number = math.ceil(sc.akyrs_rounds_left)
+            end
+
+        end
+        if juice then sc:juice_up(0.3,0.3) end
         if sc.akyrs_rounds_left <= 0 and not sc.removed then
             if sc.config.tag_expire then sc.config:tag_expire(sc) end
+            if sc.config.akyrs_timed_scenario then
+                play_sound('glass'..pseudorandom("akyrs_scenario_expire",1,6), 2, 0.4)
+            end
             sc:remove()
         end
         return true

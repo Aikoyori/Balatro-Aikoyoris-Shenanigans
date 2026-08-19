@@ -4556,6 +4556,7 @@ return {
             k_akpop_download_smods = "Download stable SMODS",
             k_akpop_download_aikoshen  = "Download stable version",
             k_akpop_open_mod_dir  = "Show Mods Folder",
+            k_akpop_disable_aikoshen  = "Disable Mod",
 
             b_umbral_cards = "Umbral Cards",
             b_replicant_cards = "Replicant Cards",

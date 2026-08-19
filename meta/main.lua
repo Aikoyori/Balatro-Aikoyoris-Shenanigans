@@ -47,6 +47,11 @@ G.FUNCS.akpop_can_open_mods_folder = function(e)
     end
 end
 
+G.FUNCS.akpop_disable_aikoshen = function(e)
+    NFS.write(AKPOP.aikoshen.path .. '.lovelyignore', '')
+    SMODS.restart_game()
+end
+
 local smods_loc_hook = SMODS.load_mod_localization
 function SMODS.load_mod_localization(paz, modid, depth)
 
@@ -154,6 +159,17 @@ function Game:main_menu(chctx)
                                                     label = { localize("k_akpop_open_mod_dir") },
                                                     button = 'akpop_open_mods_folder',
                                                     func = 'akpop_can_open_mods_folder',
+                                                    minw = 4,
+                                                }),
+                                            },
+                                        },
+                                        {
+                                            n = G.UIT.C,
+                                            config = { align = "cm" },
+                                            nodes = {
+                                                UIBox_button({
+                                                    label = { localize("k_akpop_disable_aikoshen") },
+                                                    button = 'akpop_disable_aikoshen',
                                                     minw = 4,
                                                 }),
                                             },

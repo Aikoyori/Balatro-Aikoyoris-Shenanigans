@@ -40,6 +40,17 @@ match_indent = true
 
 
 [[patches]]
+[patches.pattern]
+target = """functions/common_events.lua"""
+pattern = """        --create the pool"""
+position = "before"
+payload = """if G.GAME.akyrs_ban_everything and not _type then _type = 'Joker' end"""
+overwrite = true
+match_indent = true
+
+
+
+[[patches]]
 [patches.copy]
 target = """game.lua"""
 position = "prepend"

@@ -611,3 +611,37 @@ AKYRS.HardcoreChallenge{
     },
     difficulty = 2,
 }
+
+AKYRS.HardcoreChallenge{
+    key = "under_a_coconut_shell",
+    jokers = {
+    },
+    vouchers = {
+    },
+    deck = {
+        type = "Hardcore Challenge Deck",
+    },
+    restrictions = {
+        banned_cards = function ()
+            return AKYRS.map(AKYRS.filter_table(G.P_CENTERS, function (x) return x.set ~= 'Back' and x.set ~= "DescriptionDummy" and x.set ~= "Booster" and x.config end, false, true),function (item)
+                return { id = item.key }
+            end, true)
+        end,
+        banned_tags = function ()
+            return AKYRS.map(AKYRS.filter_table(G.P_TAGS, function (x) return true end, false, true),function (item)
+                return { id = item.key }
+            end, true)
+        end,
+        banned_other = function ()
+            return AKYRS.map(AKYRS.filter_table(G.P_BLINDS, function (x) return not (x.key == 'bl_small' or x.key == 'bl_big' or x.key == 'bl_wall' or x.key == 'bl_final_vessel') end, false, true),function (item)
+                return { id = item.key, type = 'blind' }
+            end, true)
+        end,
+    },
+    apply = function (self)
+        G.GAME.akyrs_ban_everything = true
+    end,
+
+    difficulty = 7,
+}
+

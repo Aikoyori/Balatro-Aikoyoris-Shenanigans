@@ -369,35 +369,37 @@ AKYRS.Scenario = SMODS.Center:extend{
 
 
 function AKYRS.add_scenario_tag(_tag, card_source)
-  G.AKYRS_SCENARIO_TAG_HUD = G.AKYRS_SCENARIO_TAG_HUD or {}
-  local z = 10 + #G.AKYRS_SCENARIO_TAG_HUD * 0.001
-  local tag_sprite_ui = _tag:generate_UI(nil, z)
-  ---@type UIBox
-  G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD+1] = UIBox{
-      definition = {n=G.UIT.ROOT, config={align = "cm",padding = 0.0, colour = G.C.CLEAR}, nodes={
-        tag_sprite_ui
-      }},
-      config = {
-        instance_type = "ABOVE_UIBOX",
-        align = G.AKYRS_SCENARIO_TAG_HUD[1] and 'rc' or 'bli',
-        offset = G.AKYRS_SCENARIO_TAG_HUD[1] and offset_each or offset,
-        role_type = (not G.AKYRS_SCENARIO_TAG_HUD[1]) and 'Minor' or nil, 
-        major = G.AKYRS_SCENARIO_TAG_HUD[1] and G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD] or G.ROOM_ATTACH}
-  }
-  G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD].role.major.T.z = z
-  discover_card(AKYRS.Scenarios[_tag.key])
-  local tagobj = AKYRS.Scenarios[_tag.key]
-  G.GAME.akyrs_scenario[#G.GAME.akyrs_scenario+1] = _tag
-  if not _tag.from_load then 
-    SMODS.calculate_context({akyrs_scenario_applied = _tag}) 
-    if tagobj.tag_added then
-        tagobj:tag_added(_tag, card_source)
+    G.AKYRS_SCENARIO_TAG_HUD = G.AKYRS_SCENARIO_TAG_HUD or {}
+    local z = 10 + #G.AKYRS_SCENARIO_TAG_HUD * 0.001
+    local tag_sprite_ui = _tag:generate_UI(nil, z)
+    ---@type UIBox
+    G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD+1] = UIBox{
+        definition = {n=G.UIT.ROOT, config={align = "cm",padding = 0.0, colour = G.C.CLEAR}, nodes={
+            tag_sprite_ui
+        }},
+        config = {
+            instance_type = "ABOVE_UIBOX",
+            align = G.AKYRS_SCENARIO_TAG_HUD[1] and 'rc' or 'bli',
+            offset = G.AKYRS_SCENARIO_TAG_HUD[1] and offset_each or offset,
+            role_type = (not G.AKYRS_SCENARIO_TAG_HUD[1]) and 'Minor' or nil, 
+            major = G.AKYRS_SCENARIO_TAG_HUD[1] and G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD] or G.ROOM_ATTACH}
+    }
+    G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD].role.major.T.z = z
+    discover_card(AKYRS.Scenarios[_tag.key])
+    local tagobj = AKYRS.Scenarios[_tag.key]
+    G.GAME.akyrs_scenario[#G.GAME.akyrs_scenario+1] = _tag
+    if not _tag.from_load then 
+        SMODS.calculate_context({akyrs_scenario_applied = _tag}) 
+        if tagobj.tag_added then
+            tagobj:tag_added(_tag, card_source)
+        end
+    else
+        _tag.akyrs_previous_left_number = _tag.akyrs_rounds_left + 1
     end
-   end
-  _tag.from_load = nil
-  G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD].is_scenario_tag = true
-  _tag.HUD_tag = G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD]
-  _tag.HUD_tag_sprites = tag_sprite_ui
+    _tag.from_load = nil
+    G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD].is_scenario_tag = true
+    _tag.HUD_tag = G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD]
+    _tag.HUD_tag_sprites = tag_sprite_ui
 end
 
 function AKYRS.remove_scenarios(func)
@@ -1457,7 +1459,7 @@ AKYRS.Scenario {
     },
     config = {
         extras = {
-            tags = 4
+            tags = 3
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -2185,6 +2187,125 @@ AKYRS.Scenario {
     end,
     tag_update = function (self, tag, dt, real_dt) 
         if ((G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 ) or G.STATE == G.STATES.SHOP) and #G.E_MANAGER.queues.base <= 1 then
+            AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "mushroom",
+    set = "Scenario",
+    pos = { x = 13, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            tally = 0,
+            dollars = 18,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                (card.ability.extras.dollars),
+                (card.ability.extras.tally),
+            }
+        }
+    end,
+    akyrs_total_rounds = 30,
+    akyrs_no_decays = true,
+    akyrs_timed_scenario = true,
+    calculate = function (self, card, context)
+        if AKYRS.is_scenario_tag(card) then
+            if context.money_altered then
+                return {
+                    func = function ()
+                        card.ability.extras.tally = card.ability.extras.tally + math.abs(context.amount)
+                        if card.ability.extras.tally >= card.ability.extras.dollars and G.STATE == G.STATES.SHOP then
+                            local q, r = math.floor(card.ability.extras.tally / card.ability.extras.dollars), (card.ability.extras.tally % card.ability.extras.dollars)
+                            card.ability.extras.tally = r
+                            for i = 1, AKYRS.to_num(q) do
+                                AKYRS.simple_event_add(function() 
+                                    local bp = SMODS.add_card{ set = "Booster", area = G.shop_booster }
+                                    create_shop_card_ui(bp, 'Booster', G.shop_booster)
+                                    bp.ability.couponed = true
+                                    bp:set_cost()
+                                    return true
+                                end, 0)
+                            end
+                        end
+
+                    end
+                }
+            end
+            if context.open_booster then
+                return {
+                    func = function ()
+                        card.akyrs_rounds_left = card.akyrs_total_rounds 
+                        card.akyrs_previous_left_number = card.akyrs_rounds_left
+                        SMODS.calculate_effect({                
+                            message = localize("k_reset"),
+                        }, card)
+                    end
+                }
+            end
+        else
+            if context.akyrs_pre_play then
+                return {
+                    func = function ()
+                        local ench = SMODS.poll_object{type = "Enhanced", seed = "akyrs_mushroom_card_enhance"}
+                        local card_to_enh = pseudorandom_element(context.akyrs_pre_play_held,"akyrs_mushroom_card_pick")
+                        if card_to_enh and ench then
+                            AKYRS.do_things_to_card({card_to_enh}, function (cx, index)
+                                cx:set_ability(G.P_CENTERS[ench])
+                            end)
+                        end
+                    end
+                }
+            end
+            
+        end
+    end,
+    tag_update = function (self, tag, dt, real_dt) 
+        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or #G.E_MANAGER.queues.base <= 1 then
+            AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
+        end
+    end,
+}
+
+AKYRS.Scenario {
+    key = "sos",
+    set = "Scenario",
+    pos = { x = 14, y = 2 },
+    scenario = {
+        colour = "blue",
+        side = "dark",
+    },
+    config = {
+        extras = {
+            
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                (card.ability.extras.dollars),
+                (card.ability.extras.tally),
+            }
+        }
+    end,
+    akyrs_total_rounds = 800,
+    akyrs_no_decays = true,
+    akyrs_timed_scenario = true,
+    calculate = function (self, card, context)
+        if AKYRS.is_scenario_tag(card) then
+        else
+        end
+    end,
+    tag_update = function (self, tag, dt, real_dt) 
+        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or #G.E_MANAGER.queues.base <= 1 then
             AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
         end
     end,

@@ -402,6 +402,7 @@ payload = """
 if get_challenge_int_from_id(G.GAME.challenge or '') then"""
 overwrite = true
 match_indent = true
+
 [[patches]]
 [patches.pattern]
 target = "engine/controller.lua"
@@ -410,5 +411,14 @@ position = "after"
 payload = """
     G.challenge_tab = AKYRS.HC_CHALLENGES[AKYRS.get_hc_challenge_int_from_id(G.GAME.challenge or '') or ''] or {name = 'ERROR'}
 end"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''		local challenge = G.CHALLENGES[args._id]'''
+position = "after"
+payload = """if args._hc then challenge = AKYRS.HC_CHALLENGES[args._id] end"""
 overwrite = true
 match_indent = true

@@ -800,7 +800,7 @@ function AKYRS.juice_like_tarot(card)
     card:juice_up(0.3, 0.5)
 end
 ---@param cards Card[] list of cards
----@param func fun(card: Card, index: number): nil callback for each card
+---@param func fun(_card: Card, index: number): nil callback for each card
 ---@param config? table config for the function
 ---@param queue? string event queue
 function AKYRS.do_things_to_card(cards, func, config, queue) -- func(card)
@@ -1740,4 +1740,8 @@ function AKYRS.deselect_all_from_all_areas()
             end
         end
     end
+end
+
+AKYRS.to_num = to_number or function(x)
+	return x
 end

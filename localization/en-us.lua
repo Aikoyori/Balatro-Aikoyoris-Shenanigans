@@ -3770,6 +3770,42 @@ return {
                         "Decays over {C:attention}time{} you {C:attention}spend in shop",
                         "Resets when you don't buy {C:attention}anything{} in the shop",
                         "Breaks immediately if you {C:attention}sell anything{} in the shop",
+                    }   
+                },
+            },
+            sc_akyrs_mushroom = {
+                name="Mushroom?",
+                text={
+                    {
+                        "In {C:attention}Card form{}",
+                        "Enhance a {C:attention}random{} card {C:attention}in hand{}",
+                        "when hand is played",
+                    },
+                    {
+                        "In {C:attention}Tag form{}",
+                        "{C:attention}Everything{} spins",
+                        "Create a free {C:purple}Booster Pack{} while in shop",
+                        "Every {C:money}$#1#{C:inactive} ($#2#){} change in money",
+                    },
+                    {
+                        "Decays over {C:attention}time{}",
+                        "Resets when you open a {C:purple}Booster Pack{} in the shop",
+                    }
+                },
+            },
+            sc_akyrs_sos = {
+                name="... ___ ...",
+                text={
+                    {
+                        "In {C:attention}Card form{}",
+                        "{C:attention}???",
+                    },
+                    {
+                        "In {C:attention}Tag form{}",
+                        "{C:attention}???",
+                    },
+                    {
+                        "Decays over {C:attention}time{}",
                     }
                 },
             },
@@ -4602,6 +4638,7 @@ return {
             hc_akyrs_hatena_jokers = "????????",
             hc_akyrs_hatena_everything = "???????????????",
             hc_akyrs_bonfire_lit = "Bonfire Lit",
+            hc_akyrs_under_a_coconut_shell = "Under a Coconut Shell",
         },
         collabs={},
         dictionary={

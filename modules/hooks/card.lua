@@ -434,7 +434,11 @@ function create_UIBox_blind_tag(blind_choice, run_info)
 end
 
 function AKYRS.get_card_rotation(card)
-    return card.akyrs_rot_force
+    local x = card.akyrs_rot_force or 0
+    if AKYRS.is_scenario_tag_active('sc_akyrs_mushroom') then
+        x = x + math.sin(card.aiko_draw_delay * G.TIMERS.REAL / 7) * math.pi * 2 + card.aiko_draw_delay_2 * G.TIMERS.REAL * math.pi * 0.2
+    end
+    return x
 end
 
 function AKYRS.non_fanning_areas(ca)

@@ -2012,6 +2012,7 @@ AKYRS.Scenario {
                     func = function ()
                         card.ability.extras.t_dollars = 0
                         card.akyrs_rounds_left = card.akyrs_total_rounds 
+                        card.akyrs_previous_left_number = card.akyrs_rounds_left
                         SMODS.calculate_effect({                
                             message = localize("k_reset"),
                         }, card)
@@ -2066,6 +2067,7 @@ AKYRS.Scenario {
                 return {
                     func = function ()
                         card.akyrs_rounds_left = card.akyrs_total_rounds 
+                        card.akyrs_previous_left_number = card.akyrs_rounds_left
                         SMODS.calculate_effect({                
                             message = localize("k_reset"),
                         }, card)
@@ -2135,7 +2137,7 @@ AKYRS.Scenario {
                     func = function ()
                         G.GAME.current_round.reroll_cost = 0
                         AKYRS.simple_event_add(function() 
-                            if G.shop_jokers and G.shop_booster then 
+                            if G.shop_jokers and G.shop_jokers.cards and G.shop_booster and G.shop_booster.cards then 
                                 for k, v in pairs(G.shop_jokers.cards) do
                                     v.ability.couponed = true
                                     v:set_cost()
@@ -2152,7 +2154,7 @@ AKYRS.Scenario {
                 }
                 
             end
-            if context.buying_card then
+            if context.buying_card or context.open_booster then
                 card.ability.akyrs_shop_purchased = true
             end
             if context.selling_card and G.STATE == G.STATES.SHOP then
@@ -2168,6 +2170,7 @@ AKYRS.Scenario {
                     return {
                         func = function ()
                             card.akyrs_rounds_left = card.akyrs_total_rounds 
+                            card.akyrs_previous_left_number = card.akyrs_rounds_left
                             SMODS.calculate_effect({                
                                 message = localize("k_reset"),
                             }, card)

@@ -290,7 +290,8 @@ SMODS.UndiscoveredCompat["Scenario"] = true
 G.C.SECONDARY_SET.Scenario = HEX("645474FF")
 ---@class AKYRS.Scenario: SMODS.Center
 ---@field tag_added? fun(self: AKYRS.Scenario|table, _tag:AKYRS.Scenario_Tag, card_source: Card): nil m
----@field use_extras? fun(self: AKYRS.Scenario|table, card:Card, area:CardArea, copier:Card, tag:AKYRS.Tag ): nil
+---@field pre_new_tag? fun(self: AKYRS.Scenario|table, card:Card, area:CardArea, copier:Card ): nil
+---@field use_extras? fun(self: AKYRS.Scenario|table, card:Card, area:CardArea, copier:Card, tag:AKYRS.Scenario_Tag | nil ): nil
 ---@field tag_removed? fun(self: AKYRS.Scenario|table, _tag:AKYRS.Scenario_Tag): nil
 ---@field tag_expire? fun(self: AKYRS.Scenario|table, _tag:AKYRS.Scenario_Tag): nil
 ---@field tag_update? fun(self: AKYRS.Scenario|table, tag:AKYRS.Scenario_Tag, dt: number, real_dt:number): nil
@@ -338,6 +339,10 @@ AKYRS.Scenario = SMODS.Center:extend{
             newkey = AKYRS.get_random_scenario_key(self.scenario.colour, nil, { any_side = true })
         end
         local newobj = AKYRS.Scenarios[newkey]
+
+        if self.pre_new_tag then
+            self:pre_new_tag(card, area, copier)
+        end
         AKYRS.remove_scenarios(function (cd)
             if AKYRS.Scenarios[cd.key] then
                 local sc, cm = AKYRS.Scenarios[cd.key].scenario, newobj.scenario
@@ -345,17 +350,18 @@ AKYRS.Scenario = SMODS.Center:extend{
             end
             return false
         end)
+        local scnrtag
         if not self.akyrs_clean_scenario then
-            local scnrtag = AKYRS.Scenario_Tag(newobj.key)
+            scnrtag = AKYRS.Scenario_Tag(newobj.key)
             if not self.akyrs_scenario_random then
                 for k, v in pairs(scnrtag.ability) do
                     scnrtag.ability[k] = card.ability[k]
                 end
             end
             AKYRS.add_scenario_tag(scnrtag)
-            if self.use_extras then
-                self:use_extras(card, area, copier, scnrtag)
-            end
+        end
+        if self.use_extras then
+            self:use_extras(card, area, copier, scnrtag)
         end
     end
 }
@@ -407,6 +413,13 @@ function AKYRS.is_scenario_active(key)
     end, true, true)) or next(SMODS.find_card(key))) and true or false
 end
 
+function AKYRS.is_scenario_type_active(scenario_config, ignore_side, ignore_colour)
+    if not scenario_config then return end
+    local sc = AKYRS.filter_table(G.GAME.akyrs_scenario, function (sc)
+        return (ignore_side or sc.config.scenario.side == scenario_config.scenario.side) and (ignore_colour or sc.config.scenario.colour == scenario_config.scenario.colour)
+    end, true, true)
+    return #sc > 0
+end
 
 
 
@@ -428,7 +441,24 @@ AKYRS.Scenario {
         colour = "yellow",
         side = "light",
     },
-    akyrs_clean_scenario = true
+    config = {
+        extras = {
+            dollars = 4,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed_dollars(card.ability.extras.dollars)
+            }
+        }
+    end,
+    akyrs_clean_scenario = true,
+    pre_new_tag = function (self, card, area, copier, tag)
+        if AKYRS.is_scenario_type_active(self) then
+            ease_dollars(card.ability.extras.dollars)
+        end
+    end
 }
 AKYRS.Scenario {
     key = "day",
@@ -468,7 +498,7 @@ AKYRS.Scenario {
     },
     config = {
         extras = {
-            chips = 25
+            chips = 75
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -582,7 +612,7 @@ AKYRS.Scenario {
     },
     config = {
         extras = {
-            xblindsize = 0.95
+            xblindsize = 0.9
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -618,7 +648,27 @@ AKYRS.Scenario {
         colour = "yellow",
         side = "dark",
     },
+    config = {
+        extras = {
+            hand = 1,
+            discards = 1
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.hand),
+                SMODS.signed(card.ability.extras.discards),
+            }
+        }
+    end,
     akyrs_clean_scenario = true,
+    pre_new_tag = function (self, card, area, copier)
+        if AKYRS.is_scenario_type_active(self) then
+            ease_hands_played(card.ability.extras.hand)
+            ease_discard(card.ability.extras.discards)
+        end
+    end
 }
 AKYRS.Scenario {
     key = "cloudy",
@@ -749,7 +799,7 @@ AKYRS.Scenario {
     },
     config = {
         extras = {
-            chips = 62.5,
+            chips = 112.5,
             xchips = 0.8
         }
     },
@@ -851,7 +901,25 @@ AKYRS.Scenario {
         colour = "pink",
         side = "light",
     },
-    akyrs_clean_scenario = true
+    config = {
+        extras = {
+            max_money = 30,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed_dollars(card.ability.extras.max_money)
+            }
+        }
+    end,
+
+    akyrs_clean_scenario = true,
+    pre_new_tag = function (self, card, area, copier)
+        if AKYRS.is_scenario_type_active(self) then
+            ease_dollars(math.max(0,math.min(G.GAME.dollars, card.ability.extras.max_money)))
+        end
+    end,
 }
 
 AKYRS.Scenario {
@@ -1124,7 +1192,30 @@ AKYRS.Scenario {
         colour = "pink",
         side = "dark",
     },
+    config = {
+        extras = {
+            upgrades = 2
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.upgrades
+            }
+        }
+    end,
     akyrs_clean_scenario = true,
+    pre_new_tag = function (self, card, area, copier)
+        if AKYRS.is_scenario_type_active(self) then
+            local _, mpph = AKYRS.get_most_played()
+            if mpph then
+                SMODS.upgrade_poker_hands {
+                    hands = {mpph},
+                    level_up = card.ability.extras.upgrades
+                }
+            end
+        end
+    end
 }
 AKYRS.Scenario {
     key = "purified",
@@ -1362,9 +1453,28 @@ AKYRS.Scenario {
     },
     config = {
         extras = {
+            tags = 4
         }
     },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.tags,
+            }
+        }
+    end,
     akyrs_clean_scenario = true,
+    pre_new_tag = function (self, card, area, copier)
+        if AKYRS.is_scenario_type_active(self) then
+            for i = 1, card.ability.extras.tags do
+                AKYRS.simple_event_add(function ()
+                    local tag_key = SMODS.poll_object{ type = 'Tag', seed = "akyrs_scenario_neutral_random_tag" }
+                    add_tag(Tag(tag_key))
+                    return true
+                end, 0.5)
+            end
+        end
+    end,
 }
 
 AKYRS.Scenario {
@@ -1755,7 +1865,24 @@ AKYRS.Scenario {
         extras = {
         }
     },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.seconds_gain),
+                (card.ability.extras.rounds_held),
+                (card.ability.extras.rounds_max),
+            }
+        }
+    end,
     akyrs_clean_scenario = true,
+    pre_new_tag = function (self, card, area, copier)
+        if AKYRS.is_scenario_type_active(self) then
+            SMODS.add_card{
+                set = "Consumeables",
+                edition = 'e_negative',
+            }
+        end
+    end
 }
 AKYRS.Scenario {
     key = "snack",

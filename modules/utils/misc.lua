@@ -752,18 +752,22 @@ AKYRS.is_in_pool = function(card,pool)
     return card.config.center.pools[pool]
 end
 
+---comment
+---@return string|nil planet planet for most played hand
+---@return string|nil hand hand name lol
+---@return integer tally how many times it has been played
 AKYRS.get_most_played = function()
-    local _planet, _hand, _tally = nil, nil, 0
-    for k, v in ipairs(G.handlist) do
-        if G.GAME.hands[v].visible and G.GAME.hands[v].played > _tally then
-            _hand = v
-            _tally = G.GAME.hands[v].played
+    local _handname, _played, _order, _planet = 'High Card', -1, 100, 'c_pluto'
+    for k, v in pairs(G.GAME.hands) do
+        if v.played > _played or (v.played == _played and _order > v.order) then 
+            _played = v.played
+            _handname = k
         end
     end
-    if _hand then
-        _planet = AKYRS.get_planet_for_hand(_hand)
+    if _handname then
+        _planet = AKYRS.get_planet_for_hand(_handname)
     end
-    return _planet, _hand, _tally
+    return _planet, _handname, _played
 end
 
 AKYRS.get_planet_for_hand = function(_hand)

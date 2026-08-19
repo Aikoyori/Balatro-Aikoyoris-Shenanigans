@@ -3359,6 +3359,8 @@ return {
                 name="Genesis",
                 text={
                     "Clear {C:akyrs_scenario_dark_yellow}Light Yellow{} Scenarios",
+                    "Gain {C:money}#1#{} if a {C:akyrs_scenario_dark_yellow}Light Yellow{}",
+                    "scenario was active",
                 },
             },
             sc_akyrs_day = {
@@ -3409,6 +3411,9 @@ return {
                 name="Clear",
                 text={
                     "Clear {X:akyrs_scenario_dark_yellow,C:akyrs_scenario_yellow}Dark{} {X:akyrs_scenario_dark_yellow,C:akyrs_scenario_yellow}Yellow{} Scenarios",
+                    "Temporarily {C:blue}#1#{} Hand and {C:red}#2#{} Discard",
+                    "if a {X:akyrs_scenario_dark_yellow,C:akyrs_scenario_yellow}Dark{} {X:akyrs_scenario_dark_yellow,C:akyrs_scenario_yellow}Yellow{} scenario was active",
+                    "{C:attention}during a blind"
                 },
             },
             sc_akyrs_cloudy = {
@@ -3456,6 +3461,8 @@ return {
                 name="Void",
                 text={
                     "Clear {C:akyrs_scenario_dark_pink}Light Pink{} Scenarios",
+                    "Doubles money if a {C:akyrs_scenario_dark_pink}Light Pink{} scenario was active",
+                    "{C:inactive}(Max of {C:money}#1#{C:inactive})",
                 },
             },
             sc_akyrs_plains = {
@@ -3507,6 +3514,8 @@ return {
                 name="Clean",
                 text={
                     "Clear {X:akyrs_scenario_dark_pink,C:white}Dark{} {X:akyrs_scenario_dark_pink,C:white}Pink{} Scenarios",
+                    "Upgrades {C:attention}most played{} poker hand {C:attention}#1# times",
+                    "if a {X:akyrs_scenario_dark_pink,C:white}Dark{} {X:akyrs_scenario_dark_pink,C:white}Pink{} scenario was active",
                 },
             },
             sc_akyrs_purified = {
@@ -3556,6 +3565,8 @@ return {
                 name="Neutral",
                 text={
                     "Clear {C:akyrs_scenario_dark_blue}Light Blue{} Scenarios",
+                    "Creates {C:attention}#1#{} Skip Tags",
+                    "if a {C:akyrs_scenario_dark_blue}Light Blue{} scenario was active",
                 },
             },
             sc_akyrs_happy = {
@@ -3663,6 +3674,8 @@ return {
                 name="Water",
                 text={
                     "Clear {X:akyrs_scenario_dark_blue,C:white}Dark{} {X:akyrs_scenario_dark_blue,C:white}Blue{} Scenarios",
+                    "Create a random {C:dark_edition}Negative{} Consumable",
+                    "If a {X:akyrs_scenario_dark_blue,C:white}Dark{} {X:akyrs_scenario_dark_blue,C:white}Blue{} scenario was active",
                 },
             },
             sc_akyrs_snack = {
@@ -3821,7 +3834,7 @@ return {
                 name = "Steam Stake",
                 text = {
                     "Many cards in the shop have {C:red}Sale{} Sticker",
-                    "(Lose {C:money}$0.5{} at end of round)",
+                    "(Sell value cannot change)",
                     "{s:0.8}Applies Aluminium Stake",
                 }
             },

@@ -1615,9 +1615,9 @@ AKYRS.Scenario {
     config = {
         extras = {
             c_dollars = 2,
-            t_p_dollars = 2,
-            t_c_dollars = 0.5,
-            xdollars = 0.5,
+            t_p_dollars = 3,
+            t_c_dollars = 2,
+            xdollars = 0.1,
         }
     },
     loc_vars = function (self, info_queue, card)

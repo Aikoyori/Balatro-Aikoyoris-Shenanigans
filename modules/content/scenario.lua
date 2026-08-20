@@ -220,6 +220,7 @@ function AKYRS.Scenario_Tag:remove_from_game()
     for k, v in pairs(G.GAME.akyrs_scenario) do
         if v == self then tag_key = k end
     end
+    SMODS.calculate_context({akyrs_scenario_tag_removed = self}) 
     table.remove(G.GAME.akyrs_scenario, tag_key)
 end
 
@@ -389,7 +390,7 @@ function AKYRS.add_scenario_tag(_tag, card_source)
     local tagobj = AKYRS.Scenarios[_tag.key]
     G.GAME.akyrs_scenario[#G.GAME.akyrs_scenario+1] = _tag
     if not _tag.from_load then 
-        SMODS.calculate_context({akyrs_scenario_applied = _tag}) 
+        SMODS.calculate_context({akyrs_scenario_tag_applied = _tag}) 
         if tagobj.tag_added then
             tagobj:tag_added(_tag, card_source)
         end

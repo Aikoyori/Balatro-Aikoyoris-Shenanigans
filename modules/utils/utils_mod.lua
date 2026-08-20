@@ -836,7 +836,10 @@ AKYRS.mod_scenario_rounds = function (sc, mod, instant, juice, timer)
         end
         if juice then sc:juice_up(0.3,0.3) end
         if sc.akyrs_rounds_left <= 0 and not sc.removed then
-            if sc.config.tag_expire then sc.config:tag_expire(sc) end
+            if sc.config.tag_expire then sc.config:tag_expire(sc) 
+                SMODS.calculate_context({akyrs_scenario_tag_expired = _tag}) 
+            end
+            
             if sc.config.akyrs_timed_scenario then
                 play_sound('glass'..pseudorandom("akyrs_scenario_expire",1,6), 2, 0.4)
             end

@@ -378,7 +378,7 @@ end
 function AKYRS.defeated_by_center_ui(center_key) 
     label = localize('k_defeated_by')
     local center = G.P_CENTERS[center_key]
-    local c = SMODS.create_card{ key = center_key, set = center.set, skip_materialize = true }
+    local c = Card(0,0, G.CARD_W, G.CARD_H, nil, center)
     local area = AKYRS.card_area_preview( G.akyrs_lose, nil, {
         override = true,
         w = 1,

@@ -645,3 +645,39 @@ AKYRS.HardcoreChallenge{
     difficulty = 7,
 }
 
+AKYRS.HardcoreChallenge{
+    key = "speed_shopper",
+    jokers = {
+    },
+    vouchers = {
+    },
+    deck = {
+        type = "Hardcore Challenge Deck",
+    },
+    rules = {
+        custom = {
+            {id = 'akyrs_speed_shopper_1'},
+            {id = 'akyrs_speed_shopper_2'},
+        }
+    },
+    restrictions = {
+        banned_cards = function ()
+            return AKYRS.map(AKYRS.filter_table(AKYRS.Scenarios, function (x) return x.scenario and x.scenario.colour == "blue" and x.scenario.side == "dark" end, false, true),function (item)
+                return { id = item.key }
+            end, true)
+        end,
+    },
+    calculate = function (self, context)
+        if context.akyrs_scenario_tag_removed and context.akyrs_scenario_tag_removed.key == 'sc_akyrs_buffet' then
+            return {
+                func = function ()
+                    AKYRS.force_lose('sc_akyrs_buffet')
+                end
+            }
+        end
+    end,
+    apply = function (self)
+        AKYRS.add_scenario_tag(AKYRS.Scenario_Tag('sc_akyrs_buffet'))
+    end,
+    difficulty = 5,
+}

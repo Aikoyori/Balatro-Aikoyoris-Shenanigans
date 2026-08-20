@@ -4639,6 +4639,7 @@ return {
             hc_akyrs_hatena_everything = "???????????????",
             hc_akyrs_bonfire_lit = "Bonfire Lit",
             hc_akyrs_under_a_coconut_shell = "Under a Coconut Shell",
+            hc_akyrs_speed_shopper = "Speed Shopper",
         },
         collabs={},
         dictionary={
@@ -5184,8 +5185,11 @@ return {
             ch_c_akyrs_shops_after_boss={
                 "{C:attention}Shops{} only appear after {C:red}Boss Blinds",
             },
-            ch_c_akyrs_obtain_every_round={
-                "{C:attention}Obtain{} a {C:attention}#1#{} every round",
+            ch_c_akyrs_speed_shopper_1={
+                "Start with a {C:attention,T:sc_akyrs_buffet}Buffet{} Tag",
+            },
+            ch_c_akyrs_speed_shopper_2={
+                "If Buffet is {C:attention}removed{}, {C:red,E:akyrs_snaking}lose.{}",
             },
         },
     },

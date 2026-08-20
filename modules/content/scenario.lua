@@ -1960,7 +1960,7 @@ AKYRS.Scenario {
         end
     end,
     tag_update = function (self, tag, dt, real_dt) 
-        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or #G.E_MANAGER.queues.base <= 1 then
+        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or AKYRS.should_tick_down() then
             AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
         end
     end,
@@ -2033,7 +2033,7 @@ AKYRS.Scenario {
         end
     end,
     tag_update = function (self, tag, dt, real_dt) 
-        if G.shop and #G.E_MANAGER.queues.base <= 1 then
+        if G.shop and AKYRS.should_tick_down() then
             AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
         end
     end,
@@ -2098,7 +2098,7 @@ AKYRS.Scenario {
         G.GAME.modifiers.booster_choice_mod = (G.GAME.modifiers.booster_choice_mod or 0) - _tag.ability.extras.t_bpch
     end,
     tag_update = function (self, tag, dt, real_dt) 
-        if G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 and #G.E_MANAGER.queues.base <= 1 then
+        if G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 and AKYRS.should_tick_down() then
             AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
         end
     end,
@@ -2189,7 +2189,7 @@ AKYRS.Scenario {
         end
     end,
     tag_update = function (self, tag, dt, real_dt) 
-        if ((G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 ) or G.STATE == G.STATES.SHOP) and #G.E_MANAGER.queues.base <= 1 then
+        if ((G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 ) or G.STATE == G.STATES.SHOP) and AKYRS.should_tick_down() then
             AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
         end
     end,
@@ -2272,7 +2272,7 @@ AKYRS.Scenario {
         end
     end,
     tag_update = function (self, tag, dt, real_dt) 
-        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or #G.E_MANAGER.queues.base <= 1 then
+        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or AKYRS.should_tick_down() then
             AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
         end
     end,
@@ -2308,7 +2308,7 @@ AKYRS.Scenario {
         end
     end,
     tag_update = function (self, tag, dt, real_dt) 
-        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or #G.E_MANAGER.queues.base <= 1 then
+        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or AKYRS.should_tick_down() then
             AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
         end
     end,

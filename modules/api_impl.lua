@@ -67,7 +67,7 @@ end
 ---@overload fun(self: AKYRS.HardcoreChallenge): AKYRS.HardcoreChallenge
 AKYRS.HardcoreChallenge = SMODS.Challenge:extend {
     obj_table = AKYRS.HC_CHALLENGES,
-    obj_buffer = {},
+    obj_buffer = AKYRS.HC_CHALLENGES_BUFFER,
     get_obj = function(self, key)
         for _, v in ipairs(AKYRS.HC_CHALLENGES) do
             if v.id == key then return v end

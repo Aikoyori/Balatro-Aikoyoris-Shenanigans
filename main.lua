@@ -95,6 +95,7 @@ assert(SMODS.load_file("./modules/compat/ortalab.lua"))()
 assert(SMODS.load_file("./modules/compat/paperback.lua"))()
 assert(SMODS.load_file("./modules/compat/qualatro.lua"))()
 assert(SMODS.load_file("./modules/compat/multiplayer.lua"))()
+assert(SMODS.load_file("./modules/compat/multiplayerspeedrun.lua"))()
 assert(SMODS.load_file("./modules/compat/blindside.lua"))()
 assert(SMODS.load_file("./modules/compat/tmj.lua"))()
 

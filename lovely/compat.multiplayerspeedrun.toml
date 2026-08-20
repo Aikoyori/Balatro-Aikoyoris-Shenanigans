@@ -1,0 +1,75 @@
+[manifest]
+version = "1.2"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS MultiplayerSPDRN "ui/main_menu/create_lobby.lua"]'''
+pattern = """						{
+							n = G.UIT.C,
+							config = { align = 'cm', padding = 0.05 },
+							nodes = {
+								UIBox_button({
+									id = 'spdrn_gm_white_triple',"""
+position = "before"
+payload = """
+{
+    n = G.UIT.C,
+    config = { align = 'cm', padding = 0.05 },
+    nodes = {
+        UIBox_button({
+            id = 'spdrn_gm_white_triple',
+            button = 'akyrs_select_hardcore_speedrun',
+            label = { 'Hard', 'core' },
+            colour = G.C.DARK_EDITION,
+            minw = 1,
+            minh = 3.2,
+            scale = 0.5,
+            func = 'spdrn_gm_shadows',
+        }),
+    },
+},
+"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS MultiplayerSPDRN "ui/main_menu/practice.lua"]'''
+pattern = """							UIBox_button({ button = 'spdrn_practice_gold', label = { 'Gold Stake', 'Single' }, colour = G.C.GOLD, minw = 2.5, minh = 2.0, scale = 0.5, col = true }),
+						} },"""
+position = "after"
+payload = """{ n = G.UIT.C, config = { align = 'cm', padding = 0.08 }, nodes = {
+    UIBox_button({ button = 'akyrs_spdrn_practice_hc_challenge', label = { 'Hardcore' }, colour = G.C.DARK_EDITION, minw = 2.5, minh = 2.0, scale = 0.5, col = true }),
+} },"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS MultiplayerSPDRN "ui/lobby/options.lua"]'''
+pattern = """		contents[#contents + 1] = {
+			n = G.UIT.R,
+			config = { align = 'cm', padding = 0.05 },
+			nodes = {
+				UIBox_button({
+					button = 'spdrn_change_all_deck',"""
+position = "before"
+payload = """
+contents[#contents + 1] = {
+    n = G.UIT.R,
+    config = { align = 'cm', padding = 0.05 },
+    nodes = {
+        UIBox_button({
+            button = 'akyrs_spdrn_change_hc_challenge',
+            label = { 'Hardcore Challenge' .. (current_key == SPDRN.Gamemode.AKYRS_HC and ' *' or '') },
+            colour = current_key == SPDRN.Gamemode.AKYRS_HC and G.C.GREEN or G.C.GREY,
+            minw = 4,
+            minh = 0.6,
+            scale = 0.45,
+        }),
+    },
+}"""
+overwrite = true
+match_indent = true

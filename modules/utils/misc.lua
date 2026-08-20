@@ -1594,11 +1594,27 @@ end
 
 function AKYRS.force_lose(key)
     if G.STAGE == G.STAGES.RUN then 
-        G.GAME.akyrs_defeated_by_center = key
-        G.TAROT_INTERRUPT = nil
-        G.GAME.AKYRS_DEAD = true
-        G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false 
-        AKYRS.force_save()
+        if MPAPI and MPAPI.get_current_lobby() then
+            SPDRN._run_lost_shown = true
+            MPAPI.RLOGCodes.run_died:write()
+            SPDRN.show_run_lost_screen()
+        else
+            G.GAME.akyrs_defeated_by_center = key
+            G.TAROT_INTERRUPT = nil
+            G.GAME.AKYRS_DEAD = true
+            G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false 
+            AKYRS.force_save()
+        end
+    end
+end
+
+function AKYRS.force_lose_or_lose_life(key)
+    if G.STAGE == G.STAGES.RUN then 
+        if AKYRS.is_mp() then
+            AKYRS.ease_lives_mp(-1)
+        else
+            AKYRS.force_lose(key)
+        end
     end
 end
 

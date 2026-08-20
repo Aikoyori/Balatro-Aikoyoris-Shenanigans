@@ -521,3 +521,7 @@ end
 AKYRS.full_hand_recalc = function ()
     return next(SMODS.find_card("j_akyrs_liar_dancer")) or G.GAME.akyrs_character_stickers_enabled
 end
+
+AKYRS.should_tick_down = function ()
+    return #G.E_MANAGER.queues.base <= 1
+end

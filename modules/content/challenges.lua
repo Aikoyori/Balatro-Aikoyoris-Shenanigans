@@ -671,7 +671,10 @@ AKYRS.HardcoreChallenge{
         if context.akyrs_scenario_tag_removed and context.akyrs_scenario_tag_removed.key == 'sc_akyrs_buffet' then
             return {
                 func = function ()
-                    AKYRS.force_lose('sc_akyrs_buffet')
+                    AKYRS.force_lose_or_lose_life('sc_akyrs_buffet')
+                    if AKYRS.is_mp() then
+                        AKYRS.add_scenario_tag(AKYRS.Scenario_Tag('sc_akyrs_buffet'))
+                    end
                 end
             }
         end

@@ -63,6 +63,7 @@ SMODS.optional_features.object_weights = true
 SMODS.optional_features.post_trigger = true
 
 AKYRS.HC_CHALLENGES = {}
+AKYRS.HC_CHALLENGES_BUFFER = {}
 AKYRS.UIDEF = {}
 
 AKYRS.math_default_const = {

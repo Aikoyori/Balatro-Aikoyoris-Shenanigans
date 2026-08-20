@@ -24,6 +24,7 @@ function AKYRS.Scenario_Tag:init(_scenario, for_collection, _blind_type)
     local proto = AKYRS.Scenarios[_scenario]
     self.sc_config = copy_table(proto.config)
     self.config = proto
+    self.scenario_tag = true
     self.pos = proto.pos
     self.name = proto.name
     self.akyrs_scenario_tally = G.GAME.akyrs_scenario_tally or 0
@@ -423,11 +424,11 @@ function AKYRS.is_scenario_tag_active(key)
 end
 
 function AKYRS.is_scenario_type_active(scenario_config, ignore_side, ignore_colour)
-    if not scenario_config then return end
+    if not scenario_config or not scenario_config then return end
     local sc = AKYRS.filter_table(G.GAME.akyrs_scenario, function (sc)
-        return (ignore_side or sc.config.scenario.side == scenario_config.scenario.side) and (ignore_colour or sc.config.scenario.colour == scenario_config.scenario.colour)
+        return (ignore_side or sc.config.scenario.side == scenario_config.side) and (ignore_colour or sc.config.scenario.colour == scenario_config.colour)
     end, true, true)
-    return #sc > 0
+    return #sc > 0, sc
 end
 
 
@@ -464,7 +465,7 @@ AKYRS.Scenario {
     end,
     akyrs_clean_scenario = true,
     pre_new_tag = function (self, card, area, copier, tag)
-        if AKYRS.is_scenario_type_active(self) then
+        if AKYRS.is_scenario_type_active(self.scenario) then
             ease_dollars(card.ability.extras.dollars)
         end
     end
@@ -673,7 +674,7 @@ AKYRS.Scenario {
     end,
     akyrs_clean_scenario = true,
     pre_new_tag = function (self, card, area, copier)
-        if AKYRS.is_scenario_type_active(self) then
+        if AKYRS.is_scenario_type_active(self.scenario) then
             ease_hands_played(card.ability.extras.hand)
             ease_discard(card.ability.extras.discards)
         end
@@ -925,7 +926,7 @@ AKYRS.Scenario {
 
     akyrs_clean_scenario = true,
     pre_new_tag = function (self, card, area, copier)
-        if AKYRS.is_scenario_type_active(self) then
+        if AKYRS.is_scenario_type_active(self.scenario) then
             ease_dollars(math.max(0,math.min(G.GAME.dollars, card.ability.extras.max_money)))
         end
     end,
@@ -1215,7 +1216,7 @@ AKYRS.Scenario {
     end,
     akyrs_clean_scenario = true,
     pre_new_tag = function (self, card, area, copier)
-        if AKYRS.is_scenario_type_active(self) then
+        if AKYRS.is_scenario_type_active(self.scenario) then
             local _, mpph = AKYRS.get_most_played()
             if mpph then
                 SMODS.upgrade_poker_hands {
@@ -1436,6 +1437,7 @@ AKYRS.Scenario {
                 message = localize({ type = "variable", key = "a_xblind_size", vars = {"???"}}),
                 colour = G.C.DYN_UI.DARK,
                 sound_override = 'xblindsize',
+                message_card = card.HUG_tag or card
             }
         end
     end,
@@ -1472,7 +1474,7 @@ AKYRS.Scenario {
     end,
     akyrs_clean_scenario = true,
     pre_new_tag = function (self, card, area, copier)
-        if AKYRS.is_scenario_type_active(self) then
+        if AKYRS.is_scenario_type_active(self.scenario) then
             for i = 1, card.ability.extras.tags do
                 AKYRS.simple_event_add(function ()
                     local tag_key = SMODS.poll_object{ type = 'Tag', seed = "akyrs_scenario_neutral_random_tag" }
@@ -1881,7 +1883,7 @@ AKYRS.Scenario {
     end,
     akyrs_clean_scenario = true,
     pre_new_tag = function (self, card, area, copier)
-        if AKYRS.is_scenario_type_active(self) then
+        if AKYRS.is_scenario_type_active(self.scenario) then
             SMODS.add_card{
                 set = "Consumeables",
                 edition = 'e_negative',

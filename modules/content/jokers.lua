@@ -3777,9 +3777,40 @@ SMODS.Joker {
         end
     end
 }
+
+
+SMODS.Joker {
+    key = "snooze",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 1, y = 8 },
+    pools = {  },
+    config = {
+    },
+    rarity = 1,
+    cost = 3,
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = AKYRS.Scenarios['sc_akyrs_smog']
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.ending_shop then
+            return {
+                func = function ()
+                    if not AKYRS.is_scenario_type_active({ colour = 'pink', side = 'dark' }) then
+                        AKYRS.add_scenario_tag(AKYRS.Scenario_Tag('sc_akyrs_smog'))
+                    end
+                end
+            }
+        end
+    end
+}
+
 for j = 8, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 81 then
+        if i + j * 10 >= 82 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',
@@ -3829,6 +3860,26 @@ SMODS.Joker {
     key = "cartoongirl",
     atlas = 'AikoyoriJokers2',
     pos = { x = 1, y = 0 },
+    pools = {  },
+    config = {
+    },
+    rarity = 1,
+    cost = 2,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    in_pool = function (self, args)
+        return false
+    end,
+}
+
+SMODS.Joker {
+    key = "chinese_speaker",
+    atlas = 'AikoyoriJokers2',
+    pos = { x = 2, y = 0 },
     pools = {  },
     config = {
     },

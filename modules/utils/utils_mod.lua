@@ -853,7 +853,7 @@ end
 function AKYRS.end_round_hook()
     for _, sc in ipairs(G.GAME.akyrs_scenario) do
         if not sc.config.akyrs_no_decays then 
-            SMODS.calculate_effect({ message = localize("k_akyrs_downgrade_ex"), juice_card = sc, message_card = sc.HUD_tag, func = function ()
+            SMODS.calculate_effect({ message = localize("k_akyrs_downgrade_ex"), func = function ()
                 AKYRS.mod_scenario_rounds(sc, -1)
             end }, sc)
         end

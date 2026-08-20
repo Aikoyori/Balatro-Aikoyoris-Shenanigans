@@ -613,7 +613,7 @@ AKYRS.HardcoreChallenge{
 }
 
 AKYRS.HardcoreChallenge{
-    key = "under_a_coconut_shell",
+    key = "nadalatro",
     jokers = {
     },
     vouchers = {
@@ -646,7 +646,7 @@ AKYRS.HardcoreChallenge{
 }
 
 AKYRS.HardcoreChallenge{
-    key = "speed_shopper",
+    key = "shoplifter",
     jokers = {
     },
     vouchers = {
@@ -656,8 +656,8 @@ AKYRS.HardcoreChallenge{
     },
     rules = {
         custom = {
-            {id = 'akyrs_speed_shopper_1'},
-            {id = 'akyrs_speed_shopper_2'},
+            {id = 'akyrs_shoplifting_1'},
+            {id = 'akyrs_shoplifting_2'},
         }
     },
     restrictions = {

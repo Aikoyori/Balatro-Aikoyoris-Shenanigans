@@ -2619,6 +2619,18 @@ return {
                     }
                 }
             },
+            j_akyrs_snooze = {
+                name = {
+                    "snooze",
+                    "{s:0.7}wotaku"
+                },
+                text = {
+                    {
+                        "Apply {C:attention}Smog{} when {C:attention}exiting{} shop",
+                        "If no {X:akyrs_scenario_dark_pink,C:white}Dark{} {X:akyrs_scenario_dark_pink,C:white}Pink{} Scenario is active",
+                    },
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {
@@ -3785,7 +3797,7 @@ return {
                         "In {C:attention}Tag form{}",
                         "{C:attention}Everything{} spins",
                         "Create a free {C:purple}Booster Pack{} while in shop",
-                        "Every {C:money}$#1#{C:inactive} ($#2#){} change in money",
+                        "Every {C:money}$#1#{C:inactive} ($#2#){} spent/earned",
                     },
                     {
                         "Decays over {C:attention}time{}",
@@ -4638,8 +4650,8 @@ return {
             hc_akyrs_hatena_jokers = "????????",
             hc_akyrs_hatena_everything = "???????????????",
             hc_akyrs_bonfire_lit = "Bonfire Lit",
-            hc_akyrs_under_a_coconut_shell = "Under a Coconut Shell",
-            hc_akyrs_speed_shopper = "Speed Shopper",
+            hc_akyrs_nadalatro = "Nadalatro",
+            hc_akyrs_shoplifter = "Shoplifter",
         },
         collabs={},
         dictionary={
@@ -5185,10 +5197,10 @@ return {
             ch_c_akyrs_shops_after_boss={
                 "{C:attention}Shops{} only appear after {C:red}Boss Blinds",
             },
-            ch_c_akyrs_speed_shopper_1={
+            ch_c_akyrs_shoplifting_1={
                 "Start with a {C:attention,T:sc_akyrs_buffet}Buffet{} Tag",
             },
-            ch_c_akyrs_speed_shopper_2={
+            ch_c_akyrs_shoplifting_2={
                 "If Buffet is {C:attention}removed{}, {C:red,E:akyrs_snaking}lose.{}",
             },
         },

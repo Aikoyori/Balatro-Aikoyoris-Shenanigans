@@ -1617,7 +1617,7 @@ AKYRS.Scenario {
             c_dollars = 2,
             t_p_dollars = 5,
             t_c_dollars = 1,
-            xdollars = 0.5,
+            xdollars = 0.25,
         }
     },
     loc_vars = function (self, info_queue, card)

@@ -162,12 +162,13 @@ SMODS.Stake {
     prefix_config = { applied_stakes = { mod = false } },
     colour = HEX("60f78e"),
     calculate = function (self, context)
-        if context.blind_defeated then
+        if context.blind_defeated and G.GAME.blind.config.blind.boss then
             local cards_with_no_rental = AKYRS.filter_table(G.jokers.cards, function (_card)
                 return not _card.ability.rental
             end)
             local c2a = pseudorandom_element(cards_with_no_rental, "akyrs_spotify_stake")
             if c2a then
+                c2a:juice_up()
                 c2a:add_sticker('rental', true)
             end
         end

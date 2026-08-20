@@ -1885,7 +1885,7 @@ AKYRS.Scenario {
     pre_new_tag = function (self, card, area, copier)
         if AKYRS.is_scenario_type_active(self.scenario) then
             SMODS.add_card{
-                set = "Consumeables",
+                set = "Consumeable",
                 edition = 'e_negative',
             }
         end

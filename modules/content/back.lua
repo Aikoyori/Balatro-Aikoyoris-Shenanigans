@@ -290,7 +290,17 @@ SMODS.Back{
             }
         }
     end,
+    calculate = function (self, back, context)
+        if context.blind_defeated and G.GAME.last_blind.boss then
+            return {
+                func = function ()
+                    G.GAME.starting_params.ante_scaling = G.GAME.starting_params.ante_scaling * G.GAME.round_resets.ante
+                end
+            }
+        end
+    end,
     config = {
+        
     },
 }
 SMODS.Back{

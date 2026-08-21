@@ -10,10 +10,13 @@ SMODS.UndiscoveredSprite{
 }
 
 SMODS.UndiscoveredCompat["Bet"] = true
----@type SMODS.Center
+
+---@class AKYRS.Bet:SMODS.Center
+---@field can_redeem fun(self: AKYRS.Bet|table): boolean? a check to see if you can redeem it (because it can do more than voucher usually do, for example ghastly limelight will need to check if you can have multiple)
+---@overload fun(self: AKYRS.Bet): AKYRS.Bet
 AKYRS.Bet = SMODS.Center:extend {
     set = 'Bet',
-    cost = 0,
+    cost = 3,
     akyrs_undiscover_tooltip = true,
     akyrs_locked_sprites = {
         atlas = "Voucher",
@@ -23,6 +26,8 @@ AKYRS.Bet = SMODS.Center:extend {
         atlas = "Voucher",
         pos = { x = 8, y = 2},
     },
+    multi_use = false,
+    allow_takebacks = false,
     atlas = 'Voucher',
     discovered = false,
     pos = { x = 0, y = 0 },
@@ -31,7 +36,13 @@ AKYRS.Bet = SMODS.Center:extend {
     required_params = {
         'key',
     },
-    badge_colour = HEX("CC2332")
+    use = function(self, card, copier)
+        card:redeem()
+    end,
+    badge_colour = HEX("CC2332"),
+    in_pool = function (self, args)
+        return (self.multi_use or not G.GAME.akyrs_redeemed_bet_key_table[self.key])
+    end,
 }
 
 AKYRS.Bet {
@@ -63,7 +74,6 @@ AKYRS.Bet {
 AKYRS.Bet {
     key = "raise_the_stake",
     atlas = 'aikoyoriBets', pos = { x = 1, y = 0 } ,
-    cost = 0,
     config = {
         extras = {
             slot = 1
@@ -72,7 +82,7 @@ AKYRS.Bet {
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                card.ability.extras.slot
+                
             }
         }
     end,
@@ -82,13 +92,14 @@ AKYRS.Bet {
     end,
     unredeem = function (self, card) 
         -- remove stake modifier
+        -- actually no no takebacks on this one
+        -- it would make the code way more complicated and won't be super compatible
     end,
 }
 
 AKYRS.Bet {
     key = "a_lock_and_a_hard_place",
     atlas = 'aikoyoriBets', pos = { x = 2, y = 0 } ,
-    cost = 0,
     config = {
         extras = {
             slot = 1
@@ -132,34 +143,9 @@ AKYRS.Bet {
         -- i don't think there's much to do here ngl it's a one way action
     end,
 }
-
-AKYRS.Bet {
-    key = "flames_of_desires",
-    atlas = 'aikoyoriBets', pos = { x = 3, y = 0 } ,
-    cost = 0,
-    config = {
-        extras = {
-            slot = 1
-        }
-    },
-    loc_vars = function (self, info_queue, card)
-        return {
-            vars = {
-                card.ability.extras.slot
-            }
-        }
-    end,
-    redeem = function (self, card) 
-        -- burn a suit off a deck
-    end,
-    unredeem = function (self, card) 
-        -- i don't think there's much to do here ngl it's a one way action
-    end,
-}
 AKYRS.Bet {
     key = "resonance_of_chaos",
     atlas = 'aikoyoriBets', pos = { x = 4, y = 0 } ,
-    cost = 0,
     config = {
         extras = {
             slot = 1
@@ -196,6 +182,7 @@ AKYRS.Bet {
         }
     end,
     redeem = function (self, card) 
+        print("fuck!")
         -- burn a suit off a deck
     end,
     unredeem = function (self, card) 
@@ -206,7 +193,6 @@ AKYRS.Bet {
 AKYRS.Bet {
     key = "kaleidoscope",
     atlas = 'aikoyoriBets', pos = { x = 6, y = 0 } ,
-    cost = 0,
     config = {
         extras = {
             slot = 1

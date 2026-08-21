@@ -117,6 +117,10 @@ function Game:init_game_object()
     ret.akyrs_trade_unlocked = {}
 
     ret.akyrs_scenario = {}
+
+    ret.akyrs_redeemed_bets = {}
+    ret.akyrs_redeemed_bet_key_table = {}
+    
     ret.akyrs_ut_route = "pacifist"
     ret.akyrs_cards_modified = 0
 

@@ -186,6 +186,63 @@ function Card:redeem()
         AKYRS.trigger_tldr_conditions("redeemed_voucher")
 
     end
+    if self.ability.set == "Bet" then
+        stop_use()
+        if not self.config.center.discovered then
+            discover_card(self.config.center)
+        end
+        local key = self.config.center.key
+        table.insert(G.GAME.akyrs_redeemed_bets, key)
+        G.GAME.akyrs_redeemed_bet_key_table[key] = (G.GAME.akyrs_redeemed_bet_key_table[key] or 0) + 1
+
+        self.states.hover.can = false
+        local top_dynatext = nil
+        local bot_dynatext = nil
+        
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                top_dynatext = DynaText({string = localize{type = 'name_text', set = self.config.center.set, key = self.config.center.key}, colours = {G.C.WHITE}, rotate = 1,shadow = true, bump = true,float=true, scale = 0.9, pop_in = 0.6/G.SPEEDFACTOR, pop_in_rate = 1.5*G.SPEEDFACTOR})
+                bot_dynatext = DynaText({string = localize('k_redeemed_ex'), colours = {G.C.WHITE}, rotate = 2,shadow = true, bump = true,float=true, scale = 0.9, pop_in = 1.4/G.SPEEDFACTOR, pop_in_rate = 1.5*G.SPEEDFACTOR, pitch_shift = 0.25})
+                self:juice_up(0.3, 0.5)
+                play_sound('card1')
+                play_sound('coin1')
+                self.children.top_disp = UIBox{
+                    definition =    {n=G.UIT.ROOT, config = {align = 'tm', r = 0.15, colour = G.C.CLEAR, padding = 0.15}, nodes={
+                                        {n=G.UIT.O, config={object = top_dynatext}}
+                                    }},
+                    config = {align="tm", offset = {x=0,y=0},parent = self}
+                }
+                self.children.bot_disp = UIBox{
+                        definition =    {n=G.UIT.ROOT, config = {align = 'tm', r = 0.15, colour = G.C.CLEAR, padding = 0.15}, nodes={
+                                            {n=G.UIT.O, config={object = bot_dynatext}}
+                                        }},
+                        config = {align="bm", offset = {x=0,y=0},parent = self}
+                    }
+            return true end }))
+        if self.cost ~= 0 then
+            ease_dollars(-self.cost)
+            inc_career_stat('c_shop_dollars_spent', self.cost)
+        end
+        set_voucher_usage(self)
+        check_for_unlock({type = 'run_redeem'})
+        --G.GAME.current_round.voucher = nil
+
+        self:apply_to_run()
+
+        delay(0.6)
+        SMODS.calculate_context({buying_card = true, card = self})
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 2.6, func = function()
+            top_dynatext:pop_out(4)
+            bot_dynatext:pop_out(4)
+            return true end }))
+        
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.5, func = function()
+            self.children.top_disp:remove()
+            self.children.top_disp = nil
+            self.children.bot_disp:remove()
+            self.children.bot_disp = nil
+            self:start_dissolve()
+        return true end }))
+    end
     return unpack(x)
 end
 

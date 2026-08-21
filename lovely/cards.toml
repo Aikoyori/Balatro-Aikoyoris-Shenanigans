@@ -303,3 +303,29 @@ payload = """if G.GAME and G.GAME.akyrs_scenario then
 end"""
 overwrite = true
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = """                                                SMODS.add_voucher_to_shop(key)
+                                            end
+                                        end"""
+position = "after"
+payload = """
+-- aikoshen does the thing woohoo
+AKYRS.spawn_shop_items()
+"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = """    local dont_dissolve = nil"""
+position = "after"
+payload = """
+-- aikoshen does the thing woohoo
+if card.ability.set == "Bet" then dont_dissolve = true end
+"""
+overwrite = true
+match_indent = true

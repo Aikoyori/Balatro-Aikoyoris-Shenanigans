@@ -525,3 +525,8 @@ end
 AKYRS.should_tick_down = function ()
     return #G.E_MANAGER.queues.base <= 1
 end
+
+function AKYRS.spawn_shop_items()
+    local bet_key = SMODS.poll_object{ type = "Bet" }
+    SMODS.add_voucher_to_shop(bet_key)
+end

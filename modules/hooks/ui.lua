@@ -916,6 +916,13 @@ G.FUNCS.use_card = function (e,m,ns)
         return true
     end
     local r = useCardHook(e,m,ns)
+    if card.ability.set == 'Bet' then 
+      delay(0.1)
+      draw_card(G.hand, G.play, 1, 'up', true, card, nil, true) 
+      G.GAME.round_scores.cards_purchased.amt = G.GAME.round_scores.cards_purchased.amt + 1
+      if area == G.pack_cards then e.config.ref_table.cost = 0 end
+      e.config.ref_table:redeem()
+    end
     return r
     
 end
@@ -2047,5 +2054,20 @@ function AKYRS.sort_depth()
             G.I[tbl_k] = tbl_set
         end
         
+    end
+end
+
+local crd = G.FUNCS.can_redeem
+G.FUNCS.can_redeem = function(e)
+    local card = e.config.ref_table
+    local can_redeem = true
+    if card.config.center.can_redeem and type(card.config.center.can_redeem) == 'function' then
+        can_redeem = card.config.center.can_redeem(card.config.center, card)
+    end
+    if can_redeem then
+        return crd(e)
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
     end
 end

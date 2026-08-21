@@ -186,6 +186,9 @@ return {
                 name = 'Developer Deck',
                 text = 
                 { 
+                    'When {C:attention}entering shop',
+                    '{C:attention}Choose{} what to do',
+                    "Base Blind Size scales up by Ante",
                     '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
                 },
             },
@@ -3977,13 +3980,13 @@ return {
                 name="Raise the Stake!",
                 text={
                     "Applies a random {C:attention}Stake{} (if possible)",
-                    "Applies a random {C:dark_edition}Edition{} to a Joker",
+                    "Obtain a random {C:red}Rare{} Joker",
                 },
             },
             bet_akyrs_a_lock_and_a_hard_place={
                 name="A Lock and a Hard Place!",
                 text={
-                    "A {C:attention}random{} shop item is always {C:attention}locked",
+                    "A {C:attention}random{} shop item is {C:attention}Locked",
                     "It {C:attention}must be purchased{} for it to disappear",
                 },
             },
@@ -4004,15 +4007,16 @@ return {
             bet_akyrs_ghastly_limelight={
                 name="Ghastly Limelight!",
                 text={
-                    "All cards in decks has their enhancements",
-                    "{C:attention}locked{} to any of the {C:attention}Note Cards",
+                    "Destroy a {C:attention}random{} Joker",
+                    "and reroll each {C:attention}remaining{} Jokers",
+                    "into destroyed Joker's {C:attention}rarity{} ",
                 },
             },
             bet_akyrs_kaleidoscope={
                 name="Kaleidoscope!",
                 text={
-                    "All cards in decks has their enhancements",
-                    "{C:attention}locked{} to any of the {C:attention}Note Cards",
+                    "Enable {C:attention}Life Drain",
+                    "and access to {C:attention}Life{} Shop",
                 },
             },
         },

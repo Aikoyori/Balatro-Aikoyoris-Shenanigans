@@ -289,3 +289,12 @@ function AKYRS.get_scenario_scoring_targets(_context)
     end
     return ret
 end
+
+local getblindamounthook = get_blind_amount
+function get_blind_amount(ante)
+    if ante ~= math.floor(ante) then 
+        local current, nextante, fract = math.floor(ante), math.ceil(ante), ante - math.floor(ante)
+        return AKYRS.lerp(getblindamounthook(current),getblindamounthook(nextante),fract)
+    end
+    return getblindamounthook(ante)
+end

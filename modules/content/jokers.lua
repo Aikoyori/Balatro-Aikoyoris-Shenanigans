@@ -1531,7 +1531,7 @@ SMODS.Joker {
         x = 0, y = 3
     },
     rarity = 3,
-    cost = 9,
+    cost = 10,
     config = {
         name = "Tetoris",
         extras = {

@@ -1406,3 +1406,8 @@ function AKYRS.set_splash_shader(ctx, vor_spd)
             {name = 'vort_offset', val = 0},
         }}})
 end
+
+
+function AKYRS.lerp(a, b, t) 
+    return a + t * ( b - a )
+end

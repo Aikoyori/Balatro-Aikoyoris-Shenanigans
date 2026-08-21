@@ -382,3 +382,7 @@ function AKYRS.defeated_by_center_ui(center_key)
         },
     }, label
 end
+
+function AKYRS.should_use_default_blind_handler()
+    return AKYRS.is_mod_loaded("Cryptid")
+end

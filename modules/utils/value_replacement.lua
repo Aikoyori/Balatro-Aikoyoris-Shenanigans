@@ -529,4 +529,6 @@ end
 function AKYRS.spawn_shop_items()
     local bet_key = SMODS.poll_object{ type = "Bet" }
     SMODS.add_voucher_to_shop(bet_key)
+function AKYRS.should_use_default_blind_handler()
+    return AKYRS.is_mod_loaded("Cryptid")
 end

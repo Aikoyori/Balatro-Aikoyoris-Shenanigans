@@ -37,7 +37,7 @@ target = "functions/state_events.lua"
 pattern = """                        if G.GAME.round_resets.blind == G.P_BLINDS.bl_small then
                             G.GAME.round_resets.blind_states.Small = 'Defeated'"""
 position = "before"
-payload = "if G.GAME.akyrs_default_blind_handler then"
+payload = "if G.GAME.akyrs_default_blind_handler or AKYRS.should_use_default_blind_handler() then"
 match_indent = true
 # cryptid 
 [[patches]]
@@ -46,5 +46,5 @@ target = "functions/state_events.lua"
 pattern = """                        if G.GAME.blind_on_deck == 'Small' then
                             G.GAME.round_resets.blind_states.Small = 'Defeated'"""
 position = "before"
-payload = "if G.GAME.akyrs_default_blind_handler then"
+payload = "if G.GAME.akyrs_default_blind_handler or AKYRS.should_use_default_blind_handler()  then"
 match_indent = true

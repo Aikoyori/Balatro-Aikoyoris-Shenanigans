@@ -1327,7 +1327,7 @@ function Card:akyrs_mod_card_value_init(center, initial, delay)
             end
         end
     end
-    if G.GAME.modifiers.akyrs_all_cards_are_stone then
+    if G.GAME.modifiers.akyrs_all_cards_are_stone and not initial then
         if self.ability.set == "Default" or self.ability.set == "Enhanced" then
             AKYRS.original_set_ability(self,G.P_CENTERS["m_stone"])
             if self.ability.bonus == 0 then

@@ -1,0 +1,41 @@
+[manifest]
+version = "1.2"
+dump_lua = true
+priority = -11212
+
+
+[[patches]]
+[patches.pattern]
+target = '''functions/button_callbacks.lua'''
+pattern = """            local c = G.shop_jokers:remove_card(G.shop_jokers.cards[i])"""
+position = "before"
+payload = '''
+if AKYRS.cannot_be_rerolled_away(G.shop_jokers.cards[i]) then
+
+else
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''functions/button_callbacks.lua'''
+pattern = """            local c = G.shop_jokers:remove_card(G.shop_jokers.cards[i])
+            c:remove()
+            c = nil"""
+position = "after"
+payload = '''
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''functions/common_events.lua'''
+pattern = """    if forced_key and not G.GAME.banned_keys[forced_key] then """
+position = "before"
+payload = '''
+if not _type and forced_key and G.P_CENTERS[forced_key] then
+    _type = G.P_CENTERS[forced_key].set
+end
+'''
+match_indent = true

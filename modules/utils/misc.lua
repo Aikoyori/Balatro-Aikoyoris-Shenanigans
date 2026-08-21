@@ -1,6 +1,6 @@
 local to_big = to_big or function(x) return x end
 
-local aikoyori_mod_config = SMODS.current_mod.config
+local aikoyori_mod_config = (SMODS.current_mod or AKYRS).config
 
 aikoyori_mod_config.wildcard_behaviour = aikoyori_mod_config.wildcard_behaviour or 1
 
@@ -1319,12 +1319,11 @@ end
 function AKYRS.fake_card_sprite(sprite, args)
     if not sprite or not sprite.atlas or not sprite.pos then return end
     args = args or {}
-    local blind = G.P_BLINDS[key]
-    local temp_spr = Sprite(0, 0, args.w or 1, args.h or 1, G.ASSET_ATLAS[sprite.atlas], sprite.pos)
+    local temp_spr = Sprite(args.x or 0, args.y or 0, args.w or 1, args.h or 1, G.ASSET_ATLAS[sprite.atlas], sprite.pos)
     temp_spr.states.click.can = false
     temp_spr.states.drag.can = false
     temp_spr.states.hover.can = true
-    local card = Card(0 ,0 , args.w or 1, args.h or 1, G.P_CARDS.empty, G.P_CENTERS.c_base)
+    local card = Card(args.x or 0 ,args.y or 0 , args.w or 1, args.h or 1, G.P_CARDS.empty, G.P_CENTERS.c_base)
     temp_spr.states.click.can = false
     card.states.drag.can = false
     card.states.hover.can = true
@@ -1469,8 +1468,9 @@ end
 function AKYRS.map(tbl, predicate, ordered_in) 
     if not tbl or not predicate then return {} end
     if #tbl == 0 and ordered_in then return {} end
+    local nextfunc = ordered_in and ipairs or pairs
     local table_out = {}
-    for k,v in ipairs(tbl) do
+    for k,v in nextfunc(tbl) do
         if predicate(v, k) then
             local nv = predicate(v, k)
             table_out[k] = nv
@@ -1618,9 +1618,6 @@ function AKYRS.force_lose_or_lose_life(key)
     end
 end
 
-function AKYRS.get_applicable_stakes()
-end
-
 
 function AKYRS.better_ease_value(ref_table, ref_value, mod, floored, timer_type, not_blockable, blocking, delay, ease_type, queue)
     mod = mod or 0
@@ -1760,4 +1757,209 @@ end
 
 AKYRS.to_num = to_number or function(x)
 	return x
+end
+
+
+function AKYRS.get_currently_applied_stake_keys()
+    local currently_applied = {}
+    for _, ind in ipairs(G.GAME.applied_stakes) do
+        currently_applied[#currently_applied+1] = G.P_CENTER_POOLS.Stake[ind].key
+    end
+    return currently_applied
+end
+
+function AKYRS.get_potential_next_stake_for_application( current_st )
+    local potentials = {}
+    for _, stake_conf in ipairs(G.P_CENTER_POOLS.Stake) do
+        if stake_conf.applied_stakes and AKYRS.is_in_table(stake_conf.applied_stakes, current_st) then
+            potentials[#potentials+1] = stake_conf.key
+        end
+    end
+    -- if no potential is found then make it as if i am asking for white stakes + whatever other stake that doesn't apply a stake
+    if #potentials == 0 then
+        for _, stake_conf in ipairs(G.P_CENTER_POOLS.Stake) do
+            if not stake_conf.applied_stakes or #stake_conf.applied_stakes == 0 then
+                potentials[#potentials+1] = stake_conf.key
+            end
+        end
+    end
+    return potentials
+end
+
+
+function AKYRS.get_applicable_stakes()
+    local applied = AKYRS.get_currently_applied_stake_keys()
+    local potentials = {}
+    for _, stake_key in ipairs(applied) do
+        potentials[#potentials+1] = AKYRS.get_potential_next_stake_for_application(stake_key)
+    end
+    local returnvalue = AKYRS.filter_table(SMODS.merge_lists(potentials), function (item) return not AKYRS.is_in_table(applied, item) end, true, true)
+    return returnvalue
+end
+
+
+
+function AKYRS.apply_stake_mid_game( stake_to_apply_key, passes )
+    local stake_config = G.P_STAKES[stake_to_apply_key]
+    local stake_numerical_id = AKYRS.map(G.P_STAKES,function (item, key)
+        return item.order
+    end)[stake_to_apply_key]
+    -- is it already applied?
+    if AKYRS.is_in_table(G.GAME.applied_stakes, stake_numerical_id) then
+        -- then do not lol
+        return {}
+    end
+    local applied_stakes_keys = {}
+    if stake_config.modifiers then
+        stake_config.modifiers()
+    end
+    if stake_config.applied_stakes then
+        for _, stake_keys in ipairs(stake_config.applied_stakes) do
+            local stakes = AKYRS.apply_stake_mid_game(stake_keys, (passes or 0) + 1)
+            if (passes or 0) == 0 then 
+                applied_stakes_keys = SMODS.merge_lists{ stakes , applied_stakes_keys }
+            end
+        end
+    end
+    G.GAME.applied_stakes = G.GAME.applied_stakes or {}
+    G.GAME.applied_stakes[#G.GAME.applied_stakes+1] = stake_numerical_id
+    applied_stakes_keys[#applied_stakes_keys + 1] = stake_to_apply_key
+    AKYRS.remove_dupes()
+    table.sort(G.GAME.applied_stakes)
+    if (passes or 0) == 0 then 
+        AKYRS.update_all_blind_select()
+    end
+    return applied_stakes_keys
+end
+
+function AKYRS.update_all_blind_select(delay)
+    if G.STATE == G.STATES.BLIND_SELECT then 
+        for _, v in ipairs({'small', 'big', 'boss'}) do
+            AKYRS.simple_event_add(function ()
+                AKYRS.update_blind_select_column(v, delay)
+                return true
+            end, 0, nil, { trigger = "after"})
+        end
+    end
+end
+
+
+function AKYRS.capitalize(str)
+    return (str:gsub("^%l", string.upper))
+end
+
+function AKYRS.update_blind_select_column(col, delay, callbacks)
+    local ch = AKYRS.capitalize(col)
+    if not G.blind_select_opts[col] then return end
+    if G.STATE ~= G.STATES.BLIND_SELECT then return end
+    stop_use()
+    G.CONTROLLER.locks.boss_reroll = true
+    G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = function()
+          play_sound('other1')
+          G.blind_select_opts[col]:set_role({xy_bond = 'Weak'})
+          G.blind_select_opts[col].alignment.offset.y = 20
+          return true
+        end
+      }))
+    G.E_MANAGER:add_event(Event({
+      trigger = 'after',
+      delay = delay or 0.2,
+      func = (function()
+        local par = (G.blind_select_opts[col] or {}).parent
+        if callbacks then
+            callbacks()
+        end
+        G.blind_select_opts[col]:remove()
+        G.blind_select_opts[col] = UIBox{
+          T = {par.T.x, 0, 0, 0, },
+          definition =
+            {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={
+              UIBox_dyn_container({create_UIBox_blind_choice(ch)},false,get_blind_main_colour(ch), ch == "Boss" and mix_colours(G.C.BLACK, get_blind_main_colour(ch), 0.8))
+            }},
+          config = {align="bmi",
+                    offset = {x=0,y=G.ROOM.T.y + 9},
+                    major = par,
+                    xy_bond = 'Weak'
+                  }
+        }
+        par.config.object = G.blind_select_opts[col]
+        par.config.object:recalculate()
+        G.blind_select_opts[col].parent = par
+        G.blind_select_opts[col].alignment.offset.y = 0
+        
+        G.E_MANAGER:add_event(Event({blocking = false, trigger = 'after', delay = 0.5,func = function()
+            G.CONTROLLER.locks.boss_reroll = nil
+            return true
+          end
+        }))
+
+        save_run()
+        for i = 1, #G.GAME.tags do
+          if G.GAME.tags[i]:apply_to_run({type = 'new_blind_choice'}) then break end
+        end
+        return true
+      end)
+    }))
+end
+
+
+function AKYRS.create_fake_card(args)
+    local args = args or {}
+    args.atlas = args.atlas or 'centers'
+    args.pos = args.pos or { x = 0, y = 0 }
+    args.h = args.h or G.CARD_H
+    args.w = args.w or G.CARD_W
+    local x = args.x or 0
+    local y = args.y or 0
+    card = Card(x,y,args.w,args.h, nil, 'c_base')
+    card.akyrs_card_sprites = args
+    card:set_sprites()
+    return card
+end
+
+
+function AKYRS.voucher_style_text(card, conf)
+    local conf = conf or {}
+    
+    local top_dynatext = nil
+    local bot_dynatext = nil
+
+    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            top_dynatext = DynaText({string = conf.top_text or "TOP TEXT", colours = {G.C.WHITE}, rotate = 1,shadow = true, bump = true,float=true, scale = 0.9, pop_in = 0.6/G.SPEEDFACTOR, pop_in_rate = 1.5*G.SPEEDFACTOR})
+            bot_dynatext = DynaText({string = conf.bottom_text or "BOTTOM TEXT", colours = {G.C.WHITE}, rotate = 2,shadow = true, bump = true,float=true, scale = 0.9, pop_in = 1.4/G.SPEEDFACTOR, pop_in_rate = 1.5*G.SPEEDFACTOR, pitch_shift = 0.25})
+            card:juice_up(0.3, 0.5)
+            if conf.event_callback then
+                conf.event_callback()
+            end
+            card.children.top_disp = UIBox{
+                definition =    {n=G.UIT.ROOT, config = {align = 'tm', r = 0.15, colour = G.C.CLEAR, padding = 0.15}, nodes={
+                                    {n=G.UIT.O, config={object = top_dynatext}}
+                                }},
+                config = {align="tm", offset = {x=0,y=0},parent = card}
+            }
+            card.children.bot_disp = UIBox{
+                    definition =    {n=G.UIT.ROOT, config = {align = 'tm', r = 0.15, colour = G.C.CLEAR, padding = 0.15}, nodes={
+                                        {n=G.UIT.O, config={object = bot_dynatext}}
+                                    }},
+                    config = {align="bm", offset = {x=0,y=0},parent = card}
+                }
+        return true end }))
+    delay(0.6)
+    if conf.callback then
+        conf.callback()
+    end
+    G.E_MANAGER:add_event(Event({trigger = 'after', delay = conf.delay or 3.2, func = function()
+        top_dynatext:pop_out(4)
+        bot_dynatext:pop_out(4)
+        return true end }))
+
+    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.5, func = function()
+        card.children.top_disp:remove()
+        card.children.top_disp = nil
+        card.children.bot_disp:remove()
+        card.children.bot_disp = nil
+        card:start_dissolve()
+    return true end }))
 end

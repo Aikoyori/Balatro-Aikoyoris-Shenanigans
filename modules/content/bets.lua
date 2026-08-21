@@ -39,6 +39,9 @@ AKYRS.Bet = SMODS.Center:extend {
     use = function(self, card, copier)
         card:redeem()
     end,
+    can_redeem = function (self)
+        return (self.multi_use or not G.GAME.akyrs_redeemed_bet_key_table[self.key])
+    end,
     badge_colour = HEX("CC2332"),
     in_pool = function (self, args)
         return (self.multi_use or not G.GAME.akyrs_redeemed_bet_key_table[self.key])
@@ -48,10 +51,10 @@ AKYRS.Bet = SMODS.Center:extend {
 AKYRS.Bet {
     key = "expert_play",
     atlas = 'aikoyoriBets', pos = { x = 0, y = 0 } ,
-    cost = 0,
+
     config = {
         extras = {
-            slot = 1
+            slot = 2
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -86,9 +89,35 @@ AKYRS.Bet {
             }
         }
     end,
+    multi_use = true,
+    can_redeem = function (self)
+        return #G.GAME.applied_stakes < #G.P_CENTER_POOLS.Stake
+    end,
     redeem = function (self, card) 
-        -- apply a stake modifier and start a new run i guess
-        -- give random joker edition
+        local potential_stakes = AKYRS.get_applicable_stakes()
+        local stake_to_apply = pseudorandom_element(potential_stakes, "akyrs_bet_expert_play_random_stake")
+        local applied_stakes_keys = AKYRS.apply_stake_mid_game(stake_to_apply)
+        for _, stk in ipairs(applied_stakes_keys) do
+            local stake_config = G.P_STAKES[stk]
+            local fake_stake_card = AKYRS.fake_card_sprite({
+                atlas = stake_config.atlas,
+                pos = stake_config.pos,
+            },{
+                h = G.CARD_H / 2,
+                w = G.CARD_H / 2,
+                x = card.T.x + 2,
+                y = card.T.y,
+            })
+            G.play:emplace(fake_stake_card)
+            AKYRS.simple_event_add(function ()
+                AKYRS.voucher_style_text(fake_stake_card, {
+                    top_text = localize{type = 'name_text', set = "Stake", key = stk },
+                    bottom_text = localize('k_akyrs_applied_ex'),
+                })
+                return true
+            end,0)
+        end
+
     end,
     unredeem = function (self, card) 
         -- remove stake modifier
@@ -112,8 +141,13 @@ AKYRS.Bet {
             }
         }
     end,
+    multi_use = true,
     redeem = function (self, card) 
         G.GAME.akyrs_lock_card_amnt = (G.GAME.akyrs_lock_card_amnt or 0) + 1
+        if G.STATE == G.STATES.SHOP and G.shop_jokers.cards then
+            local card_to_lock = pseudorandom_element(G.shop_jokers.cards, "akyrs_bet_alaahp_lock")
+            if card_to_lock then SMODS.Stickers.akyrs_locked:apply(card_to_lock, true) end
+        end
     end,
     unredeem = function (self, card) 
         G.GAME.akyrs_lock_card_amnt = (G.GAME.akyrs_lock_card_amnt or 1) - 1
@@ -123,7 +157,7 @@ AKYRS.Bet {
 AKYRS.Bet {
     key = "flames_of_desires",
     atlas = 'aikoyoriBets', pos = { x = 3, y = 0 } ,
-    cost = 0,
+
     config = {
         extras = {
             slot = 1
@@ -137,11 +171,15 @@ AKYRS.Bet {
         }
     end,
     redeem = function (self, card) 
+        
         -- burn a suit off a deck
     end,
     unredeem = function (self, card) 
         -- i don't think there's much to do here ngl it's a one way action
     end,
+    in_pool = function (self, args)
+        return false
+    end
 }
 AKYRS.Bet {
     key = "resonance_of_chaos",
@@ -164,11 +202,14 @@ AKYRS.Bet {
     unredeem = function (self, card) 
         -- i don't think there's much to do here ngl it's a one way action
     end,
+    in_pool = function (self, args)
+        return false
+    end
 }
 AKYRS.Bet {
     key = "ghastly_limelight",
     atlas = 'aikoyoriBets', pos = { x = 5, y = 0 } ,
-    cost = 0,
+
     config = {
         extras = {
             slot = 1
@@ -188,6 +229,9 @@ AKYRS.Bet {
     unredeem = function (self, card) 
         -- i don't think there's much to do here ngl it's a one way action
     end,
+    in_pool = function (self, args)
+        return false
+    end
 }
 
 AKYRS.Bet {
@@ -211,4 +255,7 @@ AKYRS.Bet {
     unredeem = function (self, card) 
         -- i don't think there's much to do here ngl it's a one way action
     end,
+    in_pool = function (self, args)
+        return false
+    end
 }

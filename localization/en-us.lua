@@ -3073,6 +3073,14 @@ return {
                     "rightmost position",
                 },
             },
+            akyrs_locked={
+                name="Locked",
+                text={
+                    "This card will",
+                    "{C:attention}stay{} in the shop",
+                    "until {C:attention}purchased{}",
+                },
+            },
             akyrs_playing_card_suit={
                 text={
                     "{V:1}#2#",
@@ -4945,13 +4953,18 @@ return {
                     strout = strout .. places[i][math.floor(math.fmod(math.abs(level), v * 10) / v) + 1]
                 end
                 return strout
-            end
+            end,
+            k_akyrs_applied_ex = "Applied!",
+            k_akyrs_locked_ex = "Locked!",
+            ph_akyrs_no_bets="No Bets redeemed this run",
+            ph_akyrs_bets_redeemed="Bets redeemed this run",
         },
         high_scores={},
         labels={
             akyrs_self_destructs="Self-Destructive",
             akyrs_pinned_right=">> Pinned >>",
             pinned_left="<< Pinned <<",
+            akyrs_locked="Locked",
             akyrs_sigma="Sigma",
             akyrs_oxidising="Oxidising",
             akyrs_attention="Attention",

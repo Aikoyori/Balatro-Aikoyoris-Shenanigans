@@ -830,7 +830,13 @@ function AKYRS.run_info_tab()
           tab_definition_function = AKYRS.UIDEF.words_run_info_tab,
       })
   end
-  return unpack(ret)
+  if next(G.GAME.akyrs_redeemed_bets) then
+    table.insert(ret, {
+          label = localize('b_bet'),
+          tab_definition_function = AKYRS.UIDEF.akyrs_redeemed_bets,
+      })
+  end
+  return ret
 end
 
 

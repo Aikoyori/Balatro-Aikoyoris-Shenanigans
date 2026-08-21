@@ -915,7 +915,6 @@ G.FUNCS.use_card = function (e,m,ns)
         G.FUNCS.akyrs_wildcard_open_wildcard_ui(e)
         return true
     end
-    local r = useCardHook(e,m,ns)
     if card.ability.set == 'Bet' then 
       delay(0.1)
       draw_card(G.hand, G.play, 1, 'up', true, card, nil, true) 
@@ -923,6 +922,7 @@ G.FUNCS.use_card = function (e,m,ns)
       if area == G.pack_cards then e.config.ref_table.cost = 0 end
       e.config.ref_table:redeem()
     end
+    local r = useCardHook(e,m,ns)
     return r
     
 end
@@ -2070,4 +2070,116 @@ G.FUNCS.can_redeem = function(e)
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     end
+end
+
+local tglshop = G.FUNCS.toggle_shop
+G.FUNCS.toggle_shop = function(e)
+    local locked_cards = AKYRS.filter_table(G.shop_jokers.cards, function(card)
+        return card.ability.akyrs_locked
+     end, true, true)
+    G.GAME.akyrs_locked_cards = AKYRS.map(locked_cards, function (v, k)
+        return v:save()
+    end)
+    local x = tglshop(e)
+    
+    return x
+end
+
+local cc4s = create_card_for_shop
+function create_card_for_shop(area)
+    G.GAME.akyrs_locked_cards = G.GAME.akyrs_locked_cards or {}
+    if area == G.shop_jokers  and #G.GAME.akyrs_locked_cards > 0 then
+        local cx = Card(area.T.x + area.T.w/2, area.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS.j_joker, {bypass_discovery_center = true, bypass_discovery_ui = true})
+        local to_load = table.remove(G.GAME.akyrs_locked_cards, 1)
+        cx:load(to_load)
+        create_shop_card_ui(cx)
+        return cx
+    end
+    ---@type Card
+    local card = cc4s(area)
+    if (G.GAME.akyrs_lock_card_working_amount or 0) > 1 then
+        G.GAME.akyrs_lock_card_working_amount = (G.GAME.akyrs_lock_card_working_amount or 1) - 1
+        SMODS.Stickers.akyrs_locked:apply(card, true)
+    end
+    return card
+end
+
+
+function AKYRS.UIDEF.akyrs_redeemed_bets()
+
+  local silent = false
+  local area_count = 0
+  local per_row = 10
+  local voucher_areas = {}
+  local voucher_tables = {}
+  local voucher_table_rows = {}
+
+  local rows_needed = math.ceil(#G.GAME.akyrs_redeemed_bets / per_row)
+  for i = 1, rows_needed do
+      voucher_areas[#voucher_areas + 1] = CardArea(
+      G.ROOM.T.x + 0.2*G.ROOM.T.w/2,G.ROOM.T.h,
+      (6.7)*G.CARD_W,
+      (area_count >= 10 and 0.75 or 1.07)*G.CARD_H, 
+      {card_limit = 10, type = 'akyrs_credits', highlight_limit = 0})
+  end
+  
+  for ind, varea in ipairs(voucher_areas) do 
+
+    table.insert(voucher_tables, 
+    {n=G.UIT.C, config={align = "cm", padding = 0, no_fill = true}, nodes={
+    {n=G.UIT.O, config={object = varea}}
+    }}
+    )
+    for betsk = 1, math.min(rows_needed == ind and #G.GAME.akyrs_redeemed_bets % per_row or per_row, per_row) do 
+        local center = G.P_CENTERS[G.GAME.akyrs_redeemed_bets[betsk + ( ind - 1 ) * per_row]]
+        local card = Card(varea.T.x + varea.T.w/2, varea.T.y, G.CARD_W, G.CARD_H, nil, center, {bypass_discovery_center=true,bypass_discovery_ui=true,bypass_lock=true})
+        card:start_materialize(nil, silent)
+        silent = true
+        varea:emplace(card)
+    end
+
+  end
+  table.insert(voucher_table_rows,
+          {n=G.UIT.R, config={align = "cm", padding = 0, no_fill = true}, nodes=voucher_tables}
+    )
+
+  
+  local t = silent and {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={
+    {n=G.UIT.R, config={align = "cm"}, nodes={
+      {n=G.UIT.O, config={object = DynaText({string = {localize('ph_akyrs_bets_redeemed')}, colours = {G.C.UI.TEXT_LIGHT}, bump = true, scale = 0.6})}}
+    }},
+    {n=G.UIT.R, config={align = "cm", minh = 0.5}, nodes={
+    }},
+    {n=G.UIT.R, config={align = "cm", colour = G.C.BLACK, r = 1, padding = 0.15, emboss = 0.05}, nodes={
+      {n=G.UIT.R, config={align = "cm"}, nodes=voucher_table_rows},
+    }}
+  }} or 
+  {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={
+    {n=G.UIT.O, config={object = DynaText({string = {localize('ph_akyrs_no_bets')}, colours = {G.C.UI.TEXT_LIGHT}, bump = true, scale = 0.6})}}
+  }}
+  return t
+end
+
+
+-- jank but should work perfectly fine if no one uses the same thing
+local tabs_hook = create_tabs
+function create_tabs(args)
+  args = args or {}
+  args.colour = args.colour or G.C.RED
+  args.tab_alignment = args.tab_alignment or 'cm'
+  args.opt_callback = args.opt_callback or nil
+  args.scale = args.scale or 1
+  args.tab_w = args.tab_w or 0
+  args.tab_h = args.tab_h or 0
+  args.text_scale = (args.text_scale or 0.5)
+  if args.tabs then
+    local first_tab = args.tabs[1] 
+    if first_tab.label == localize('b_poker_hands') and
+        first_tab.chosen == true and
+        first_tab.tab_definition_function == create_UIBox_current_hands then
+            -- i am absolutely sure this is the run info lol let's add
+            args.tabs = SMODS.merge_lists({args.tabs}, {AKYRS.run_info_tab()})
+        end
+  end
+  return tabs_hook(args)
 end

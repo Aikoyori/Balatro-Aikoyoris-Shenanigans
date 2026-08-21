@@ -441,6 +441,7 @@ AKYRS.HardcoreChallenge{
             {id = 'v_planet_merchant'},
             {id = 'v_planet_tycoon'},
             {id = 'v_antimatter'},
+            {id = 'v_akyrs_i_owe_you'},
             {id = 'p_buffoon_normal_1', ids = {
                 'p_buffoon_normal_1','p_buffoon_normal_2','p_buffoon_jumbo_1','p_buffoon_mega_1',
             }},

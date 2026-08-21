@@ -534,3 +534,7 @@ end
 function AKYRS.should_use_default_blind_handler()
     return AKYRS.is_mod_loaded("Cryptid")
 end
+
+function AKYRS.cannot_be_rerolled_away(c)
+    return c.ability.akyrs_locked
+end

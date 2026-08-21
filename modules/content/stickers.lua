@@ -387,3 +387,23 @@ SMODS.Sticker{
         G.shared_stickers[self.key]:draw_shader('voucher', nil, card.ARGS.send_to_shader, nil, card.children.center,nil,nil,0.15,-0.4)
     end
 }
+
+SMODS.Sticker{
+    key = "locked",
+    default_compat = true,
+    atlas = "aikoyoriStickers",
+    pos = {x = 9, y = 1},
+    rate = 0,
+    badge_colour = G.C.PURPLE,
+    sets =  all_sets,
+    calculate = function(self, card, context)
+    end,
+    should_apply = function (self, card, center, area, bypass_reroll)
+        return false
+    end,
+    draw = function (self, card, layer)
+        G.shared_stickers[self.key].role.draw_major = card
+        G.shared_stickers[self.key]:draw_shader('dissolve', nil, nil, nil, card.children.center,nil,nil)
+        G.shared_stickers[self.key]:draw_shader('voucher', nil, card.ARGS.send_to_shader, nil, card.children.center,nil,nil)
+    end
+}

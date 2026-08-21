@@ -851,6 +851,7 @@ AKYRS.mod_scenario_rounds = function (sc, mod, instant, juice, timer)
 end
 
 function AKYRS.end_round_hook()
+    G.GAME.akyrs_lock_card_working_amount = G.GAME.akyrs_lock_card_amnt
     for _, sc in ipairs(G.GAME.akyrs_scenario) do
         if not sc.config.akyrs_no_decays then 
             SMODS.calculate_effect({ message = localize("k_akyrs_downgrade_ex"), func = function ()

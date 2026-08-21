@@ -138,6 +138,14 @@ function Card:set_sprites(_c,_f)
             end
         end
     end
+    if self.akyrs_card_sprites then
+        self.T.w = self.akyrs_card_sprites.w
+        self.T.h = self.akyrs_card_sprites.h
+        self.children.center.T.w = self.akyrs_card_sprites.w
+        self.children.center.T.h = self.akyrs_card_sprites.h
+        self.children.center.atlas = SMODS.get_atlas(self.akyrs_card_sprites.atlas)
+        self.children.center:set_sprite_pos(self.akyrs_card_sprites.pos)
+    end
     return x
 end
 

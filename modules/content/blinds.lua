@@ -23,7 +23,7 @@ SMODS.Blind{
     debuff = {
         akyrs_is_word_blind = true,
     },
-    boss = {min = 3, max = 10},
+    boss = {min = 3, },
     pos = { x = 0, y = 1 },
     in_pool = function(self)
         return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
@@ -60,7 +60,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("a2a2a2"),
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 1, max = 10},
+    boss = {min = 1, },
     pos = { x = 0, y = 2 },
     debuff = {
         akyrs_is_word_blind = true,
@@ -101,7 +101,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("ffd611"),
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 3, max = 10},
+    boss = {min = 3, },
     pos = { x = 0, y = 3 },
     debuff = {
         akyrs_is_word_blind = true,
@@ -127,7 +127,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("ff7d49"),
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 1, max = 10},
+    boss = {min = 1, },
     pos = { x = 0, y = 4 },
     debuff = {
         akyrs_is_word_blind = true,
@@ -172,7 +172,7 @@ SMODS.Blind{
         akyrs_is_word_blind = true,
         akyrs_num = 1, akyrs_denom = 3
     },
-    boss = {min = 2, max = 10},
+    boss = {min = 2, },
     pos = { x = 0, y = 1 },
     in_pool = function(self)
         return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
@@ -211,7 +211,7 @@ SMODS.Blind{
     debuff = {
         akyrs_is_word_blind = true,
     },
-    boss = {min = 2, max = 10},
+    boss = {min = 2, },
     pos = { x = 0, y = 2 },
     in_pool = function(self)
         return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
@@ -240,7 +240,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX('a74ce8'),
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 3, max = 10},
+    boss = {min = 3, },
     pos = { x = 0, y = 5 },
     debuff = {
         disable_chip_x = 2
@@ -322,7 +322,7 @@ SMODS.Blind{
     mult = 1.25,
     boss_colour = HEX('67e38b'),
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 2, max = 10},
+    boss = {min = 2, },
     pos = { x = 0, y = 6 },
     debuff = {
         primed = false,
@@ -372,7 +372,7 @@ SMODS.Blind {
     mult = 0.5,
     boss_colour = HEX('36adff'),
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 3, max = 10},
+    boss = {min = 3, },
     pos = { x = 0, y = 7 },
     debuff = {
         requirement_scale = 2
@@ -390,7 +390,7 @@ SMODS.Blind {
     mult = 2,
     boss_colour = HEX('ca60ff'),
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 2, max = 10},
+    boss = {min = 2, },
     pos = { x = 0, y = 8 },
     set_blind = function (self)
         for i,k in ipairs(G.consumeables.cards) do
@@ -412,7 +412,7 @@ SMODS.Blind {
     mult = 2,
     boss_colour = HEX('3d8a55'),
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 4, max = 10},
+    boss = {min = 4, },
     debuff = {
         dec_mult = 0.9,
     },
@@ -461,7 +461,7 @@ SMODS.Blind {
         }
     end,
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 3, max = 10},
+    boss = {min = 3, },
     pos = { x = 0, y = 12 },
     calculate = function (self, card, context)
         
@@ -477,7 +477,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("ff7d49"),
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 1, max = 10},
+    boss = {min = 1, },
     pos = { x = 0, y = 4 },
     debuff = {
         akyrs_is_word_blind = true,
@@ -511,7 +511,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("825bff"),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 4, max = 10},
+    boss = {min = 4, },
     pos = { x = 0, y = 15 },
     debuff = {
         
@@ -539,7 +539,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("ff6e96"),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 4, max = 10},
+    boss = {min = 4, },
     pos = { x = 0, y = 16 },
     debuff = {
         
@@ -566,7 +566,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("ffcb7b"),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 1, max = 10},
+    boss = {min = 1, },
     pos = { x = 0, y = 17 },
     debuff = {
         akyrs_no_gain_cash = true
@@ -583,7 +583,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("b8f083"),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 4, max = 10},
+    boss = {min = 4, },
     pos = { x = 0, y = 18 },
     config = {
         numer = 1,
@@ -626,7 +626,7 @@ SMODS.Blind{
     mult = 1,
     boss_colour = HEX("32f9ff"),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 2, max = 10},
+    boss = {min = 2, },
     pos = { x = 0, y = 19 },
     debuff = {
         akyrs_no_retriggers = true
@@ -639,7 +639,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("72b06d"),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 3, max = 10},
+    boss = {min = 3, },
     pos = { x = 0, y = 20 },
     debuff = {
         akyrs_deduct_play = 1
@@ -664,7 +664,7 @@ SMODS.Blind{
     mult = 1.5,
     boss_colour = HEX("c89bcf"),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 3, max = 10},
+    boss = {min = 3, },
     pos = { x = 0, y = 21 },
     debuff = {
         akyrs_mult_blind_size = 1.5
@@ -704,7 +704,7 @@ SMODS.Blind{
     mult = 12,
     boss_colour = HEX("8087ff"),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 3, max = 10},
+    boss = {min = 3, },
     pos = { x = 0, y = 22 },
     debuff = {
         akyrs_mult_blind_size = 0.5
@@ -741,7 +741,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("f0ad82"),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 1, max = 10},
+    boss = {min = 1, },
     pos = { x = 0, y = 23 },
     debuff = {
     },
@@ -787,7 +787,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("ffb4ea"),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 2, max = 10},
+    boss = {min = 2, },
     pos = { x = 0, y = 24 },
     debuff = {
     },
@@ -812,7 +812,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("8becc4"),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 4, max = 10},
+    boss = {min = 4, },
     pos = { x = 0, y = 25 },
     debuff = {
     },
@@ -841,7 +841,7 @@ SMODS.Blind {
     debuff = {
         --akyrs_all_seals_perma_debuff = true
     },
-    boss = {min = 1, max = 10, showdown = true},
+    boss = {min = 1, showdown = true},
     pos = { x = 0, y = 10 },
     calculate = function (self, blind, context)
         if context.akyrs_pre_play and not blind.disabled then
@@ -892,7 +892,7 @@ SMODS.Blind {
     debuff = {
     },
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 1, max = 10, showdown = true},
+    boss = {min = 1, showdown = true},
     pos = { x = 0, y = 11 },
     calculate = function (self, blind, context)
         if context.press_play and not blind.disabled then
@@ -931,7 +931,7 @@ SMODS.Blind {
     mult = 2,
     boss_colour = HEX('911468'),    
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 1, max = 10, showdown = true},
+    boss = {min = 1,showdown = true},
     pos = { x = 0, y = 10 },
     debuff = {
     },
@@ -987,7 +987,7 @@ SMODS.Blind {
     mult = 2,
     boss_colour = HEX('f0ae22'),    
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 1, max = 10, showdown = true},
+    boss = {min = 1, showdown = true},
     pos = { x = 0, y = 9 },
     debuff = {
     },
@@ -1036,7 +1036,7 @@ SMODS.Blind {
     },
     
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 1, max = 10, showdown = true},
+    boss = {min = 1, showdown = true},
     pos = { x = 0, y = 13 },
     
     loc_vars = function (self)
@@ -1116,7 +1116,7 @@ SMODS.Blind {
     mult = 2,
     boss_colour = HEX('358dff'),    
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 1, max = 10, showdown = true},
+    boss = {min = 1, showdown = true},
     pos = { x = 0, y = 11 },
     debuff = {
         akyrs_alternate_action = true
@@ -1136,7 +1136,7 @@ SMODS.Blind {
     mult = 2,
     boss_colour = SMODS.Gradients['akyrs_luminous'],    
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 1, max = 10, showdown = true},
+    boss = {min = 1, showdown = true},
     pos = { x = 0, y = 12 },
     debuff = {
     },
@@ -1160,7 +1160,7 @@ SMODS.Blind {
     mult = 2,
     boss_colour = SMODS.Gradients['akyrs_glorious'],    
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 1, max = 10, showdown = true},
+    boss = {min = 1, showdown = true},
     pos = { x = 0, y = 13 },
     debuff = {
         akyrs_mult_per_played = 0.85
@@ -1204,7 +1204,7 @@ SMODS.Blind {
     },
     
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = -999999999999, max = 10},
+    boss = {min = -999999999999, },
     pos = { x = 0, y = 14 },
     
     loc_vars = function (self)
@@ -1243,7 +1243,7 @@ SMODS.Blind {
     },
     
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = -999999999999, max = 10},
+    boss = {min = -999999999999, },
     pos = { x = 0, y = 15 },
     
     loc_vars = function (self)
@@ -1280,7 +1280,7 @@ SMODS.Blind {
     },
     
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = -999999999999, max = 10},
+    boss = {min = -999999999999, },
     pos = { x = 0, y = 16 },
     
     loc_vars = function (self)
@@ -1315,7 +1315,7 @@ SMODS.Blind {
     },
     
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = -999999999999, max = 10},
+    boss = {min = -999999999999, },
     pos = { x = 0, y = 17 },
     
     loc_vars = function (self)
@@ -1352,7 +1352,7 @@ SMODS.Blind {
         akyrs_blind_difficulty = "expert",
     },
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 7, max = 10},
+    boss = {min = 7, },
     pos = { x = 0, y = 18 },
     debuff_hand = function (self, cards, hand, handname, check)
         local has_face = false
@@ -1373,7 +1373,7 @@ SMODS.Blind {
         }
     end,
     in_pool = function (self)
-        return G.GAME.round_resets.ante >= G.GAME.win_ante
+        return G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.akyrs_allow_hard_bosses
     end,
 
 }
@@ -1389,7 +1389,7 @@ SMODS.Blind {
     },
     
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 9, max = 10},
+    boss = {min = 9, },
     pos = { x = 0, y = 19 },
     
     loc_vars = function (self)
@@ -1403,7 +1403,7 @@ SMODS.Blind {
         }
     end,
     in_pool = function (self)
-        return G.GAME.round_resets.ante > G.GAME.win_ante
+        return G.GAME.round_resets.ante > G.GAME.win_ante and G.GAME.akyrs_allow_hard_bosses
     end,
     calculate = function (self, blind, context)
         if context.before and not blind.disabled then
@@ -1427,7 +1427,7 @@ SMODS.Blind {
     },
     
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 7, max = 10},
+    boss = {min = 7, },
     pos = { x = 0, y = 20 },
     loc_vars = function (self)
         return {
@@ -1446,7 +1446,7 @@ SMODS.Blind {
         }
     end,
     in_pool = function (self)
-        return G.GAME.round_resets.ante > G.GAME.win_ante
+        return G.GAME.round_resets.ante > G.GAME.win_ante and G.GAME.akyrs_allow_hard_bosses
     end,
     modify_hand = function (self, cards, poker_hands, text, mult, hand_chips)
         if Talisman then
@@ -1480,7 +1480,10 @@ SMODS.Blind {
     end,
     
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 7, max = 10},
+    boss = {min = 7, },
+    in_pool = function (self)
+        return G.GAME.round_resets.ante > G.GAME.win_ante and G.GAME.akyrs_allow_hard_bosses
+    end,
     pos = { x = 0, y = 21 },
     
     loc_vars = function (self)
@@ -1502,7 +1505,7 @@ SMODS.Blind {
     },
     
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 7, max = 10},
+    boss = {min = 7, },
     pos = { x = 0, y = 22 },
     modify_hand = function (self, cards, poker_hands, text, mult, hand_chips)
         AKYRS.simple_event_add(
@@ -1512,6 +1515,9 @@ SMODS.Blind {
             end, 0
         )
         return mult, hand_chips, true
+    end,
+    in_pool = function (self)
+        return G.GAME.round_resets.ante >= self.boss.min - 1 and G.GAME.akyrs_allow_hard_bosses
     end,
     --[[
     calculate = function (self, blind, context)
@@ -1538,8 +1544,11 @@ SMODS.Blind {
         akyrs_is_postwin_blind = true,
     },
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 8, max = 10},
+    boss = {min = 8, },
     pos = { x = 0, y = 23 },
+    in_pool = function (self)
+        return G.GAME.round_resets.ante >= self.boss.min and G.GAME.akyrs_allow_hard_bosses, {ignore_showdown_check = true}
+    end,
 }
 
 SMODS.Blind {
@@ -1552,10 +1561,10 @@ SMODS.Blind {
     },
     
     in_pool = function (self)
-        return G.GAME.round_resets.ante >= G.GAME.win_ante, {ignore_showdown_check = true}
+        return G.GAME.round_resets.ante >= self.boss.min and G.GAME.akyrs_allow_hard_bosses, {ignore_showdown_check = true}
     end,
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 8, max = 10},
+    boss = {min = 8, },
     pos = { x = 0, y = 3 },
     set_blind = function (self)
         SMODS.change_play_limit(1)
@@ -1573,7 +1582,7 @@ SMODS.Blind {
             end
         end
         return true
-    end
+    end,
 }
 SMODS.Blind {
     key = "master_plywood_forest",
@@ -1583,13 +1592,12 @@ SMODS.Blind {
     debuff = {
         akyrs_blind_difficulty = "master",
     },
-    
-    in_pool = function (self)
-        return G.GAME.round_resets.ante >= G.GAME.win_ante, {ignore_showdown_check = true}
-    end,
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 8, max = 10},
+    boss = {min = 8, },
     pos = { x = 0, y = 4 },
+    in_pool = function (self)
+        return G.GAME.round_resets.ante >= self.boss.min and G.GAME.akyrs_allow_hard_bosses
+    end,
     calculate = function (self, blind, context)
         if not blind.disabled then
             if context.destroy_card and context.cardarea == G.hand then
@@ -1598,7 +1606,7 @@ SMODS.Blind {
                 }
             end
         end
-    end
+    end,
 }
 SMODS.Blind {
     key = "master_golden_jade",
@@ -1620,12 +1628,12 @@ SMODS.Blind {
             vars = { self.debuff.akyrs_deduct_mult }
         }
     end,    
-    in_pool = function (self)
-        return G.GAME.round_resets.ante >= G.GAME.win_ante, {ignore_showdown_check = true}
-    end,
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 12, max = 10},
+    boss = {min = 12, },
     pos = { x = 0, y = 5 },
+    in_pool = function (self)
+        return G.GAME.round_resets.ante >= self.boss.min and G.GAME.akyrs_allow_hard_bosses, {ignore_showdown_check = true}
+    end,
     calculate = function (self, blind, context)
         if context.individual and context.cardarea == G.play and not blind.disabled then
             
@@ -1652,9 +1660,6 @@ SMODS.Blind {
         xscore = 0.75,
     },
     
-    in_pool = function (self)
-        return G.GAME.round_resets.ante >= G.GAME.win_ante, {ignore_showdown_check = true}
-    end,
     loc_vars = function (self)
         return {
             vars = {
@@ -1669,8 +1674,11 @@ SMODS.Blind {
             }
         }
     end,
+    in_pool = function (self)
+        return G.GAME.round_resets.ante >= self.boss.min and G.GAME.akyrs_allow_hard_bosses, {ignore_showdown_check = true}
+    end,
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 12, max = 10},
+    boss = {min = 12, },
     pos = { x = 0, y = 6 },
     calculate = function (self, blind, context)
         if context.individual and context.cardarea == G.play and not blind.disabled then
@@ -1690,13 +1698,12 @@ SMODS.Blind {
     debuff = {
         akyrs_blind_difficulty = "master",
     },
-    
-    in_pool = function (self)
-        return G.GAME.round_resets.ante >= G.GAME.win_ante, {ignore_showdown_check = true}
-    end,
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 12, max = 10},
+    boss = {min = 12, },
     pos = { x = 0, y = 7 },
+    in_pool = function (self)
+        return G.GAME.round_resets.ante >= self.boss.min and G.GAME.akyrs_allow_hard_bosses, {ignore_showdown_check = true}
+    end,
     calculate = function (self, blind, context)
         if context.after and not context.repetition and not blind.disabled then
             return {
@@ -1745,7 +1752,7 @@ SMODS.Blind {
         }
     end,
     in_pool = function (self)
-        return G.GAME.round_resets.ante >= self.boss.min and G.GAME.won, {ignore_showdown_check = true}
+        return G.GAME.round_resets.ante >= self.boss.min and G.GAME.akyrs_allow_hard_bosses, {ignore_showdown_check = true}
     end,
     drawn_to_hand = function (self)
         for i = 1, #G.jokers.cards do
@@ -1764,7 +1771,7 @@ SMODS.Blind {
         end 
     end,
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 9, max = 10},
+    boss = {min = 9, },
     pos = { x = 0, y = 8 },
     calculate = function (self, blind, context)
         if context.remove_playing_cards then
@@ -1787,7 +1794,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour =HEX('95df3e'),
     atlas = 'aikoyoriBlindsChips', 
-    boss = {min = 1, max = 10},
+    boss = {min = 1, },
     pos = { x = 0, y = 0 },
     debuff = {
         special_blind = true,
@@ -1914,7 +1921,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX('FF6F4B'),
     atlas = 'aikoyoriBlindsChips2', 
-    boss = {min = 1, max = 10},
+    boss = {min = 1, },
     pos = { x = 0, y = 14 },
     debuff = {
         special_blind = true,
@@ -2156,7 +2163,7 @@ SMODS.Blind{
     config = {
         times_left = 2,
     },
-    boss = {min = 2, max = 10},
+    boss = {min = 2, },
     pos = { x = 0, y = 0 },
     in_pool = function(self)
         return G.GAME.round_resets.hands > 1 and G.GAME.round_resets.ante >= self.boss.min

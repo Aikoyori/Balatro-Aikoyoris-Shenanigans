@@ -57,7 +57,7 @@ SMODS.Stake {
     sticker_atlas = "aikoStakeStickers", sticker_pos = {x = 1, y = 0},
     applied_stakes = { "akyrs_turquoise" },
     prefix_config = { applied_stakes = { mod = false } },
-    colour = HEX("f4e756"),
+    colour = HEX("d087ff"),
     calculate = function (self, context)
         if context.blind_defeated then
             local cards_with_no_crystals = AKYRS.filter_table(G.playing_cards, function (_card)
@@ -114,7 +114,7 @@ SMODS.Stake {
     sticker_atlas = "aikoStakeStickers", sticker_pos = {x = 0, y = 0},
     applied_stakes = { "akyrs_bismuth" },
     prefix_config = { applied_stakes = { mod = false } },
-    colour = HEX("b74912"),    
+    colour = HEX("d79458"),    
     modifiers = function ()
         G.GAME.modifiers.akyrs_spawn_oxidising = true
     end
@@ -138,7 +138,7 @@ SMODS.Stake {
     sticker_atlas = "aikoStakeStickers", sticker_pos = {x = 4, y = 0},
     applied_stakes = { "akyrs_high_contrast" },
     prefix_config = { applied_stakes = { mod = false } },
-    colour = HEX("f4ff12"),
+    colour = HEX("ff87d8"),
     calculate = function (self, context)
         if context.blind_defeated then
             local candidates = AKYRS.filter_table(G.playing_cards, function (_card)
@@ -194,7 +194,7 @@ SMODS.Stake {
     sticker_atlas = "aikoStakeStickers", sticker_pos = {x = 3, y = 2},
     applied_stakes = { "akyrs_aluminium" },
     prefix_config = { applied_stakes = { mod = false } },
-    colour = HEX("60f78e"),
+    colour = HEX("57829b"),
     modifiers = function ()
         G.GAME.modifiers.akyrs_spawn_steam_sale = true
     end,
@@ -217,7 +217,7 @@ SMODS.Stake {
     sticker_atlas = "aikoStakeStickers", sticker_pos = {x = 4, y = 2},
     applied_stakes = { "akyrs_netherite" },
     prefix_config = { applied_stakes = { mod = false } },
-    colour = HEX("3b3939"),
+    colour = HEX("070707"),
     modifiers = function ()
         G.GAME.modifiers.akyrs_spawn_self_destruct = true
     end,

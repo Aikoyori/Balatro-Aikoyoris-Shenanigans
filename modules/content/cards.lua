@@ -341,7 +341,7 @@ SMODS.Enhancement{
         if context.main_scoring and context.cardarea == G.play then
             return {
                 xscore = card.ability.extras.xscore,
-                xblind = card.ability.extras.xblind,
+                xblindsize = card.ability.extras.xblind,
             }
         end
     end

@@ -1463,7 +1463,7 @@ return {
                 name = "Matcha Card",
                 text = {
                     "{X:purple,C:white} X#1# {} Score",
-                    "{X:blind,C:white} X#1# {} Blind Size",
+                    "{X:blind,C:white} X#2# {} Blind Size",
                 }
             },
             m_akyrs_earl_grey_tea_card = {
@@ -3951,7 +3951,7 @@ return {
                 name = "Doomsday Stake",
                 text = {
                     "Cards can have {C:attention}Self-Destructive{} Sticker",
-                    "{C:red}Self-Destructs{} at the end of the round",
+                    "({C:red}Self-Destructs{} at the end of the round)",
                     "{s:0.8}Applies Netherite Stake",
                 }
             },
@@ -3990,7 +3990,8 @@ return {
             bet_akyrs_raise_the_stake={
                 name="Raise the Stake!",
                 text={
-                    "Applies a random {C:attention}Stake{} {C:inactive}(if possible)",
+                    "Applies a random {C:attention}Stake{} that applies this stake",
+                    "{C:inactive}(if possible)",
                     "{C:green}#1# in #2# chance{} to obtain a random {C:red}Rare{} Joker",
                 },
             },
@@ -4037,7 +4038,7 @@ return {
                 name="Double or Nothing!",
                 text={
                     "{X:money}$X#1#{} round payouts",
-                    "{X:red,C:white}X#2#{} blind requirements",
+                    "{X:blind,C:white}X#2#{} blind requirements",
                 },
             },
         },

@@ -23,3 +23,19 @@ function Controller:key_press_update(key, dt)
     end
     return c
 end
+
+-- ty ivy
+if not _RELEASE_MODE then
+    SMODS.Keybind {
+        key = "itdoesntfuckingmatter",
+        key_pressed = "\\",
+        action = function()
+            for _, v in pairs(SMODS.Mods) do
+                if v.can_load and v.path then
+                    SMODS.handle_loc_file(v.path)
+                end
+            end
+            return init_localization()
+        end
+    }
+end

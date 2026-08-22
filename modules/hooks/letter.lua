@@ -130,7 +130,7 @@ end
 
 function Card:get_letter_with_pretend(lower)
     if not self.ability then return nil end
-    if not AKYRS.should_calculate_word() then return nil end
+    if not G.GAME.akyrs_character_stickers_enabled then return nil end
     local letter = self.ability.aikoyori_letters_stickers
     if letter == "#" and self.ability.aikoyori_pretend_letter and self.ability.aikoyori_pretend_letter ~= '' then
         letter = self.ability.aikoyori_pretend_letter

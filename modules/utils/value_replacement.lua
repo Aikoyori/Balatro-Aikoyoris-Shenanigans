@@ -553,5 +553,5 @@ function AKYRS.cannot_be_rerolled_away(c)
 end
 
 function AKYRS.prefer_original_for_redemption(c)
-    return c.ability.set == "Bet"
+    return c and c.ability.set == "Bet"
 end

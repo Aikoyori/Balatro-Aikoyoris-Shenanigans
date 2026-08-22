@@ -3987,15 +3987,15 @@ return {
             bet_akyrs_raise_the_stake={
                 name="Raise the Stake!",
                 text={
-                    "Applies a random {C:attention}Stake{} (if possible)",
-                    "Obtain a random {C:red}Rare{} Joker",
+                    "Applies a random {C:attention}Stake{} {C:inactive}(if possible)",
+                    "{C:green}#1# in #2# chance{} to obtain a random {C:red}Rare{} Joker",
                 },
             },
             bet_akyrs_a_lock_and_a_hard_place={
                 name="A Lock and a Hard Place!",
                 text={
-                    "A {C:attention}random{} shop item is {C:attention}Locked",
-                    "It {C:attention}must be purchased{} for it to disappear",
+                    "{C:attention}Locked{} is applied to a random shop item",
+                    "at the {C:attention}start{} of the shop",
                 },
             },
             bet_akyrs_flames_of_desires={

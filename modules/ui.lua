@@ -824,6 +824,12 @@ end
 
 function AKYRS.run_info_tab()
   local ret = {}
+  if G.GAME.stake <= 1 and #G.GAME.applied_stakes > 1 then
+    table.insert(ret,{
+          label = localize('b_stake'),
+          tab_definition_function = G.UIDEF.current_stake,
+      })
+  end
   if AKYRS.should_calculate_word() then
     table.insert(ret, {
           label = localize('b_akyrs_words'),

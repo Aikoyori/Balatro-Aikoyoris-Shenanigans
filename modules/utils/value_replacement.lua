@@ -538,3 +538,7 @@ end
 function AKYRS.cannot_be_rerolled_away(c)
     return c.ability.akyrs_locked
 end
+
+function AKYRS.prefer_original_for_redemption(c)
+    return c.ability.set == "Bet"
+end

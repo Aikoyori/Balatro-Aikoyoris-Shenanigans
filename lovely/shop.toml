@@ -1,7 +1,7 @@
 [manifest]
 version = "1.2"
 dump_lua = true
-priority = -11212
+priority = 0
 
 
 [[patches]]
@@ -38,4 +38,49 @@ if not _type and forced_key and G.P_CENTERS[forced_key] then
     _type = G.P_CENTERS[forced_key].set
 end
 '''
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '''game.lua'''
+pattern = """                                                create_shop_card_ui(card, 'Booster', G.shop_booster)"""
+position = "after"
+payload = '''G.GAME.akyrs_locked_boosters_locked = G.GAME.akyrs_locked_boosters_locked or {}
+if G.GAME.akyrs_locked_boosters_locked[G.GAME.current_round.used_packs[i]] then
+    SMODS.Stickers.akyrs_locked:apply(card, true)
+    G.GAME.akyrs_locked_boosters_locked[G.GAME.current_round.used_packs[i]] = nil
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''card.lua'''
+pattern = """        obj:redeem(card_to_save)"""
+position = "before"
+payload = '''if AKYRS.prefer_original_for_redemption(self) then 
+    local copied_card = self and copy_card(self) or Card(self.T.x, self.T.y, 0, 0, G.P_CARDS.empty, center)
+    copied_card.update = function(_self, dt)
+        _self.T.w = 0
+        _self.T.h = 0
+        _self.T.x = self.T.x
+        _self.T.y = self.T.y
+        _self.akyrs_real_card = self
+        if self.REMOVED and not _self.REMOVED then
+            _self:remove()
+        end 
+        Card.update(self, dt)
+    end
+    obj:redeem(copied_card)
+    AKYRS.simple_event_add(function() copied_card:remove() return true end, 0)
+else'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''card.lua'''
+pattern = """        obj:redeem(card_to_save)"""
+position = "after"
+payload = '''end'''
 match_indent = true

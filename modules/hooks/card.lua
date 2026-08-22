@@ -200,6 +200,7 @@ function Card:redeem()
             discover_card(self.config.center)
         end
         local key = self.config.center.key
+        self.akyrs_temp_T = self.T
         table.insert(G.GAME.akyrs_redeemed_bets, key)
         G.GAME.akyrs_redeemed_bet_key_table[key] = (G.GAME.akyrs_redeemed_bet_key_table[key] or 0) + 1
 
@@ -233,7 +234,6 @@ function Card:redeem()
         set_voucher_usage(self)
         check_for_unlock({type = 'run_redeem'})
         --G.GAME.current_round.voucher = nil
-
         self:apply_to_run()
 
         delay(0.6)
@@ -249,6 +249,7 @@ function Card:redeem()
             self.children.bot_disp:remove()
             self.children.bot_disp = nil
             self:start_dissolve()
+            G.GAME.used_jokers[key] = nil
         return true end }))
     end
     return unpack(x)

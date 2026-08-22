@@ -12,7 +12,8 @@ SMODS.UndiscoveredSprite{
 SMODS.UndiscoveredCompat["Bet"] = true
 
 ---@class AKYRS.Bet:SMODS.Center
----@field can_redeem fun(self: AKYRS.Bet|table): boolean? a check to see if you can redeem it (because it can do more than voucher usually do, for example ghastly limelight will need to check if you can have multiple)
+---@field can_redeem fun(self: AKYRS.Bet|table, card: Card): boolean? a check to see if you can redeem it (because it can do more than voucher usually do, for example ghastly limelight will need to check if you can have multiple)
+---@field multi_use boolean can this be used multiple times
 ---@overload fun(self: AKYRS.Bet): AKYRS.Bet
 AKYRS.Bet = SMODS.Center:extend {
     set = 'Bet',
@@ -39,10 +40,10 @@ AKYRS.Bet = SMODS.Center:extend {
     use = function(self, card, copier)
         card:redeem()
     end,
-    can_redeem = function (self)
+    can_redeem = function (self, card)
         return (self.multi_use or not G.GAME.akyrs_redeemed_bet_key_table[self.key])
     end,
-    badge_colour = HEX("CC2332"),
+    badge_colour = HEX("69535D"),
     in_pool = function (self, args)
         return (self.multi_use or not G.GAME.akyrs_redeemed_bet_key_table[self.key])
     end,
@@ -79,24 +80,35 @@ AKYRS.Bet {
     atlas = 'aikoyoriBets', pos = { x = 1, y = 0 } ,
     config = {
         extras = {
-            slot = 1
+            num = 1,
+            denom = 3,
         }
     },
     loc_vars = function (self, info_queue, card)
+        local n, d = SMODS.get_probability_vars(card, card.ability.extras.num, card.ability.extras.denom, 'akyrs_bet_lock_chance' )
         return {
             vars = {
-                
+                n, d,
             }
         }
     end,
     multi_use = true,
-    can_redeem = function (self)
+    can_redeem = function (self, card)
         return #G.GAME.applied_stakes < #G.P_CENTER_POOLS.Stake
     end,
     redeem = function (self, card) 
         local potential_stakes = AKYRS.get_applicable_stakes()
         local stake_to_apply = pseudorandom_element(potential_stakes, "akyrs_bet_expert_play_random_stake")
         local applied_stakes_keys = AKYRS.apply_stake_mid_game(stake_to_apply)
+        
+        AKYRS.simple_event_add(function ()
+            if SMODS.pseudorandom_probability(card, 'akyrs_bet_lock_chance' , card.ability.extras.num, card.ability.extras.denom ) then
+                SMODS.add_card{ rarity = 'Rare', set = 'Joker'}
+            else
+                AKYRS.nopeinator(card, { parent_this = card.akyrs_real_card })
+            end
+            return true
+        end,0)
         for _, stk in ipairs(applied_stakes_keys) do
             local stake_config = G.P_STAKES[stk]
             local fake_stake_card = AKYRS.fake_card_sprite({
@@ -117,7 +129,6 @@ AKYRS.Bet {
                 return true
             end,0)
         end
-
     end,
     unredeem = function (self, card) 
         -- remove stake modifier
@@ -135,6 +146,7 @@ AKYRS.Bet {
         }
     },
     loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = { key = 'akyrs_locked', set = 'Other' }
         return {
             vars = {
                 card.ability.extras.slot
@@ -142,6 +154,9 @@ AKYRS.Bet {
         }
     end,
     multi_use = true,
+    can_redeem = function (self, card)
+        return AKYRS.has_room(G.jokers)
+    end,
     redeem = function (self, card) 
         G.GAME.akyrs_lock_card_amnt = (G.GAME.akyrs_lock_card_amnt or 0) + 1
         if G.STATE == G.STATES.SHOP and G.shop_jokers.cards then

@@ -329,3 +329,15 @@ if card.ability.set == "Bet" then dont_dissolve = true end
 """
 overwrite = true
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = """     ::skip_game_actions_during_remove::"""
+position = "before"
+payload = """
+-- aikoshen does the thing woohoo
+if self.ability.set == "Bet" then G.GAME.used_jokers[self.config.center.key] = nil end
+"""
+overwrite = true
+match_indent = true

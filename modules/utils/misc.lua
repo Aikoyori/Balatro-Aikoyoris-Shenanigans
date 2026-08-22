@@ -1323,7 +1323,11 @@ function AKYRS.fake_card_sprite(sprite, args)
     temp_spr.states.click.can = false
     temp_spr.states.drag.can = false
     temp_spr.states.hover.can = true
+    temp_spr.VT.x = args.x or 0
+    temp_spr.VT.y = args.y or 0
     local card = Card(args.x or 0 ,args.y or 0 , args.w or 1, args.h or 1, G.P_CARDS.empty, G.P_CENTERS.c_base)
+    card.VT.x = args.x or 0
+    card.VT.y = args.y or 0
     temp_spr.states.click.can = false
     card.states.drag.can = false
     card.states.hover.can = true
@@ -1962,4 +1966,32 @@ function AKYRS.voucher_style_text(card, conf)
         card.children.bot_disp = nil
         card:start_dissolve()
     return true end }))
+end
+
+function AKYRS.nopeinator(card, config)
+    local config = config or {}
+    AKYRS.simple_event_add(function()
+        attention_text({
+            text = localize(config.text_key or 'k_nope_ex'),
+            scale = 1.3,
+            hold = 1.4,
+            major = config.parent_this or card,
+            backdrop_colour = config.colour or G.C.PURPLE,
+            align = 'cm',
+            offset = { x = 0, y = 0 },
+            silent = true
+        })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.06 * G.SETTINGS.GAMESPEED,
+            blockable = false,
+            blocking = false,
+            func = function()
+                play_sound('tarot2', 0.76, 0.4); return true
+            end
+        }))
+        play_sound('tarot2', 1, 0.4)
+        card:juice_up(0.3, 0.5)
+        return true
+    end)
 end

@@ -917,9 +917,11 @@ G.FUNCS.use_card = function (e,m,ns)
     end
     if card.ability.set == 'Bet' then 
       delay(0.1)
-      draw_card(G.hand, G.play, 1, 'up', true, card, nil, true) 
+      draw_card(card.area, G.play, 1, 'up', true, card, nil, true) 
       G.GAME.round_scores.cards_purchased.amt = G.GAME.round_scores.cards_purchased.amt + 1
       if area == G.pack_cards then e.config.ref_table.cost = 0 end
+      card.T.x = G.play.T.x
+      card.T.y = G.play.T.y
       e.config.ref_table:redeem()
     end
     local r = useCardHook(e,m,ns)
@@ -2074,10 +2076,19 @@ end
 
 local tglshop = G.FUNCS.toggle_shop
 G.FUNCS.toggle_shop = function(e)
-    local locked_cards = AKYRS.filter_table(G.shop_jokers.cards, function(card)
+    G.GAME.akyrs_locked_cards = AKYRS.map(AKYRS.filter_table(G.shop_jokers.cards, function(card)
         return card.ability.akyrs_locked
-     end, true, true)
-    G.GAME.akyrs_locked_cards = AKYRS.map(locked_cards, function (v, k)
+     end, true, true), function (v, k)
+        return v:save()
+    end)
+    G.GAME.akyrs_locked_vouchers = AKYRS.map(AKYRS.filter_table(G.shop_vouchers.cards, function(card)
+        return card.ability.akyrs_locked
+     end, true, true), function (v, k)
+        return v:save()
+    end)
+    G.GAME.akyrs_locked_boosters = AKYRS.map(AKYRS.filter_table(G.shop_booster.cards, function(card)
+        return card.ability.akyrs_locked
+     end, true, true), function (v, k)
         return v:save()
     end)
     local x = tglshop(e)
@@ -2097,13 +2108,24 @@ function create_card_for_shop(area)
     end
     ---@type Card
     local card = cc4s(area)
-    if (G.GAME.akyrs_lock_card_working_amount or 0) > 1 then
+    if (G.GAME.akyrs_lock_card_working_amount or 0) >= 1 then
         G.GAME.akyrs_lock_card_working_amount = (G.GAME.akyrs_lock_card_working_amount or 1) - 1
         SMODS.Stickers.akyrs_locked:apply(card, true)
     end
     return card
 end
 
+local getpackhook = get_pack
+function get_pack(_key, _type)
+    if G.GAME.akyrs_locked_boosters and #G.GAME.akyrs_locked_boosters > 0 then
+        local booster = table.remove(G.GAME.akyrs_locked_boosters, #G.GAME.akyrs_locked_boosters)
+        local cent = booster.save_fields.center
+        G.GAME.akyrs_locked_boosters_locked = G.GAME.akyrs_locked_boosters_locked or {}
+        G.GAME.akyrs_locked_boosters_locked[cent] = true
+        return { key = cent, is_from_locking = true }
+    end
+    return getpackhook(_key, _type)
+end
 
 function AKYRS.UIDEF.akyrs_redeemed_bets()
 

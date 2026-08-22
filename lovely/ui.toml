@@ -950,3 +950,30 @@ position = "after"
 payload = """AKYRS.set_splash_shader(nil, 1)"""
 overwrite = true
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = """    self.HUD = UIBox{"""
+position = "before"
+payload = """AKYRS.setup_run_ui(self)"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = """        if self.HUD then self.HUD:remove(); self.HUD = nil end"""
+position = "before"
+payload = """AKYRS.remove_ui(self)"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = """		if G.HUD then G.HUD:recalculate() end"""
+position = "before"
+payload = """AKYRS.recalculate_ui()"""
+overwrite = true
+match_indent = true

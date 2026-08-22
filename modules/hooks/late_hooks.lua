@@ -122,9 +122,9 @@ function Game:start_run(args)
             end, 0.5
         )
     end
-    recalculateHUDUI()
+    AKYRS.recalculate_hud_ui()
     if G.GAME.current_round.advanced_blind then
-        recalculateBlindUI()
+        AKYRS.recalculate_blind_ui()
     end
     if G.GAME.akyrs_any_drag then
         G.GAME.akyrs_temptation_resisted = true

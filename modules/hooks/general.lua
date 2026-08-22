@@ -2093,7 +2093,7 @@ function Blind:set_blind(blind, initial, silent)
     
 
     if blind and G.GAME.akyrs_ui_should_recalculate then
-        recalculateBlindUI()
+        AKYRS.recalculate_blind_ui()
         G.GAME.akyrs_ui_should_recalculate = nil
     end
     if G.GAME.blind and G.GAME.blind.in_blind and not G.GAME.blind.defeated and G.GAME.blind.debuff.akyrs_cannot_be_overridden and 

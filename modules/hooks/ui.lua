@@ -136,7 +136,7 @@ function Blind:remove()
     
 end
 
-function recalculateBlindUI()
+function AKYRS.recalculate_blind_ui()
     if G.HUD_blind then
         local blind_hud_ui_function = create_UIBox_HUD_blind
         local config = G.HUD_blind.config
@@ -180,12 +180,12 @@ end
 local setBlindHook = Blind.set_blind
 function Blind:set_blind(x, y, z)
     local abc = setBlindHook(self,x ,y,z)
-    --if x then recalculateBlindUI() end
+    --if x then AKYRS.recalculate_blind_ui() end
     
     return abc
 end
 
-function recalculateHUDUI()
+function AKYRS.recalculate_hud_ui()
     if G.HUD then
         ease_discard(0, true, true)
         G.HUD:recalculate()

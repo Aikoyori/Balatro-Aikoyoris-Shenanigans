@@ -1442,13 +1442,13 @@ AKYRS.Scenario {
         end
     end,
     add_to_deck = function (self, card, from_debuff)
-        recalculateBlindUI()
+        AKYRS.recalculate_blind_ui()
     end,
     remove_from_deck = function (self, card, from_debuff)
-        recalculateBlindUI()
+        AKYRS.recalculate_blind_ui()
     end,
     tag_removed = function (self, tag)
-        recalculateBlindUI()
+        AKYRS.recalculate_blind_ui()
     end
 }
 

@@ -654,7 +654,7 @@ SMODS.Joker {
             },
             main_end = {
                 { n = G.UIT.R, config = { padding = 0.1, colour = G.C.CLEAR, r = 0.1}, nodes = {
-                    AKYRS.ui_auto_table(completed_nodes, { columns = 5, w = 0.5, h = 0.25 })
+                    AKYRS.ui_auto_table(completed_nodes, { columns = 5, w = 0.8, h = 0.25 })
                 }}
             }
         }
@@ -2474,7 +2474,7 @@ SMODS.Joker{
         }
     end,
     calculate = function (self, card, context)
-        if context.individual and context.cardarea == 'unscored' and other_card:is_suit('Clubs') then
+        if context.individual and context.cardarea == 'unscored' and context.other_card:is_suit('Clubs') then
             return {
                 func = function ()
                     SMODS.scale_card( card, {

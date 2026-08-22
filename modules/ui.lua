@@ -1390,3 +1390,70 @@ function AKYRS.refresh_shop_sign()
   G.AKYRS_SHOP_SIGN_REFRESH_ONLY = nil
 end
 
+function AKYRS.setup_run_ui(self)
+  AKYRS.is_hud_slided = nil
+  self.AKYRS_HUD_UNDERLAY = UIBox{
+    definition = AKYRS.UIDEF.hud_underlay(),
+      config = {align=('cli'), offset = {x=1.8,y=0},major = G.ROOM_ATTACH}
+  }
+  G.AKYRS_HUD_UNDERLAY:recalculate()
+end
+function AKYRS.remove_ui(self)
+  if self.AKYRS_HUD_UNDERLAY then self.AKYRS_HUD_UNDERLAY:remove(); self.AKYRS_HUD_UNDERLAY = nil end
+end
+
+function AKYRS.recalculate_ui()
+  if G.AKYRS_HUD_UNDERLAY then G.AKYRS_HUD_UNDERLAY:recalculate() end
+end
+local slidespeed = 0.5
+function G.FUNCS.akyrs_shift_hud(e)
+  AKYRS.is_hud_slided = not not not AKYRS.is_hud_slided
+  local val = G.HUD.config.offset.x
+  if AKYRS.is_hud_slided then
+    ease_value(G.HUD.config.offset, 'x', -val + -3.5, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo')
+  else
+    ease_value(G.HUD.config.offset, 'x', -val + -0.7, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo')
+  end
+end
+
+function AKYRS.UIDEF.shift_hud_button()
+end
+
+
+function AKYRS.UIDEF.hud_underlay()
+    local scale = 0.4
+
+    local contents = {}
+
+    local spacing = 0.13
+    local temp_col = G.C.DYN_UI.BOSS_MAIN
+    local temp_col2 = G.C.DYN_UI.BOSS_DARK
+
+    contents.buttons = {
+      {n=G.UIT.C, config={align = "cm", r=0.1, colour = G.C.CLEAR, shadow = true, id = 'button_area', padding = 0.2}, nodes={
+          {n=G.UIT.R, config={id = 'run_info_button', align = "cm", minh = 1.75, minw = 1.5,padding = 0.05, r = 0.1, hover = true, colour = G.C.RED, button = "run_info", shadow = true}, nodes={
+            {n=G.UIT.R, config={align = "cm", padding = 0, maxw = 1.4}, nodes={
+              {n=G.UIT.T, config={text = localize('b_run_info_1'), scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
+            }},
+            {n=G.UIT.R, config={align = "cm", padding = 0, maxw = 3.4}, nodes={
+              {n=G.UIT.T, config={text = localize('b_run_info_2'), scale = 1*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true, focus_args = {button = G.F_GUIDE and 'guide' or 'back', orientation = 'bm'}, func = 'set_button_pip'}}
+            }}
+          }},
+          {n=G.UIT.R, config={align = "cm", minh = 1.75, minw = 1.5,padding = 0.05, r = 0.1, hover = true, colour = G.C.ORANGE, button = "options", shadow = true}, nodes={
+            {n=G.UIT.C, config={align = "cm", maxw = 3.4, focus_args = {button = 'start', orientation = 'bm'}, func = 'set_button_pip'}, nodes={
+              {n=G.UIT.T, config={text = localize('b_options'), scale = scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
+            }},
+          }}
+        }}
+    }
+
+    return {n=G.UIT.ROOT, config = {align = "cm", padding = 0.03, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
+      {n=G.UIT.R, config = {align = "cm", padding= 0.05, colour = G.C.DYN_UI.MAIN, r=0.1}, nodes={
+        {n=G.UIT.R, config={align = "cm", colour = G.C.DYN_UI.BOSS_DARK, r=0.1, minh = 30, padding = 0.08}, nodes={
+          {n=G.UIT.R, config={align = "cm", id = 'row_round'}, nodes={
+            {n=G.UIT.C, config={align = "cm"}, nodes=contents.buttons},
+          }},
+        }}
+      }}
+    }}
+end

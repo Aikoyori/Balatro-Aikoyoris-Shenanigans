@@ -1836,8 +1836,8 @@ SMODS.Blind{
             Event({
                 delay = 10,
                 func = function()
-                    recalculateHUDUI()
-                    recalculateBlindUI()
+                    AKYRS.recalculate_hud_ui()
+                    AKYRS.recalculate_blind_ui()
                     return true
                 end
             })
@@ -1881,8 +1881,8 @@ SMODS.Blind{
         ease_hands_played(self.hands_sub or G.GAME.current_round.hand_sub)
         ease_discard(self.discards_sub or G.GAME.current_round.discards_sub)
         
-        recalculateHUDUI()
-        recalculateBlindUI()
+        AKYRS.recalculate_hud_ui()
+        AKYRS.recalculate_blind_ui()
         
     end,
     defeat = function(self)
@@ -1892,8 +1892,8 @@ SMODS.Blind{
         for _,c in ipairs(G.playing_cards) do
             c:set_sprites(c.config.center,c.config.card)
         end
-        recalculateHUDUI()
-        recalculateBlindUI()
+        AKYRS.recalculate_hud_ui()
+        AKYRS.recalculate_blind_ui()
     end,
     calculate = function (self, blind, context)
         if context.after then
@@ -1968,8 +1968,8 @@ SMODS.Blind{
             Event({
                 delay = 10,
                 func = function()
-                    recalculateHUDUI()
-                    recalculateBlindUI()
+                    AKYRS.recalculate_hud_ui()
+                    AKYRS.recalculate_blind_ui()
                     return true
                 end
             })
@@ -2046,8 +2046,8 @@ SMODS.Blind{
         SMODS.change_play_limit(-1e4)
         SMODS.change_discard_limit(-1e4)
         
-        recalculateHUDUI()
-        recalculateBlindUI()
+        AKYRS.recalculate_hud_ui()
+        AKYRS.recalculate_blind_ui()
         
     end,
     defeat = function(self)
@@ -2058,8 +2058,8 @@ SMODS.Blind{
         G.hand:change_size(-9)
         SMODS.change_play_limit(-1e4)
         SMODS.change_discard_limit(-1e4)
-        recalculateHUDUI()
-        recalculateBlindUI()
+        AKYRS.recalculate_hud_ui()
+        AKYRS.recalculate_blind_ui()
         for _, _c in ipairs(G.consumeables.cards) do
             ---@type Card
             _c = _c
@@ -2187,11 +2187,11 @@ SMODS.Blind{
     set_blind = function (self)
         G.GAME.aiko_puzzle_win = false
         G.GAME.current_round.advanced_blind = true
-        recalculateBlindUI()
+        AKYRS.recalculate_blind_ui()
     end,
     disable = function(self)
         G.GAME.current_round.advanced_blind = false
-        recalculateBlindUI()
+        AKYRS.recalculate_blind_ui()
     end,
     calculate = function (self, blind, context)
         if not blind.disabled then
@@ -2214,7 +2214,7 @@ SMODS.Blind{
                                 return true
                             end, 0
                         )
-                        recalculateBlindUI()
+                        AKYRS.recalculate_blind_ui()
 
                     end
                 }

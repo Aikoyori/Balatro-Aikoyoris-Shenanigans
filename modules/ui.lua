@@ -1371,7 +1371,7 @@ end
 
 function AKYRS.text_prefab(args) 
   args = args or {}
-  return { n = args.uit or G.UIT.C, nodes = { { n = G.UIT.T, config = args.config or { colour = G.C.WHITE, text = args.text or "AIKO U SUCK WTFF", ref_table = args.ref_table, ref_value = args.ref_value, scale = args.scale or 0.4 } } } }
+  return { n = args.uit or G.UIT.C, config = { align = args.align }, nodes = { { n = G.UIT.T, config = args.config or { colour = args.colour or G.C.WHITE, text = args.text or "AIKO U SUCK WTFF", ref_table = args.ref_table, ref_value = args.ref_value, scale = args.scale or 0.4 } } } }
 end
 
 function AKYRS.close_button_prefab(shop)
@@ -1422,7 +1422,7 @@ end
 function AKYRS.recalculate_ui()
   if G.AKYRS_HUD_UNDERLAY then G.AKYRS_HUD_UNDERLAY:recalculate() end
 end
-local slidespeed = 0.5
+local slidespeed = 0.7
 function G.FUNCS.akyrs_shift_hud(e)
   local toggler = e
   if toggler and type(toggler) == 'table' and toggler.config and toggler.config.ref_table then
@@ -1443,14 +1443,16 @@ function G.FUNCS.akyrs_shift_hud(e)
 
   local val = G.HUD.config.offset.x
   if AKYRS.is_hud_slided then
-    ease_value(G.HUD.config.offset, 'x', -val + -5.4, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo')
+    --G.HUD.role.r_bond = "Weak"
+    AKYRS.better_ease_value(G.HUD.config.offset, 'x', -5.4, nil, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo', 'akyrs_ui')
+    --AKYRS.better_ease_value(G.HUD.T, 'r', 0.05, nil, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo', 'akyrs_ui')
   else
-    ease_value(G.HUD.config.offset, 'x', -val + -0.7, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo')
+    AKYRS.better_ease_value(G.HUD.config.offset, 'x', -0.7, nil, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo', 'akyrs_ui')
+    --AKYRS.better_ease_value(G.HUD.T, 'r', 0, nil, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo', 'akyrs_ui')
   end
 end
 
-
-AKYRS.strings = {
+AKYRS.strings = AKYRS.strings or {
   shop_more_button = "REPLACE_THIS",
   shop_jcc_button_1 = "REPLACE_THIS",
   shop_jcc_button_2 = "REPLACE_THIS",
@@ -1523,6 +1525,8 @@ function AKYRS.UIDEF.hud_underlay()
           }}
         
     
+    ui_stuff[#ui_stuff+1] = 
+      AKYRS.text_prefab{ uit = G.UIT.R, align = 'cm', text = localize("k_akyrs_shops_list"), colour = G.C.EDITION, scale = 0.5 }
     ui_stuff[#ui_stuff+1] = AKYRS.button_prefab({
         children = {
             AKYRS.text_prefab{ uit = G.UIT.R, ref_table = AKYRS.strings, ref_value = 'shop_jcc_button_1', scale = 0.4 },

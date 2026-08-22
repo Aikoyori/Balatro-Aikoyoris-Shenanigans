@@ -1630,7 +1630,7 @@ function AKYRS.better_ease_value(ref_table, ref_value, mod, floored, timer_type,
     G.E_MANAGER:add_event(Event({
         trigger = 'ease',
         blockable = (not_blockable == false),
-        blocking = blocking,
+        blocking = false,
         ref_table = ref_table,
         ref_value = ref_value,
         ease_to = mod,

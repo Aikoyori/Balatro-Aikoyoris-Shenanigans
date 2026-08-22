@@ -4952,6 +4952,7 @@ return {
             k_akyrs_chicanery_btn_1="Jimbo's Chance",
             k_akyrs_chicanery_btn_2="Chicanery",
             k_akyrs_shop_cor="????????",
+            k_akyrs_shops_list="- Shops -",
 
             k_akyrs_enchantment_none="Allows multiple abilities to be added",
             k_akyrs_enchantment_none_blank="None :(",

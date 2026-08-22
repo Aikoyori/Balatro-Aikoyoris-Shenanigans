@@ -1047,6 +1047,7 @@ Also technically this crash saves you from bricked runs so thank me later :D
         AKYRS.parser_set_var(G.GAME.aikoyori_variable_to_set , G.GAME.aikoyori_value_to_set_to_variable)
     end
     if G.GAME.aikoyori_evaluation_value and G.GAME.akyrs_mathematics_enabled and G.GAME.akyrs_character_stickers_enabled then
+        --print(G.GAME.aikoyori_evaluation_value, "ororo")
         if G.GAME.aikoyori_evaluation_replace then
             ease_chips(G.GAME.aikoyori_evaluation_value)
         else

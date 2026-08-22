@@ -191,12 +191,14 @@ AKYRS.Bet {
         local suit_to_absolutely_annihilate = pseudorandom_element(AKYRS.filter_table(SMODS.Suits, function (st)
             return suits_in_deck[st.key]
         end, false, true), 'akyrs_bet_flames_of_desires_suit')
-        local cards_potential = AKYRS.filter_table(G.playing_cards, function (c)
-            return c:is_suit(suit_to_absolutely_annihilate.key)
-        end, true, true)
-        for _, c in ipairs(cards_potential) do
-            AKYRS.remove_value_from_table(G.playing_cards, c)
-            SMODS.destroy_cards({c})
+        if suit_to_absolutely_annihilate then
+            local cards_potential = AKYRS.filter_table(G.playing_cards, function (c)
+                return c:is_suit(suit_to_absolutely_annihilate.key)
+            end, true, true)
+            for _, c in ipairs(cards_potential) do
+                AKYRS.remove_value_from_table(G.playing_cards, c)
+                SMODS.destroy_cards({c})
+            end
         end
     end,
     unredeem = function (self, card) 

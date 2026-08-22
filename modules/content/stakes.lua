@@ -26,7 +26,7 @@ SMODS.Stake {
     prefix_config = { applied_stakes = { mod = false } },
     colour = HEX("a8ff50"),
     modifiers = function ()
-        G.GAME.starting_params.ante_scaling = 1.5
+        G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1) * 1.5
     end
 }
 SMODS.Stake {

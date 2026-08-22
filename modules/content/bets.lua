@@ -185,41 +185,61 @@ AKYRS.Bet {
             }
         }
     end,
+    multi_use = true,
     redeem = function (self, card) 
-        
-        -- burn a suit off a deck
+        local suits_in_deck = AKYRS.get_suit_freq_from_cards(G.playing_cards, true)
+        local suit_to_absolutely_annihilate = pseudorandom_element(AKYRS.filter_table(SMODS.Suits, function (st)
+            return suits_in_deck[st.key]
+        end, false, true), 'akyrs_bet_flames_of_desires_suit')
+        local cards_potential = AKYRS.filter_table(G.playing_cards, function (c)
+            return c:is_suit(suit_to_absolutely_annihilate.key)
+        end, true, true)
+        for _, c in ipairs(cards_potential) do
+            AKYRS.remove_value_from_table(G.playing_cards, c)
+            SMODS.destroy_cards({c})
+        end
     end,
     unredeem = function (self, card) 
         -- i don't think there's much to do here ngl it's a one way action
     end,
-    in_pool = function (self, args)
-        return false
-    end
 }
 AKYRS.Bet {
     key = "resonance_of_chaos",
     atlas = 'aikoyoriBets', pos = { x = 4, y = 0 } ,
     config = {
         extras = {
-            slot = 1
         }
     },
     loc_vars = function (self, info_queue, card)
+        for _,ct in ipairs(G.P_CENTER_POOLS.Enhanced) do
+            if ct.akyrs_note_card then
+                info_queue[#info_queue+1] = ct
+            end
+        end
         return {
             vars = {
-                card.ability.extras.slot
             }
         }
     end,
+    multi_use = true,
     redeem = function (self, card) 
-        -- burn a suit off a deck
+        local weight_total = 0
+        local filtered = AKYRS.map(AKYRS.filter_table(G.P_CENTER_POOLS.Enhanced, function (ct)
+            return ct.akyrs_note_card
+        end, true, true), function (v, k)
+            weight_total = weight_total + v.akyrs_note_card.weight
+            return { value = v.key, weight = v.akyrs_note_card.weight }
+        end)
+        filtered[#filtered+1] = { value = 'c_base', weight = weight_total }
+        AKYRS.filter_table(G.playing_cards,
+            function (cx)
+                local selected = AKYRS.weighted_randomiser(filtered, "akyrs_bet_resonance_of_chaos_select")
+                cx:set_ability(G.P_CENTERS[selected])
+            end, true, true)
     end,
     unredeem = function (self, card) 
         -- i don't think there's much to do here ngl it's a one way action
     end,
-    in_pool = function (self, args)
-        return false
-    end
 }
 AKYRS.Bet {
     key = "ghastly_limelight",
@@ -227,26 +247,42 @@ AKYRS.Bet {
 
     config = {
         extras = {
-            slot = 1
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                card.ability.extras.slot
             }
         }
     end,
+    can_redeem = function (self, card)
+        if G.jokers and G.jokers.cards then
+            local candidates = AKYRS.filter_table(G.jokers.cards, function (c)
+                return not SMODS.is_eternal(c)
+            end,true, true)
+            return #candidates >= 2
+        end
+        return false
+    end,
     redeem = function (self, card) 
-        print("fuck!")
-        -- burn a suit off a deck
+        local candidates = AKYRS.filter_table(G.jokers.cards, function (c)
+            return not SMODS.is_eternal(c)
+        end,true, true)
+        local target_joker = pseudorandom_element(candidates, "akyrs_bet_ghastly_limelight_pick")
+        local other_jokers = AKYRS.filter_table(G.jokers.cards, function (c)
+            return c ~= target_joker
+        end, true, true)
+        local rarity = AKYRS.rarity_map(target_joker.config.center.rarity)
+        local sets = target_joker.ability.set
+        SMODS.destroy_cards({target_joker})
+        AKYRS.do_things_to_card(other_jokers, function (_card, index)
+            local key = SMODS.poll_object{ type = sets, rarities = {rarity}, allow_legendaries = true }
+            _card:set_ability(G.P_CENTERS[key])
+        end)
     end,
     unredeem = function (self, card) 
         -- i don't think there's much to do here ngl it's a one way action
     end,
-    in_pool = function (self, args)
-        return false
-    end
 }
 
 AKYRS.Bet {
@@ -254,23 +290,52 @@ AKYRS.Bet {
     atlas = 'aikoyoriBets', pos = { x = 6, y = 0 } ,
     config = {
         extras = {
-            slot = 1
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                card.ability.extras.slot
             }
         }
     end,
     redeem = function (self, card) 
-        -- burn a suit off a deck
+        G.GAME.akyrs_life_decay_mode = "normal"
+        AKYRS.update_life_ui(G)
+        
     end,
     unredeem = function (self, card) 
         -- i don't think there's much to do here ngl it's a one way action
     end,
     in_pool = function (self, args)
-        return false
-    end
+        return not AKYRS.is_life_enabled()
+    end,
+}
+
+AKYRS.Bet {
+    key = "double_or_nothing",
+    atlas = 'aikoyoriBets', pos = { x = 7, y = 0 } ,
+    config = {
+        extras = {
+            payouts = 2
+        }
+    },
+    multi_use = true,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.payouts,
+                (G.GAME.akyrs_blind_size_mult or 2),
+            }
+        }
+    end,
+    redeem = function (self, card) 
+        G.GAME.akyrs_payouts_multiplier = (G.GAME.akyrs_payouts_multiplier or 1) * card.ability.extras.payouts
+        G.GAME.akyrs_blind_size_mult = G.GAME.akyrs_blind_size_mult or 2
+        G.GAME.starting_params.ante_scaling = G.GAME.starting_params.ante_scaling * G.GAME.akyrs_blind_size_mult
+        G.GAME.akyrs_blind_size_mult = G.GAME.akyrs_blind_size_mult + 1
+        AKYRS.update_all_blind_select()
+    end,
+    unredeem = function (self, card) 
+        
+    end,
 }

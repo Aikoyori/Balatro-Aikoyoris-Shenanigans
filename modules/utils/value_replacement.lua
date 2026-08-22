@@ -418,6 +418,19 @@ function AKYRS.add_custom_cashout_rows(dollars, pitch)
             })
         dollars = dollars + mony
     end
+    if G.GAME.akyrs_payouts_multiplier and G.GAME.akyrs_payouts_multiplier ~= 1 then
+	    add_round_eval_row(
+            { 
+                name = 'custom_akyrs_payouts_mult', 
+                dollars = (dollars * (G.GAME.akyrs_payouts_multiplier - 1)),
+                pitch = 0.95,
+                bonus = true,
+                text_scale = 0.5,
+                text = localize({type = "variable", key = "k_akyrs_payout_multiplier", vars = { G.GAME.akyrs_payouts_multiplier }}),
+                text_colour = G.C.MONEY,
+            })
+        dollars = dollars * G.GAME.akyrs_payouts_multiplier
+    end
     return dollars
 end
 

@@ -250,7 +250,14 @@ function Card:redeem()
             self.children.bot_disp = nil
             self:start_dissolve()
             G.GAME.used_jokers[key] = nil
+            AKYRS.simple_event_add(
+                function ()
+                    AKYRS.force_save()
+                    return true
+                end, 0
+            )
         return true end }))
+        
     end
     return unpack(x)
 end

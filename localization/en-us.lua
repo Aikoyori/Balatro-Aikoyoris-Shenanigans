@@ -1922,12 +1922,15 @@ return {
             j_akyrs_ghastling = {
                 name = "Ghastling",
                 text = { 
-                    "{C:mult}+#2#{} Mult",
-                    "And after playing {C:attention}#1#{} hands,",
-                    "creates a {T:j_akyrs_happy_ghast,C:purple}Happy Ghast{}",
-                    "{C:red}Self-destructs{}",
-                    "Decreases by {C:blue}1{} more every hand",
-                    "per {T:j_ice_cream,C:blue}Ice Cream{} present",
+                    {
+                        "{C:mult}+#2#{} Mult",
+                        "Gain {C:mult}+#3#{} Mult at the end of round",
+                    },
+                    {
+                        "After playing {C:attention}#1#{} hands,",
+                        "creates a {T:j_akyrs_happy_ghast,C:purple}Happy Ghast{}",
+                        "{C:red}Self-destructs{}",
+                    }
                 }
             },
             j_akyrs_happy_ghast = {
@@ -4001,15 +4004,17 @@ return {
             bet_akyrs_flames_of_desires={
                 name="Flames of Desires!",
                 text={
-                    "{C:attention}Destroy{} every cards",
-                    "that has a {C:attention}random{} suit from the deck",
+                    "A random {C:attention}Suit{} from your deck is picked",
+                    "Any cards with that suit is {C:red,E:akyrs_shrivel}destroyed{}",
                 },
             },
             bet_akyrs_resonance_of_chaos={
                 name="Resonance of Chaos!",
                 text={
-                    "All cards in decks has their enhancements",
-                    "{C:attention}locked{} to any of the {C:attention}Note Cards",
+                    "{C:attention}All{} cards in decks has their enhancements",
+                    "{C:attention}changed{} to either any of the {C:attention}Note Cards",
+                    "or {C:attention}Base Card{}",
+                    "{C:inactive}(Higher chance to get Base card){}",
                 },
             },
             bet_akyrs_ghastly_limelight={
@@ -4025,6 +4030,14 @@ return {
                 text={
                     "Enable {C:attention}Life Drain",
                     "and access to {C:attention}Life{} Shop",
+                    "shop part wip so just play the life for now lol",
+                },
+            },
+            bet_akyrs_double_or_nothing={
+                name="Double or Nothing!",
+                text={
+                    "{X:money}$X#1#{} round payouts",
+                    "{X:red,C:white}X#2#{} blind requirements",
                 },
             },
         },
@@ -5039,6 +5052,7 @@ return {
             k_akyrs_enchantment_lvl="#1# Lv.#2#",
             k_akyrs_enchantment_lvl_single_level="#1#",
             k_akyrs_seconds="+#1#s",
+            k_akyrs_payout_multiplier = "Payout Multiplier (X#1#)",
         },
         akyrs_misc = {
             mod_label = {

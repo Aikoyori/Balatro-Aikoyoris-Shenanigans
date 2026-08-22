@@ -1291,7 +1291,8 @@ SMODS.Joker{
         name = "Ghastling",
         extras = {
             rounds_left = 20,
-            mult = 21.6
+            mult = 6,
+            mult_g = 4,
         }
     },
     in_pool = function (self, args)
@@ -1303,7 +1304,8 @@ SMODS.Joker{
             vars = {
                 card.ability.extras.rounds_left,
                 card.ability.extras.mult,
-                3
+                card.ability.extras.mult_g,
+                
             }
         }
     end,
@@ -1331,6 +1333,17 @@ SMODS.Joker{
                 }
             end
 
+        end
+        if (context.end_of_round and context.main_eval) then
+            return {
+                func = function ()
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extras,
+                        ref_value = 'mult',
+                        scalar_value = 'mult_g',
+                    })
+                end
+            }
         end
         if (context.joker_main or context.forcetrigger) then
             return {

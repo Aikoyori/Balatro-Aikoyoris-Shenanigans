@@ -828,28 +828,6 @@ payload = """end"""
 overwrite = true
 match_indent = true
 
-
-[[patches]]
-[patches.pattern]
-target = "functions/UI_definitions.lua"
-pattern = """    G.SHOP_SIGN = UIBox{"""
-position = "before"
-payload = """local akyrs_shop_ui_additions = AKYRS.shop_sign_add()"""
-overwrite = true
-match_indent = true
-
-
-[[patches]]
-[patches.pattern]
-target = "functions/UI_definitions.lua"
-pattern = """              {n=G.UIT.O, config={object = DynaText({string = {localize('ph_improve_run')}, colours = {lighten(G.C.GOLD, 0.3)},shadow = true, rotate = true, float = true, bump = true, scale = 0.5, spacing = 1, pop_in = 1.5, maxw = 4.3})}}
-            }},"""
-position = "after"
-payload = """#akyrs_shop_ui_additions > 0 and {n=G.UIT.R, config={align = "cm"}, nodes=akyrs_shop_ui_additions},"""
-overwrite = true
-match_indent = true
-
-
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
@@ -865,7 +843,8 @@ match_indent = true
 target = "functions/UI_definitions.lua"
 pattern = """    local t = {n=G.UIT.ROOT, config = {align = 'cl', colour = G.C.CLEAR}, nodes={"""
 position = "before"
-payload = """if G.AKYRS_SHOP_SIGN_REFRESH_ONLY then return end"""
+payload = """AKYRS.attach_to_shop_sign(G.SHOP_SIGN)
+if G.AKYRS_SHOP_SIGN_REFRESH_ONLY then return end"""
 overwrite = true
 match_indent = true
 

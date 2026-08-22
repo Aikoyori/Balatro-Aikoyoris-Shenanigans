@@ -475,23 +475,9 @@ end
 function AKYRS.end_shop_hooks(dt)
     G.akyrs_jimbo_chicanery:remove()
     G.akyrs_jimbo_chicanery = nil
+    G.FUNCS.akyrs_shift_hud(false)
 end
-function AKYRS.shop_sign_add()
-    local ret = {}
-    if G.GAME.akyrs_jimbo_owes_you then
-        ret[#ret+1] = AKYRS.button_prefab({
-            children = {
-                AKYRS.text_prefab{ text = localize("k_akyrs_chicanery_btn"), scale = 0.3 }
-            },
-            colour = G.C.GREEN,
-            padding = 0.02,
-            ref_table = "akyrs_jimbo_chicanery",
-            func = "akyrs_shop_btn_func",
-            button = "akyrs_open_shop_window",
-        })
-    end
-    return ret
-end
+
 function AKYRS.deal_with_leftover_uis(self) -- game
     G.AKYRS_ACTIVE_SHOP = nil
     if self.akyrs_jimbo_chicanery then self.akyrs_jimbo_chicanery:remove(); self.akyrs_jimbo_chicanery = nil end

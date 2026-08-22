@@ -4935,6 +4935,9 @@ return {
 
 
             k_akyrs_shop_close = "Close",
+            k_akyrs_shop_open = "Open",
+            k_akyrs_shop_panel_reveal = "<< More",
+            k_akyrs_shop_panel_hide = ">> Less",
 
             k_akyrs_chicanery_round = "This Round",
             k_akyrs_chicanery_ante = "This Ante",
@@ -4946,7 +4949,9 @@ return {
             k_akyrs_chicanery_rolls_rare_arrows = "",
             k_akyrs_chicanery_rolls_left="Rolls Left",
             k_akyrs_chicanery_buy="BUY",
-            k_akyrs_chicanery_btn="J",
+            k_akyrs_chicanery_btn_1="Jimbo's Chance",
+            k_akyrs_chicanery_btn_2="Chicanery",
+            k_akyrs_shop_cor="????????",
 
             k_akyrs_enchantment_none="Allows multiple abilities to be added",
             k_akyrs_enchantment_none_blank="None :(",

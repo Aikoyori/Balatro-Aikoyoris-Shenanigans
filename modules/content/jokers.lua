@@ -209,7 +209,7 @@ SMODS.Joker {
     config = {
         name = "Quasi Connectivity",
         extra = {
-            mult = 6,
+            xmult = 6,
             first_hand = true
         }
     },

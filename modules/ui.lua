@@ -1331,7 +1331,11 @@ end
 
 function G.FUNCS.akyrs_shop_btn_func(e)
   local shop = e.config.ref_table
-  if G.AKYRS_ACTIVE_SHOP ~= shop and G.STATE == G.STATES.SHOP then
+  local shop_enabled = true
+  if shop == "akyrs_jimbo_chicanery" then
+    shop_enabled = G.GAME.akyrs_jimbo_owes_you
+  end
+  if G.AKYRS_ACTIVE_SHOP ~= shop and G.STATE == G.STATES.SHOP and shop_enabled then
     e.config.button = "akyrs_open_shop_window"
     e.config.colour = G.C.RED
   else
@@ -1351,6 +1355,10 @@ function G.FUNCS.akyrs_shop_close_btn_func(e)
   end
 end
 
+function G.FUNCS.update_text(e)
+
+end
+
 function AKYRS.button_prefab(args) 
   args = args or {}
   return 
@@ -1363,7 +1371,7 @@ end
 
 function AKYRS.text_prefab(args) 
   args = args or {}
-  return { n = args.uit or G.UIT.C, nodes = { { n = G.UIT.T, config = args.config or { colour = G.C.WHITE, text = args.text or "AIKO U SUCK WTFF", scale = args.scale or 0.4 } } } }
+  return { n = args.uit or G.UIT.C, nodes = { { n = G.UIT.T, config = args.config or { colour = G.C.WHITE, text = args.text or "AIKO U SUCK WTFF", ref_table = args.ref_table, ref_value = args.ref_value, scale = args.scale or 0.4 } } } }
 end
 
 function AKYRS.close_button_prefab(shop)
@@ -1390,15 +1398,24 @@ function AKYRS.refresh_shop_sign()
   G.AKYRS_SHOP_SIGN_REFRESH_ONLY = nil
 end
 
+function AKYRS.refresh_shop_underlay()
+  if not G.SHOP_SIGN then return end
+  AKYRS.setup_run_ui(G)
+end
+
 function AKYRS.setup_run_ui(self)
   AKYRS.is_hud_slided = nil
   self.AKYRS_HUD_UNDERLAY = UIBox{
     definition = AKYRS.UIDEF.hud_underlay(),
-      config = {align=('cli'), offset = {x=1.8,y=0},major = G.ROOM_ATTACH}
+      config = {align=('cli'), offset = {x=-0.3,y=0},major = G.ROOM_ATTACH}
   }
+  AKYRS.strings.shop_jcc_button = localize("k_akyrs_shop_cor")
+
   G.AKYRS_HUD_UNDERLAY:recalculate()
 end
+
 function AKYRS.remove_ui(self)
+  if self.AKYRS_SHOP_OVERLAY then self.AKYRS_SHOP_OVERLAY:remove(); self.AKYRS_SHOP_OVERLAY = nil end
   if self.AKYRS_HUD_UNDERLAY then self.AKYRS_HUD_UNDERLAY:remove(); self.AKYRS_HUD_UNDERLAY = nil end
 end
 
@@ -1407,16 +1424,84 @@ function AKYRS.recalculate_ui()
 end
 local slidespeed = 0.5
 function G.FUNCS.akyrs_shift_hud(e)
-  AKYRS.is_hud_slided = not not not AKYRS.is_hud_slided
+  local toggler = e
+  if toggler and type(toggler) == 'table' and toggler.config and toggler.config.ref_table then
+      if type(toggler.config.ref_table[1]) == "boolean" then
+        toggler = toggler.config.ref_table[1]
+      end
+  end
+  if toggler == true or toggler == false then
+    AKYRS.is_hud_slided = toggler
+  else
+    AKYRS.is_hud_slided = not not not AKYRS.is_hud_slided
+  end
+  if AKYRS.is_hud_slided then
+    AKYRS.strings.shop_more_button = localize("k_akyrs_shop_panel_hide")
+  else
+    AKYRS.strings.shop_more_button = localize("k_akyrs_shop_panel_reveal")
+  end
+
   local val = G.HUD.config.offset.x
   if AKYRS.is_hud_slided then
-    ease_value(G.HUD.config.offset, 'x', -val + -3.5, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo')
+    ease_value(G.HUD.config.offset, 'x', -val + -5.4, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo')
   else
     ease_value(G.HUD.config.offset, 'x', -val + -0.7, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo')
   end
 end
 
+
+AKYRS.strings = {
+  shop_more_button = "REPLACE_THIS",
+  shop_jcc_button_1 = "REPLACE_THIS",
+  shop_jcc_button_2 = "REPLACE_THIS",
+}
+
+AKYRS.shop_list = {
+  'akyrs_jimbo_chicanery'
+}
+
+function AKYRS.get_shop_enablement(shop_name)
+  if shop_name == 'akyrs_jimbo_chicanery' then
+    return G.GAME.akyrs_jimbo_owes_you
+  end
+end
+
+function AKYRS.toggle_shop_availability(shop, is_available)
+  if shop == 'akyrs_jimbo_chicanery' then
+    if is_available then
+      AKYRS.strings.shop_jcc_button_1 = localize("k_akyrs_chicanery_btn_1")
+      AKYRS.strings.shop_jcc_button_2 = localize("k_akyrs_chicanery_btn_2")
+    else
+      AKYRS.strings.shop_jcc_button_1 = localize("k_akyrs_shop_cor")
+      AKYRS.strings.shop_jcc_button_2 = localize("k_akyrs_shop_cor")
+    end
+  end
+end
+
+function AKYRS.attach_to_shop_sign(shop_sign)
+  if G.AKYRS_SHOP_OVERLAY then G.AKYRS_SHOP_OVERLAY:remove() G.AKYRS_SHOP_OVERLAY = nil end
+  G.AKYRS_SHOP_OVERLAY = UIBox{
+    definition = AKYRS.UIDEF.shift_hud_button(),
+      config = {align=('cli'), offset = {x=4.0,y=-1.2},major = shop_sign}
+  }
+end
+
 function AKYRS.UIDEF.shift_hud_button()
+  local scale = 0.3
+  if AKYRS.is_hud_slided then
+    AKYRS.strings.shop_more_button = localize("k_akyrs_shop_panel_hide")
+  else
+    AKYRS.strings.shop_more_button = localize("k_akyrs_shop_panel_reveal")
+  end
+  return {n=G.UIT.ROOT, config = {align = "cm", padding = 0, colour = G.C.CLEAR}, nodes={
+      {n=G.UIT.C, config={align = "cm", r=0.1, colour = G.C.CLEAR, shadow = true, id = 'button_area', padding = 0.2}, nodes={
+        {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 1 ,padding = 0.1, r = 0.1, hover = true, colour = G.C.BOOSTER, button = "akyrs_shift_hud", shadow = true}, nodes={
+          {n=G.UIT.R, config={align = "cm", padding = 0, maxw = 1.4}, nodes={
+            {n=G.UIT.T, config={ref_table = AKYRS.strings, ref_value = 'shop_more_button', scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
+          }},
+        }},        
+      }}
+    }}
 end
 
 
@@ -1424,27 +1509,35 @@ function AKYRS.UIDEF.hud_underlay()
     local scale = 0.4
 
     local contents = {}
+    local ui_stuff = {}
 
     local spacing = 0.13
     local temp_col = G.C.DYN_UI.BOSS_MAIN
     local temp_col2 = G.C.DYN_UI.BOSS_DARK
 
-    contents.buttons = {
-      {n=G.UIT.C, config={align = "cm", r=0.1, colour = G.C.CLEAR, shadow = true, id = 'button_area', padding = 0.2}, nodes={
-          {n=G.UIT.R, config={id = 'run_info_button', align = "cm", minh = 1.75, minw = 1.5,padding = 0.05, r = 0.1, hover = true, colour = G.C.RED, button = "run_info", shadow = true}, nodes={
+    ui_stuff[#ui_stuff+1] = 
+          {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 4 ,padding = 0.05, r = 0.1, hover = true, colour = G.C.RED, button = "akyrs_shift_hud", shadow = true, ref_table = {false}}, nodes={
             {n=G.UIT.R, config={align = "cm", padding = 0, maxw = 1.4}, nodes={
-              {n=G.UIT.T, config={text = localize('b_run_info_1'), scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
-            }},
-            {n=G.UIT.R, config={align = "cm", padding = 0, maxw = 3.4}, nodes={
-              {n=G.UIT.T, config={text = localize('b_run_info_2'), scale = 1*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true, focus_args = {button = G.F_GUIDE and 'guide' or 'back', orientation = 'bm'}, func = 'set_button_pip'}}
-            }}
-          }},
-          {n=G.UIT.R, config={align = "cm", minh = 1.75, minw = 1.5,padding = 0.05, r = 0.1, hover = true, colour = G.C.ORANGE, button = "options", shadow = true}, nodes={
-            {n=G.UIT.C, config={align = "cm", maxw = 3.4, focus_args = {button = 'start', orientation = 'bm'}, func = 'set_button_pip'}, nodes={
-              {n=G.UIT.T, config={text = localize('b_options'), scale = scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
+              {n=G.UIT.T, config={text = localize('k_akyrs_shop_close'), scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
             }},
           }}
-        }}
+        
+    
+    ui_stuff[#ui_stuff+1] = AKYRS.button_prefab({
+        children = {
+            AKYRS.text_prefab{ uit = G.UIT.R, ref_table = AKYRS.strings, ref_value = 'shop_jcc_button_1', scale = 0.4 },
+            AKYRS.text_prefab{ uit = G.UIT.R, ref_table = AKYRS.strings, ref_value = 'shop_jcc_button_2', scale = 0.4 },
+        },
+        colour = G.C.GREEN,
+        padding = 0.02,
+        h = 1.2,
+        ref_table = "akyrs_jimbo_chicanery",
+        func = "akyrs_shop_btn_func",
+        button = "akyrs_open_shop_window",
+    })
+
+    contents.buttons = {
+      {n=G.UIT.C, config={align = "cm", r=0.1, colour = G.C.CLEAR, shadow = true, id = 'button_area', padding = 0.2}, nodes=ui_stuff}
     }
 
     return {n=G.UIT.ROOT, config = {align = "cm", padding = 0.03, colour = G.C.UI.TRANSPARENT_DARK}, nodes={

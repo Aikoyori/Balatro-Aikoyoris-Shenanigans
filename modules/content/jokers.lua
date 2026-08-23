@@ -1025,8 +1025,8 @@ SMODS.Joker{
             if G.deck then
                 G.deck:shuffle()
             end
-        end,
-    end
+        end
+    end,
     remove_from_deck = function (self, card, from_debuff)
         if G.deck then
             G.deck:shuffle()

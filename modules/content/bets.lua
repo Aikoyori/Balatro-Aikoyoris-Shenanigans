@@ -85,7 +85,7 @@ AKYRS.Bet {
         }
     },
     loc_vars = function (self, info_queue, card)
-        local n, d = SMODS.get_probability_vars(card, card.ability.extras.num, card.ability.extras.denom, 'akyrs_bet_lock_chance' )
+        local n, d = SMODS.get_probability_vars(card, card.ability.extras.num, card.ability.extras.denom, 'akyrs_bet_raise_stake_chance' )
         return {
             vars = {
                 n, d,
@@ -94,7 +94,7 @@ AKYRS.Bet {
     end,
     multi_use = true,
     can_redeem = function (self, card)
-        return #G.GAME.applied_stakes < #G.P_CENTER_POOLS.Stake
+        return #G.GAME.applied_stakes < #G.P_CENTER_POOLS.Stake and AKYRS.has_room(G.jokers)
     end,
     redeem = function (self, card) 
         local potential_stakes = AKYRS.get_applicable_stakes()
@@ -102,7 +102,7 @@ AKYRS.Bet {
         local applied_stakes_keys = AKYRS.apply_stake_mid_game(stake_to_apply)
         
         AKYRS.simple_event_add(function ()
-            if SMODS.pseudorandom_probability(card, 'akyrs_bet_lock_chance' , card.ability.extras.num, card.ability.extras.denom ) then
+            if SMODS.pseudorandom_probability(card, 'akyrs_bet_raise_stake_chance' , card.ability.extras.num, card.ability.extras.denom ) then
                 SMODS.add_card{ rarity = 'Rare', set = 'Joker'}
             else
                 AKYRS.nopeinator(card, { parent_this = card.akyrs_real_card })
@@ -154,9 +154,6 @@ AKYRS.Bet {
         }
     end,
     multi_use = true,
-    can_redeem = function (self, card)
-        return AKYRS.has_room(G.jokers)
-    end,
     redeem = function (self, card) 
         G.GAME.akyrs_lock_card_amnt = (G.GAME.akyrs_lock_card_amnt or 0) + 1
         if G.STATE == G.STATES.SHOP and G.shop_jokers.cards then

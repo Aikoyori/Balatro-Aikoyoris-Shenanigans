@@ -1171,6 +1171,7 @@ function AKYRS.jimbo_chance_chicanery()
     set = "Joker",
     area = G.akyrs_jimbo_chicanery_cardarea,
     key_append = "akyrs_jimbo_chicanery_starting",
+    silent = true,
   }
 
   G.akyrs_jimbo_chicanery_cardarea = CardArea(

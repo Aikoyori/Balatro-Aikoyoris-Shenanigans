@@ -276,6 +276,7 @@ AKYRS.Bet {
         SMODS.destroy_cards({target_joker})
         AKYRS.do_things_to_card(other_jokers, function (_card, index)
             local key = SMODS.poll_object{ type = sets, rarities = {rarity}, allow_legendaries = true }
+            _card.ability.misprinted = nil
             _card:set_ability(G.P_CENTERS[key])
         end)
     end,

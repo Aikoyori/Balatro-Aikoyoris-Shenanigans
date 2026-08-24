@@ -1192,7 +1192,7 @@ function AKYRS.jimbo_chance_chicanery()
     end, 0)
   end
   return {
-    n = G.UIT.R, -- TODO: dont forget to change this to root when adding to the UI or not actually
+    n = G.UIT.R, -- DONE: dont forget to change this to root when adding to the UI or not actually
     config = { minw = 12, minh = 8, colour = G.C.UI.TRANSPARENT_DARK, r = 0.1, padding = 0.25, align = "cm" },
     nodes = {
       -- first bullshit

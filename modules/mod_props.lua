@@ -393,7 +393,6 @@ SMODS.current_mod.extra_tabs = function ()
                             n = G.UIT.R,
                             config = { padding = 0.02 },
                             nodes = {
-                              -- TODO: add ng icon
                               AKYRS.create_link_sprite_btn("newgrounds", "https://marcyptata64.newgrounds.com/"),
                             }
                           }),

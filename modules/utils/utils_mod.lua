@@ -416,51 +416,85 @@ AKYRS.w2hand = function( word )
     for _,c in ipairs(t) do table.insert(G.playing_cards,c) G.hand:emplace(c) end
 end
 
-AKYRS.mod_card_values = function(table_in, config)
+function AKYRS.should_multiply_value(center, abil_key)
+    local validability = {
+        x_mult = true,
+        x_chips = true,
+        h_x_chips = true,
+    }
+    if not validability[abil_key] then
+        return true
+    end
+    local new_ability = {
+        x_mult = center.config.Xmult or center.config.x_mult,
+        x_chips = center.config.x_chips,
+        h_x_chips = center.config.h_x_chips,
+    }
+    if validability[abil_key] and new_ability[abil_key] then
+        return true
+    end
+    return false
+end
+
+AKYRS.mod_card_values = function(card, config)
     if not config then config = {} end
+    if not card then return end 
+    if not card.config and not card.config.center then return end 
+    local tw = card.T.w
+    local th = card.T.h
+    local card_table_to_load = card:save()
+    local og_save = card:save()
     local add = config.add or 0
     local multiply = config.multiply or 1
     local keywords = config.keywords or {}
     local unkeyword = config.unkeywords or {}
-    local reference = config.reference or AKYRS.deep_copy(table_in)
+    local reference
+    if config.prefer_original_value then
+        reference = config.reference or card.config.center.config or og_save.ability or card.ability or AKYRS.deep_copy(card)
+    else
+        reference = config.reference or og_save.ability or card.config.center.config or card.ability or AKYRS.deep_copy(card)
+    end
     local randomize = config.random
 
-    local function modify_values(table_in, ref, depth)
+    local function modify_values(_table_in, ref, depth)
         if not ref or type(ref) ~= "table" then return end
         if depth > 2 then return end
-        for k, v in pairs(table_in) do 
+        for k, v in pairs(_table_in) do 
             local rand = 1
             if randomize then
                 local val = pseudorandom("akyrs_mod_val")
                 local val2 = pseudorandom("akyrs_mod_val_2",randomize.digits_min, randomize.digits_max)
                 rand = val * 10 ^ val2
             end
-            
-            if type(v) == "number" then
-                if (keywords[k] or #keywords < 1) and not unkeyword[k] then
-                    if ref and ref[k] then
-                        table_in[k] = (ref[k] + add) * multiply * rand
+            if AKYRS.should_multiply_value(card.config.center, k) then
+                if type(v) == "number" then
+                    if (keywords[k] or #keywords < 1) and not unkeyword[k] then
+                        if ref and ref[k] then
+                            _table_in[k] = (ref[k] + add) * multiply * rand
+                        end
                     end
-                end
-            elseif type(v) == "table" and ref and k and not unkeyword[k] then
-                modify_values(v, ref[k], depth + 1)
-            elseif Talisman and type(v) == "table" and v.to_number and (to_number(v) == v) then
-                if (keywords[k] or #keywords < 1) and not unkeyword[k] then
-                    if ref and ref[k] then
-                        table_in[k] = (to_big(ref[k]) + to_big(add)) * to_big(multiply) * to_big(rand)
+                elseif type(v) == "table" and ref and k and not unkeyword[k] then
+                    modify_values(v, ref[k], depth + 1)
+                elseif Talisman and type(v) == "table" and v.to_number and (to_number(v) == v) then
+                    if (keywords[k] or #keywords < 1) and not unkeyword[k] then
+                        if ref and ref[k] then
+                            _table_in[k] = (to_big(ref[k]) + to_big(add)) * to_big(multiply) * to_big(rand)
+                        end
                     end
                 end
             end
         end
     end
-    if table_in == nil then
-        return
-    end
     if type(reference) == 'table' then
-        modify_values(table_in, reference, 0)
+        modify_values(card_table_to_load.ability, reference, 0)
     end
+    card:load(card_table_to_load)
+    card.T.w = tw
+    card.T.h = th
+    card:set_sprites(card.config.center)
 end
 
+-- genuinely do not use this function bruh
 AKYRS.mod_card_values_misprint = function(table_in, config)
     if not config then config = {} end
     local add = config.add or 0

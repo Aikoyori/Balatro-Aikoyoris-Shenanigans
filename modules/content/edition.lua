@@ -88,21 +88,14 @@ SMODS.Edition{
         return true
     end,
     on_apply = function (card)
-        if not card.ability.akyrs_upgrade_sliced and card.config and card.config.center_key and G.P_CENTERS[card.config.center_key] then
+        if card.config and card.config.center_key and G.P_CENTERS[card.config.center_key] then
             -- i rly dont wanna support the cryptid edition deck for this  this has already caused me so many problems
             --print("SLICED "..card.config.center.key)
-            local x = AKYRS.deep_copy(G.P_CENTERS[card.config.center_key].config)
-            AKYRS.mod_card_values(x,{multiply = 0.5, unkeywords = AKYRS.blacklist_mod})
-            for n, v in pairs(x) do
-                --print("SLICED "..n.." : "..AKYRS.bool_to_str(v))
-                card.ability[n] = x[n] or card.ability[n]
-            end
-            card.ability.akyrs_upgrade_sliced = true
+            AKYRS.mod_card_values(card,{multiply = 0.5, unkeywords = AKYRS.blacklist_mod})
         end
     end,
     on_remove = function (card)
-        card:set_ability(G.P_CENTERS[card.config.center_key])
-        card.ability.akyrs_upgrade_sliced = false
+        AKYRS.mod_card_values(card,{multiply = 2, unkeywords = AKYRS.blacklist_mod})
     end,
     calculate = function (self, card, context)
         if (context.repetition or context.retrigger_joker_check) and context.other_card == card then

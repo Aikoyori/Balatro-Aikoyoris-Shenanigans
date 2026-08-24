@@ -1742,6 +1742,7 @@ create_UIBox_akyrs_collection_bet = function(author)
     return SMODS.card_collection_UIBox(jkrs, {5,5,5}, {
         no_materialize = true, 
         h_mod = 0.95,
+        back_func = 'your_collection_other_gameobjects',
     })
 end
 
@@ -1758,6 +1759,7 @@ create_UIBox_akyrs_collection_judgement = function()
             card.akyrs_judgement = center.key
             card.akyrs_collection_judgement = true
         end,
+        back_func = 'your_collection_other_gameobjects',
         h_mod = 0.95,
     })
 end
@@ -1770,6 +1772,7 @@ create_UIBox_akyrs_collection_scenarios = function()
     return SMODS.card_collection_UIBox(scn, {5,5,5}, {
         no_materialize = true, 
         h_mod = 0.95,
+        back_func = 'your_collection_other_gameobjects',
     })
 end
 AKYRS.enchantment_collection_UIBox = function(_pool, rows, args)
@@ -1868,6 +1871,7 @@ create_UIBox_akyrs_collection_enchantment = function()
     return AKYRS.enchantment_collection_UIBox(jkrs, {5,5,5}, {
         no_materialize = true, 
         h_mod = 0.95,
+        back_func = 'your_collection_other_gameobjects',
     })
 end
 

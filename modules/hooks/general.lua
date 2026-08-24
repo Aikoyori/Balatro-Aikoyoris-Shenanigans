@@ -1294,16 +1294,12 @@ AKYRS.do_not_misprint = {
 }
 
 function Card:akyrs_mod_card_value_init(center, initial, delay)
-    
-    if G.GAME.modifiers.akyrs_misprint and not (self.ability or {}).misprinted and center and not AKYRS.do_not_misprint[center.key] then
+    local xcenter = (center or self.config.center)
+    if G.GAME.modifiers.akyrs_misprint and (not (self.ability or {}).misprinted or xcenter.set == "Enhanced") and xcenter and not AKYRS.do_not_misprint[xcenter.key] then
         --local x = self.ability
-        local x = AKYRS.deep_copy((G.P_CENTERS[center.key] or center).config)
         --print(y.config)
-        AKYRS.mod_card_values(x,{random = {digits_min = -4, digits_max = 4, min = 1e-4, max = 1e4,scale = 1, can_negate = false}})
+        AKYRS.mod_card_values(self,{random = {digits_min = -4, digits_max = 4, min = 1e-4, max = 1e4,scale = 1, can_negate = false}, prefer_original_value = G.SETTINGS.paused})
         --print(y.config)
-        for n, v in pairs(x) do
-            self.ability[n] = x[n] or self.ability[n]
-        end
         self.ability.misprinted = true
     end
     

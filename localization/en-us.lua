@@ -1816,7 +1816,7 @@ return {
                     "{X:chips,C:white}Chips{} divided by {X:mult,C:white}Mult{}",
                 }
             },
-            j_akyrs_inverse_joker = { -- TODO: find a couple for the reciprocal
+            j_akyrs_inverse_joker = { -- DONE: find a couple for the reciprocal
                 name = "Inverse Joker",
                 text = { 
                     "Set {X:chips,C:white}Chips{} to",

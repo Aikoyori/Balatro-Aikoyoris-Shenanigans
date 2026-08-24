@@ -1266,7 +1266,7 @@ return {
                 name = "Sliced",
                 text = {
                     "{C:attention}Halves{} all values",
-                    "Effects calculate {C:attention}twice",
+                    "{C:attention}Retrigger{} this card",
                 }
             },
             e_akyrs_burnt = {

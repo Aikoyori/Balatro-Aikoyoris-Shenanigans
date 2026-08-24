@@ -77,7 +77,6 @@ SMODS.Edition{
         extra = {
             mod_mult = 0.5,
         },
-        akyrs_card_extra_triggers = 1
     },
     disable_base_shader = true,
     sound = { sound = "akyrs_sliced_sfx", per = 0.8, vol = 0.3 },
@@ -104,6 +103,13 @@ SMODS.Edition{
     on_remove = function (card)
         card:set_ability(G.P_CENTERS[card.config.center_key])
         card.ability.akyrs_upgrade_sliced = false
+    end,
+    calculate = function (self, card, context)
+        if (context.repetition or context.retrigger_joker_check) and context.other_card == card then
+            return {
+                repetitions = 1
+            }
+        end
     end,
     weight = 5,
 }

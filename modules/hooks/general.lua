@@ -1715,6 +1715,8 @@ function Back:apply_to_run()
         G.GAME.akyrs_life_decay_mode = "normal"
         G.GAME.akyrs_life = self.effect.config.akyrs_starting_life
         G.GAME.akyrs_starting_life = self.effect.config.akyrs_starting_life
+        AKYRS.toggle_shop_availability('shoppage_akyrs_life_shop', true)
+        G.GAME.akyrs_should_slide_open_first_shop = true
     end
     
     if self.effect.config.akyrs_life_decay_mode then
@@ -1722,7 +1724,6 @@ function Back:apply_to_run()
         if G.GAME.akyrs_life_decay_mode == "kaleidoscope" then
             G.GAME.akyrs_life_cover_sprite = "kaleidoscope"
         end
-        AKYRS.toggle_shop_availability('shoppage_akyrs_life_shop', true)
     end
     
     if self.effect.config.akyrs_life_heal then

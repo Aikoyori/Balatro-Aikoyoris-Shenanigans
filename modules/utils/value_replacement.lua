@@ -479,6 +479,9 @@ function AKYRS.shop_hooks(dt)
             AKYRS.create_shop_ui_key(shop_key)
         end
     end
+    if G.GAME.akyrs_should_slide_open_first_shop and G.GAME.round == 1 then
+        G.FUNCS.akyrs_shift_hud(true)
+    end
 end
 
 function AKYRS.end_shop_hooks(dt)

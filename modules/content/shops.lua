@@ -318,7 +318,7 @@ AKYRS.ShopPage {
                                 AKYRS.text_prefab{ uit = G.UIT.R, text = "Return Cards"},
                                 AKYRS.text_prefab{ uit = G.UIT.R, text = "to Deck"},
                             },
-                            colour = G.C.SECONDARY_SET.Booster,
+                            colour = G.C.BOOSTER,
                             padding = 0.1,
                             uit = G.UIT.C,
                             w = 2.3,

@@ -421,6 +421,7 @@ function AKYRS.should_multiply_value(center, abil_key)
         x_mult = true,
         x_chips = true,
         h_x_chips = true,
+        min_highlighted = true, -- don't change it
     }
     if not validability[abil_key] then
         return true

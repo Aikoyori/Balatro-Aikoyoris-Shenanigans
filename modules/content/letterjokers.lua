@@ -288,7 +288,7 @@ AKYRS.LetterJoker {
         }
     },
     calculate = function (self, card, context)
-        if context.individual and context.cardarea == G.hand and string.lower(context.other_card:get_letter_with_pretend()) == "h" then
+        if context.individual and not context.end_of_round and context.cardarea == G.hand and string.lower(context.other_card:get_letter_with_pretend()) == "h" then
             return {
                 mult = card.ability.extras.mult
             }

@@ -100,7 +100,7 @@ SMODS.Consumable{
             AKYRS.juice_like_tarot(card)
             AKYRS.do_things_to_card(G.hand.highlighted,function (_card)
                 _card:set_ability(G.P_CENTERS["m_akyrs_insolate_card"])
-            end, {stay_flipped_delay = 1,stagger = 0.1, fifo = true})
+            end)
             return true
         end, 0)
     end
@@ -173,7 +173,7 @@ SMODS.Consumable{
         local rank = pseudorandom_element({"King","Queen","Ace"},pseudoseed("akyrs_umbral_gambit_r"))
         AKYRS.do_things_to_card(cards,function (_card)
             _card = SMODS.change_base(_card,nil,rank)
-        end, {stay_flipped_delay = 1,stagger = 0.5,finish_flipped_delay = 0.5, fifo = true})
+        end)
     end
 }
 SMODS.Consumable{
@@ -235,7 +235,7 @@ SMODS.Consumable{
         AKYRS.do_things_to_card(G.hand.highlighted,function (_card)
             local ench = pseudorandom_element(AKYRS.tea_cards,pseudoseed("akyrs_umbral_tea_time"))
             _card:set_ability(G.P_CENTERS[ench])
-        end, {stay_flipped_delay = 1,stagger = 0.5,finish_flipped_delay = 0.5, fifo = true})
+        end)
     end
 }
 SMODS.Consumable{

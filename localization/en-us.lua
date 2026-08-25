@@ -4091,7 +4091,7 @@ return {
             v_akyrs_super_premium_free_joker={
                 name="Super Premium Free Joker",
                 text={
-                    "Allows {C:attention}1 {C:green}guaranteed Uncommon{} roll per {C:attention}round",
+                    "Allows {C:attention}1 guaranteed {C:green}Uncommon+{} roll per {C:attention}round",
                     "in {C:attention}Jimbo's Chance Chicanery",
                 },
             },
@@ -4945,12 +4945,13 @@ return {
             k_akyrs_chicanery_rolls_uncommon = "Uncommon",
             k_akyrs_chicanery_rolls_rare = "Rare",
             k_akyrs_chicanery_rolls_common_arrows = "▲",
-            k_akyrs_chicanery_rolls_uncommon_arrows = "",
+            k_akyrs_chicanery_rolls_uncommon_arrows = "▲",
             k_akyrs_chicanery_rolls_rare_arrows = "",
             k_akyrs_chicanery_rolls_left="Rolls Left",
             k_akyrs_chicanery_buy="BUY",
             k_akyrs_chicanery_btn_1="Jimbo's Chance",
             k_akyrs_chicanery_btn_2="Chicanery",
+            k_akyrs_life_shop_btn="Life Shop",
             k_akyrs_shop_cor="????????",
             k_akyrs_shops_list="- Shops -",
 

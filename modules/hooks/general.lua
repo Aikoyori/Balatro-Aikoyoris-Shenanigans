@@ -685,6 +685,7 @@ G.FUNCS.discard_cards_from_highlighted = function (e,hook)
         local hlght = {}
         G.hand.highlighted = hlght
     end
+    
     return r
 end
 
@@ -1298,7 +1299,7 @@ function Card:akyrs_mod_card_value_init(center, initial, delay)
     if G.GAME.modifiers.akyrs_misprint and (not (self.ability or {}).misprinted or xcenter.set == "Enhanced") and xcenter and not AKYRS.do_not_misprint[xcenter.key] then
         --local x = self.ability
         --print(y.config)
-        AKYRS.mod_card_values(self,{random = {digits_min = -4, digits_max = 4, min = 1e-4, max = 1e4,scale = 1, can_negate = false}, prefer_original_value = G.SETTINGS.paused})
+        AKYRS.mod_card_values(self,{random = {digits_min = -4, digits_max = 4, min = 1e-4, max = 1e4,scale = 1, can_negate = false}, prefer_original_value = G.SETTINGS.paused or center})
         --print(y.config)
         self.ability.misprinted = true
     end

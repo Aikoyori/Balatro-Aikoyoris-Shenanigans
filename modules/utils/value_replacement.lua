@@ -464,23 +464,36 @@ function AKYRS.mod_cards_scoring(cards_table, context)
 end
 
 function AKYRS.shop_hooks(dt)
-    G.akyrs_jimbo_chicanery = G.akyrs_jimbo_chicanery or UIBox{
-            definition = AKYRS.dyn_container_maker({
-                AKYRS.close_button_prefab("akyrs_jimbo_chicanery"),
-                AKYRS.jimbo_chance_chicanery()}),
-            config = {align='tmi', offset = {x=0,y=G.ROOM.T.y+11},major = G.hand, bond = 'Weak'}
-        }
+    -- automatically create shops as i add them
+    for _, shop_key in ipairs(AKYRS.ShopPages_Buffer) do
+        G[shop_key] = G[shop_key] or UIBox{
+                definition = AKYRS.dyn_container_maker({
+                    AKYRS.close_button_prefab(shop_key),
+                    AKYRS.ShopPages[shop_key]:create_ui()}),
+                config = {align='tmi', offset = {x=0,y=G.ROOM.T.y+11},major = G.hand, bond = 'Weak'}
+            }
+    end
+
 end
 
 function AKYRS.end_shop_hooks(dt)
-    G.akyrs_jimbo_chicanery:remove()
-    G.akyrs_jimbo_chicanery = nil
+    for _, shop_key in ipairs(AKYRS.ShopPages_Buffer) do
+        if G[shop_key] then
+            G[shop_key]:remove()
+            G[shop_key] = nil
+        end
+    end
     G.FUNCS.akyrs_shift_hud(false)
 end
 
 function AKYRS.deal_with_leftover_uis(self) -- game
     G.AKYRS_ACTIVE_SHOP = nil
-    if self.akyrs_jimbo_chicanery then self.akyrs_jimbo_chicanery:remove(); self.akyrs_jimbo_chicanery = nil end
+    for _, shop_key in ipairs(AKYRS.ShopPages_Buffer) do
+        if G[shop_key] then
+            G[shop_key]:remove()
+            G[shop_key] = nil
+        end
+    end
 end
 
 function AKYRS.cards_being_destroyed(card)

@@ -159,12 +159,12 @@ SMODS.Voucher {
     redeem = function (self, card) 
         G.GAME.akyrs_jimbo_owes_you = true
         G.GAME.akyrs_premium_joker_roll_tier = 0
-        AKYRS.toggle_shop_availability('akyrs_jimbo_chicanery', G.GAME.akyrs_jimbo_owes_you)
+        AKYRS.toggle_shop_availability('shoppage_akyrs_jimbos_chicanery', G.GAME.akyrs_jimbo_owes_you)
         G.FUNCS.akyrs_shift_hud(true)
     end,
     unredeem = function (self, card) 
         G.GAME.akyrs_jimbo_owes_you = nil
-        AKYRS.toggle_shop_availability('akyrs_jimbo_chicanery', G.GAME.akyrs_jimbo_owes_you)
+        AKYRS.toggle_shop_availability('shoppage_akyrs_jimbos_chicanery', G.GAME.akyrs_jimbo_owes_you)
     end,
     calculate = function (self, card, context)
         if context.starting_shop then

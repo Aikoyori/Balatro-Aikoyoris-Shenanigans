@@ -13,7 +13,7 @@ SMODS.UndiscoveredCompat["Bet"] = true
 
 ---@class AKYRS.Bet:SMODS.Center
 ---@field can_redeem fun(self: AKYRS.Bet|table, card: Card): boolean? a check to see if you can redeem it (because it can do more than voucher usually do, for example ghastly limelight will need to check if you can have multiple)
----@field multi_use boolean can this be used multiple times
+---@field multi_use? boolean can this be used multiple times
 ---@overload fun(self: AKYRS.Bet): AKYRS.Bet
 AKYRS.Bet = SMODS.Center:extend {
     set = 'Bet',
@@ -300,6 +300,7 @@ AKYRS.Bet {
     end,
     redeem = function (self, card) 
         G.GAME.akyrs_life_decay_mode = "normal"
+        G.FUNCS.akyrs_shift_hud(true)
         AKYRS.update_life_ui(G)
         
     end,

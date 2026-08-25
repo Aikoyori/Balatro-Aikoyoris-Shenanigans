@@ -154,8 +154,8 @@ function Game:start_run(args)
     if G.consumeables then
         G.consumeables.config.highlighted_limit = 9e9
     end
-    for _, v in ipairs(AKYRS.shop_list) do
-        AKYRS.toggle_shop_availability(v,AKYRS.get_shop_enablement(v))
+    for _, v in ipairs(AKYRS.ShopPages_Buffer) do
+        AKYRS.ShopPages[v]:_INTERNAL_setup_btn_strings()
     end
     return ret
 end

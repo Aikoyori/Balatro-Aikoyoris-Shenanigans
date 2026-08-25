@@ -217,7 +217,7 @@ AKYRS.ShopPage {
             -- 3 cards
         return {
             n = G.UIT.R, -- DONE: dont forget to change this to root when adding to the UI or not actually
-            config = { minw = 12.5, minh = 8, colour = G.C.UI.TRANSPARENT_DARK, r = 0.1, padding = 0.25, align = "m" },
+            config = { minw = 12.3, minh = 8, colour = G.C.UI.TRANSPARENT_DARK, r = 0.1, padding = 0.25, align = "m" },
             nodes = {
                 {
                     n = G.UIT.R,
@@ -297,8 +297,8 @@ AKYRS.ShopPage {
                             colour = G.C.GREEN,
                             padding = 0.1,
                             uit = G.UIT.C,
-                            w = 2.3,
-                            maxw = 2.3,
+                            w = 2.2,
+                            maxw = 2.2,
                             scale = 0.3,
                         },
                         AKYRS.button_prefab {
@@ -309,8 +309,8 @@ AKYRS.ShopPage {
                             colour = G.C.GREEN,
                             padding = 0.1,
                             uit = G.UIT.C,
-                            w = 2.3,
-                            maxw = 2.3,
+                            w = 2.2,
+                            maxw = 2.2,
                             scale = 0.3,
                         },
                         AKYRS.button_prefab {
@@ -321,8 +321,8 @@ AKYRS.ShopPage {
                             colour = G.C.BOOSTER,
                             padding = 0.1,
                             uit = G.UIT.C,
-                            w = 2.3,
-                            maxw = 2.3,
+                            w = 2.2,
+                            maxw = 2.2,
                             scale = 0.3,
                         },
                         AKYRS.button_prefab {
@@ -333,8 +333,8 @@ AKYRS.ShopPage {
                             colour = G.C.RED,
                             padding = 0.1,
                             uit = G.UIT.C,
-                            w = 2.3,
-                            maxw = 2.3,
+                            w = 2.2,
+                            maxw = 2.2,
                             scale = 0.3,
                         },
                         AKYRS.button_prefab {
@@ -345,8 +345,8 @@ AKYRS.ShopPage {
                             colour = G.C.RED,
                             padding = 0.1,
                             uit = G.UIT.C,
-                            w = 2.3,
-                            maxw = 2.3,
+                            w = 2.2,
+                            maxw = 2.2,
                             scale = 0.3,
                         },
                     },
@@ -371,12 +371,21 @@ AKYRS.ShopPage {
         }
     end,
     button_colour = G.C.DARK_EDITION,
+    show = function (self)
+        if G.akyrs_life_ui then
+          G.akyrs_life_ui.T.x = 17
+          G.akyrs_life_ui.T.y = 6
+        end
+    end,
     hide = function (self)
         AKYRS.simple_event_add(function ()
                 G.FUNCS.draw_from_hand_to_deck()
                 return true
             end, 0)
-        return true
+        if G.akyrs_life_ui then
+          G.akyrs_life_ui.T.x = 9
+          G.akyrs_life_ui.T.y = 3
+        end
     end,
 }
 
@@ -545,11 +554,13 @@ function G.FUNCS.akyrs_close_shop_window(e)
 end
 
 function G.FUNCS.akyrs_close_active_shop_window(e)
+  if G.AKYRS_ACTIVE_SHOP then
     G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = 11
     if AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP].hide then
         AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP]:hide()
     end
     G.AKYRS_ACTIVE_SHOP = nil
+  end
 end
 
 
@@ -597,7 +608,7 @@ function AKYRS.attach_to_shop_sign(shop_sign)
   if G.AKYRS_SHOP_OVERLAY then G.AKYRS_SHOP_OVERLAY:remove() G.AKYRS_SHOP_OVERLAY = nil end
   G.AKYRS_SHOP_OVERLAY = UIBox{
     definition = AKYRS.UIDEF.shift_hud_button(),
-      config = {align=('cli'), offset = {x=4.2,y=-1.2},major = shop_sign}
+      config = {align=('cli'), offset = {x=4.3,y=1.1},major = shop_sign}
   }
 end
 
@@ -610,9 +621,9 @@ function AKYRS.UIDEF.shift_hud_button()
   end
   return {n=G.UIT.ROOT, config = {align = "cm", padding = 0, colour = G.C.CLEAR}, nodes={
       {n=G.UIT.C, config={align = "cm", r=0.1, colour = G.C.CLEAR, shadow = true, id = 'button_area', padding = 0.2}, nodes={
-        {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 1 ,padding = 0.1, r = 0.1, hover = true, colour = G.C.BOOSTER, button = "akyrs_shift_hud", shadow = true}, nodes={
-          {n=G.UIT.R, config={align = "cm", padding = 0, maxw = 1.4}, nodes={
-            {n=G.UIT.T, config={ref_table = AKYRS.strings, ref_value = 'shop_more_button', scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
+        {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 0.1 ,padding = 0.1, r = 0.1, hover = true, colour = G.C.BOOSTER, button = "akyrs_shift_hud", shadow = true}, nodes={
+          {n=G.UIT.R, config={align = "cm", padding = 0.1, maxh = 1.8}, nodes={
+            {n=G.UIT.T, config={ref_table = AKYRS.strings, ref_value = 'shop_more_button', scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true, vert = true}}
           }},
         }},        
       }}

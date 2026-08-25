@@ -4946,8 +4946,8 @@ return {
 
             k_akyrs_shop_close = "Close",
             k_akyrs_shop_open = "Open",
-            k_akyrs_shop_panel_reveal = "<< More",
-            k_akyrs_shop_panel_hide = ">> Less",
+            k_akyrs_shop_panel_reveal = "^ More",
+            k_akyrs_shop_panel_hide = "v Less",
 
             k_akyrs_chicanery_round = "This Round",
             k_akyrs_chicanery_ante = "This Ante",

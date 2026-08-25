@@ -66,6 +66,7 @@ assert(SMODS.load_file("./modules/content/vouchers.lua"))()
 assert(SMODS.load_file("./modules/content/bets.lua"))()
 assert(SMODS.load_file("./modules/content/scenario.lua"))()
 assert(SMODS.load_file("./modules/content/shops.lua"))()
+assert(SMODS.load_file("./modules/content/currencies.lua"))()
 
 assert(SMODS.load_file("./modules/content/edition.lua"))()
 assert(SMODS.load_file("./modules/content/tags.lua"))()

@@ -1345,6 +1345,7 @@ function Card:save()
     c.akyrs_impostor_card = self.akyrs_impostor_card
     c.debuffed_by_blind = self.debuffed_by_blind
     c.akyrs_judgement = self.akyrs_judgement
+    c.akyrs_special_cost = self.akyrs_special_cost
     c.akyrs_enchantments = self.akyrs_enchantments
     c.akyrs_stored_enchantments = self.akyrs_stored_enchantments
     if self.akyrs_sulphur_card then
@@ -1362,6 +1363,7 @@ function Card:load(cardTable, other_card)
     self.akyrs_impostor_card = cardTable.akyrs_impostor_card
     self.debuffed_by_blind = cardTable.debuffed_by_blind
     self.akyrs_enchantments = cardTable.akyrs_enchantments
+    self.akyrs_special_cost = cardTable.akyrs_special_cost
     self.akyrs_stored_enchantments = cardTable.akyrs_stored_enchantments
 
     if cardTable.akyrs_sulphur_card then
@@ -1720,6 +1722,7 @@ function Back:apply_to_run()
         if G.GAME.akyrs_life_decay_mode == "kaleidoscope" then
             G.GAME.akyrs_life_cover_sprite = "kaleidoscope"
         end
+        AKYRS.toggle_shop_availability('shoppage_akyrs_life_shop', true)
     end
     
     if self.effect.config.akyrs_life_heal then

@@ -52,7 +52,7 @@ SMODS.Attribute{
     -- for jokers that can deals debuffs to playing cards
     key = "playing_card_debuff",
     keys = {
-        "j_akyrs_quasi_connectivity",
+        "j_akyrs_it_is_forbidden_to_dog",
     }
 }
 
@@ -60,7 +60,7 @@ SMODS.Attribute{
     -- for jokers that affect selection size
     key = "selection",
     keys = {
-        "j_akyrs_quasi_connectivity",
+        "j_akyrs_utage_charts",
     }
 }
 
@@ -68,7 +68,7 @@ SMODS.Attribute{
     -- for jokers that affect play size
     key = "play_size",
     keys = {
-        "j_akyrs_quasi_connectivity",
+        "j_akyrs_utage_charts",
         "j_akyrs_brushing_clothes_pattern",
     }
 }
@@ -77,7 +77,7 @@ SMODS.Attribute{
     -- for jokers that affect discard size
     key = "discard_size",
     keys = {
-        "j_akyrs_quasi_connectivity",
+        "j_akyrs_utage_charts",
     }
 }
 
@@ -197,6 +197,7 @@ SMODS.add_attribute(
         'j_akyrs_diamond_pickaxe',
         'j_akyrs_2fa',
         'j_akyrs_neurosama',
+        'j_akyrs_ghastling',
         'j_akyrs_evilneuro',
         'j_akyrs_gaslighting',
         'j_akyrs_ash_joker',
@@ -585,6 +586,16 @@ SMODS.add_attribute(
 
 SMODS.add_attribute(
     'space', {
+    }
+)
+
+SMODS.add_attribute(
+    'lose_economy', {
+    }
+)
+
+SMODS.add_attribute(
+    'lose_economy', {
     }
 )
 

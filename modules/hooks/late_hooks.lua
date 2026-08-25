@@ -155,7 +155,7 @@ function Game:start_run(args)
         G.consumeables.config.highlighted_limit = 9e9
     end
     for _, v in ipairs(AKYRS.ShopPages_Buffer) do
-        AKYRS.ShopPages[v]:_INTERNAL_setup_btn_strings()
+        AKYRS.ShopPages[v]:_INTERNAL_setup_shop_strings_and_ui(true)
     end
     return ret
 end

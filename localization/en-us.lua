@@ -4655,6 +4655,16 @@ return {
             c_akyrs_space_oddity = "Space Oddity",
             c_akyrs_4_hibanas = "Hibana for Eternity",
         },
+        akyrs_currencies = {
+            curr_dollars = {
+                prefix = "$",
+                suffix = "",
+            },
+            curr_akyrs_life = {
+                prefix = "",
+                suffix = " Life",
+            },
+        },
         hardcore_challenge_names={
             hc_akyrs_spark = "Sparks",
             hc_akyrs_secured_two_factor = "Secured by 2FA",
@@ -4951,9 +4961,14 @@ return {
             k_akyrs_chicanery_buy="BUY",
             k_akyrs_chicanery_btn_1="Jimbo's Chance",
             k_akyrs_chicanery_btn_2="Chicanery",
+            k_akyrs_chicanery_title="Jimbo's Chance Chicanery",
             k_akyrs_life_shop_btn="Life Shop",
             k_akyrs_shop_cor="????????",
             k_akyrs_shops_list="- Shops -",
+            k_akyrs_currency_life_prefix="",
+            k_akyrs_currency_life_suffix=" Life",
+            k_akyrs_currency_dollars_prefix="$",
+            k_akyrs_currency_dollars_suffix="",
 
             k_akyrs_enchantment_none="Allows multiple abilities to be added",
             k_akyrs_enchantment_none_blank="None :(",

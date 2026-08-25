@@ -301,6 +301,10 @@ AKYRS.Bet {
     redeem = function (self, card) 
         G.GAME.akyrs_life_decay_mode = "normal"
         G.FUNCS.akyrs_shift_hud(true)
+        AKYRS.toggle_shop_availability('shoppage_akyrs_life_shop', true)
+        G.GAME.akyrs_life_heal = {
+            round = 40
+        },
         AKYRS.update_life_ui(G)
         
     end,

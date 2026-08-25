@@ -24,12 +24,16 @@ AKYRS.ShopPages_Buffer = {}
 ---@field enable fun(self:AKYRS.ShopPage, enable: boolean)? do i even need to explain this
 ---@field is_enabled fun(self:AKYRS.ShopPage): boolean? okay i think you are just trolling now if you want me to explain this
 ---@field button_height number? button height in the hud underlay
+---@field target_y number? in case higher or lower ui is needed
 ---@field button_colour table? the colour of the button in the shop underlay
+---@field show fun(self:AKYRS.ShopPage)? function to run extra code when showing the shop
+---@field hide fun(self:AKYRS.ShopPage)? function to run extra code when showing the shop
 ---@overload fun(self: AKYRS.ShopPage): AKYRS.ShopPage
 AKYRS.ShopPage = SMODS.GameObject:extend {
     required_params = {
         'key'
     },
+    target_y = -5.5,
     class_prefix = 'shoppage',
     obj_table = AKYRS.ShopPages,
     obj_buffer = AKYRS.ShopPages_Buffer,
@@ -39,14 +43,11 @@ AKYRS.ShopPage = SMODS.GameObject:extend {
 
         }
     end,
-    _INTERNAL_setup_btn_strings = function(self)
-        local tables_of_salt = self:get_button_texts(self:is_enabled())
-        for _, vx in ipairs(tables_of_salt) do
-            AKYRS.strings[vx[1]] = localize(unpack(vx[2]))
+    _INTERNAL_setup_shop_strings_and_ui = function(self, text_only)
+        if self:is_enabled() and not text_only then
+            AKYRS.create_shop_ui_key(self.key)
         end
-    end,
-    _INTERNAL_post_enable_calls = function(self, enabled)
-        local tables_of_salt = self:get_button_texts(enabled)
+        local tables_of_salt = self:get_button_texts(self:is_enabled())
         for _, vx in ipairs(tables_of_salt) do
             AKYRS.strings[vx[1]] = localize(unpack(vx[2]))
         end
@@ -54,7 +55,7 @@ AKYRS.ShopPage = SMODS.GameObject:extend {
     is_enabled = function (self)
         return false
     end,
-    enable = function (self)
+    enable = function (self, enable)
         
     end,
     get_button_texts = function (self, enabled)
@@ -91,7 +92,7 @@ AKYRS.ShopPage = SMODS.GameObject:extend {
 function AKYRS.toggle_shop_availability(shop, is_available)
     if not AKYRS.ShopPages[shop] then error(AKYRS.ShopPages[shop].. " is not a valid shop lol") end
     AKYRS.ShopPages[shop]:enable(is_available)
-    AKYRS.ShopPages[shop]:_INTERNAL_post_enable_calls(is_available)
+    AKYRS.ShopPages[shop]:_INTERNAL_setup_shop_strings_and_ui()
 end
 
 AKYRS.ShopPage{
@@ -123,53 +124,69 @@ AKYRS.ShopPage{
         end
         return {
             n = G.UIT.R, -- DONE: dont forget to change this to root when adding to the UI or not actually
-            config = { minw = 12, minh = 8, colour = G.C.UI.TRANSPARENT_DARK, r = 0.1, padding = 0.25, align = "cm" },
+            config = { minw = 12, minh = 8, colour = G.C.UI.TRANSPARENT_DARK, r = 0.1, padding = 0.1, align = "cm" },
             nodes = {
+                AKYRS.dynatext_prefab({
+                    uit = G.UIT.R,
+                    align = 'cm',
+                    dynatext = {
+                        string = {localize("k_akyrs_chicanery_title")},
+                        scale = 0.7,
+                        pop_in = 0.1,
+                        float = 1,
+                        bump_rate = 10,
+                        text_effect = 'akyrs_rainbow_wiggle',
+                        bump_amount = 5,
+                    },
+                }),
             -- first bullshit
-            {
-                n = G.UIT.R,
-                config = { minw = 0, minh = 8, align = "cm", padding = 0.25,
-                },
-                nodes = {
-                AKYRS.singly_padded_shop_box({
-                    {
-                    n = G.UIT.C,
-                    config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 4, minh = 5.5, padding = 0.25, r = 0.07, align = "cm",
+                {
+                    n = G.UIT.R,
+                    config = { minw = 0, minh = 6, align = "cm", padding = 0.25,
                     },
                     nodes = {
+                    AKYRS.singly_padded_shop_box({
                         {
-                        n = G.UIT.R,
-                        config = { align = "cm" },
+                        n = G.UIT.C,
+                        config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 4, minh = 5.5, padding = 0.25, r = 0.07, align = "cm",
+                        },
                         nodes = {
                             {
-                            n = G.UIT.O,
-                            config = {
-                                object = G.akyrs_jimbo_chicanery_cardarea, -- fucking death
+                            n = G.UIT.R,
+                            config = { align = "cm" },
+                            nodes = {
+                                {
+                                n = G.UIT.O,
+                                config = {
+                                    object = G.akyrs_jimbo_chicanery_cardarea, -- fucking death
+                                }
+                                }
                             }
-                            }
-                        }
+                            },
+                            AKYRS.chicanery_purchase_button() 
                         },
-                        AKYRS.chicanery_purchase_button() 
+                        }
+                    })
+                    ,{
+                        n = G.UIT.C,
+                        config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 4, minh = 5.5, r = 0.07, align = "cm", padding = 0.05,
+                        },
+                        nodes = {
+                            AKYRS.chicanery_reroll_btns("common"),
+                            AKYRS.chicanery_reroll_btns("uncommon"),
+                            AKYRS.chicanery_reroll_btns("rare"),
+                        },
+                        },
                     },
-                    }
-                })
-                ,{
-                    n = G.UIT.C,
-                    config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 4, minh = 5.5, r = 0.07, align = "cm", padding = 0.05,
-                    },
-                    nodes = {
-                        AKYRS.chicanery_reroll_btns("common"),
-                        AKYRS.chicanery_reroll_btns("uncommon"),
-                        AKYRS.chicanery_reroll_btns("rare"),
-                    },
-                    },
-                },
-            }
+                }
             }
         }
     end,
     is_enabled = function (self)
         return G.GAME.akyrs_jimbo_owes_you
+    end,
+    enable = function (self, enable)
+        G.GAME.akyrs_jimbo_owes_you = enable
     end,
     button_height = 1.2,
     get_button_texts = function (self, enabled)
@@ -188,24 +205,179 @@ AKYRS.ShopPage{
 AKYRS.ShopPage {
     key = "life_shop",
     create_ui = function (self)
+        
+
+        G.akyrs_life_shop = CardArea(
+            0,
+            0,
+            3.05*G.CARD_W,
+            0.65*G.CARD_H, 
+            {card_limit = 3, type = 'shop', highlight_limit = 1, negative_info = true})
+
+            -- 3 cards
         return {
-            n = G.UIT.R,
+            n = G.UIT.R, -- DONE: dont forget to change this to root when adding to the UI or not actually
+            config = { minw = 12.5, minh = 8, colour = G.C.UI.TRANSPARENT_DARK, r = 0.1, padding = 0.25, align = "m" },
             nodes = {
-                AKYRS.text_prefab({
-                    text = "TEST"
-                })
+                {
+                    n = G.UIT.R,
+                    config = { minw = 0, minh = 1, align = "c", padding = 0.05,},
+                    nodes = {
+                        { 
+                            n = G.UIT.C,
+                            config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 4, minh = 1, padding = 0.1, r = 0.07, align = "cm",                            },
+                            nodes = {
+                                {
+                                    n = G.UIT.R,
+                                    config = { align = "cm" },
+                                    nodes = {
+                                        AKYRS.button_prefab {
+                                            children = {
+                                                AKYRS.text_prefab{ text = "Reroll" },
+                                                AKYRS.text_prefab{ text = " " },
+                                                AKYRS.text_prefab{ text = "$67", scale = 0.6 },
+                                            },
+                                            h = 1,
+                                            w = 4,
+                                            align = "cm",
+                                            colour = G.C.RED,
+                                        }
+                                    }
+                                },
+                                {
+                                    n = G.UIT.R,
+                                    config = { align = "cm" },
+                                    nodes = {
+                                        AKYRS.button_prefab {
+                                            children = {
+                                                AKYRS.text_prefab{ text = "+10 Life"},
+                                                AKYRS.text_prefab{ text = " " },
+                                                AKYRS.text_prefab{ text = "$67", scale = 0.6},
+                                            },
+                                            h = 1,
+                                            w = 4,
+                                            align = "cm",
+                                            colour = G.C.GREEN
+                                        }
+                                    }
+                                },
+                            },
+                        },
+                        AKYRS.singly_padded_shop_box({
+                            {
+                            n = G.UIT.C,
+                            config = { colour = G.C.UI.TRANSPARENT_DARK, minw = 4, minh = 1, padding = 0.25, r = 0.07, align = "cm",                            },
+                            nodes = {
+                                {
+                                n = G.UIT.R,
+                                config = { align = "cm" },
+                                nodes = {
+                                    {
+                                    n = G.UIT.O,
+                                    config = {
+                                        object = G.akyrs_life_shop, -- fucking death
+                                    }
+                                    }
+                                }
+                                },
+                            },
+                            }
+                        })
+                    },
+                },
+                {
+                    n = G.UIT.R,
+                    config = { minw = 0, minh = 0, align = "cm", padding = 0.1,},
+                    nodes = {
+                        AKYRS.button_prefab {
+                            children = {
+                                AKYRS.text_prefab{ uit = G.UIT.R, text = "Randomize Judgement"},
+                                AKYRS.text_prefab{ uit = G.UIT.R, text = "-67 Life"},
+                            },
+                            colour = G.C.GREEN,
+                            padding = 0.1,
+                            uit = G.UIT.C,
+                            w = 2.3,
+                            maxw = 2.3,
+                            scale = 0.3,
+                        },
+                        AKYRS.button_prefab {
+                            children = {
+                                AKYRS.text_prefab{ uit = G.UIT.R, text = "Upgrade 1 Judgement"},
+                                AKYRS.text_prefab{ uit = G.UIT.R, text = "-67 Life"},
+                            },
+                            colour = G.C.GREEN,
+                            padding = 0.1,
+                            uit = G.UIT.C,
+                            w = 2.3,
+                            maxw = 2.3,
+                            scale = 0.3,
+                        },
+                        AKYRS.button_prefab {
+                            children = {
+                                AKYRS.text_prefab{ uit = G.UIT.R, text = "Return Cards"},
+                                AKYRS.text_prefab{ uit = G.UIT.R, text = "to Deck"},
+                            },
+                            colour = G.C.SECONDARY_SET.Booster,
+                            padding = 0.1,
+                            uit = G.UIT.C,
+                            w = 2.3,
+                            maxw = 2.3,
+                            scale = 0.3,
+                        },
+                        AKYRS.button_prefab {
+                            children = {
+                                AKYRS.text_prefab{ uit = G.UIT.R, text = "Draw Full"},
+                                AKYRS.text_prefab{ uit = G.UIT.R, text = "-30 Life"},
+                            },
+                            colour = G.C.RED,
+                            padding = 0.1,
+                            uit = G.UIT.C,
+                            w = 2.3,
+                            maxw = 2.3,
+                            scale = 0.3,
+                        },
+                        AKYRS.button_prefab {
+                            children = {
+                                AKYRS.text_prefab{ uit = G.UIT.R, text = "Draw One"},
+                                AKYRS.text_prefab{ uit = G.UIT.R, text = "-5 Life"},
+                            },
+                            colour = G.C.RED,
+                            padding = 0.1,
+                            uit = G.UIT.C,
+                            w = 2.3,
+                            maxw = 2.3,
+                            scale = 0.3,
+                        },
+                    },
+                }
             }
         }
     end,
     is_enabled = function (self)
-        return AKYRS.test_life_shop
+        return G.GAME.akyrs_is_life_shop_enabled
+    end,
+    enable = function (self, enable)
+        G.GAME.akyrs_is_life_shop_enabled = enable
     end,
     get_button_texts = function (self, enabled)
+        if enabled then
+            return {
+              { self.key, {'k_akyrs_life_shop_btn'}}
+            }
+        end
         return {
-            { self.key, {'k_akyrs_life_shop_btn'}}
+          { self.key, {"k_akyrs_shop_cor"}},
         }
     end,
-    button_colour = G.C.DARK_EDITION
+    button_colour = G.C.DARK_EDITION,
+    hide = function (self)
+        AKYRS.simple_event_add(function ()
+                G.FUNCS.draw_from_hand_to_deck()
+                return true
+            end, 0)
+        return true
+    end,
 }
 
 function AKYRS.chicanery_reroll_btns(level) 
@@ -354,20 +526,30 @@ function G.FUNCS.akyrs_open_shop_window(e)
     if G.AKYRS_ACTIVE_SHOP and G[G.AKYRS_ACTIVE_SHOP] then
         G.FUNCS.akyrs_close_shop_window({config = {ref_table = G.AKYRS_ACTIVE_SHOP}})
     end
+    
+    if AKYRS.ShopPages[e.config.ref_table].show then
+        AKYRS.ShopPages[e.config.ref_table]:show()
+    end
     G.AKYRS_ACTIVE_SHOP = e.config.ref_table
-    G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = -5.7 
+    G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = AKYRS.ShopPages[e.config.ref_table].target_y or -5.5 
 end
 
 function G.FUNCS.akyrs_close_shop_window(e)
   if G[e.config.ref_table] then
+    if AKYRS.ShopPages[e.config.ref_table].hide then
+        AKYRS.ShopPages[e.config.ref_table]:hide()
+    end
     G[e.config.ref_table].alignment.offset.y = 11
     G.AKYRS_ACTIVE_SHOP = nil
   end
 end
 
 function G.FUNCS.akyrs_close_active_shop_window(e)
-  G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = 11
-  G.AKYRS_ACTIVE_SHOP = nil
+    G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = 11
+    if AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP].hide then
+        AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP]:hide()
+    end
+    G.AKYRS_ACTIVE_SHOP = nil
 end
 
 
@@ -396,21 +578,6 @@ function G.FUNCS.akyrs_shop_close_btn_func(e)
 end
 
 
-function AKYRS.button_prefab(args) 
-  args = args or {}
-  return 
-      {
-        n = args.uit or G.UIT.R, config = { colour = args.colour or G.C.RED, minw = args.w or 0.5, minh = args.h or 0.5, r = 0.05, padding = args.padding or 0.05, align = "cm", emboss = 0.1, hover = true, button = args.button, func = args.func, ref_table = args.ref_table, ref_value = args.ref_value, focus_args = args.focus_args },
-        nodes = args.children or {}
-      }
-end
-
-
-function AKYRS.text_prefab(args) 
-  args = args or {}
-  return { n = args.uit or G.UIT.C, config = { align = args.align }, nodes = { { n = G.UIT.T, config = args.config or { colour = args.colour or G.C.WHITE, text = args.text or "AIKO U SUCK WTFF", ref_table = args.ref_table, ref_value = args.ref_value, scale = args.scale or 0.4 } } } }
-end
-
 function AKYRS.close_button_prefab(shop)
   return AKYRS.button_prefab({
       children = {
@@ -430,7 +597,7 @@ function AKYRS.attach_to_shop_sign(shop_sign)
   if G.AKYRS_SHOP_OVERLAY then G.AKYRS_SHOP_OVERLAY:remove() G.AKYRS_SHOP_OVERLAY = nil end
   G.AKYRS_SHOP_OVERLAY = UIBox{
     definition = AKYRS.UIDEF.shift_hud_button(),
-      config = {align=('cli'), offset = {x=4.0,y=-1.2},major = shop_sign}
+      config = {align=('cli'), offset = {x=4.2,y=-1.2},major = shop_sign}
   }
 end
 

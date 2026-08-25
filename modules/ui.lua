@@ -824,12 +824,6 @@ end
 
 function AKYRS.run_info_tab()
   local ret = {}
-  if G.GAME.stake <= 1 and #G.GAME.applied_stakes > 1 then
-    table.insert(ret,{
-          label = localize('b_stake'),
-          tab_definition_function = G.UIDEF.current_stake,
-      })
-  end
   if AKYRS.should_calculate_word() then
     table.insert(ret, {
           label = localize('b_akyrs_words'),
@@ -1042,8 +1036,9 @@ function AKYRS.update_life_ui(game_ob)
   if AKYRS.is_life_enabled() then
       game_ob.akyrs_life_ui = UIBox {
           definition = AKYRS.UIDEF.akyrs_life_underlay(AKYRS.get_life_mode()),
-          config = { align = "mb", offset = { x = 1, y = 0.4 }, major = G.jokers, bond = 'Weak' }
+          config = { align = "mb", offset = { x = 9.5, y = 0 }},
       }
+      game_ob.akyrs_life_ui:set_role({role_type = "Major"})
       AKYRS.remove_value_from_table(G.I.UIBOX, game_ob.akyrs_life_ui )
       table.insert(G.I.UIBOX,1,game_ob.akyrs_life_ui)
   end
@@ -1157,3 +1152,26 @@ function G.FUNCS.akyrs_shift_hud(e)
     --AKYRS.better_ease_value(G.HUD.T, 'r', 0, nil, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo', 'akyrs_ui')
   end
 end
+
+function AKYRS.button_prefab(args) 
+  args = args or {}
+  return 
+      {
+        n = args.uit or G.UIT.R, config = { colour = args.colour or G.C.RED, minw = args.w or 0.5, minh = args.h or 0.5, maxw = args.maxw, maxh = args.maxh, r = 0.05, padding = args.padding or 0.05, align = "cm", emboss = 0.1, hover = true, button = args.button, func = args.func, ref_table = args.ref_table, ref_value = args.ref_value, focus_args = args.focus_args },
+        nodes = args.children or {}
+      }
+end
+
+function AKYRS.text_prefab(args) 
+  args = args or {}
+  return { n = args.uit or G.UIT.C, config = { align = args.align or "cm" }, nodes = { { n = G.UIT.T, config = args.config or { colour = args.colour or G.C.WHITE, text = args.text or "AIKO U SUCK WTFF", ref_table = args.ref_table, ref_value = args.ref_value, scale = args.scale or 0.4, shadow = not args.no_shadow } } } }
+end
+
+function AKYRS.dynatext_prefab(args)
+  local args = args or {}
+  local dynatext_args = args.dynatext or { strings = { "fuck you bro" }}
+  local dynatext = DynaText(dynatext_args)
+  return { n = args.uit or G.UIT.C, config = { align = args.align }, nodes = 
+  { { n = G.UIT.O, config = { object = dynatext } } } }
+end
+

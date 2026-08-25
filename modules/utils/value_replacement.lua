@@ -463,17 +463,22 @@ function AKYRS.mod_cards_scoring(cards_table, context)
     return returnval
 end
 
+function AKYRS.create_shop_ui_key(shop_key)
+    G[shop_key] = G[shop_key] or UIBox{
+        definition = AKYRS.dyn_container_maker({
+            AKYRS.close_button_prefab(shop_key),
+            AKYRS.ShopPages[shop_key]:create_ui()}),
+        config = {align='tmi', offset = {x=0,y=G.ROOM.T.y+11},major = G.hand, bond = 'Weak'}
+    }
+end
+
 function AKYRS.shop_hooks(dt)
     -- automatically create shops as i add them
     for _, shop_key in ipairs(AKYRS.ShopPages_Buffer) do
-        G[shop_key] = G[shop_key] or UIBox{
-                definition = AKYRS.dyn_container_maker({
-                    AKYRS.close_button_prefab(shop_key),
-                    AKYRS.ShopPages[shop_key]:create_ui()}),
-                config = {align='tmi', offset = {x=0,y=G.ROOM.T.y+11},major = G.hand, bond = 'Weak'}
-            }
+        if AKYRS.ShopPages[shop_key]:is_enabled() then
+            AKYRS.create_shop_ui_key(shop_key)
+        end
     end
-
 end
 
 function AKYRS.end_shop_hooks(dt)

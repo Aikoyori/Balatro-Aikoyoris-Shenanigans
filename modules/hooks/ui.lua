@@ -924,6 +924,9 @@ G.FUNCS.use_card = function (e,m,ns)
       card.T.y = G.play.T.y
       e.config.ref_table:redeem()
     end
+    if card.ability.set == 'Booster' then 
+        G.FUNCS.akyrs_close_active_shop_window(e)
+    end
     local r = useCardHook(e,m,ns)
     return r
     

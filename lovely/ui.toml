@@ -259,6 +259,7 @@ payload = """"""
 overwrite = true
 match_indent = true
 
+
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
@@ -956,3 +957,26 @@ position = "before"
 payload = """AKYRS.recalculate_ui()"""
 overwrite = true
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/ui.lua"]'
+pattern = """    local applied_stakes = order_applied_stakes(SMODS.build_stake_chain(G.P_STAKES[G.P_CENTER_POOLS.Stake[G.GAME.stake].key]), G.P_CENTER_POOLS.Stake[G.GAME.stake].key)"""
+position = "after"
+payload = """applied_stakes = AKYRS.map(AKYRS.filter_table(G.GAME.applied_stakes, function(i) return i ~= G.GAME.stake end, true, true), function(st_or) return G.P_CENTER_POOLS.Stake[st_or].key end, true)
+applied_stakes[#applied_stakes + 1] = G.P_CENTER_POOLS.Stake[G.GAME.stake].key
+"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = """        G.GAME.stake > 1 and {"""
+position = "at"
+payload = """#G.GAME.applied_stakes > 1 and {"""
+overwrite = true
+match_indent = true
+

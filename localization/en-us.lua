@@ -1742,7 +1742,10 @@ return {
                 }
             },
             j_akyrs_tsunagite = {
-                name = "{f:5,C:akyrs_luminous}系ぎて",
+                name = {
+                    "{f:5,C:akyrs_luminous}系ぎて",
+                    "{s:0.7}Tsunagite by rintaro soma"
+                },
                 text = { 
                     "Played cards permanently gain {X:mult,C:white} X#2#{} Mult",
                     "if played cards' {C:chips}chips{} is divisible by {C:attention}#1#"
@@ -1824,7 +1827,10 @@ return {
                 }
             },
             j_akyrs_kyoufuu_all_back = {
-                name = "Kyoufuu All Back",
+                name = {
+                    "{f:5}YONA YONA DANCE",
+                    "{s:0.7}by Akiko Wada & Frederic"
+                },
                 text = { 
                     "Return previously {C:attention}played and discarded",
                     "{C:attention and played{} cards back to deck"
@@ -1851,7 +1857,10 @@ return {
                 }
             },
             j_akyrs_hibana = {
-                name = "Hibana",
+                name = {
+                    "{f:5}ヒバナ",
+                    "{s:0.7}Hibana by DECO*27"
+                },
                 text = { 
                     "{C:attention}#1#{} are first to be drawn",
                     "{C:attention}Cycles{} through a list every round",
@@ -1977,7 +1986,10 @@ return {
                 }
             },
             j_akyrs_tetoris = {
-                name = "Tetoris",
+                name = {
+                    "{f:5}テトリス",
+                    "{s:0.7}Tetoris by Hiiragi Magnetite"
+                },
                 text = { 
                     "Cards played are scored again {C:attention}backwards",
                     "{s:0.9,C:inactive,f:5}テテテテト テト テテテテトリス!{}"
@@ -2072,7 +2084,10 @@ return {
                 }
             },
             j_akyrs_goodbye_sengen = {
-                name = "Goodbye Sengen",
+                name = {
+                    "{f:5}グッバイ宣言",
+                    "{s:0.7}Goodbye Declaration by Chinozo"
+                },
                 text = { 
                     "If {C:attention}first hand of round{} has {C:attention}a single{} card,",
                     "destroy it and create a {C:tarot}Justice{}",
@@ -2081,7 +2096,10 @@ return {
                 }
             },
             j_akyrs_liar_dancer = {
-                name = "Liar Dancer",
+                name = {
+                    "{f:5}ライアダンサー",
+                    "{s:0.7}Liar Dancer by Masarada"
+                },
                 text = { 
                     "{C:attention}All played cards'{} ranks are considered",
                     "as cards {C:attention}held in hand{} in the same position",
@@ -2183,7 +2201,10 @@ return {
                 }
             },
             j_akyrs_lagtrain = {
-                name = "Lagtrain",
+                name = {
+                    "{f:5}ラグトレイン",
+                    "{s:0.7}Lagtrain by inabakumori"
+                },
                 text = { 
                     "Played and unscored cards",
                     "gain {C:chips}+#1#{} Chips",
@@ -2634,6 +2655,32 @@ return {
                     {
                         "Apply {C:attention}Smog{} when {C:attention}exiting{} shop",
                         "If no {X:akyrs_scenario_dark_pink,C:white}Dark{} {X:akyrs_scenario_dark_pink,C:white}Pink{} Scenario is active",
+                    },
+                }
+            },
+            j_akyrs_tono_goranshin = {
+                name = {
+                    "{f:5}殿ッ！？ご乱心！？",
+                    "{s:0.7}Tono, Goranshin! by Shu"
+                },
+                text = {
+                    {
+                        "All cards {C:attention}rotate",
+                        "Each {C:attention}scored card{} gives",
+                        "{C:mult}+2×(angle in radians)/{C:mult,f:akyrs_611aiko}π{} Mult",
+                    },
+                }
+            },
+            j_akyrs_telepathy = {
+                name = {
+                    "{f:5}テレパシ",
+                    "{s:0.7}Telepathy by DECO*27"
+                },
+                text = {
+                    {
+                        "Score {C:attention}up to the last{} 5 cards",
+                        "in the {C:attention}Discard{} Pile",
+                        "as if it was {C:attention}held in hand",
                     },
                 }
             },

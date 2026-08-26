@@ -401,7 +401,7 @@ end
 
 function AKYRS.add_custom_cashout_rows(dollars, pitch)
     local cloud_cards = AKYRS.filter_table(G.playing_cards, function (cd,i,a)
-        return cd.config.center.key == "m_akyrs_cloud_card"
+        return SMODS.has_enhancement(cd,"m_akyrs_cloud_card")
     end, true, true)
     if #cloud_cards > 0 then
         local is_cloudy = AKYRS.is_scenario_active("sc_akyrs_cloudy")
@@ -439,6 +439,16 @@ function AKYRS.mod_cards_scoring(cards_table, context)
     local returnval = {}
     for _, c in ipairs(cards_table) do
         returnval[#returnval+1] = c
+    end
+    local telepathies = SMODS.find_card("j_akyrs_telepathy")
+    if #telepathies >= 1 and (context.cardarea == G.hand) then
+        --print(returnval)
+        local discards_count = #G.discard.cards
+        if discards_count then
+            for i = 1, math.min(5 * #telepathies, discards_count) do
+                returnval[#returnval+1] = G.discard.cards[#G.discard.cards + 1 - i]
+            end
+        end
     end
     local tetorises = SMODS.find_card("j_akyrs_tetoris")
     if #tetorises >= 1 and (context.cardarea == G.play) then

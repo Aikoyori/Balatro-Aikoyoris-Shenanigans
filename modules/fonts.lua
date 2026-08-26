@@ -30,7 +30,7 @@ SMODS.Font{
 }
 SMODS.Font{
     key = "611aiko",
-    path = "m6x11plusaikoshe.ttf",
+    path = "m6x11plusaikoshen.ttf",
     render_scale = 200, 
     TEXT_HEIGHT_SCALE = 0.83, 
     TEXT_OFFSET = {x=10,y=-20}, 

@@ -309,7 +309,7 @@ SMODS.Joker {
             for _, _c in ipairs(context.full_hand) do
                 SMODS.calculate_effect({
                     func = function ()
-                        if _c.config.center_key == "m_stone" then
+                        if next(SMODS.has_enhancement(_c,"m_stone")) then
                             AKYRS.simple_event_add(
                                 function ()
                                     if AKYRS.compare(_c.ability.bonus - card.ability.extra.chips_take,">",0) then
@@ -410,7 +410,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         if context.destroy_card and not context.blueprint then
             for _, _c in ipairs(context.full_hand) do
-                if _c.config.center_key == "m_stone" and context.destroy_card == _c then
+                if SMODS.has_enhancement(_c,"m_stone") and context.destroy_card == _c then
                     AKYRS.simple_event_add(
                         function ()
                             card.ability.extra.xchips_adequate = card.ability.extra.xchips_adequate + card.ability.extra.xchips_add_when_stone_gone
@@ -1428,7 +1428,7 @@ SMODS.Joker{
                         copy.sell_cost = 0
                         G.jokers:emplace(copy)
                     end
-                    if (crm.ability.set == "Enhanced" or crm.ability.set == "Default") and not (crm.config.center_key == "m_akyrs_ash_card") then
+                    if (crm.ability.set == "Enhanced" or crm.ability.set == "Default") and not (SMODS.has_enhancement(crm,"m_akyrs_ash_card")) then
                         G.playing_card = (G.playing_card and G.playing_card + 1) or 1
                         local copy = copy_card(crm,nil,nil,G.playing_card, true)
                         G.deck.config.card_limit = G.deck.config.card_limit + 1
@@ -3618,7 +3618,7 @@ SMODS.Joker {
     blueprint_compat = true,
     calculate = function (self, card, context)
         if context.individual and context.cardarea == G.play then
-            if context.other_card.config.center.key == "m_akyrs_ash_card" then
+            if SMODS.has_enhancement(context.other_card,"m_akyrs_ash_card") then
                 return {
                     mult = card.ability.extras.mult
                 }
@@ -3825,9 +3825,72 @@ SMODS.Joker {
     end
 }
 
+SMODS.Joker {
+    key = "tono_goranshin",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 2, y = 8 },
+    pools = {  },
+    config = {
+    },
+    rarity = 1,
+    cost = 3,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.individual and context.cardarea == G.play then
+            return {
+                mult = ((context.other_card.VT.r % 2*math.pi) * 2) / math.pi
+            }
+        end
+    end
+}
+
+SMODS.Joker {
+    key = "telepathy",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 3, y = 8 },
+    pools = {  },
+    config = {
+    },
+    rarity = 2,
+    cost = 5,
+    generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+        SMODS.Joker.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+        if AKYRS.should_show_card_previews() then
+            local all_tele = SMODS.find_card(self.key)
+            local location = AKYRS.find_index(all_tele, card) - 1
+            local items = {}
+            if location and G.discard.cards then
+                local cards_scoring = {}
+                local discards_count = #G.discard.cards
+                if discards_count then
+                    for i = 1 + location*5, math.min((location + 1) * 5, #G.discard.cards)  do
+                        cards_scoring[#cards_scoring+1] = copy_card(G.discard.cards[#G.discard.cards + 1 - i])
+                    end
+                end
+                AKYRS.card_area_preview(G.akyrs_telepathy_show, desc_nodes, {
+                    override = true,
+                    cards = cards_scoring,
+                    w = 2.4,
+                    h = 0.6,
+                    ml = 0,
+                    scale = 0.5,
+                })
+            end
+        end
+    end,
+    calculate = function (self, card, context)
+        
+    end
+}
+
 for j = 8, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 82 then
+        if i + j * 10 >= 85 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

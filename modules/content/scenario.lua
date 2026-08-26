@@ -959,12 +959,12 @@ AKYRS.Scenario {
     end,
     calculate = function (self, card, context)
         if context.individual and context.cardarea == G.hand and not context.end_of_round then
-            if context.other_card.config.center.key == "m_mult" then
+            if SMODS.has_enhancement(context.other_card,"m_mult") then
                 return {
                     xmult = card.ability.extras.xmult
                 }
             end
-            if context.other_card.config.center.key == "m_bonus" then
+            if SMODS.has_enhancement(context.other_card,"m_bonus") then
                 return {
                     xchips = card.ability.extras.xchips
                 }
@@ -994,7 +994,7 @@ AKYRS.Scenario {
         }
     end,
     calculate = function (self, card, context)
-        if context.repetition and context.other_card.config.center.key == "m_akyrs_canopy_card" and context.cardarea == G.play then
+        if context.repetition and SMODS.has_enhancement(context.other_card,"m_akyrs_canopy_card") and context.cardarea == G.play then
             return {
                 repetitions = 1,
             }
@@ -1144,8 +1144,8 @@ AKYRS.Scenario {
             local repetitions = 0
             local i = AKYRS.find_index(cdx.area.cards, cdx)
             local left, rght = i > 1 and cdx.area.cards[i - 1], i < #cdx.area.cards and cdx.area.cards[i + 1]
-            repetitions = repetitions + (left and left.config and left.config.center and left.config.center.key == "m_stone" and 1 or 0)
-                                      + (rght and rght.config and rght.config.center and rght.config.center.key == "m_stone" and 1 or 0)
+            repetitions = repetitions + (left and left.config and left.config.center and SMODS.has_enhancement(left,"m_stone") and 1 or 0)
+                                      + (rght and rght.config and rght.config.center and SMODS.has_enhancement(rght,"m_stone") and 1 or 0)
             if repetitions > 0 then
                 return {
                     repetitions = repetitions
@@ -1416,8 +1416,8 @@ AKYRS.Scenario {
     },
     config = {
         extras = {
-            xbl_min = 0.5,
-            xbl_max = 0.9,
+            xbl_min = 0.55,
+            xbl_max = 0.95,
         }
     },
     akyrs_total_rounds = 3,

@@ -9,7 +9,7 @@ function AKYRS.get_life_drain(card, force_mode, force_life_mode)
     if not AKYRS.Judgements[card.akyrs_judgement].value[force_mode or AKYRS.get_life_mode(card)] then return 0 end
     life_drain = ((AKYRS.Judgements[card.akyrs_judgement]).value[force_mode or AKYRS.get_life_mode(card)][force_life_mode or AKYRS.get_type_for_life_loc(card)] or 0 )
     -- some more code for tap card
-    if card.config.center.key == "m_akyrs_tap_card" then
+    if SMODS.has_enhancement(card,"m_akyrs_tap_card") then
         life_drain = math.ceil(life_drain / 2)
     end
     return life_drain

@@ -337,11 +337,15 @@ match_indent = true
 [patches.pattern]
 target = '=[SMODS _ "src/utils.lua"]'
 pattern = """    for _, card in ipairs(context.cardarea.cards) do"""
-position = "before"
+position = "at"
 payload = """
 --[[ added by aikoshen because i dont wanna be intrusive ]]
 local cardarea_cards_og = context.cardarea.cards
-context.cardarea.cards = AKYRS.mod_cards_scoring(context.cardarea.cards, context)
+local cards_to_score = AKYRS.mod_cards_scoring(context.cardarea.cards, context)
+--[[
+for _, card in ipairs(context.cardarea.cards) do
+]]
+for _, card in ipairs(cards_to_score) do
 """
 overwrite = true
 match_indent = true

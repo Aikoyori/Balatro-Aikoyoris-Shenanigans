@@ -547,8 +547,8 @@ SMODS.Enhancement{
     pos = {x = 5, y = 1},
     config = {
         extras = {
-            bonus_X_chips = 1.41,
-            bonus_X_mult = 1.41,
+            bonus_X_chips = 1.4,
+            bonus_X_mult = 1.4,
         }
     },
     akyrs_note_card = {

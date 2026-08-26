@@ -398,7 +398,7 @@ function AKYRS.chicanery_reroll_btns(level)
         n = G.UIT.R, config = { colour = G.C.GREEN, minw = 3, minh = 1, r = 0.05, padding = 0.1, align = "cm", emboss = 0.1, hover = true, button = 'akyrs_reroll_jimbo', func = 'akyrs_reroll_jimbo_can_use', ref_table = { level } },
         nodes = {
           { n = G.UIT.R, config = { padding = 0.05 },nodes = { 
-            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = "`" , scale = scale, font = SMODS.Fonts["akyrs_611aiko"] } } } },
+            { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = "🔁" , scale = scale, font = SMODS.Fonts["akyrs_611aiko"] } } } },
             { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = localize("k_akyrs_chicanery_rolls_"..level), scale = scale } } } },
             { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = localize("k_akyrs_chicanery_rolls_"..level.."_arrows") , scale = scale, font = SMODS.Fonts["akyrs_611aiko"] } } } },
           },},

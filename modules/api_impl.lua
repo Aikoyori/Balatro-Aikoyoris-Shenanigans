@@ -332,6 +332,7 @@ AKYRS.plural_centers = function(word)
     if word == "planets" then return "planet" end
     if word == "spectrals" then return "spectral" end
     if word == "umbrals" then return "umbral" end
+    if word == "replicants" then return "replicant" end
     if AKYRS.other_mods_plural_centers(word) then return AKYRS.other_mods_plural_centers(word) end
     return nil
 end
@@ -376,6 +377,11 @@ function AKYRS.maxwell_card_to_area_map(word)
         center = G.P_CENTER_POOLS.Spectral
         centerName = "Spectral"
     end
+    if word == "umbral" or word == "umbrals" then
+        area = G.consumeables
+        center = G.P_CENTER_POOLS.Umbral
+        centerName = "Umbral"
+    end
     if AKYRS.other_mods_maxwell_card_to_area_map(word) then
         area, center, centerName = AKYRS.other_mods_maxwell_card_to_area_map(word)
     end
@@ -385,6 +391,8 @@ function AKYRS.maxwell_card_to_area_map(word)
     return center,area,count,centerName
 end
 
+-- why the fuck is it in an if else !!! WTF???
+
 function AKYRS.maxwell_word_to_edition_map(word)
     if word == "neg" or word == "negs" or word == "negative" or word == "negatives" then return "Negative","e_negative" end
     if word == "holo" or word == "holos" or word == "holographic" or word == "holographics" then return "Holographic","e_holo" end
@@ -393,6 +401,8 @@ function AKYRS.maxwell_word_to_edition_map(word)
     if word == "sliced" then return "akyrs_sliced","e_akyrs_sliced" end
     if word == "noir" then return "akyrs_noire","e_akyrs_noire" end
     if word == "texel" then return "akyrs_texelated","e_akyrs_texelated" end
+    if word == "burnt" or word == "burned" or word == "flame" then return "akyrs_burnt","e_akyrs_burnt" end
+    if word == "charged" or word == "powered" or word == "energized" or word == "energised" then return "akyrs_charged","e_akyrs_charged" end
     if AKYRS.other_mods_word_to_edition_map(word) then return AKYRS.other_mods_word_to_edition_map(word) end
     return nil,nil
 end
@@ -430,6 +440,60 @@ function AKYRS.maxwell_word_to_enhancement_map(word)
     end
     if word == "base" or word == "plain" or word == "boring" or word == "nothing" or word == "undo" or word == "remove" or word == "delete" then
         return G.P_CENTERS.c_base
+    end
+    if word == "ash" then
+        return G.P_CENTERS["m_akyrs_ash_card"]
+    end
+    if word == "?" or word == "what" or word == "wtf" or word == "huh" then
+        return G.P_CENTERS["m_akyrs_hatena"]
+    end
+    if word == "item" or word == "box" or word == "kart" then
+        return G.P_CENTERS["m_akyrs_item_box"]
+    end
+    if word == "insolate" then
+        return G.P_CENTERS["m_akyrs_item_box"]
+    end
+    if word == "canopy" or word == "plant" or word == 'tree' or word == 'tress' or word == 'forest' or word == 'forests' then
+        return G.P_CENTERS["m_akyrs_canopy_card"]
+    end
+    if word == "thailand" or word == "thai" then
+        return G.P_CENTERS["m_akyrs_thai_tea_card"]
+    end
+    if word == "matcha" then
+        return G.P_CENTERS["m_akyrs_matcha_card"]
+    end
+    if word == "grey" then
+        return G.P_CENTERS["m_akyrs_earl_grey_tea_card"]
+    end
+    if word == "net" then
+        return G.P_CENTERS["m_akyrs_net_card"]
+    end
+    if word == "droplet" or word == "droplets" then
+        return G.P_CENTERS["m_akyrs_droplet_card"]
+    end
+    if word == "zap" or word == "zappy" or word == "electric" or word == "electricity" or word == "electricities" then
+        return G.P_CENTERS["m_akyrs_zap_card"]
+    end
+    if word == "semibreve" then
+        return G.P_CENTERS["m_akyrs_semibreve_card"]
+    end
+    if word == "minim" then
+        return G.P_CENTERS["m_akyrs_minim_card"]
+    end
+    if word == "crotchet" then
+        return G.P_CENTERS["m_akyrs_crotchet_card"]
+    end
+    if word == "wafer" then
+        return G.P_CENTERS["m_akyrs_wafer_card"]
+    end
+    if word == "shore" or word == "beach" then
+        return G.P_CENTERS["m_akyrs_shore_card"]
+    end
+    if word == "cloud" or word == "cloudy" then
+        return G.P_CENTERS["m_akyrs_cloud_card"]
+    end
+    if word == "nightshade" then
+        return G.P_CENTERS["m_akyrs_nightshade_card"]
     end
     if AKYRS.other_mods_word_to_enhancement_map(word) then
         return AKYRS.other_mods_word_to_enhancement_map(word)

@@ -417,7 +417,7 @@ end
 function Card:akyrs_double_click()
     --print("double click detected") 
     if self.config and self.config.center and self.area then
-        if self.config.center.key == "m_akyrs_canopy_card" and self.ability.extras.akyrs_can_downrank and self.area == G.hand and G.STATE ~= G.STATES.HAND_PLAYED then
+        if SMODS.has_enhancement(self,"m_akyrs_canopy_card") and self.ability.extras.akyrs_can_downrank and self.area == G.hand and G.STATE ~= G.STATES.HAND_PLAYED then
             self.ability.extras.akyrs_can_downrank = false
             AKYRS.do_things_to_card({self}, function (card, index)
                 card = SMODS.modify_rank(card, -1)
@@ -510,6 +510,9 @@ function AKYRS.get_card_rotation(card)
     local x = card.akyrs_rot_force or 0
     if AKYRS.is_scenario_tag_active('sc_akyrs_mushroom') then
         x = x + math.sin(card.aiko_draw_delay * G.TIMERS.REAL / 7) * math.pi * 2 + card.aiko_draw_delay_2 * G.TIMERS.REAL * math.pi * 0.2
+    end
+    if next(SMODS.find_card('j_akyrs_tono_goranshin')) then
+        x = x + math.sin(card.aiko_draw_delay_2 * 1.7 * G.TIMERS.REAL / 7) * math.pi * 2 + card.aiko_draw_delay / 0.5 * G.TIMERS.REAL * math.pi * 0.2
     end
     return x
 end

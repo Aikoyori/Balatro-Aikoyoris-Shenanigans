@@ -4602,6 +4602,9 @@ return {
                 {"aish"},
                 {"The Wacky","and Wonderous Shenanigans","in the world of Aikoyori"},
                 {"Solitaireyori","Wordlenanigans"},
+				{"New York Times","Bestseller: Aikoyori"},
+				{"Five. Hundred.","Aikoyori."},
+				{"NOT pronounced like","I-cow-yo-ree","...probably"},
             },
             flavour_text = {
                 {"now with 1000% more aliases!",},
@@ -4673,6 +4676,16 @@ return {
                 {"Release the Mona clones!"},
                 {"hop on synthv"},
                 {"{f:akyrs_MochiyPopOne}「[疑]ロキ」簡単w"},
+				{"Not to be confused with","Aikoyuri"},
+				{"also try Handy?"},
+				{"Not incompatible with Cryptid!"},
+				{"who needs to play Balatro","when you can play Solitaire","on the home screen instead?"},
+				{"wow! i sure do love really long flavor texts. it's so fun to have the tooltip stretch out like this!"},
+				{"error.lua says: flavour_text not found","(this is a real error trust"},
+				{"Find My Stakes."},
+				{"Spotify Stake icon not to be","confused for a WhatsApp Seal."},
+				{"Adds at least 1 Joker!"},
+				{"Why is it called a Blind","if i can still see what it does?"},
             }
         },
         v_text={

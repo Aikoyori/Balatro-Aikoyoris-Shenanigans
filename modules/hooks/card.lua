@@ -512,7 +512,10 @@ function AKYRS.get_card_rotation(card)
         x = x + math.sin(card.aiko_draw_delay * G.TIMERS.REAL / 7) * math.pi * 2 + card.aiko_draw_delay_2 * G.TIMERS.REAL * math.pi * 0.2
     end
     if next(SMODS.find_card('j_akyrs_tono_goranshin')) then
-        x = x + math.sin(card.aiko_draw_delay_2 * 1.7 * G.TIMERS.REAL / 7) * math.pi * 2 + card.aiko_draw_delay / 0.5 * G.TIMERS.REAL * math.pi * 0.2
+        x = x + math.sin(card.aiko_draw_delay_2 * 1.4 * G.TIMERS.REAL / 7) * math.pi * 2 + card.aiko_draw_delay * 0.8 * G.TIMERS.REAL * math.pi * 0.2
+    end
+    if G.SETTINGS.reduced_motion then
+        x = x / 10
     end
     return x
 end

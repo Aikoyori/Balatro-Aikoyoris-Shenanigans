@@ -1562,6 +1562,7 @@ SMODS.Joker {
     calculate = function (self, card, context)
     end,
     hpot_unbreedable = true,
+    blueprint_compat = false,
 }
 
 SMODS.Joker{
@@ -3889,9 +3890,173 @@ SMODS.Joker {
     end
 }
 
+SMODS.Joker {
+    key = "bubble",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 4, y = 8 },
+    pools = {  },
+    config = {
+        extras = {
+            discards = 0,
+            d_g = 1,
+            d_m = -1,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.discards),
+                SMODS.signed(card.ability.extras.d_g),
+                SMODS.signed(card.ability.extras.d_m),
+            }
+        }
+    end,
+    rarity = 3,
+    cost = 8,
+    calculate = function (self, card, context)
+        if context.setting_blind then
+            return {
+                func = function ()
+                    ease_discard(card.ability.extras.discards)
+                end
+            }
+        end
+        if context.selling_self and context.selling_card then
+            return {
+                func = function ()
+                    ease_discard(-card.ability.extras.discards)
+                end
+            }
+        end
+        if context.remove_playing_cards then
+            for _, cr in ipairs(context.removed) do
+                if cr.config.center.key == 'c_base' then
+                    return {
+                        func = function ()
+                            SMODS.scale_card(card, {
+                                ref_table = card.ability.extras,
+                                ref_value = 'discards',
+                                scalar_value = 'd_g',
+                            })
+                        end
+                    }
+                end
+            end
+        end
+        if context.after and not context.individual then
+            return {
+                func = function ()
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extras,
+                        ref_value = 'discards',
+                        scalar_value = 'd_m',
+                    })
+                    card.ability.extras.discard = math.max(card.ability.extras.discards, 0)
+                end
+            }
+        end
+    end
+}
+
+
+SMODS.Joker {
+    key = "shoka",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 5, y = 8 },
+    pools = {  },
+    config = {
+        extras = {
+            cards_draw = 5,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                (card.ability.extras.cards_draw),
+            }
+        }
+    end,
+    rarity = 2,
+    cost = 4,
+    calculate = function (self, card, context)
+        if context.akyrs_pre_play then
+            return {
+                func = function ()
+                    if G.deck.cards then
+                        for i = 1, math.min(to_number(card.ability.extras.cards_draw), #G.deck.cards) do
+                            local _c = G.deck.cards[i]
+                            AKYRS.simple_event_add(function ()
+                                _c.area:remove_card(_c)
+                                G.play:emplace(_c)
+                                return true
+                            end)
+                        end
+                    end
+                end
+            }
+        end
+    end
+}
+
+SMODS.Joker {
+    key = "aipai_dancehall",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 6, y = 8 },
+    pools = {  },
+    config = {
+        extras = {
+            immutable = {
+                pi_location = 1,
+            },
+            mult_g = 4,
+            mult_p = 0,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                localize('f_akyrs_localize_ordered_number')(card.ability.extras.immutable.pi_location),
+                AKYRS.const.pi[card.ability.extras.immutable.pi_location],
+                SMODS.signed(card.ability.extras.mult_p),
+                SMODS.signed(card.ability.extras.mult_g),
+                AKYRS.const.pi[card.ability.extras.immutable.pi_location - 2] or "",
+                AKYRS.const.pi[card.ability.extras.immutable.pi_location - 1] or "",
+                AKYRS.const.pi[card.ability.extras.immutable.pi_location + 1] or "?",
+                AKYRS.const.pi[card.ability.extras.immutable.pi_location + 2] or "?",
+            }
+        }
+    end,
+    rarity = 2,
+    cost = 6,
+    calculate = function (self, card, context)
+        if context.akyrs_pre_play then
+            if #context.akyrs_pre_play_cards == math.min(AKYRS.const.pi[card.ability.extras.immutable.pi_location],G.GAME.starting_params.play_limit) then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extras,
+                    ref_value = "mult_p",
+                    scalar_value = 'mult_g'
+                })
+                card.ability.extras.immutable.pi_location = math.min(card.ability.extras.immutable.pi_location + 1,#AKYRS.const.pi)
+            else
+                SMODS.reset_card(card, {
+                    ref_table = card.ability.extras,
+                    ref_value = "mult_p",
+                    reset_value = 0
+                })
+                card.ability.extras.immutable.pi_location = 1
+            end
+        end
+        if context.joker_main then
+            return {
+                mult = card.ability.extras.mult_p
+            }
+        end
+    end
+}
+
 for j = 8, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 85 then
+        if i + j * 10 >= 87 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

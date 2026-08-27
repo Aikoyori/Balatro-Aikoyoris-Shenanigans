@@ -2684,6 +2684,59 @@ return {
                     },
                 }
             },
+            j_akyrs_bubble = {
+                name = {
+                    "{f:5}あぶく",
+                    "{s:0.7}Bubble by Yorushika"
+                },
+                text = {
+                    {
+                        "{C:red}#1#{} Discards when round begins",
+                        "{C:red}#3#{} Discards after hand scores",
+                    },
+                    {
+                        "Gain {C:red}#2#{} Discard per",
+                        "{C:attention}unenhanced cards{} Destroyed"
+                    },
+                }
+            },
+            j_akyrs_shoka = {
+                name = {
+                    "{f:5}初夏",
+                    "{s:0.7}Shoka by {E:akyrs_rainbow_wiggle}Ado{}"
+                },
+                text = {
+                    {
+                        "Pull #1# {C:attention}additional{} cards{} from deck",
+                        "into {C:attention}played hand{} when hand is played",
+                    },
+                }
+            },
+            j_akyrs_aipai_dancehall = {
+                name = {
+                    "{f:5}愛包ダンスホール",
+                    "{s:0.7}Love Pie Dancehall by HIMEHINA"
+                },
+                text = {
+                    {
+                        "Choose {C:attention}equal number{} of cards to play as",
+                        "the {C:attention}#1#{} digit of {f:akyrs_611aiko}π{} ({C:attention}#2#{})",
+                        "and gain {C:mult}#4#{} Mult",
+                        "{C:inactive}(Currently {C:mult}#3#{C:inactive} Mult)",
+                    },
+                    {
+                        "{C:attention}Continues{} to the next digit on success",
+                        "{C:red}Resets{} when streak is broken",
+                    },
+                    {
+                        "Play {C:attention}as many as you can{} if the",
+                        "number is bigger than you can play"
+                    },
+                    {
+                        "#5# #6# {C:attention}#2#{} #7# #8#"
+                    }
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {
@@ -5021,19 +5074,34 @@ return {
             k_akyrs_enchantment_none_blank="None :(",
             k_akyrs_edge_prism="<PRISM>",
 
-            f_akyrs_localize_enchantment_level = function (level)
-                if math.abs(level) > 3999 then
-                    return level > 0 and "+INF" or "-INF"
+            f_akyrs_localize_enchantment_level = function (num_in)
+                if math.abs(num_in) > 3999 then
+                    return num_in
                 end
-                if level == 0 then return "0" end
-                local strout = level > 0 and "" or "-"
+                if num_in == 0 then return "0" end
+                local strout = num_in > 0 and "" or "-"
                 local ones        = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}
                 local tenths      = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"}
                 local hundredths  = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"}
                 local thousandths = { "", "M", "MM", "MMM", "M?", "?", "?M", "?MM", "?MMM", "M?"}
                 local places = { thousandths, hundredths, tenths, ones }
                 for i, v in ipairs({1000,100,10,1}) do
-                    strout = strout .. places[i][math.floor(math.fmod(math.abs(level), v * 10) / v) + 1]
+                    strout = strout .. places[i][math.floor(math.fmod(math.abs(num_in), v * 10) / v) + 1]
+                end
+                return strout
+            end,
+            f_akyrs_localize_ordered_number = function (num_in)
+                local strout = num_in
+                if num_in % 100 == 11 or num_in % 100 == 12 or num_in % 100 == 13 then
+                    strout = strout .. "th"
+                elseif num_in % 10 == 1 then
+                    strout = strout .. "st"
+                elseif num_in % 10 == 2 then
+                    strout = strout .. "nd"
+                elseif num_in % 10 == 3 then
+                    strout = strout .. "rd"
+                else
+                    strout = strout .. "th"
                 end
                 return strout
             end,

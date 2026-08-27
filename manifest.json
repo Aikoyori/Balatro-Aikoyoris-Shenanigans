@@ -9,9 +9,9 @@
 	"badge_colour": "7f007f",
 	"badge_text_colour": "ffffff",
 	"display_name": "AikoShen",
-	"version": "0.2.0-alpha-260827a-dev",
+	"version": "0.2.0-alpha-260827b-dev",
 	"dependencies": [
-		"Steamodded (>=26.825.0~dev-a)", 
+		"Steamodded (>=26.826.0~dev-c)", 
 		"Lovely (>=0.9.0)", 
 		"Balatro (>=1.0.1o)"],
 	"conflicts": [

@@ -1,5 +1,8 @@
 -- copied from https://gist.github.com/CaptainPRICE/342303bba104354257db0471bf996bd3 to fix math deck
 AKYRS.NAN  =  0.0 / 0.0
+
+AKYRS.const = {}
+
 AKYRS.NINF = -math.huge
 AKYRS.PINF =  math.huge
 

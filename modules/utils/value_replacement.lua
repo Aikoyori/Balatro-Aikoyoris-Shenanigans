@@ -534,14 +534,9 @@ function AKYRS.cards_being_destroyed(card)
     end
 end
 
-AKYRS.cards_that_can_be_used = {
-    ["j_akyrs_sulfur_cube"] = true,
-    ["j_akyrs_ryou"] = true,
-}
-
 AKYRS.can_card_be_used = function (card)
     if not AKYRS.is_in_typical_area(card.area) and not card.akyrs_parent then return false end
-    if AKYRS.cards_that_can_be_used[card.config.center.key] then
+    if card.config.center.akyrs_joker_use_btn then
         return true
     end
     return false

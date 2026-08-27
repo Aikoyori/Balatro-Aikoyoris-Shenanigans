@@ -200,10 +200,18 @@ function copy_card(...)
 end
 
 local isSuitHook = Card.is_suit
-function Card:is_suit(...)
+function Card:is_suit(suit, bypass_debuff, flush_calc)
     if self and self.is_null then return false end
     if not self then print("AKYRS > HOW IS IT NIL???") return false end
-    return isSuitHook(self, ...)
+    if next(SMODS.find_card('j_akyrs_mr_virtualizer')) and SMODS.has_enhancement(self, 'm_wild') then
+        local ip = SMODS.find_card('j_akyrs_mr_virtualizer')
+        local is_suit = false
+        for _, vir in ipairs(ip) do
+            is_suit = is_suit or (vir.ability.extras.suit == suit)
+        end
+        return is_suit
+    end
+    return isSuitHook(self, suit, bypass_debuff, flush_calc)
 end
 
 local getIDHook = Card.get_id

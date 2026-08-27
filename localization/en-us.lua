@@ -71,6 +71,9 @@ poker_hand_desc["akyrs_twinstraight"] = {'Two sets of Straights', 'with no dupli
 poker_hands_name["akyrs_direstraight"] = "Dire Straight"
 poker_hand_desc["akyrs_direstraight"] = {'Straight with at least double the length'}
 
+poker_hands_name["akyrs_direstraightflush"] = "Dire Straight Flush"
+poker_hand_desc["akyrs_direstraightflush"] = {'Dire Straight + Flushbung'}
+
 poker_hands_name["akyrs_twinstraightflush"] = "Twin Straight Flush"
 poker_hand_desc["akyrs_twinstraightflush"] = {'Two sets of Straights and Flush', 'with no duplicating ranks'}
 
@@ -2696,7 +2699,7 @@ return {
                     },
                     {
                         "Gain {C:red}#2#{} Discard per",
-                        "{C:attention}unenhanced cards{} Destroyed"
+                        "{C:attention}unenhanced cards{} destroyed"
                     },
                 }
             },
@@ -2729,12 +2732,34 @@ return {
                         "{C:red}Resets{} when streak is broken",
                     },
                     {
-                        "Play {C:attention}as many as you can{} if the",
-                        "number is bigger than you can play"
+                        "Play {C:attention}as close as you can{} to the target"
                     },
                     {
                         "#5# #6# {C:attention}#2#{} #7# #8#"
                     }
+                }
+            },
+            j_akyrs_mr_virtualizer = {
+                name = {
+                    "Mr.VIRTUALIZER",
+                    "{s:0.7}HIMEHINA"
+                },
+                text = {
+                    {
+                        "{C:attention}Wild Cards{} now count as {V:1}#1#{}",
+                        "Use this Joker to {C:attention}cycle{} between suits",
+                    },
+                }
+            },
+            j_akyrs_outlaws = {
+                name = {
+                    "{f:5}㋰責任集合体",
+                    "{s:0.7,f:5}●{s:0.7}utlaws by Masarada"
+                },
+                text = {
+                    {
+                        "does fuck all atm",
+                    },
                 }
             },
         },

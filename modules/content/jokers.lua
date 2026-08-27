@@ -1,4 +1,11 @@
 local to_number = to_number or function(x) return x end
+---@class SMODS.Joker: SMODS.Joker
+---@field akyrs_joker_use_btn boolean? should have the button
+---@field akyrs_joker_use_btn_text fun(self: SMODS.Joker, card:Card): table | string? button string
+---@field akyrs_joker_can_use fun(self: SMODS.Joker, card:Card): boolean? check if can use
+---@field akyrs_joker_use fun(self: SMODS.Joker, card:Card) use the card
+---@overload fun(self:SMODS.Joker): SMODS.Joker
+SMODS.Joker = SMODS.Joker
 
 -- repeater
 SMODS.Joker {
@@ -2468,6 +2475,26 @@ SMODS.Joker{
             used = false,
         }
     },
+    akyrs_joker_use_btn = true,
+    akyrs_joker_use_btn_text = function (self, card)
+        return "b_use"
+    end,
+    akyrs_joker_can_use = function (self, card)
+        return not card.ability.extras.used
+    end,
+    akyrs_joker_use = function (self, card)
+        local moneyz = math.min(card.ability.extras.deduct,card.ability.extras.reserve)
+        ease_dollars(moneyz)
+        card:juice_up()
+        card.ability.extras.reserve = card.ability.extras.reserve - moneyz
+        card.ability.extras.used = true
+        if card.ability.extras.reserve <= 0 then
+            SMODS.calculate_effect({
+                message = localize("k_eaten_ex")
+            }, card)
+            SMODS.destroy_cards({card})
+        end
+    end,
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
@@ -3748,6 +3775,27 @@ SMODS.Joker {
             main_end = ui and {ui}
         }
     end,
+    akyrs_joker_use_btn = true,
+    akyrs_joker_use_btn_text = function (self, card)
+        return "k_reroll"
+    end,
+    akyrs_joker_can_use = function (self, card)
+        return not (G.GAME.dollars - card.ability.extras.cost < G.GAME.bankrupt_at)
+    end,
+    akyrs_joker_use = function (self, card)
+        ease_dollars(-card.ability.extras.cost)
+        local k = SMODS.poll_object{ type = "Joker", seed = "akyrs_sulfur_cube" }
+        card.ability.extras.copying_key = k
+        if card.akyrs_sulphur_card then
+            card.akyrs_sulphur_card:remove()
+            card.akyrs_sulphur_card = nil
+        end
+        card:juice_up()
+        card.akyrs_sulphur_card = Card(card.T.x, card.T.y, 0, 0, nil, G.P_CENTERS[k] )
+        AKYRS.remove_value_from_table(G.I.CARD, card.akyrs_sulphur_card)
+        card.akyrs_sulphur_card.akyrs_parent = card
+        card.akyrs_sulphur_card:add_to_deck()
+    end,
     add_to_deck = function (self, card, from_debuff)
         local k = SMODS.poll_object{ type = "Joker", seed = "akyrs_sulfur_cube" }
         card.ability.extras.copying_key = k
@@ -3823,7 +3871,9 @@ SMODS.Joker {
                 end
             }
         end
-    end
+    end,
+    blueprint_compat = true,
+    perishable_compat = true,
 }
 
 SMODS.Joker {
@@ -3847,7 +3897,9 @@ SMODS.Joker {
                 mult = ((context.other_card.VT.r % 2*math.pi) * 2) / math.pi
             }
         end
-    end
+    end,
+    blueprint_compat = true,
+    perishable_compat = true,
 }
 
 SMODS.Joker {
@@ -3887,7 +3939,9 @@ SMODS.Joker {
     end,
     calculate = function (self, card, context)
         
-    end
+    end,
+    blueprint_compat = false,
+    perishable_compat = true,
 }
 
 SMODS.Joker {
@@ -3921,14 +3975,14 @@ SMODS.Joker {
                 end
             }
         end
-        if context.selling_self and context.selling_card then
+        if context.selling_self and context.selling_card and not context.blueprint then
             return {
                 func = function ()
                     ease_discard(-card.ability.extras.discards)
                 end
             }
         end
-        if context.remove_playing_cards then
+        if context.remove_playing_cards and not context.blueprint then
             for _, cr in ipairs(context.removed) do
                 if cr.config.center.key == 'c_base' then
                     return {
@@ -3943,7 +3997,7 @@ SMODS.Joker {
                 end
             end
         end
-        if context.after and not context.individual then
+        if context.after and not context.individual and not context.blueprint then
             return {
                 func = function ()
                     SMODS.scale_card(card, {
@@ -3955,7 +4009,9 @@ SMODS.Joker {
                 end
             }
         end
-    end
+    end,
+    blueprint_compat = true,
+    perishable_compat = true,
 }
 
 
@@ -3967,6 +4023,7 @@ SMODS.Joker {
     config = {
         extras = {
             cards_draw = 5,
+
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -3979,23 +4036,30 @@ SMODS.Joker {
     rarity = 2,
     cost = 4,
     calculate = function (self, card, context)
+        if context.press_play then
+            
+        end
         if context.akyrs_pre_play then
             return {
                 func = function ()
                     if G.deck.cards then
                         for i = 1, math.min(to_number(card.ability.extras.cards_draw), #G.deck.cards) do
-                            local _c = G.deck.cards[i]
                             AKYRS.simple_event_add(function ()
-                                _c.area:remove_card(_c)
-                                G.play:emplace(_c)
+                                local _c = G.deck.cards[#G.deck.cards]
+                                if _c then
+                                    _c.area:remove_card(_c)
+                                    G.play:emplace(_c)
+                                end
                                 return true
-                            end)
+                            end, 0)
                         end
                     end
                 end
             }
         end
-    end
+    end,
+    blueprint_compat = true,
+    perishable_compat = true,
 }
 
 SMODS.Joker {
@@ -4030,7 +4094,7 @@ SMODS.Joker {
     cost = 6,
     calculate = function (self, card, context)
         if context.akyrs_pre_play then
-            if #context.akyrs_pre_play_cards == math.min(AKYRS.const.pi[card.ability.extras.immutable.pi_location],G.GAME.starting_params.play_limit) then
+            if #context.akyrs_pre_play_cards == math.max(math.min(AKYRS.const.pi[card.ability.extras.immutable.pi_location],G.GAME.starting_params.play_limit), 1) then
                 SMODS.scale_card(card, {
                     ref_table = card.ability.extras,
                     ref_value = "mult_p",
@@ -4054,9 +4118,68 @@ SMODS.Joker {
     end
 }
 
+SMODS.Joker {
+    key = "mr_virtualizer",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 7, y = 8 },
+    pools = {  },
+    config = {
+        extras = {
+            suit = "Clubs"
+        }
+    },
+    akyrs_joker_use_btn = true,
+    akyrs_joker_use = function (self, card)
+        local ind = AKYRS.find_index(SMODS.Suit.obj_buffer, card.ability.extras.suit)
+        card:juice_up()
+        G.hand:unhighlight_all()
+        if ind then
+            card.ability.extras.suit = SMODS.Suit.obj_buffer[(ind) % 4 + 1]
+        else
+            card.ability.extras.suit = SMODS.Suit.obj_buffer[1]
+        end
+    end,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                localize(card.ability.extras.suit,'suits_plural'),
+                colours = {
+                    G.C.SUITS[card.ability.extras.suit] or G.C.BLUE
+                }
+            }
+        }
+    end,
+    rarity = 2,
+    cost = 5,
+    calculate = function (self, card, context)
+    end
+}
+
+SMODS.Joker {
+    key = "outlaws",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 8, y = 8 },
+    pools = {  },
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    rarity = 2,
+    cost = 5,
+    calculate = function (self, card, context)
+    end
+}
+
+
 for j = 8, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 87 then
+        if i + j * 10 >= 89 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

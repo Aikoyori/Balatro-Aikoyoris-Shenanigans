@@ -721,13 +721,8 @@ function AKYRS.UIDEF.special_joker_use(card)
     local colour = G.C.RED
     local text_colour = G.C.UI.TEXT_LIGHT
     local added_to_deck = card.added_to_deck
-    
-    local text = localize("b_use")
-    if card.config.center.key == "j_akyrs_sulfur_cube" then
-        text = localize("k_reroll")
-    else
-        text = localize("b_use")
-    end
+    local text = localize(card.config.center.akyrs_joker_use_btn_text and card.config.center:akyrs_joker_use_btn_text(card) or "b_use")
+
     if card.area or card.akyrs_parent then
         return {
             n = G.UIT.ROOT,
@@ -783,16 +778,11 @@ function AKYRS.UIDEF.special_joker_use(card)
 end
 G.FUNCS.akyrs_can_use_special = function(e)
     local card = e.config.ref_table
-    local can_use = true
-    if card.config.center.key == "j_akyrs_sulfur_cube" then
-        if G.GAME.dollars - card.ability.extras.cost < G.GAME.bankrupt_at then
-            can_use = false
-        end
-    end
-    if card.config.center.key == "j_akyrs_ryou" then
-        if card.ability.extras.used then
-            can_use = false
-        end
+    local can_use = false
+    if card.config.center.akyrs_joker_can_use then
+        can_use = card.config.center:akyrs_joker_can_use(card)
+    else
+        can_use = true
     end
     if ((G.GAME.STOP_USE and G.GAME.STOP_USE > 0)) then
         can_use = false
@@ -808,32 +798,9 @@ end
 G.FUNCS.akyrs_use_special = function (e)
     local card = e.config.ref_table
     
-    if card.config.center.key == "j_akyrs_sulfur_cube" then
-        ease_dollars(-card.ability.extras.cost)
-        local k = SMODS.poll_object{ type = "Joker", seed = "akyrs_sulfur_cube" }
-        card.ability.extras.copying_key = k
-        if card.akyrs_sulphur_card then
-            card.akyrs_sulphur_card:remove()
-            card.akyrs_sulphur_card = nil
-        end
-        card.akyrs_sulphur_card = Card(card.T.x, card.T.y, 0, 0, nil, G.P_CENTERS[k] )
-        AKYRS.remove_value_from_table(G.I.CARD, card.akyrs_sulphur_card)
-        card.akyrs_sulphur_card.akyrs_parent = card
-        card.akyrs_sulphur_card:add_to_deck()
+    if card.config.center.akyrs_joker_use then
+        card.config.center:akyrs_joker_use(card)
     end
-    if card.config.center.key == "j_akyrs_ryou" then
-        local moneyz = math.min(card.ability.extras.deduct,card.ability.extras.reserve)
-        ease_dollars(moneyz)
-        card.ability.extras.reserve = card.ability.extras.reserve - moneyz
-        card.ability.extras.used = true
-        if card.ability.extras.reserve <= 0 then
-            SMODS.calculate_effect({
-                message = localize("k_eaten_ex")
-            }, card)
-            SMODS.destroy_cards({card})
-        end
-    end
-    
 end
 
 -- add buttons n shi

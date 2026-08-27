@@ -4173,7 +4173,7 @@ SMODS.Joker {
     rarity = 2,
     cost = 5,
     calculate = function (self, card, context)
-    end
+    end,
     in_pool = function (self, args)
         return false
     end

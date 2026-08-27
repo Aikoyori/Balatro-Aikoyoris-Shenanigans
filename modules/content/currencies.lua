@@ -1,4 +1,5 @@
 
+---@type { [string]: AKYRS.Currency }
 AKYRS.Currencies = {}
 AKYRS.Currencies_Buffer = {}
 
@@ -7,7 +8,7 @@ AKYRS.Currencies_Buffer = {}
 ---@field has_not_enough_money_check fun(self:AKYRS.Currency, cost: number):bool? used for shop checks, value should be positive
 ---@field change_value fun(self:AKYRS.Currency):bool? use for transactions, not negated so if used for cost you muse pass in negative value
 ---@field get_value fun(self:AKYRS.Currency): number? get the currency value
----@field transactional_sound fun(self:AKYRS.Currency)? play sound when it is bought
+---@field transactional_sound fun(self:AKYRS.Currency, mod: number)? play sound when it is bought
 ---@overload fun(self: AKYRS.Currency): AKYRS.Currency
 AKYRS.Currency = SMODS.GameObject:extend {
     required_params = {
@@ -30,7 +31,7 @@ AKYRS.Currency = SMODS.GameObject:extend {
     get_value = function (self)
         return 0
     end,
-    transactional_sound = function (self)
+    transactional_sound = function (self, mod)
         play_sound("coin1")
     end,
 }
@@ -57,7 +58,7 @@ AKYRS.Currency{
         return {G.C.GREEN}
     end,
     has_not_enough_money_check = function (self, cost)
-        return cost > G.GAME.akyrs_life
+        return cost > G.GAME.akyrs_life_internal
     end,
     get_value = function (self)
         return G.GAME.akyrs_life
@@ -65,8 +66,8 @@ AKYRS.Currency{
     change_value = function (self, value)
         AKYRS.mod_life(value)
     end,
-    transactional_sound = function (self)
-        play_sound("tarot1")
+    transactional_sound = function (self, mod)
+        play_sound("akyrs_maimai_dmg", 1, 0.3)
     end,
 }
 
@@ -149,18 +150,20 @@ end
 function G.FUNCS.akyrs_use_card(e)
     local card = e.config.ref_value
     local currency = (e.config.ref_value or { currency = "curr_dollars"}).currency
+    e.config.ref_table.cost = 0
     AKYRS.Currencies[currency]:change_value(-e.config.ref_table.akyrs_special_cost)
     AKYRS.Currencies[currency]:transactional_sound()
-    e.config.ref_table.cost = 0
-    G.FUNCS.use_card(e)
+    G.FUNCS.use_card(e) 
 end
 
 function G.FUNCS.akyrs_buy_from_shop(e)
     local currency = (e.config.ref_value or { currency = "curr_dollars"}).currency
-    AKYRS.Currencies[currency]:change_value(-e.config.ref_table.akyrs_special_cost)
-    AKYRS.Currencies[currency]:transactional_sound()
-    e.config.ref_table.cost = 0
-    G.FUNCS.buy_from_shop(e)
+    if G.FUNCS.check_for_buy_space(e.config.ref_table) then
+        e.config.ref_table.cost = 0
+        AKYRS.Currencies[currency]:change_value(-e.config.ref_table.akyrs_special_cost)
+        AKYRS.Currencies[currency]:transactional_sound()
+        G.FUNCS.buy_from_shop(e) 
+    end
 end
 
 
@@ -186,20 +189,20 @@ function AKYRS.create_custom_shop_card_ui(card, args)
                 }}
             }}
         local t2 = card.ability.set == 'Voucher' and {
-          n=G.UIT.ROOT, config = {ref_table = card, ref_value = { currency = currency }, minw = 1.1, maxw = 1.3, padding = 0.1, align = 'bm', colour = G.C.GREEN, shadow = true, r = 0.08, minh = 0.94, func = 'akyrs_can_redeem', one_press = true, button = 'redeem_from_shop', hover = true}, nodes={
+          n=G.UIT.ROOT, config = {ref_table = card, ref_value = { currency = currency }, minw = 1.1, maxw = 1.3, padding = 0.1, align = 'bm', colour = G.C.GREEN, shadow = true, r = 0.08, minh = 0.94, func = 'akyrs_can_redeem', button = 'redeem_from_shop', hover = true}, nodes={
               {n=G.UIT.T, config={text = localize('b_redeem'),colour = G.C.WHITE, scale = 0.4}}
           }} or card.ability.set == 'Bet' and {
-          n=G.UIT.ROOT, config = {ref_table = card, ref_value = { currency = currency }, minw = 1.1, maxw = 1.3, padding = 0.1, align = 'bm', colour = G.C.GREEN, shadow = true, r = 0.08, minh = 0.94, func = 'akyrs_can_redeem', one_press = true, button = 'redeem_from_shop', hover = true}, nodes={
+          n=G.UIT.ROOT, config = {ref_table = card, ref_value = { currency = currency }, minw = 1.1, maxw = 1.3, padding = 0.1, align = 'bm', colour = G.C.GREEN, shadow = true, r = 0.08, minh = 0.94, func = 'akyrs_can_redeem', button = 'redeem_from_shop', hover = true}, nodes={
           {n=G.UIT.T, config={text = localize('b_redeem'),colour = G.C.WHITE, scale = 0.4}}
           }} or card.ability.set == 'Booster' and {
-          n=G.UIT.ROOT, config = {ref_table = card, ref_value = { currency = currency }, minw = 1.1, maxw = 1.3, padding = 0.1, align = 'bm', colour = G.C.GREEN, shadow = true, r = 0.08, minh = 0.94, func = 'akyrs_can_open', one_press = true, button = 'open_booster', hover = true}, nodes={
+          n=G.UIT.ROOT, config = {ref_table = card, ref_value = { currency = currency }, minw = 1.1, maxw = 1.3, padding = 0.1, align = 'bm', colour = G.C.GREEN, shadow = true, r = 0.08, minh = 0.94, func = 'akyrs_can_open', button = 'open_booster', hover = true}, nodes={
               {n=G.UIT.T, config={text = localize('b_open'),colour = G.C.WHITE, scale = 0.5}}
           }} or {
-          n=G.UIT.ROOT, config = {ref_table = card, ref_value = { currency = currency }, minw = 1.1, maxw = 1.3, padding = 0.1, align = 'bm', colour = G.C.GOLD, shadow = true, r = 0.08, minh = 0.94, func = 'akyrs_can_buy', one_press = true, button = 'buy_from_shop', hover = true}, nodes={
+          n=G.UIT.ROOT, config = {ref_table = card, ref_value = { currency = currency }, minw = 1.1, maxw = 1.3, padding = 0.1, align = 'bm', colour = G.C.GOLD, shadow = true, r = 0.08, minh = 0.94, func = 'akyrs_can_buy', button = 'buy_from_shop', hover = true}, nodes={
               {n=G.UIT.T, config={text = localize('b_buy'),colour = G.C.WHITE, scale = 0.5}}
           }}
         local t3 = {
-          n=G.UIT.ROOT, config = {id = 'buy_and_use', ref_table = card, ref_value = { currency = currency }, minh = 1.1, padding = 0.1, align = 'cr', colour = G.C.RED, shadow = true, r = 0.08, minw = 1.1, func = 'can_buy_and_use', one_press = true, button = 'buy_from_shop', hover = true, focus_args = {type = 'none'}}, nodes={
+          n=G.UIT.ROOT, config = {id = 'buy_and_use', ref_table = card, ref_value = { currency = currency }, minh = 1.1, padding = 0.1, align = 'cr', colour = G.C.RED, shadow = true, r = 0.08, minw = 1.1, func = 'can_buy_and_use', button = 'buy_from_shop', hover = true, focus_args = {type = 'none'}}, nodes={
             {n=G.UIT.B, config = {w=0.1,h=0.6}},
             {n=G.UIT.C, config = {align = 'cm'}, nodes={
               {n=G.UIT.R, config = {align = 'cm', maxw = 1}, nodes={

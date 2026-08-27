@@ -599,4 +599,33 @@ SMODS.add_attribute(
     }
 )
 
+
+SMODS.add_attribute(
+    'normal', {
+        'p_akyrs_letter_pack_1', 'p_akyrs_letter_pack_2', 'p_akyrs_letter_pack_3', 'p_akyrs_letter_pack_4', 
+
+        'p_akyrs_umbral_pack_1', 'p_akyrs_umbral_pack_2', 'p_akyrs_umbral_pack_3', 'p_akyrs_umbral_pack_4', 
+
+        'p_akyrs_replica_pack_1', 'p_akyrs_replica_pack_2', 
+    }
+)
+SMODS.add_attribute(
+    'jumbo', {
+        'p_akyrs_jumbo_letter_pack_1', 'p_akyrs_jumbo_letter_pack_2',
+
+        'p_akyrs_jumbo_umbral_pack_1', 'p_akyrs_jumbo_umbral_pack_2',
+
+        'p_akyrs_jumbo_replica_pack_1', 
+    }
+)
+SMODS.add_attribute(
+    'mega', {
+        'p_akyrs_mega_letter_pack_1', 'p_akyrs_mega_letter_pack_2',
+        
+        'p_akyrs_mega_umbral_pack_1', 'p_akyrs_mega_umbral_pack_2',
+
+        'p_akyrs_mega_replica_pack_1', 
+    }
+)
+
 -- SMODS.populate_attributes()

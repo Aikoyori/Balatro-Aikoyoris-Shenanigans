@@ -143,6 +143,9 @@ function SMODS.current_mod.reset_game_globals(run_start)
     G.GAME.current_round.aiko_played_ranks = {}
     G.GAME.current_round.aiko_played_ench = {}
     G.GAME.current_round.akyrs_hands_played = {}
+    G.GAME.akyrs_life_reroll_cost = 5
+    G.GAME.akyrs_life_top_up_dollars = 1
+    G.GAME.akyrs_life_top_up_life = 10
     local candidate_hands = AKYRS.filter_table(AKYRS.keyvalue_to_list(G.GAME.hands), function (hand_info, ind)
         return hand_info[2].played > 0
     end, false, true)
@@ -1715,7 +1718,7 @@ function Back:apply_to_run()
         G.GAME.akyrs_life_decay_mode = "normal"
         G.GAME.akyrs_life = self.effect.config.akyrs_starting_life
         G.GAME.akyrs_starting_life = self.effect.config.akyrs_starting_life
-        AKYRS.toggle_shop_availability('shoppage_akyrs_life_shop', true)
+        AKYRS.toggle_shop_availability('shoppage_akyrs_life_shop', true, true)
         G.GAME.akyrs_should_slide_open_first_shop = true
     end
     

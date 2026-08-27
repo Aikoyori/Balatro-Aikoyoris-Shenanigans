@@ -10,6 +10,146 @@ function AKYRS.debug_ui(ui)
   })
 end
 
+
+function G.FUNCS.akyrs_open_shop_window(e)
+    if G.AKYRS_ACTIVE_SHOP and G[G.AKYRS_ACTIVE_SHOP] then
+        G.FUNCS.akyrs_close_shop_window({config = {ref_table = G.AKYRS_ACTIVE_SHOP}})
+    end
+    
+    if AKYRS.ShopPages[e.config.ref_table].show then
+        AKYRS.ShopPages[e.config.ref_table]:show()
+    end
+    G.AKYRS_ACTIVE_SHOP = e.config.ref_table
+    G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = AKYRS.ShopPages[e.config.ref_table].target_y or -5.5 
+end
+
+function G.FUNCS.akyrs_close_shop_window(e)
+  if G[e.config.ref_table] then
+    if AKYRS.ShopPages[e.config.ref_table].hide then
+        AKYRS.ShopPages[e.config.ref_table]:hide()
+    end
+    G[e.config.ref_table].alignment.offset.y = 11
+    G.AKYRS_ACTIVE_SHOP = nil
+  end
+end
+
+function G.FUNCS.akyrs_close_active_shop_window(e)
+  if G.AKYRS_ACTIVE_SHOP then
+    G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = 11
+    if AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP].hide then
+        AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP]:hide()
+    end
+    G.AKYRS_ACTIVE_SHOP = nil
+  end
+end
+
+
+function G.FUNCS.akyrs_shop_btn_func(e)
+  local shop = e.config.ref_table
+  local shop_enabled = AKYRS.ShopPages[shop]:is_enabled()
+  
+  if G.AKYRS_ACTIVE_SHOP ~= shop and G.STATE == G.STATES.SHOP and shop_enabled then
+    e.config.button = "akyrs_open_shop_window"
+    e.config.colour = AKYRS.ShopPages[shop].button_colour
+  else
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+  end
+end
+
+function G.FUNCS.akyrs_shop_close_btn_func(e)
+  local shop = e.config.ref_table
+  if G.AKYRS_ACTIVE_SHOP == shop then
+    e.config.button = "akyrs_close_shop_window"
+    e.config.colour = G.C.RED
+  else
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+  end
+end
+
+
+function AKYRS.close_button_prefab(shop)
+  return AKYRS.button_prefab({
+      children = {
+          AKYRS.text_prefab{ text = localize("k_akyrs_shop_close"), scale = 0.4 }
+      },
+      colour = G.C.RED,
+      w = 1.5,
+      h = 0.5,
+      padding = 0.02,
+      ref_table = shop,
+      func = "akyrs_shop_close_btn_func",
+      button = "akyrs_close_shop_window",
+  })
+end
+
+function AKYRS.attach_to_shop_sign(shop_sign)
+  if G.AKYRS_SHOP_OVERLAY then G.AKYRS_SHOP_OVERLAY:remove() G.AKYRS_SHOP_OVERLAY = nil end
+  G.AKYRS_SHOP_OVERLAY = UIBox{
+    definition = AKYRS.UIDEF.shift_hud_button(),
+      config = {align=('cli'), offset = {x=4.3,y=1.1},major = shop_sign}
+  }
+end
+
+function AKYRS.UIDEF.shift_hud_button()
+  local scale = 0.3
+  if AKYRS.is_hud_slided then
+    AKYRS.strings.shop_more_button = localize("k_akyrs_shop_panel_hide")
+  else
+    AKYRS.strings.shop_more_button = localize("k_akyrs_shop_panel_reveal")
+  end
+  return {n=G.UIT.ROOT, config = {align = "cm", padding = 0, colour = G.C.CLEAR}, nodes={
+      {n=G.UIT.C, config={align = "cm", r=0.1, colour = G.C.CLEAR, shadow = true, id = 'button_area', padding = 0.2}, nodes={
+        {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 0.1 ,padding = 0.1, r = 0.1, hover = true, colour = G.C.BOOSTER, button = "akyrs_shift_hud", shadow = true}, nodes={
+          {n=G.UIT.R, config={align = "cm", padding = 0.1, maxh = 1.8}, nodes={
+            {n=G.UIT.T, config={ref_table = AKYRS.strings, ref_value = 'shop_more_button', scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true, vert = true}}
+          }},
+        }},        
+      }}
+    }}
+end
+
+
+function AKYRS.UIDEF.hud_underlay()
+    local scale = 0.4
+
+    local contents = {}
+    local ui_stuff = {}
+
+    local spacing = 0.13
+    local temp_col = G.C.DYN_UI.BOSS_MAIN
+    local temp_col2 = G.C.DYN_UI.BOSS_DARK
+
+    ui_stuff[#ui_stuff+1] = 
+          {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 4 ,padding = 0.05, r = 0.1, hover = true, colour = G.C.RED, button = "akyrs_shift_hud", shadow = true, ref_table = {false}}, nodes={
+            {n=G.UIT.R, config={align = "cm", padding = 0, maxw = 1.4}, nodes={
+              {n=G.UIT.T, config={text = localize('k_akyrs_shop_close'), scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
+            }},
+          }}
+        
+    
+    ui_stuff[#ui_stuff+1] = 
+      AKYRS.text_prefab{ uit = G.UIT.R, align = 'cm', text = localize("k_akyrs_shops_list"), colour = G.C.EDITION, scale = 0.5 }
+    for _, k in ipairs(AKYRS.ShopPages_Buffer) do
+        ui_stuff[#ui_stuff+1] = AKYRS.ShopPages[k]:_INTERNAL_generate_button()
+    end
+
+    contents.buttons = {
+      {n=G.UIT.C, config={align = "cm", r=0.1, colour = G.C.CLEAR, shadow = true, id = 'button_area', padding = 0.2}, nodes=ui_stuff}
+    }
+
+    return {n=G.UIT.ROOT, config = {align = "cm", padding = 0.03, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
+      {n=G.UIT.R, config = {align = "cm", padding= 0.05, colour = G.C.DYN_UI.MAIN, r=0.1}, nodes={
+        {n=G.UIT.R, config={align = "cm", colour = G.C.DYN_UI.BOSS_DARK, r=0.1, minh = 30, padding = 0.08}, nodes={
+          {n=G.UIT.R, config={align = "cm", id = 'row_round'}, nodes={
+            {n=G.UIT.C, config={align = "cm"}, nodes=contents.buttons},
+          }},
+        }}
+      }}
+    }}
+end
+
 AKYRS.strings = AKYRS.strings or {
   shop_more_button = "REPLACE_THIS",
 }
@@ -89,10 +229,10 @@ AKYRS.ShopPage = SMODS.GameObject:extend {
 }
 
 
-function AKYRS.toggle_shop_availability(shop, is_available)
+function AKYRS.toggle_shop_availability(shop, is_available, strings_only)
     if not AKYRS.ShopPages[shop] then error(AKYRS.ShopPages[shop].. " is not a valid shop lol") end
     AKYRS.ShopPages[shop]:enable(is_available)
-    AKYRS.ShopPages[shop]:_INTERNAL_setup_shop_strings_and_ui()
+    AKYRS.ShopPages[shop]:_INTERNAL_setup_shop_strings_and_ui(strings_only)
 end
 
 AKYRS.ShopPage{
@@ -207,7 +347,9 @@ AKYRS.ShopPage{
 AKYRS.ShopPage {
     key = "life_shop",
     create_ui = function (self)
-        
+        G.GAME.akyrs_life_reroll_cost = G.GAME.akyrs_life_reroll_cost or 5
+        G.GAME.akyrs_life_top_up_dollars = G.GAME.akyrs_life_top_up_dollars or 1
+        G.GAME.akyrs_life_top_up_life = G.GAME.akyrs_life_top_up_life or 10
 
         G.akyrs_life_shop = CardArea(
             0,
@@ -215,10 +357,10 @@ AKYRS.ShopPage {
             3.05*G.CARD_W,
             0.65*G.CARD_H, 
             {card_limit = 3, type = 'shop', highlight_limit = 1, negative_info = true})
-
+        AKYRS.fill_life_reroll()
             -- 3 cards
         return {
-            n = G.UIT.R, -- DONE: dont forget to change this to root when adding to the UI or not actually
+            n = G.UIT.R, 
             config = { minw = 12.3, minh = 8, colour = G.C.UI.TRANSPARENT_DARK, r = 0.1, padding = 0.25, align = "m" },
             nodes = {
                 {
@@ -237,12 +379,15 @@ AKYRS.ShopPage {
                                             children = {
                                                 AKYRS.text_prefab{ text = "Reroll" },
                                                 AKYRS.text_prefab{ text = " " },
-                                                AKYRS.text_prefab{ text = "$67", scale = 0.6 },
+                                                AKYRS.text_prefab{ ref_table = G.GAME, ref_value = 'akyrs_life_reroll_cost', scale = 0.6 },
+                                                AKYRS.text_prefab{ text = " Life", scale = 0.6 },
                                             },
                                             h = 1,
                                             w = 4,
                                             align = "cm",
                                             colour = G.C.RED,
+                                            button = 'akyrs_life_reroll',
+                                            func = 'akyrs_life_can_reroll',
                                         }
                                     }
                                 },
@@ -252,14 +397,19 @@ AKYRS.ShopPage {
                                     nodes = {
                                         AKYRS.button_prefab {
                                             children = {
-                                                AKYRS.text_prefab{ text = "+10 Life"},
+                                                AKYRS.text_prefab{ text = "+"},
+                                                AKYRS.text_prefab{ ref_table = G.GAME, ref_value = 'akyrs_life_top_up_life'},
+                                                AKYRS.text_prefab{ text = " Life"},
                                                 AKYRS.text_prefab{ text = " " },
-                                                AKYRS.text_prefab{ text = "$67", scale = 0.6},
+                                                AKYRS.text_prefab{ text = "$", scale = 0.6 },
+                                                AKYRS.text_prefab{ ref_table = G.GAME, ref_value = 'akyrs_life_top_up_dollars', scale = 0.6 },
                                             },
                                             h = 1,
                                             w = 4,
                                             align = "cm",
-                                            colour = G.C.GREEN
+                                            colour = G.C.GREEN,
+                                            button = 'akyrs_life_topup',
+                                            func = 'akyrs_life_can_topup',
                                         }
                                     }
                                 },
@@ -458,6 +608,7 @@ end
 function G.FUNCS.akyrs_reroll_jimbo(e)
   local info_table = e.config.ref_table
   local level = info_table[1]
+  SMODS.calculate_context({reroll_shop = true, cost = 0})
   if G.akyrs_jimbo_chicanery_cardarea and G.akyrs_jimbo_chicanery_cardarea.cards then
     for _, c in ipairs(G.akyrs_jimbo_chicanery_cardarea.cards) do
       c:remove()
@@ -535,56 +686,70 @@ function G.FUNCS.akyrs_can_buy_jimbo(e)
   end
 end
 
-function G.FUNCS.akyrs_open_shop_window(e)
-    if G.AKYRS_ACTIVE_SHOP and G[G.AKYRS_ACTIVE_SHOP] then
-        G.FUNCS.akyrs_close_shop_window({config = {ref_table = G.AKYRS_ACTIVE_SHOP}})
+function AKYRS.fill_life_reroll()
+  if G.akyrs_life_shop then
+    if G.akyrs_life_shop.cards then
+      for i = #G.akyrs_life_shop.cards, 1, -1 do
+        local c = G.akyrs_life_shop.cards[i]
+        G.akyrs_life_shop:remove_card(c)
+        c:remove()
+      end
     end
-    
-    if AKYRS.ShopPages[e.config.ref_table].show then
-        AKYRS.ShopPages[e.config.ref_table]:show()
-    end
-    G.AKYRS_ACTIVE_SHOP = e.config.ref_table
-    G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = AKYRS.ShopPages[e.config.ref_table].target_y or -5.5 
-end
-
-function G.FUNCS.akyrs_close_shop_window(e)
-  if G[e.config.ref_table] then
-    if AKYRS.ShopPages[e.config.ref_table].hide then
-        AKYRS.ShopPages[e.config.ref_table]:hide()
-    end
-    G[e.config.ref_table].alignment.offset.y = 11
-    G.AKYRS_ACTIVE_SHOP = nil
   end
-end
-
-function G.FUNCS.akyrs_close_active_shop_window(e)
-  if G.AKYRS_ACTIVE_SHOP then
-    G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = 11
-    if AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP].hide then
-        AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP]:hide()
-    end
-    G.AKYRS_ACTIVE_SHOP = nil
-  end
-end
-
-
-function G.FUNCS.akyrs_shop_btn_func(e)
-  local shop = e.config.ref_table
-  local shop_enabled = AKYRS.ShopPages[shop]:is_enabled()
   
-  if G.AKYRS_ACTIVE_SHOP ~= shop and G.STATE == G.STATES.SHOP and shop_enabled then
-    e.config.button = "akyrs_open_shop_window"
-    e.config.colour = AKYRS.ShopPages[shop].button_colour
-  else
-    e.config.button = nil
-    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-  end
+  local boosterpack = SMODS.create_card({
+    set = "Booster",
+    attributes = { 'mega' },
+    bypass_discovery_center = true,
+    key_append = "akyrs_life_shop_booster",
+    x = G.akyrs_life_shop.T.x,
+    y = G.akyrs_life_shop.T.y,
+  })
+  boosterpack.akyrs_special_cost = boosterpack.cost * 3
+  AKYRS.create_custom_shop_card_ui(boosterpack, { currency = "curr_akyrs_life" })
+  G.akyrs_life_shop:emplace(boosterpack)
+
+  local uncommon = SMODS.create_card({
+    set = "Joker",
+    rarity = "Uncommon",
+    bypass_discovery_center = true,
+    key_append = "akyrs_life_shop_uncommon",
+    x = G.akyrs_life_shop.T.x,
+    y = G.akyrs_life_shop.T.y,
+  })
+  uncommon.akyrs_special_cost = uncommon.cost * 2
+  AKYRS.create_custom_shop_card_ui(uncommon, { currency = "curr_akyrs_life" })
+  G.akyrs_life_shop:emplace(uncommon)
+
+  local rare = SMODS.create_card({
+    set = "Joker",
+    rarity = "Rare",
+    bypass_discovery_center = true,
+    key_append = "akyrs_life_shop_rare",
+    x = G.akyrs_life_shop.T.x,
+    y = G.akyrs_life_shop.T.y,
+  })
+  rare.akyrs_special_cost = rare.cost * 3
+  AKYRS.create_custom_shop_card_ui(rare, { currency = "curr_akyrs_life" })
+  G.akyrs_life_shop:emplace(rare)
+
+  local legendary = SMODS.create_card({
+    set = "Joker",
+    rarity = "Legendary",
+    legendary = true,
+    bypass_discovery_center = true,
+    key_append = "akyrs_life_shop_legendary",
+    x = G.akyrs_life_shop.T.x,
+    y = G.akyrs_life_shop.T.y,
+  })
+  legendary.akyrs_special_cost = legendary.cost * 6
+  AKYRS.create_custom_shop_card_ui(legendary, { currency = "curr_akyrs_life" })
+  G.akyrs_life_shop:emplace(legendary)
 end
 
-function G.FUNCS.akyrs_shop_close_btn_func(e)
-  local shop = e.config.ref_table
-  if G.AKYRS_ACTIVE_SHOP == shop then
-    e.config.button = "akyrs_close_shop_window"
+function G.FUNCS.akyrs_life_can_reroll(e)
+  if not AKYRS.Currencies.curr_akyrs_life:has_not_enough_money_check(G.GAME.akyrs_life_reroll_cost) then
+    e.config.button = 'akyrs_life_reroll'
     e.config.colour = G.C.RED
   else
     e.config.button = nil
@@ -593,83 +758,29 @@ function G.FUNCS.akyrs_shop_close_btn_func(e)
 end
 
 
-function AKYRS.close_button_prefab(shop)
-  return AKYRS.button_prefab({
-      children = {
-          AKYRS.text_prefab{ text = localize("k_akyrs_shop_close"), scale = 0.4 }
-      },
-      colour = G.C.RED,
-      w = 1.5,
-      h = 0.5,
-      padding = 0.02,
-      ref_table = shop,
-      func = "akyrs_shop_close_btn_func",
-      button = "akyrs_close_shop_window",
-  })
+function G.FUNCS.akyrs_life_reroll(e)
+  AKYRS.Currencies.curr_akyrs_life:transactional_sound()
+  AKYRS.mod_life( -G.GAME.akyrs_life_reroll_cost)
+  G.GAME.akyrs_life_reroll_cost = G.GAME.akyrs_life_reroll_cost + 5
+  AKYRS.fill_life_reroll()
 end
 
-function AKYRS.attach_to_shop_sign(shop_sign)
-  if G.AKYRS_SHOP_OVERLAY then G.AKYRS_SHOP_OVERLAY:remove() G.AKYRS_SHOP_OVERLAY = nil end
-  G.AKYRS_SHOP_OVERLAY = UIBox{
-    definition = AKYRS.UIDEF.shift_hud_button(),
-      config = {align=('cli'), offset = {x=4.3,y=1.1},major = shop_sign}
-  }
-end
 
-function AKYRS.UIDEF.shift_hud_button()
-  local scale = 0.3
-  if AKYRS.is_hud_slided then
-    AKYRS.strings.shop_more_button = localize("k_akyrs_shop_panel_hide")
+function G.FUNCS.akyrs_life_can_topup(e)
+  if G.GAME.akyrs_life_internal < G.GAME.akyrs_starting_life and not AKYRS.Currencies.curr_dollars:has_not_enough_money_check(G.GAME.akyrs_life_top_up_dollars) then
+    e.config.button = 'akyrs_life_topup'
+    e.config.colour = G.C.GREEN
   else
-    AKYRS.strings.shop_more_button = localize("k_akyrs_shop_panel_reveal")
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
   end
-  return {n=G.UIT.ROOT, config = {align = "cm", padding = 0, colour = G.C.CLEAR}, nodes={
-      {n=G.UIT.C, config={align = "cm", r=0.1, colour = G.C.CLEAR, shadow = true, id = 'button_area', padding = 0.2}, nodes={
-        {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 0.1 ,padding = 0.1, r = 0.1, hover = true, colour = G.C.BOOSTER, button = "akyrs_shift_hud", shadow = true}, nodes={
-          {n=G.UIT.R, config={align = "cm", padding = 0.1, maxh = 1.8}, nodes={
-            {n=G.UIT.T, config={ref_table = AKYRS.strings, ref_value = 'shop_more_button', scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true, vert = true}}
-          }},
-        }},        
-      }}
-    }}
 end
 
 
-function AKYRS.UIDEF.hud_underlay()
-    local scale = 0.4
-
-    local contents = {}
-    local ui_stuff = {}
-
-    local spacing = 0.13
-    local temp_col = G.C.DYN_UI.BOSS_MAIN
-    local temp_col2 = G.C.DYN_UI.BOSS_DARK
-
-    ui_stuff[#ui_stuff+1] = 
-          {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 4 ,padding = 0.05, r = 0.1, hover = true, colour = G.C.RED, button = "akyrs_shift_hud", shadow = true, ref_table = {false}}, nodes={
-            {n=G.UIT.R, config={align = "cm", padding = 0, maxw = 1.4}, nodes={
-              {n=G.UIT.T, config={text = localize('k_akyrs_shop_close'), scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
-            }},
-          }}
-        
-    
-    ui_stuff[#ui_stuff+1] = 
-      AKYRS.text_prefab{ uit = G.UIT.R, align = 'cm', text = localize("k_akyrs_shops_list"), colour = G.C.EDITION, scale = 0.5 }
-    for _, k in ipairs(AKYRS.ShopPages_Buffer) do
-        ui_stuff[#ui_stuff+1] = AKYRS.ShopPages[k]:_INTERNAL_generate_button()
-    end
-
-    contents.buttons = {
-      {n=G.UIT.C, config={align = "cm", r=0.1, colour = G.C.CLEAR, shadow = true, id = 'button_area', padding = 0.2}, nodes=ui_stuff}
-    }
-
-    return {n=G.UIT.ROOT, config = {align = "cm", padding = 0.03, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
-      {n=G.UIT.R, config = {align = "cm", padding= 0.05, colour = G.C.DYN_UI.MAIN, r=0.1}, nodes={
-        {n=G.UIT.R, config={align = "cm", colour = G.C.DYN_UI.BOSS_DARK, r=0.1, minh = 30, padding = 0.08}, nodes={
-          {n=G.UIT.R, config={align = "cm", id = 'row_round'}, nodes={
-            {n=G.UIT.C, config={align = "cm"}, nodes=contents.buttons},
-          }},
-        }}
-      }}
-    }}
+function G.FUNCS.akyrs_life_topup(e)
+  AKYRS.Currencies.curr_dollars:transactional_sound()
+  AKYRS.Currencies.curr_dollars:change_value(-G.GAME.akyrs_life_top_up_dollars)
+  AKYRS.mod_life(G.GAME.akyrs_life_top_up_life)
+  G.GAME.akyrs_life_top_up_dollars = G.GAME.akyrs_life_top_up_dollars * 2
+  G.GAME.akyrs_life_top_up_life = G.GAME.akyrs_life_top_up_life + 10
 end

@@ -202,6 +202,7 @@ return {
                     'Start with {X:dark_edition,C:white}#1#{} Life',
                     'with {C:red,E:1}heavier{} punishments',
                     'Life {C:red}does not{} replenish',
+                    'A {C:attention}special shop{} is open',
                     '{C:dark_edition}+#2#{} Joker Slot',
                     '{C:dark_edition}+#3#{} Consumable Slot',
                 },
@@ -298,6 +299,7 @@ return {
                 { 
                     'Start with {X:green,C:white}#1#{} Life',
                     '{X:green,C:white}+#2#{} Life per round',
+                    'A {C:attention}special shop{} is open',
                     '{C:dark_edition}+#3#{} Joker Slot',
                 },
             },

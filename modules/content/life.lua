@@ -40,7 +40,7 @@ end
 function AKYRS.mod_life(life, forced, duration, set)
     if life == 0 and not set then return end
     if G.GAME.akyrs_life == life and set then return end
-    local life_target = math.min(G.GAME.akyrs_life + life, G.GAME.akyrs_starting_life or 500)
+    local life_target = math.min(G.GAME.akyrs_life_internal + life, G.GAME.akyrs_starting_life or 500)
     if set then life_target = life end
     G.GAME.akyrs_life_internal = life_target
     if duration and (duration == true or duration <= 0) then

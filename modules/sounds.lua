@@ -93,6 +93,11 @@ SMODS.Sound({
     path = "charged.ogg",
 })
 
+SMODS.Sound({
+    key = "maimai_dmg",
+    path = "maimai/damage.ogg",
+})
+
 -- hook to play randomized sounds 
 local plsnd = play_sound
 function play_sound(snd, per, vol)

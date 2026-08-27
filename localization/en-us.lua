@@ -2748,7 +2748,8 @@ return {
                 },
                 text = {
                     {
-                        "{C:attention}Wild Cards{} now count as {V:1}#1#{}",
+                        "{C:attention}Wild Cards{} are counted as {V:1}#1#{}",
+                        "and {C:attention}no longer{} count as {C:attention}any suit",
                         "Use this Joker to {C:attention}cycle{} between suits",
                     },
                 }

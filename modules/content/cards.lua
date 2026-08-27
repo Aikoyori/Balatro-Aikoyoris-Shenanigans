@@ -547,8 +547,8 @@ SMODS.Enhancement{
     pos = {x = 5, y = 1},
     config = {
         extras = {
-            bonus_X_chips = 1.4,
-            bonus_X_mult = 1.4,
+            bonus_X_chips = 1.42,
+            bonus_X_mult = 1.67,
         }
     },
     akyrs_note_card = {
@@ -565,8 +565,12 @@ SMODS.Enhancement{
     calculate = function (self, card, context)
         if context.main_scoring and context.cardarea == G.play then
             return {
-                xchips = card.ability.extras.bonus_X_chips,
                 xmult = card.ability.extras.bonus_X_mult,
+            }
+        end
+        if context.main_scoring and context.cardarea == G.hand then
+            return {
+                xchips = card.ability.extras.bonus_X_chips,
             }
         end
     end

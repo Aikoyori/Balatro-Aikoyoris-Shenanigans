@@ -149,13 +149,14 @@ AKYRS.Bet {
         info_queue[#info_queue+1] = { key = 'akyrs_locked', set = 'Other' }
         return {
             vars = {
-                card.ability.extras.slot
+                SMODS.signed(card.ability.extras.slot),
             }
         }
     end,
     multi_use = true,
     redeem = function (self, card) 
         G.GAME.akyrs_lock_card_amnt = (G.GAME.akyrs_lock_card_amnt or 0) + 1
+        change_shop_size(card.ability.extras.slot)
         if G.STATE == G.STATES.SHOP and G.shop_jokers.cards then
             local card_to_lock = pseudorandom_element(G.shop_jokers.cards, "akyrs_bet_alaahp_lock")
             if card_to_lock then SMODS.Stickers.akyrs_locked:apply(card_to_lock, true) end
@@ -239,6 +240,9 @@ AKYRS.Bet {
     unredeem = function (self, card) 
         -- i don't think there's much to do here ngl it's a one way action
     end,
+    in_pool = function (self, args)
+        return G.GAME.round_resets.ante >= 3
+    end
 }
 AKYRS.Bet {
     key = "ghastly_limelight",

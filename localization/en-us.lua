@@ -1522,8 +1522,8 @@ return {
             m_akyrs_crotchet_card = {
                 name = "Crotchet Card",
                 text = {
-                    "{C:white,X:chips}X#1#{} Chips",
-                    "{C:white,X:mult}X#2#{} Mult",
+                    "{C:white,X:mult}X#2#{} Mult when scored",
+                    "{C:white,X:chips}X#1#{} Chips when held in hand",
                 }
             },
             m_akyrs_wafer_card = {
@@ -4125,6 +4125,7 @@ return {
                 text={
                     "{C:attention}Locked{} is applied to a random shop item",
                     "at the {C:attention}start{} of the shop",
+                    "{C:attention}#1#{} Shop Slot",
                 },
             },
             bet_akyrs_flames_of_desires={

@@ -98,11 +98,13 @@ end
 AKYRS.ShopPage{
     key = "jimbos_chicanery",
     create_ui = function (self)
+        ---@type CreateCard
         local parameters = {
             set = "Joker",
             area = G.akyrs_jimbo_chicanery_cardarea,
             key_append = "akyrs_jimbo_chicanery_starting",
             silent = true,
+          bypass_discovery_center = true,
         }
 
         G.akyrs_jimbo_chicanery_cardarea = CardArea(
@@ -461,9 +463,11 @@ function G.FUNCS.akyrs_reroll_jimbo(e)
       c:remove()
     end
     local valid_rarities = {}
+    ---@type CreateCard
     local parameters = {
       set = "Joker",
       area = G.akyrs_jimbo_chicanery_cardarea,
+      bypass_discovery_center = true,
     }
     if info_table[1] == "common" then
       valid_rarities = nil

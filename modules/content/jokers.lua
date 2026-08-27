@@ -4138,6 +4138,9 @@ SMODS.Joker {
         else
             card.ability.extras.suit = SMODS.Suit.obj_buffer[1]
         end
+        for _, cd in ipairs(G.playing_cards) do
+            SMODS.recalc_debuff(cd)
+        end
     end,
     loc_vars = function (self, info_queue, card)
         return {

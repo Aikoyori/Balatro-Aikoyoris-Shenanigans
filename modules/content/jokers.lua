@@ -3862,9 +3862,10 @@ SMODS.Joker {
         SMODS.Joker.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
         if AKYRS.should_show_card_previews() then
             local all_tele = SMODS.find_card(self.key)
-            local location = AKYRS.find_index(all_tele, card) - 1
+            local location = AKYRS.find_index(all_tele, card)
             local items = {}
             if location and G.discard.cards then
+                location = location - 1
                 local cards_scoring = {}
                 local discards_count = #G.discard.cards
                 if discards_count then

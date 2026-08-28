@@ -1155,13 +1155,15 @@ SMODS.Joker{
     calculate = function (self, card, context)
         if context.individual and context.cardarea == G.play and not context.blueprint then
             local s = AKYRS.get_suit_freq_from_cards(G.play.cards)
-            if context.other_card:is_suit("Hearts") or (context.other_card:is_suit("Spades")) and s["Spades"] > 0 and s["Hearts"] then
-                return {
-                    message_card = card,
-                    func = function ()
-                        SMODS.scale_card(card, { ref_table = card.ability.extras, ref_value = "xmult", scalar_value = "xmult_inc" })
-                    end
-                }
+            if s then
+                if context.other_card:is_suit("Hearts") or (context.other_card:is_suit("Spades")) and s["Spades"] > 0 and s["Hearts"] then
+                    return {
+                        message_card = card,
+                        func = function ()
+                            SMODS.scale_card(card, { ref_table = card.ability.extras, ref_value = "xmult", scalar_value = "xmult_inc" })
+                        end
+                    }
+                end
             end
         end
         if context.joker_main or context.forcetrigger then
@@ -1202,13 +1204,15 @@ SMODS.Joker{
     calculate = function (self, card, context)
         if context.individual and context.cardarea == G.play and not context.blueprint and not next(context.poker_hands["Flush"]) then
             local s = AKYRS.get_suit_freq_from_cards(G.play.cards)
-            if context.other_card:is_suit("Clubs") or (context.other_card:is_suit("Diamonds")) and s["Clubs"] > 0 and s["Diamonds"] then
-                return {
-                    message_card = card,
-                    func = function ()
-                        SMODS.scale_card(card, { ref_table = card.ability.extras, ref_value = "xchips", scalar_value = "xchips_inc" })
-                    end
-                }
+            if s then
+                if context.other_card:is_suit("Clubs") or (context.other_card:is_suit("Diamonds")) and s["Clubs"] > 0 and s["Diamonds"] then
+                    return {
+                        message_card = card,
+                        func = function ()
+                            SMODS.scale_card(card, { ref_table = card.ability.extras, ref_value = "xchips", scalar_value = "xchips_inc" })
+                        end
+                    }
+                end
             end
         end
         if context.joker_main or context.forcetrigger then
@@ -3517,7 +3521,7 @@ SMODS.Joker {
         }
     end,
     calculate = function (self, card, context)
-        if context.hand_drawn and not context.repetition_only then
+        if context.hand_drawn and not context.repetition then
             return {
                 func = function()
                     local bs = nil

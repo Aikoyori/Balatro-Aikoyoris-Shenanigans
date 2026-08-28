@@ -325,6 +325,7 @@ AKYRS.get_suit_freq_from_cards = function(listofcards, no_count_wild)
                 wordArray[v.base.suit] = wordArray[v.base.suit] and wordArray[v.base.suit] + 1 or 1
             else
                 for j,st in pairs(SMODS.Suits) do
+                    wordArray[j] = wordArray[j] or 0
                     if v:is_suit(j) then
                         wordArray[j] = wordArray[j] and wordArray[j] + 1 or 1
                     end

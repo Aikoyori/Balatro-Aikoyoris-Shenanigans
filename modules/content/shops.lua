@@ -347,10 +347,6 @@ AKYRS.ShopPage{
 AKYRS.ShopPage {
     key = "life_shop",
     create_ui = function (self)
-        G.GAME.akyrs_life_reroll_cost = G.GAME.akyrs_life_reroll_cost or 5
-        G.GAME.akyrs_life_top_up_dollars = G.GAME.akyrs_life_top_up_dollars or 1
-        G.GAME.akyrs_life_top_up_life = G.GAME.akyrs_life_top_up_life or 10
-
         G.akyrs_life_shop = CardArea(
             0,
             0,
@@ -696,7 +692,6 @@ function AKYRS.fill_life_reroll()
       end
     end
   end
-  
   local boosterpack = SMODS.create_card({
     set = "Booster",
     attributes = { 'mega' },
@@ -729,20 +724,21 @@ function AKYRS.fill_life_reroll()
     x = G.akyrs_life_shop.T.x,
     y = G.akyrs_life_shop.T.y,
   })
-  rare.akyrs_special_cost = rare.cost * 3
+  rare.akyrs_special_cost = rare.cost * 4
   AKYRS.create_custom_shop_card_ui(rare, { currency = "curr_akyrs_life" })
   G.akyrs_life_shop:emplace(rare)
-
+  local is_kdx = AKYRS.get_life_mode() == 'kaleidoscope'
+  local should_legen = is_kdx or pseudorandom('akyrs_life_shop_legendary') > 0.8
   local legendary = SMODS.create_card({
     set = "Joker",
-    rarity = "Legendary",
-    legendary = true,
+    rarity = should_legen and "Legendary" or 'Rare',
+    legendary = should_legen,
     bypass_discovery_center = true,
     key_append = "akyrs_life_shop_legendary",
     x = G.akyrs_life_shop.T.x,
     y = G.akyrs_life_shop.T.y,
   })
-  legendary.akyrs_special_cost = legendary.cost * 6
+  legendary.akyrs_special_cost = legendary.cost * (should_legen and 12 or 4)
   AKYRS.create_custom_shop_card_ui(legendary, { currency = "curr_akyrs_life" })
   G.akyrs_life_shop:emplace(legendary)
 end
@@ -778,9 +774,10 @@ end
 
 
 function G.FUNCS.akyrs_life_topup(e)
-  AKYRS.Currencies.curr_dollars:transactional_sound()
-  AKYRS.Currencies.curr_dollars:change_value(-G.GAME.akyrs_life_top_up_dollars)
-  AKYRS.mod_life(G.GAME.akyrs_life_top_up_life)
-  G.GAME.akyrs_life_top_up_dollars = G.GAME.akyrs_life_top_up_dollars * 2
-  G.GAME.akyrs_life_top_up_life = G.GAME.akyrs_life_top_up_life + 10
+    AKYRS.Currencies.curr_dollars:transactional_sound()
+    AKYRS.Currencies.curr_dollars:change_value(-G.GAME.akyrs_life_top_up_dollars)
+    AKYRS.mod_life(G.GAME.akyrs_life_top_up_life)
+    local is_kdx = AKYRS.get_life_mode() == 'kaleidoscope'
+    G.GAME.akyrs_life_top_up_dollars = G.GAME.akyrs_life_top_up_dollars * 2
+    G.GAME.akyrs_life_top_up_life = G.GAME.akyrs_life_top_up_life + (is_kdx and 15 or 10)
 end

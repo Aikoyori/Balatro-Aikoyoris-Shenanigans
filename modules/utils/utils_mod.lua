@@ -932,10 +932,10 @@ function AKYRS.end_round_hook()
     --print(G.GAME.blind_on_deck)
     if G.GAME.akyrs_life_heal then
         local life_heal = 0
-        if G.GAME.akyrs_life_heal.ante > 0 and G.GAME.blind_on_deck == "Boss" then
+        if (G.GAME.akyrs_life_heal.ante or 0) > 0 and G.GAME.blind_on_deck == "Boss" then
             life_heal = life_heal + G.GAME.akyrs_life_heal.ante
         end
-        if G.GAME.akyrs_life_heal.round > 0 then
+        if (G.GAME.akyrs_life_heal.round or 0) > 0 then
             life_heal = life_heal + G.GAME.akyrs_life_heal.round
         end
         if life_heal ~= 0 then 

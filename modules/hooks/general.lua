@@ -69,10 +69,14 @@ function Game:init_game_object()
     -- this one is for life :3
     ret.akyrs_life = 500
     ret.akyrs_life_internal = 500
+    ret.akyrs_starting_life = 500
     ret.akyrs_life_disp = "500"
     ret.akyrs_life_decay_mode = "none"
     ret.akyrs_life_cover_sprite = "normal"
     ret.akyrs_life_heal = { round = 0, ante = 0, }
+    ret.akyrs_life_reroll_cost = 5
+    ret.akyrs_life_top_up_dollars = 1
+    ret.akyrs_life_top_up_life = 10
 
     ret.akyrs_tldr_conditions = {
         won_blind_oneshot = false,
@@ -143,9 +147,10 @@ function SMODS.current_mod.reset_game_globals(run_start)
     G.GAME.current_round.aiko_played_ranks = {}
     G.GAME.current_round.aiko_played_ench = {}
     G.GAME.current_round.akyrs_hands_played = {}
+    local is_kdx = AKYRS.get_life_mode() == 'kaleidoscope'
     G.GAME.akyrs_life_reroll_cost = 5
     G.GAME.akyrs_life_top_up_dollars = 1
-    G.GAME.akyrs_life_top_up_life = 10
+    G.GAME.akyrs_life_top_up_life = is_kdx and 15 or 10
     local candidate_hands = AKYRS.filter_table(AKYRS.keyvalue_to_list(G.GAME.hands), function (hand_info, ind)
         return hand_info[2].played > 0
     end, false, true)

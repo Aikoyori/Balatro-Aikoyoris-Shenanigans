@@ -298,25 +298,37 @@ AKYRS.Bet {
     },
     loc_vars = function (self, info_queue, card)
         return {
+            key = self.key .. (AKYRS.get_life_mode() == 'normal' and '_plus' or ''),
             vars = {
             }
         }
     end,
     redeem = function (self, card) 
-        G.GAME.akyrs_life_decay_mode = "normal"
-        G.FUNCS.akyrs_shift_hud(true)
-        AKYRS.toggle_shop_availability('shoppage_akyrs_life_shop', true)
-        G.GAME.akyrs_life_heal = {
-            round = 40
-        },
+        if G.GAME.akyrs_life_decay_mode == "normal" then
+            G.GAME.akyrs_life_decay_mode = "kaleidoscope"
+            G.GAME.akyrs_life_cover_sprite = "kaleidoscope"
+            G.GAME.akyrs_starting_life = G.GAME.akyrs_starting_life * 3
+            AKYRS.mod_life(G.GAME.akyrs_life_internal * 2)
+            G.GAME.akyrs_life_heal = {
+                round = 0
+            }
+        elseif not AKYRS.is_life_enabled() then
+            G.GAME.akyrs_life_decay_mode = "normal"
+            G.FUNCS.akyrs_shift_hud(true)
+            AKYRS.toggle_shop_availability('shoppage_akyrs_life_shop', true)
+            G.GAME.akyrs_life_heal = {
+                round = 40
+            }
+        end
         AKYRS.update_life_ui(G)
         
     end,
+    multi_use = true,
     unredeem = function (self, card) 
         -- i don't think there's much to do here ngl it's a one way action
     end,
     in_pool = function (self, args)
-        return not AKYRS.is_life_enabled()
+        return AKYRS.get_life_mode() ~= 'kaleidoscope'
     end,
 }
 

@@ -4158,9 +4158,17 @@ return {
             bet_akyrs_kaleidoscope={
                 name="Kaleidoscope!",
                 text={
-                    "Enable {C:attention}Life Drain",
-                    "and access to {C:attention}Life{} Shop",
-                    "shop part wip so just play the life for now lol",
+                    "Enable {C:green}Life Drain{}",
+                    "at {X:green,C:white}500{} Life + {X:green,C:white}40{} / round",
+                    "and access to {C:dark_edition}Life Shop",
+                },
+            },
+            bet_akyrs_kaleidoscope_plus={
+                name="Kaleidoscope Plus!",
+                text={
+                    "{C:green}Life{} drains {C:attention}much faster",
+                    "{X:green,C:white}X3{} current Life but {C:red}no replenishment",
+                    "{C:dark_edition}Life Shop{} always contain {C:purple}Legendaries",
                 },
             },
             bet_akyrs_double_or_nothing={

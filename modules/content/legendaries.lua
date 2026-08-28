@@ -20,7 +20,7 @@ SMODS.Joker {
         }
     end,
     rarity = 4,
-    cost = 30,
+    cost = 20,
     config = {
         extra = 2
     },
@@ -52,7 +52,7 @@ SMODS.Joker {
     pools = { ["Rhythm Games"] = true, ["Maimai"] = true },
     key = "tsunagite",
     rarity = 4,
-    cost = 50,
+    cost = 20,
     loc_vars = function(self, info_queue, card)
         local total = 0
         if G.hand and G.hand.highlighted then
@@ -105,7 +105,7 @@ SMODS.Joker {
 
 SMODS.Joker{
     key = "gappie",
-    cost = 25,
+    cost = 20,
     config = {
         extras = {
             xmlt = 1,
@@ -198,7 +198,7 @@ SMODS.Joker {
         x = 1, y = 0
     },
     rarity = 4,
-    cost = 50,
+    cost = 20,
     config = {
         name = "Aikoyori",
         extras = {

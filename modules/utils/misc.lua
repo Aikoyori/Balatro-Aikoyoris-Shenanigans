@@ -1995,3 +1995,19 @@ function AKYRS.nopeinator(card, config)
         return true
     end)
 end
+
+function AKYRS.button_enable_func( e , config )
+    config = config or {}
+    local enabled = true
+    if config.func then enabled = config.func(e) end
+    if ((G.GAME.STOP_USE and G.GAME.STOP_USE > 0)) then
+        enabled = false
+    end
+    if enabled then
+        e.config.button = config.button or 'akyrs_do_nothing'
+        e.config.colour = config.colour or G.C.RED
+    else
+        e.config.button = nil
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+    end
+end

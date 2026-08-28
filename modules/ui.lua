@@ -1167,6 +1167,11 @@ function AKYRS.text_prefab(args)
   return { n = args.uit or G.UIT.C, config = { align = args.align or "cm" }, nodes = { { n = G.UIT.T, config = args.config or { colour = args.colour or G.C.WHITE, text = args.text or "AIKO U SUCK WTFF", ref_table = args.ref_table, ref_value = args.ref_value, scale = args.scale or 0.4, shadow = not args.no_shadow } } } }
 end
 
+function AKYRS.row_prefab(config) 
+  args = args or {}
+  return { n = G.UIT.R, config = { align = args.align or "cm" }, nodes = config.nodes or {} } 
+end
+
 function AKYRS.dynatext_prefab(args)
   local args = args or {}
   local dynatext_args = args.dynatext or { strings = { "fuck you bro" }}

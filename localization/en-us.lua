@@ -2475,7 +2475,8 @@ return {
                 },
                 text = {
                     "{C:white,X:purple}X#1#{} Score if played hand",
-                    "contains {C:attention}no {C:clubs}non-Clubs{} cards",
+                    "contains {C:attention}only {C:clubs}Clubs{} suit",
+                    "and {C:attention}none{C:attention} of the others",
                 }
             },
             j_akyrs_konton_boogie = {
@@ -2798,6 +2799,7 @@ return {
                         "while {C:attention}selecting hand",
                         "to destroy {C:attention}all{} cards in hand",
                         "and {C:red}forcefully{} end the round",
+                        "{C:red}Self-destructs{}",
                     },
                 }
             },
@@ -2808,11 +2810,24 @@ return {
                 text = {
                     {
                         "{C:attention}Use{} this Joker",
-                        "to {E:akyrs_snaking_shake}initiate a {C:attention,E:akyrs_snaking_shake}Strange{E:akyrs_snaking_shake} Sequence",
+                        "to {E:akyrs_violent_shake}initiate a {C:attention,E:akyrs_violent_shake}Strange{E:akyrs_violent_shake} Sequence",
                     },
                     {
-                        "{E:akyrs_snaking_shake}Will {C:attention,E:akyrs_snaking_shake}let you know",
-                        "{E:akyrs_snaking_shake}when a condition appears",
+                        "{E:akyrs_violent_shake}Will {C:attention,E:akyrs_violent_shake}let you know",
+                        "{E:akyrs_violent_shake}when a condition appears",
+                    },
+                }
+            },
+            j_akyrs_shade_no_hokori = {
+                name = {
+                    "{f:5}シェードの埃は延長",
+                    "SHADE by ZUTOMAYO",
+                },
+                text = {
+                    {
+                        "Upgrades {C:attention}discarded{} Poker hand",
+                        "if it contains at least one {C:attention}#1#{} of {C:spades}Spades",
+                        "Rank changes every {C:attention}hand played",
                     },
                 }
             },

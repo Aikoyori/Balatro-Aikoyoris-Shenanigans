@@ -28,13 +28,24 @@ end
 sendDebugMessage(string.format("Word dictionary size (bytes): %d + %d mapping (%d effective) + %dK gc", data:getSize(), mapsize, mapeff, collectgarbage("count") - gcinit), "Aikoyori's Shenanigans")
 
 local state = {
+	-- list of character bytes
 	mem = {},
+	-- string length
 	len = 0,
+	-- related check data
+	-- - [1]: byte offset from dictionary
+	-- - [2]: word length
+	-- - [3]: next wildcard character mapping, byte -> byte, length is 256 * string length. value may be 0 if there's no next wildcard character. first byte in segment always points to first character
+	-- - [4]: valid character mapping, length is 256 * string length
 	lendata = {},
 
+	-- number of bytes to check
 	checklen = 0,
+	-- wild positions, 1-indexed, rightmost to leftmost
 	wildpos = {},
+	-- wild ranges for narrowing binary search, `[start: number, end: number]`, rightmost to leftmost
 	wildrange = {},
+	-- number of wild characters
 	wildcount = 0,
 }
 
@@ -134,11 +145,12 @@ local function initstate(word)
 	return true
 end
 
---- @param word string
---- @return string? matching
+--- @param word string | string[]
+--- @return table
 function AKYRS.check_word(word)
+	if type(word) == "table" then word = table.concat(word) end
 	local len = #word
-	if (!initstate(word)) then return end
+	if (!initstate(word)) then return { valid = false } end
 
 	local i
 	if state.wildcount > 0 then
@@ -149,8 +161,11 @@ function AKYRS.check_word(word)
 	else
 		i = bsearch()
 	end
-	if not i then return end
+	if not i then return { valid = false } end
 
 	local offset = state.lendata[1] + i * len
-	return ffi.string(dataptr+offset, len)
+	return {
+		valid = true,
+		word = ffi.string(dataptr+offset, len)
+	}
 end

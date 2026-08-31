@@ -51,6 +51,10 @@ function AKYRS.get_bomb_prompt(config)
 	local slotindex = 1
 	local totalweight = 0
 	for len, lendata in pairs(meta.lendata) do
+		local slot = slots[slotindex]
+		slotindex = slotindex + 1
+		slot[4] = 0
+
 		if min_length <= len and len <= max_length then
 			local buf = lendata[3]
 			-- lua AKYRS.get_bomb_prompt()
@@ -59,8 +63,6 @@ function AKYRS.get_bomb_prompt(config)
 			local base = left > 0 and AKYRS.endianness.leu32toh(buf[left-1]) or 0
 			local weight = AKYRS.endianness.leu32toh(buf[right]) - base
 
-			local slot = slots[slotindex]
-			slotindex = slotindex + 1
 			slot[1], slot[2], slot[3], slot[4], slot[5] = len, left, right, weight, base
 			totalweight = totalweight + weight
 		end

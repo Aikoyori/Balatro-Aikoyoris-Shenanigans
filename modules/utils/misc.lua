@@ -75,7 +75,7 @@ function AKYRS.getNextIDs(id)
     if(card_ranks_with_meta[id]) then
             --print(table_to_string(card_ranks_with_meta[id]))
         for i, v in ipairs(card_ranks_with_meta[id].next) do
-            table.insert(nexts,card_rank_numbers[v]) 
+            table.insert(nexts,card_rank_numbers[v])
         end
     end
     --print(table_to_string(nexts))
@@ -259,9 +259,9 @@ end
 AKYRS.get_speed_mult = function(card)
     return ((card and (card.area == G.jokers or
         card.area == G.consumeables or
-        card.area == G.hand or 
+        card.area == G.hand or
         card.area == G.play or
-        card.area == G.shop_jokers or 
+        card.area == G.shop_jokers or
         card.area == G.shop_booster or
         card.area == G.load_shop_vouchers
     )) and G.SETTINGS.GAMESPEED) or 1
@@ -323,10 +323,10 @@ AKYRS.card_area_preview = function(cardArea, desc_nodes, config)
             }
         end
     end
-    if func_after or func_list then 
+    if func_after or func_list then
         G.E_MANAGER:clear_queue("akyrs_desc")
     end
-    if func_after then 
+    if func_after then
         G.E_MANAGER:add_event(Event{
             delay = init_delay * speed_mul,
             blockable = false,
@@ -337,8 +337,8 @@ AKYRS.card_area_preview = function(cardArea, desc_nodes, config)
             end
         },"akyrs_desc")
     end
-    
-    if func_list then 
+
+    if func_list then
         for i, k in ipairs(func_list) do
             G.E_MANAGER:add_event(Event{
                 delay = func_delay * i * speed_mul,
@@ -393,7 +393,7 @@ function AKYRS.embedded_ui_sprite( sprite_atlas, sprite_pos, desc_nodes, config 
         ,width*scale/(aspect_ratio*longer_value), height*scale/(aspect_ratio*longer_value),
         sprite_atli, sprite_pos
     )
-    local uiEX = 
+    local uiEX =
     {
         n = G.UIT.R,
         config = { align = alignment , padding = padding, no_fill = true, r = rounded, minh = box_height or fix_height, maxh = fix_height, minw = fix_width, maxw = fix_width },
@@ -451,7 +451,7 @@ AKYRS.get_default_ability = function(key)
 end
 
 function AKYRS.find_stake_from_level(level)
-    for i, k in pairs(G.P_STAKES) do 
+    for i, k in pairs(G.P_STAKES) do
         if k == level then
             return i, k
         end
@@ -507,7 +507,7 @@ local uppercaser = {
 
 function AKYRS.get_shifted_from_key(key)
     local k = key
-    if key and uppercaser[key] then 
+    if key and uppercaser[key] then
         k = uppercaser[key]
     elseif string.upper(key) ~= key then
         k = string.upper(key)
@@ -623,7 +623,7 @@ end
 
 
 AKYRS.word_letter_count = function(word)
-    
+
     local wordArray = {}
     for i = 1, #word do
         wordArray[word:sub(i, i)] = wordArray[word:sub(i, i)] and wordArray[word:sub(i, i)] + 1 or 1
@@ -643,7 +643,7 @@ function AKYRS.remove_all(t, predicate)
     end
     for _, v in pairs(t) do
         if predicate(v) then
-            if v.children then 
+            if v.children then
                 AKYRS.remove_all(v.children, predicate)
             end
             v:remove()
@@ -654,7 +654,7 @@ end
 
 
 function AKYRS.akyrs_remove(uibox,predicate)
-    
+
     if uibox == G.OVERLAY_MENU then G.REFRESH_ALERTS = true end
     uibox.UIRoot:remove()
     for k, v in pairs(G.I[uibox.config.instance_type or 'UIBOX']) do
@@ -668,7 +668,7 @@ function AKYRS.akyrs_remove(uibox,predicate)
 end
 
 AKYRS.word_splitter = function(word)
-    
+
     local wordArray = {}
     for i = 1, #word do
         table.insert(wordArray, word:sub(i, i))
@@ -679,7 +679,7 @@ end
 AKYRS.remove_objects_in_nodes = function(nodes)
     if #nodes <= 0 then return end
     for _, node in ipairs(nodes) do
-        if node.config and node.config.object then 
+        if node.config and node.config.object then
             node.config.object:remove()
         end
         if node.nodes then
@@ -759,7 +759,7 @@ end
 AKYRS.get_most_played = function()
     local _handname, _played, _order, _planet = 'High Card', -1, 100, 'c_pluto'
     for k, v in pairs(G.GAME.hands) do
-        if v.played > _played or (v.played == _played and _order > v.order) then 
+        if v.played > _played or (v.played == _played and _order > v.order) then
             _played = v.played
             _handname = k
         end
@@ -787,11 +787,11 @@ AKYRS.get_planet_for_hand = function(_hand)
     return _planet
 end
 
-AKYRS.is_mod_loaded = function(var) 
+AKYRS.is_mod_loaded = function(var)
     if not var then return false end
     return (SMODS.Mods[var] and SMODS.Mods[var].can_load) and true or false
 end
-AKYRS.get_mod_data = function(var) 
+AKYRS.get_mod_data = function(var)
     if not var then return false end
     return (SMODS.Mods[var] and SMODS.Mods[var].can_load) and SMODS.Mods[var] or nil
 end
@@ -810,7 +810,7 @@ function AKYRS.do_things_to_card(cards, func, config, queue) -- func(card)
     for i, card in ipairs(cards) do
         AKYRS.simple_event_add(
             function ()
-                
+
                 if not config.no_sound and card then
                     play_sound('card1')
                 end
@@ -908,7 +908,7 @@ function AKYRS.pseudorandom_elements(tables, count, seed, args)
     for i,j in ipairs(tables) do
         table.insert(tb,j)
     end
-    
+
     if count >= #tb then
         return tb
     end
@@ -940,7 +940,7 @@ end
 
 function AKYRS.can_afford(money)
     if Talisman then
-        
+
         return to_big(money) < to_big(G.GAME.dollars) - to_big(G.GAME.bankrupt_at)
     end
     return money < G.GAME.dollars - G.GAME.bankrupt_at
@@ -1030,7 +1030,7 @@ function AKYRS.round(val)
     end
 end
 -- https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
-function AKYRS.hsl2rgb(h,s,l,al) 
+function AKYRS.hsl2rgb(h,s,l,al)
     local a=s*math.min(l,1-l);
     local f = function(n, k) k = math.fmod((n+h/30),12); return l - a*math.max(math.min(k-3,9-k,1),-1) end
     return {f(0),f(8),f(4),al};
@@ -1079,14 +1079,14 @@ function AKYRS.relock_achievement(achievement_name)
         blockable = false,
         blocking = false,
         func = function()
-            if G.STATE ~= G.STATES.HAND_PLAYED then 
+            if G.STATE ~= G.STATES.HAND_PLAYED then
                 if G.PROFILES[G.SETTINGS.profile].all_unlocked and (G.ACHIEVEMENTS and G.ACHIEVEMENTS[achievement_name] and not G.ACHIEVEMENTS[achievement_name].bypass_all_unlocked and SMODS.config.achievements < 3) or (SMODS.config.achievements < 3 and (G.GAME.seeded or G.GAME.challenge)) then return true end
                 local achievement_set = nil
                 if not G.ACHIEVEMENTS then fetch_achievements() end
                 G.SETTINGS.ACHIEVEMENTS_EARNED[achievement_name] = nil
                 G:save_progress()
-                
-                if G.ACHIEVEMENTS[achievement_name] and G.ACHIEVEMENTS[achievement_name].mod then 
+
+                if G.ACHIEVEMENTS[achievement_name] and G.ACHIEVEMENTS[achievement_name].mod then
                     if G.ACHIEVEMENTS[achievement_name].earned then
                         --|THIS IS THE FIRST TIME THIS ACHIEVEMENT HAS BEEN EARNED
                         achievement_set = true
@@ -1094,8 +1094,8 @@ function AKYRS.relock_achievement(achievement_name)
                     end
                     G.ACHIEVEMENTS[achievement_name].earned = nil
                 end
-                
-                if achievement_set then 
+
+                if achievement_set then
                     return true
                 end
                 if G.F_NO_ACHIEVEMENTS and not (G.ACHIEVEMENTS[achievement_name] or {}).mod then return true end
@@ -1106,7 +1106,7 @@ function AKYRS.relock_achievement(achievement_name)
 
                 G.SETTINGS.ACHIEVEMENTS_EARNED[achievement_name] = nil
                 G:save_progress()
-                if G.ACHIEVEMENTS[achievement_name] and not G.STEAM then 
+                if G.ACHIEVEMENTS[achievement_name] and not G.STEAM then
                     if G.ACHIEVEMENTS[achievement_name].earned then
                         --|THIS IS THE FIRST TIME THIS ACHIEVEMENT HAS BEEN EARNED
                         achievement_set = true
@@ -1121,7 +1121,7 @@ function AKYRS.relock_achievement(achievement_name)
 end
 
 
-function AKYRS.print_table_simple(tlb) 
+function AKYRS.print_table_simple(tlb)
     local str = "{"
     for k, v in pairs(tlb) do
         str = str .. k .." = " .. tostring(type(v) == 'table' and '<table>' or v) .. ", "
@@ -1213,7 +1213,7 @@ function AKYRS.create_card_collection_underlay(card, info)
                             nodes = {
                                 {
                                     n = G.UIT.C, config = { padding = 0.1 },
-                                    nodes = { 
+                                    nodes = {
                                         { n = G.UIT.T, config = { text = info.text or "?????", scale = 0.4, colour = G.C.UI.TEXT_LIGHT } }
                                     }
                                 },
@@ -1226,19 +1226,19 @@ function AKYRS.create_card_collection_underlay(card, info)
                             nodes = {
                                 {
                                     n = G.UIT.C, config = { padding = 0.1, colour = G.C.GREEN, r = 0.1, align = "cm"  },
-                                    nodes = { 
+                                    nodes = {
                                         { n = G.UIT.T, config = { text = tally.tally or "???" , scale = 0.4, colour = G.C.UI.TEXT_LIGHT } }
                                     }
                                 },
                                 {
                                     n = G.UIT.C, config = {  },
-                                    nodes = { 
+                                    nodes = {
                                         { n = G.UIT.T, config = { text = "/" , scale = 0.6, colour = G.C.ORANGE } }
                                     }
                                 },
                                 {
                                     n = G.UIT.C, config = { padding = 0.1, colour = G.C.GREY, r = 0.1, align = "cm"  },
-                                    nodes = { 
+                                    nodes = {
                                         { n = G.UIT.T, config = { text = tally.of or "???", scale = 0.4, colour = G.C.UI.TEXT_LIGHT } }
                                     }
                                 },
@@ -1380,7 +1380,7 @@ function AKYRS.card_collection_ui_template(key, override_sprite, p_card)
                 return true
             end, 0, "akyrs_misc"
         )
-        
+
     end
     return c
 end
@@ -1440,7 +1440,7 @@ end
 
 
 
-function AKYRS.filter_table(tbl, predicate, ordered_in, ordered_out) 
+function AKYRS.filter_table(tbl, predicate, ordered_in, ordered_out)
     if not tbl or not predicate then return {} end
     if #tbl == 0 and ordered_in then return {} end
     local table_out = {}
@@ -1463,13 +1463,13 @@ function AKYRS.filter_table(tbl, predicate, ordered_in, ordered_out)
                     table_out[k] = v
                 end
             end
-        end 
+        end
     end
     return table_out
 end
 
 -- predicate expect a return of new value
-function AKYRS.map(tbl, predicate, ordered_in) 
+function AKYRS.map(tbl, predicate, ordered_in)
     if not tbl or not predicate then return {} end
     if #tbl == 0 and ordered_in then return {} end
     local nextfunc = ordered_in and ipairs or pairs
@@ -1483,7 +1483,7 @@ function AKYRS.map(tbl, predicate, ordered_in)
     return table_out
 end
 
-function AKYRS.keyvalue_to_list(tbl) 
+function AKYRS.keyvalue_to_list(tbl)
     if not tbl then return {} end
     local table_out = {}
     for k,v in pairs(tbl) do
@@ -1597,7 +1597,7 @@ function AKYRS.get_pool_with_predicate(pool, predicate)
 end
 
 function AKYRS.force_lose(key)
-    if G.STAGE == G.STAGES.RUN then 
+    if G.STAGE == G.STAGES.RUN then
         if MPAPI and MPAPI.get_current_lobby() then
             SPDRN._run_lost_shown = true
             MPAPI.RLOGCodes.run_died:write()
@@ -1606,14 +1606,14 @@ function AKYRS.force_lose(key)
             G.GAME.akyrs_defeated_by_center = key
             G.TAROT_INTERRUPT = nil
             G.GAME.AKYRS_DEAD = true
-            G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false 
+            G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false
             AKYRS.force_save()
         end
     end
 end
 
 function AKYRS.force_lose_or_lose_life(key)
-    if G.STAGE == G.STAGES.RUN then 
+    if G.STAGE == G.STAGES.RUN then
         if AKYRS.is_mp() then
             AKYRS.ease_lives_mp(-1)
         else
@@ -1712,12 +1712,12 @@ function AKYRS.set_whole(cardlist, centerkey)
 end
 
 function AKYRS.should_give_eternal_likes(area)
-    return (area == G.shop_jokers) or (area == G.pack_cards) 
+    return (area == G.shop_jokers) or (area == G.pack_cards)
 end
 
 
 function AKYRS.end_of_round_scenario_check(cd, area)
-    return cd and (AKYRS.Scenario_Tag:is(cd)) or (cd.area == area) 
+    return cd and (AKYRS.Scenario_Tag:is(cd)) or (cd.area == area)
 end
 
 function AKYRS.add_box_to_uitable(fulluitable, nodes)
@@ -1733,11 +1733,11 @@ function AKYRS.should_act_as_consumable(center)
     end
     local s = center.set
     return s == "Scenario" or s == "Enchantment"
-    
+
 end
 
 function AKYRS.remove_phantom_cards()
-    
+
     for _, cara in ipairs(G.I.CARDAREA) do
         for _, c in ipairs(G.I.CARD) do
             if cara ~= c.area then
@@ -1820,7 +1820,7 @@ function AKYRS.apply_stake_mid_game( stake_to_apply_key, passes )
     if stake_config.applied_stakes then
         for _, stake_keys in ipairs(stake_config.applied_stakes) do
             local stakes = AKYRS.apply_stake_mid_game(stake_keys, (passes or 0) + 1)
-            if (passes or 0) == 0 then 
+            if (passes or 0) == 0 then
                 applied_stakes_keys = SMODS.merge_lists{ stakes , applied_stakes_keys }
             end
         end
@@ -1830,14 +1830,14 @@ function AKYRS.apply_stake_mid_game( stake_to_apply_key, passes )
     applied_stakes_keys[#applied_stakes_keys + 1] = stake_to_apply_key
     AKYRS.remove_dupes()
     table.sort(G.GAME.applied_stakes)
-    if (passes or 0) == 0 then 
+    if (passes or 0) == 0 then
         AKYRS.update_all_blind_select()
     end
     return applied_stakes_keys
 end
 
 function AKYRS.update_all_blind_select(delay)
-    if G.STATE == G.STATES.BLIND_SELECT then 
+    if G.STATE == G.STATES.BLIND_SELECT then
         for _, v in ipairs({'small', 'big', 'boss'}) do
             AKYRS.simple_event_add(function ()
                 AKYRS.update_blind_select_column(v, delay)
@@ -1892,7 +1892,7 @@ function AKYRS.update_blind_select_column(col, delay, callbacks)
         par.config.object:recalculate()
         G.blind_select_opts[col].parent = par
         G.blind_select_opts[col].alignment.offset.y = 0
-        
+
         G.E_MANAGER:add_event(Event({blocking = false, trigger = 'after', delay = 0.5,func = function()
             G.CONTROLLER.locks.boss_reroll = nil
             return true
@@ -1926,7 +1926,7 @@ end
 
 function AKYRS.voucher_style_text(card, conf)
     local conf = conf or {}
-    
+
     local top_dynatext = nil
     local bot_dynatext = nil
 
@@ -2010,6 +2010,15 @@ function AKYRS.button_enable_func( e , config )
         e.config.button = nil
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
     end
+end
+
+function AKYRS.force_end_round(card)
+    AKYRS.simple_event_add(function ()
+        G.AKYRS_FORCED_END_ROUND = true
+        end_round()
+        G.STATE = G.STATES.ROUND_EVAL
+        return true
+    end)
 end
 
 --- Binary search on a table list.

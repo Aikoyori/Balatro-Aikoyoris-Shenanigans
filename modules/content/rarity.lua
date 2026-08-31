@@ -23,6 +23,7 @@ SMODS.Rarity{
     },
 
 }
+
 SMODS.Rarity{
     key = "unique",
     default_weight = 0,

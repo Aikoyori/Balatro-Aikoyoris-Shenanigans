@@ -4178,18 +4178,152 @@ SMODS.Joker {
         }
     end,
     rarity = 2,
-    cost = 5,
+    cost = 7,
     calculate = function (self, card, context)
+        if context.mod_probability and context.trigger_obj.is and context.trigger_obj:is(Card) and context.trigger_obj:is_suit("Clubs") then
+            return {
+                numerator = context.numerator * 6
+            }
+        end
     end,
+}
+
+SMODS.Joker {
+    key = "doro_no_bunzai",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 9, y = 8 },
+    pools = {  },
+    config = {
+        extras = {
+            xmult = 2.5,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = { set = "Other", key = "akyrs_attention" }
+        return {
+            vars = {
+                card.ability.extras.xmult,
+            }
+        }
+    end,
+    rarity = 3,
+    cost = 8,
+    calculate = function (self, card, context)
+        if context.individual and context.cardarea == G.play and not SMODS.has_no_rank(context.other_card) and context.other_card.ability.akyrs_attention then
+            return {
+                xmult = card.ability.extras.xmult
+            }
+        end
+        if context.after then
+            return {
+                func = function ()
+                    local temp_ID = 1e10
+                    local raised_card = nil
+                    for i=1, #G.hand.cards do
+                        if temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i]) then 
+                            temp_ID = G.hand.cards[i].base.id
+                            raised_card = G.hand.cards[i]
+                        end
+                    end
+                    local cards_with_this_id = AKYRS.filter_table(G.hand.cards, function (c, i)
+                        return not SMODS.has_no_rank(c) and c.base.id == temp_ID
+                    end, true, true)
+                    AKYRS.do_things_to_card(cards_with_this_id, function (_card, index)
+                        SMODS.Stickers.akyrs_attention:apply(_card, true)
+                    end)
+                end
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = "spicy_pillow",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 0, y = 9 },
+    pools = {  },
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    akyrs_joker_use_btn = true,
+    akyrs_joker_can_use = function (self, card)
+        return G.STATE == G.STATES.SELECTING_HAND and not AKYRS.is_mp_nemesis()
+    end,
+    akyrs_joker_use = function (self, card)
+        card.ability.akyrs_pillow_saved = true
+        for i = #G.hand.cards, 1, -1 do
+            local c = G.hand.cards[i]
+            AKYRS.simple_event_add(function ()
+                c:start_dissolve()
+                return true
+            end)
+        end
+        AKYRS.force_end_round(card)
+        AKYRS.simple_event_add(function ()
+            card:start_dissolve()
+            return true
+        end)
+        
+    end,
+    rarity = 2,
+    cost = 6,
+    calculate = function (self, card, context)
+        if context.end_of_round and context.game_over and card.ability.akyrs_pillow_saved then
+            return {
+                saved = localize("k_akyrs_pillow_spicy"),
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = "thornring",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 1, y = 9 },
+    pools = {  },
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.xmult,
+            }
+        }
+    end,
+    akyrs_joker_use_btn = true,
+    akyrs_joker_can_use = function (self, card)
+        return 
+    end,
+    akyrs_joker_use = function (self, card)
+        G.GAME.akyrs_weird_sequence = true
+    end,
+    rarity = 'akyrs_unique',
     in_pool = function (self, args)
-        return false
-    end
+        return not G.GAME.akyrs_weird_sequence and not AKYRS.is_mp() and G.GAME.round_resets.ante == 2
+    end,
+    cost = 6,
+    calculate = function (self, card, context)
+        if context.end_of_round and context.game_over and card.ability.akyrs_pillow_saved then
+            return {
+                saved = localize("k_akyrs_pillow_spicy"),
+            }
+        end
+    end,
 }
 
 
-for j = 8, 9 do
+for j = 9, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 89 then
+        if i + j * 10 >= 92 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

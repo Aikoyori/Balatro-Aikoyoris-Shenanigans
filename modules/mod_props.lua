@@ -111,7 +111,7 @@ AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width
     nodes = {
       sprite_atlas and {
         n = G.UIT.C,
-        config = { align = "cm", padding = 0.1, 
+        config = { align = "cm", padding = 0.1,
           button = "akyrs_your_collection_credits", ref_table = {credit = credits_internal_name or "none"}, on_demand_tooltip = {text = "", filler = {func = AKYRS.create_credit_tooltip, args = {internal_name = credits_internal_name, name = name}}},
         },
         nodes = {
@@ -166,7 +166,7 @@ end
 AKYRS.create_credit_tooltip = function (credits)
     local uinodes = nil
     if AKYRS.should_show_card_previews() then
-      
+
       local centers_all = {}
       for i, pool in pairs(G.P_CENTER_POOLS) do
           for i2, v in ipairs(pool) do
@@ -232,12 +232,12 @@ function AKYRS.create_link_sprite_btn(platform, link)
     col = G.C.BOOSTER
     px, py = 3, 0
   end
-  
+
   if platform == "newgrounds" then
     col = G.C.FILTER
     px, py = 4, 0
   end
-  return 
+  return
   {
     n = G.UIT.C,
     config = {
@@ -273,10 +273,10 @@ SMODS.current_mod.custom_ui = function (mod_nodes)
         n = G.UIT.R,
         config = { align = "tm" },
         nodes = {
-          { n = G.UIT.O, config = { object = 
+          { n = G.UIT.O, config = { object =
           DynaText{
-            string = localize("k_akyrs_title"), 
-            scale = 1, 
+            string = localize("k_akyrs_title"),
+            scale = 1,
             colours = {SMODS.Gradients["akyrs_mod_title"]},
             pop_in = 0.1,
             float = 1,
@@ -342,12 +342,12 @@ end
 
 SMODS.current_mod.extra_tabs = function ()
   return {
-    { 
+    {
       label = localize("k_akyrs_credits"),
       tab_definition_function = function ()
         local scrollbox = SMODS.UIScrollBox({
           content = {
-            definition = { n = G.UIT.ROOT, 
+            definition = { n = G.UIT.ROOT,
                   config = { colour = G.C.CLEAR },
                     nodes = {
                       {
@@ -369,7 +369,7 @@ SMODS.current_mod.extra_tabs = function ()
                               AKYRS.create_link_sprite_btn("youtube", "https://www.youtube.com/@Larantula"),
                             }
                           }),
-                          AKYRS.create_credits("akyrs_plasma_credits", "@eggymari", "eggymari", 2.7, nil, 
+                          AKYRS.create_credits("akyrs_plasma_credits", "@eggymari", "eggymari", 2.7, nil,
                           {
                             n = G.UIT.R,
                             config = { padding = 0.02 },
@@ -557,7 +557,7 @@ end
 AKYRS.save_config = function(e)
   local status, err = pcall(SMODS.save_mod_config,AKYRS)
   if status == false then
-      sendErrorMessage("Failed to perform a manual mod config save.", 'Aikoyori\'s Shenanigans') -- sorry 
+      sendErrorMessage("Failed to perform a manual mod config save.", 'Aikoyori\'s Shenanigans') -- sorry
   end
 end
 
@@ -615,7 +615,7 @@ SMODS.current_mod.config_tab = function ()
               colour = G.C.UI.TEXT_LIGHT
             }}
             }
-          },          
+          },
           { n = G.UIT.C, config = {
             align = "cm", padding = 0.1,
             id = "akyrs_wildcard_behaviour_desc_dyna"
@@ -648,7 +648,7 @@ SMODS.current_mod.config_tab = function ()
               colour = G.C.UI.TEXT_LIGHT
             }}
             }
-          },          
+          },
           { n = G.UIT.C, config = {
             align = "cm", padding = 0.1,
             id = "akyrs_wildcard_behaviour_desc_dyna"
@@ -666,15 +666,15 @@ SMODS.current_mod.config_tab = function ()
             }
           },
           AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_balance_settings" }
-        } 
+        }
       },]]
       -- joker previews
-      
+
       { n = G.UIT.R, config = { align = "rt"}, nodes = {
           { n = G.UIT.C, config = {
             align = "cm", padding = 0.05,
           }, nodes = {
-            
+
             create_toggle({
               label = localize("k_akyrs_card_preview"),
               ref_table = AKYRS.config,
@@ -684,16 +684,16 @@ SMODS.current_mod.config_tab = function ()
             })
             }
           },
-          
+
           AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_card_preview_tooltip" }
-        } 
+        }
       },
 
       { n = G.UIT.R, config = { align = "rt"}, nodes = {
         { n = G.UIT.C, config = {
             align = "cm", padding = 0.05,
         }, nodes = {
-          
+
           create_toggle({
             label = localize("k_akyrs_toggle_crt"),
             ref_table = AKYRS.config,
@@ -704,30 +704,13 @@ SMODS.current_mod.config_tab = function ()
           }
         },
         AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_crt_shader_toggle" }
-        } 
+        }
       },
       { n = G.UIT.R, config = { align = "rt"}, nodes = {
         { n = G.UIT.C, config = {
             align = "cm", padding = 0.05,
         }, nodes = {
-          
-          create_toggle({
-            label = localize("k_akyrs_toggle_full_dictionary"),
-            ref_table = AKYRS.config,
-            ref_value = "full_dictionary",
-            label_scale = 0.4,
-            callback = G.FUNCS.save_config
-          })
-          }
-        },
-        AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_full_dictionary" }
-        } 
-      },
-      { n = G.UIT.R, config = { align = "rt"}, nodes = {
-        { n = G.UIT.C, config = {
-            align = "cm", padding = 0.05,
-        }, nodes = {
-          
+
           create_toggle({
             label = localize("k_akyrs_toggle_colourblind_ui"),
             ref_table = AKYRS.config,
@@ -738,13 +721,13 @@ SMODS.current_mod.config_tab = function ()
           }
         },
         AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_toggle_colourblind_ui" }
-        } 
+        }
       },
       { n = G.UIT.R, config = { align = "rt"}, nodes = {
         { n = G.UIT.C, config = {
             align = "cm", padding = 0.05,
         }, nodes = {
-          
+
           create_toggle({
             label = localize("k_akyrs_toggle_experimental_feature"),
             ref_table = AKYRS.config,
@@ -755,7 +738,7 @@ SMODS.current_mod.config_tab = function ()
           }
         },
         AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_experimental_feature" }
-        } 
+        }
       },
       {
         n = G.UIT.R,
@@ -772,7 +755,7 @@ end
 SMODS.current_mod.menu_cards = function ()
     return {
 		{key = 'j_akyrs_aikoyori'},
-        func = function() 
+        func = function()
             local mycards = AKYRS.filter_table(G.title_top.cards, function (c,i)
                 --print(c.config.center_key)
                 return c.config.center_key == "j_akyrs_aikoyori" end,true,true)

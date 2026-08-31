@@ -28,7 +28,7 @@ AKYRS.DescriptionDummy{
                 alignment = "bm",
                 scale = 0.5,
                 func_delay = 0.1* AKYRS.get_speed_mult(AKYRS.current_hover_card),
-                func_after = function(ca) 
+                func_after = function(ca)
                     if ca and ca.cards then
                         for i,k in ipairs(ca.cards) do
                             if not k.removed then
@@ -51,7 +51,7 @@ AKYRS.DescriptionDummy{
                             delay = (1+0.5) * AKYRS.get_speed_mult(AKYRS.current_hover_card),
                             func = function ()
 
-                                if ca and ca.cards then            
+                                if ca and ca.cards then
                                     for i,k in ipairs(ca.cards) do
                                         k:start_dissolve({G.C.RED}, true, 0)
                                     end
@@ -122,7 +122,7 @@ AKYRS.DescriptionDummy{
                 alignment = "bm",
                 scale = 0.5,
                 func_delay = 0,
-                func_after = function(ca) 
+                func_after = function(ca)
                     if ca and ca.cards then
                         for i,k in ipairs(ca.cards) do
                             if not k.removed then
@@ -158,7 +158,7 @@ AKYRS.DescriptionDummy{
                             delay = 2.5 * AKYRS.get_speed_mult(AKYRS.current_hover_card),
                             func = function ()
 
-                                if ca and ca.cards then            
+                                if ca and ca.cards then
                                     for i,k in ipairs(ca.cards) do
                                         local _rank = nil
                                         local _suit = nil
@@ -166,8 +166,8 @@ AKYRS.DescriptionDummy{
                                             _rank = pseudorandom_element(SMODS.Ranks, pseudoseed('akyrs2fadr'))
                                             _suit = pseudorandom_element(SMODS.Suits, pseudoseed('akyrs2fads'))
                                         end
-                                        
-                                        
+
+
                                         if ca.cards[i] then
                                             AKYRS.change_base_skip(ca.cards[i],_suit.key,_rank.key)
                                             ca.cards[i]:flip()
@@ -237,10 +237,6 @@ AKYRS.DescriptionDummy{
 
 AKYRS.DescriptionDummy{
     key = "crt_shader_toggle",
-}
-
-AKYRS.DescriptionDummy{
-    key = "full_dictionary",
 }
 
 AKYRS.DescriptionDummy{
@@ -362,7 +358,7 @@ AKYRS.DescriptionDummy{
             local cards = {
             }
             for i = 1,5 do
-                local c = AKYRS.create_random_card("break_up") 
+                local c = AKYRS.create_random_card("break_up")
                 assert(SMODS.change_base(c,"Clubs"))
                 AKYRS.set_special_card_type(c,"suit")
                 table.insert(cards, c)
@@ -387,7 +383,7 @@ AKYRS.DescriptionDummy{
             local cards = {
             }
             for i = 1,2 do
-                local c = AKYRS.create_random_card("puzzle_letter") 
+                local c = AKYRS.create_random_card("puzzle_letter")
                 table.insert(cards, c)
             end
             AKYRS.card_area_preview(G.akyrs_pure_hands_tip,desc_nodes,{

@@ -837,6 +837,10 @@ AKYRS.is_mp = function()
     if (MP and (MP.LOBBY.code or MP.LOBBY.ruleset_preview)) then return true end
 end
 
+AKYRS.is_mp_nemesis = function()
+    return AKYRS.is_mp() and MP.is_pvp_boss()
+end
+
 AKYRS.mp_check = function(sp,mp)
     if MP and (MP.LOBBY.code or MP.LOBBY.ruleset_preview) then return mp end
     return sp
@@ -942,7 +946,7 @@ function AKYRS.end_round_hook()
             AKYRS.mod_life(life_heal, false, 1)
         end
     end
-    if #SMODS.find_card("j_akyrs_you_tried") > 0 and AKYRS.is_mp() and not MP.is_pvp_boss() then        
+    if #SMODS.find_card("j_akyrs_you_tried") > 0 and AKYRS.is_mp() and not AKYRS.is_mp_nemesis() then        
         local card = SMODS.find_card("j_akyrs_you_tried")[1]
         AKYRS.simple_event_add(function()
             if card.ability.extras.last_life ~= MP.GAME.lives then

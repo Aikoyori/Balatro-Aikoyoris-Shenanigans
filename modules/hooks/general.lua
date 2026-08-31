@@ -463,7 +463,7 @@ function end_round()
     if G.AKYRS_ACTIVATED_END_ROUND then
         
         G.STATE = G.STATES.ROUND_EVAL
-        return
+        return true
     end
 
     
@@ -471,11 +471,12 @@ function end_round()
     local shouldNotEndRoundMathDeck = G.GAME.akyrs_mathematics_enabled and not AKYRS.is_value_within_threshold(G.GAME.blind.chips,G.GAME.chips,G.GAME.akyrs_math_threshold)
 
     
-    if (shouldNotEndRoundPuzzleBlind or shouldNotEndRoundMathDeck) and (G.GAME.current_round.hands_left > 0) then
+    if ((shouldNotEndRoundPuzzleBlind or shouldNotEndRoundMathDeck) and (G.GAME.current_round.hands_left > 0)) or not G.AKYRS_FORCED_END_ROUND then
         G.STATE = G.STATES.SELECTING_HAND
         G.STATE_COMPLETE = false
     else
         local ret = endRoundHook()
+        G.AKYRS_FORCED_END_ROUND = nil
         G.AKYRS_ACTIVATED_END_ROUND = true
         --AKYRS.end_round_hook()
         return ret

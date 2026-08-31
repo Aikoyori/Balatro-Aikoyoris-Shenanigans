@@ -2761,7 +2761,58 @@ return {
                 },
                 text = {
                     {
-                        "does fuck all atm",
+                        "Sextuples all {C:attention}listed",
+                        "{C:green,E:1,S:1.1}probabilities{} on cards",
+                        "with {C:clubs}Clubs{} suit",
+                        "{C:inactive}(ex: {C:green}1 in 12{C:inactive} -> {C:green}6 in 12{C:inactive})",
+                    },
+                }
+            },
+            j_akyrs_doro_no_bunzai = {
+                name = {
+                    "{f:5}泥の分際で私だけの",
+                    "{f:5}大切な奪おう立たんて",
+                    "{s:0.7}Being low as dirt,",
+                    "{s:0.7}taking what's important from me",
+                    "{s:0.7}by TUYU"
+                },
+                text = {
+                    {
+                        "Cards with {C:attention}lowest rank{}",
+                        "get {C:attention}Attention{} Stickers",
+                        "{C:attention}After{} hand is played",
+                    },
+                    {
+                        "Cards with {C:attention}Attention{} Stickers",
+                        "Gives {X:mult,C:white} X#1# {} Mult",
+                    },
+                }
+            },
+            j_akyrs_spicy_pillow = {
+                name = {
+                    "Spicy Pillow",
+                },
+                text = {
+                    {
+                        "{C:attention}Use{} this Joker",
+                        "while {C:attention}selecting hand",
+                        "to destroy {C:attention}all{} cards in hand",
+                        "and {C:red}forcefully{} end the round",
+                    },
+                }
+            },
+            j_akyrs_thornring = {
+                name = {
+                    "ThornRing",
+                },
+                text = {
+                    {
+                        "{C:attention}Use{} this Joker",
+                        "to {E:akyrs_snaking_shake}initiate a {C:attention,E:akyrs_snaking_shake}Strange{E:akyrs_snaking_shake} Sequence",
+                    },
+                    {
+                        "{E:akyrs_snaking_shake}Will {C:attention,E:akyrs_snaking_shake}let you know",
+                        "{E:akyrs_snaking_shake}when a condition appears",
                     },
                 }
             },
@@ -4978,6 +5029,7 @@ return {
             k_akyrs_letter_btn_set = "Set",
             k_akyrs_letter_btn_swap_case = "Swap Case",
             k_akyrs_you_tried = "You tried :star:",
+            k_akyrs_pillow_spicy = "kaboom :3",
             k_akyrs_alphabetically = "Letter",
 
             k_akyrs_textbox_notice = "Due to how the game works, you'll have to",

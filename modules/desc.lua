@@ -451,41 +451,47 @@ AKYRS.DescriptionDummy{
 AKYRS.DescriptionDummy{
     key = "scenario_tag_charges_decreases",
 }
-if SMODS.DynaTextEffect then
-    SMODS.DynaTextEffect {
-        key = "obfuscate",
-        func = function (dynatext, index, letter)
-            letter.letter = love.graphics.newText(dynatext.font.FONT, string.char(math.fmod((string.byte(letter.char) + math.fmod(math.floor(G.TIMERS.REAL * 142.1 + index), 192)), 94)+ 33))
-        end
-    }
 
-    SMODS.DynaTextEffect {
-        key = "rainbow_wiggle",
-        func = function (dynatext, index, letter)
-            letter.colour = AKYRS.hsl2rgb(math.fmod((G.TIMERS.REAL + index) * 50, 360), 1, 0.75)
-            letter.offset.y = math.cos(G.TIMERS.REAL * 2.95 + index) * 9
-            letter.scale = (((math.sin((G.TIMERS.REAL + index)*2.9443) + 1)/2) + 6 )/6
-        end
-    }
-    SMODS.DynaTextEffect {
-        key = "snaking",
-        func = function (dynatext, index, letter)
-            letter.offset.x = math.sin((G.TIMERS.REAL + index) * 7.95) * 7
-            letter.offset.y = math.cos((G.TIMERS.REAL + index) * 7.95) * 7
-        end
-    }
-    SMODS.DynaTextEffect {
-        key = "shrivel",
-        func = function (dynatext, index, letter)
-            letter.offset.x = math.sin((G.TIMERS.REAL * 14511.15 + index * 534.415) * 7.95) * 5
-            letter.offset.y = math.cos((G.TIMERS.REAL * 534.15 + index * 14511.415) * 7.95) * 5
-        end
-    }
-    SMODS.DynaTextEffect {
-        key = "exponent",
-        func = function (dynatext, index, letter)
-            letter.offset.y = 20
-            letter.offset.x = 20
-        end
-    }
-end
+SMODS.DynaTextEffect {
+    key = "obfuscate",
+    func = function (dynatext, index, letter)
+        letter.letter = love.graphics.newText(dynatext.font.FONT, string.char(math.fmod((string.byte(letter.char) + math.fmod(math.floor(G.TIMERS.REAL * 142.1 + index), 192)), 94)+ 33))
+    end
+}
+
+SMODS.DynaTextEffect {
+    key = "rainbow_wiggle",
+    func = function (dynatext, index, letter)
+        letter.colour = AKYRS.hsl2rgb(math.fmod((G.TIMERS.REAL + index) * 50, 360), 1, 0.75)
+        letter.offset.y = math.cos(G.TIMERS.REAL * 2.95 + index) * 9
+        letter.scale = (((math.sin((G.TIMERS.REAL + index)*2.9443) + 1)/2) + 6 )/6
+    end
+}
+SMODS.DynaTextEffect {
+    key = "snaking",
+    func = function (dynatext, index, letter)
+        letter.offset.x = math.sin((G.TIMERS.REAL + index) * 7.95) * 7
+        letter.offset.y = math.cos((G.TIMERS.REAL + index) * 7.95) * 7
+    end
+}
+SMODS.DynaTextEffect {
+    key = "snaking_shake",
+    func = function (dynatext, index, letter)
+        letter.offset.x = math.sin((G.TIMERS.REAL + index) * 4.395) * 11 + math.sin((G.TIMERS.REAL * 1451.15 + index * 53.415) * 7.95) * 5
+        letter.offset.y = math.cos((G.TIMERS.REAL + index) * 4.395) * 11 + math.cos((G.TIMERS.REAL * 53.15 + index * 1451.415) * 7.95) * 5
+    end
+}
+SMODS.DynaTextEffect {
+    key = "shrivel",
+    func = function (dynatext, index, letter)
+        letter.offset.x = math.sin((G.TIMERS.REAL * 14511.15 + index * 534.415) * 7.95) * 5
+        letter.offset.y = math.cos((G.TIMERS.REAL * 534.15 + index * 14511.415) * 7.95) * 5
+    end
+}
+SMODS.DynaTextEffect {
+    key = "exponent",
+    func = function (dynatext, index, letter)
+        letter.offset.y = 20
+        letter.offset.x = 20
+    end
+}

@@ -2011,3 +2011,12 @@ function AKYRS.button_enable_func( e , config )
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
     end
 end
+
+function AKYRS.force_end_round(card)
+    AKYRS.simple_event_add(function ()
+        G.AKYRS_FORCED_END_ROUND = true
+        end_round()
+        G.STATE = G.STATES.ROUND_EVAL
+        return true
+    end)
+end

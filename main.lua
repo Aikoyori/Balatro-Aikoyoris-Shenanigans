@@ -95,6 +95,7 @@ assert(SMODS.load_file("./modules/compat/blindside.lua"))()
 assert(SMODS.load_file("./modules/compat/tmj.lua"))()
 
 assert(SMODS.load_file("./func/words/lib.lua"))()
+assert(SMODS.load_file("./func/bomb_prompts/lib.lua"))()
 
 assert(SMODS.load_file("./modules/attribs.lua"))()
 

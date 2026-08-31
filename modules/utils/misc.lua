@@ -1,3 +1,5 @@
+local ffi = require("ffi")
+
 local to_big = to_big or function(x) return x end
 
 local aikoyori_mod_config = (SMODS.current_mod or AKYRS).config
@@ -2024,10 +2026,17 @@ end
 --- Binary search on a table list.
 --- Returns index of that item if found.
 ---
---- The `anchor` parameter defines the behavior when found the value.
---- If set to left, it will try to keep going left.
---- If set to right, it will try to keep going right.
+--- The `anchor` parameter can define the behavior when a value matches.
+--- - `l`, try to keep going left
+--- - `r`, try to keep going right
+---
 --- Useful for handling duplicates.
+---
+--- The `anchor` parameter can be combined with loose `L` to return index of most fitting value possible.
+--- - `lL`: return the index of rightmost fitting value (found >= search)
+--- - `rL`: return the index of leftmost fitting value (found <= search)
+---
+--- Useful for dealing with ranges. Note that returned index may still be nil
 ---
 --- The function should return:
 --- - `<` 0 - move to right
@@ -2037,19 +2046,50 @@ end
 --- @param left number
 --- @param right number
 --- @param search fun(index, ...): boolean
---- @param anchor? 'l' | 'r'
+--- @param anchor? 'l' | 'r' | string
 --- @param ... any
 --- @return number? index
 function AKYRS.binary_search(left, right, search, anchor, ...)
+    local ad = anchor and (anchor:find('l') and 'l' or anchor:find('r') and 'r')
+    local loose = anchor and anchor:find('L') and true or false
+    local loosev
+
 	while left <= right do
 		local mid = math.floor((left + right) / 2)
 		local diff = search(mid, ...)
-		if diff > 0 or anchor == 'l' and diff == 0 and left < mid and search(mid-1, ...) == 0 then
+		if diff > 0 or ad == 'l' and diff == 0 and left < mid and search(mid-1, ...) == 0 then
             right = mid - 1 -- to left
-		elseif diff < 0 or anchor == 'r' and diff == 0 and mid < right and search(mid+1, ...) == 0 then
+            if loose and ad == 'l' then loosev = mid end
+		elseif diff < 0 or ad == 'r' and diff == 0 and mid < right and search(mid+1, ...) == 0 then
             left = mid + 1 -- to right
+            if loose and ad == 'r' then loosev = mid end
 		else
             return mid
         end
 	end
+
+    return loosev
+end
+
+local a = ffi.new('uint16_t[1]')
+local b = ffi.cast('uint8_t*', a)
+a[0] = 0x1234
+
+AKYRS.endianness = { big = b[0] == 0x12 }
+
+local _us32data = { u32 = ffi.new('uint32_t[1]') } _us32data.u8 = ffi.cast('uint8_t*', _us32data.u32)
+
+function AKYRS.endianness.swap_u32(byte)
+	_us32data.u32[0] = u32
+	_us32data.u8[0], _us32data.u8[3] = _us32data.u8[3], _us32data.u8[0]
+	_us32data.u8[1], _us32data.u8[2] = _us32data.u8[2], _us32data.u8[1]
+	return _us32data.u32[0]
+end
+
+if AKYRS.endianness.big then
+    AKYRS.endianness.beu32toh = function(v) return v end
+    AKYRS.endianness.leu32toh = AKYRS.endianness.swap_u32
+else
+    AKYRS.endianness.beu32toh = AKYRS.endianness.swap_u32
+    AKYRS.endianness.leu32toh = function(v) return v end
 end

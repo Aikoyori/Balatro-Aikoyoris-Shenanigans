@@ -671,17 +671,6 @@ AKYRS.initialise_deck_letter = function(letters)
     }))
 end
 
----@params config? table config
-AKYRS.get_bomb_prompt = function(config)
-    config = config or {}
-    local seed = config.seed or "bullshit"
-    local max_freq = math.min(config.max_freq or 1e10,1e10) -- max is er with this number
-    local min_freq = math.max(config.min_freq or 1000,1) 
-    local max_length = math.min(config.max_length or 5, 5)
-    local min_length = math.max(config.min_length or 2, 2)
-    -- wip stub
-end
-
 
 G.FUNCS.akyrs_force_draw_from_discard_to_hand = function(e)
 G.E_MANAGER:add_event(Event({

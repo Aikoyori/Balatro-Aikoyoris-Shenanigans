@@ -307,6 +307,9 @@ end
 AKYRS.get_ranks_freq_from_cards = function(listofcards)
     
     local wordArray = {}
+    for j,rnk in pairs(SMODS.Ranks) do
+        wordArray[j] = 0
+    end
     for i,v in ipairs(listofcards) do
         if not SMODS.has_no_rank(v) then
             local w = v:get_id()

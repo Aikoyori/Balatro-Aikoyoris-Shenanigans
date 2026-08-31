@@ -477,8 +477,16 @@ SMODS.DynaTextEffect {
 SMODS.DynaTextEffect {
     key = "snaking_shake",
     func = function (dynatext, index, letter)
-        letter.offset.x = math.sin((G.TIMERS.REAL + index) * 4.395) * 11 + math.sin((G.TIMERS.REAL * 1451.15 + index * 53.415) * 7.95) * 5
-        letter.offset.y = math.cos((G.TIMERS.REAL + index) * 4.395) * 11 + math.cos((G.TIMERS.REAL * 53.15 + index * 1451.415) * 7.95) * 5
+        letter.offset.x = math.sin((G.TIMERS.REAL * 3.122 + index * 2.178) * 1.895) * 5.12 + math.sin((G.TIMERS.REAL * 1451.15 + index * 53.415) * 10.295) * 3.3
+        letter.offset.y = math.cos((G.TIMERS.REAL * 3.122 + index * 2.178) * 1.895) * 5.12 + math.cos((G.TIMERS.REAL * 53.15 + index * 1451.415) * 10.295) * 3.3
+    end
+}
+SMODS.DynaTextEffect {
+    key = "violent_shake",
+    func = function (dynatext, index, letter)
+        math.randomseed(math.floor(G.TIMERS.REAL * 15 + index * 3.45) / 15)
+        letter.offset.x = math.random() * 12.3
+        letter.offset.y = math.random() * 12.3
     end
 }
 SMODS.DynaTextEffect {

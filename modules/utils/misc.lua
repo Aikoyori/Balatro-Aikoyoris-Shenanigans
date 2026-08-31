@@ -2012,11 +2012,20 @@ function AKYRS.button_enable_func( e , config )
     end
 end
 
-function AKYRS.force_end_round(card)
+function AKYRS.force_end_round(no_draw_to_deck)
     AKYRS.simple_event_add(function ()
-        G.AKYRS_FORCED_END_ROUND = true
+
+        if G.STATE ~= G.STATES.SELECTING_HAND then
+            return true
+        end
         end_round()
-        G.STATE = G.STATES.ROUND_EVAL
+        if not no_draw_to_deck then
+            G.FUNCS.draw_from_hand_to_deck()
+            G.FUNCS.draw_from_discard_to_deck()
+        end
+        G.STATE = G.STATES.HAND_PLAYED
+        G.STATE_COMPLETE = true
+        end_round()
         return true
     end)
 end

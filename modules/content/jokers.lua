@@ -4265,12 +4265,7 @@ SMODS.Joker {
                 return true
             end)
         end
-        AKYRS.force_end_round(card)
-        AKYRS.simple_event_add(function ()
-            card:start_dissolve()
-            return true
-        end)
-        
+        AKYRS.force_end_round()
     end,
     rarity = 2,
     cost = 6,
@@ -4278,6 +4273,12 @@ SMODS.Joker {
         if context.end_of_round and context.game_over and card.ability.akyrs_pillow_saved then
             return {
                 saved = localize("k_akyrs_pillow_spicy"),
+                func = function()
+                    AKYRS.simple_event_add(function ()
+                        card:start_dissolve()
+                        return true
+                    end)
+                end
             }
         end
     end,
@@ -4314,8 +4315,54 @@ SMODS.Joker {
     calculate = function (self, card, context)
         if context.end_of_round and context.game_over and card.ability.akyrs_pillow_saved then
             return {
-                saved = localize("k_akyrs_pillow_spicy"),
+                saved = localize("k_akyr s_pillow_spicy"),
             }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = "shade_no_hokori",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 2, y = 9 },
+    pools = {  },
+    config = {
+        extras = {
+            rank = "???",
+        }
+    },
+    add_to_deck = function (self, card, initial, delay_sprites)
+        card.ability.extras.rank = pseudorandom_element(SMODS.Ranks, 'akyrs_shade_no_hokori_rank').key
+    end,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.rank == "???" and ("<"..localize("k_rank")..">") or localize(card.ability.extras.rank,"ranks"),
+            }
+        }
+    end,
+    rarity = 3,
+    cost = 6,
+    calculate = function (self, card, context)
+        if context.pre_discard and not context.hook then
+            return {
+                func = function ()
+                    if card.ability.extras.rank and SMODS.Ranks[card.ability.extras.rank]then
+                        local cards_filter = AKYRS.filter_table(context.full_hand, function (cd)
+                            return SMODS.Ranks[card.ability.extras.rank].id == cd:get_id() and cd:is_suit("Spades")
+                        end, true, true)
+                        local ph = G.FUNCS.get_poker_hand_info(context.full_hand)
+                        SMODS.upgrade_poker_hands{
+                            hands = { ph },
+                            level_up = 1
+                        }
+                    end
+
+                end
+            }
+        end
+        if context.after then
+            card.ability.extras.rank = pseudorandom_element(SMODS.Ranks, 'akyrs_shade_no_hokori_rank').key
         end
     end,
 }
@@ -4323,7 +4370,7 @@ SMODS.Joker {
 
 for j = 9, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 92 then
+        if i + j * 10 >= 94 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

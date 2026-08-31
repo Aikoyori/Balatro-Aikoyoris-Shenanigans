@@ -470,8 +470,11 @@ function end_round()
     local shouldNotEndRoundPuzzleBlind = G.GAME.current_round.advanced_blind and not G.GAME.aiko_puzzle_win and true or nil
     local shouldNotEndRoundMathDeck = G.GAME.akyrs_mathematics_enabled and not AKYRS.is_value_within_threshold(G.GAME.blind.chips,G.GAME.chips,G.GAME.akyrs_math_threshold)
 
-    
-    if ((shouldNotEndRoundPuzzleBlind or shouldNotEndRoundMathDeck) and (G.GAME.current_round.hands_left > 0)) or not G.AKYRS_FORCED_END_ROUND then
+    local should_not_end_round = not ((shouldNotEndRoundPuzzleBlind or shouldNotEndRoundMathDeck) and (G.GAME.current_round.hands_left > 0))
+    if G.AKYRS_FORCED_END_ROUND == true then
+        should_not_end_round = false
+    end
+    if (not should_not_end_round) then
         G.STATE = G.STATES.SELECTING_HAND
         G.STATE_COMPLETE = false
     else

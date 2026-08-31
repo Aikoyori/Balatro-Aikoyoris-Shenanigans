@@ -2011,3 +2011,36 @@ function AKYRS.button_enable_func( e , config )
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
     end
 end
+
+--- Binary search on a table list.
+--- Returns index of that item if found.
+---
+--- The `anchor` parameter defines the behavior when found the value.
+--- If set to left, it will try to keep going left.
+--- If set to right, it will try to keep going right.
+--- Useful for handling duplicates.
+---
+--- The function should return:
+--- - `<` 0 - move to right
+--- - `>` 0 - move to left
+--- - `=` 0 - stop unless anchor is specified, in that case it depends on surrounding values
+---
+--- @param left number
+--- @param right number
+--- @param search fun(index, ...): boolean
+--- @param anchor? 'l' | 'r'
+--- @param ... any
+--- @return number? index
+function AKYRS.binary_search(left, right, search, anchor, ...)
+	while left <= right do
+		local mid = math.floor((left + right) / 2)
+		local diff = search(mid, ...)
+		if diff > 0 or anchor == 'l' and diff == 0 and left < mid and search(mid-1, ...) == 0 then
+            right = mid - 1 -- to left
+		elseif diff < 0 or anchor == 'r' and diff == 0 and mid < right and search(mid+1, ...) == 0 then
+            left = mid + 1 -- to right
+		else
+            return mid
+        end
+	end
+end

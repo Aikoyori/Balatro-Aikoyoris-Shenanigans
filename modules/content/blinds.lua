@@ -2076,7 +2076,7 @@ SMODS.Blind{
             table.sort(hand, AKYRS.hand_sort_function)
             local s = AKYRS.word_hand_combine(hand)
             local hand_return, word_data = AKYRS.word_hand_search(s, hand, #s)
-            if not ((word_data or {}).valid) then
+            if not word_data then
             return {
                 debuff = true,
                 debuff_text = localize("k_akyrs_must_contain_word"),

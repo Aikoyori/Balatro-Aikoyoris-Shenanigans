@@ -108,10 +108,6 @@ elseif AKYRS.config.wildcard_behaviour == 4 then
     -- warn on unset: this should set pretend letters to that of the card
 end
 
-AKYRS.WORD_CHECKED = {
-
-}
-
 function AKYRS.word_hand_combine(hand_in, length)
     if not (((G.GAME.akyrs_character_stickers_enabled) or (G.GAME.akyrs_wording_enabled)) or AKYRS.word_blind()) then
     return {} end
@@ -155,18 +151,9 @@ function AKYRS.word_hand_search(word_hand, hand, length)
             return {}, {}
         end
     end
-    local wordData = {}
-    --print("CHECK TIME! FOR '"..word_hand_str.."' IS THE WORD")
-    if (AKYRS.WORD_CHECKED[word_hand_str]) then
-        --print("WORD "..word_hand_str.." IS IN MEMORY AND THUS SHOULD USE THAT")
-        wordData = AKYRS.WORD_CHECKED[word_hand_str]
-    else
-        --print("WORD "..word_hand_str.." IS NOT IN MEMORY ... CHECKING")
-        wordData = AKYRS.check_word(word_hand)
-        AKYRS.WORD_CHECKED[word_hand_str] = wordData
-    end
-    if wordData.valid then
-        G.GAME.aiko_current_word = wordData.word
+    local wordData = AKYRS.check_word(word_hand)
+    if wordData then
+        G.GAME.aiko_current_word = wordData
         local aiko_current_word_split = {}
         return {hand}, wordData
     else

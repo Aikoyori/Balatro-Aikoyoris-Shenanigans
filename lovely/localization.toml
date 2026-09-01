@@ -91,20 +91,22 @@ position = "before"
 payload = """
 if card then
     if card.akyrs_judgement and (AKYRS.is_life_enabled() or card.akyrs_collection_judgement) then
-        local akyrs_judgement = AKYRS.Judgements[card.akyrs_judgement]
-        if akyrs_judgement then
-            local t = { key = card.akyrs_judgement..("_"..AKYRS.get_life_mode()), set = 'Judgement' }
-            if card.akyrs_collection_judgement then
-                t = { key = card.akyrs_judgement.."_none", set = 'Judgement' }
+        if card.ability.set and AKYRS.life_sets[card.ability.set] then
+            local akyrs_judgement = AKYRS.Judgements[card.akyrs_judgement]
+            if akyrs_judgement then
+                local t = { key = card.akyrs_judgement..("_"..AKYRS.get_life_mode()), set = 'Judgement' }
+                if card.akyrs_collection_judgement then
+                    t = { key = card.akyrs_judgement.."_none", set = 'Judgement' }
+                end
+                local res = {}
+                if akyrs_judgement.loc_vars and type(akyrs_judgement.loc_vars) == 'function' then
+                    res = akyrs_judgement:loc_vars(info_queue, card) or {}
+                    t.vars = res.vars or {}
+                    t.key = res.key or t.key
+                    t.set = res.set or t.set
+                end
+                info_queue[#info_queue+1] = t
             end
-            local res = {}
-            if akyrs_judgement.loc_vars and type(akyrs_judgement.loc_vars) == 'function' then
-                res = akyrs_judgement:loc_vars(info_queue, card) or {}
-                t.vars = res.vars or {}
-                t.key = res.key or t.key
-                t.set = res.set or t.set
-            end
-            info_queue[#info_queue+1] = t
         end
     end
 end

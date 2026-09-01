@@ -4351,11 +4351,13 @@ SMODS.Joker {
                         local cards_filter = AKYRS.filter_table(context.full_hand, function (cd)
                             return SMODS.Ranks[card.ability.extras.rank].id == cd:get_id() and cd:is_suit("Spades")
                         end, true, true)
-                        local ph = G.FUNCS.get_poker_hand_info(context.full_hand)
-                        SMODS.upgrade_poker_hands{
-                            hands = { ph },
-                            level_up = 1
-                        }
+                        if #cards_filter > 0 then
+                            local ph = G.FUNCS.get_poker_hand_info(context.full_hand)
+                            SMODS.upgrade_poker_hands{
+                                hands = { ph },
+                                level_up = 1
+                            }
+                        end
                     end
 
                 end
@@ -4370,7 +4372,7 @@ SMODS.Joker {
 
 for j = 9, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 94 then
+        if i + j * 10 >= 93 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

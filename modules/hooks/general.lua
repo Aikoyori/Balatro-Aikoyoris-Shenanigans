@@ -1835,72 +1835,10 @@ function Back:apply_to_run()
     return c
 end
 
-local function compareFirstElement(a,b)
-    return a[1] < b[1]
+local function comparePriority(a,b)
+    return a.priority <= b.priority
 end
 
-local shufflingEverydayHook = CardArea.shuffle
-function CardArea:shuffle(_seed)
-    local r = shufflingEverydayHook(self, _seed)
-    if self == G.deck then
-        --print("everyday shuffling")
-        local priorityqueue = {}
-        local cardsPrioritised = {}
-        local cardsOther = {}
-        for d, joker in ipairs(G.jokers.cards) do
-            if (not joker.debuff and joker.ability.immutable) then
-                if (joker.ability.immutable.akyrs_priority_draw_suit) then
-                    priorityqueue[#priorityqueue+1] = {#G.jokers.cards - d + 1, "suit",joker.ability.immutable.akyrs_priority_draw_suit}
-                    --print(joker.ability.akyrs_priority_draw_suit)
-                end
-                if joker.ability.immutable.akyrs_priority_draw_rank then
-                    priorityqueue[#priorityqueue+1] = {#G.jokers.cards - d + 1, "rank",joker.ability.immutable.akyrs_priority_draw_rank}
-                    --print(joker.ability.akyrs_priority_draw_rank)
-                end
-                if joker.ability.immutable.akyrs_priority_draw_conditions == "Face Cards" then
-                    priorityqueue[#priorityqueue+1] = {#G.jokers.cards - d + 1, "face",true}
-                    --print(joker.ability.akyrs_priority_draw_conditions)
-                end
-            end
-        end
-        table.sort(priorityqueue,compareFirstElement)
-        local cards = self.cards
-        for i, k in ipairs(cards) do
-            local priority = 0
-            
-            for j, l in ipairs(priorityqueue) do
-                -- why did i need to do this
-                local r, r2 = pcall(function(k) return k:get_id() end,k)
-                if 
-                ((l[2] == "suit" and k:is_suit(l[3]) and not SMODS.has_no_suit(k))) or
-                ((l[2] == "rank" and 
-                type(k) == "table" and (
-                    r2 == 
-                    SMODS.Ranks[l[3]].id) 
-                    and 
-                    (not SMODS.has_no_rank(k)))) or
-                ((l[2] == "face" and k:is_face() == l[3]))
-                 then
-                    --print(k.base.name, l[1], l[2], l[3])
-                    priority = priority + l[1]
-                end
-            end
-
-            if priority > 0 then
-                cardsPrioritised[#cardsPrioritised+1] = {priority,k}
-            else
-                cardsOther[#cardsOther+1] = k
-            end
-        end
-        table.sort(cardsPrioritised,compareFirstElement)
-        for _, card in ipairs(cardsPrioritised) do
-            table.insert(cardsOther, card[2])
-        end
-        self.cards = cardsOther
-        self:set_ranks()
-    end
-    return r
-end
 
 
 local evalRnd = G.FUNCS.evaluate_round

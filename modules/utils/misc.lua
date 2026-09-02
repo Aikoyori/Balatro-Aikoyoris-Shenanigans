@@ -2029,3 +2029,19 @@ function AKYRS.force_end_round(no_draw_to_deck)
         return true
     end)
 end
+
+function AKYRS.where_self_in_scoring(card)
+    local total_cards = 0
+    local current = 0
+    for _, area in ipairs(SMODS.get_card_areas('jokers')) do
+        if area.cards then
+            for _, v in pairs(area.cards) do
+                total_cards = total_cards + 1
+                if v == card then
+                    current = total_cards
+                end
+            end
+        end
+    end
+    return current, total_cards
+end

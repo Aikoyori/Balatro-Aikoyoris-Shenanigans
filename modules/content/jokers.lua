@@ -1535,7 +1535,10 @@ SMODS.Joker{
             AKYRS.simple_event_add(function ()
                 if AKYRS.has_room(G.jokers) then
                     SMODS.add_card({ set = "Joker", key = "j_popcorn"})
-                    unlock_achievement("ach_akyrs_average_daily_scrandle")
+                    card.ability.extras.count = card.ability.extras.count + 1
+                    if card.ability.extras.count >= 5 then
+                        unlock_achievement("ach_akyrs_average_daily_scrandle")
+                    end
                 end
                 return true
             end,0)

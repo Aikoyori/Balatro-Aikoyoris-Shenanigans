@@ -4848,7 +4848,7 @@ return {
             ach_akyrs_thatll_be_5_wheat = "Fill your Joker slots with Emeralds",
             ach_akyrs_literally_cryptid = "Use Public Transport on cards with no ranks",
             ach_akyrs_div_0_math = "What did you think was going to happen?",
-            ach_akyrs_average_daily_scrandle = "Turn a Food Joker into a Popcorn",
+            ach_akyrs_average_daily_scrandle = "Get 5 Popcorns from Chicken Jockey",
         },
         blind_states={},
         akyrs_balancing_wizard = {

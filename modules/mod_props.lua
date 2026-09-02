@@ -417,7 +417,7 @@ SMODS.current_mod.extra_tabs = function ()
                               { n = G.UIT.T, config = { text = localize("k_akyrs_drmonty_help"), scale = 0.3, colour = G.C.WHITE } }
                             }
                           }),
-                          AKYRS.create_credits("akyrs_drmonty_credits", "@frostice482", "frostice482", 3.5, nil,
+                          AKYRS.create_credits(nil, "@frostice482", "frostice482", 3.5, nil,
                           {
                             n = G.UIT.R,
                             config = {},

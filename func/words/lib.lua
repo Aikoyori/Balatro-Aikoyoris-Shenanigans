@@ -141,7 +141,7 @@ end
 function AKYRS.check_word(word)
 	if type(word) == "table" then word = table.concat(word) end
 	local len = #word
-	if (!initstate(word)) then return { valid = false } end
+	if (not initstate(word)) then return { valid = false } end
 
 	local i
 	if state.wildcount > 0 then

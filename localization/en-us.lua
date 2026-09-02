@@ -4956,6 +4956,7 @@ return {
             k_akyrs_additional_art_by = "Featuring Arts by",
             k_akyrs_additional_help_by = "Additional Help",
             k_akyrs_drmonty_help = "for helping with balancing",
+            k_akyrs_frostice_help = "for helping with words optimization",
             k_akyrs_special_thanks = "Special Thanks",
             k_akyrs_cross_mods_creds = "Cross-Mod Art Credits",
             k_akyrs_please_dont_kill_me = "pleasedontkillmepleasedontkillmepleasedontkillme",

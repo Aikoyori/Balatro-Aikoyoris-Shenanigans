@@ -93,7 +93,7 @@ function Card:stop_drag()
             if area == G.hand or area == G.deck then
                 table.insert(G.playing_cards,self)
             end
-            AKYRS.draw_card(self.area, area, 1, 'up', nil, self ,0)
+            draw_card(self.area, area, 1, 'up', nil, self ,0)
             AKYRS.simple_event_add(
                 function ()
                     
@@ -112,9 +112,6 @@ function Card:stop_drag()
     if (G.hand and self.area and self.area == G.hand and G.STATE == G.STATES.SELECTING_HAND and AKYRS.full_hand_recalc())  then
         G.GAME.aikoyori_evaluation_value = 0
         self.area:parse_highlighted()
-    end
-    if G.deck and self.area and self.area == G.jokers and self.config.center_key == "j_akyrs_hibana" then
-        G.deck:shuffle()
     end
     if self.config.center_key == "j_akyrs_corkscrew" and self.area and self.area.cards then
         for _,cx in ipairs(self.area.cards) do

@@ -871,14 +871,7 @@ SMODS.Blind {
                         G.deck:shuffle("akyrs_periwinkle_shuffle")
                         return true
                     end, 1)
-                    for i = 1, math.min(G.hand.config.card_limit, #G.deck.cards) do
-                        AKYRS.simple_event_add(function ()
-                            local drawn_c = G.deck:remove_card()
-                            G.hand:emplace(drawn_c)
-                            play_sound('card1')
-                            return true
-                        end, 0.1)
-                    end
+                    SMODS.draw_cards(math.min(G.hand.config.card_limit, #G.deck.cards))
                 end
             }
         end

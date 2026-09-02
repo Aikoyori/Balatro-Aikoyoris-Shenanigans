@@ -964,9 +964,6 @@ SMODS.Joker{
     config = {
         immutable = {
             akyrs_cycler = 1,
-            akyrs_priority_draw_rank = "Ace",
-            akyrs_priority_draw_suit = nil,
-            akyrs_priority_draw_conditions = nil,
         },
     },
     set_ability = function (self, card, initial, delay_sprites)
@@ -988,26 +985,43 @@ SMODS.Joker{
         }
     end,
     calculate = function (self, card, context)
+        if context.akyrs_mod_card_draw and context.sort_area == G.deck then
+            local is_mod = false
+            for _, prio in ipairs(context.priorities) do
+                local cx = prio.card
+                local pos, tot = AKYRS.where_self_in_scoring(card)
+                local priority = (tot - pos) + 1
+                if card.ability.immutable.akyrs_cycler == 1 then
+                    if cx:get_id() == 14 then
+                        prio.priority = prio.priority * priority
+                        is_mod = true
+                    end
+                elseif card.ability.immutable.akyrs_cycler == 2 then
+                    if cx:is_face() then
+                        prio.priority = prio.priority * priority
+                        is_mod = true
+                    end
+                elseif card.ability.immutable.akyrs_cycler == 3 then
+                    if cx:is_suit("Hearts") then
+                        prio.priority = prio.priority * priority
+                        is_mod = true
+                    end
+                elseif card.ability.immutable.akyrs_cycler == 4 then
+                    if cx:get_id() == 5 then
+                        prio.priority = prio.priority * priority
+                        is_mod = true
+                    end
+                end
+            end
+            return {
+                priority_modified = is_mod,
+            }
+        end
         if ((context.end_of_round and context.main_eval) or context.forcetrigger) then
             if card.ability.immutable.akyrs_cycler ~= 1 and card.ability.immutable.akyrs_cycler ~= 2 and card.ability.immutable.akyrs_cycler ~= 3 and card.ability.immutable.akyrs_cycler ~= 4 then
                 card.ability.immutable.akyrs_cycler = 1
             end
-            card.ability.immutable.akyrs_priority_draw_rank = nil
-            card.ability.immutable.akyrs_priority_draw_suit = nil
-            card.ability.immutable.akyrs_priority_draw_conditions = nil
-            card.ability.immutable.akyrs_cycler = math.fmod(card.ability.immutable.akyrs_cycler,#(self.possible_table)) + 1
-            local curr = self.possible_table[card.ability.immutable.akyrs_cycler]
-            if curr then
-                if curr[2] == "Rank" then
-                    card.ability.immutable.akyrs_priority_draw_rank = curr[1]
-                end
-                if curr[2] == "Suit" then
-                    card.ability.immutable.akyrs_priority_draw_suit = curr[1]
-                end
-                if curr[2] == "Condition" then
-                    card.ability.immutable.akyrs_priority_draw_conditions = curr[1]
-                end
-            end
+            card.ability.immutable.akyrs_cycler = (card.ability.immutable.akyrs_cycler % 4) + 1
             return {
                 message = localize('k_akyrs_hibana_change')
             }
@@ -1015,29 +1029,9 @@ SMODS.Joker{
     end,
     add_to_deck = function (self, card, from_debuff)        
         card.ability.immutable.akyrs_cycler = math.floor(card.ability.immutable.akyrs_cycler)
-        card.ability.immutable.akyrs_priority_draw_rank = nil
-        card.ability.immutable.akyrs_priority_draw_suit = nil
-        card.ability.immutable.akyrs_priority_draw_conditions = nil
-        local curr = self.possible_table[card.ability.immutable.akyrs_cycler]
-        if curr then
-            if curr[2] == "Rank" then
-                card.ability.immutable.akyrs_priority_draw_rank = curr[1]
-            end
-            if curr[2] == "Suit" then
-                card.ability.immutable.akyrs_priority_draw_suit = curr[1]
-            end
-            if curr[2] == "Condition" then
-                card.ability.immutable.akyrs_priority_draw_conditions = curr[1]
-            end
-            if G.deck then
-                G.deck:shuffle()
-            end
-        end
     end,
     remove_from_deck = function (self, card, from_debuff)
-        if G.deck then
-            G.deck:shuffle()
-        end
+
     end,
     demicoloncompat = true,
     hpot_unbreedable = true,
@@ -4351,11 +4345,13 @@ SMODS.Joker {
                         local cards_filter = AKYRS.filter_table(context.full_hand, function (cd)
                             return SMODS.Ranks[card.ability.extras.rank].id == cd:get_id() and cd:is_suit("Spades")
                         end, true, true)
-                        local ph = G.FUNCS.get_poker_hand_info(context.full_hand)
-                        SMODS.upgrade_poker_hands{
-                            hands = { ph },
-                            level_up = 1
-                        }
+                        if #cards_filter > 0 then
+                            local ph = G.FUNCS.get_poker_hand_info(context.full_hand)
+                            SMODS.upgrade_poker_hands{
+                                hands = { ph },
+                                level_up = 1
+                            }
+                        end
                     end
 
                 end
@@ -4370,7 +4366,7 @@ SMODS.Joker {
 
 for j = 9, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 94 then
+        if i + j * 10 >= 93 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

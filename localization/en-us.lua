@@ -2803,20 +2803,30 @@ return {
                     },
                     {
                         "{E:akyrs_violent_shake}Will {C:attention,E:akyrs_violent_shake}let you know",
-                        "{E:akyrs_violent_shake}when a condition appears",
+                        "{E:akyrs_violent_shake}when it is possible to{E:akyrs_violent_shake,C:red} Proceed",
                     },
                 }
             },
             j_akyrs_shade_no_hokori = {
                 name = {
                     "{f:5}シェードの埃は延長",
-                    "SHADE by ZUTOMAYO",
+                    "{s:0.7}SHADE by ZUTOMAYO",
                 },
                 text = {
                     {
                         "Upgrades {C:attention}discarded{} Poker hand",
                         "if it contains at least one {C:attention}#1#{} of {C:spades}Spades",
                         "Rank changes every {C:attention}hand played",
+                    },
+                }
+            },
+            j_akyrs_superliminal = {
+                name = {
+                    "Superliminal",
+                },
+                text = {
+                    {
+                        "???",
                     },
                 }
             },

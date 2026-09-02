@@ -455,6 +455,12 @@ SMODS.DynaTextEffect {
     end
 }
 
+AKYRS.life_sets = {
+    Joker = true,
+    Enhanced = true,
+    Default = true,
+}
+
 SMODS.DynaTextEffect {
     key = "rainbow_wiggle",
     func = function (dynatext, index, letter)

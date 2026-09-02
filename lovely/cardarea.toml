@@ -189,3 +189,33 @@ end
 """
 overwrite = true
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = """    while n < #G.deck.cards and limit > 0 do"""
+position = "at"
+payload = """
+--[[
+while n < #G.deck.cards and limit > 0 do
+]]
+local is_mod, priorityqueue = AKYRS.sort_card_priority(G.deck)
+local cards_by_prio = G.deck.cards
+if is_mod then 
+    cards_by_prio = AKYRS.map(priorityqueue, function(pr) return pr.card end, true)
+end
+while n < #cards_by_prio and limit > 0 do
+"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = """        local card = G.deck.cards[#G.deck.cards-n]"""
+position = "after"
+payload = """
+card = cards_by_prio[#cards_by_prio-n]
+"""
+overwrite = true
+match_indent = true

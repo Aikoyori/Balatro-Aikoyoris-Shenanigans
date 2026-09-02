@@ -8,13 +8,6 @@ assert(SMODS.load_file("./modules/atlasses.lua"))()
 assert(SMODS.load_file("./modules/colours.lua"))()
 assert(SMODS.load_file("./modules/fonts.lua"))()
 --assert(SMODS.load_file("./func/numbers.lua"))()
-if AKYRS.config.full_dictionary then
-    assert(SMODS.load_file("./func/words/words.lua"))()
-    assert(SMODS.load_file("./func/words/bomb_prompts.lua"))()
-else
-    assert(SMODS.load_file("./func/words/words_reduced.lua"))()
-    assert(SMODS.load_file("./func/words/bomb_prompts_reduced.lua"))()
-end
 assert(SMODS.load_file("./func/words/puzzle_words.lua"))()
 assert(SMODS.load_file("./func/word_utils.lua"))()
 
@@ -101,6 +94,8 @@ assert(SMODS.load_file("./modules/compat/multiplayerspeedrun.lua"))()
 assert(SMODS.load_file("./modules/compat/blindside.lua"))()
 assert(SMODS.load_file("./modules/compat/tmj.lua"))()
 
+assert(SMODS.load_file("./func/words/lib.lua"))()
+assert(SMODS.load_file("./func/bomb_prompts/lib.lua"))()
 
 assert(SMODS.load_file("./modules/attribs.lua"))()
 

@@ -773,49 +773,7 @@ function AKYRS.UIDEF.words_run_info_tab()
                   button = "akyrs_check_word_btn",
                   label = { localize("k_akyrs_check_word_check") }
                 })
-              } },
-              not AKYRS.config.full_dictionary and { n = G.UIT.R, config = { align = "cm", padding = 0.05}, nodes = {
-                { n = G.UIT.C, config = { align = "cm", padding = 0.05}, nodes = 
-                  {
-                    {
-                      n = G.UIT.R, config = { align = "cm" }, nodes = {
-                        {
-                          n = G.UIT.T,
-                          config = {
-                            text = localize("k_akyrs_word_tab_reduced_tip_1"),
-                            scale = 0.3,
-                            colour = G.C.UI.TEXT_INACTIVE
-                          }
-                        }
-                      }
-                    },
-                    {
-                      n = G.UIT.R, config = { align = "cm" }, nodes = {
-                        {
-                          n = G.UIT.T,
-                          config = {
-                            text = localize("k_akyrs_word_tab_reduced_tip_2"),
-                            scale = 0.3,
-                            colour = G.C.UI.TEXT_INACTIVE
-                          }
-                        }
-                      }
-                    },
-                    {
-                      n = G.UIT.R, config = { align = "cm" }, nodes = {
-                        {
-                          n = G.UIT.T,
-                          config = {
-                            text = localize("k_akyrs_word_tab_reduced_tip_3"),
-                            scale = 0.3,
-                            colour = G.C.UI.TEXT_INACTIVE
-                          }
-                        }
-                      }
-                    },
-                  }
-                },
-              }} or nil,
+              } }
             },
           }
         },

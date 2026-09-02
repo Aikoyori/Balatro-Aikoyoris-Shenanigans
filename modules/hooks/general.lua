@@ -944,14 +944,7 @@ Also technically this crash saves you from bricked runs so thank me later :D
                 wordData.word = G.GAME.aiko_current_word
             end
         else
-            if (AKYRS.WORD_CHECKED[aiko_current_word_split]) then
-                --print("WORD "..word_hand_str.." IS IN MEMORY AND THUS SHOULD USE THAT")
-                wordData = AKYRS.WORD_CHECKED[aiko_current_word_split]
-            else
-                --print("WORD "..word_hand_str.." IS NOT IN MEMORY ... CHECKING")
-                wordData = AKYRS.check_word(aiko_current_word_split)
-                AKYRS.WORD_CHECKED[aiko_current_word_split] = wordData
-            end
+            wordData = AKYRS.check_word(aiko_current_word_split)
         end
 
 

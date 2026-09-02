@@ -108,111 +108,12 @@ elseif AKYRS.config.wildcard_behaviour == 4 then
     -- warn on unset: this should set pretend letters to that of the card
 end
 
-
-function AKYRS.get_dictionary()
-    return "AKYRS_WORDS"
-end
-
-
-function AKYRS._INTERNAL_check_word_coroutine()
-    local d = _G[AKYRS.get_dictionary()]
-    local word_to_check = {}
-    local wild_positions = {}
-    local wild_count = 0
-    local result = {}
-    local function backtrack(index) end 
-    --print("what")
-    repeat
-        word_to_check = word_to_check or AKYRS.CURRENT_WORD_CHECK
-        
-        if word_to_check ~= AKYRS.CURRENT_WORD_CHECK then
-            word_to_check = AKYRS.CURRENT_WORD_CHECK
-            goto reloop
-        end
-        
-        wild_positions = {}
-        wild_count = 0
-        
-
-        d = _G[AKYRS.get_dictionary()]
-        for i = 1, #word_to_check do
-            if word_to_check[i] == "#" then
-                wild_count = wild_count + 1
-                wild_positions[wild_count] = i
-            end
-        end
-
-
-        function backtrack(index)
-            if word_to_check ~= AKYRS.CURRENT_WORD_CHECK then
-                word_to_check = AKYRS.CURRENT_WORD_CHECK
-                return { cancel_calc = true, valid = false }
-            end
-            if index > wild_count then
-                local word_str = table.concat(word_to_check)
-                local firstletter = string.sub(word_str, 1, 3)
-                if firstletter and d[firstletter] and d[firstletter][word_str] and #word_str == #word_to_check then
-                    return { valid = true, word = word_str, valid_with_wildcard = true }
-                end
-                return nil
-            end
-
-            local pos = wild_positions[index]
-            for i = 1, #aiko_alphabets_no_wilds do
-                word_to_check[pos] = aiko_alphabets_no_wilds[i]
-                local result = backtrack(index + 1)
-                if result then return (result) end
-            end
-            word_to_check[pos] = "#"
-            return nil
-        end
-
-
-        -- If no wildcards, check directly
-        if wild_count == 0 then
-            local word_str = table.concat(word_to_check)
-            local firstletter = string.sub(word_str, 1,3)
-            coroutine.yield({ valid = firstletter and d[firstletter] and d[firstletter][word_str], word = firstletter and d[firstletter] and d[firstletter][word_str] and word_str or nil, no_wildcard = true })
-            goto reloop
-        end
-        result = (backtrack(1) or { valid = false, word = nil, backtrack_returned_nil = true })
-        if result and not result.cancel_calc then
-            coroutine.yield(result)
-        end
-        ::reloop::
-    until false
-end
-
-function AKYRS.start_check_word_coroutine()
-    
-    AKYRS.word_check_coroutine = coroutine.create(AKYRS._INTERNAL_check_word_coroutine)
-end
-
-AKYRS.start_check_word_coroutine()
-
-function AKYRS.check_word(str_arr_in)
-    if coroutine.status(AKYRS.word_check_coroutine) == "dead" then
-        AKYRS.start_check_word_coroutine()
-    end
-    
-    if type(str_arr_in) == "string" then
-        str_arr_in = AKYRS.split(str_arr_in)
-    end
-    AKYRS.CURRENT_WORD_CHECK = str_arr_in
-    local success, result = coroutine.resume(AKYRS.word_check_coroutine)
-    if success then
-        return result
-    else
-        return { valid = false, word = nil, coroutine_failed = true, coroutine_fail = result }
-    end
-end
-
 AKYRS.WORD_CHECKED = {
 
 }
 
 function AKYRS.word_hand_combine(hand_in, length)
-    if not (((G.GAME.akyrs_character_stickers_enabled) or (G.GAME.akyrs_wording_enabled)) or AKYRS.word_blind()) then 
+    if not (((G.GAME.akyrs_character_stickers_enabled) or (G.GAME.akyrs_wording_enabled)) or AKYRS.word_blind()) then
     return {} end
     local word_hand = {}
     local hand = AKYRS.shallow_indexed_table_copy(hand_in)
@@ -228,7 +129,7 @@ function AKYRS.word_hand_combine(hand_in, length)
         end
         for _, ltr in ipairs(AKYRS.word_splitter(alpha)) do
             table.insert(word_hand, ltr)
-        end 
+        end
     end
     if #word_hand ~= (length or #word_hand) then
         return {}
@@ -238,7 +139,7 @@ end
 
 function AKYRS.word_hand_search(word_hand, hand, length)
     local word_hand_str = table.concat(word_hand)
-    
+
     local all_wildcards = true
     for _, val in ipairs(word_hand) do
         if val ~= "#" then
@@ -254,21 +155,12 @@ function AKYRS.word_hand_search(word_hand, hand, length)
             return {}, {}
         end
     end
-    local wordData = {}
-    --print("CHECK TIME! FOR '"..word_hand_str.."' IS THE WORD")
-    if (AKYRS.WORD_CHECKED[word_hand_str]) then
-        --print("WORD "..word_hand_str.." IS IN MEMORY AND THUS SHOULD USE THAT")
-        wordData = AKYRS.WORD_CHECKED[word_hand_str]
-    else
-        --print("WORD "..word_hand_str.." IS NOT IN MEMORY ... CHECKING")
-        wordData = AKYRS.check_word(word_hand)
-        AKYRS.WORD_CHECKED[word_hand_str] = wordData
-    end
+    local wordData = AKYRS.check_word(word_hand)
     if wordData.valid then
         G.GAME.aiko_current_word = wordData.word
         local aiko_current_word_split = {}
         return {hand}, wordData
-    else 
+    else
         return {}, wordData
     end
 end
@@ -287,7 +179,7 @@ for i = 3, 45 do
             is_null = true
         })
     end
-    
+
     table.insert(AKYRS.words_hand, i.."-letter Word")
     SMODS.PokerHand {
         no_collection = true,
@@ -352,7 +244,7 @@ SMODS.PokerHand{
         { "", true, nil, akyrs_letter = "7", is_null = true},
     },
     evaluate = function(parts, hand_in)
-        if ((not G.GAME.akyrs_character_stickers_enabled) or (not G.GAME.akyrs_mathematics_enabled)) then 
+        if ((not G.GAME.akyrs_character_stickers_enabled) or (not G.GAME.akyrs_mathematics_enabled)) then
         return {} end
         local word_hand = {}
         local hand = AKYRS.shallow_indexed_table_copy(hand_in)
@@ -367,12 +259,12 @@ SMODS.PokerHand{
                 alpha = '★'
             end
             table.insert(word_hand, alpha)
-                
+
         end
-        
+
         local expression = table.concat(word_hand)
-        
-        
+
+
         local status, value = pcall(AKYRS.MathParser.solve,AKYRS.MathParser,expression)
         if not status or #hand < 1 then return {} end
         G.GAME.aikoyori_evaluation_value = value
@@ -398,7 +290,7 @@ SMODS.PokerHand{
         { "", true, nil, akyrs_letter = "5", is_null = true},
     },
     evaluate = function(parts, hand_in)
-        if ((not G.GAME.akyrs_character_stickers_enabled) or (not G.GAME.akyrs_mathematics_enabled)) then 
+        if ((not G.GAME.akyrs_character_stickers_enabled) or (not G.GAME.akyrs_mathematics_enabled)) then
         return {} end
         local word_hand = {}
         local hand = AKYRS.shallow_indexed_table_copy(hand_in)
@@ -413,14 +305,14 @@ SMODS.PokerHand{
                 alpha = '★'
             end
             table.insert(word_hand, alpha)
-                
+
         end
-        
+
         local expression = table.concat(word_hand)
         local to_number = to_number or function(l) return l end
         local expression_with_chips = tostring(to_number(G.GAME.chips))..table.concat(word_hand)
-        
-        
+
+
         local status_check, value_fake = pcall(AKYRS.MathParser.solve,AKYRS.MathParser,expression)
         local status, value = pcall(AKYRS.MathParser.solve,AKYRS.MathParser,expression_with_chips)
         if status_check or #hand < 1 then return {} end
@@ -431,7 +323,7 @@ SMODS.PokerHand{
         if (G.STATE == G.STATES.HAND_PLAYED) then
 
             G.GAME.aikoyori_evaluation_value = value
-           
+
         end
         return {hand}
     end,
@@ -449,7 +341,7 @@ SMODS.PokerHand{
         { "", true, nil, akyrs_letter = "7", is_null = true},
     },
     evaluate = function(parts, hand_in)
-        if ((not G.GAME.akyrs_character_stickers_enabled) or (not G.GAME.akyrs_mathematics_enabled)) then 
+        if ((not G.GAME.akyrs_character_stickers_enabled) or (not G.GAME.akyrs_mathematics_enabled)) then
         return {} end
         local word_hand = {}
         local hand = AKYRS.shallow_indexed_table_copy(hand_in)
@@ -464,9 +356,9 @@ SMODS.PokerHand{
                 alpha = '★'
             end
             table.insert(word_hand, alpha)
-                
+
         end
-        
+
         local expression = table.concat(word_hand)
         local parts = {}
         for part in expression:gmatch("[^=]+") do
@@ -592,9 +484,9 @@ function AKYRS.get_multi_flush(hand)
     local counted_cards = {}
     local four_fingers = SMODS.four_fingers('flush')
     local suits = SMODS.Suit.obj_buffer
-    if #hand < four_fingers then 
+    if #hand < four_fingers then
         --print("asd")
-        return ret 
+        return ret
     else
         for j = 1, #suits do
             local t = {}
@@ -603,12 +495,12 @@ function AKYRS.get_multi_flush(hand)
             for i=1, #hand do
                 local card = hand[i]
                 if not AKYRS.is_in_table(counted_cards, card) then
-                    if card:is_suit(suit, nil, true) then 
+                    if card:is_suit(suit, nil, true) then
                         --print("suit found "..suit)
-                        flush_count = flush_count + 1;  
-                        t[#t+1] = card 
+                        flush_count = flush_count + 1;
+                        t[#t+1] = card
                         table.insert(counted_cards, card)
-                    end 
+                    end
                 end
             end
             if flush_count >= four_fingers then
@@ -672,7 +564,7 @@ SMODS.PokerHand {
             for _, card in ipairs(part) do
                 if not AKYRS.is_in_table(cards_counted, card) then
                     table.insert(cards_counted, card)
-                else 
+                else
                     return {}
                 end
             end
@@ -710,7 +602,7 @@ SMODS.PokerHand {
                 if not AKYRS.is_in_table(cards_counted, card) then
                     count = count + 1
                     table.insert(cards_counted, card)
-                else 
+                else
                     return {}
                 end
                 if count >= SMODS.four_fingers('flush') * 2 then
@@ -750,7 +642,7 @@ SMODS.PokerHand {
             for _, card in ipairs(part) do
                 if not AKYRS.is_in_table(cards_counted, card) then
                     table.insert(cards_counted, card)
-                else 
+                else
                     return {}
                 end
             end
@@ -761,8 +653,8 @@ SMODS.PokerHand {
 
 SMODS.PokerHandPart {
     key = 'doublestraight',
-    func = function(hand) return 
-        get_straight(hand, SMODS.four_fingers('straight') * 2, SMODS.shortcut(), SMODS.wrap_around_straight()) 
+    func = function(hand) return
+        get_straight(hand, SMODS.four_fingers('straight') * 2, SMODS.shortcut(), SMODS.wrap_around_straight())
     end
 }
 
@@ -819,7 +711,7 @@ SMODS.PokerHand {
                 if not AKYRS.is_in_table(gx, card) then
                     count = count + 1
                     table.insert(gx, card)
-                else 
+                else
                     return {}
                 end
                 if count >= SMODS.four_fingers('flush') * 2 then

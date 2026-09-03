@@ -4458,9 +4458,34 @@ SMODS.Joker {
     end
 }
 
+SMODS.Joker {
+    key = "darekanuitekure",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 5, y = 9 },
+    pools = {  },
+    config = {
+    },
+    rarity = 2,
+    cost = 6,
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                
+            },
+        }
+    end,
+    calculate = function (self, card, context)
+        
+    end
+}
+
 for j = 9, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 95 then
+        if i + j * 10 >= 96 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

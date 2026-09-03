@@ -2851,6 +2851,19 @@ return {
                     },
                 }
             },
+            j_akyrs_darekanuitekure = {
+                name = {
+                    "{f:5}だれかぬいてくれ",
+                    "{s:0.8}DAREKANUITEKURE by NU{s:0.7}NU{s:0.6}NU{s:0.5}NU{s:0.4}NU{s:0.3}NU{s:0.2}NU{s:0.1}NU",
+                },
+                text = {
+                    {
+                        "{X:blind,C:white}X#1#{} Blind Size when {C:attention}entering blind",
+                        "Gain {C:money}$#2#{} at the end of round",
+                        "Plus {C:money}$#3#{} per hands {C:attention}played{} to beat the blind",
+                    },
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {
@@ -5171,6 +5184,7 @@ return {
             k_akyrs_cloud_card_tally = "Cloud Cards",
             k_akyrs_cloud_card_tally_buffed = "Cloudy Day",
             k_akyrs_desert_money = "Desert Well",
+            k_akyrs_darekanuitekure_cash = "DAREKANUITEKURE~",
 
             k_akyrs_not_used = "Not used",
             k_akyrs_used = "Used",

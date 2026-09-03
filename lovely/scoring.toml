@@ -46,13 +46,12 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
-pattern = """    for k, v in ipairs(G.playing_cards) do
-        v.ability.forced_selection = nil
-    end
-    
-    table.sort(G.hand.highlighted, function(a,b) return a.T.x < b.T.x end)"""
-position = "after"
+pattern = """    table.sort(G.hand.highlighted, function(a,b) return a.T.x < b.T.x end)
+
+    G.E_MANAGER:add_event(Event({"""
+position = "before"
 payload = """
+local aikoshen_prevent_dupe_patch = table.sort(G.hand.highlighted, function(a,b) return a.T.x < b.T.x end)
 local held_cards = AKYRS.filter_table(G.hand.cards, function (cd)
     return not cd.highlighted
 end,true,true)

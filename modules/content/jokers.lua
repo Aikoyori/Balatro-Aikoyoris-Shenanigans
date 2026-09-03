@@ -4423,7 +4423,7 @@ SMODS.Joker {
     pools = {  },
     config = {
     },
-    rarity = 2,
+    rarity = 3,
     cost = 6,
     config = {
         extras = {
@@ -4465,21 +4465,50 @@ SMODS.Joker {
     pools = {  },
     config = {
     },
-    rarity = 2,
-    cost = 6,
+    rarity = 1,
+    cost = 7,
     config = {
         extras = {
+            blindsize = 2,
+            dollar_award = 5,
+            dollar_addition_per = 2,
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                
+                card.ability.extras.blindsize,
+                card.ability.extras.dollar_award,
+                card.ability.extras.dollar_addition_per,
             },
         }
     end,
     calculate = function (self, card, context)
-        
+        if context.setting_blind then
+            return {
+                xblindsize = card.ability.extras.blindsize
+            }
+        end
+        if context.modify_final_cashout then
+            return {
+                modify = card.ability.extras.dollar_award + card.ability.extras.dollar_addition_per * G.GAME.current_round.hands_played,
+                cashout_row = { 
+                    name = 'custom_akyrs_dareanuitekure', 
+                    pitch = 0.95,
+                    bonus = true,
+                    text_scale = 0.5,
+                    text = localize("k_akyrs_darekanuitekure_cash"),
+                    text_colour = G.C.MONEY,
+                }
+            }
+        end
+    end,
+    remove_from_deck = function (self, card, from_debuff)
+        if G.GAME.blind.in_blind then
+            SMODS.calculate_effect({
+                xblindsize = 1 / card.ability.extras.blindsize
+            }, card)
+        end
     end
 }
 

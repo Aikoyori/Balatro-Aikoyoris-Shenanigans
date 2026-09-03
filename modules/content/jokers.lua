@@ -4416,9 +4416,51 @@ SMODS.Joker {
     end,
 }
 
+SMODS.Joker {
+    key = "superliminal",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 4, y = 9 },
+    pools = {  },
+    config = {
+    },
+    rarity = 2,
+    cost = 6,
+    config = {
+        extras = {
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                
+            },
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.akyrs_pre_play then
+            return {
+                func = function ()
+                    local face_downs = AKYRS.filter_table(context.akyrs_pre_play_cards, function (c1, i)
+                        return c1.facing == 'back'
+                    end, true, true)
+                    local face_ups = AKYRS.filter_table(context.akyrs_pre_play_cards, function (c1, i)
+                        return c1.facing == 'front' and not SMODS.has_no_rank(c1) and not SMODS.has_no_suit(c1)
+                    end, true, true)
+                    if #face_ups > 0 and #face_downs > 0 then
+                        AKYRS.do_things_to_card(face_downs, function (_card, index)
+                            local face_up_choice = pseudorandom_element(face_ups, "akyrs_superliminal_face_up_picks")
+                            SMODS.change_base(_card, face_up_choice.base.suit, face_up_choice.base.value )
+                        end)
+                    end
+                end
+            }
+        end
+    end
+}
+
 for j = 9, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 94 then
+        if i + j * 10 >= 95 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

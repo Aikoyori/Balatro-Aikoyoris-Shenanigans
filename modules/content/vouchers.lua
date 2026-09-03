@@ -4,8 +4,8 @@ SMODS.Voucher {
     cost = 8,
     config = {
         extras = {
-            addentum_hand = 1
-            addentum = 2
+            addentum_hand = 1,
+            addentum = 2,
         }
     },
     loc_vars = function (self, info_queue, card)
@@ -67,8 +67,8 @@ SMODS.Voucher {
     requires = { "v_akyrs_alphabet_soup" },
     config = {
         extras = {
-            addentum_hand = 1
-            addentum = 2
+            addentum_hand = 1,
+            addentum = 2,
         }
     },
     loc_vars = function (self, info_queue, card)

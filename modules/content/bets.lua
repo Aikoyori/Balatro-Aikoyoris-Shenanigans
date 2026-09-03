@@ -269,7 +269,7 @@ AKYRS.Bet {
     end,
     redeem = function (self, card) 
         local candidates = AKYRS.filter_table(G.jokers.cards, function (c)
-            return not SMODS.is_eternal(c)
+            return not SMODS.is_eternal(c) and c.abiility.set == "Joker"
         end,true, true)
         local target_joker = pseudorandom_element(candidates, "akyrs_bet_ghastly_limelight_pick")
         local other_jokers = AKYRS.filter_table(G.jokers.cards, function (c)
@@ -281,7 +281,9 @@ AKYRS.Bet {
         AKYRS.do_things_to_card(other_jokers, function (_card, index)
             local key = SMODS.poll_object{ type = sets, rarities = {rarity}, allow_legendaries = true }
             _card.ability.misprinted = nil
+            _card:remove_from_deck()
             _card:set_ability(G.P_CENTERS[key])
+            _card:add_to_deck()
         end)
     end,
     unredeem = function (self, card) 

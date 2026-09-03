@@ -2843,7 +2843,11 @@ return {
                 },
                 text = {
                     {
-                        "???",
+                        "Each played {C:attention}face down{} card's rank and suit are",
+                        "{C:attention}converted{} to a random played {C:attention}face up{}",
+                        "card's rank and suit {C:attention}before{} scoring",
+                        "{C:inactive}(Does nothing if there are no face up/down cards){}",
+                        "{C:inactive,s:0.8}Perception IS in fact Reality.{}",
                     },
                 }
             },
@@ -4276,8 +4280,8 @@ return {
                 text={
                     "{C:attention}Letters{} appear on playing cards",
                     "Words can be made with playing cards",
-                    "{C:attention}+#2#{} Hand Size"
-                    "{C:akyrs_playable}+#1#{} Card Selection"
+                    "{C:attention}+#2#{} Hand Size",
+                    "{C:akyrs_playable}+#1#{} Card Selection",
                 },
             },
             v_akyrs_crossing_field={
@@ -4285,8 +4289,8 @@ return {
                 text={
                     "{C:attention}Letters{} give {C:mult}Mult{}",
                     "based on their {C:attention}Scrabble value{}",
-                    "{C:attention}+#2#{} Hand Size"
-                    "{C:akyrs_playable}+#1#{} Card Selection"
+                    "{C:attention}+#2#{} Hand Size",
+                    "{C:akyrs_playable}+#1#{} Card Selection",
                 },
             },
             v_akyrs_banquet={

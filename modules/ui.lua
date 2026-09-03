@@ -1138,3 +1138,19 @@ function AKYRS.dynatext_prefab(args)
   { { n = G.UIT.O, config = { object = dynatext } } } }
 end
 
+
+function AKYRS.link_code_ui( code, box_colour, box_text_colour, local_text_col)
+    return 
+    { n = G.UIT.R, config = { align = "cm", padding = 0.1 }, nodes = {
+        { n = G.UIT.C, config = { align = "cm", }, nodes = {
+            {
+                n = G.UIT.T, config = {scale = 0.3, text = localize('k_akyrs_link_code'), colour = local_text_col or G.C.UI.TEXT_DARK}
+            }
+        }},
+        { n = G.UIT.C, config = { padding = 0.1, colour = box_colour or G.C.UI.BACKGROUND_DARK, r = 0.1}, nodes = {
+            {
+                n = G.UIT.T, config = {scale = 0.3, text = code, colour = box_text_colour}
+            }
+        }},
+    }}
+end

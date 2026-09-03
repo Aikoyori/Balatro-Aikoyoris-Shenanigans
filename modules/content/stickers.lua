@@ -407,3 +407,38 @@ SMODS.Sticker{
         G.shared_stickers[self.key]:draw_shader('voucher', nil, card.ARGS.send_to_shader, nil, card.children.center,nil,nil)
     end
 }
+
+SMODS.Sticker{
+    key = "marked",
+    default_compat = true,
+    atlas = "aikoyoriStickers",
+    pos = {x = 0, y = 2},
+    rate = 0,
+    badge_colour = G.C.BLACK,
+    sets =  { ["Enhanced"] = true, ["Default"] = true },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                type(card.ability.akyrs_marked) == "string" and card.ability.akyrs_marked or "??????????"
+            },
+        }
+    end,
+    apply = function (self, card, val)
+        card.ability.akyrs_marked = val
+    end,
+    calculate = function(self, card, context)
+        if context.akyrs_mod_card_draw then
+            AKYRS.map(context.priorities, function (cx)
+                if cx.card == card then
+                    cx.priority = cx.priority * 16
+                end
+            end, true)
+            return {
+                priority_modified = true
+            }
+        end
+    end,
+    should_apply = function (self, card, center, area, bypass_reroll)
+        return false
+    end,
+}

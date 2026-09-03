@@ -1013,10 +1013,44 @@ for i = 97, 122 do -- a-z
     table.insert(validLetters, string.char(i))
 end
 
+local probihited_g_precedence = {
+    a = true,
+    e = true,
+    i = true,
+    o = true,
+    u = true,
+    ["4"] = true,
+    ["3"] = true,
+    ["1"] = true,
+    ["0"] = true,
+}
+
+-- for safety reason i cannot allow some strings to be generated so
+local function random_character_rules(previous, current)
+    if previous == current then
+        return false
+    end
+    -- prevents Gs from stacking
+    if (previous == "9" or string.lower(previous) == "g") and (current == "9" or string.lower(current) == "g") then
+        return false
+    end
+    -- prevents any vowels from preceding Gs
+    if (probihited_g_precedence[string.lower(previous)]) and (current == "9" or string.lower(current) == "g") then
+        return false
+    end
+    return true
+end
+
 function AKYRS.random_string(length)
     local stri = ""
+    local last_letter = ""
     for i = 1, length do
+        local letter = pseudorandom_element(validLetters, "akyrs_random_string")
+        while not random_character_rules(last_letter, letter) do
+            letter = pseudorandom_element(validLetters, "akyrs_random_string")
+        end
         stri = stri .. pseudorandom_element(validLetters, "akyrs_random_string")
+        last_letter = letter
     end
     return stri
 

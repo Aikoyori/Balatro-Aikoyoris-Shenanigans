@@ -1856,7 +1856,7 @@ return {
                     "{s:0.7}Hibana by DECO*27"
                 },
                 text = { 
-                    "{C:attention}#1#{} are first to be drawn",
+                    "{C:attention}#1#{} are prioritised to be drawn",
                     "{C:attention}Cycles{} through a list every round",
                     "{C:inactive}(Current Option : {C:white,X:dark_edition} #2# {C:inactive})"
                 }
@@ -2820,6 +2820,23 @@ return {
                     },
                 }
             },
+            j_akyrs_incredible_ink = {
+                name = {
+                    "Incredible Ink",
+                },
+                text = {
+                    {
+                        "{C:attention}Mark{} up to #1# cards to be prioritised",
+                        "when {C:attention}drawing{} from deck",
+                        "{C:attention}Removes{} any marks linked to this Joker",
+                        "from all cards when marking {C:attention}new{} cards",
+                    },
+                    {
+                        "To {C:attention}mark{} cards, use the {C:attention}USE{} button",
+                        "on this Joker",
+                    },
+                }
+            },
             j_akyrs_superliminal = {
                 name = {
                     "Superliminal",
@@ -3092,6 +3109,15 @@ return {
                     "{C:red}Cannot be discarded{}",
                     "{C:attention}Must be played{}",
                     "{C:red}Self-destructs{} after played",
+                },
+            },
+            akyrs_marked={
+                name="Marked",
+                text={
+                    "{C:attention}Prioritised{} when drawing from deck",
+                    "Sticker is {C:attention}removed{} when",
+                    "{C:attention}linked{} Incredible Ink is removed",
+                    "Link Code: {C:white,X:blind} #1# {}",
                 },
             },
             akyrs_concealed={
@@ -5173,6 +5199,7 @@ return {
             k_akyrs_enchantment_none="Allows multiple abilities to be added",
             k_akyrs_enchantment_none_blank="None :(",
             k_akyrs_edge_prism="<PRISM>",
+            k_akyrs_link_code="Link Code: ",
 
             f_akyrs_localize_enchantment_level = function (num_in)
                 if math.abs(num_in) > 3999 then
@@ -5224,6 +5251,7 @@ return {
             akyrs_latticed="Latticed",
             akyrs_sus="Sus",
             akyrs_sale="90% Sale",
+            akyrs_marked="Marked",
             akyrs_carmine_seal="Carmine Seal",
             akyrs_neon_seal="Neon Seal",
             akyrs_twin_seal="Twin Seal",

@@ -993,22 +993,22 @@ SMODS.Joker{
                 local priority = (tot - pos) + 1
                 if card.ability.immutable.akyrs_cycler == 1 then
                     if cx:get_id() == 14 then
-                        prio.priority = prio.priority * priority
+                        prio.priority = prio.priority + priority
                         is_mod = true
                     end
                 elseif card.ability.immutable.akyrs_cycler == 2 then
                     if cx:is_face() then
-                        prio.priority = prio.priority * priority
+                        prio.priority = prio.priority + priority
                         is_mod = true
                     end
                 elseif card.ability.immutable.akyrs_cycler == 3 then
                     if cx:is_suit("Hearts") then
-                        prio.priority = prio.priority * priority
+                        prio.priority = prio.priority + priority
                         is_mod = true
                     end
                 elseif card.ability.immutable.akyrs_cycler == 4 then
                     if cx:get_id() == 5 then
-                        prio.priority = prio.priority * priority
+                        prio.priority = prio.priority + priority
                         is_mod = true
                     end
                 end
@@ -2585,11 +2585,7 @@ SMODS.Joker {
         return {
             vars = {card.ability.extras.xc},
             main_end = {
-                { n = G.UIT.R, config = { padding = 0.1, colour = G.C.ORANGE, r = 0.1}, nodes = {
-                    {
-                        n = G.UIT.T, config = {scale = 0.3, text = card.ability.extras.link}
-                    }
-                }}
+                AKYRS.link_code_ui(card.ability.extras.link, G.C.ORANGE)
             }
         }
     end,
@@ -2618,7 +2614,7 @@ SMODS.Joker {
     cost = 9,
     config = {
         extras = {
-            link = "?????",
+            link = "??????????",
             xc = 2.5
         }
     },
@@ -2648,11 +2644,7 @@ SMODS.Joker {
         return {
             vars = { card.ability.extras.xm },
             main_end = {
-                { n = G.UIT.R, config = { padding = 0.1, colour = G.C.BLUE, r = 0.1}, nodes = {
-                    {
-                        n = G.UIT.T, config = {scale = 0.3, text = card.ability.extras.link}
-                    }
-                }}
+                AKYRS.link_code_ui(card.ability.extras.link, G.C.BLUE)
             }
         }
     end,
@@ -2668,7 +2660,7 @@ SMODS.Joker {
     cost = 9,
     config = {
         extras = {
-            link = "?????",
+            link = "??????????",
             xm = 2.5,
         }
     },
@@ -4366,10 +4358,67 @@ SMODS.Joker {
     end,
 }
 
+SMODS.Joker {
+    key = "incredible_ink",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 3, y = 9 },
+    pools = {  },
+    config = {
+    },
+    rarity = 2,
+    cost = 5,
+    config = {
+        extras = {
+            link = "??????????",
+            max_hx = 2
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = { set = "Other", key = "akyrs_marked", vars = { card.ability.extras.link }}
+        return {
+            vars = {
+                card.ability.extras.max_hx
+            },
+            main_end = {
+                AKYRS.link_code_ui(card.ability.extras.link, G.C.BLACK)
+            }
+        }
+    end,
+    akyrs_joker_use_btn = true,
+    akyrs_joker_can_use = function (self, card)
+        return G.hand.highlighted and #G.hand.highlighted <= card.ability.extras.max_hx and #G.hand.highlighted > 0
+    end,
+    akyrs_joker_use = function (self, card)
+        AKYRS.map(G.playing_cards, function(cx) 
+            if cx.ability.akyrs_marked == card.ability.extras.link then
+                SMODS.Stickers.akyrs_marked:apply(cx, nil)
+                if cx.area == G.hand then
+                    cx:juice_up()
+                end
+            end
+        end, true)
+        AKYRS.do_things_to_card(G.hand.highlighted, function (_card, index)
+            SMODS.Stickers.akyrs_marked:apply(_card, card.ability.extras.link)
+        end)
+    end,
+    remove_from_deck = function (self, card, from_debuff)
+        AKYRS.map(G.playing_cards, function(cx) 
+            if cx.ability.akyrs_marked == card.ability.extras.link then
+                SMODS.Stickers.akyrs_marked:apply(cx, nil)
+                if cx.area == G.hand then
+                    cx:juice_up()
+                end
+            end
+        end, true)
+    end,
+    set_ability = function (self, card, initial, delay_sprites)
+        card.ability.extras.link = AKYRS.random_string(10)
+    end,
+}
 
 for j = 9, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 93 then
+        if i + j * 10 >= 94 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

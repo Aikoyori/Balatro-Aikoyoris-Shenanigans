@@ -4276,6 +4276,7 @@ return {
                 text={
                     "{C:attention}Letters{} appear on playing cards",
                     "Words can be made with playing cards",
+                    "{C:attention}+#2#{} Hand Size"
                     "{C:akyrs_playable}+#1#{} Card Selection"
                 },
             },
@@ -4284,6 +4285,7 @@ return {
                 text={
                     "{C:attention}Letters{} give {C:mult}Mult{}",
                     "based on their {C:attention}Scrabble value{}",
+                    "{C:attention}+#2#{} Hand Size"
                     "{C:akyrs_playable}+#1#{} Card Selection"
                 },
             },

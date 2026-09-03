@@ -4,13 +4,15 @@ SMODS.Voucher {
     cost = 8,
     config = {
         extras = {
+            addentum_hand = 1
             addentum = 2
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                card.ability.extras.addentum
+                card.ability.extras.addentum,
+                card.ability.extras.addentum_hand,
             }
         }
     end,
@@ -19,6 +21,7 @@ SMODS.Voucher {
         G.GAME.akyrs_wording_enabled = true
         SMODS.change_play_limit(card.ability.extras.addentum)
         SMODS.change_discard_limit(card.ability.extras.addentum)
+        G.hand:change_size(card.ability.extras.addentum_hand)
         for _,c in ipairs(G.playing_cards) do
             c:set_sprites(c.config.center,c.config.card)
         end
@@ -27,6 +30,7 @@ SMODS.Voucher {
         G.GAME.akyrs_character_stickers_enabled = false
         SMODS.change_play_limit(-card.ability.extras.addentum)
         SMODS.change_discard_limit(-card.ability.extras.addentum)
+        G.hand:change_size(-card.ability.extras.addentum_hand)
         G.GAME.akyrs_wording_enabled = false
         for _,c in ipairs(G.playing_cards) do
             c:set_sprites(c.config.center,c.config.card)
@@ -60,16 +64,18 @@ SMODS.Voucher {
     key = "crossing_field",
     atlas = 'aikoyoriVouchers', pos = { x = 3, y = 0 } ,
     cost = 12,
+    requires = { "v_akyrs_alphabet_soup" },
     config = {
         extras = {
-            addentum = 3
+            addentum_hand = 1
+            addentum = 2
         }
     },
-    requires = { "v_akyrs_alphabet_soup" },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                card.ability.extras.addentum
+                card.ability.extras.addentum,
+                card.ability.extras.addentum_hand,
             }
         }
     end,
@@ -77,11 +83,13 @@ SMODS.Voucher {
         G.GAME.akyrs_letters_mult_enabled = true
         SMODS.change_play_limit(card.ability.extras.addentum)
         SMODS.change_discard_limit(card.ability.extras.addentum)
+        G.hand:change_size(card.ability.extras.addentum_hand)
     end,
     unredeem = function (self, card) 
         G.GAME.akyrs_letters_mult_enabled = false
         SMODS.change_play_limit(-card.ability.extras.addentum)
         SMODS.change_discard_limit(-card.ability.extras.addentum)
+        G.hand:change_size(-card.ability.extras.addentum_hand)
     end,
     in_pool = function (self, args)
         return not G.GAME.akyrs_mathematics_enabled

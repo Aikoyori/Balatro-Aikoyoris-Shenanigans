@@ -88,6 +88,15 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
+    key = "aikoyoriBlindsChips3",
+    path = "aikoyoriBlindsChips3.png",
+    px = 34,
+    py = 34,
+    atlas_table = 'ANIMATION_ATLAS',
+    frames = 21,
+}
+
+SMODS.Atlas {
     key = "aikoyoriVouchers",
     path = "aikoyoriVouchers.png",
     px = 71,

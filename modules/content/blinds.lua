@@ -827,6 +827,37 @@ SMODS.Blind{
     end
 }
 
+SMODS.Blind{
+    key = "the_eject",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("c5565c"),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 3,},
+    pos = { x = 0, y = 5 },
+    debuff = {
+    },
+    config = {
+        extras = {
+            activated = false
+        }
+    },
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.hand_drawn and not blind.effect.extras.activated then
+                return {
+                    func = function ()
+                        G.hand.highlighted = SMODS.shallow_copy(G.hand.cards)
+                        G.FUNCS.discard_cards_from_highlighted(blind, true)
+                        blind.effect.extras.activated = true
+                        G.hand.highlighted = {}
+                    end
+                }
+            end
+        end
+    end
+}
+
 
 -- le finale bosse
 

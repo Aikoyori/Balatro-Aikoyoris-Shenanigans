@@ -638,6 +638,20 @@ return {
                     "#2# times",
                 }
             },
+            bl_akyrs_the_eject= {
+                name = "The Eject",
+                text = {
+                    "First hand drawn",
+                    "is discarded",
+                }
+            },
+            bl_akyrs_the_serial= {
+                name = "The Serial",
+                text = {
+                    "First hand drawn",
+                    "is discarded",
+                }
+            },
             bl_akyrs_ultima_lost_umbrella = {
                 name = "Lost Umbrella",
                 text = {

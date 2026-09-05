@@ -57,7 +57,7 @@ function G.FUNCS.akyrs_shop_btn_func(e)
   local shop = e.config.ref_table
   local shop_enabled = AKYRS.ShopPages[shop]:is_enabled()
   
-  if G.AKYRS_ACTIVE_SHOP ~= shop and G.STATE == G.STATES.SHOP and shop_enabled then
+  if G.AKYRS_ACTIVE_SHOP ~= shop and G.STATE == G.STATES.SHOP and shop_enabled and AKYRS.is_hud_slided then
     e.config.button = "akyrs_open_shop_window"
     e.config.colour = AKYRS.ShopPages[shop].button_colour
   else
@@ -128,12 +128,15 @@ function AKYRS.UIDEF.shift_hud_button()
     AKYRS.strings.shop_more_button = localize("k_akyrs_shop_panel_reveal")
   end
   return {n=G.UIT.ROOT, config = {align = "cm", padding = 0, colour = G.C.CLEAR}, nodes={
-      {n=G.UIT.C, config={align = "cm", r=0.1, colour = G.C.CLEAR, shadow = true, id = 'button_area', padding = 0.2}, nodes={
-        {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 0.1 ,padding = 0.1, r = 0.1, hover = true, colour = G.C.BOOSTER, button = "akyrs_shift_hud", shadow = true}, nodes={
+      {n=G.UIT.R, config={align = "cm", r=0.1, colour = G.C.CLEAR, shadow = true, id = 'button_area', padding = 0.2}, nodes={
+        {n=G.UIT.C, config={id = 'shift_hud_inner', align = "cm", minw = 0.1 ,padding = 0.1, r = 0.1, hover = true, colour = G.C.BOOSTER, button = "akyrs_shift_hud", shadow = true}, nodes={
+          {n=G.UIT.R, config={align = "cm", padding = 0.1, maxh = 1.8}, nodes={
+            {n=G.UIT.T, config={text='', scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true, vert = true, func = 'set_button_pip', focus_args = { button = 'leftstick', orientation = 'c' }}}
+          }},
           {n=G.UIT.R, config={align = "cm", padding = 0.1, maxh = 1.8}, nodes={
             {n=G.UIT.T, config={ref_table = AKYRS.strings, ref_value = 'shop_more_button', scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true, vert = true}}
           }},
-        }},        
+        }},
       }}
     }}
 end
@@ -152,7 +155,7 @@ function AKYRS.UIDEF.hud_underlay()
     ui_stuff[#ui_stuff+1] = 
           {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 4 ,padding = 0.05, r = 0.1, hover = true, colour = G.C.RED, button = "akyrs_shift_hud", func = "akyrs_close_hud_btn_func",  shadow = true, ref_table = {false}}, nodes={
             {n=G.UIT.R, config={align = "cm", padding = 0, maxw = 1.4}, nodes={
-              {n=G.UIT.T, config={text = localize('k_akyrs_shop_close'), scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
+              {n=G.UIT.T, config={text = localize('k_akyrs_shop_close'), scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true, }}
             }},
           }}
         

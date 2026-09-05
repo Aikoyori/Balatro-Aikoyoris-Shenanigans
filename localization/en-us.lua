@@ -3119,6 +3119,14 @@ return {
                     "{C:enhanced,s:1.2}(P.S. if you report this i will strap you on a rocket to the Oort Cloud)",
                 }
             },
+            akpop_bmm_nag = {
+                name = "Attention!",
+                text = {
+                    "It seems that you are using {C:attention}Balatro Mod Manager",
+                    "I recommend {C:attention}uninstalling{} it and use something like",
+                    "Gale, r2modman, Ingame Mod Manager, and others mod managers",
+                }
+            },
             akyrs_self_destructs={
                 name="Self-Destructive",
                 text={
@@ -4970,6 +4978,8 @@ return {
             k_akpop_download_aikoshen  = "Download stable version",
             k_akpop_open_mod_dir  = "Show Mods Folder",
             k_akpop_disable_aikoshen  = "Disable Mod",
+            k_akpop_why_no_bmm  = "Why not? (GitHub Issue)",
+            k_akpop_get_imm  = "Get Ingame Mod Manager",
 
             b_umbral_cards = "Umbral Cards",
             b_replicant_cards = "Replicant Cards",

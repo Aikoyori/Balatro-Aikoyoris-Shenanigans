@@ -5,6 +5,12 @@ AKPOP.aikoshen_loaded = false
 AKPOP.aikoshen_is_dev_ver = false
 AKPOP.aikoshen = SMODS.Mods.aikoyorisshenanigans
 
+
+AKPOP.is_mod_loaded = function(var)
+    if not var then return false end
+    return (SMODS.Mods[var] and SMODS.Mods[var].can_load) and true or false
+end
+
 if AKPOP.aikoshen then
     print("Aikoyori's Shenanigans version "..AKPOP.aikoshen.version)
     if not AKPOP.aikoshen.can_load then
@@ -90,7 +96,102 @@ if not AKPOP.aikoshen_loaded then
 
     local gmainmenuhook = Game.main_menu
     function Game:main_menu(chctx)
-        if not AKPOP.aikoshen_loaded then
+        if AKPOP.is_mod_loaded('lovely-compat-BMM-Compat') then
+            local uinodes = {}
+            local uinodes_text = {}
+            local key = 'akpop_bmm_nag'
+            localize{type = "descriptions", key = key, set = "Other", default_col = G.C.WHITE, nodes = uinodes, vars = {}, scale = 2}
+            localize{type = "name", key = key, set = "Other", default_col = G.C.WHITE, nodes = uinodes_text, vars = {}, scale = 2}
+            G.E_MANAGER:add_event(
+                Event{
+                    trigger = "after",
+                    delay = 0.1,
+                    func = function ()
+                        G.FUNCS.overlay_menu{
+                            definition = create_UIBox_generic_options({
+                                contents = {
+                                    {
+                                        n = G.UIT.R,
+                                        config = { align = "cr" },
+                                        nodes = {
+                                            UIBox_button({
+                                                label = { "x" },
+                                                minw = 0.5,
+                                                minh = 0.5,
+                                            }),
+                                        },
+                                    },
+                                    {
+                                        n = G.UIT.R,
+                                        config = { align = "cm" },
+                                        nodes = {transparent_multiline_text(uinodes_text)},
+                                    },
+                                    {
+                                        n = G.UIT.R,
+                                        config = { align = "cm" },
+                                        nodes = {transparent_multiline_text(uinodes)},
+                                    },
+                                    {
+                                        n = G.UIT.R,
+                                        config = { align = "cm", padding = 0.1 },
+                                        nodes = {
+                                            {
+                                                n = G.UIT.C,
+                                                config = { align = "cm" },
+                                                nodes = {
+                                                    UIBox_button({
+                                                        label = { localize("k_akpop_why_no_bmm") },
+                                                        button = 'akpop_open_link',
+                                                        shadow = 0,
+                                                        minw = 4,
+                                                        colour = G.C.GREEN,
+                                                        ref_table = {
+                                                            "https://github.com/skyline69/balatro-mod-manager/issues/400" 
+                                                        }
+                                                    }),
+                                                },
+                                            },
+                                            {
+                                                n = G.UIT.C,
+                                                config = { align = "cm" },
+                                                nodes = {
+                                                    UIBox_button({
+                                                        label = { localize("k_akpop_get_imm") },
+                                                        button = 'akpop_open_link',
+                                                        shadow = 0,
+                                                        minw = 4,
+                                                        colour = G.C.DARK_EDITION,
+                                                        ref_table = {
+                                                            "https://codeberg.org/frostice482/balatro-imm" 
+                                                        }
+                                                    }),
+                                                },
+                                            },
+                                            {
+                                                n = G.UIT.C,
+                                                config = { align = "cm" },
+                                                nodes = {
+                                                    UIBox_button({
+                                                        label = { localize("k_akpop_disable_aikoshen") },
+                                                        button = 'akpop_disable_aikoshen',
+                                                        minw = 4,
+                                                    }),
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                                no_back = true,
+                            }),
+                            config = {
+                                no_esc = true,
+                            }
+                        }
+                        return true
+                    end,
+                }
+            )
+        elseif not AKPOP.aikoshen_loaded then
             local uinodes = {}
             local uinodes_text = {}
             local key = "akpop_warning_stable_outdated_smods"

@@ -19,6 +19,9 @@ function G.FUNCS.akyrs_open_shop_window(e)
     if AKYRS.ShopPages[e.config.ref_table].show then
         AKYRS.ShopPages[e.config.ref_table]:show()
     end
+    if G.shop then
+      G.shop.alignment.offset.y = G.ROOM.T.y+11
+    end
     G.AKYRS_ACTIVE_SHOP = e.config.ref_table
     G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = AKYRS.ShopPages[e.config.ref_table].target_y or -5.5 
 end
@@ -28,6 +31,9 @@ function G.FUNCS.akyrs_close_shop_window(e)
     if AKYRS.ShopPages[e.config.ref_table].hide then
         AKYRS.ShopPages[e.config.ref_table]:hide()
     end
+    if G.shop then
+      G.shop.alignment.offset.y = -5.3
+    end
     G[e.config.ref_table].alignment.offset.y = 11
     G.AKYRS_ACTIVE_SHOP = nil
   end
@@ -35,6 +41,9 @@ end
 
 function G.FUNCS.akyrs_close_active_shop_window(e)
   if G.AKYRS_ACTIVE_SHOP then
+    if G.shop then
+      G.shop.alignment.offset.y = -5.3
+    end
     G[G.AKYRS_ACTIVE_SHOP].alignment.offset.y = 11
     if AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP].hide then
         AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP]:hide()
@@ -78,6 +87,7 @@ function AKYRS.close_button_prefab(shop)
       w = 1.5,
       h = 0.5,
       padding = 0.02,
+      focus_args = { snap_to = true, nav = "wide" },
       ref_table = shop,
       func = "akyrs_shop_close_btn_func",
       button = "akyrs_close_shop_window",
@@ -90,6 +100,24 @@ function AKYRS.attach_to_shop_sign(shop_sign)
     definition = AKYRS.UIDEF.shift_hud_button(),
       config = {align=('cli'), offset = {x=4.3,y=1.1},major = shop_sign}
   }
+end
+
+function G.FUNCS.akyrs_close_hud_btn_func(e)
+  AKYRS.button_enable_func(e, {
+    func = function (e)
+      return AKYRS.is_hud_slided
+    end,
+    button = 'akyrs_shift_hud'
+  })
+end
+
+function G.FUNCS.akyrs_more_less_hud_btn_func(e)
+  AKYRS.button_enable_func(e, {
+    func = function (e)
+      return G.STATE == G.STATES.SHOP
+    end,
+    button = 'akyrs_shift_hud'
+  })
 end
 
 function AKYRS.UIDEF.shift_hud_button()
@@ -122,7 +150,7 @@ function AKYRS.UIDEF.hud_underlay()
     local temp_col2 = G.C.DYN_UI.BOSS_DARK
 
     ui_stuff[#ui_stuff+1] = 
-          {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 4 ,padding = 0.05, r = 0.1, hover = true, colour = G.C.RED, button = "akyrs_shift_hud", shadow = true, ref_table = {false}}, nodes={
+          {n=G.UIT.R, config={id = 'shift_hud_inner', align = "cm", minw = 4 ,padding = 0.05, r = 0.1, hover = true, colour = G.C.RED, button = "akyrs_shift_hud", func = "akyrs_close_hud_btn_func",  shadow = true, ref_table = {false}}, nodes={
             {n=G.UIT.R, config={align = "cm", padding = 0, maxw = 1.4}, nodes={
               {n=G.UIT.T, config={text = localize('k_akyrs_shop_close'), scale = 1.2*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
             }},

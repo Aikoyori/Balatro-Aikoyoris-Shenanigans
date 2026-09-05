@@ -502,6 +502,7 @@ function AKYRS.end_shop_hooks(dt)
         end
     end
     G.FUNCS.akyrs_shift_hud(false)
+    if G.AKYRS_SHOP_OVERLAY then G.AKYRS_SHOP_OVERLAY:remove() G.AKYRS_SHOP_OVERLAY = nil end
 end
 
 function AKYRS.deal_with_leftover_uis(self) -- game

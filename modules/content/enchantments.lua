@@ -337,7 +337,7 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
     end,
     draw = function (card, scale_mod, rotate_mod)
         if card.children and card.children.center then
-            card.children.center:draw_shader('akyrs_enchanted',0, nil, self.ARGS.send_to_shader, card.children.center,nil, nil,nil,nil, 0.6)
+            card.children.center:draw_shader('akyrs_enchanted',0, nil, card.ARGS.send_to_shader, card.children.center,nil, nil,nil,nil, 0.6)
         end
     end,
     can_use = function (self, card)

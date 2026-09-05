@@ -2245,3 +2245,25 @@ function AKYRS.discards_from_deck(count, from_boss)
         end
     end
 end
+
+function AKYRS.force_update_h_popup(card)
+    if card.children.h_popup then card.children.h_popup:remove() card.children.h_popup = nil end
+    if not AKYRS.should_hide_ui() then
+        if not card.children.h_popup then 
+            card.ability_UIBox_table = card:generate_UIBox_ability_table()
+            card.config.h_popup = G.UIDEF.card_h_popup(card)
+            card.config.h_popup_config.instance_type = 'POPUP'
+            card.children.h_popup = UIBox{
+                definition = card.config.h_popup,
+                config = card.config.h_popup_config,
+            }
+            card.children.h_popup.states.collide.can = false
+            card.children.h_popup.states.drag.can = true
+            -- Fixes styled info_queue names
+            -- This ensures show_infotip runs just after the main hover box is created instead of being able to fall one frame after
+            if ((card.children.h_popup.UIRoot.children[1] or {}).config or {}).func == "show_infotip" then
+              G.FUNCS.show_infotip(card.children.h_popup.UIRoot.children[1])
+            end
+        end
+    end
+end

@@ -648,8 +648,21 @@ return {
             bl_akyrs_the_serial= {
                 name = "The Serial",
                 text = {
-                    "First hand drawn",
-                    "is discarded",
+                    "Discard from deck equal to",
+                    "half of cards drawn from deck",
+                }
+            },
+            bl_akyrs_the_parallel= {
+                name = "The Parallel",
+                text = {
+                    "All cards played must score",
+                }
+            },
+            bl_akyrs_the_wire= {
+                name = "The Wire",
+                text = {
+                    "All cards in first hand",
+                    "are debuffed",
                 }
             },
             bl_akyrs_ultima_lost_umbrella = {

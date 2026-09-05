@@ -2151,3 +2151,97 @@ function AKYRS.where_self_in_scoring(card)
     end
     return current, total_cards
 end
+
+function AKYRS.discards_from_deck(count, from_boss)    
+    stop_use()
+    G.CONTROLLER.interrupt.focus = true
+    
+
+    if G.CONTROLLER.focused.target and G.CONTROLLER.focused.target.area == G.hand then G.card_area_focus_reset = {area = G.hand, rank = G.CONTROLLER.focused.target.rank} end
+    SMODS.calculate_context({akyrs_pre_pre_discard = true, akyrs_pre_discard_cards = c2ds, hook = from_boss})
+    local maxc = math.min(count, G.deck.cards and #G.deck.cards or 0)
+    if maxc > 0 then 
+        
+        local c2ds = {}
+        for i=1, maxc do 
+            c2ds[#c2ds+1] = G.deck.cards[i]
+        end
+        local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(c2ds)
+
+        SMODS.displayed_hand = text
+        update_hand_text({immediate = true, nopulse = true, delay = 0}, {mult = 0, chips = 0, level = '', handname = ''})
+        for name, parameter in pairs(SMODS.Scoring_Parameters) do
+            update_hand_text({immediate = true, nopulse = true, delay = 0}, {[name] = parameter.default_value})
+        end
+        for i=1, maxc do
+            local c2d = G.deck.cards[i]
+            local effects = {}
+            SMODS.calculate_context({drawing_to_play_area = true, other_card = c2d, cardarea = G.deck, full_hand = c2ds, ignore_other_debuff = true}, effects)
+            local flags = SMODS.trigger_effects(effects, c2d)
+            if flags.remove_from_hand then
+                G.hand:remove_from_highlighted(c2d)
+            elseif flags.add_to_hand then
+                G.hand:add_to_highlighted(c2d)
+            end
+            if flags.return_to_hand and c2d.highlighted then
+                c2d.ability.return_to_hand = true
+            end
+        end
+        table.sort(G.hand.highlighted, function(a,b) return a.T.x < b.T.x end)
+        inc_career_stat('c_cards_discarded', maxc)
+        SMODS.calculate_context({pre_discard = true, full_hand = c2ds, hook = from_boss})
+        
+        -- TARGET: pre_discard
+        local cards = {}
+        local destroyed_cards = {}
+        for i=1, maxc do
+            local c2d = G.deck.cards[i]
+            c2d:calculate_seal({discard = true})
+            local removed = false
+            local effects = {}
+            SMODS.calculate_context({discard = true, other_card = c2d, full_hand = c2ds, ignore_other_debuff = true, hook = from_boss}, effects)
+            SMODS.trigger_effects(effects)
+            for _, eval in pairs(effects) do
+                if type(eval) == 'table' then
+                    for key, eval2 in pairs(eval) do
+                        if key == 'remove' or (type(eval2) == 'table' and eval2.remove) then removed = true end
+                    end
+                end
+            end
+            table.insert(cards, c2d)
+            if removed then
+                destroyed_cards[#destroyed_cards + 1] = c2d
+                if SMODS.shatters(c2d) then
+                    c2d:shatter()
+                else
+                    c2d:start_dissolve()
+                end
+            else 
+                c2d.ability.discarded = true
+                draw_card(G.deck, G.discard, i*100/maxc, 'down', false, c2d)
+            end
+            SMODS.calculate_context({akyrs_post_discard = true, hook = from_boss})
+
+            G.GAME.round_scores.cards_discarded.amt = G.GAME.round_scores.cards_discarded.amt + #cards
+            check_for_unlock({type = 'discard_custom', cards = cards})
+            if not from_boss then
+                if G.GAME.modifiers.discard_cost then
+                    ease_dollars(-G.GAME.modifiers.discard_cost)
+                end
+                ease_discard(-1)
+                G.GAME.current_round.discards_used = G.GAME.current_round.discards_used + 1
+                G.STATE = G.STATES.DRAW_TO_HAND
+                if Talisman then
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'immediate',
+                        func = function()
+                            if Talisman.scoring_coroutine then return false end 
+                            G.STATE_COMPLETE = false
+                            return true
+                        end
+                    }))                
+                end
+            end
+        end
+    end
+end

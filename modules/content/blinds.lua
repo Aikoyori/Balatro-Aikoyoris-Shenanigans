@@ -859,6 +859,93 @@ SMODS.Blind{
 }
 
 
+SMODS.Blind{
+    key = "the_serial",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("ffcb60"),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 3,},
+    pos = { x = 0, y = 6 },
+    debuff = {
+    },
+    config = {
+        extras = {
+            activated = false
+        }
+    },
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.hand_drawn then
+                return {
+                    func = function ()
+                        -- simulates a discard but it is from deck!
+                        AKYRS.discards_from_deck(math.floor(#context.hand_drawn) / 2, true)
+                    end
+                }
+            end
+        end
+    end
+}
+
+SMODS.Blind{
+    key = "the_parallel",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("80a343"),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 2,},
+    pos = { x = 0, y = 7 },
+    debuff = {
+    },
+    config = {
+        extras = {
+        }
+    },
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.debuff_hand then
+                return {
+                    debuff = #context.full_hand ~= #context.scoring_hand
+                }
+            end
+        end
+    end
+}
+
+SMODS.Blind{
+    key = "the_wire",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("e69859"),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 2,},
+    pos = { x = 0, y = 8 },
+    debuff = {
+    },
+    config = {
+        extras = {
+        }
+    },
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.debuff_card then
+                if G.GAME.current_round.hands_played == 0 then
+                    return {
+                        debuff = true
+                    }
+                end
+            end
+            if context.hand_drawn then
+                for _, cd in ipairs(G.playing_cards) do
+                    SMODS.recalc_debuff(cd)
+                end
+            end
+        end
+    end
+}
+
+
 -- le finale bosse
 
 

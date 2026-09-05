@@ -58,7 +58,7 @@ G.FUNCS.akpop_disable_aikoshen = function(e)
     SMODS.restart_game()
 end
 
-if not AKPOP.aikoshen_loaded then
+if not AKPOP.aikoshen_loaded or AKPOP.is_mod_loaded('lovely-compat-BMM-Compat') then
     local smods_loc_hook = SMODS.load_mod_localization
     function SMODS.load_mod_localization(paz, modid, depth)
 

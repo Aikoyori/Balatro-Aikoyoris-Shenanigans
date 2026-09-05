@@ -77,7 +77,7 @@ AKYRS.Currency{
 ---@param e {}
 --**e** Is the UIE that called this function
 G.FUNCS.akyrs_can_buy = function(e)
-    local currency = (e.config.ref_value or { currency = "curr_dollars"}).currency
+    local currency = (e.config.ref_value or e.config.ref_table.akyrs_currency or { currency = "curr_dollars"}).currency
     if AKYRS.Currencies[currency]:has_not_enough_money_check(e.config.ref_table.akyrs_special_cost) then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
@@ -100,7 +100,7 @@ end
 ---@param e {}
 --**e** Is the UIE that called this function
 G.FUNCS.akyrs_can_buy_and_use = function(e)
-    local currency = (e.config.ref_value or { currency = "curr_dollars"}).currency
+    local currency = (e.config.ref_value or e.config.ref_table.akyrs_currency or { currency = "curr_dollars"}).currency
     if AKYRS.Currencies[currency]:has_not_enough_money_check(e.config.ref_table.akyrs_special_cost) or (not e.config.ref_table:can_use_consumeable()) then
         e.UIBox.states.visible = false
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
@@ -120,7 +120,7 @@ end
 ---@param e {}
 --**e** Is the UIE that called this function
 G.FUNCS.akyrs_can_redeem = function(e)
-    local currency = (e.config.ref_value or { currency = "curr_dollars"}).currency
+    local currency = (e.config.ref_value or e.config.ref_table.akyrs_currency or { currency = "curr_dollars"}).currency
     if AKYRS.Currencies[currency]:has_not_enough_money_check(e.config.ref_table.akyrs_special_cost) then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
@@ -136,7 +136,7 @@ end
 ---@param e {}
 --**e** Is the UIE that called this function
 G.FUNCS.akyrs_can_open = function(e)
-    local currency = (e.config.ref_value or { currency = "curr_dollars"}).currency
+    local currency = (e.config.ref_value or e.config.ref_table.akyrs_currency or { currency = "curr_dollars"}).currency
     if AKYRS.Currencies[currency]:has_not_enough_money_check(e.config.ref_table.akyrs_special_cost) then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
@@ -148,8 +148,8 @@ end
 
 
 function G.FUNCS.akyrs_use_card(e)
-    local card = e.config.ref_value
-    local currency = (e.config.ref_value or { currency = "curr_dollars"}).currency
+    local card = e.config.ref_table
+    local currency = (e.config.ref_value or e.config.ref_table.akyrs_currency or { currency = "curr_dollars"}).currency
     e.config.ref_table.cost = 0
     AKYRS.Currencies[currency]:change_value(-e.config.ref_table.akyrs_special_cost)
     AKYRS.Currencies[currency]:transactional_sound()
@@ -157,7 +157,8 @@ function G.FUNCS.akyrs_use_card(e)
 end
 
 function G.FUNCS.akyrs_buy_from_shop(e)
-    local currency = (e.config.ref_value or { currency = "curr_dollars"}).currency
+    local currency = (e.config.ref_value or e.config.ref_table.akyrs_currency or { currency = "curr_dollars"}).currency
+    --print(e.config.ref_table.akyrs_special_cost, currency)
     if G.FUNCS.check_for_buy_space(e.config.ref_table) then
         e.config.ref_table.cost = 0
         AKYRS.Currencies[currency]:change_value(-e.config.ref_table.akyrs_special_cost)
@@ -172,6 +173,7 @@ function AKYRS.create_custom_shop_card_ui(card, args)
   local type, area = args.type, args.area
   local currency = args.currency or "curr_dollars"
   local curr_loc = (localize(currency, 'akyrs_currencies') or { prefix = "ERR? ", suffix = " ?"})
+  card.akyrs_currency = { currency = currency }
     G.E_MANAGER:add_event(Event({
       trigger = 'after',
       delay = 0.43,
@@ -202,7 +204,7 @@ function AKYRS.create_custom_shop_card_ui(card, args)
               {n=G.UIT.T, config={text = localize('b_buy'),colour = G.C.WHITE, scale = 0.5}}
           }}
         local t3 = {
-          n=G.UIT.ROOT, config = {id = 'buy_and_use', ref_table = card, ref_value = { currency = currency }, minh = 1.1, padding = 0.1, align = 'cr', colour = G.C.RED, shadow = true, r = 0.08, minw = 1.1, func = 'can_buy_and_use', button = 'buy_from_shop', hover = true, focus_args = {type = 'none'}}, nodes={
+          n=G.UIT.ROOT, config = {id = 'buy_and_use', ref_table = card, ref_value = { currency = currency }, minh = 1.1, padding = 0.1, align = 'cr', colour = G.C.RED, shadow = true, r = 0.08, minw = 1.1, func = 'akyrs_can_buy_and_use', button = 'buy_from_shop', hover = true, focus_args = {type = 'none'}}, nodes={
             {n=G.UIT.B, config = {w=0.1,h=0.6}},
             {n=G.UIT.C, config = {align = 'cm'}, nodes={
               {n=G.UIT.R, config = {align = 'cm', maxw = 1}, nodes={

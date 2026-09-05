@@ -1351,6 +1351,7 @@ function Card:save()
     c.debuffed_by_blind = self.debuffed_by_blind
     c.akyrs_judgement = self.akyrs_judgement
     c.akyrs_special_cost = self.akyrs_special_cost
+    c.akyrs_currency = self.akyrs_currency
     c.akyrs_enchantments = self.akyrs_enchantments
     c.akyrs_stored_enchantments = self.akyrs_stored_enchantments
     if self.akyrs_sulphur_card then
@@ -1369,6 +1370,7 @@ function Card:load(cardTable, other_card)
     self.debuffed_by_blind = cardTable.debuffed_by_blind
     self.akyrs_enchantments = cardTable.akyrs_enchantments
     self.akyrs_special_cost = cardTable.akyrs_special_cost
+    self.akyrs_currency = cardTable.akyrs_currency
     self.akyrs_stored_enchantments = cardTable.akyrs_stored_enchantments
 
     if cardTable.akyrs_sulphur_card then

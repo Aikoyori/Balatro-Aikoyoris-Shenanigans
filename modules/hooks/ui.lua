@@ -2182,6 +2182,21 @@ function create_tabs(args)
   return tabs_hook(args)
 end
 
+AKYRS.not_buy_or_use_set = {
+    Voucher = true,
+    Bet = true,
+    Booster = true,
+}
+
+AKYRS.redeemer_set = {
+    Voucher = true,
+    Bet = true,
+}
+
+AKYRS.opener_set = {
+    Booster = true,
+}
+
 local cfocusui = G.UIDEF.card_focus_ui
 function G.UIDEF.card_focus_ui(card)
     local ui = cfocusui(card)
@@ -2190,41 +2205,42 @@ function G.UIDEF.card_focus_ui(card)
     local tcnx, tcny = card.T.x + card.T.w/2 - G.ROOM.T.w/2, card.T.y + card.T.h/2 - G.ROOM.T.h/2
 
     local base_attach = ui:get_UIE_by_ID('ATTACH_TO_ME')
-
+    local no_more_attach = false
     --The card UI can have BUY, REDEEM, USE, and SELL buttons depending on the context of the card
-    if card.area == G.akyrs_life_shop and G.akyrs_life_shop then --Add a buy button
+    if card.area == G.akyrs_life_shop and G.akyrs_life_shop and not AKYRS.not_buy_or_use_set[card.ability.set] then --Add a buy button
         local buy_and_use = nil
         if card.ability.consumeable then 
         base_attach.children.buy_and_use = G.UIDEF.card_focus_button{
             card = card, parent = base_attach, type = 'buy_and_use',
-            func = 'can_buy_and_use', button = 'buy_from_shop', card_width = card_width
+            func = 'akyrs_can_buy_and_use', button = 'akyrs_use_card', card_width = card_width
         }
         buy_and_use = true
         end
         base_attach.children.buy = G.UIDEF.card_focus_button{
         card = card, parent = base_attach, type = 'buy',
-        func = 'can_buy', button = 'buy_from_shop', card_width = card_width, buy_and_use = buy_and_use
+        func = 'akyrs_can_buy', button = 'akyrs_buy_from_shop', card_width = card_width, buy_and_use = buy_and_use
         }
     end
-    --[[
-    if card.area == G.shop_vouchers and G.shop_vouchers then --Add a redeem button
+    if card.area == G.akyrs_life_shop and G.akyrs_life_shop and AKYRS.redeemer_set[card.ability.set] then --Add a redeem button
         base_attach.children.redeem = G.UIDEF.card_focus_button{
         card = card, parent = base_attach, type = 'buy',
-        func = 'can_redeem', button = 'redeem_from_shop', card_width = card_width
+        func = 'akyrs_can_redeem', button = 'redeem_from_shop', card_width = card_width
         }
+        no_more_attach = true
     end
-    if card.area == G.shop_booster and G.shop_booster then --Add a redeem button
+    if card.area == G.akyrs_life_shop and G.akyrs_life_shop and AKYRS.opener_set[card.ability.set]  then --Add a redeem button
         base_attach.children.redeem = G.UIDEF.card_focus_button{
         card = card, parent = base_attach, type = 'buy',
-        func = 'can_open', button = 'open_booster', card_width = card_width*0.85
+        func = 'akyrs_can_open', button = 'open_booster', card_width = card_width*0.85
         }
+        no_more_attach = true
     end
-    ]]
     if ((card.area == G.jokers and G.jokers) or ((card.area == G.consumables and G.consumables))) and (card.config.center.akyrs_joker_use_btn) then --Add a use button
         base_attach.children.use = G.UIDEF.card_focus_button{
         card = card, parent = base_attach, type = 'use',
         func = 'akyrs_can_use_special', button = 'akyrs_use_special', card_width = card_width
         }
+        no_more_attach = true
     end
     --[[
     if (card.area == G.pack_cards and G.pack_cards) and not card.ability.consumeable then --Add a use button

@@ -945,6 +945,40 @@ SMODS.Blind{
     end
 }
 
+SMODS.Blind{
+    key = "the_network",
+    dollars = 5,
+    mult = 1.3,
+    boss_colour = HEX("78c1c6"),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 4,},
+    pos = { x = 0, y = 9 },
+    debuff = {
+    },
+    config = {
+        extras = {
+        }
+    },
+    recalc_debuff = function (self, card, from_blind)
+        return card.ability.boss_must_be_played_immediately
+    end,
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.hand_drawn then
+                return {
+                    func = function()
+                        for i, c in ipairs(G.playing_cards) do
+                            SMODS.recalc_debuff(c)
+                            if c.area == G.hand then
+                                c.ability.boss_must_be_played_immediately = true
+                            end
+                        end
+                    end
+                }
+            end
+        end
+    end
+}
 
 -- le finale bosse
 

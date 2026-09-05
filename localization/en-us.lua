@@ -665,6 +665,13 @@ return {
                     "are debuffed",
                 }
             },
+            bl_akyrs_the_network= {
+                name = "The Network",
+                text = {
+                    "Cards not immediately played",
+                    "when drawn are debuffed",
+                }
+            },
             bl_akyrs_ultima_lost_umbrella = {
                 name = "Lost Umbrella",
                 text = {

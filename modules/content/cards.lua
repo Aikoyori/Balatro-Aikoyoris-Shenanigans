@@ -617,8 +617,8 @@ SMODS.Enhancement{
         }
     },
     loc_vars = function (self, info_queue, card)
-        local n1, d1 = SMODS.get_probability_vars(card,card.ability.extras.destroy_chance_n,card.ability.extras.destroy_chance_d, "akyrs_nightshade_card_break")
-        local n2, d2 = SMODS.get_probability_vars(card,card.ability.extras.spread_chance_n,card.ability.extras.spread_chance_d, "akyrs_nightshade_card_spread")
+        local n1, d1 = SMODS.get_probability_vars(card,card.ability.extras.destroy_chance_n,card.ability.extras.destroy_chance_d, "akyrs_short_card_break")
+        local n2, d2 = SMODS.get_probability_vars(card,card.ability.extras.spread_chance_n,card.ability.extras.spread_chance_d, "akyrs_short_card_spread")
         return {
             vars = {
                 card.ability.extras.xmult,
@@ -634,7 +634,7 @@ SMODS.Enhancement{
                 if SMODS.pseudorandom_probability(card, 'akyrs_nightshade_card_spread', card.ability.extras.spread_chance_n,card.ability.extras.spread_chance_d) then
                     SMODS.calculate_effect({
                         func = function()
-                            local cd_target = pseudorandom_element(G.hand.cards, 'akyrs_nightshade_card_spread_pick')
+                            local cd_target = pseudorandom_element(G.hand.cards, 'akyrs_short_card_spread_pick')
                             if cd_target then
                                 AKYRS.simple_event_add(function ()
                                     cd_target:set_ability(G.P_CENTERS.m_akyrs_shore_card)

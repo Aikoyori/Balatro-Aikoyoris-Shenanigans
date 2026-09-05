@@ -323,6 +323,9 @@ function AKYRS.blind_handler()
                 if (v.ability.extras.must_be_played_immediately == true) then
                     v.ability.extras.must_be_played_immediately = false
                 end
+                if (v.ability.boss_must_be_played_immediately == true) then
+                    v.ability.boss_must_be_played_immediately = false
+                end
             end
             v.ability.akyrs_already_discarded = nil
         end

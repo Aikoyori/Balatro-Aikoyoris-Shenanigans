@@ -874,7 +874,7 @@ SMODS.Blind{
     boss = {min = 2,},
     pos = { x = 0, y = 12 },
     debuff = {
-        akyrs_decrease_per_skips_this_ante = 1
+        akyrs_decrease_per_skips_this_ante = 1.5
     },
     loc_vars = function (self)
         return {

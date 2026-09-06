@@ -679,7 +679,7 @@ return {
                     "drawn every hand drawn",
                 }
             },
-            bl_akyrs_the_bus= {
+            bl_akyrs_the_ether= {
                 name = "The Ether",
                 text = {
                     "Only first and last played",

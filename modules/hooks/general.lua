@@ -333,9 +333,9 @@ function Card:update(dt)
                 break
             end
         end
-        if not isAlreadyInHighlighted and #self.area.highlighted < self.area.config.highlighted_limit then
+        if not isAlreadyInHighlighted and #self.area.highlighted < self.area.config.highlighted_limit and self.area ~= G.play then
             self:highlight(true)
-            self.area:add_to_highlighted(self)
+            self.area:add_to_highlighted(self, G.CONTROLLER.HID.controller)
             self.ability.forced_selection = true
         end
     end

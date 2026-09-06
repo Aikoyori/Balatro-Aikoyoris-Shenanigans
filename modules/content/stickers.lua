@@ -442,3 +442,19 @@ SMODS.Sticker{
         return false
     end,
 }
+
+SMODS.Sticker{
+    key = "forced_selection",
+    default_compat = true,
+    atlas = "aikoyoriStickers",
+    pos = {x = 1, y = 2},
+    rate = 0,
+    badge_colour = G.C.BLACK,
+    sets =  { ["Enhanced"] = true, ["Default"] = true },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            },
+        }
+    end,
+}

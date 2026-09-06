@@ -2738,11 +2738,11 @@ return {
                 text = {
                     {
                         "{C:red}#1#{} Discards when round begins",
-                        "{C:red}#3#{} Discards after hand scores",
                     },
                     {
                         "Gain {C:red}#2#{} Discard per",
-                        "{C:attention}unenhanced cards{} destroyed"
+                        "{C:attention}unenhanced cards{} destroyed",
+                        "Lose {C:red}#3#{} Discards after hand scores",
                     },
                 }
             },
@@ -3194,6 +3194,12 @@ return {
                     "Sticker is {C:attention}removed{} when",
                     "{C:attention}linked{} Incredible Ink is removed",
                     "Link Code: {C:white,X:blind} #1# {}",
+                },
+            },
+            akyrs_forced_selection={
+                name="Force Selected",
+                text={
+                    "{C:attention}Cannot{} be deselected",
                 },
             },
             akyrs_concealed={
@@ -5333,6 +5339,7 @@ return {
             akyrs_sus="Sus",
             akyrs_sale="90% Sale",
             akyrs_marked="Marked",
+            akyrs_forced_selection="Force Selected",
             akyrs_carmine_seal="Carmine Seal",
             akyrs_neon_seal="Neon Seal",
             akyrs_twin_seal="Twin Seal",

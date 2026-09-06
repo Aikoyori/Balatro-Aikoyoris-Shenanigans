@@ -2248,7 +2248,7 @@ end
 
 function AKYRS.force_update_h_popup(card)
     if card.children.h_popup then card.children.h_popup:remove() card.children.h_popup = nil end
-    if not AKYRS.should_hide_ui() then
+    if not AKYRS.should_hide_ui() and card.config.h_popup_config then
         if not card.children.h_popup then 
             card.ability_UIBox_table = card:generate_UIBox_ability_table()
             card.config.h_popup = G.UIDEF.card_h_popup(card)

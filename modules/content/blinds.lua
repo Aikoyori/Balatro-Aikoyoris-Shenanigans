@@ -14,223 +14,6 @@ local function talismanCheck(v,big,omega,jen)
     return v
 end
 
-SMODS.Blind{
-    key = "the_choice",
-    dollars = 5,
-    mult = 2,
-    boss_colour = HEX("918b8b"),
-    atlas = 'aikoyoriBlindsChips',
-    debuff = {
-        akyrs_is_word_blind = true,
-    },
-    boss = {min = 3, },
-    pos = { x = 0, y = 1 },
-    in_pool = function(self)
-        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
-    end,
-    loc_vars = function (self)
-        return {
-            vars = {
-                string.upper(G.GAME.akyrs_letter_target)
-            }
-        }
-    end,
-    debuff_hand = function (self, cards, hand, handname, check)
-        if not G.GAME.akyrs_character_stickers_enabled or self.disabled then return false end
-        for i, v in ipairs(cards) do
-            local l = string.upper(v:get_letter_with_pretend())
-            if l and l == string.upper(G.GAME.akyrs_letter_target) then
-                return false
-            end
-        end
-        return true
-    end,
-    collection_loc_vars = function (self)
-        return {
-            vars = {
-                localize("k_akyrs_random_letter")
-            }
-        }
-    end
-}
-
-SMODS.Blind{
-    key = "the_reject",
-    dollars = 5,
-    mult = 2,
-    boss_colour = HEX("a2a2a2"),
-    atlas = 'aikoyoriBlindsChips',
-    boss = {min = 1, },
-    pos = { x = 0, y = 2 },
-    debuff = {
-        akyrs_is_word_blind = true,
-    },
-    in_pool = function(self)
-        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
-    end,
-    loc_vars = function (self)
-        return {
-            vars = {
-                string.upper(G.GAME.akyrs_letter_target)
-            }
-        }
-    end,
-    debuff_hand = function (self, cards, hand, handname, check)
-        if not G.GAME.akyrs_character_stickers_enabled or self.disabled then return false end
-        for i, v in ipairs(cards) do
-            local l = string.upper(v:get_letter_with_pretend())
-            if l and G.GAME.akyrs_last_played_letters[string.upper(G.GAME.akyrs_letter_target)] then
-                return true
-            end
-        end
-        return false
-    end,
-    collection_loc_vars = function (self)
-        return {
-            vars = {
-                localize("k_akyrs_random_letter")
-            }
-        }
-    end
-}
-
-
-SMODS.Blind{
-    key = "the_redo",
-    dollars = 5,
-    mult = 2,
-    boss_colour = HEX("ffd611"),
-    atlas = 'aikoyoriBlindsChips',
-    boss = {min = 3, },
-    pos = { x = 0, y = 3 },
-    debuff = {
-        akyrs_is_word_blind = true,
-    },
-    in_pool = function(self)
-        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
-    end,
-    debuff_hand = function (self, cards, hand, handname, check)
-        if not G.GAME.akyrs_character_stickers_enabled or self.disabled then return false end
-        for i, v in ipairs(cards) do
-            local l = string.upper(v:get_letter_with_pretend())
-            if l and G.GAME.akyrs_last_played_letters[l] then
-                return true
-            end
-        end
-        return false
-    end,
-}
-
-SMODS.Blind{
-    key = "the_reverse",
-    dollars = 5,
-    mult = 2,
-    boss_colour = HEX("ff7d49"),
-    atlas = 'aikoyoriBlindsChips',
-    boss = {min = 1, },
-    pos = { x = 0, y = 4 },
-    debuff = {
-        akyrs_is_word_blind = true,
-    },
-    in_pool = function(self)
-        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
-    end,
-    loc_vars = function (self)
-        return {
-            vars = {
-                string.upper(G.GAME.akyrs_letter_target)
-            }
-        }
-    end,
-    set_blind = function (self)
-        G.GAME.words_reversed = true
-    end,
-    disable = function (self)
-        G.GAME.words_reversed = nil
-    end,
-    defeat = function (self)
-        G.GAME.words_reversed = nil
-    end,
-
-}
-
-local vowels_list = {
-    a = true,
-    e = true,
-    i = true,
-    o = true,
-    u = true,
-}
-
-SMODS.Blind{
-    key = "the_selfish",
-    dollars = 5,
-    mult = 2,
-    boss_colour = HEX("5dd6ff"),
-    atlas = 'aikoyoriBlindsChips2',
-    debuff = {
-        akyrs_is_word_blind = true,
-        akyrs_num = 1, akyrs_denom = 3
-    },
-    boss = {min = 2, },
-    pos = { x = 0, y = 1 },
-    in_pool = function(self)
-        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
-    end,
-    loc_vars = function (self)
-        local n, d = SMODS.get_probability_vars(self, self.debuff.akyrs_num,  self.debuff.akyrs_denom, "akyrs_the_selfish_flip")
-        return {
-            vars = {
-                n, d
-            }
-        }
-    end,
-    collection_loc_vars = function (self)
-        local n, d = SMODS.get_probability_vars(self, self.debuff.akyrs_num,  self.debuff.akyrs_denom, "akyrs_the_selfish_flip")
-        return {
-            vars = {
-                n, d
-            }
-        }
-    end,
-    recalc_debuff = function (self, card, from_blind)
-        if card and (card:get_letter_with_pretend()) and vowels_list[string.lower(card:get_letter_with_pretend())] then
-            if SMODS.pseudorandom_probability(self, "akyrs_the_selfish_flip", self.debuff.akyrs_num,  self.debuff.akyrs_denom) then
-                return true
-            end
-        end
-    end
-}
-
-SMODS.Blind{
-    key = "the_polite",
-    dollars = 5,
-    mult = 2,
-    boss_colour = HEX("ff9430"),
-    atlas = 'aikoyoriBlindsChips2',
-    debuff = {
-        akyrs_is_word_blind = true,
-    },
-    boss = {min = 2, },
-    pos = { x = 0, y = 2 },
-    in_pool = function(self)
-        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
-    end,
-    calculate = function (self, blind, context)
-        if not blind.disabled then
-            if context.modify_scoring_hand then
-                ---@type Card
-                local oth = context.other_card
-                if oth and oth:get_letter_with_pretend() and vowels_list[string.lower(oth:get_letter_with_pretend())] then
-                    return {
-                        remove_from_hand = true
-                    }
-                end
-            end
-        end
-    end,
-}
-
 
 local to_big = to_big or function(x) return x end
 
@@ -1024,7 +807,7 @@ SMODS.Blind{
     boss_colour = HEX("5d9ace"),
     atlas = 'aikoyoriBlindsChips3',
     boss = {min = 2,},
-    pos = { x = 0, y = 12 },
+    pos = { x = 0, y = 11 },
     debuff = {
     },
     config = {
@@ -1046,6 +829,75 @@ SMODS.Blind{
                     }
                 end
             end
+        end
+    end
+}
+SMODS.Blind{
+    key = "the_ether",
+    dollars = 5,
+    mult = 1.5,
+    boss_colour = HEX("5d9ace"),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 2,},
+    pos = { x = 0, y = 11 },
+    debuff = {
+    },
+    config = {
+        extras = {
+        }
+    },
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.modify_scoring_hand then
+                ---@type Card
+                local index = AKYRS.find_index(context.full_hand, context.other_card)
+                if index and index == 1 or index == #context.full_hand then
+                    return {
+                        add_to_hand = true
+                    }
+                else
+                    return {
+                        remove_from_hand = true
+                    }
+                end
+            end
+        end
+    end
+}
+
+SMODS.Blind{
+    key = "the_interface",
+    dollars = 5,
+    mult = 3.5,
+    boss_colour = HEX("675b89"),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 2,},
+    pos = { x = 0, y = 12 },
+    debuff = {
+        akyrs_decrease_per_skips_this_ante = 1
+    },
+    loc_vars = function (self)
+        return {
+            vars = {
+                self.debuff.akyrs_decrease_per_skips_this_ante
+            }
+        }
+    end,
+    loc_vars = function (self)
+        return {
+            vars = {
+                self.debuff.akyrs_decrease_per_skips_this_ante
+            }
+        }
+    end,
+    config = {
+        akyrs_update_on_skip = true,
+        extras = {
+        }
+    },
+    calculate = function (self, blind, context)
+        if context.blind_disabled then
+            AKYRS.modify_blind_size({ set = to_big(AKYRS.get_true_original_blind_amount(self.mult)) * to_big(G.GAME.round_resets.ante) * to_big(self.debuff.disable_chip_x)})
         end
     end
 }
@@ -2004,6 +1856,299 @@ SMODS.Blind {
 
 
 SMODS.Blind{
+    key = "the_bent",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("ff5454"),
+    atlas = 'aikoyoriBlindsChips2',
+    debuff = {
+        special_blind = true,
+        akyrs_is_puzzle_blind = true,
+    },
+    config = {
+        times_left = 2,
+    },
+    boss = {min = 2, },
+    pos = { x = 0, y = 0 },
+    in_pool = function(self)
+        return G.GAME.round_resets.hands > 1 and G.GAME.round_resets.ante >= self.boss.min
+    end,
+    loc_vars = function (self)
+        return {
+            vars = {
+                localize(G.GAME.current_round.akyrs_picked_poker_hands, "poker_hands") or "????",
+                self.config.times_left,
+            }
+        }
+    end,
+    collection_loc_vars = function (self)
+        return {
+            vars = {
+                localize("k_akyrs_random_played_hand"),
+                self.config.times_left,
+            }
+        }
+    end,
+    set_blind = function (self)
+        G.GAME.aiko_puzzle_win = false
+        G.GAME.current_round.advanced_blind = true
+        AKYRS.recalculate_blind_ui()
+    end,
+    disable = function(self)
+        G.GAME.current_round.advanced_blind = false
+        AKYRS.recalculate_blind_ui()
+    end,
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.before then
+                if context.scoring_name == G.GAME.current_round.akyrs_picked_poker_hands then
+                    SMODS.calculate_effect({
+                        func = function ()
+                            blind.effect.times_left = (blind.effect.times_left) - 1
+                            if blind.effect.times_left <= 0 then
+                                G.GAME.aiko_puzzle_win = true
+                            end
+                        end
+                    }, blind)
+                end
+                return {
+                    func = function ()
+                        AKYRS.simple_event_add(
+                            function()
+                                AKYRS.force_check_win({ force_draw = true, state_to_go = G.STATES.SELECTING_HAND })
+                                return true
+                            end, 0
+                        )
+                        AKYRS.recalculate_blind_ui()
+
+                    end
+                }
+            end
+        end
+    end,
+}
+
+
+
+SMODS.Blind{
+    key = "the_choice",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("918b8b"),
+    atlas = 'aikoyoriBlindsChips',
+    debuff = {
+        akyrs_is_word_blind = true,
+    },
+    boss = {min = 3, },
+    pos = { x = 0, y = 1 },
+    in_pool = function(self)
+        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
+    end,
+    loc_vars = function (self)
+        return {
+            vars = {
+                string.upper(G.GAME.akyrs_letter_target)
+            }
+        }
+    end,
+    debuff_hand = function (self, cards, hand, handname, check)
+        if not G.GAME.akyrs_character_stickers_enabled or self.disabled then return false end
+        for i, v in ipairs(cards) do
+            local l = string.upper(v:get_letter_with_pretend())
+            if l and l == string.upper(G.GAME.akyrs_letter_target) then
+                return false
+            end
+        end
+        return true
+    end,
+    collection_loc_vars = function (self)
+        return {
+            vars = {
+                localize("k_akyrs_random_letter")
+            }
+        }
+    end
+}
+
+SMODS.Blind{
+    key = "the_reject",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("a2a2a2"),
+    atlas = 'aikoyoriBlindsChips',
+    boss = {min = 1, },
+    pos = { x = 0, y = 2 },
+    debuff = {
+        akyrs_is_word_blind = true,
+    },
+    in_pool = function(self)
+        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
+    end,
+    loc_vars = function (self)
+        return {
+            vars = {
+                string.upper(G.GAME.akyrs_letter_target)
+            }
+        }
+    end,
+    debuff_hand = function (self, cards, hand, handname, check)
+        if not G.GAME.akyrs_character_stickers_enabled or self.disabled then return false end
+        for i, v in ipairs(cards) do
+            local l = string.upper(v:get_letter_with_pretend())
+            if l and G.GAME.akyrs_last_played_letters[string.upper(G.GAME.akyrs_letter_target)] then
+                return true
+            end
+        end
+        return false
+    end,
+    collection_loc_vars = function (self)
+        return {
+            vars = {
+                localize("k_akyrs_random_letter")
+            }
+        }
+    end
+}
+
+
+SMODS.Blind{
+    key = "the_redo",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("ffd611"),
+    atlas = 'aikoyoriBlindsChips',
+    boss = {min = 3, },
+    pos = { x = 0, y = 3 },
+    debuff = {
+        akyrs_is_word_blind = true,
+    },
+    in_pool = function(self)
+        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
+    end,
+    debuff_hand = function (self, cards, hand, handname, check)
+        if not G.GAME.akyrs_character_stickers_enabled or self.disabled then return false end
+        for i, v in ipairs(cards) do
+            local l = string.upper(v:get_letter_with_pretend())
+            if l and G.GAME.akyrs_last_played_letters[l] then
+                return true
+            end
+        end
+        return false
+    end,
+}
+
+SMODS.Blind{
+    key = "the_reverse",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("ff7d49"),
+    atlas = 'aikoyoriBlindsChips',
+    boss = {min = 1, },
+    pos = { x = 0, y = 4 },
+    debuff = {
+        akyrs_is_word_blind = true,
+    },
+    in_pool = function(self)
+        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
+    end,
+    loc_vars = function (self)
+        return {
+            vars = {
+                string.upper(G.GAME.akyrs_letter_target)
+            }
+        }
+    end,
+    set_blind = function (self)
+        G.GAME.words_reversed = true
+    end,
+    disable = function (self)
+        G.GAME.words_reversed = nil
+    end,
+    defeat = function (self)
+        G.GAME.words_reversed = nil
+    end,
+
+}
+
+local vowels_list = {
+    a = true,
+    e = true,
+    i = true,
+    o = true,
+    u = true,
+}
+
+SMODS.Blind{
+    key = "the_selfish",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("5dd6ff"),
+    atlas = 'aikoyoriBlindsChips2',
+    debuff = {
+        akyrs_is_word_blind = true,
+        akyrs_num = 1, akyrs_denom = 3
+    },
+    boss = {min = 2, },
+    pos = { x = 0, y = 1 },
+    in_pool = function(self)
+        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
+    end,
+    loc_vars = function (self)
+        local n, d = SMODS.get_probability_vars(self, self.debuff.akyrs_num,  self.debuff.akyrs_denom, "akyrs_the_selfish_flip")
+        return {
+            vars = {
+                n, d
+            }
+        }
+    end,
+    collection_loc_vars = function (self)
+        local n, d = SMODS.get_probability_vars(self, self.debuff.akyrs_num,  self.debuff.akyrs_denom, "akyrs_the_selfish_flip")
+        return {
+            vars = {
+                n, d
+            }
+        }
+    end,
+    recalc_debuff = function (self, card, from_blind)
+        if card and (card:get_letter_with_pretend()) and vowels_list[string.lower(card:get_letter_with_pretend())] then
+            if SMODS.pseudorandom_probability(self, "akyrs_the_selfish_flip", self.debuff.akyrs_num,  self.debuff.akyrs_denom) then
+                return true
+            end
+        end
+    end
+}
+
+SMODS.Blind{
+    key = "the_polite",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("ff9430"),
+    atlas = 'aikoyoriBlindsChips2',
+    debuff = {
+        akyrs_is_word_blind = true,
+    },
+    boss = {min = 2, },
+    pos = { x = 0, y = 2 },
+    in_pool = function(self)
+        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
+    end,
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.modify_scoring_hand then
+                ---@type Card
+                local oth = context.other_card
+                if oth and oth:get_letter_with_pretend() and vowels_list[string.lower(oth:get_letter_with_pretend())] then
+                    return {
+                        remove_from_hand = true
+                    }
+                end
+            end
+        end
+    end,
+}
+
+
+SMODS.Blind{
     key = "the_thought",
     dollars = 5,
     mult = 2,
@@ -2364,76 +2509,3 @@ SMODS.Blind{
     end
 }
 
-
-SMODS.Blind{
-    key = "the_bent",
-    dollars = 5,
-    mult = 2,
-    boss_colour = HEX("ff5454"),
-    atlas = 'aikoyoriBlindsChips2',
-    debuff = {
-        special_blind = true,
-        akyrs_is_puzzle_blind = true,
-    },
-    config = {
-        times_left = 2,
-    },
-    boss = {min = 2, },
-    pos = { x = 0, y = 0 },
-    in_pool = function(self)
-        return G.GAME.round_resets.hands > 1 and G.GAME.round_resets.ante >= self.boss.min
-    end,
-    loc_vars = function (self)
-        return {
-            vars = {
-                localize(G.GAME.current_round.akyrs_picked_poker_hands, "poker_hands") or "????",
-                self.config.times_left,
-            }
-        }
-    end,
-    collection_loc_vars = function (self)
-        return {
-            vars = {
-                localize("k_akyrs_random_played_hand"),
-                self.config.times_left,
-            }
-        }
-    end,
-    set_blind = function (self)
-        G.GAME.aiko_puzzle_win = false
-        G.GAME.current_round.advanced_blind = true
-        AKYRS.recalculate_blind_ui()
-    end,
-    disable = function(self)
-        G.GAME.current_round.advanced_blind = false
-        AKYRS.recalculate_blind_ui()
-    end,
-    calculate = function (self, blind, context)
-        if not blind.disabled then
-            if context.before then
-                if context.scoring_name == G.GAME.current_round.akyrs_picked_poker_hands then
-                    SMODS.calculate_effect({
-                        func = function ()
-                            blind.effect.times_left = (blind.effect.times_left) - 1
-                            if blind.effect.times_left <= 0 then
-                                G.GAME.aiko_puzzle_win = true
-                            end
-                        end
-                    }, blind)
-                end
-                return {
-                    func = function ()
-                        AKYRS.simple_event_add(
-                            function()
-                                AKYRS.force_check_win({ force_draw = true, state_to_go = G.STATES.SELECTING_HAND })
-                                return true
-                            end, 0
-                        )
-                        AKYRS.recalculate_blind_ui()
-
-                    end
-                }
-            end
-        end
-    end,
-}

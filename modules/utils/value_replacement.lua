@@ -18,6 +18,13 @@ AKYRS.mod_blind_requirement = function(blind,chips)
         local ante_power = G.GAME.round_resets.ante ^ blind.debuff.akyrs_anteth_power_of_x_blind_req_power * blind.debuff.akyrs_anteth_power_of_x_blind_req_multiplier
         chips = chips * blind.debuff.akyrs_anteth_power_of_x_blind_req ^ ante_power
     end
+    if blind.debuff.akyrs_decrease_per_skips_this_ante then
+        local count = 0
+        for sel, opt in pairs(G.GAME.round_resets.blind_states) do
+            if opt == "Skipped" then count = count + 1 end
+        end
+        chips = chips - blind.debuff.akyrs_decrease_per_skips_this_ante * count * get_blind_amount(G.GAME.round_resets.ante)
+    end
     return chips
 end
 

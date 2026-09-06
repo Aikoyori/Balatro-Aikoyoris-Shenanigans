@@ -2127,3 +2127,17 @@ G.FUNCS.chip_UI_set = function(e)
     end
     return cuis(e)
 end
+
+local skpb = G.FUNCS.skip_blind
+G.FUNCS.skip_blind = function(e)
+    local x = {skpb(e)}
+    for _, col in ipairs({"Small", "Big", "Boss"}) do
+        local lowercasecol = string.lower(col)
+        local opt = G.GAME.round_resets.blind_choices[col]
+        if (G.P_BLINDS[opt].config or {}).akyrs_update_on_skip then
+            local skip_from = G.GAME.blind_on_deck == 'Big' and 'Small' or G.GAME.blind_on_deck == 'Boss' and 'Big' or 'Small'
+            if skip_from ~= col then AKYRS.update_blind_select_column(lowercasecol) end
+        end
+    end
+    return unpack(x)
+end

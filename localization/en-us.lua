@@ -686,6 +686,13 @@ return {
                     "cards will score",
                 }
             },
+            bl_akyrs_the_interface= {
+                name = "The Interface",
+                text = {
+                    "Decrease blind size by X#1# Base",
+                    "per Blind skipped this ante",
+                }
+            },
             bl_akyrs_ultima_lost_umbrella = {
                 name = "Lost Umbrella",
                 text = {

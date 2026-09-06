@@ -103,7 +103,10 @@ AKYRS.Bet {
         
         AKYRS.simple_event_add(function ()
             if SMODS.pseudorandom_probability(card, 'akyrs_bet_raise_stake_chance' , card.ability.extras.num, card.ability.extras.denom ) then
+            AKYRS.simple_event_add(function ()
                 SMODS.add_card{ rarity = 'Rare', set = 'Joker'}
+                return true
+            end, 0)
             else
                 AKYRS.nopeinator(card, { parent_this = card.akyrs_real_card })
             end
@@ -269,7 +272,7 @@ AKYRS.Bet {
     end,
     redeem = function (self, card) 
         local candidates = AKYRS.filter_table(G.jokers.cards, function (c)
-            return not SMODS.is_eternal(c) and c.abiility.set == "Joker"
+            return not SMODS.is_eternal(c) and c.ability.set == "Joker"
         end,true, true)
         local target_joker = pseudorandom_element(candidates, "akyrs_bet_ghastly_limelight_pick")
         local other_jokers = AKYRS.filter_table(G.jokers.cards, function (c)

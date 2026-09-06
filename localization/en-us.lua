@@ -672,6 +672,20 @@ return {
                     "when drawn are debuffed",
                 }
             },
+            bl_akyrs_the_bus= {
+                name = "The Bus",
+                text = {
+                    "Discard half the number of cards",
+                    "drawn every hand drawn",
+                }
+            },
+            bl_akyrs_the_bus= {
+                name = "The Ether",
+                text = {
+                    "Only first and last played",
+                    "cards will score",
+                }
+            },
             bl_akyrs_ultima_lost_umbrella = {
                 name = "Lost Umbrella",
                 text = {

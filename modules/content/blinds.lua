@@ -980,6 +980,76 @@ SMODS.Blind{
     end
 }
 
+SMODS.Blind{
+    key = "the_bus",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("4f6367"), -- TODO: eyedrop this shit from aseprite
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 2,},
+    pos = { x = 0, y = 10 },
+    debuff = {
+    },
+    config = {
+        extras = {
+        }
+    },
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.hand_drawn and not context.first_hand_drawn then
+                return {
+                    func = function ()
+                        if math.floor(#context.hand_drawn/2) > 0 then
+                            stop_use()
+                            G.hand.highlighted = AKYRS.pseudorandom_elements(context.hand_drawn,math.floor(#context.hand_drawn/2),"akyrs_the_bus_pick")
+                            G.FUNCS.discard_cards_from_highlighted(blind, true)
+                            G.hand.highlighted = {}
+                            AKYRS.simple_event_add(function() 
+                                G.FUNCS.draw_from_deck_to_hand()
+                                return true
+                            end)
+                            AKYRS.force_save()
+                        end
+                    end
+                }
+            end
+        end
+    end
+}
+
+SMODS.Blind{
+    key = "the_ether",
+    dollars = 5,
+    mult = 1.5,
+    boss_colour = HEX("4f6367"), -- TODO: eyedrop this shit from aseprite
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 2,},
+    pos = { x = 0, y = 12 },
+    debuff = {
+    },
+    config = {
+        extras = {
+        }
+    },
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.modify_scoring_hand then
+                ---@type Card
+                local index = AKYRS.find_index(context.full_hand, context.other_card)
+                if index and index == 1 or index == #context.full_hand then
+                    return {
+                        add_to_hand = true
+                    }
+                else
+                    return {
+                        remove_from_hand = true
+                    }
+                end
+            end
+        end
+    end
+}
+
 -- le finale bosse
 
 

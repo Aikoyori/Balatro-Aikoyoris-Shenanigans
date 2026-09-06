@@ -1794,7 +1794,10 @@ return {
                 }
             },
             j_akyrs_yona_yona_dance = {
-                name = "Yona Yona Dance",
+                name = {
+                    "{f:5}YONA YONA DANCE",
+                    "{s:0.7}by Akiko Wada & Frederic"
+                },
                 text = { 
                     "Retrigger each played {C:attention}4{} and {C:attention}7{}",
                     "{C:attention}#1#{} additional times",
@@ -1870,8 +1873,8 @@ return {
             },
             j_akyrs_kyoufuu_all_back = {
                 name = {
-                    "{f:5}YONA YONA DANCE",
-                    "{s:0.7}by Akiko Wada & Frederic"
+                    "{f:5}強風オールバック",
+                    "{s:0.7}Kyoufuu All Back by Yukopi"
                 },
                 text = { 
                     "Return previously {C:attention}played and discarded",

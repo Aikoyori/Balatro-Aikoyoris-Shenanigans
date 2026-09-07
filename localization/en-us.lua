@@ -316,6 +316,7 @@ return {
                 text = {
                     "Disabling this boss",
                     "Sets Blind Req. to #1#",
+                    "and gain $#2#",
                 }
             },
             bl_akyrs_the_picker= {
@@ -697,7 +698,7 @@ return {
                 name = "The Weave",
                 text = {
                     "Beat this blind twice",
-                    "in a row",
+                    "this round",
                 }
             },
             bl_akyrs_ultima_lost_umbrella = {

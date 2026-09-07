@@ -28,12 +28,15 @@ SMODS.Blind{
     debuff = {
         disable_chip_x = 2
     },
+    config = {
+        mony = 16,
+    },
     loc_vars = function(self)
         local orig_chips = to_big(AKYRS.get_true_original_blind_amount(self.mult))
-        return { vars = {orig_chips  * to_big(G.GAME.round_resets.ante * self.debuff.disable_chip_x) }, key = self.key }
+        return { vars = {orig_chips  * to_big(G.GAME.round_resets.ante * self.debuff.disable_chip_x), (self.effect or self.config).mony } }
     end,
     collection_loc_vars = function(self)
-        return { vars = { "X 2X"..localize("k_akyrs_power_ante")}, key = self.key }
+        return { vars = { "X 2X"..localize("k_akyrs_power_ante"), (self.effect or self.config).mony } }
     end,
     set_blind = function(self)
     end,
@@ -45,7 +48,7 @@ SMODS.Blind{
     end,
     disable = function(self)
         AKYRS.modify_blind_size({ set = to_big(AKYRS.get_true_original_blind_amount(self.mult)) * to_big(G.GAME.round_resets.ante) * to_big(self.debuff.disable_chip_x)})
-
+        ease_dollars((self.effect or self.config).mony)
     end,
     defeat = function(self)
 

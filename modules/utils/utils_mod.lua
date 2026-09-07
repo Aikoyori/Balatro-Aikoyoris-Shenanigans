@@ -1450,8 +1450,6 @@ AKYRS.const.pi = AKYRS.map(AKYRS.split(AKYRS.const.pi), function (x)
     return tonumber(x)
 end, true)
 
-SMODS.other_calculation_keys[#SMODS.other_calculation_keys+1] = 'priority_modified'
-
 AKYRS.sort_card_priority = function(area, reversed)
     local priorityqueue = {}
     for _, card_to_sort in ipairs(area.cards) do

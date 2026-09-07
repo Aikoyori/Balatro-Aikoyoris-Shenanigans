@@ -514,6 +514,7 @@ pattern = """    local key_return_flags = {"""
 position = "after"
 payload = """
 priority_modified = true,
+prevent_win = true,
 """
 overwrite = true
 match_indent = true

@@ -127,6 +127,7 @@ function Game:init_game_object()
     
     ret.akyrs_ut_route = "pacifist"
     ret.akyrs_cards_modified = 0
+    ret.akyrs_won_current_blind = 0
 
     return ret
 end
@@ -139,7 +140,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
         G.GAME.akyrs_letter_target = pseudorandom_element(AKYRS.raw_scrabble_letters, pseudoseed(G.GAME.pseudorandom.seed.."akyrs".."letter_pick"))
         G.GAME.akyrs_last_ante = G.GAME.round_resets.ante
     end
-    
+    G.GAME.akyrs_won_current_blind = 0
     EMPTY(G.GAME.akyrs_last_played_letters)
     G.GAME.akyrs_last_played_letters = {}
     G.GAME.current_round.akyrs_last_action = nil
@@ -469,8 +470,10 @@ function end_round()
     
     local shouldNotEndRoundPuzzleBlind = G.GAME.current_round.advanced_blind and not G.GAME.aiko_puzzle_win and true or nil
     local shouldNotEndRoundMathDeck = G.GAME.akyrs_mathematics_enabled and not AKYRS.is_value_within_threshold(G.GAME.blind.chips,G.GAME.chips,G.GAME.akyrs_math_threshold)
-
-    local should_not_end_round = not ((shouldNotEndRoundPuzzleBlind or shouldNotEndRoundMathDeck) and (G.GAME.current_round.hands_left > 0))
+    G.GAME.akyrs_won_current_blind = (G.GAME.akyrs_won_current_blind or 0) + 1
+    local flags = SMODS.calculate_context({akyrs_prevent_win = true, blind = G.GAME.blind, times_won = G.GAME.akyrs_won_current_blind}, nil)
+    --print(flags.prevent_win and "win prevented" or "fuck the fuck?")
+    local should_not_end_round = not ((shouldNotEndRoundPuzzleBlind or shouldNotEndRoundMathDeck or flags.prevent_win) and (G.GAME.current_round.hands_left > 0))
     if G.AKYRS_FORCED_END_ROUND == true then
         should_not_end_round = false
     end

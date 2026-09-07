@@ -693,6 +693,12 @@ return {
                     "per Blind skipped this ante",
                 }
             },
+            bl_akyrs_the_weave= {
+                name = "The Weave",
+                text = {
+                    "Beat this blind twice",
+                }
+            },
             bl_akyrs_ultima_lost_umbrella = {
                 name = "Lost Umbrella",
                 text = {

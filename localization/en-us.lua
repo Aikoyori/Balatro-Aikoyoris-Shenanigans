@@ -697,6 +697,7 @@ return {
                 name = "The Weave",
                 text = {
                     "Beat this blind twice",
+                    "in a row",
                 }
             },
             bl_akyrs_ultima_lost_umbrella = {

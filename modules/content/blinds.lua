@@ -253,41 +253,6 @@ SMODS.Blind {
     end
 }
 
-
-SMODS.Blind{
-    key = "the_reverse",
-    dollars = 5,
-    mult = 2,
-    boss_colour = HEX("ff7d49"),
-    atlas = 'aikoyoriBlindsChips',
-    boss = {min = 1, },
-    pos = { x = 0, y = 4 },
-    debuff = {
-        akyrs_is_word_blind = true,
-    },
-    in_pool = function(self)
-        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
-    end,
-    loc_vars = function (self)
-        return {
-            vars = {
-                string.upper(G.GAME.akyrs_letter_target)
-            }
-        }
-    end,
-    set_blind = function (self)
-        G.GAME.words_reversed = true
-    end,
-    disable = function (self)
-        G.GAME.words_reversed = nil
-    end,
-    defeat = function (self)
-        G.GAME.words_reversed = nil
-    end,
-
-}
-
-
 SMODS.Blind{
     key = "the_alignment",
     dollars = 5,
@@ -2035,6 +2000,39 @@ SMODS.Blind{
     end
 }
 
+
+SMODS.Blind{
+    key = "the_reverse",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("ff7d49"),
+    atlas = 'aikoyoriBlindsChips',
+    boss = {min = 1, },
+    pos = { x = 0, y = 4 },
+    debuff = {
+        akyrs_is_word_blind = true,
+    },
+    in_pool = function(self)
+        return (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled)
+    end,
+    loc_vars = function (self)
+        return {
+            vars = {
+                string.upper(G.GAME.akyrs_letter_target)
+            }
+        }
+    end,
+    set_blind = function (self)
+        G.GAME.words_reversed = true
+    end,
+    disable = function (self)
+        G.GAME.words_reversed = nil
+    end,
+    defeat = function (self)
+        G.GAME.words_reversed = nil
+    end,
+
+}
 
 SMODS.Blind{
     key = "the_redo",

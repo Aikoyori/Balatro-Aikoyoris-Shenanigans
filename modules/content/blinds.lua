@@ -883,7 +883,7 @@ SMODS.Blind{
             }
         }
     end,
-    loc_vars = function (self)
+    collection_loc_vars = function (self)
         return {
             vars = {
                 self.debuff.akyrs_decrease_per_skips_this_ante

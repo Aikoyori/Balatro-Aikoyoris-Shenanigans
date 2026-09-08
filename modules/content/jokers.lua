@@ -2901,7 +2901,7 @@ SMODS.Joker {
     config = {
         extras = {
             chips = 300,
-            reduce_chips = -100,
+            reduce_chips = -75,
         }
     },
     rarity = 3,

@@ -698,7 +698,14 @@ return {
                 name = "The Weave",
                 text = {
                     "Beat this blind twice",
-                    "this round",
+                    "without hand refreshes",
+                }
+            },
+            bl_akyrs_the_fork= {
+                name = "The Fork",
+                text = {
+                    "Start a random Boss blind",
+                    "after beating this boss",
                 }
             },
             bl_akyrs_ultima_lost_umbrella = {
@@ -4300,7 +4307,8 @@ return {
                 name="Expert Play!",
                 text={
                     "{C:attention}Expert{} and higher bosses may appear",
-                    "{C:dark_edition}+#1#{} Consumable Slot",
+                    "{C:dark_edition}+#1#{} Consumable Slots",
+                    "{C:dark_edition}+#2#{} Joker Slot",
                 },
             },
             bet_akyrs_raise_the_stake={
@@ -5433,7 +5441,7 @@ return {
                 {"Aikoyori's Jokers"},
                 {"AKYRS"},
                 {"Aikomod"},
-                {"New Super","Aikoyori Shenanigans"},
+                {"New Super","Aikoyori","Shenanigans"},
                 {"An Aikoyori Mod"},
                 {"Shenaiko"},
                 {"Aikoslop","Shenslop"},
@@ -5442,7 +5450,7 @@ return {
                 {"Aikoyori the Movie:","The Game: The Mod"},
                 {"iroyokia's","playbook real"},
                 {"aish"},
-                {"The Wacky","and Wonderous Shenanigans","in the world of Aikoyori"},
+                {"The Wacky","and Wonderous","Shenanigans","in the world","of Aikoyori"},
                 {"Solitaireyori","Wordlenanigans"},
                 {"{f:5}アイコヨリ","{f:5}しぇなにがんす"},
                 {"aiko?"},
@@ -5530,10 +5538,11 @@ return {
                 {"Spotify is evil"},
                 {"collect my pages"},
                 {"What do you call a mod that's", "complete 180 from Vanilla?"},
-                {"what the fuck? aiko this is your 6th redesign"},
+                {"what the fuck? aiko","this is your 6th redesign"},
                 {"*wheeze*"},
                 {"... ___ ... (sad face)"},
                 {"ts pmo icl"},
+                {"Vanilla* Mod", "{s:0.4}*not included"},
             }
         },
         v_text={

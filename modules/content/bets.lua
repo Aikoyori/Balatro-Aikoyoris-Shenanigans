@@ -55,23 +55,27 @@ AKYRS.Bet {
 
     config = {
         extras = {
-            slot = 2
+            slot = 2,
+            jkrslot = 1,
         }
     },
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
-                card.ability.extras.slot
+                card.ability.extras.slot,
+                card.ability.extras.jkrslot,
             }
         }
     end,
     redeem = function (self, card) 
         G.GAME.akyrs_allow_hard_bosses = true
         G.consumeables.config.card_limit = G.consumeables.config.card_limit + card.ability.extras.slot
+        G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extras.jkrslot
     end,
     unredeem = function (self, card) 
         G.GAME.akyrs_allow_hard_bosses = true
         G.consumeables.config.card_limit = G.consumeables.config.card_limit - card.ability.extras.slot
+        G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extras.jkrslot
     end,
 }
 
@@ -98,7 +102,7 @@ AKYRS.Bet {
     end,
     redeem = function (self, card) 
         local potential_stakes = AKYRS.get_applicable_stakes()
-        local stake_to_apply = pseudorandom_element(potential_stakes, "akyrs_bet_expert_play_random_stake")
+        local stake_to_apply = pseudorandom_element(potential_stakes, "akyrs_bet_raise_the_stake_random_stake")
         local applied_stakes_keys = AKYRS.apply_stake_mid_game(stake_to_apply)
         
         AKYRS.simple_event_add(function ()

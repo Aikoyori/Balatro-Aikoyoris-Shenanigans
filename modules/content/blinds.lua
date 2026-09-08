@@ -874,7 +874,7 @@ SMODS.Blind{
     key = "the_weave",
     dollars = 5,
     mult = 2,
-    boss_colour = HEX("675b89"),
+    boss_colour = HEX("4f6367"), -- todo: eyedrop this from ase
     atlas = 'aikoyoriBlindsChips3',
     boss = {min = 3,},
     pos = { x = 0, y = 13 },
@@ -890,6 +890,37 @@ SMODS.Blind{
                         AKYRS.force_save()
                     end
                 }
+            end
+        end
+    end
+}
+
+SMODS.Blind{
+    key = "the_fork",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("4f6367"), -- todo: eyedrop this from ase
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 3,},
+    pos = { x = 0, y = 14 },
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.akyrs_prevent_win then
+                if context.times_won < 2 then
+                    return {
+                        prevent_win = true,
+                        func = function ()
+                            ease_chips(0)
+                            local bl_key = SMODS.poll_object{ type = 'Blind' }
+                            G.GAME.akyrs_original_blind = self.key
+                            G.GAME.round_resets.blind = G.P_BLINDS[bl_key]
+                            new_round()
+                            G.FUNCS.draw_from_discard_to_deck()
+                            G.FUNCS.draw_from_deck_to_hand()
+                            AKYRS.force_save()
+                        end
+                    }
+                end
             end
         end
     end

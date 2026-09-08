@@ -481,6 +481,10 @@ function end_round()
         G.STATE = G.STATES.SELECTING_HAND
         G.STATE_COMPLETE = false
     else
+        if G.GAME.akyrs_original_blind then
+            G.GAME.round_resets.blind = G.P_BLINDS[G.GAME.akyrs_original_blind]
+            G.GAME.akyrs_original_blind = nil
+        end
         local ret = endRoundHook()
         G.AKYRS_FORCED_END_ROUND = nil
         G.AKYRS_ACTIVATED_END_ROUND = true

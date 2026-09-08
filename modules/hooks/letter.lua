@@ -298,6 +298,9 @@ G.FUNCS.cash_out = function(e)
             SMODS.change_discard_limit(G.GAME.akyrs_gain_selection_per_ante)
         end
     end
+    if G.GAME.akyrs_original_blind then
+        G.GAME.akyrs_original_blind = nil
+    end
     
     if G.aiko_wordle then
         G.aiko_wordle:remove(); G.aiko_wordle = nil

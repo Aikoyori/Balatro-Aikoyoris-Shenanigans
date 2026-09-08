@@ -872,8 +872,8 @@ SMODS.Blind{
 
 SMODS.Blind{
     key = "the_weave",
-    dollars = 5,
-    mult = 2,
+    dollars = 6,
+    mult = 1.5,
     boss_colour = HEX("4f6367"), -- todo: eyedrop this from ase
     atlas = 'aikoyoriBlindsChips3',
     boss = {min = 3,},
@@ -897,8 +897,8 @@ SMODS.Blind{
 
 SMODS.Blind{
     key = "the_fork",
-    dollars = 5,
-    mult = 2,
+    dollars = 6,
+    mult = 1,
     boss_colour = HEX("4f6367"), -- todo: eyedrop this from ase
     atlas = 'aikoyoriBlindsChips3',
     boss = {min = 3,},
@@ -914,9 +914,18 @@ SMODS.Blind{
                             local bl_key = SMODS.poll_object{ type = 'Blind' }
                             G.GAME.akyrs_original_blind = self.key
                             G.GAME.round_resets.blind = G.P_BLINDS[bl_key]
-                            new_round()
-                            G.FUNCS.draw_from_discard_to_deck()
-                            G.FUNCS.draw_from_deck_to_hand()
+                            AKYRS.simple_event_add(function ()
+                                new_round()
+                                return true
+                            end)
+                            AKYRS.simple_event_add(function ()
+                                G.FUNCS.draw_from_discard_to_deck()
+                                return true
+                            end)
+                            AKYRS.simple_event_add(function ()
+                                G.FUNCS.draw_from_deck_to_hand()
+                                return true
+                            end)
                             AKYRS.force_save()
                         end
                     }

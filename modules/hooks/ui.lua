@@ -2259,3 +2259,16 @@ function G.UIDEF.card_focus_ui(card)
 
     return ui
 end
+
+
+local add_round_eval_row_ref = add_round_eval_row
+function add_round_eval_row(...)
+    local config = ...
+    if config.name == 'blind1' then
+        if G.GAME.akyrs_original_blind then
+            G.GAME.blind.config.blind = G.P_BLINDS[G.GAME.akyrs_original_blind] or {}
+            G.GAME.blind.pos = copy_table(G.P_BLINDS[G.GAME.akyrs_original_blind].pos)
+        end
+    end
+	add_round_eval_row_ref(...)
+end

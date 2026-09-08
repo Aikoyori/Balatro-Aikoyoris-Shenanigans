@@ -4243,17 +4243,18 @@ SMODS.Joker {
     end,
     akyrs_joker_use_btn = true,
     akyrs_joker_can_use = function (self, card)
-        return G.STATE == G.STATES.SELECTING_HAND and not AKYRS.is_mp_nemesis()
+        return G.STATE == G.STATES.SELECTING_HAND and not AKYRS.is_mp_nemesis() and not (G.GAME.blind or {}).boss
     end,
     akyrs_joker_use = function (self, card)
         card.ability.akyrs_pillow_saved = true
         for i = #G.hand.cards, 1, -1 do
             local c = G.hand.cards[i]
             AKYRS.simple_event_add(function ()
-                c:start_dissolve()
+                SMODS.destroy_cards(c)
                 return true
             end)
         end
+        
         AKYRS.force_end_round()
     end,
     rarity = 2,
@@ -4466,7 +4467,7 @@ SMODS.Joker {
     config = {
     },
     rarity = 1,
-    cost = 7,
+    cost = 6,
     config = {
         extras = {
             blindsize = 2,
@@ -4512,9 +4513,123 @@ SMODS.Joker {
     end
 }
 
+SMODS.Joker {
+    key = "yoidore_shirazu",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 6, y = 9 },
+    pools = {  },
+    config = {
+    },
+    rarity = 1,
+    cost = 4,
+    config = {
+        extras = {
+            used_this_hand = false,
+            chips = 0,
+            chips_g = 5,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.chips),
+                SMODS.signed(card.ability.extras.chips_g),
+            },
+        }
+    end,
+    akyrs_joker_use_btn = true,
+    akyrs_joker_can_use = function (self, card)
+        return G.hand and G.hand.cards and #G.hand.cards > 0 and not card.ability.extras.used_this_hand
+    end,
+    akyrs_joker_use = function (self, card)
+        stop_use()
+        table.sort(G.hand.cards, function(a,b) return a.T.x < b.T.x end) -- lol!
+        AKYRS.do_things_to_card(G.hand.cards, function (_card, index)
+            SMODS.modify_rank(_card, 1)
+        end)
+        SMODS.scale_card(
+            card,{
+                ref_table = card.ability.extras,
+                ref_value = 'chips',
+                scalar_value = 'chips_g'
+            }
+        )
+        card.ability.extras.used_this_hand = true
+    end,
+    calculate = function (self, card, context)
+        if context.after then
+            return {
+                func = function()
+                    card.ability.extras.used_this_hand = false
+                end
+            }
+        end
+        if context.joker_main then
+            return {
+                chips = card.ability.extras.chips
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = "yoru_ni_kakeru",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 7, y = 9 },
+    pools = {  },
+    config = {
+    },
+    rarity = 3,
+    cost = 7,
+    config = {
+        extras = {
+            charges = 0,
+            charges_per_use = 4,
+            counts = 2,
+        }
+    },
+    akyrs_joker_use_btn = true,
+    akyrs_joker_can_use = function (self, card)
+        return G.hand and G.hand.cards and #G.hand.cards > 0 and #G.hand.highlighted == math.floor(card.ability.extras.counts) and card.ability.extras.charges >= card.ability.extras.charges_per_use
+    end,
+    akyrs_joker_use = function (self, card)
+        table.sort(G.hand.highlighted, function(a,b) return a.T.x < b.T.x end) -- lol!
+        AKYRS.do_things_to_card(G.hand.highlighted, function (_card, index)
+            if index ~= #G.hand.highlighted then
+                SMODS.copy_card(G.hand.highlighted[#G.hand.highlighted], { new_card = _card })
+            end
+        end)
+        card.ability.extras.charges = card.ability.extras.charges - card.ability.extras.charges_per_use
+    end,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.charges,
+                card.ability.extras.charges_per_use,
+                math.floor(card.ability.extras.counts),
+            },
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.remove_playing_cards then
+            return {
+                func = function()
+                    SMODS.scale_card(
+                        card,{
+                            ref_table = card.ability.extras,
+                            ref_value = 'charges',
+                            scalar_factor = #context.removed or 0
+                        }
+                    )
+                end
+            }
+        end
+    end,
+}
+
 for j = 9, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 96 then
+        if i + j * 10 >= 98 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

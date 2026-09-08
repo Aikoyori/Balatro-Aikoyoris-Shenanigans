@@ -68,6 +68,7 @@ G.ARGS.LOC_COLOURS.akyrs_scenario_blue    = G.C.AKYRS_AKYRS_SCENARIO_BLUE
 G.ARGS.LOC_COLOURS.akyrs_scenario_dark_yellow  = G.C.AKYRS_AKYRS_SCENARIO_DARK_YELLOW
 G.ARGS.LOC_COLOURS.akyrs_scenario_dark_pink    = G.C.AKYRS_AKYRS_SCENARIO_DARK_PINK
 G.ARGS.LOC_COLOURS.akyrs_scenario_dark_blue    = G.C.AKYRS_AKYRS_SCENARIO_DARK_BLUE
+G.ARGS.LOC_COLOURS.akyrs_furigana    = HEX("bbbbbb")
 """
 overwrite = true
 match_indent = true

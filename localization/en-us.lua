@@ -2152,6 +2152,7 @@ return {
             },
             j_akyrs_goodbye_sengen = {
                 name = {
+                    "{s:0.5,C:akyrs_furigana}goodbye sengen",
                     "{f:5}グッバイ宣言",
                     "{s:0.7}Goodbye Declaration by Chinozo"
                 },
@@ -2471,6 +2472,7 @@ return {
             },
             j_akyrs_ojisan_koubun = {
                 name = {
+                    "{s:0.5,C:akyrs_furigana}ohenji mada kana? ojisan koubun",
                     "{f:5}お返事まだカナ？(水)おじさん構文{f:akyrs_NotoEmoji}😁❗", 
                     "{s:0.7}Ojisan Style Text",
                 },
@@ -2544,7 +2546,7 @@ return {
             j_akyrs_konton_boogie = {
                 name = {
                     "{f:5}混沌ブギ",
-                    "Konton Boogie",
+                    "{s:0.7}Konton Boogie by jon-YAKITORY",
                 },
                 text = {
                     {
@@ -2563,7 +2565,7 @@ return {
             j_akyrs_yamada_perfect = {
                 name = {
                     "{f:5}山田PERFECT",
-                    "Yamada Perfect",
+                    "{s:0.7}Yamada Perfect by jon-YAKITORY",
                 },
                 text = {
                     {
@@ -2583,7 +2585,7 @@ return {
             j_akyrs_trend_angelina = {
                 name = {
                     "{f:5}流行アンジェリーナ",
-                    "Trend Angelina",
+                    "{s:0.7}Trend Angelina by jon-YAKITORY",
                 },
                 text = {
                     {
@@ -2654,8 +2656,9 @@ return {
             },
             j_akyrs_mikudashi = {
                 name = {
+                    "{s:0.5,C:akyrs_furigana}miku dashi",
                     "{f:5}ミクだし",
-                    "{s:0.7}[Under My Heel (MIKU dashi)] by hya"
+                    "{s:0.7}Under My Heel by hya"
                 },
                 text = {
                     {
@@ -2728,8 +2731,9 @@ return {
             },
             j_akyrs_tono_goranshin = {
                 name = {
+                    "{s:0.5,C:akyrs_furigana}tono! goranshin!?",
                     "{f:5}殿ッ！？ご乱心！？",
-                    "{s:0.7}Tono, Goranshin! by Shu"
+                    "{s:0.7}Go! Run! Sh1ne! by Shu"
                 },
                 text = {
                     {
@@ -2754,6 +2758,7 @@ return {
             },
             j_akyrs_bubble = {
                 name = {
+                    "{s:0.5,C:akyrs_furigana}abuku",
                     "{f:5}あぶく",
                     "{s:0.7}Bubble by Yorushika"
                 },
@@ -2782,6 +2787,7 @@ return {
             },
             j_akyrs_aipai_dancehall = {
                 name = {
+                    "{s:0.5,C:akyrs_furigana}ai pai dancehall",
                     "{f:5}愛包ダンスホール",
                     "{s:0.7}Love Pie Dancehall by HIMEHINA"
                 },
@@ -2819,6 +2825,7 @@ return {
             },
             j_akyrs_outlaws = {
                 name = {
+                    "{s:0.5,C:akyrs_furigana}musekinin shuugoutai",
                     "{f:5}㋰責任集合体",
                     "{s:0.7,f:5}●{s:0.7}utlaws by Masarada"
                 },
@@ -2833,8 +2840,10 @@ return {
             },
             j_akyrs_doro_no_bunzai = {
                 name = {
+                    "{s:0.5,C:akyrs_furigana}doro no bunzai de watashi dake",
                     "{f:5}泥の分際で私だけの",
-                    "{f:5}大切な奪おう立たんて",
+                    "{s:0.5,C:akyrs_furigana}no taisetsu na ubaou da nante",
+                    "{f:5}大切な奪おうだなんて",
                     "{s:0.7}Being low as dirt,",
                     "{s:0.7}taking what's important from me",
                     "{s:0.7}by TUYU"
@@ -2862,6 +2871,7 @@ return {
                         "to destroy {C:attention}all{} cards in hand",
                         "and {C:red}forcefully{} end the round",
                         "{C:red}Self-destructs{}",
+                        "{C:inactive}(Does not work on Boss blinds){}",
                     },
                 }
             },
@@ -2882,6 +2892,7 @@ return {
             },
             j_akyrs_shade_no_hokori = {
                 name = {
+                    "{s:0.5,C:akyrs_furigana}shade no hokori wa enchou",
                     "{f:5}シェードの埃は延長",
                     "{s:0.7}SHADE by ZUTOMAYO",
                 },
@@ -2934,6 +2945,39 @@ return {
                         "{X:blind,C:white}X#1#{} Blind Size when {C:attention}entering blind",
                         "Gain {C:money}$#2#{} at the end of round",
                         "Plus {C:money}$#3#{} per hands {C:attention}played{} to beat the blind",
+                    },
+                }
+            },
+            j_akyrs_yoidore_shirazu = {
+                name = {
+                    "{f:5}酔いどれ知らず",
+                    "{s:0.8}Yoidore Shirazu by Kanaria",
+                },
+                text = {
+                    {
+                        "Once per hand, {C:attention}use{} this Joker to {C:attention}increase ranks{}",
+                        "of all cards in hand by {C:attention}1",
+                        "and gain {C:chips}#2#{} Chips in the process",
+                        "{C:inactive}(Currently {C:chips}#1#{C:inactive} Mult)",
+                    },
+                }
+            },
+            j_akyrs_yoru_ni_kakeru = {
+                name = {
+                    "{s:0.5,C:akyrs_furigana}yoru ni kakeru",
+                    "{f:5}夜に駆ける",
+                    "{s:0.8}Racing into the Night by YOASOBI",
+                },
+                text = {
+                    {
+                        "This Joker gains {C:purple}1{} Charge",
+                        "per playing card {C:attention}destroyed",
+                        "{C:inactive}(Currently {C:purple}#1#{C:inactive} Charges)",
+                    },
+                    {
+                        "Select #3# cards and {C:attention}use{} this Joker",
+                        "to spend {C:purple}#2#{} Charges and convert",
+                        "all {C:attention}cards{} selected into the {C:attention}rightmost{} card",
                     },
                 }
             },

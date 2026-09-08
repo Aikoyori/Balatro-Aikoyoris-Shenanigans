@@ -798,11 +798,16 @@ G.FUNCS.akyrs_can_use_special = function(e)
 end
 G.FUNCS.akyrs_use_special = function (e)
     local card = e.config.ref_table
+    if G.GAME.starting_params.akyrs_inversion_deck then
+        AKYRS.invert_selection(G.hand)
+    end
     
     if card.config.center.akyrs_joker_use then
         card.config.center:akyrs_joker_use(card)
     end
-    AKYRS.force_update_h_popup(card)
+    if G.CONTROLLER.HID.controller then
+        AKYRS.force_update_h_popup(card)
+    end
 end
 
 -- add buttons n shi

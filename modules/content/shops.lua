@@ -759,7 +759,7 @@ function AKYRS.fill_life_reroll()
   AKYRS.create_custom_shop_card_ui(rare, { currency = "curr_akyrs_life" })
   G.akyrs_life_shop:emplace(rare)
   local is_kdx = AKYRS.get_life_mode() == 'kaleidoscope'
-  local should_legen = is_kdx or pseudorandom('akyrs_life_shop_legendary') > 0.8
+  local should_legen = is_kdx or pseudorandom('akyrs_life_shop_legendary') > 0.95
   local legendary = SMODS.create_card({
     set = "Joker",
     rarity = should_legen and "Legendary" or 'Rare',

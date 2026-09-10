@@ -4627,9 +4627,45 @@ SMODS.Joker {
     end,
 }
 
+SMODS.Joker {
+    key = "loser_girl",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 8, y = 9 },
+    pools = {  },
+    config = {
+    },
+    rarity = 1,
+    cost = 3,
+    config = {
+        extras = {
+        }
+    },
+    
+    loc_vars = function (self, info_queue, card)
+        return {
+            key = self.key .. (AKYRS.is_mp() and "_mp" or ""),
+            vars = {
+            },
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.end_of_round and context.game_over and not AKYRS.is_mp() then
+            return {
+                saved = true,
+                func = function()
+                    G.SETTINGS.paused = true
+                    G.GAME.akyrs_start_args.seed = G.GAME.pseudorandom.seed
+                    G.GAME.akyrs_start_args.akyrs_same_seed = true
+                    G.FUNCS.start_run(nil, G.GAME.akyrs_start_args)
+                end
+            }
+        end
+    end,
+}
+
 for j = 9, 9 do
     for i = 0, 9 do
-        if i + j * 10 >= 98 then
+        if i + j * 10 >= 99 then
             SMODS.Joker {
                 key = "test_x"..i.."_y"..j,
                 atlas = 'AikoyoriJokers',

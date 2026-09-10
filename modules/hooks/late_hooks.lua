@@ -50,6 +50,10 @@ function Game:start_run(args)
     G.AKYRS_CARD_EVAL_RAN = nil
     AKYRS.NO_UNHIGHLIGHT = nil
     G.AKYRS_LOCK_CARD_SELECTION = nil
+    if not args.savetext and G.STAGE == G.STAGES.RUN then 
+        G.AKYRS_OLD_SEED = G.GAME.pseudorandom.seed 
+        G.AKYRS_ORIGINALLY_SEEDED = G.GAME.seeded
+    end
     --print("PRE RUN")
     local ret = startRunHook(self, args)
     --print("POST RUN")
@@ -75,7 +79,7 @@ function Game:start_run(args)
                 G.GAME.banned_keys[v.key] = true
             end
         end
-        G.GAME.planet_rate = 0
+        -- G.GAME.planet_rate = 0
     end
     if self.GAME.modifiers.akyrs_no_joker then
         for k, v in ipairs(G.P_CENTER_POOLS.Joker) do
@@ -154,6 +158,15 @@ function Game:start_run(args)
     if G.consumeables then
         G.consumeables.config.highlighted_limit = 9e9
     end
+    if args and not args.savetext then
+        G.GAME.akyrs_start_args = args
+    end
+    if args and not args.savetext and args.akyrs_same_seed then
+        G.GAME.pseudorandom.seed = G.AKYRS_OLD_SEED or G.GAME.pseudorandom.seed
+        G.GAME.akyrs_start_args.akyrs_same_seed = false
+        G.GAME.seeded = G.AKYRS_ORIGINALLY_SEEDED
+    end
+    G.AKYRS_OLD_SEED = nil
     for _, v in ipairs(AKYRS.ShopPages_Buffer) do
         AKYRS.ShopPages[v]:_INTERNAL_setup_shop_strings_and_ui(true)
     end

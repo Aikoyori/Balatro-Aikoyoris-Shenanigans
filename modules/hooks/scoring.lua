@@ -96,6 +96,9 @@ end
 
 local get_blind_amount_hook = get_blind_amount
 function get_blind_amount(ante)
+    if AKYRS.is_mp() then
+        ante = ante - #SMODS.find_card('j_akyrs_loser_girl')
+    end
     local r = get_blind_amount_hook(ante)
     if G.GAME.akyrs_power_of_x_scaling then
         if Talisman then
@@ -112,6 +115,8 @@ function get_blind_amount(ante)
         end
         r = G.GAME.akyrs_blind_random
     end
+
+
     
     return r
 end

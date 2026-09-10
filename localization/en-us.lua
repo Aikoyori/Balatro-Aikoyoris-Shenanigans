@@ -2981,6 +2981,33 @@ return {
                     },
                 }
             },
+            j_akyrs_loser_girl = {
+                name = {
+                    "{f:5}ルーザーガール",
+                    "{s:0.8}Loser Girl by TUYU",
+                },
+                text = {
+                    {
+                        "{C:attention}Start{} a new Run",
+                        "with the {C:attention}same seed",
+                        "When you {C:attention}lose",
+                        "{C:inactive}(Win streak is kept)",
+                    },
+                }
+            },
+            j_akyrs_loser_girl_mp = {
+                name = {
+                    "{f:5}ルーザーガール",
+                    "{s:0.8}Loser Girl by TUYU",
+                },
+                text = {
+                    {
+                        "{C:attention}Lower{} required score",
+                        "for {C:attention}Small & Big{} Blinds",
+                        "to {C:attention}one Ante{} lower",
+                    },
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {

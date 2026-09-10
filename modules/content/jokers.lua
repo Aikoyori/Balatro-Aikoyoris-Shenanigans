@@ -1070,7 +1070,6 @@ SMODS.Joker{
                     trigger = 'after',
                     blocking = false,
                     -- the abs thing is so it does the center to the sides effect
-                    -- TODO: Maybe make it flip from center to border like a centrifuge, not priority tho
                     delay = 0.2*AKYRS.get_speed_mult(card),
                     func = function ()
                         if G.play and G.play.cards then

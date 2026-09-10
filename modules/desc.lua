@@ -3,16 +3,7 @@ AKYRS.DescriptionDummy{
     generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
         SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
         if desc_nodes ~= full_UI_table.main and AKYRS.should_show_card_previews() then
-            local cards = {}
-            table.insert(cards, AKYRS.create_random_card("maxwellui") )
-            table.insert(cards, AKYRS.create_random_card("maxwellui") )
-            table.insert(cards, AKYRS.create_random_card("maxwellui") )
-            table.insert(cards, AKYRS.create_random_card("maxwellui") )
-            table.insert(cards, AKYRS.create_random_card("maxwellui") )
-            table.insert(cards, AKYRS.create_random_card("maxwellui") )
-            table.insert(cards, AKYRS.create_random_card("maxwellui") )
-            table.insert(cards, AKYRS.create_random_card("maxwellui") )
-            local letters = {'s','p','e','c','t','r','a','l'}
+            local cards = AKYRS.word_to_cards("spectral")
             for index, value in ipairs(cards) do
                 value.ability.forced_letter_render = true
                 value.is_null = true

@@ -2789,7 +2789,7 @@ return {
                 name = {
                     "{s:0.5,C:akyrs_furigana}ai pai dancehall",
                     "{f:5}愛包ダンスホール",
-                    "{s:0.7}Love Pie Dancehall by HIMEHINA"
+                    "{s:0.7}Heart Pie Dancehall by HIMEHINA"
                 },
                 text = {
                     {

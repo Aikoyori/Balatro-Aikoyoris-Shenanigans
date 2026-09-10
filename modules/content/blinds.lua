@@ -874,7 +874,7 @@ SMODS.Blind{
     key = "the_weave",
     dollars = 6,
     mult = 1.5,
-    boss_colour = HEX("4f6367"), -- todo: eyedrop this from ase
+    boss_colour = HEX("5daf8d"), 
     atlas = 'aikoyoriBlindsChips3',
     boss = {min = 3,},
     pos = { x = 0, y = 13 },
@@ -899,7 +899,7 @@ SMODS.Blind{
     key = "the_fork",
     dollars = 6,
     mult = 1,
-    boss_colour = HEX("4f6367"), -- todo: eyedrop this from ase
+    boss_colour = HEX("ff7d20"),
     atlas = 'aikoyoriBlindsChips3',
     boss = {min = 3,},
     pos = { x = 0, y = 14 },

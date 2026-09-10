@@ -1,0 +1,9 @@
+{
+    "name": "AikoyorisShenanigans",
+    "version_number": "0.3.0",
+    "website_url": "https://github.com/Aikoyori/Balatro-Aikoyoris-Shenanigans",
+    "description": "Adds a bunch of stuff I want to add to the game.",
+    "dependencies": [
+        "Steamodded-Steamodded-26.829.0"
+    ]
+}

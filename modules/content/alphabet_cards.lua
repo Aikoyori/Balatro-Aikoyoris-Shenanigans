@@ -110,4 +110,5 @@ SMODS.Consumable{
     in_pool = function(self, args)
         return G.GAME.akyrs_character_stickers_enabled
     end,
+    weight = 24,
 }

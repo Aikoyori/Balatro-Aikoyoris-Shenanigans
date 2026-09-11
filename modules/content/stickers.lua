@@ -449,7 +449,7 @@ SMODS.Sticker{
     atlas = "aikoyoriStickers",
     pos = {x = 1, y = 2},
     rate = 0,
-    badge_colour = G.C.BLACK,
+    badge_colour = G.C.MONEY,
     sets =  { ["Enhanced"] = true, ["Default"] = true },
     loc_vars = function (self, info_queue, card)
         return {

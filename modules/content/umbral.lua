@@ -617,7 +617,7 @@ SMODS.Consumable{
     atlas = "umbra",
     pos = {x=6,y=1},
     config = {
-        max_highlighted = 1
+        max_highlighted = 3
     },
     loc_vars = function (self, info_queue, card)
         return {

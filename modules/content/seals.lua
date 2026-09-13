@@ -122,7 +122,7 @@ SMODS.Seal{
             t = G.play.cards
         end
         local s = AKYRS.filter_table(t, function (item)
-                return item.seal ~= nil
+                return true
         end, true, true)
         local n, d = SMODS.get_probability_vars(card, 1, #s * #s, "akyrs_fault_seal")
         return {
@@ -136,7 +136,7 @@ SMODS.Seal{
     calculate = function(self, card, context)
         if context.repetition then
             local p = AKYRS.filter_table(G.play.cards, function (item)
-                return item.seal ~= nil
+                return true
             end, true, true)
             if #p == #G.play.cards and #p > 0 then
                 local roll = SMODS.pseudorandom_probability(card, "akyrs_fault_seal", 1, #p * #p) 

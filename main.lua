@@ -64,9 +64,8 @@ assert(SMODS.load_file("./modules/content/currencies.lua"))()
 assert(SMODS.load_file("./modules/content/edition.lua"))()
 assert(SMODS.load_file("./modules/content/tags.lua"))()
 assert(SMODS.load_file("./modules/ui.lua"))()
-if AKYRS.config.experimental_features then
-    assert(SMODS.load_file("./modules/content/trades.lua"))()
-end
+assert(SMODS.load_file("./modules/content/trades.lua"))()
+
 assert(SMODS.load_file("./modules/challenges_ui.lua"))()
 assert(SMODS.load_file("./modules/content/jokers.lua"))()
 assert(SMODS.load_file("./modules/content/letterjokers.lua"))()

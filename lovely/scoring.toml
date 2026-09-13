@@ -313,8 +313,8 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua'
-pattern = """    SMODS.cashout_pitch = pitch; SMODS.cashout_index = i; SMODS.cashout_dollars = dollars"""
-position = "before"
+pattern = """    dollars = SMODS.cashout_dollars"""
+position = "after"
 payload = """dollars = AKYRS.add_custom_cashout_rows(dollars, pitch)"""
 overwrite = true
 match_indent = true

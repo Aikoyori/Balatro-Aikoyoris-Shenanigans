@@ -290,6 +290,7 @@ end
 local cashOutHook = G.FUNCS.cash_out
 G.FUNCS.cash_out = function(e)
     G.GAME.akyrs_win_checked = nil
+    G.BLIND_SIZE_DISPLAY_QUEUE = nil
     SMODS.calculate_context({akyrs_round_eval = true, dollars = G.GAME.current_round.dollars})
     if G.GAME.blind_on_deck == "Boss" then
         G.GAME.akyrs_blind_random = nil

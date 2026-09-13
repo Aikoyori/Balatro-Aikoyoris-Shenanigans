@@ -1462,6 +1462,13 @@ AKYRS.types_to_sort_sticker = {
         voucher = true,
 }
 
+AKYRS.area_to_sort_pinned = {
+        "jokers",
+        "consumeables",
+        "hand",
+        "play",
+}
+
 local cardAreaAlignHook = CardArea.align_cards
 function CardArea:align_cards()
     local r = cardAreaAlignHook(self)
@@ -1617,8 +1624,12 @@ function CardArea:align_cards()
             card.T.x = card.T.x + card.shadow_parrallax.x/30
         end
         table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*(a.pinned and a.sort_id or 0) < b.T.x + b.T.w/2 - 100*(b.pinned and b.sort_id or 0) end)
-    end   
-    if self.config and self.config.type and AKYRS.types_to_sort_sticker[self.config.type] then
+    end
+    local is_sortable_area = false
+    for _, ar in ipairs(AKYRS.area_to_sort_pinned) do
+        if G[ar] == self then is_sortable_area = true break end
+    end
+    if self.config and self.config.type and (AKYRS.types_to_sort_sticker[self.config.type] or is_sortable_area) then
         table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*(a.pinned and a.sort_id or a.akyrs_pinned_right and 1e200 or 0) < b.T.x + b.T.w/2 - 100*(b.pinned and b.sort_id or b.akyrs_pinned_right and 1e200 or 0) end)
     end
 

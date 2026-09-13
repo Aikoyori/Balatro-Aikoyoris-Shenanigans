@@ -297,6 +297,7 @@ G.C.SECONDARY_SET.Scenario = HEX("645474FF")
 ---@field tag_removed? fun(self: AKYRS.Scenario|table, _tag:AKYRS.Scenario_Tag): nil
 ---@field tag_expire? fun(self: AKYRS.Scenario|table, _tag:AKYRS.Scenario_Tag): nil
 ---@field tag_update? fun(self: AKYRS.Scenario|table, tag:AKYRS.Scenario_Tag, dt: number, real_dt:number): nil
+---@field on_load? fun(self: AKYRS.Scenario|table, tag:AKYRS.Scenario_Tag): nil
 ---@overload fun(self: AKYRS.Scenario): AKYRS.Scenario
 AKYRS.Scenario = SMODS.Center:extend{
     required_params = {
@@ -397,6 +398,9 @@ function AKYRS.add_scenario_tag(_tag, card_source)
         end
     else
         _tag.akyrs_previous_left_number = _tag.akyrs_rounds_left + 1
+        if tagobj.on_load then
+            tagobj:on_load(_tag)
+        end
     end
     _tag.from_load = nil
     G.AKYRS_SCENARIO_TAG_HUD[#G.AKYRS_SCENARIO_TAG_HUD].is_scenario_tag = true
@@ -1448,6 +1452,9 @@ AKYRS.Scenario {
         AKYRS.recalculate_blind_ui()
     end,
     tag_removed = function (self, tag)
+        AKYRS.recalculate_blind_ui()
+    end,
+    on_load = function (self, tag)
         AKYRS.recalculate_blind_ui()
     end
 }

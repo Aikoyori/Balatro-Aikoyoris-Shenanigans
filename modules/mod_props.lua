@@ -731,6 +731,7 @@ SMODS.current_mod.config_tab = function ()
         AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_toggle_colourblind_ui" }
         }
       },
+      --[[
       { n = G.UIT.R, config = { align = "rt"}, nodes = {
         { n = G.UIT.C, config = {
             align = "cm", padding = 0.05,
@@ -748,6 +749,7 @@ SMODS.current_mod.config_tab = function ()
         AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_experimental_feature" }
         }
       },
+      ]]
       {
         n = G.UIT.R,
         config = { align = "cm", padding = 0.2 },

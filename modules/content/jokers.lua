@@ -3944,7 +3944,7 @@ SMODS.Joker {
     config = {
         extras = {
             discards = 0,
-            d_g = 1,
+            d_g = 2,
             d_m = -1,
         }
     },

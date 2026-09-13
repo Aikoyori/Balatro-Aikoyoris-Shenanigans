@@ -1317,7 +1317,7 @@ end
 local tagGen = Tag.generate_UI
 function Tag:generate_UI(_size)
     local tag_sprite_tab, tag_sprite = tagGen(self, _size)
-    local tagClickFunc = Tag.click or Sprite.click
+    local tagClickFunc = (tag_sprite and tag_sprite.click) or Tag.click or Sprite.click
     if self then
         if AKYRS.should_conceal_card(nil,self.config) then
             tag_sprite.atlas = G.ASSET_ATLAS["akyrs_aikoyoriTags"]

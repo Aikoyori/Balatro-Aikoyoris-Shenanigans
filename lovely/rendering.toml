@@ -102,6 +102,6 @@ match_indent = true
 target = '''tag.lua'''
 pattern = """    if not for_collection then self:set_ability() end"""
 position = "after"
-payload = '''if for_collection then self.akyrs_enabled = true end
+payload = '''if for_collection and proto.akyrs_no_disable then self.akyrs_enabled = true end
 self.akyrs_is_collection = for_collection'''
 match_indent = true

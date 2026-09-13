@@ -1317,14 +1317,28 @@ end
 local tagGen = Tag.generate_UI
 function Tag:generate_UI(_size)
     local tag_sprite_tab, tag_sprite = tagGen(self, _size)
+    local tagClickFunc = Tag.click or Sprite.click
     if self then
         if AKYRS.should_conceal_card(nil,self.config) then
             tag_sprite.atlas = G.ASSET_ATLAS["akyrs_aikoyoriTags"]
             tag_sprite:set_sprite_pos({x = 0, y = 9})
         end
-        if tag_sprite then
+        local tag_conf = G.P_TAGS[self.key] or {}
+        if tag_sprite and not tag_conf.akyrs_no_disable then
             tag_sprite.click = function ( _self )
                 self.akyrs_enabled = not self.akyrs_enabled
+                if tag_conf.akyrs_tag_click_func then
+                    tag_conf.akyrs_tag_click_func(tag_conf, self)
+                end
+                if self.akyrs_enabled then
+                    if tag_conf.akyrs_enable_tag then
+                        tag_conf.akyrs_enable_tag(tag_conf, self)
+                    end
+                else
+                    if tag_conf.akyrs_disable_tag then
+                        tag_conf.akyrs_disable_tag(tag_conf, self)
+                    end
+                end
                 local steps = {
                     {shader = 'dissolve', shadow_height = 0.05},
                     {shader = 'dissolve' },
@@ -1343,7 +1357,7 @@ function Tag:generate_UI(_size)
                 end
                 _self:define_draw_steps(steps) 
                 
-                return Sprite.click( _self )
+                return tagClickFunc( _self )
             end
         end
     end
@@ -1353,7 +1367,8 @@ end
 local guibt = Tag.get_uibox_table
 function Tag:get_uibox_table(tag_sprite, only)
     local fulluit = guibt(self, tag_sprite, only)
-    if self and not only and fulluit.ability_UIBox_table.main and next(fulluit.ability_UIBox_table.main) then
+    local tag_conf = G.P_TAGS[self.key] or {}
+    if self and not only and fulluit.ability_UIBox_table.main and next(fulluit.ability_UIBox_table.main) and not tag_conf.akyrs_no_disable then
         fulluit.ability_UIBox_table.main.main_box_flag = true
         local multiboxone = {}
         localize{ type = "descriptions", set = "DescriptionDummy", key = 'dd_akyrs_tag_toggle_tooltip', nodes = multiboxone }

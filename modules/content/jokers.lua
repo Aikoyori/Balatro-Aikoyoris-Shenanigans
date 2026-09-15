@@ -4669,8 +4669,8 @@ SMODS.Joker {
     pools = {  },
     config = {
     },
-    rarity = 1,
-    cost = 3,
+    rarity = 2,
+    cost = 6,
     config = {
         extras = {
             used = false,

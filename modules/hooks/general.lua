@@ -398,6 +398,7 @@ function Card:set_cost()
     if self.ability.akyrs_sale then
         self.cost = 1
     end
+    if self.area and self.ability.akyrs_free_card then self.cost = 0 end
     return ret
 end
 

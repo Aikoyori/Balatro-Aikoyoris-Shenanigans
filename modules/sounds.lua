@@ -107,9 +107,27 @@ function play_sound(snd, per, vol)
     return plsnd(snd, per, vol)
 end
 
+SMODS.Sound({
+    key = "bluetooth_ready_to_pair",
+    path = "speaker/ready_to_pair.ogg",
+})
 
 SMODS.Sound({
-    key = "layer_aikoyori",
-    path = "layer_aikoyori.ogg",
-    pitch = 1,
+    key = "bluetooth_pair_success",
+    path = "speaker/pair_success.ogg",
+})
+
+SMODS.Sound({
+    key = "bluetooth_power_off",
+    path = "speaker/power_off.ogg",
+})
+
+SMODS.Sound({
+    key = "bluetooth_incoming_call",
+    path = "speaker/incoming_call.ogg",
+})
+
+SMODS.Sound({
+    key = "bluetooth_low_battery",
+    path = "speaker/low_battery.ogg",
 })

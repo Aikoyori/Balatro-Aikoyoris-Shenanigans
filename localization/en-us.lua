@@ -3034,6 +3034,46 @@ return {
                     },
                 }
             },
+            j_akyrs_cartoongirl = {
+                name = {
+                    "{f:5}カートゥーンガール",
+                    "{s:0.7}CartoonGirl by Kanaria",
+                },
+                text = {
+                    {
+                        "Create a {C:attention}free{} Voucher in shop",
+                        "every #2# {C:inactive}[#1#]{} {C:spades}Spades{} scored"
+                    },
+                }
+            },
+            j_akyrs_chinese_speaker = {
+                name = {
+                    "Chinese Bluetooth Speaker",
+                },
+                text = {
+                    {
+                        "Hand {C:red}must{} contain only {C:attention}Pairs{}",
+                        "{C:inactive}(No Three of a Kind or above)",
+                        "Unscored cards gives {C:money}#1#{} when scored"
+                    },
+                }
+            },
+            j_akyrs_chinese_speaker_letter = {
+                name = {
+                    "Chinese Bluetooth Speaker",
+                },
+                text = {
+                    {
+                        "Hand {C:red}must{} contain only {C:attention}Pairs{}",
+                        "{C:inactive}(No Three of a Kind or above)",
+                        "Unscored cards gives {C:money}#1#{} when scored"
+                    },
+                    {
+                        "{C:attention}Word hands{} are exempt",
+                        "and can be played {C:attention}without{} Pairs",
+                    }
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {
@@ -5406,6 +5446,16 @@ return {
             k_akyrs_enchantment_none_blank="None :(",
             k_akyrs_edge_prism="<PRISM>",
             k_akyrs_link_code="Link Code: ",
+            k_akyrs_cartoongirl_melody="Melody~",
+            k_akyrs_speaker_ready_to_pair_1="The Bluetooth device is",
+            k_akyrs_speaker_ready_to_pair_2="ready to pair",
+            k_akyrs_speaker_connected_1="The Bluetooth device is",
+            k_akyrs_speaker_connected_2="connected successfully",
+            k_akyrs_speaker_power_off="Power Off",
+            k_akyrs_speaker_incoming_call="You have a call",
+            k_akyrs_speaker_low_battery_1="Battery is low",
+            k_akyrs_speaker_low_battery_2="Please recharge it in time",
+            k_akyrs_must_play_pairs="Hand must only contain Pairs",
 
             f_akyrs_localize_enchantment_level = function (num_in)
                 if math.abs(num_in) > 3999 then

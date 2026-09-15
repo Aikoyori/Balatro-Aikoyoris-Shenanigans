@@ -4784,18 +4784,48 @@ SMODS.Joker {
     pos = { x = 1, y = 0 },
     pools = {  },
     config = {
+        extras = {
+            spades_scored = 0,
+            spades_scored_req = 25,
+        }
     },
-    rarity = 2,
-    cost = 2,
+    rarity = 3,
+    cost = 7,
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
+                card.ability.extras.spades_scored,
+                card.ability.extras.spades_scored_req,
             }
         }
     end,
-    in_pool = function (self, args)
-        return false
-    end,
+    calculate = function (self, card, context)
+        if context.individual and context.other_card:is_suit('Spades') and context.cardarea == G.play and not context.end_of_round then
+            return {
+                func = function ()
+                    card.ability.extras.spades_scored = card.ability.extras.spades_scored + 1
+                end,
+                message = localize("k_upgrade_ex"),
+            }
+        end
+        if context.akyrs_shop_spawn_item then
+            while card.ability.extras.spades_scored >= card.ability.extras.spades_scored_req do
+                SMODS.calculate_effect({
+                    func = function()
+                        AKYRS.simple_event_add(function()
+                            local voucher_key = SMODS.poll_object { type = 'Voucher' } 
+                            local vch_cd = SMODS.add_voucher_to_shop(voucher_key)
+                            vch_cd.ability.akyrs_free_card = true -- free
+                            vch_cd:set_cost()
+                            return true 
+                        end)
+                        card.ability.extras.spades_scored = card.ability.extras.spades_scored - card.ability.extras.spades_scored_req
+                    end,
+                    message = localize("k_akyrs_cartoongirl_melody")
+                }, card)
+            end
+        end
+    end
 }
 
 SMODS.Joker {
@@ -4804,16 +4834,100 @@ SMODS.Joker {
     pos = { x = 2, y = 0 },
     pools = {  },
     config = {
+        extras = {
+            dolarido = 2,
+        }
     },
     rarity = 1,
     cost = 2,
+    set_ability = function (self, card, initial, delay_sprites)
+        AKYRS.simple_event_add(function ()
+            if card.area and not card.area.config.collection and not card.added_to_deck then
+                play_sound("akyrs_bluetooth_ready_to_pair")
+                SMODS.calculate_effect({
+                    extra = {
+                        message = localize("k_akyrs_speaker_ready_to_pair_2")
+                    },
+                    message = localize("k_akyrs_speaker_ready_to_pair_1")
+                }, card)
+            end
+            return true
+        end)
+    end,
+    add_to_deck = function (self, card, from_debuff)
+        AKYRS.simple_event_add(function ()
+            if card.area and not card.area.config.collection then
+                play_sound("akyrs_bluetooth_pair_success")
+                SMODS.calculate_effect({
+                    extra = {
+                        message = localize("k_akyrs_speaker_connected_2")
+                    },
+                    message = localize("k_akyrs_speaker_connected_1")
+                }, card)
+            end
+            return true
+        end)
+    end,
+    remove_from_deck = function (self, card, from_debuff)
+        play_sound("akyrs_bluetooth_power_off")
+        SMODS.calculate_effect({
+            message = localize("k_akyrs_speaker_power_off")
+        }, card)
+    end,
     loc_vars = function (self, info_queue, card)
         return {
+            key = self.key .. (AKYRS.should_calculate_word() and "_letter" or ""),
             vars = {
+                SMODS.signed_dollars(card.ability.extras.dolarido),
             }
         }
     end,
     in_pool = function (self, args)
-        return false
+    end,
+    calculate = function (self, card, context)
+        if context.setting_blind then
+            return {
+                func = function ()
+                    AKYRS.simple_event_add(function ()
+                        if card.area and not card.area.config.collection then
+                            play_sound("akyrs_bluetooth_incoming_call")
+                            SMODS.calculate_effect({
+                                message = localize("k_akyrs_speaker_incoming_call")
+                            }, card)
+                        end
+                        return true
+                    end)
+                end
+            }
+        end
+        if context.debuff_hand and (next(context.poker_hands['Three of a Kind']) or #context.poker_hands['Pair'] == 0) and not G.GAME.aiko_current_word then
+            return {
+                debuff = true,
+                debuff_text = localize("k_akyrs_must_play_pairs"),
+            }
+        end
+        if context.end_of_round and not context.individual and not context.repetition and G.GAME.dollars <= 4 then
+            return {
+                func = function ()
+                    AKYRS.simple_event_add(function ()
+                        if card.area and not card.area.config.collection then
+                            play_sound("akyrs_bluetooth_low_battery")
+                            SMODS.calculate_effect({
+                                extra = {
+                                    message = localize("k_akyrs_speaker_low_battery_2")
+                                },
+                                message = localize("k_akyrs_speaker_low_battery_1")
+                            }, card)
+                        end
+                        return true
+                    end)
+                end
+            }
+        end
+        if context.individual and not context.end_of_round and context.cardarea == 'unscored' then
+            return {
+                dollars = card.ability.extras.dolarido
+            }
+        end
     end,
 }

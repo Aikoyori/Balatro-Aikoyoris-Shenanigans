@@ -11,7 +11,7 @@ local offset_each = {x = -0.2,y = 0}
 ---@field key? string
 ---@field akyrs_total_rounds? number
 ---@field akyrs_rounds_left? number
-AKYRS.Scenario_Tag = Object:extend()
+AKYRS.Scenario_Tag = Card:extend()
 
 -- honestly this is just tag code but modified because it works
 
@@ -36,7 +36,6 @@ function AKYRS.Scenario_Tag:init(_scenario, for_collection, _blind_type)
     G.akyrs_scenario_id = G.akyrs_scenario_id + 1
     G.GAME.akyrs_scenario_tally = G.GAME.akyrs_scenario_tally and (G.GAME.akyrs_scenario_tally + 1) or 1
     if not for_collection then self:set_ability() end
-
 end
 
 
@@ -761,10 +760,10 @@ AKYRS.Scenario {
         G.hand:change_size(-card.ability.extras.hand_size_taken)
     end,
     tag_added = function (self, tag, card)
-        G.hand:change_size(card.ability.extras.hand_size_taken)
+        G.hand:change_size(tag.ability.extras.hand_size_taken)
     end,
     tag_removed = function (self, tag)
-        G.hand:change_size(-card.ability.extras.hand_size_taken)
+        G.hand:change_size(-tag.ability.extras.hand_size_taken)
     end,
 }
 
@@ -1096,7 +1095,7 @@ AKYRS.Scenario {
             return {
                 func = function()
                     if card.ability.extras.dollars <= 1 then
-                        if card.is and card:is(Card) and card.shatter then
+                        if card.is and not AKYRS.is_scenario_tag(card) and card.shatter then
                             card:shatter()
                         else
                             card:remove()

@@ -567,6 +567,7 @@ function AKYRS.spawn_shop_items()
     if bet_key ~= 'j_joker' then -- is pool is empty or something idk i added this because this might spawn jimbo with superrogue so
         SMODS.add_voucher_to_shop(bet_key)
     end
+    SMODS.calculate_context({ akyrs_shop_spawn_item = true })
 end
 
 function AKYRS.should_use_default_blind_handler()

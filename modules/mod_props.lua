@@ -696,24 +696,6 @@ SMODS.current_mod.config_tab = function ()
           AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_card_preview_tooltip" }
         }
       },
-
-      { n = G.UIT.R, config = { align = "rt"}, nodes = {
-        { n = G.UIT.C, config = {
-            align = "cm", padding = 0.05,
-        }, nodes = {
-
-          create_toggle({
-            label = localize("k_akyrs_toggle_crt"),
-            ref_table = AKYRS.config,
-            ref_value = "turn_on_crt",
-            label_scale = 0.4,
-            callback = G.FUNCS.akyrs_change_crt_toggle
-          })
-          }
-        },
-        AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_crt_shader_toggle" }
-        }
-      },
       { n = G.UIT.R, config = { align = "rt"}, nodes = {
         { n = G.UIT.C, config = {
             align = "cm", padding = 0.05,

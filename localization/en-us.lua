@@ -192,7 +192,7 @@ return {
                     'When {C:attention}entering shop',
                     '{C:attention}Choose{} what to do',
                     "Base Blind Size scales up by Ante",
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
                 },
             },
             b_akyrs_prism_deck = {
@@ -211,49 +211,49 @@ return {
                 name = 'Kaleidoscopic Deck',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
                 },
             },
             b_akyrs_sheared_deck = {
                 name = 'Deck of the Sheared',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
                 },
             },
             b_akyrs_vision_deck = {
                 name = 'Deck of the Vision',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
                 },
             },
             b_akyrs_animosity_deck = {
                 name = 'Deck of the Animosity',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
                 },
             },
             b_akyrs_weaver_deck = {
                 name = 'Deck of the Weaver',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
                 },
             },
             b_akyrs_puppet_deck = {
                 name = 'Deck of the Puppets',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
                 },
             },
             b_akyrs_shining_deck = {
                 name = 'Deck of the Shining',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
                 },
             },
             b_akyrs_dotted_deck = {
@@ -276,21 +276,21 @@ return {
                 name = 'Flora Deck',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
                 },
             },
             b_akyrs_discord_deck = {
                 name = 'Discord Deck',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
                 },
             },
             b_akyrs_nitro_deck = {
                 name = 'Nitro Deck',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}WIP{}',
+                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
                 },
             },
             b_akyrs_judge_deck = {
@@ -2584,6 +2584,7 @@ return {
             },
             j_akyrs_trend_angelina = {
                 name = {
+                    "{s:0.5,C:akyrs_furigana}ryuukou angelina",
                     "{f:5}流行アンジェリーナ",
                     "{s:0.7}Trend Angelina by jon-YAKITORY",
                 },
@@ -3005,6 +3006,31 @@ return {
                         "{C:attention}Lower{} required score",
                         "for {C:attention}Small & Big{} Blinds",
                         "to {C:attention}one Ante{} lower",
+                    },
+                }
+            },
+            j_akyrs_twrp = {
+                name = {
+                    "TWRP",
+                    "{s:0.8}TeamWin Recovery Project",
+                },
+                text = {
+                    {
+                        "Use this Joker to create a {C:attention}copy",
+                        "of the most recently used {C:attention}Consumable",
+                        "{C:inactive}(Reusable after defeating a boss blind)",
+                        "{X:attention,C:white}#1#{}"
+                    },
+                }
+            },
+            j_akyrs_chicken_roll = {
+                name = {
+                    "Chicken Roll",
+                },
+                text = {
+                    {
+                        "After #2# {C:inactive}[#1#]{} rounds, {C:attention}sell{} this Joker to",
+                        "Create #3# random {C:dark_edition}Negative{} consumables",
                     },
                 }
             },

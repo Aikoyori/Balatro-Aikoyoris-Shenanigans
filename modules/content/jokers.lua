@@ -4662,31 +4662,69 @@ SMODS.Joker {
     end,
 }
 
-for j = 9, 9 do
-    for i = 0, 9 do
-        if i + j * 10 >= 99 then
-            SMODS.Joker {
-                key = "test_x"..i.."_y"..j,
-                atlas = 'AikoyoriJokers',
-                pos = { x = i, y = j },
-                pools = {  },
-                config = {
-                },
-                rarity = 1,
-                cost = 2,
-                loc_vars = function (self, info_queue, card)
-                    return {
-                        vars = {
-                        }
-                    }
-                end,
-                in_pool = function (self, args)
-                    return false
-                end,
+SMODS.Joker {
+    key = "twrp",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 9, y = 9 },
+    pools = {  },
+    config = {
+    },
+    rarity = 1,
+    cost = 3,
+    config = {
+        extras = {
+            used = false,
+        }
+    },
+    akyrs_joker_use_btn = true,
+    akyrs_joker_can_use = function (self, card)
+        return not card.ability.extras.used and card.ability.extras.card_used and AKYRS.has_room(G.consumeables)
+    end,
+    akyrs_joker_use = function (self, card)
+        SMODS.add_card{ key = card.ability.extras.card_used }
+        card.ability.extras.used = true
+    end,
+    loc_vars = function (self, info_queue, card)
+        local config = {} 
+        local loc_vars = {}
+        if card.ability.extras.card_used then 
+            config = G.P_CENTERS[card.ability.extras.card_used]
+            info_queue[#info_queue+1] = config
+            if config.loc_vars then
+                local c = config:loc_vars(info_queue,config:create_fake_card())
+                loc_vars = c.vars or {}
+            end
+        end
+        local loc_args = card.ability.extras.card_used and {
+            set = config.set,
+            key = config.key,
+            type = "name_text",
+            vars = loc_vars
+        } or "ph_akyrs_unknown"
+        return {
+            vars = {
+                localize(loc_args),
+            },
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.blind_defeated and context.blind.boss then
+            return {
+                func = function()
+                    card.ability.extras.used = false
+                end
             }
         end
-    end
-end
+        if context.using_consumeable then
+            return {
+                func = function()
+                    card.ability.extras.card_used = context.consumeable.config.center.key
+                end
+            }
+        end
+    end,
+}
+
 
 
 SMODS.Joker {
@@ -4695,18 +4733,48 @@ SMODS.Joker {
     pos = { x = 0, y = 0 },
     pools = {  },
     config = {
+        extras = {
+            creates = 3,
+            rounds = 0,
+            rounds_total = 3,
+        }
     },
-    rarity = 1,
+    rarity = 2,
     cost = 2,
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
+                card.ability.extras.rounds,
+                card.ability.extras.rounds_total,
+                card.ability.extras.creates,
             }
         }
     end,
-    in_pool = function (self, args)
-        return false
-    end,
+    calculate = function (self, card, context)
+        if context.selling_card and context.card == card and card.ability.extras.rounds >= card.ability.extras.rounds_total then
+            return {
+                func = function ()
+                    for i = 1, card.ability.extras.creates do
+                        SMODS.add_card({
+                            set = "Consumeables",
+                            edition = 'e_negative',
+                        })
+                    end
+                end
+            }
+        end
+        if context.end_of_round and not context.repetition and not context.individual then
+            return {
+                func = function ()
+                    card.ability.extras.rounds = card.ability.extras.rounds + 1
+                    if card.ability.extras.rounds >= card.ability.extras.rounds_total then
+                        juice_card_until(card, function(card) return card.ability.extras.rounds >= card.ability.extras.rounds_total end)
+                    end
+                end,
+                message = localize("k_upgrade_ex"),
+            }
+        end
+    end
 }
 
 
@@ -4717,7 +4785,7 @@ SMODS.Joker {
     pools = {  },
     config = {
     },
-    rarity = 1,
+    rarity = 2,
     cost = 2,
     loc_vars = function (self, info_queue, card)
         return {

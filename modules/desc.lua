@@ -7,7 +7,7 @@ AKYRS.DescriptionDummy{
             for index, value in ipairs(cards) do
                 value.ability.forced_letter_render = true
                 value.is_null = true
-                --value:set_letters()
+                value:set_letters(value.ability.aikoyori_letters_stickers)
             end
             AKYRS.card_area_preview(G.akyrsCardsPrev, desc_nodes, {
                 cards = cards,

@@ -408,8 +408,8 @@ AKYRS.word_to_cards = function(word)
     for i, k in ipairs(wordArray) do
         local new_c = AKYRS.create_random_card("maxwellui")
         new_c.is_null = true
-        new_c:set_letters(k)
         new_c.ability.forced_letter_render = true
+        new_c:set_letters(k)
         table.insert(cards, new_c)
     end
     return cards

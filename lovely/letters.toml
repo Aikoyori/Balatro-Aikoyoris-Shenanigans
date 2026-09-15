@@ -21,7 +21,7 @@ target = "functions/UI_definitions.lua"
 pattern = "      ease_value(card.T, 'scale',v[2] and 0.25 or -0.15,nil,'REAL',true,0.2)"
 position = "after"
 payload = """
-if v['akyrs_letter'] then card.ability.forced_letter_render = true card:set_letters(v['akyrs_letter']) end
+if v['akyrs_letter'] then card.ability.forced_letter_render = true card:set_letters(v['akyrs_letter']) card:set_letters(card.ability.aikoyori_letters_stickers) end
 if v.is_null then card.is_null = true end
 """
 overwrite = true

@@ -53,11 +53,23 @@ poker_hand_desc["akyrs_tripair"] = {'Three sets of Pairs of different ranks'}
 poker_hands_name["akyrs_triplush"] = "Triplush"
 poker_hand_desc["akyrs_triplush"] = {'Three sets of Pairs of different ranks','that also contains a Flush'}
 
+poker_hands_name["akyrs_quadpair"] = "Quadpair"
+poker_hand_desc["akyrs_quadpair"] = {'Four sets of Pairs of different ranks'}
+
+poker_hands_name["akyrs_quadplush"] = "Quadplush"
+poker_hand_desc["akyrs_quadplush"] = {'Four sets of Pairs of different ranks','that also contains a Flush'}
+
 poker_hands_name["akyrs_twintriple"] = "Twin Triple"
 poker_hand_desc["akyrs_twintriple"] = {'Two sets of Three of a Kind'}
 
 poker_hands_name["akyrs_twinflupple"] = "Twin Flupple"
 poker_hand_desc["akyrs_twinflupple"] = {'Twin Triple that also contains a Flush'}
+
+poker_hands_name["akyrs_triplettriple"] = "Triplet Triple"
+poker_hand_desc["akyrs_triplettriple"] = {'Three sets of Three of a Kind'}
+
+poker_hands_name["akyrs_tripletflupple"] = "Triplet Flupple"
+poker_hand_desc["akyrs_tripletflupple"] = {'Triplet Triple that also contains a Flush'}
 
 poker_hands_name["akyrs_twinflush"] = "Twin Flush"
 poker_hand_desc["akyrs_twinflush"] = {'Two sets of Flushes'}
@@ -3053,7 +3065,7 @@ return {
                 text = {
                     {
                         "Hand {C:red}must{} contain only {C:attention}Pairs{}",
-                        "{C:inactive}(No Three of a Kind or above)",
+                        "{C:inactive}(Cannot contain Three of a Kind)",
                         "Unscored cards gives {C:money}#1#{} when scored"
                     },
                 }
@@ -3858,7 +3870,15 @@ return {
                     "{C:attention}Pure Hands",
                     "Multiplier: {C:mult}#2#{} + {C:attention}#3#",
                 },
-            }
+            },
+            c_akyrs_planet_bishop_ring = {
+                name="Bishop Ring",
+                text={
+                    "{S:0.8}({S:0.8,C:red}lvl.#1#{S:0.8}){} Level up",
+                    "{C:attention}Pure Hands",
+                    "Multiplier: {C:mult}#2#{} + {C:attention}#3#",
+                },
+            },
         },
         Scenario= {
             sc_akyrs_genesis = {
@@ -5456,6 +5476,7 @@ return {
             k_akyrs_speaker_low_battery_1="Battery is low",
             k_akyrs_speaker_low_battery_2="Please recharge it in time",
             k_akyrs_must_play_pairs="Hand must only contain Pairs",
+            k_akyrs_pairs="Pairs",
 
             f_akyrs_localize_enchantment_level = function (num_in)
                 if math.abs(num_in) > 3999 then

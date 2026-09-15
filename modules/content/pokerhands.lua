@@ -407,8 +407,8 @@ SMODS.PokerHand {
 SMODS.PokerHand {
     key = "triplush",
     visible = false,
-    chips = 240, mult = 18,
-    l_chips = 65, l_mult = 9,
+    chips = 180, mult = 18,
+    l_chips = 55, l_mult = 9,
 
     example = {
         {"C_A", true},
@@ -420,6 +420,52 @@ SMODS.PokerHand {
     },
     evaluate = function (parts, hand)
         if #parts._2 < 3 or #parts._flush < 1 then
+            return {}
+        end
+        return parts._all_pairs
+    end
+}
+SMODS.PokerHand {
+    key = "quadpair",
+    visible = false,
+    chips = 200, mult = 16,
+    l_chips = 45, l_mult = 5,
+
+    example = {
+        {"S_A", true},
+        {"H_A", true},
+        {"C_T", true},
+        {"S_T", true},
+        {"D_8", true},
+        {"C_8", true},
+        {"C_4", true},
+        {"H_4", true},
+    },
+    evaluate = function (parts, hand)
+        if #parts._2 < 4 then
+            return {}
+        end
+        return parts._all_pairs
+    end
+}
+SMODS.PokerHand {
+    key = "quadplush",
+    visible = false,
+    chips = 300, mult = 20,
+    l_chips = 65, l_mult = 9,
+
+    example = {
+        {"C_A", true},
+        {"C_A", true},
+        {"C_T", true},
+        {"C_T", true},
+        {"C_8", true},
+        {"S_8", true},
+        {"H_4", true},
+        {"S_4", true},
+    },
+    evaluate = function (parts, hand)
+        if #parts._2 < 4 or #parts._flush < 1 then
             return {}
         end
         return parts._all_pairs
@@ -459,7 +505,7 @@ SMODS.PokerHand {
 SMODS.PokerHand {
     key = "twinflupple",
     visible = false,
-    chips = 300, mult = 15,
+    chips = 240, mult = 15,
     l_chips = 60, l_mult = 8,
 
     example = {
@@ -472,6 +518,55 @@ SMODS.PokerHand {
     },
     evaluate = function (parts, hand)
         if #parts._3 < 2 or #parts._flush < 1 then
+            return {}
+        end
+        return parts.akyrs_all_triples
+    end
+}
+
+SMODS.PokerHand {
+    key = "triplettriple",
+    visible = false,
+    chips = 140, mult = 10,
+    l_chips = 40, l_mult = 5,
+
+    example = {
+        {"C_7", true},
+        {"S_7", true},
+        {"H_7", true},
+        {"C_3", true},
+        {"S_3", true},
+        {"H_3", true},
+        {"D_2", true},
+        {"D_2", true},
+        {"C_2", true},
+    },
+    evaluate = function (parts, hand)
+        if #parts._3 < 3 then
+            return {}
+        end
+        return parts.akyrs_all_triples
+    end
+}
+
+SMODS.PokerHand {
+    key = "tripletflupple",
+    visible = false,
+    chips = 300, mult = 15,
+    l_chips = 60, l_mult = 8,
+
+    example = {
+        {"C_5", true},
+        {"C_5", true},
+        {"C_5", true},
+        {"C_4", true},
+        {"C_4", true},
+        {"H_4", true},
+        {"D_2", true},
+        {"C_2", true},
+    },
+    evaluate = function (parts, hand)
+        if #parts._3 < 3 or #parts._flush < 1 then
             return {}
         end
         return parts.akyrs_all_triples

@@ -430,7 +430,7 @@ SMODS.Sticker{
         if context.akyrs_mod_card_draw then
             AKYRS.map(context.priorities, function (cx)
                 if cx.card == card then
-                    cx.priority = cx.priority * 16
+                    cx.priority = cx.priority * 256
                 end
             end, true)
             return {

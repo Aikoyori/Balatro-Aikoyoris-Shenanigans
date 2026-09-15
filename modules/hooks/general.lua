@@ -1240,8 +1240,8 @@ function Card:set_base(card, initial, manual_sprites)
     self.aiko_draw_delay_2 = math.random()
     self.akyrs_impostor_card = false
     if self.base.name and not self.ability.aikoyori_letters_stickers then
-        self:set_letters_random()
         self.ability.forced_letter_render = false
+        self:set_letters_random()
     end
     if self.config.center and self.config.card then
         if self.config.card and self.config.center.set == "Enhanced" or self.config.center.set == "Default" then

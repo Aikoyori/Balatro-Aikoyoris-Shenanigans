@@ -90,6 +90,142 @@ SMODS.Attribute{
 }
 
 
+
+SMODS.Attribute{
+    -- hands that contain flushes
+    key = "flush_hands",
+    keys = {
+        'Flush',
+        'Straight Flush',
+        'Flush House',
+        'akyrs_triplush',
+        'akyrs_quadplush',
+        'akyrs_triplush',
+        'akyrs_quadplush',
+        'akyrs_twinflupple',
+        'akyrs_tripletflupple',
+        'akyrs_twinflush',
+        'akyrs_flushbung',
+        'akyrs_direstraightflush',
+        'akyrs_twinstraightflush',
+    }
+}
+
+SMODS.Attribute{
+    -- hands that contain straights
+    key = "straight_hands",
+    keys = {
+        'Straight',
+        'Straight Flush',
+        'akyrs_twinstraight',
+        'akyrs_direstraight',
+        'akyrs_direstraightflush',
+        'akyrs_twinstraightflush',
+    }
+}
+
+
+SMODS.Attribute{
+    -- hands that contain at least one pair
+    key = "pair_hands",
+    keys = {
+        'Pair',
+        'Two Pair',
+        'Three of a Kind',
+        'Four of a Kind',
+        'Five of a Kind',
+        'Flush Five',
+        'Full House',
+        'akyrs_tripair',
+        'akyrs_triplush',
+        'akyrs_quadpair',
+        'akyrs_quadplush',
+        'akyrs_twintriple',
+        'akyrs_twinflupple',
+        'akyrs_triplettriple',
+        'akyrs_tripletflupple',
+        'akyrs_twinstraight',
+        'akyrs_twinstraightflush',
+    }
+}
+
+
+SMODS.Attribute{
+    -- hands that contain at least 3oak
+    key = "3oak_hands",
+    keys = {
+        'Three of a Kind',
+        'Four of a Kind',
+        'Five of a Kind',
+        'Flush Five',
+        'Full House',
+        'akyrs_twintriple',
+        'akyrs_twinflupple',
+        'akyrs_triplettriple',
+        'akyrs_tripletflupple',
+    }
+}
+
+SMODS.Attribute{
+    -- hands that contain at least 4oak
+    key = "4oak_hands",
+    keys = {
+        'Four of a Kind',
+        'Five of a Kind',
+        'Flush Five',
+    }
+}
+
+SMODS.Attribute{
+    -- hands that contain at least two different hands (i.e. full house = 3oak + pair)
+    key = "combination_hands",
+    keys = {
+        'Two Pair',
+        'Straight Flush',
+        'Full House',
+        'akyrs_tripair',
+        'akyrs_triplush',
+        'akyrs_quadpair',
+        'akyrs_quadplush',
+        'akyrs_twintriple',
+        'akyrs_twinflupple',
+        'akyrs_triplettriple',
+        'akyrs_tripletflupple',
+        'akyrs_twinflush',
+        'akyrs_flushbung',
+        'akyrs_twinstraight',
+        'akyrs_direstraight',
+        'akyrs_direstraightflush',
+        'akyrs_twinstraightflush',
+    }
+}
+
+SMODS.Attribute{
+    -- hands that you need more than 5 play size, all of these are from my mod
+    key = "gt5_hands",
+    keys = {
+        'akyrs_tripair',
+        'akyrs_triplush',
+        'akyrs_quadpair',
+        'akyrs_quadplush',
+        'akyrs_twintriple',
+        'akyrs_twinflupple',
+        'akyrs_triplettriple',
+        'akyrs_tripletflupple',
+        'akyrs_twinflush',
+        'akyrs_flushbung',
+        'akyrs_twinstraight',
+        'akyrs_direstraight',
+        'akyrs_direstraightflush',
+        'akyrs_twinstraightflush',
+    }
+}
+
+
+
+--- default attribs
+
+
 SMODS.add_attribute(
     'mult', {
         'j_akyrs_observer',

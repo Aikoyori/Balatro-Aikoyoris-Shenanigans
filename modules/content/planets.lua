@@ -180,7 +180,7 @@ SMODS.Consumable{
         return AKYRS.is_in_table(SMODS.Attributes.gt5_hands.keys, hand)
     end,
     set_card_type_badge = function(self, card, badges)
-        badges[1] = create_badge(localize('k_akyrs_factorio_planet'), G.C.AKYRS_FACTORIO_PLANET, nil, 1.2)
+        badges[1] = create_badge(localize('k_akyrs_factorio_planet_q'), G.C.AKYRS_FACTORIO_PLANET, nil, 1.2)
     end,
     akyrs_planet_show_up = true,
     akyrs_applicable_hands = 'gt5_hands',

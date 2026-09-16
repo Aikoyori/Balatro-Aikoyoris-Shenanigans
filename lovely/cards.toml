@@ -145,10 +145,12 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = 'functions/common_events.lua'
-pattern = "    elseif _c.set == 'Enhanced' then "
+pattern = """    if main_end then 
+        desc_nodes[#desc_nodes+1] = main_end 
+    end"""
 position = "before"
 payload = """
-AKYRS.mod_card_displays(_c,card,desc_nodes,specific_vars)
+AKYRS.mod_card_displays(_c,card,desc_nodes,specific_vars,full_UI_table)
 """
 overwrite = true
 match_indent = true

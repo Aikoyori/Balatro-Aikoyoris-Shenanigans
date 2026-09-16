@@ -57,6 +57,11 @@ AKYRS.calculate = function (self, context)
       G.GAME.akyrs_ut_route = "genocide"
     end
   end
+  if context.before then
+    if #context.full_hand > 5 then
+      G.GAME.akyrs_has_played_gt5 = true
+    end
+  end
 end
 
 AKYRS.create_credits_big = function(sprite_atlas, name, width)

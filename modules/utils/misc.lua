@@ -786,6 +786,14 @@ AKYRS.get_planet_for_hand = function(_hand)
             end
         end
     end
+    for k, v in ipairs(G.P_CENTER_POOLS.Planet) do
+        if not _planet == 0 and v.akyrs_is_planet_for_hand then
+            if v:akyrs_is_planet_for_hand(_hand) then
+                _planet = v.key
+                break
+            end
+        end
+    end
     return _planet
 end
 
@@ -2266,4 +2274,85 @@ function AKYRS.force_update_h_popup(card)
             end
         end
     end
+end
+
+function AKYRS.get_loc_vars(center, iq)
+    if center.loc_vars and type(center.loc_vars) == 'function' then
+        return center:loc_vars(iq, center:create_fake_card())
+    end
+end
+
+
+-- okay this function might look like i vibecoded this whole thing because of the comments but
+-- i assure you i wrote this whole function with my own damn hand
+-- the reason for the comments are that i was thinking of the logic as i go so i need to write it down somewhere
+function AKYRS.multiline_splitter(list_of_strings, lengths, delimiter, no_space)
+    -- lengths.min -> length at which point you SHOULD start new line 
+    --     (e.g. text can be this long on the same line but even if the next text can fit under the max it must be on a new line)
+    -- lengths.max -> length at which point you MUST start new line 
+    --     (e.g. if text is going to longer than this then it MUST go to a new line)
+    delimiter = delimiter or ","
+    if not lengths then lengths = { min = 20, max = 40 } end
+    if type(lengths) == 'number' then
+        local l = { min = lengths, max = lengths }
+        lengths = l
+    end
+
+    local output = { "" }
+    for indexnum, strg in ipairs(list_of_strings) do
+        local add_delim = indexnum ~= #list_of_strings
+        local add_space = not no_space and (string.len(output[#output]) > 0)
+        -- if line will be shorter than min limit, add it
+        local proc_len = (string.len(output[#output]) + string.len(strg))
+        if proc_len <= lengths.min then
+            output[#output] = output[#output]..(add_space and " " or "") .. (strg)..(add_delim and delimiter or "")
+        -- if it is longer than min but less than max, add it also but also create a new line
+        elseif proc_len > lengths.min and proc_len <= lengths.max then
+            output[#output] = output[#output]..(add_space and " " or "") .. (strg)..(add_delim and delimiter or "")
+            output[#output+1] = ""
+        -- otherwise just add it to the next line
+        else
+            -- special case: if the current line is blank, add to it no matter what then creates the next line
+            if string.len(output[#output]) == 0 then
+                output[#output] = output[#output]..(strg)..(add_delim and delimiter or "")
+                output[#output+1] = ""
+            else
+            -- after all else fail just make a new line for it dawg
+                output[#output+1] = ""
+                output[#output] = output[#output]..(strg)..(add_delim and delimiter or "")
+            end
+        end
+    end
+    -- pops the last element if it is just blank
+    if string.len(output[#output]) == 0 then
+        table.remove(output,#output)
+    end
+    return output
+end
+
+
+function AKYRS.loc_to_lines(args)
+    args = args or {}
+    if not args.keys_table then error("key table not here wee woo") end
+    local tab_strings = {}
+    for _, key in ipairs(args.keys_table) do
+        local loc_args_one = (args.misc_category or args.misc) and key or { type = "name_text", key = key, set = args.set }
+        local loc_args = {loc_args_one, args.misc_category }
+        tab_strings[#tab_strings+1] = args.loc_func and args.loc_func(key) or localize(unpack(loc_args))
+    end
+    local string_to_multi_line = AKYRS.multiline_splitter(tab_strings)
+    return string_to_multi_line
+end
+
+function AKYRS.text_prefabinator(textes, colour)
+    local scl = 0.32*(G.F_MOBILE_UI and 1.5 or 1)
+    return (AKYRS.map(textes, function (txt)
+        return {AKYRS.text_prefab{ text = txt, colour = colour, scale = scl, uit = G.UIT.R, no_shadow = true }}
+    end, true))
+end
+
+function AKYRS.hands_filter_visible(list_of_hands)
+    return AKYRS.filter_table(list_of_hands, function (handname)
+        return G.GAME.hands[handname].visible
+    end, true, true)
 end

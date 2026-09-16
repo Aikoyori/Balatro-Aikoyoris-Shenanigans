@@ -3879,6 +3879,48 @@ return {
                     "Multiplier: {C:mult}#2#{} + {C:attention}#3#",
                 },
             },
+            c_akyrs_planet_vulcanus={
+                name="Vulcanus",
+                text={
+                    "Level up {C:attention}all{} hands",
+                    "that contain {C:attention}Pairs",
+                },
+            },
+            c_akyrs_planet_nauvis={
+                name="Nauvis",
+                text={
+                    "Level up {C:attention}all{} hands",
+                    "that contain multiple {C:attention}unique{} hands",
+                },
+            },
+            c_akyrs_planet_fulgora={
+                name="Fulgora",
+                text={
+                    "Level up {C:attention}all{} hands",
+                    "that contain {C:attention}Flushes{}",
+                },
+            },
+            c_akyrs_planet_gleba={
+                name="Gleba",
+                text={
+                    "Level up {C:attention}all{} hands",
+                    "that contain {C:attention}Straights{}",
+                },
+            },
+            c_akyrs_planet_aquilo={
+                name="Aquilo",
+                text={
+                    "Level up {C:attention}all{} hands",
+                    "that contain {C:attention}multiple{} hands",
+                },
+            },
+            c_akyrs_planet_shattered={
+                name="Shattered Planet",
+                text={
+                    "Level up {C:attention}all{} hands",
+                    "that requires more than {C:attention}5{} cards",
+                },
+            },
         },
         Scenario= {
             sc_akyrs_genesis = {
@@ -5477,6 +5519,12 @@ return {
             k_akyrs_speaker_low_battery_2="Please recharge it in time",
             k_akyrs_must_play_pairs="Hand must only contain Pairs",
             k_akyrs_pairs="Pairs",
+            k_akyrs_unique_hand_combo="Unique Combination Hands",
+            k_akyrs_flush_hands="Flush Hands",
+            k_akyrs_straight_hands="Straight Hands",
+            k_akyrs_any_combo_hands="All Combination Hands",
+            k_akyrs_gt5_hands="Hands requiring more than 5 cards",
+            k_akyrs_multi_hand_upgrade_tooltip="Upgrades these hands",
 
             f_akyrs_localize_enchantment_level = function (num_in)
                 if math.abs(num_in) > 3999 then

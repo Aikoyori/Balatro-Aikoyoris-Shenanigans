@@ -177,7 +177,22 @@ SMODS.Attribute{
 }
 
 SMODS.Attribute{
-    -- hands that contain at least two different hands (i.e. full house = 3oak + pair)
+    -- hands that contain at least two unique hands (i.e. full house = 3oak + pair)
+    key = "unique_combination_hands",
+    keys = {
+        'Straight Flush',
+        'Full House',
+        'akyrs_triplush',
+        'akyrs_quadplush',
+        'akyrs_twinflupple',
+        'akyrs_tripletflupple',
+        'akyrs_direstraightflush',
+        'akyrs_twinstraightflush',
+    }
+}
+
+SMODS.Attribute{
+    -- hands that contain at least two hands (i.e. two pair = pair + pair)
     key = "combination_hands",
     keys = {
         'Two Pair',

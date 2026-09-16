@@ -3668,6 +3668,7 @@ SMODS.Joker {
     rarity = 2,
     cost = 5,
     loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
         return {
             vars = {
             }

@@ -182,6 +182,7 @@ SMODS.Attribute{
     keys = {
         'Straight Flush',
         'Full House',
+        'Flush Five',
         'akyrs_triplush',
         'akyrs_quadplush',
         'akyrs_twinflupple',
@@ -198,6 +199,7 @@ SMODS.Attribute{
         'Two Pair',
         'Straight Flush',
         'Full House',
+        'Flush Five',
         'akyrs_tripair',
         'akyrs_triplush',
         'akyrs_quadpair',

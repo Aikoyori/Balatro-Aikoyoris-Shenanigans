@@ -114,11 +114,6 @@ payload = '''
             end
         end
     end
-    if v.akyrs_is_planet_for_hand and not _planet == 0 then
-        if v:akyrs_is_planet_for_hand(G.GAME.last_hand_played) then
-            _planet = v.key
-        end
-    end
 '''
 match_indent = true
 [[patches]]
@@ -126,11 +121,15 @@ match_indent = true
 target = "card.lua"
 pattern = """                    if _planet == 0 then _planet = nil end"""
 position = "before"
-payload = '''for k, v in ipairs(G.P_CENTER_POOLS.Planet) do
-    if not _planet == 0 and v.akyrs_is_planet_for_hand then
-        if v:akyrs_is_planet_for_hand(G.GAME.last_hand_played) then
-            _planet = v.key
-            break
+payload = '''
+--print(_planet)
+if _planet == 0 then
+    for k, v in ipairs(G.P_CENTER_POOLS.Planet) do
+        if v.akyrs_is_planet_for_hand then
+            if v:akyrs_is_planet_for_hand(G.GAME.last_hand_played) then
+                _planet = v.key
+                break
+            end
         end
     end
 end

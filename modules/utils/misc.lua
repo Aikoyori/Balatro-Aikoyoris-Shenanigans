@@ -788,7 +788,7 @@ AKYRS.get_planet_for_hand = function(_hand)
     end
     for k, v in ipairs(G.P_CENTER_POOLS.Planet) do
         if not _planet == 0 and v.akyrs_is_planet_for_hand then
-            if v:akyrs_is_planet_for_hand(_hand) then
+            if v:akyrs_is_planet_for_hand(v.key) then
                 _planet = v.key
                 break
             end
@@ -2345,6 +2345,7 @@ function AKYRS.loc_to_lines(args)
 end
 
 function AKYRS.text_prefabinator(textes, colour)
+    if #textes == 0 then textes = { localize("ph_akyrs_unknown") } end
     local scl = 0.32*(G.F_MOBILE_UI and 1.5 or 1)
     return (AKYRS.map(textes, function (txt)
         return {AKYRS.text_prefab{ text = txt, colour = colour, scale = scl, uit = G.UIT.R, no_shadow = true }}

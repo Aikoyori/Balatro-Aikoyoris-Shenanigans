@@ -62,6 +62,12 @@ AKYRS.calculate = function (self, context)
       G.GAME.akyrs_has_played_gt5 = true
     end
   end
+  if context.setting_blind then
+      G.GAME.akyrs_first_hand_being_drawn = true
+  end
+  if context.hand_drawn and context.first_hand_drawn then
+      G.GAME.akyrs_first_hand_being_drawn = false
+  end
 end
 
 AKYRS.create_credits_big = function(sprite_atlas, name, width)

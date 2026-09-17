@@ -367,7 +367,7 @@ SMODS.Back{
         G.GAME.akyrs_vision_enabled = true
     end,
     calculate = function (self, back, context)
-        if context.stay_flipped and G.STATE ~= G.STATES.HAND_PLAYED then
+        if context.stay_flipped and G.STATE ~= G.STATES.HAND_PLAYED and not G.GAME.akyrs_first_hand_being_drawn then
             return {
                 stay_flipped = true,
             }

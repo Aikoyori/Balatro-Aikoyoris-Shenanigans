@@ -239,8 +239,8 @@ return {
                 { 
                     '{C:attention}See{} the next cards in your deck',
                     'equal to {C:attention}hand size',
-                    '{C:red,E:akyrs_shrivel}All{} playing cards',
-                    'are drawn face down',
+                    'Playing cards on {C:red,E:akyrs_shrivel}subsequent{}',
+                    'draws are drawn face down',
                 },
             },
             b_akyrs_animosity_deck = {

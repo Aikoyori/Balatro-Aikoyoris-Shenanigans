@@ -759,7 +759,7 @@ end
 ---@return string|nil hand hand name lol
 ---@return integer tally how many times it has been played
 AKYRS.get_most_played = function()
-    local _handname, _played, _order, _planet = 'High Card', -1, 100, 'c_pluto'
+    local _handname, _played, _order, _planet = 'High Card', -1, 10000, 'c_pluto'
     for k, v in pairs(G.GAME.hands) do
         if v.played > _played or (v.played == _played and _order > v.order) then
             _played = v.played

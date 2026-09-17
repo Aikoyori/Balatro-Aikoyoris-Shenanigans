@@ -233,6 +233,7 @@ function AKYRS.Scenario_Tag:remove()
     end
 
     if HUD_tag_key then 
+        --print(HUD_tag_key)
         if G.AKYRS_SCENARIO_TAG_HUD and G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1] then
             if HUD_tag_key == 1 then
                 G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1]:set_alignment({type = 'bli',
@@ -242,8 +243,8 @@ function AKYRS.Scenario_Tag:remove()
                 major = G.ROOM_ATTACH})
             else
                 G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key+1]:set_role({
-                offset = offset_each,
                 xy_bond = 'Weak',
+                role_type = nil, 
                 major = G.AKYRS_SCENARIO_TAG_HUD[HUD_tag_key-1]})
             end
         end
@@ -1890,7 +1891,7 @@ AKYRS.Scenario {
     pre_new_tag = function (self, card, area, copier)
         if AKYRS.is_scenario_type_active(self.scenario) then
             SMODS.add_card{
-                set = "Consumeable",
+                set = "Consumeables",
                 edition = 'e_negative',
             }
         end

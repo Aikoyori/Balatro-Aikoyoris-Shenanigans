@@ -75,6 +75,11 @@ function Game:init_game_object()
     ret.akyrs_life_cover_sprite = "normal"
     ret.akyrs_life_heal = { round = 0, ante = 0, }
     ret.akyrs_life_reroll_cost = 5
+    ret.akyrs_life_randomize_hand_judgment_cost = 20
+    ret.akyrs_life_upgrade_card_hand_judgment_cost = 5
+    ret.akyrs_life_upgrade_joker_hand_judgment_cost = 30
+    ret.akyrs_life_draw_whole_cost = 30
+    ret.akyrs_life_draw_one_cost = 3
     ret.akyrs_life_top_up_dollars = 1
     ret.akyrs_life_top_up_life = 10
 

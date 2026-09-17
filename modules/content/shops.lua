@@ -404,10 +404,10 @@ AKYRS.ShopPage {
                                     nodes = {
                                         AKYRS.button_prefab {
                                             children = {
-                                                AKYRS.text_prefab{ text = "Reroll" },
+                                                AKYRS.text_prefab{ localize = { "k_reroll" } },
                                                 AKYRS.text_prefab{ text = " " },
                                                 AKYRS.text_prefab{ ref_table = G.GAME, ref_value = 'akyrs_life_reroll_cost', scale = 0.6 },
-                                                AKYRS.text_prefab{ text = " Life", scale = 0.6 },
+                                                AKYRS.text_prefab{ localize = {"k_akyrs_currency_life_suffix"}, scale = 0.6 },
                                             },
                                             h = 1,
                                             w = 4,
@@ -426,7 +426,7 @@ AKYRS.ShopPage {
                                             children = {
                                                 AKYRS.text_prefab{ text = "+"},
                                                 AKYRS.text_prefab{ ref_table = G.GAME, ref_value = 'akyrs_life_top_up_life'},
-                                                AKYRS.text_prefab{ text = " Life"},
+                                                AKYRS.text_prefab{ localize = {"k_akyrs_currency_life_suffix"} },
                                                 AKYRS.text_prefab{ text = " " },
                                                 AKYRS.text_prefab{ text = "$", scale = 0.6 },
                                                 AKYRS.text_prefab{ ref_table = G.GAME, ref_value = 'akyrs_life_top_up_dollars', scale = 0.6 },
@@ -470,8 +470,13 @@ AKYRS.ShopPage {
                     nodes = {
                         AKYRS.button_prefab {
                             children = {
-                                AKYRS.text_prefab{ uit = G.UIT.R, text = "Randomize Judgement"},
-                                AKYRS.text_prefab{ uit = G.UIT.R, text = "-67 Life"},
+                                AKYRS.text_prefab{ uit = G.UIT.R, scale = 0.3, localize = {"k_akyrs_life_randomize_judgement"}},
+                                AKYRS.row_prefab{
+                                  nodes = {
+                                    AKYRS.text_prefab{ ref_table = G.GAME, ref_value = 'akyrs_life_randomize_hand_judgment_cost', scale = 0.6 },
+                                    AKYRS.text_prefab{ localize = {"k_akyrs_currency_life_suffix"}, scale = 0.6 },
+                                  }
+                                }
                             },
                             colour = G.C.GREEN,
                             padding = 0.1,
@@ -479,11 +484,19 @@ AKYRS.ShopPage {
                             w = 2.2,
                             maxw = 2.2,
                             scale = 0.3,
+                            button = 'akyrs_life_randomize_judgement',
+                            func = 'akyrs_life_can_randomize_judgement',
                         },
                         AKYRS.button_prefab {
                             children = {
-                                AKYRS.text_prefab{ uit = G.UIT.R, text = "Upgrade 1 Judgement"},
-                                AKYRS.text_prefab{ uit = G.UIT.R, text = "-67 Life"},
+                                AKYRS.text_prefab{ uit = G.UIT.R, scale = 0.4, localize = {"k_akyrs_life_upgrade_judgement"}},
+                                AKYRS.row_prefab{
+                                  nodes = {
+                                    AKYRS.text_prefab{ ref_table = G.GAME, ref_value = 'akyrs_life_upgrade_card_hand_judgment_cost', scale = 0.6 },
+                                    AKYRS.text_prefab{ localize = {"k_akyrs_currency_life_suffix"}, scale = 0.6 },
+                                    AKYRS.text_prefab{ localize = {"k_akyrs_life_per_card"}, scale = 0.6 },
+                                  }
+                                }
                             },
                             colour = G.C.GREEN,
                             padding = 0.1,
@@ -491,11 +504,19 @@ AKYRS.ShopPage {
                             w = 2.2,
                             maxw = 2.2,
                             scale = 0.3,
+                            button = 'akyrs_life_upgrade_judgement',
+                            func = 'akyrs_life_can_upgrade_judgement',
                         },
                         AKYRS.button_prefab {
                             children = {
-                                AKYRS.text_prefab{ uit = G.UIT.R, text = "Return Cards"},
-                                AKYRS.text_prefab{ uit = G.UIT.R, text = "to Deck"},
+                                AKYRS.text_prefab{ uit = G.UIT.R, scale = 0.4, localize = {"k_akyrs_life_upgrade_joker_judgement"}},
+                                AKYRS.row_prefab{
+                                  nodes = {
+                                    AKYRS.text_prefab{ ref_table = G.GAME, ref_value = 'akyrs_life_upgrade_joker_hand_judgment_cost', scale = 0.6 },
+                                    AKYRS.text_prefab{ localize = {"k_akyrs_currency_life_suffix"}, scale = 0.6 },
+                                    AKYRS.text_prefab{ localize = {"k_akyrs_life_per_card"}, scale = 0.6 },
+                                  }
+                                }
                             },
                             colour = G.C.BOOSTER,
                             padding = 0.1,
@@ -503,12 +524,21 @@ AKYRS.ShopPage {
                             w = 2.2,
                             maxw = 2.2,
                             scale = 0.3,
+                            button = 'akyrs_life_upgrade_joker_judgement',
+                            func = 'akyrs_life_can_upgrade_joker_judgement',
                         },
                         AKYRS.button_prefab {
                             children = {
-                                AKYRS.text_prefab{ uit = G.UIT.R, text = "Draw Full"},
-                                AKYRS.text_prefab{ uit = G.UIT.R, text = "-30 Life"},
+                                AKYRS.text_prefab{ uit = G.UIT.R, scale = 0.4, localize = {"k_akyrs_life_draw_whole"}},
+                                AKYRS.row_prefab{
+                                  nodes = {
+                                    AKYRS.text_prefab{ ref_table = G.GAME, ref_value = 'akyrs_life_draw_whole_cost', scale = 0.6 },
+                                    AKYRS.text_prefab{ localize = {"k_akyrs_currency_life_suffix"}, scale = 0.6 },
+                                  }
+                                }
                             },
+                            func = 'akyrs_life_can_draw_whole',
+                            button = 'akyrs_life_draw_whole',
                             colour = G.C.RED,
                             padding = 0.1,
                             uit = G.UIT.C,
@@ -518,9 +548,16 @@ AKYRS.ShopPage {
                         },
                         AKYRS.button_prefab {
                             children = {
-                                AKYRS.text_prefab{ uit = G.UIT.R, text = "Draw One"},
-                                AKYRS.text_prefab{ uit = G.UIT.R, text = "-5 Life"},
+                                AKYRS.text_prefab{ uit = G.UIT.R, scale = 0.4, localize = {"k_akyrs_life_draw_one"}},
+                                AKYRS.row_prefab{
+                                  nodes = {
+                                    AKYRS.text_prefab{ ref_table = G.GAME, ref_value = 'akyrs_life_draw_one_cost', scale = 0.6 },
+                                    AKYRS.text_prefab{ localize = {"k_akyrs_currency_life_suffix"}, scale = 0.6 },
+                                  }
+                                }
                             },
+                            func = 'akyrs_life_can_draw_one',
+                            button = 'akyrs_life_draw_one',
                             colour = G.C.RED,
                             padding = 0.1,
                             uit = G.UIT.C,
@@ -811,4 +848,114 @@ function G.FUNCS.akyrs_life_topup(e)
     local is_kdx = AKYRS.get_life_mode() == 'kaleidoscope'
     G.GAME.akyrs_life_top_up_dollars = G.GAME.akyrs_life_top_up_dollars * 2
     G.GAME.akyrs_life_top_up_life = G.GAME.akyrs_life_top_up_life + (is_kdx and 15 or 10)
+end
+--[[
+
+                            button = 'akyrs_life_randomize_judgement',
+                            func = 'akyrs_life_can_randomize_judgement',]]
+
+
+function G.FUNCS.akyrs_life_can_randomize_judgement(e)
+  if not AKYRS.Currencies.curr_akyrs_life:has_not_enough_money_check(G.GAME.akyrs_life_randomize_hand_judgment_cost) and G.hand.cards and #G.hand.cards > 0 then
+    e.config.button = 'akyrs_life_randomize_judgement'
+    e.config.colour = G.C.GREEN
+  else
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+  end
+end
+
+function G.FUNCS.akyrs_life_randomize_judgement(e)
+    AKYRS.Currencies.curr_akyrs_life:transactional_sound()
+    AKYRS.Currencies.curr_akyrs_life:change_value(-G.GAME.akyrs_life_randomize_hand_judgment_cost)
+    G.GAME.akyrs_life_randomize_hand_judgment_cost = G.GAME.akyrs_life_randomize_hand_judgment_cost + 5
+    AKYRS.do_things_to_card(G.hand.cards, function (_card, index)
+      _card.akyrs_judgement = SMODS.poll_object { pool = AKYRS.Judgement_Pool }
+    end)
+end
+
+function G.FUNCS.akyrs_life_can_upgrade_judgement(e)
+  local ctarget = AKYRS.filter_table(G.hand.highlighted, function (c)
+    return c.akyrs_judgement and AKYRS.Judgements[c.akyrs_judgement].upgrades_to
+  end, true, true)
+  if not AKYRS.Currencies.curr_akyrs_life:has_not_enough_money_check(G.GAME.akyrs_life_upgrade_card_hand_judgment_cost) and #ctarget > 0 then
+    e.config.button = 'akyrs_life_upgrade_judgement'
+    e.config.colour = G.C.GREEN
+  else
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+  end
+end
+
+function G.FUNCS.akyrs_life_upgrade_judgement(e)
+    AKYRS.Currencies.curr_akyrs_life:transactional_sound()
+    AKYRS.Currencies.curr_akyrs_life:change_value(-G.GAME.akyrs_life_upgrade_card_hand_judgment_cost)
+    G.GAME.akyrs_life_upgrade_card_hand_judgment_cost = G.GAME.akyrs_life_upgrade_card_hand_judgment_cost + 5
+    local ctarget = AKYRS.filter_table(G.hand.highlighted, function (c)
+      return c.akyrs_judgement and AKYRS.Judgements[c.akyrs_judgement].upgrades_to
+    end, true, true)
+    AKYRS.do_things_to_card(ctarget, function (_card, index)
+      _card.akyrs_judgement = AKYRS.Judgements[_card.akyrs_judgement].upgrades_to
+    end)
+end
+
+function G.FUNCS.akyrs_life_can_upgrade_joker_judgement(e)
+  local tbl = AKYRS.combine_table(G.jokers.highlighted, G.consumeables.highlighted)
+  local ctarget = AKYRS.filter_table(tbl, function (c)
+    return c.akyrs_judgement and AKYRS.Judgements[c.akyrs_judgement].upgrades_to
+  end, true, true)
+  if not AKYRS.Currencies.curr_akyrs_life:has_not_enough_money_check(G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost) and #ctarget > 0 then
+    e.config.button = 'akyrs_life_upgrade_joker_judgement'
+    e.config.colour = G.C.GREEN
+  else
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+  end
+end
+
+function G.FUNCS.akyrs_life_upgrade_joker_judgement(e)
+    AKYRS.Currencies.curr_akyrs_life:transactional_sound()
+    AKYRS.Currencies.curr_akyrs_life:change_value(-G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost)
+    G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost = G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost + 5
+    local tbl = AKYRS.combine_table(G.jokers.highlighted, G.consumeables.highlighted)
+    local ctarget = AKYRS.filter_table(tbl, function (c)
+      return c.akyrs_judgement and AKYRS.Judgements[c.akyrs_judgement].upgrades_to
+    end, true, true)
+    AKYRS.do_things_to_card(ctarget, function (_card, index)
+      _card.akyrs_judgement = AKYRS.Judgements[_card.akyrs_judgement].upgrades_to
+    end)
+end
+
+function G.FUNCS.akyrs_life_can_draw_whole(e)
+  if not AKYRS.Currencies.curr_akyrs_life:has_not_enough_money_check(G.GAME.akyrs_life_draw_whole_cost) and G.hand.cards and #G.hand.cards < G.hand.config.card_limit then
+    e.config.button = 'akyrs_life_draw_whole'
+    e.config.colour = G.C.RED
+  else
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+  end
+end
+
+function G.FUNCS.akyrs_life_draw_whole(e)
+    AKYRS.Currencies.curr_akyrs_life:transactional_sound()
+    AKYRS.Currencies.curr_akyrs_life:change_value(-G.GAME.akyrs_life_draw_whole_cost)
+    G.GAME.akyrs_life_draw_whole_cost = G.GAME.akyrs_life_draw_whole_cost + 5
+    AKYRS.fill_hand()
+end
+
+function G.FUNCS.akyrs_life_can_draw_one(e)
+  if not AKYRS.Currencies.curr_akyrs_life:has_not_enough_money_check(G.GAME.akyrs_life_draw_one_cost) and G.hand.cards and #G.hand.cards < G.hand.config.card_limit then
+    e.config.button = 'akyrs_life_draw_one'
+    e.config.colour = G.C.RED
+  else
+    e.config.button = nil
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+  end
+end
+
+function G.FUNCS.akyrs_life_draw_one(e)
+    AKYRS.Currencies.curr_akyrs_life:transactional_sound()
+    AKYRS.Currencies.curr_akyrs_life:change_value(-G.GAME.akyrs_life_draw_one_cost)
+    G.GAME.akyrs_life_draw_one_cost = G.GAME.akyrs_life_draw_one_cost + 1
+    SMODS.draw_cards(1)
 end

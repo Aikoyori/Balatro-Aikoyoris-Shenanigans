@@ -5536,6 +5536,12 @@ return {
             k_akyrs_currency_life_suffix=" Life",
             k_akyrs_currency_dollars_prefix="$",
             k_akyrs_currency_dollars_suffix="",
+            k_akyrs_life_randomize_judgement="Randomize Judgement",
+            k_akyrs_life_upgrade_judgement="Upgrade in Hand",
+            k_akyrs_life_upgrade_joker_judgement="Upgrade Joker",
+            k_akyrs_life_draw_whole="Draw Full Hand",
+            k_akyrs_life_draw_one="Draw One",
+            k_akyrs_life_per_card=" / card",
 
             k_akyrs_enchantment_none="Allows multiple abilities to be added",
             k_akyrs_enchantment_none_blank="None :(",

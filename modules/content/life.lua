@@ -1,6 +1,8 @@
+G.AKYRS_JUDGEMENTS = {}
 AKYRS.Judgements = {}
 AKYRS.Judgement_Buffer = {}
 AKYRS.Judgement_Stickers = {}
+AKYRS.Judgement_Pool = {}
 
 function AKYRS.get_life_drain(card, force_mode, force_life_mode)
     local life_drain = 0
@@ -36,6 +38,8 @@ end
 function AKYRS.get_life_cover_type()
     return G.GAME.akyrs_life_cover_sprite == "kaleidoscope_pre" or G.GAME.akyrs_life_cover_sprite == "kaleidoscope" and "kaleidoscope" or "normal" 
 end
+
+SMODS.game_table_from_type.Judgement = 'AKYRS_JUDGEMENTS'
 
 function AKYRS.mod_life(life, forced, duration, set)
     if life == 0 and not set then return end
@@ -100,6 +104,8 @@ AKYRS.Judgement = SMODS.GameObject:extend {
     inject = function(self)
         self.judgement_sprite = SMODS.create_sprite(0, 0, G.CARD_W, G.CARD_H, self.atlas, self.pos)
         AKYRS.Judgement_Stickers[self.key] = self.judgement_sprite
+        AKYRS.Judgement_Pool[#AKYRS.Judgement_Pool+1] = { type = self.set, key = self.key }
+        G.AKYRS_JUDGEMENTS[#G.AKYRS_JUDGEMENTS+1] = self
     end,
 }
 
@@ -115,7 +121,9 @@ AKYRS.Judgement {
             joker = -10,
             playing_card = -5,
         },
-    }
+    },
+    upgrades_to = 'judgement_akyrs_miss',
+    weight = 0,
 }
 
 AKYRS.Judgement {
@@ -130,7 +138,9 @@ AKYRS.Judgement {
             joker = -7,
             playing_card = -3,
         },
-    }
+    },
+    upgrades_to = 'judgement_akyrs_good',
+    weight = 20,
 }
 
 AKYRS.Judgement {
@@ -145,7 +155,9 @@ AKYRS.Judgement {
             joker = -5,
             playing_card = -2,
         },
-    }
+    },
+    upgrades_to = 'judgement_akyrs_great',
+    weight = 8,
 }
 
 AKYRS.Judgement {
@@ -160,7 +172,9 @@ AKYRS.Judgement {
             joker = -3,
             playing_card = -1,
         },
-    }
+    },
+    upgrades_to = 'judgement_akyrs_perfect',
+    weight = 4,
 }
 
 AKYRS.Judgement {
@@ -175,7 +189,9 @@ AKYRS.Judgement {
             joker = -1,
             playing_card = -0.5,
         },
-    }
+    },
+    upgrades_to = 'judgement_akyrs_critical_perfect',
+    weight = 2,
 }
 
 AKYRS.Judgement {
@@ -190,5 +206,6 @@ AKYRS.Judgement {
             joker = -0,
             playing_card = -0,
         },
-    }
+    },
+    weight = 1,
 }

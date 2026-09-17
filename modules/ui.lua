@@ -1122,7 +1122,7 @@ end
 
 function AKYRS.text_prefab(args) 
   args = args or {}
-  return { n = args.uit or G.UIT.C, config = { align = args.align or "cm" }, nodes = { { n = G.UIT.T, config = args.config or { colour = args.colour or G.C.WHITE, text = args.text or "AIKO U SUCK WTFF", ref_table = args.ref_table, ref_value = args.ref_value, scale = args.scale or 0.4, shadow = not args.no_shadow } } } }
+  return { n = args.uit or G.UIT.C, config = { align = args.align or "cm" }, nodes = { { n = G.UIT.T, config = args.config or { colour = args.colour or G.C.WHITE, text = args.localize and localize(unpack(args.localize)) or args.text or "AIKO U SUCK WTFF", ref_table = args.ref_table, ref_value = args.ref_value, scale = args.scale or 0.4, shadow = not args.no_shadow } } } }
 end
 
 function AKYRS.row_prefab(config) 

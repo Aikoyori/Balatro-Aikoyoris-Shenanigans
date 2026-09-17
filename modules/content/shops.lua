@@ -907,7 +907,7 @@ function G.FUNCS.akyrs_life_can_upgrade_joker_judgement(e)
   end, true, true)
   if not AKYRS.Currencies.curr_akyrs_life:has_not_enough_money_check(G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost * #ctarget) and #ctarget > 0 then
     e.config.button = 'akyrs_life_upgrade_joker_judgement'
-    e.config.colour = G.C.GREEN
+    e.config.colour = G.C.BOOSTER
   else
     e.config.button = nil
     e.config.colour = G.C.UI.BACKGROUND_INACTIVE

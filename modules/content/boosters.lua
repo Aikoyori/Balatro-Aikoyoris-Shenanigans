@@ -282,7 +282,7 @@ SMODS.Booster{
     draw_hand = true,
     kind = "umbral_pack",
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     ease_background_colour = ease_bg_umbral,
     cry_digital_hallucinations = umbral_digital_hallucinations_compat,
@@ -307,7 +307,7 @@ SMODS.Booster{
     draw_hand = true,
     kind = "umbral_pack",
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     ease_background_colour = ease_bg_umbral,
     cry_digital_hallucinations = umbral_digital_hallucinations_compat,
@@ -332,7 +332,7 @@ SMODS.Booster{
     draw_hand = true,
     kind = "umbral_pack",
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     ease_background_colour = ease_bg_umbral,
     cry_digital_hallucinations = umbral_digital_hallucinations_compat,
@@ -355,7 +355,7 @@ SMODS.Booster{
     cost = 4,
     weight = 0.5,
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     draw_hand = true,
     kind = "umbral_pack",
@@ -382,7 +382,7 @@ SMODS.Booster{
     draw_hand = true,
     kind = "umbral_pack",
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     ease_background_colour = ease_bg_umbral,
     cry_digital_hallucinations = umbral_digital_hallucinations_compat,
@@ -407,7 +407,7 @@ SMODS.Booster{
     draw_hand = true,
     kind = "umbral_pack",
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     ease_background_colour = ease_bg_umbral,
     cry_digital_hallucinations = umbral_digital_hallucinations_compat,
@@ -432,7 +432,7 @@ SMODS.Booster{
     draw_hand = true,
     kind = "umbral_pack",
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     ease_background_colour = ease_bg_umbral,
     cry_digital_hallucinations = umbral_digital_hallucinations_compat,
@@ -457,7 +457,7 @@ SMODS.Booster{
     weight = 0.125,
     kind = "umbral_pack",
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Umbral", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     ease_background_colour = ease_bg_umbral,
     cry_digital_hallucinations = umbral_digital_hallucinations_compat,
@@ -485,7 +485,7 @@ SMODS.Booster{
     draw_hand = true,
     kind = "replica_pack",
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Replicant", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Replicant", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     ease_background_colour = ease_bg_replicant,
     cry_digital_hallucinations = replicant_digital_hallucinations_compat,
@@ -510,7 +510,7 @@ SMODS.Booster{
     draw_hand = true,
     kind = "replica_pack",
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Replicant", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Replicant", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     ease_background_colour = ease_bg_replicant,
     cry_digital_hallucinations = replicant_digital_hallucinations_compat,
@@ -535,7 +535,7 @@ SMODS.Booster{
     draw_hand = true,
     kind = "replica_pack",
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Replicant", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Replicant", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     ease_background_colour = ease_bg_replicant,
     cry_digital_hallucinations = replicant_digital_hallucinations_compat,
@@ -560,7 +560,7 @@ SMODS.Booster{
     draw_hand = true,
     kind = "replica_pack",
     create_card = function (self, card, i) 
-        return SMODS.create_card{ set = "Replicant", area = G.pack_cards, skip_materialize = true }
+        return SMODS.create_card{ set = "Replicant", area = G.pack_cards, skip_materialize = true, soulable = true }
     end,
     ease_background_colour = ease_bg_replicant,
     cry_digital_hallucinations = replicant_digital_hallucinations_compat,

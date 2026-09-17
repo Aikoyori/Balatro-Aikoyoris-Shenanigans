@@ -878,7 +878,7 @@ function G.FUNCS.akyrs_life_can_upgrade_judgement(e)
   local ctarget = AKYRS.filter_table(G.hand.highlighted, function (c)
     return c.akyrs_judgement and AKYRS.Judgements[c.akyrs_judgement].upgrades_to
   end, true, true)
-  if not AKYRS.Currencies.curr_akyrs_life:has_not_enough_money_check(G.GAME.akyrs_life_upgrade_card_hand_judgment_cost) and #ctarget > 0 then
+  if not AKYRS.Currencies.curr_akyrs_life:has_not_enough_money_check(G.GAME.akyrs_life_upgrade_card_hand_judgment_cost * #ctarget) and #ctarget > 0 then
     e.config.button = 'akyrs_life_upgrade_judgement'
     e.config.colour = G.C.GREEN
   else
@@ -888,12 +888,13 @@ function G.FUNCS.akyrs_life_can_upgrade_judgement(e)
 end
 
 function G.FUNCS.akyrs_life_upgrade_judgement(e)
-    AKYRS.Currencies.curr_akyrs_life:transactional_sound()
-    AKYRS.Currencies.curr_akyrs_life:change_value(-G.GAME.akyrs_life_upgrade_card_hand_judgment_cost)
-    G.GAME.akyrs_life_upgrade_card_hand_judgment_cost = G.GAME.akyrs_life_upgrade_card_hand_judgment_cost + 5
     local ctarget = AKYRS.filter_table(G.hand.highlighted, function (c)
       return c.akyrs_judgement and AKYRS.Judgements[c.akyrs_judgement].upgrades_to
     end, true, true)
+    AKYRS.Currencies.curr_akyrs_life:transactional_sound()
+    AKYRS.Currencies.curr_akyrs_life:change_value(-G.GAME.akyrs_life_upgrade_card_hand_judgment_cost * #ctarget)
+    G.GAME.akyrs_life_upgrade_card_hand_judgment_cost = G.GAME.akyrs_life_upgrade_card_hand_judgment_cost + 5
+
     AKYRS.do_things_to_card(ctarget, function (_card, index)
       _card.akyrs_judgement = AKYRS.Judgements[_card.akyrs_judgement].upgrades_to
     end)
@@ -904,7 +905,7 @@ function G.FUNCS.akyrs_life_can_upgrade_joker_judgement(e)
   local ctarget = AKYRS.filter_table(tbl, function (c)
     return c.akyrs_judgement and AKYRS.Judgements[c.akyrs_judgement].upgrades_to
   end, true, true)
-  if not AKYRS.Currencies.curr_akyrs_life:has_not_enough_money_check(G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost) and #ctarget > 0 then
+  if not AKYRS.Currencies.curr_akyrs_life:has_not_enough_money_check(G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost * #ctarget) and #ctarget > 0 then
     e.config.button = 'akyrs_life_upgrade_joker_judgement'
     e.config.colour = G.C.GREEN
   else
@@ -914,13 +915,13 @@ function G.FUNCS.akyrs_life_can_upgrade_joker_judgement(e)
 end
 
 function G.FUNCS.akyrs_life_upgrade_joker_judgement(e)
-    AKYRS.Currencies.curr_akyrs_life:transactional_sound()
-    AKYRS.Currencies.curr_akyrs_life:change_value(-G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost)
-    G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost = G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost + 5
     local tbl = AKYRS.combine_table(G.jokers.highlighted, G.consumeables.highlighted)
     local ctarget = AKYRS.filter_table(tbl, function (c)
       return c.akyrs_judgement and AKYRS.Judgements[c.akyrs_judgement].upgrades_to
     end, true, true)
+    AKYRS.Currencies.curr_akyrs_life:transactional_sound()
+    AKYRS.Currencies.curr_akyrs_life:change_value(-G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost * #ctarget)
+    G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost = G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost + 5
     AKYRS.do_things_to_card(ctarget, function (_card, index)
       _card.akyrs_judgement = AKYRS.Judgements[_card.akyrs_judgement].upgrades_to
     end)

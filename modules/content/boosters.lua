@@ -619,7 +619,7 @@ end
 -- flavoured: must select all 3 to continue
 for i = 1, 2 do
     SMODS.Booster{
-        key = "scenario_pack_flavoured"..i,
+        key = "scenario_pack_flavoured_"..i,
         set = "Booster",
         config = { extra = 3, choose = 3 },
         loc_vars = function(self, info_queue, card)
@@ -656,7 +656,7 @@ end
 -- full flavoured: select up to 3 from 6 
 for i = 1, 2 do
     SMODS.Booster{
-        key = "scenario_pack_full_flavoured"..i,
+        key = "scenario_pack_full_flavoured_"..i,
         set = "Booster",
         config = { extra = 6, choose = 3 },
         loc_vars = function(self, info_queue, card)

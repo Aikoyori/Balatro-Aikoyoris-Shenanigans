@@ -783,7 +783,7 @@ SMODS.add_attribute(
 
         'p_akyrs_mega_replica_pack_1', 
 
-        'p_akyrs_scenario_pack_full_flavoured_1', 'p_akyrs_scenario_pack_full_flavoured_', 
+        'p_akyrs_scenario_pack_full_flavoured_1', 'p_akyrs_scenario_pack_full_flavoured_2', 
     }
 )
 

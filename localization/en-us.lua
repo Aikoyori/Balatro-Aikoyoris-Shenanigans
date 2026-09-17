@@ -237,14 +237,21 @@ return {
                 name = 'Deck of the Vision',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
+                    '{C:attention}See{} the next cards in your deck',
+                    'equal to {C:attention}hand size',
+                    '{C:red,E:akyrs_shrivel}All{} playing cards',
+                    'are drawn face down',
                 },
             },
             b_akyrs_animosity_deck = {
                 name = 'Deck of the Animosity',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
+                    'At the end of shop',
+                    'create a {C:dark_edition}Negative {C:attention}copy{}',
+                    'of a {C:attention}random{} Joker',
+                    'in your posession',
+                    '{C:red,E:akyrs_shrivel}#1#{} Joker Slots',
                 },
             },
             b_akyrs_weaver_deck = {

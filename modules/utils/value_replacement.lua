@@ -581,3 +581,7 @@ end
 function AKYRS.prefer_original_for_redemption(c)
     return c and c.ability.set == "Bet"
 end
+
+function AKYRS.should_render_deck_preview()
+    return G.GAME.akyrs_vision_enabled
+end

@@ -1656,6 +1656,39 @@ function CardArea:draw()
             end
         end
     end
+
+    if self == G.deck and G.hand then
+        if not self.children.akyrs_deck_peek and G.deck_preview and AKYRS.should_render_deck_preview() then 
+            local cds = {}
+            for i = #G.deck.cards, (#G.deck.cards - G.hand.config.card_limit + 1), -1 do
+                cds[#cds+1] = copy_card(G.deck.cards[i])
+            end
+            local uiex = AKYRS.card_area_preview(G.akyrs_deck_peek_cardarea, {}, {
+                override = true,
+                cards = cds,
+                w = 3.0,
+                h = 0.5,
+                ml = 0,
+                scale = 0.5,
+            })
+            self.children.akyrs_deck_peek = UIBox{
+                definition = 
+                    {n=G.UIT.ROOT, config = {align = 'cm', padding = 0.1, r =0.1, colour = G.C.CLEAR}, nodes={
+                        {n=G.UIT.R, config={align = "cm", padding = 0.05, r =0.1, colour = adjust_alpha(G.C.BLACK, 0.5),func = 'set_button_pip', focus_args = {button = 'triggerright', orientation = 'bm', scale = 0.6}, button = 'deck_info'}, nodes={
+                            uiex
+                        }},
+                    }},
+                config = { align = 'cm', offset = {x=0,y=-6.7}, major = G.hand, parent = G.hand}
+            }
+            --self.children.akyrs_deck_peek.states.collide.can = false
+        end
+        if G.deck_preview and AKYRS.should_render_deck_preview() then 
+            self.children.akyrs_deck_peek:draw() 
+        elseif not G.deck_preview and self.children.akyrs_deck_peek then
+            self.children.akyrs_deck_peek:remove()
+            self.children.akyrs_deck_peek = nil
+        end
+    end
     return r
 end
 

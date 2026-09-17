@@ -303,6 +303,7 @@ SMODS.Back{
         
     },
 }
+-- this requires a UI rework...
 SMODS.Back{
     key = "kaleidoscopic_deck",
     name = "Kaleidoscopic Deck",
@@ -317,6 +318,7 @@ SMODS.Back{
     config = {
     },
 }
+-- 
 SMODS.Back{
     key = "dotted_deck",
     name = "Dotted Deck",
@@ -361,6 +363,16 @@ SMODS.Back{
     end,
     config = {
     },
+    apply = function (self, back)
+        G.GAME.akyrs_vision_enabled = true
+    end,
+    calculate = function (self, back, context)
+        if context.stay_flipped and G.STATE ~= G.STATES.HAND_PLAYED then
+            return {
+                stay_flipped = true,
+            }
+        end
+    end,
 }
 SMODS.Back{
     key = "animosity_deck",
@@ -368,13 +380,27 @@ SMODS.Back{
     atlas = 'deckBacks',
     pos = {x = 5, y = 2},
     loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.e_negative
         return {
             vars = {
+                self.config.joker_slot
             }
         }
     end,
     config = {
+        joker_slot = -4,
     },
+    calculate = function (self, back, context)
+        if context.ending_shop then
+            return {
+                func = function ()
+                    local copy_target = pseudorandom_element(G.jokers.cards, "akyrs_sheared_deck")
+                    local c = SMODS.copy_card(copy_target)
+                    c:set_edition('e_negative')
+                end
+            }
+        end
+    end,
 }
 SMODS.Back{
     key = "weaver_deck",

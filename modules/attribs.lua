@@ -760,6 +760,8 @@ SMODS.add_attribute(
         'p_akyrs_umbral_pack_1', 'p_akyrs_umbral_pack_2', 'p_akyrs_umbral_pack_3', 'p_akyrs_umbral_pack_4', 
 
         'p_akyrs_replica_pack_1', 'p_akyrs_replica_pack_2', 
+
+        'p_akyrs_scenario_pack_1', 'p_akyrs_scenario_pack_2', 'p_akyrs_scenario_pack_3', 'p_akyrs_scenario_pack_4', 
     }
 )
 SMODS.add_attribute(
@@ -769,6 +771,8 @@ SMODS.add_attribute(
         'p_akyrs_jumbo_umbral_pack_1', 'p_akyrs_jumbo_umbral_pack_2',
 
         'p_akyrs_jumbo_replica_pack_1', 
+        
+        'p_akyrs_scenario_pack_flavoured_1', 'p_akyrs_scenario_pack_flavoured_2', 
     }
 )
 SMODS.add_attribute(
@@ -778,6 +782,8 @@ SMODS.add_attribute(
         'p_akyrs_mega_umbral_pack_1', 'p_akyrs_mega_umbral_pack_2',
 
         'p_akyrs_mega_replica_pack_1', 
+
+        'p_akyrs_scenario_pack_full_flavoured_1', 'p_akyrs_scenario_pack_full_flavoured_', 
     }
 )
 

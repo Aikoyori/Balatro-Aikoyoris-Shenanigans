@@ -681,7 +681,7 @@ SMODS.Blind{
     calculate = function (self, blind, context)
         if not blind.disabled then
             if context.debuff_card then
-                if G.GAME.current_round.hands_played == 0 then
+                if G.GAME.current_round.hands_played == 0 and context.debuff_card.playing_card then
                     return {
                         debuff = true
                     }

@@ -3950,7 +3950,7 @@ return {
                 name="Shattered Planet",
                 text={
                     "Level up {C:attention}all{} hands",
-                    "that requires more than {C:attention}5{} cards",
+                    "that require more than {C:attention}5{} cards",
                 },
             },
         },

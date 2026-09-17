@@ -51,6 +51,7 @@ SMODS.Consumable{
     weight = 4,
     loc_vars = function (self, info_queue, card)
     end,
+    cost = 5,
     can_use = function (self, card)
         return true
     end,
@@ -83,6 +84,7 @@ SMODS.Consumable{
     akyrs_planet_show_up = true,
     akyrs_applicable_hands = 'flush_hands',
     weight = 2,
+    cost = 5,
     loc_vars = function (self, info_queue, card)
     end,
     can_use = function (self, card)
@@ -114,6 +116,7 @@ SMODS.Consumable{
     akyrs_planet_show_up = true,
     akyrs_applicable_hands = 'straight_hands',
     weight = 2,
+    cost = 5,
     loc_vars = function (self, info_queue, card)
     end,
     set_card_type_badge = function(self, card, badges)
@@ -148,6 +151,7 @@ SMODS.Consumable{
     akyrs_planet_show_up = true,
     akyrs_applicable_hands = 'combination_hands',
     weight = 1,
+    cost = 5,
     loc_vars = function (self, info_queue, card)
     end,
     set_card_type_badge = function(self, card, badges)
@@ -185,6 +189,7 @@ SMODS.Consumable{
     akyrs_planet_show_up = true,
     akyrs_applicable_hands = 'gt5_hands',
     weight = 3,
+    cost = 5,
     loc_vars = function (self, info_queue, card)
     end,
     can_use = function (self, card)

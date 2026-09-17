@@ -1719,27 +1719,26 @@ AKYRS.Scenario {
             }
         end
         if context.after then
-            if SMODS.last_hand_oneshot then
-                SMODS.scale_card(card, {
-                    ref_table = card.ability.extras,
-                    ref_value = 'xmult',
-                    scalar_factor = 0.5,
-                    operation = 'X',
-                    scaling_message = { message = localize('k_akyrs_downgrade_ex') },
-                })
-            end
             return {
                 func = function ()
+                    if SMODS.last_hand_oneshot then
+                        SMODS.scale_card(card, {
+                            ref_table = card.ability.extras,
+                            ref_value = 'xmult',
+                            scalar_factor = 0.5,
+                            operation = 'X',
+                            scaling_message = { message = localize('k_akyrs_downgrade_ex') },
+                        })
+                    end
                     AKYRS.simple_event_add(function()
                         if card.ability.extras.xmult <= 1 then
                             if AKYRS.is_scenario_tag(card) then 
                                 card:remove()
                             else
-                                SMODS.shatters(card)
+                                card:shatter()
                             end
                         end
                     return true 
-                        
                     end, 0)
                 end
             }

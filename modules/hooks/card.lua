@@ -602,3 +602,19 @@ function calculate_reroll_cost(skip_increment)
     end
     return ccrrc(skip_increment)
 end
+
+
+local csboost = G.FUNCS.can_skip_booster
+G.FUNCS.can_skip_booster = function(e)
+    local booster_card = SMODS.OPENED_BOOSTER
+    if booster_card then
+        if booster_card.config.center.akyrs_can_skip then
+            if not booster_card.config.center:akyrs_can_skip(booster_card) then
+                e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+                e.config.button = nil
+                return
+            end
+        end
+    end
+    return csboost(e)
+end

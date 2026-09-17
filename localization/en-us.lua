@@ -3644,6 +3644,31 @@ return {
                     "be used immediately",
                 },
             },
+            p_akyrs_scenario_pack_normal = {
+                name="Scenario Pack",
+                text={
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{} random {C:akyrs_scenario_blue}Scenarios{}",
+                    "to be used immediately",
+                    "{C:inactive}(Non-skippable)",
+                },
+            },
+            p_akyrs_scenario_pack_flavoured = {
+                name="Flavoured Scenario Pack",
+                text={
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{} random {C:akyrs_scenario_blue}Scenarios{}",
+                    "{C:inactive}(Non-skippable)",
+                },
+            },
+            p_akyrs_scenario_pack_full_flavoured = {
+                name="Full-Flavoured Scenario Pack",
+                text={
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{} random {C:akyrs_scenario_blue}Scenarios{}",
+                },
+            },
+            -- stakes & such
             akyrs_copper_sticker={
                 name="Copper Sticker",
                 text={
@@ -5458,6 +5483,7 @@ return {
             k_akyrs_alphabet_pack = "Alphabets",
             k_akyrs_umbral_pack = "Umbral Pack",
             k_akyrs_replica_pack = "Replica Pack",
+            k_akyrs_scenario_pack = "Scenario Pack",
 
             b_bet = "Bets",
             b_judgement = "Judgements",

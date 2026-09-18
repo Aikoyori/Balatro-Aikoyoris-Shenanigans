@@ -44,7 +44,7 @@ SMODS.game_table_from_type.Judgement = 'AKYRS_JUDGEMENTS'
 function AKYRS.mod_life(life, forced, duration, set)
     if life == 0 and not set then return end
     if G.GAME.akyrs_life == life and set then return end
-    local life_target = forced and life or math.min(G.GAME.akyrs_life_internal + life, (life > 0) and (G.GAME.akyrs_starting_life or 500) or G.GAME.akyrs_life_internal)
+    local life_target = forced and life or math.max(math.min(G.GAME.akyrs_life_internal + life, math.max(G.GAME.akyrs_starting_life or 500, G.GAME.akyrs_life_internal)), 0)
     
     if set then life_target = life end
     G.GAME.akyrs_life_internal = life_target
@@ -125,6 +125,9 @@ AKYRS.Judgement {
     },
     upgrades_to = 'judgement_akyrs_miss',
     weight = 0,
+    in_pool = function (self, args)
+        return false
+    end
 }
 
 AKYRS.Judgement {

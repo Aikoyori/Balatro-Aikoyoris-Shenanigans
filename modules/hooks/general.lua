@@ -154,8 +154,16 @@ function SMODS.current_mod.reset_game_globals(run_start)
     G.GAME.current_round.aiko_played_ench = {}
     G.GAME.current_round.akyrs_hands_played = {}
     local is_kdx = AKYRS.get_life_mode() == 'kaleidoscope'
+
     G.GAME.akyrs_life_reroll_cost = 5
     G.GAME.akyrs_life_top_up_dollars = 1
+    
+    G.GAME.akyrs_life_randomize_hand_judgment_cost = 20
+    G.GAME.akyrs_life_upgrade_card_hand_judgment_cost = 4
+    G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost = 15
+    G.GAME.akyrs_life_draw_whole_cost = 30
+    G.GAME.akyrs_life_draw_one_cost = 3
+
     G.GAME.akyrs_life_top_up_life = is_kdx and 15 or 10
     local candidate_hands = AKYRS.filter_table(AKYRS.keyvalue_to_list(G.GAME.hands), function (hand_info, ind)
         return hand_info[2].played > 0
@@ -1378,6 +1386,7 @@ function Card:load(cardTable, other_card)
     self.akyrs_impostor_card = cardTable.akyrs_impostor_card
     self.debuffed_by_blind = cardTable.debuffed_by_blind
     self.akyrs_enchantments = cardTable.akyrs_enchantments
+    self.akyrs_judgement = cardTable.akyrs_judgement
     self.akyrs_special_cost = cardTable.akyrs_special_cost
     self.akyrs_currency = cardTable.akyrs_currency
     self.akyrs_stored_enchantments = cardTable.akyrs_stored_enchantments

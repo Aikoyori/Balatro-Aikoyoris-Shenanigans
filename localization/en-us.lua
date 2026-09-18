@@ -5592,6 +5592,7 @@ return {
             k_akyrs_theoretical_planet = "Theoretical Planet",
             k_akyrs_factorio_planet = "Nauvis System Planet",
             k_akyrs_factorio_planet_q = "Nauvis System Planet?",
+            k_akyrs_inception_ex = "Inception!",
 
             f_akyrs_localize_enchantment_level = function (num_in)
                 if math.abs(num_in) > 3999 then

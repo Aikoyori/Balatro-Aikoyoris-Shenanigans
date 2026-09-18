@@ -3147,8 +3147,8 @@ SMODS.Joker {
 
     config = {
         extras = {
-            gain = 0.1,
-            lose = 0.5,
+            gain = 0.06,
+            lose = 0.6,
             xmult = 1,
         },
     },
@@ -4964,7 +4964,11 @@ SMODS.Joker {
                         function ()
                             if G.pack_cards and not SMODS.pseudorandom_probability(card, "akyrs_matryoshka_boosters", card.ability.extras.nume, card.ability.extras.denom) then
                                 for i = 1, card.ability.extras.pack do
-                                    SMODS.add_card{ area = G.pack_cards, set = 'Booster' }
+                                    local x = SMODS.add_card{ area = G.pack_cards, set = 'Booster' }
+                                    x.cost = 0
+                                    SMODS.calculate_effect({
+                                        message = localize("k_akyrs_inception_ex")
+                                    }, card)
                                 end
                             end
                             return true
@@ -4984,8 +4988,8 @@ SMODS.Joker {
     pools = {  },
     config = {
         extras = {
-            xchips = 4,
-            xchips_d = 0.4,
+            xchips = 3,
+            xchips_d = 0.2,
         }
     },
     rarity = 1,

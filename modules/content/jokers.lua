@@ -4883,8 +4883,6 @@ SMODS.Joker {
             }
         }
     end,
-    in_pool = function (self, args)
-    end,
     calculate = function (self, card, context)
         if context.setting_blind then
             return {
@@ -4928,6 +4926,93 @@ SMODS.Joker {
         if context.individual and not context.end_of_round and context.cardarea == 'unscored' then
             return {
                 dollars = card.ability.extras.dolarido
+            }
+        end
+    end,
+}
+
+
+SMODS.Joker {
+    key = "matryoshka",
+    atlas = 'AikoyoriJokers2',
+    pos = { x = 5, y = 0 },
+    pools = {  },
+    config = {
+        extras = {
+            pack = 1,
+            nume = 1,
+            denom = 3,
+        }
+    },
+    rarity = 3,
+    cost = 8,
+    loc_vars = function (self, info_queue, card)
+        local n, d = SMODS.get_probability_vars(card, card.ability.extras.nume, card.ability.extras.denom, "akyrs_matryoshka_boosters")
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.pack),
+                n,
+                d
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.open_booster then
+            return {
+                func = function ()
+                    AKYRS.simple_event_add(
+                        function ()
+                            if G.pack_cards and not SMODS.pseudorandom_probability(card, "akyrs_matryoshka_boosters", card.ability.extras.nume, card.ability.extras.denom) then
+                                for i = 1, card.ability.extras.pack do
+                                    SMODS.add_card{ area = G.pack_cards, set = 'Booster' }
+                                end
+                            end
+                            return true
+                        end
+                    )
+                end
+            }
+        end
+    end,
+}
+
+
+SMODS.Joker {
+    key = "coolish",
+    atlas = 'AikoyoriJokers2',
+    pos = { x = 6, y = 0 },
+    pools = {  },
+    config = {
+        extras = {
+            xchips = 4,
+            xchips_d = 0.4,
+        }
+    },
+    rarity = 1,
+    cost = 3,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                (card.ability.extras.xchips),
+                (card.ability.extras.xchips_d),
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.initial_scoring_step then
+            return {
+                xchips = card.ability.extras.xchips
+            }
+        end
+        if context.after then
+            return {
+                SMODS.scale_card(card, {
+                    operation = '-',
+                    ref_table = card.ability.extras,
+                    ref_value = 'xchips',
+                    scalar_value = 'xchips_d',
+                    scaling_message = { message = localize('k_akyrs_downgrade_ex') },
+                })
             }
         end
     end,

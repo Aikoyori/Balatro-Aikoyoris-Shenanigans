@@ -3093,6 +3093,29 @@ return {
                     }
                 }
             },
+            j_akyrs_matryoshka = {
+                name = {
+                    "{f:5}マトリョシカ",
+                    "{s:0.7}Matryoshka by Hachi",
+                },
+                text = {
+                    {
+                        "{C:attention}#1#{} Booster Pack inside Booster Packs",
+                        "{C:green}#2# in #3# chance{} to not create Booster Pack",
+                    },
+                }
+            },
+            j_akyrs_coolish = {
+                name = {
+                    "Coolish",
+                },
+                text = {
+                    {
+                        "{C:white,X:blue}X#1#{} Chips {C:attention}before{} hand scores",
+                        "Decrease by {C:white,X:blue}-X#2#{} after hand scores",
+                    },
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {

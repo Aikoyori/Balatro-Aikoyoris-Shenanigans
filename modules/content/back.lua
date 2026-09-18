@@ -395,8 +395,10 @@ SMODS.Back{
             return {
                 func = function ()
                     local copy_target = pseudorandom_element(G.jokers.cards, "akyrs_sheared_deck")
-                    local c = SMODS.copy_card(copy_target)
-                    c:set_edition('e_negative')
+                    if copy_target then
+                        local c = SMODS.copy_card(copy_target)
+                        c:set_edition('e_negative')
+                    end
                 end
             }
         end

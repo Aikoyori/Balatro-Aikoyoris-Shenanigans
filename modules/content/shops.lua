@@ -824,7 +824,8 @@ end
 
 function G.FUNCS.akyrs_life_reroll(e)
   AKYRS.Currencies.curr_akyrs_life:transactional_sound()
-  AKYRS.mod_life( -G.GAME.akyrs_life_reroll_cost)
+  AKYRS.mod_life(-G.GAME.akyrs_life_reroll_cost)
+  SMODS.calculate_context({reroll_shop = true, cost = 0})
   G.GAME.akyrs_life_reroll_cost = G.GAME.akyrs_life_reroll_cost + 5
   AKYRS.fill_life_reroll()
 end

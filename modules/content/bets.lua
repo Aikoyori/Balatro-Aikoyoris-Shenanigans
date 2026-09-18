@@ -270,7 +270,7 @@ AKYRS.Bet {
             local candidates = AKYRS.filter_table(G.jokers.cards, function (c)
                 return not SMODS.is_eternal(c)
             end,true, true)
-            return #candidates >= 2
+            return #candidates >= 1 and #G.jokers.cards >= 2
         end
         return false
     end,

@@ -2299,3 +2299,22 @@ G.FUNCS.end_consumeable = function(e, delayfac)
     end, 0)
     return unpack(endcd)
 end
+
+local smodscardselectarea = SMODS.card_select_area
+function SMODS.card_select_area(card, pack)
+    local select_area, can_also_use
+    if card.ability.set == "Booster" and not AKYRS.booster_normal_routine(card, pack) then
+        -- fuck all this actuallygggggggggfghdgsdgjkl;sdgjvwsjlgjldsgjsdfkld
+        --print(pack.key)
+        --[[
+        if pack.select_card then -- Pack is now first priority because they apparently use the same function 
+            if type(pack.select_card) == "function" then
+                select_area, can_also_use = pack:select_card(card, pack)
+            else
+                select_area = pack.select_card
+            end
+        end]]
+        return select_area, can_also_use
+    end
+    return smodscardselectarea(card, pack)
+end

@@ -585,3 +585,7 @@ end
 function AKYRS.should_render_deck_preview()
     return G.GAME.akyrs_vision_enabled
 end
+
+function AKYRS.booster_normal_routine()
+    return AKYRS.is_mod_loaded('Spectrallib') or AKYRS.is_mod_loaded('Cryptid') 
+end

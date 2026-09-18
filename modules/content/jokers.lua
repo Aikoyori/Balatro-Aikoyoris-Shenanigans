@@ -4964,10 +4964,12 @@ SMODS.Joker {
                         function ()
                             if G.pack_cards and not SMODS.pseudorandom_probability(card, "akyrs_matryoshka_boosters", card.ability.extras.nume, card.ability.extras.denom) then
                                 for i = 1, card.ability.extras.pack do
-                                    local x = SMODS.add_card{ area = G.pack_cards, set = 'Booster' }
-                                    x.cost = 0
                                     SMODS.calculate_effect({
-                                        message = localize("k_akyrs_inception_ex")
+                                        func = function ()
+                                            local x = SMODS.add_card{ area = G.pack_cards, set = 'Booster' }
+                                            x.cost = 0
+                                        end,
+                                        message = localize("k_akyrs_inception_ex"),
                                     }, card)
                                 end
                             end

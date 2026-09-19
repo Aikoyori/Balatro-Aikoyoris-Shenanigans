@@ -5018,13 +5018,25 @@ SMODS.Joker {
     pools = {  },
     config = {
     },
+    loc_vars = function (self, info_queue, card)
+        return {
+            key = self.key .. AKYRS.mp_check("","_mp")
+        }
+    end
     rarity = 3,
     cost = 9,
     akyrs_joker_use_btn = true,
     akyrs_joker_can_use = function (self, card)
-        return G.GAME.blind.boss and not G.GAME.blind.disabled 
+        if AKYRS.mp_check("","_mp") then
+            return true
+        end
+        return G.GAME.blind.boss and not G.GAME.blind.disabled
     end,
     akyrs_joker_use = function (self, card)
+        if AKYRS.is_mp() then
+            AKYRS.ease_lives_mp(1)
+            return true
+        end
         G.GAME.blind:disable()
         ease_dollars(-G.GAME.dollars / 2)
     end,

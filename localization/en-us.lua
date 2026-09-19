@@ -2281,7 +2281,7 @@ return {
                 }
             },
             j_akyrs_you_tried_mp = {
-                name = "You Tried",
+                name = "You Tried (Multiplayer)",
                 text = { 
                     "When losing to {C:attention}non-PvP{} blinds",
                     "Gain {C:money}$#2#",
@@ -3034,6 +3034,7 @@ return {
                 name = {
                     "{f:5}ルーザーガール",
                     "{s:0.8}Loser Girl by TUYU",
+                    "(Multiplayer)",
                 },
                 text = {
                     {
@@ -3139,6 +3140,17 @@ return {
                     {
                         "{C:attention}Use{} this Joker to {C:attention}disable",
                         "this Boss Blind and for {C:attention}half{} of your money",
+                    },
+                }
+            },
+            j_akyrs_secretary_mp = {
+                name = {
+                    "Secretary (Multiplayer)",
+                },
+                text = {
+                    {
+                        "{C:attention}Use{} this Joker to {C:attention}gain +1{} Life",
+                        "for {C:attention}half{} of your money",
                     },
                 }
             },
@@ -5059,7 +5071,7 @@ return {
                 },
             },
             c_akyrs_umbral_exit_plan_mp = {
-                name="Exit Plan",
+                name="Exit Plan (Multiplayer)",
                 text=
                 {
                     "{C:green}#1# in #2#{} chance to",
@@ -5120,7 +5132,7 @@ return {
                 }
             },
             c_akyrs_replicant_short_form_content_mp = {
-                name = "Short Form Content",
+                name = "Short Form Content (Multiplayer)",
                 text = {
                     "Initiate a fight with random {C:attention}Showdown Blind {}immediately{}",
                     "{C:attention}+#1#{} Life when it is {C:attention}defeated",

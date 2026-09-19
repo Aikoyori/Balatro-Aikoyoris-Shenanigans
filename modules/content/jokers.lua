@@ -5022,7 +5022,7 @@ SMODS.Joker {
         return {
             key = self.key .. AKYRS.mp_check("","_mp")
         }
-    end
+    end,
     rarity = 3,
     cost = 9,
     akyrs_joker_use_btn = true,

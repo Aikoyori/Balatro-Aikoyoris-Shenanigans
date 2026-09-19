@@ -2804,7 +2804,6 @@ SMODS.Joker {
 
 
 SMODS.Joker {
-    
     key = "bashame",
     enhancement_gate = "m_akyrs_canopy_card",
     atlas = 'AikoyoriJokers',
@@ -2845,19 +2844,7 @@ SMODS.Joker {
     key = "gift_voucher",
     atlas = 'guestJokerArts',
     pos = { x = 2, y = 0 },
-    akyrs_credits = {
-        art = {
-            "gudusername_53951"
-        },
-        idea = {
-            "gudusername_53951"
-        },
-        attrib = {
-            ["gudusername_53951"] = {"art", "idea"},
-        },
-    },
     loc_vars = function (self, info_queue, card)
-        info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_credit_gud"]
         return {
             vars = {
                 card.ability.extras.type and localize("k_"..string.lower(card.ability.extras.type or "fakecenter")) or "<"..localize("k_consumable_type")..">"
@@ -4987,6 +4974,47 @@ SMODS.Joker {
     key = "coolish",
     atlas = 'AikoyoriJokers2',
     pos = { x = 6, y = 0 },
+    pools = {  },
+    config = {
+        extras = {
+            xchips = 3,
+            xchips_d = 0.2,
+        }
+    },
+    rarity = 1,
+    cost = 3,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                (card.ability.extras.xchips),
+                (card.ability.extras.xchips_d),
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.initial_scoring_step then
+            return {
+                xchips = card.ability.extras.xchips
+            }
+        end
+        if context.after then
+            return {
+                SMODS.scale_card(card, {
+                    operation = '-',
+                    ref_table = card.ability.extras,
+                    ref_value = 'xchips',
+                    scalar_value = 'xchips_d',
+                    scaling_message = { message = localize('k_akyrs_downgrade_ex') },
+                })
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = "secretary",
+    atlas = 'inky_secretary',
+    pos = { x = 0, y = 0 },
     pools = {  },
     config = {
         extras = {

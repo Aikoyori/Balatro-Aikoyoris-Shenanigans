@@ -735,6 +735,18 @@ return {
                 }
             },
         },
+        Credits = {
+            credits_akyrs_dr_monty_the_snek = {
+                text = {
+                    'Helped with balancing!',
+                }
+            },
+            credits_akyrs_frostice482 = {
+                text = {
+                    'Helped with Word Optimization!',
+                }
+            },
+        },
         DescriptionDummy={
             -- config
             dd_akyrs_wildcard_behaviour_1 = {
@@ -1467,7 +1479,10 @@ return {
             m_akyrs_scoreless = {
                 name="Scoreless",
                 text={
-                    "Does not score"
+                    "Will not score",
+                    "Gives {C:chips}#1#{} Chips",
+                    "and {C:mult}#2#{} Mult",
+                    "if this does not score",
                 },
             },
             m_akyrs_ash_card = {
@@ -4922,8 +4937,8 @@ return {
                 text=
                 {
                     "Select {C:attention}#1#{} card in hand",
-                    "to give a random {C:attention}Enhancement, Edition, Seal{} to it",
-                    "but {C:attention}force{} it to be {C:attention}selected{}",
+                    "to give a random {C:attention}Edition and Seal{} to it",
+                    "but enhance the card into a {C:attention}Scoreless{} card",
                 },
             },
             c_akyrs_umbral_rock = {

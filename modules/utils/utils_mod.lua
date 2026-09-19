@@ -476,7 +476,7 @@ AKYRS.mod_card_values = function(card, config)
                 if type(v) == "number" then
                     if (keywords[k] or #keywords < 1) and not unkeyword[k] then
                         if ref and ref[k] then
-                            _table_in[k] = (((func and func(ref[k]) or ref[k]) + add) * multiply * rand)
+                            _table_in[k] = (((func and func(ref[k], k) or ref[k]) + add) * multiply * rand)
                         end
                     end
                 elseif type(v) == "table" and ref and k and not unkeyword[k] then

@@ -375,7 +375,7 @@ end
 
 function AKYRS.embedded_ui_sprite( sprite_atlas, sprite_pos, desc_nodes, config )
     if not config then config = {} end
-    local sprite_atli = G.ASSET_ATLAS[sprite_atlas]
+    local sprite_atli = SMODS.get_atlas(sprite_atlas)
     local height = config.h or sprite_atli.py
     local width = config.w or sprite_atli.px
     local manual_scale = config.manual_scale

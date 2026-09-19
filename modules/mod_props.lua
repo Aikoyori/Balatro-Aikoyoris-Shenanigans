@@ -115,16 +115,14 @@ end
 AKYRS.credits_linker = function (credits)
   return {button = "akyrs_your_collection_credits", ref_table = {credit = credits.internal_name or "none"}, on_demand_tooltip = {text = "", filler = {func = AKYRS.create_credit_tooltip, args = credits}}}
 end
-AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width, colour, credits_nodes)
-  return {
-    n = G.UIT.R,
-    config = { padding = 0 },
-    nodes = {
-      sprite_atlas and {
+---@param cred_obj AKYRS.Credit
+AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width, colour, credits_nodes, cred_obj)
+  local nds = {
+  }
+  if sprite_atlas and not cred_obj.no_atlas then
+      nds[#nds+1] = {
         n = G.UIT.C,
-        config = { align = "cm", padding = 0.1,
-          button = "akyrs_your_collection_credits", ref_table = {credit = credits_internal_name or "none"}, on_demand_tooltip = {text = "", filler = {func = AKYRS.create_credit_tooltip, args = {internal_name = credits_internal_name, name = name}}},
-        },
+        config = { align = "cm", padding = 0.1,},
         nodes = {
           AKYRS.embedded_ui_sprite(sprite_atlas, { x = 0, y = 0 }, nil, {
             w = 200,
@@ -134,7 +132,9 @@ AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width
             rounded = 0.5
           }),
         }
-      },
+      }
+  end
+  nds[#nds+1] = 
       {
         n = G.UIT.C,
         config = { align = "cm", padding = 0.1  },
@@ -152,10 +152,13 @@ AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width
               }
             }
           },
-          credits_nodes or nil
+          credits_nodes and unpack(credits_nodes) or nil
         }
-      },
-    }
+      }
+  return {
+    n = G.UIT.R,
+    config = { padding = 0, button = #cred_obj.accredited_keys > 0 and "akyrs_your_collection_credits", ref_table = {credit = credits_internal_name or "none"}, on_demand_tooltip = #cred_obj.accredited_keys > 0 and {text = "", filler = {func = AKYRS.create_credit_tooltip, args = {internal_name = credits_internal_name, name = name}}}, },
+    nodes = nds
   }
 end
 
@@ -178,14 +181,7 @@ AKYRS.create_credit_tooltip = function (credits)
     local uinodes = nil
     if AKYRS.should_show_card_previews() then
 
-      local centers_all = {}
-      for i, pool in pairs(G.P_CENTER_POOLS) do
-          for i2, v in ipairs(pool) do
-              if v.akyrs_credits and v.akyrs_credits.attrib and v.akyrs_credits.attrib[credits.internal_name] then
-                  table.insert(centers_all, v)
-              end
-          end
-      end
+      local centers_all = AKYRS.Credits[credits.internal_name].accredited_keys
       if #centers_all > 0 then
         local centers = AKYRS.pseudorandom_elements(centers_all, 7, pseudoseed("akyrs_get_random_credit_cards"))
         local cards = {
@@ -352,6 +348,48 @@ SMODS.current_mod.custom_ui = function (mod_nodes)
 end
 
 SMODS.current_mod.extra_tabs = function ()
+  local main_tables = {}
+  local extra_tables = {}
+  local crossmod_tables = {}
+  main_tables[#main_tables+1] = 
+  {
+    n = G.UIT.R,
+    config = {},
+    nodes = {
+      { n = G.UIT.T, config = { text = localize("k_akyrs_additional_art_by"), scale = 0.5, colour = G.C.WHITE } }
+    }
+  }
+  extra_tables[#extra_tables+1] =
+  {
+    n = G.UIT.R,
+    config = {},
+    nodes = {
+      { n = G.UIT.T, config = { text = localize("k_akyrs_additional_help_by"), scale = 0.5, colour = G.C.WHITE } }
+    }
+  }
+  local tbl_idx = ({ main = main_tables, extras = extra_tables, crossmod = crossmod_tables })
+  for _, cred_internal in ipairs(AKYRS.Credit_Buffer) do
+    local cred_obj = AKYRS.Credits[cred_internal]
+    local tbl_tg = tbl_idx[cred_obj.category]
+    local extra_nodes = {}
+    local extra_nodes_nx = {}
+    localize { type = 'descriptions', set = 'Credits', key = cred_internal, nodes = extra_nodes_nx, default_col = G.C.UI.TEXT_LIGHT }
+    extra_nodes[#extra_nodes+1] = transparent_multiline_text(extra_nodes_nx)
+    extra_nodes[#extra_nodes].config.align = 'lc'
+    if cred_obj.social_links then
+      for _, conj in ipairs(cred_obj.social_links) do
+        extra_nodes[#extra_nodes+1] = {
+          n = G.UIT.R,
+          config = { padding = 0.02 },
+          nodes = {
+            AKYRS.create_link_sprite_btn(unpack(conj)),
+          }
+        }
+      end
+    end
+    tbl_tg[#tbl_tg+1] = 
+      AKYRS.create_credits(cred_obj.atlas, "@"..cred_obj.username, cred_internal, 3.1, nil, extra_nodes, cred_obj)
+  end
   return {
     {
       label = localize("k_akyrs_credits"),
@@ -364,50 +402,7 @@ SMODS.current_mod.extra_tabs = function ()
                       {
                         n = G.UIT.C,
                         config = {padding = 0.05},
-                        nodes = {
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = localize("k_akyrs_additional_art_by"), scale = 0.5, colour = G.C.WHITE } }
-                            }
-                          },
-                          AKYRS.create_credits("akyrs_larantula_l_credits", "@larantula_l", "larantula_l", 3.1, nil,
-                          {
-                            n = G.UIT.R,
-                            config = { padding = 0.02 },
-                            nodes = {
-                              AKYRS.create_link_sprite_btn("youtube", "https://www.youtube.com/@Larantula"),
-                            }
-                          }),
-                          AKYRS.create_credits("akyrs_plasma_credits", "@eggymari", "eggymari", 2.7, nil,
-                          {
-                            n = G.UIT.R,
-                            config = { padding = 0.02 },
-                            nodes = {
-                              AKYRS.create_link_sprite_btn("youtube", "https://www.youtube.com/@PlasmaPhrase"),
-                              AKYRS.create_link_sprite_btn("twitter", "https://twitter.com/plasmaphrase"),
-                            }
-                          }),
-                          AKYRS.create_credits("akyrs_gud_credits", "@gudusername_53951", "gudusername_53951", 3.6),
-                          AKYRS.create_credits("akyrs_lyman_credits", "@Lyman", "lyman", 1.9, nil,
-                          {
-                            n = G.UIT.R,
-                            config = { padding = 0.02 },
-                            nodes = {
-                              AKYRS.create_link_sprite_btn("pixeljoint", "https://pixeljoint.com/p/172299.htm"),
-                            }
-                          }),
-                          AKYRS.create_credits("akyrs_tsu_credits", "@tje.tsu", "tje.tsu", 3.5, nil),
-                          AKYRS.create_credits("akyrs_marcyptata64_credits", "@marcyptata64", "marcyptata64", 3.3, nil,
-                          {
-                            n = G.UIT.R,
-                            config = { padding = 0.02 },
-                            nodes = {
-                              AKYRS.create_link_sprite_btn("newgrounds", "https://marcyptata64.newgrounds.com/"),
-                            }
-                          }),
-                        }
+                        nodes = main_tables
                       },
                       {
                         n = G.UIT.C,
@@ -416,26 +411,8 @@ SMODS.current_mod.extra_tabs = function ()
                           {
                             n = G.UIT.R,
                             config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = localize("k_akyrs_additional_help_by"), scale = 0.5, colour = G.C.WHITE } }
-                            }
+                            nodes = extra_tables
                           },
-                          AKYRS.create_credits("akyrs_drmonty_credits", "@dr_monty_the_snek", "dr_monty_the_snek", 3.5, nil,
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = localize("k_akyrs_drmonty_help"), scale = 0.3, colour = G.C.WHITE } }
-                            }
-                          }),
-                          AKYRS.create_credits(nil, "@frostice482", "frostice482", 3.5, nil,
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = localize("k_akyrs_frostice_help"), scale = 0.3, colour = G.C.WHITE } }
-                            }
-                          }),
                           {
                             n = G.UIT.R,
                             config = {},
@@ -446,17 +423,7 @@ SMODS.current_mod.extra_tabs = function ()
                           {
                             n = G.UIT.R,
                             config = {},
-                            nodes = {
-                              { n = G.UIT.C, config = AKYRS.credits_linker({name = "@TheOneGoofAli", internal_name = "toga"}), nodes = {
-                                { n = G.UIT.T, config = { text = "TheOneGoofAli", scale = 0.3, colour = G.C.BLUE } },
-                              } },
-                              { n = G.UIT.C, nodes = {
-                                { n = G.UIT.T, config = { text = ", ", scale = 0.3, colour = G.C.WHITE } },
-                              } },
-                              { n = G.UIT.C,config = AKYRS.credits_linker({name = "@PaperMoon", internal_name = "papermoon"}), nodes = {
-                                { n = G.UIT.T, config = { text = "PaperMoon", scale = 0.3, colour = G.C.BLUE } },
-                              } },
-                            }
+                            nodes = crossmod_tables
                           },
                           {
                             n = G.UIT.R,
@@ -489,7 +456,7 @@ SMODS.current_mod.extra_tabs = function ()
                           {
                             n = G.UIT.R,
                             nodes = {
-                              { n = G.UIT.C, nodes = {{ n = G.UIT.T, config = { text = "lily.felli", scale = 0.3, colour = G.C.WHITE } }}, },
+                              { n = G.UIT.C, nodes = {{ n = G.UIT.T, config = { text = "ivy.emc", scale = 0.3, colour = G.C.WHITE } }}, },
                               { n = G.UIT.C, nodes = {{ n = G.UIT.T, config = { text = localize("k_akyrs_please_dont_kill_me"), scale = 0.2, colour = G.C.GREY } }}, },
                             }
                           },

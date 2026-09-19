@@ -52,13 +52,27 @@ SMODS.Enhancement{
     key = "scoreless",
     atlas = 'cardUpgrades',
     pos = {x = 0, y = 0},
+    config = {
+        extras = {
+            chips = 5,
+            mult = 1,
+        }
+    },
+    calculate = function (self, card, context)
+        if context.main_scoring and context.cardarea == 'unscored' then
+            return {
+                chips = card.ability.extras.chips,
+                mult = card.ability.extras.mult,
+            }
+        end
+    end,
     loc_vars = function (self, info_queue, card)
         return { vars = {
+            SMODS.signed(card.ability.extras.chips),
+            SMODS.signed(card.ability.extras.mult),
         } }
     end,
-    in_pool = function (self, args)
-        return false
-    end,
+    weight = 5,
     never_scores = true,
     replace_base_card = false,
 }
@@ -77,9 +91,8 @@ SMODS.Enhancement{
     end,
     config = {
         extras = {
-            chips = 35,
-            echips = 2,
-            odds = 4
+            chips = 67,
+            odds = 6,
         }
     },
     in_pool = function (self, args)

@@ -1708,17 +1708,15 @@ end
 
 create_UIBox_akyrs_credits_collection = function(author)
     local jkrs = {}
-    for i, pool in pairs(G.P_CENTER_POOLS) do
-        --print(pool)
-        for i2, v in ipairs(pool) do
-            if v.akyrs_credits and v.akyrs_credits.attrib and v.akyrs_credits.attrib[author] then
-                table.insert(jkrs, v)
-            end
-        end
+    for i2, v in ipairs(AKYRS.Credits[author].accredited_keys) do
+        table.insert(jkrs, G.P_CENTERS[v])
     end
     return SMODS.card_collection_UIBox(jkrs, {5,5,5}, {
         no_materialize = true, 
         modify_card = function(card, center) 
+            if center.set == "Edition" then
+                card:set_edition(center.key)
+            end
             card.sticker = get_joker_win_sticker(center)
          end,
         h_mod = 0.95,

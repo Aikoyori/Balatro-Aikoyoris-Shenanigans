@@ -530,7 +530,7 @@ SMODS.Consumable{
         G.GAME.akyrs_umbral_intrusive_usage_set = G.GAME.akyrs_umbral_intrusive_usage_set or -4
         return {
             vars = {
-                AKYRS.bal("absurd") and card.ability.extras.emoney or card.ability.extras.xmoney,
+                card.ability.extras.xmoney,
                 card.ability.extras.odds * 100,
                 SMODS.signed_dollars(G.GAME.akyrs_umbral_intrusive_usage_set)
             }
@@ -617,9 +617,10 @@ SMODS.Consumable{
     atlas = "umbra",
     pos = {x=6,y=1},
     config = {
-        max_highlighted = 3
+        max_highlighted = 2
     },
     loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_akyrs_scoreless
         return {
             vars = {
                 card.ability.max_highlighted
@@ -631,13 +632,12 @@ SMODS.Consumable{
         AKYRS.do_things_to_card(
             G.hand.highlighted,
             function (_card)
-                local ench = SMODS.poll_enhancement({guaranteed = true, key = "akyrs_umbral_bunker_ench"})
+                --local ench = SMODS.poll_enhancement({guaranteed = true, key = "akyrs_umbral_bunker_ench"})
                 local edition = poll_edition("akyrs_umbral_bunker_edition", nil, nil, true)
                 local seal = SMODS.poll_seal({guaranteed = true, key = "akyrs_umbral_bunker_seal"})
-                _card:set_ability(G.P_CENTERS[ench])
+                _card:set_ability(G.P_CENTERS.m_akyrs_scoreless)
                 _card:set_seal(seal)
                 _card:set_edition(edition)
-                _card.ability.akyrs_forced_selection = true
             end
         )
     end

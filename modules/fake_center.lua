@@ -28,14 +28,6 @@ AKYRS.FakeCenter = SMODS.Center:extend {
 
 AKYRS.FakeCenter{
     key = "eggymari_hatena_art",
-    akyrs_credits = {
-        art = {
-            "eggymari"
-        },
-        attrib = {
-            ["eggymari"] = "art",
-        },
-    },
     loc_vars = function (self, info_queue, card)
         if card and card.area and AKYRS.is_in_typical_area(card.area) then
             info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
@@ -47,14 +39,6 @@ AKYRS.FakeCenter{
 
 AKYRS.FakeCenter{
     key = "toga_charmap",
-    akyrs_credits = {
-        art = {
-            "toga"
-        },
-        attrib = {
-            ["toga"] = "art",
-        },
-    },
     set_badges = function (self, card, badges)
         if self.discovered then SMODS.create_mod_badges({ mod = togabalatro },badges) end
     end,
@@ -73,14 +57,6 @@ AKYRS.FakeCenter{
 
 AKYRS.FakeCenter{
     key = "toga_winword",
-    akyrs_credits = {
-        art = {
-            "toga"
-        },
-        attrib = {
-            ["toga"] = "art",
-        },
-    },
     set_badges = function (self, card, badges)
         if self.discovered then SMODS.create_mod_badges({ mod = togabalatro },badges) end
     end,
@@ -102,14 +78,6 @@ AKYRS.FakeCenter{
 
 AKYRS.FakeCenter{
     key = "paperback_pure_star",
-    akyrs_credits = {
-        art = {
-            "papermoon"
-        },
-        attrib = {
-            ["papermoon"] = "art",
-        },
-    },
     set_badges = function (self, card, badges)
         if self.discovered then SMODS.create_mod_badges({ mod = AKYRS.get_mod_data("paperback") },badges) end
     end,
@@ -138,14 +106,6 @@ AKYRS.FakeCenter{
 
 AKYRS.FakeCenter{
     key = "paperback_pure_crown",
-    akyrs_credits = {
-        art = {
-            "papermoon"
-        },
-        attrib = {
-            ["papermoon"] = "art",
-        },
-    },
     loc_vars = function (self, info_queue, card)
         if card and card.area and AKYRS.is_in_typical_area(card.area) then
             info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
@@ -175,14 +135,6 @@ AKYRS.FakeCenter{
 
 AKYRS.FakeCenter{
     key = "paperback_pure_apostle",
-    akyrs_credits = {
-        art = {
-            "papermoon"
-        },
-        attrib = {
-            ["papermoon"] = "art",
-        },
-    },
     loc_vars = function (self, info_queue, card)
         if card and card.area and AKYRS.is_in_typical_area(card.area) then
             info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
@@ -212,14 +164,6 @@ AKYRS.FakeCenter{
 
 AKYRS.FakeCenter{
     key = "judgement_miss",
-    akyrs_credits = {
-        art = {
-            "tje.tsu"
-        },
-        attrib = {
-            ["tje.tsu"] = "art",
-        },
-    },
     loc_vars = function (self, info_queue, card)
         if card and card.area and AKYRS.is_in_typical_area(card.area) then
             info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
@@ -234,14 +178,6 @@ AKYRS.FakeCenter{
 
 AKYRS.FakeCenter{
     key = "judgement_good",
-    akyrs_credits = {
-        art = {
-            "tje.tsu"
-        },
-        attrib = {
-            ["tje.tsu"] = "art",
-        },
-    },
     loc_vars = function (self, info_queue, card)
         if card and card.area and AKYRS.is_in_typical_area(card.area) then
             info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
@@ -255,14 +191,7 @@ AKYRS.FakeCenter{
 
 AKYRS.FakeCenter{
     key = "judgement_great",
-    akyrs_credits = {
-        art = {
-            "tje.tsu"
-        },
-        attrib = {
-            ["tje.tsu"] = "art",
-        },
-    },
+
     loc_vars = function (self, info_queue, card)
         if card and card.area and AKYRS.is_in_typical_area(card.area) then
             info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
@@ -276,14 +205,6 @@ AKYRS.FakeCenter{
 
 AKYRS.FakeCenter{
     key = "judgement_perfect",
-    akyrs_credits = {
-        art = {
-            "tje.tsu"
-        },
-        attrib = {
-            ["tje.tsu"] = "art",
-        },
-    },
     loc_vars = function (self, info_queue, card)
         if card and card.area and AKYRS.is_in_typical_area(card.area) then
             info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]
@@ -297,14 +218,6 @@ AKYRS.FakeCenter{
 
 AKYRS.FakeCenter{
     key = "judgement_cperfect",
-    akyrs_credits = {
-        art = {
-            "tje.tsu"
-        },
-        attrib = {
-            ["tje.tsu"] = "art",
-        },
-    },
     loc_vars = function (self, info_queue, card)
         if card and card.area and AKYRS.is_in_typical_area(card.area) then
             info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_non_functional"]

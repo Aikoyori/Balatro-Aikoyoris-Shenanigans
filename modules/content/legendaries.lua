@@ -115,20 +115,7 @@ SMODS.Joker{
     },
     atlas = "gappie",
     rarity = 4,
-    akyrs_credits = {
-        art = {
-            "marcyptata64"
-        },
-        person_in_question = {
-            "marcyptata64"
-        },
-        attrib = {
-            ["marcyptata64"] = "art",
-            ["gappie"] = "person_in_question",
-        },
-    },
     loc_vars = function (self, info_queue, card)
-        info_queue[#info_queue+1] = AKYRS.DescriptionDummies["dd_akyrs_credit_marcyptata64"]
         return {
             vars = {
                 card.ability.extras.xmlt, 

@@ -346,6 +346,13 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
+    key = "inky_secretary",
+    path = "inky_secretary.png",
+    px = 71,
+    py = 95
+}
+
+SMODS.Atlas {
     key = "life_indicator",
     path = "life_indicator.png",
     px = 50,
@@ -401,6 +408,13 @@ SMODS.Atlas {
     path = "credits/marcyptata64.png",
     px = 128,
     py = 128
+}
+
+SMODS.Atlas {
+    key = "inky_credits",
+    path = "credits/inkyst.png",
+    px = 49,
+    py = 49
 }
 
 SMODS.Atlas {

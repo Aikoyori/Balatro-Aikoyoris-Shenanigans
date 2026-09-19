@@ -1715,7 +1715,7 @@ create_UIBox_akyrs_credits_collection = function(author)
         no_materialize = true, 
         modify_card = function(card, center) 
             if center.set == "Edition" then
-                card:set_edition(center.key)
+                card:set_edition(center.key, true, true)
             end
             card.sticker = get_joker_win_sticker(center)
          end,

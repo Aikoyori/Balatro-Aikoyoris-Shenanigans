@@ -199,3 +199,15 @@ AKYRS.Credit{
         
     },
 }
+
+AKYRS.Credit{
+    key = 'inky',
+    username = 'christopherjacobsanderson',
+    atlas = 'inky_credits',
+    accredited = {
+        { 'j_akyrs_secretary', { 'art' }},
+    },
+    social_links = {
+        
+    },
+}

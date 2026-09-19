@@ -738,12 +738,12 @@ return {
         Credits = {
             credits_akyrs_dr_monty_the_snek = {
                 text = {
-                    'Helped with balancing!',
+                    '* Helped with balancing!',
                 }
             },
             credits_akyrs_frostice482 = {
                 text = {
-                    'Helped with Word Optimization!',
+                    '* Helped with Word Optimization!',
                 }
             },
         },
@@ -3128,6 +3128,17 @@ return {
                     {
                         "{C:white,X:blue}X#1#{} Chips {C:attention}before{} hand scores",
                         "Decrease by {C:white,X:blue}-X#2#{} after hand scores",
+                    },
+                }
+            },
+            j_akyrs_secretary = {
+                name = {
+                    "Secretary",
+                },
+                text = {
+                    {
+                        "{C:attention}Use{} this Joker to {C:attention}disable",
+                        "this Boss Blind and for {C:attention}half{} of your money",
                     },
                 }
             },

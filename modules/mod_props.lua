@@ -348,53 +348,55 @@ SMODS.current_mod.custom_ui = function (mod_nodes)
 end
 
 SMODS.current_mod.extra_tabs = function ()
-  local main_tables = {}
-  local extra_tables = {}
-  local crossmod_tables = {}
-  main_tables[#main_tables+1] = 
-  {
-    n = G.UIT.R,
-    config = {},
-    nodes = {
-      { n = G.UIT.T, config = { text = localize("k_akyrs_additional_art_by"), scale = 0.5, colour = G.C.WHITE } }
-    }
-  }
-  extra_tables[#extra_tables+1] =
-  {
-    n = G.UIT.R,
-    config = {},
-    nodes = {
-      { n = G.UIT.T, config = { text = localize("k_akyrs_additional_help_by"), scale = 0.5, colour = G.C.WHITE } }
-    }
-  }
-  local tbl_idx = ({ main = main_tables, extras = extra_tables, crossmod = crossmod_tables })
-  for _, cred_internal in ipairs(AKYRS.Credit_Buffer) do
-    local cred_obj = AKYRS.Credits[cred_internal]
-    local tbl_tg = tbl_idx[cred_obj.category]
-    local extra_nodes = {}
-    local extra_nodes_nx = {}
-    localize { type = 'descriptions', set = 'Credits', key = cred_internal, nodes = extra_nodes_nx, default_col = G.C.UI.TEXT_LIGHT }
-    extra_nodes[#extra_nodes+1] = transparent_multiline_text(extra_nodes_nx)
-    extra_nodes[#extra_nodes].config.align = 'lc'
-    if cred_obj.social_links then
-      for _, conj in ipairs(cred_obj.social_links) do
-        extra_nodes[#extra_nodes+1] = {
-          n = G.UIT.R,
-          config = { padding = 0.02 },
-          nodes = {
-            AKYRS.create_link_sprite_btn(unpack(conj)),
-          }
-        }
-      end
-    end
-    tbl_tg[#tbl_tg+1] = 
-      AKYRS.create_credits(cred_obj.atlas, "@"..cred_obj.username, cred_internal, 3.1, nil, extra_nodes, cred_obj)
-  end
   return {
     {
       label = localize("k_akyrs_credits"),
       tab_definition_function = function ()
-        local scrollbox = SMODS.UIScrollBox({
+        
+        local main_tables = {}
+        local extra_tables = {}
+        local crossmod_tables = {}
+        main_tables[#main_tables+1] = 
+        {
+          n = G.UIT.R,
+          config = {},
+          nodes = {
+            { n = G.UIT.T, config = { text = localize("k_akyrs_additional_art_by"), scale = 0.5, colour = G.C.WHITE } }
+          }
+        }
+        extra_tables[#extra_tables+1] =
+        {
+          n = G.UIT.R,
+          config = {},
+          nodes = {
+            { n = G.UIT.T, config = { text = localize("k_akyrs_additional_help_by"), scale = 0.5, colour = G.C.WHITE } }
+          }
+        }
+        local tbl_idx = ({ main = main_tables, extras = extra_tables, crossmod = crossmod_tables })
+        for _, cred_internal in ipairs(AKYRS.Credit_Buffer) do
+          local cred_obj = AKYRS.Credits[cred_internal]
+          local tbl_tg = tbl_idx[cred_obj.category]
+          local extra_nodes = {}
+          local extra_nodes_nx = {}
+          localize { type = 'descriptions', set = 'Credits', key = cred_internal, nodes = extra_nodes_nx, default_col = G.C.UI.TEXT_LIGHT }
+          extra_nodes[#extra_nodes+1] = transparent_multiline_text(extra_nodes_nx)
+          extra_nodes[#extra_nodes].config.align = 'lc'
+          if cred_obj.social_links then
+            for _, conj in ipairs(cred_obj.social_links) do
+              extra_nodes[#extra_nodes+1] = {
+                n = G.UIT.R,
+                config = { padding = 0.02 },
+                nodes = {
+                  AKYRS.create_link_sprite_btn(unpack(conj)),
+                }
+              }
+            end
+          end
+          tbl_tg[#tbl_tg+1] = 
+            AKYRS.create_credits(cred_obj.atlas, "@"..cred_obj.username, cred_internal, 3.1, nil, extra_nodes, cred_obj)
+        end
+        if AKYRS.CREDITS_SCROLLBOX then AKYRS.CREDITS_SCROLLBOX:remove() AKYRS.CREDITS_SCROLLBOX = nil end
+        AKYRS.CREDITS_SCROLLBOX = SMODS.UIScrollBox({
           content = {
             definition = { n = G.UIT.ROOT,
                   config = { colour = G.C.CLEAR },
@@ -511,7 +513,7 @@ SMODS.current_mod.extra_tabs = function ()
                   n = G.UIT.O,
                   config = {
 							      align = "cm",
-                    object = scrollbox
+                    object = AKYRS.CREDITS_SCROLLBOX
                   }
                 }
               }
@@ -526,7 +528,7 @@ SMODS.current_mod.extra_tabs = function ()
                   max = 1,
                   ---colour = G.C.AKYRS_AIKOYORI_HAIR,
                   bg_colour = { 0, 0, 0, 0.15 },
-                  scroll_collision_obj = scrollbox,
+                  scroll_collision_obj = AKYRS.CREDITS_SCROLLBOX,
                   knob_h = 0.6,
                   scroll_mult = 1.5
                 })

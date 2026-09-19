@@ -5017,37 +5017,15 @@ SMODS.Joker {
     pos = { x = 0, y = 0 },
     pools = {  },
     config = {
-        extras = {
-            xchips = 3,
-            xchips_d = 0.2,
-        }
     },
-    rarity = 1,
-    cost = 3,
-    loc_vars = function (self, info_queue, card)
-        return {
-            vars = {
-                (card.ability.extras.xchips),
-                (card.ability.extras.xchips_d),
-            }
-        }
+    rarity = 3,
+    cost = 9,
+    akyrs_joker_use_btn = true,
+    akyrs_joker_can_use = function (self, card)
+        return G.GAME.blind.boss and not G.GAME.blind.disabled 
     end,
-    calculate = function (self, card, context)
-        if context.initial_scoring_step then
-            return {
-                xchips = card.ability.extras.xchips
-            }
-        end
-        if context.after then
-            return {
-                SMODS.scale_card(card, {
-                    operation = '-',
-                    ref_table = card.ability.extras,
-                    ref_value = 'xchips',
-                    scalar_value = 'xchips_d',
-                    scaling_message = { message = localize('k_akyrs_downgrade_ex') },
-                })
-            }
-        end
+    akyrs_joker_use = function (self, card)
+        G.GAME.blind:disable()
+        ease_dollars(-G.GAME.dollars / 2)
     end,
 }

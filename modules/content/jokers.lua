@@ -4999,15 +4999,17 @@ SMODS.Joker {
         end
         if context.after then
             return {
-                SMODS.scale_card(card, {
-                    operation = '-',
-                    ref_table = card.ability.extras,
-                    ref_value = 'xchips',
-                    scalar_value = 'xchips_d',
-                    scaling_message = { message = localize('k_akyrs_downgrade_ex') },
-                })
-                if card.ability.extras.xchips <= 1 then
-                    SMODS.destroy_card({card})
+                func = function ()
+                    SMODS.scale_card(card, {
+                        operation = '-',
+                        ref_table = card.ability.extras,
+                        ref_value = 'xchips',
+                        scalar_value = 'xchips_d',
+                        scaling_message = { message = localize('k_akyrs_downgrade_ex') },
+                    })
+                    if card.ability.extras.xchips <= 1 then
+                        SMODS.destroy_card({card})
+                    end
                 end
             }
         end

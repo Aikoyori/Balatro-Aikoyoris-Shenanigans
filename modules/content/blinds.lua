@@ -492,7 +492,7 @@ SMODS.Blind{
     mult = 2,
     boss_colour = HEX("f0ad82"),
     atlas = 'aikoyoriBlindsChips2',
-    boss = {min = 1, },
+    boss = {min = 2, },
     pos = { x = 0, y = 23 },
     debuff = {
     },

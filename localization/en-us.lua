@@ -3492,7 +3492,7 @@ return {
             akyrs_twin_seal={
                 name="Twin Seal",
                 text={
-                    "Copies a {C:attention}random{} Joker's",
+                    "Copies {C:attention}one of your{} Joker's",
                     "{C:attention}ability{} when scored",
                 },
             },

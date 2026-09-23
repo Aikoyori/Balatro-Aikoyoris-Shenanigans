@@ -214,6 +214,6 @@ AKYRS.Credit{
         { 'j_akyrs_secretary', { 'art' }},
     },
     social_links = {
-        
+        { 'kofi', 'https://ko-fi.com/inkystanderson'}
     },
 }

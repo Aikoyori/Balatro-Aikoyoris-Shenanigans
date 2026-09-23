@@ -226,7 +226,7 @@ AKYRS.create_credit_tooltip = function (credits)
 end
 -- on_demand_tooltip = {text = localize(handname, 'poker_hand_descriptions'), filler = {func = create_UIBox_hand_tip, args = handname}}
 function AKYRS.create_link_sprite_btn(platform, link)
-  local col = G.C.BLACK
+  local col = G.C.FILTER
   local px, py = 0, 0
   if platform == "youtube" then
     col = G.C.RED

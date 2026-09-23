@@ -2993,7 +2993,7 @@ return {
                         "Once per hand, {C:attention}use{} this Joker to {C:attention}increase ranks{}",
                         "of all cards in hand by {C:attention}1",
                         "and gain {C:chips}#2#{} Chips in the process",
-                        "{C:inactive}(Currently {C:chips}#1#{C:inactive} Mult)",
+                        "{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)",
                     },
                 }
             },

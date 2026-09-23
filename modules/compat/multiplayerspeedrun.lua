@@ -48,7 +48,7 @@ if AKYRS.is_mod_loaded('MultiplayerSPDRN')then
         G.FUNCS.exit_overlay_menu()
     end
     AKYRS.should_tick_down = function ()
-        return #G.E_MANAGER.queues.base <= 2
+        return #G.E_MANAGER.queues.base <= 5
     end
     local function hc_challenge_pool(count)
         local indices = {}

@@ -559,7 +559,7 @@ AKYRS.full_hand_recalc = function ()
 end
 
 AKYRS.should_tick_down = function ()
-    return #G.E_MANAGER.queues.base <= 1
+    return #G.E_MANAGER.queues.base <= 5
 end
 
 function AKYRS.spawn_shop_items()

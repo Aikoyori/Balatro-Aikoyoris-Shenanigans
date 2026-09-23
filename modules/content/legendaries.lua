@@ -210,7 +210,7 @@ SMODS.Joker {
         if MoreFluff then
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_more_fluff_ability"}
         end
-        if AKYRS.is_mod_loaded("Entropy") then
+        if AKYRS.is_mod_loaded("entr") then
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_entropy_ability"}
         end
         if SDM_0s_Stuff_Mod then

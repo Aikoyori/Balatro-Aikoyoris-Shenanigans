@@ -1,4 +1,4 @@
-if AKYRS.is_mod_loaded("Entropy") then
+if AKYRS.is_mod_loaded("entr") then
     local derivative_part_func = (SMODS.PokerHandParts.entr_derivative_part or {}).func
     SMODS.PokerHandPart:take_ownership("entr_derivative_part",{
         func = function (hand)

@@ -1409,7 +1409,7 @@ function AKYRS.set_splash_shader(ctx, vor_spd)
     ease_value(splash_args, 'mid_flash', -(ctx == 'splash' and 1.6 or 0), nil, nil, nil, 4)
     local colour1 = {name = 'colour_1', ref_table = G.C, ref_value = 'AKYRS_AIKOYORI_MAIN'}
     local colour2 = {name = 'colour_2', ref_table = G.C, ref_value = 'AKYRS_AIKOYORI_ALT'}
-    if Entropy then
+    if AKYRS.is_mod_loaded('entr') then
         colour1.ref_table = Entropy
         colour1.ref_value = "entropic_gradient"
         colour2.ref_table = Entropy

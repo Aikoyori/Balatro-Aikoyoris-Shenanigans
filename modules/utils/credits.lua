@@ -1,6 +1,7 @@
 ---@type { [string]: AKYRS.Credit }
 AKYRS.Credits = {}
 AKYRS.Credits_Lookups_By_Item = {}
+AKYRS.Credits_List_by_Item = {}
 ---@type string[]
 AKYRS.Credit_Buffer = {}
 
@@ -15,7 +16,7 @@ AKYRS.CREDIT_TYPES = { 'art' , 'idea' , 'code' , 'balancing' }
 ---@field atlas? string 
 ---@field pos? table|{ x : integer, y : integer } 
 ---@field accredited AKYRS.CreditItem[] 
----@field social_links [string, string] 
+---@field social_links [string, string][]
 ---@field category AKYRS.CreditCategory
 ---@field no_atlas boolean
 ---@overload fun(self: AKYRS.Credit): AKYRS.Credit
@@ -38,9 +39,14 @@ AKYRS.Credit = SMODS.GameObject:extend{
         if self.accredited then
             for index, acr_obj in ipairs(self.accredited) do
                 AKYRS.Credits_Lookups_By_Item[acr_obj[1]] = AKYRS.Credits_Lookups_By_Item[acr_obj[1]] or {}
+                AKYRS.Credits_List_by_Item[acr_obj[1]] = AKYRS.Credits_List_by_Item[acr_obj[1]] or {}
                 AKYRS.Credits_Lookups_By_Item[acr_obj[1]][#AKYRS.Credits_Lookups_By_Item[acr_obj[1]]+1] = { self.key, acr_obj[2] }
                 self.accredited_reverse_lookup[acr_obj[1]] = acr_obj[2]
                 for _, credtype in ipairs(acr_obj[2]) do
+
+                    AKYRS.Credits_List_by_Item[acr_obj[1]][credtype] = AKYRS.Credits_List_by_Item[acr_obj[1]][credtype] or {}
+                    AKYRS.Credits_List_by_Item[acr_obj[1]][credtype][#AKYRS.Credits_List_by_Item[acr_obj[1]][credtype]+1] = self.key
+
                     self.accredited_category_list[credtype] = self.accredited_category_list[credtype] or {}
                     self.accredited_category_list[credtype][#self.accredited_category_list[credtype]+1] = acr_obj[1]
                 end

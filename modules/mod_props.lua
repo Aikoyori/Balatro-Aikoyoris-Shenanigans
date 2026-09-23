@@ -117,12 +117,13 @@ AKYRS.credits_linker = function (credits)
 end
 ---@param cred_obj AKYRS.Credit
 AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width, colour, credits_nodes, cred_obj)
+  local deflt = {button = #cred_obj.accredited_keys > 0 and "akyrs_your_collection_credits", ref_table = {credit = credits_internal_name or "none"}, on_demand_tooltip = #cred_obj.accredited_keys > 0 and {text = "", filler = {func = AKYRS.create_credit_tooltip, args = {internal_name = credits_internal_name, name = name}}}}
   local nds = {
   }
   if sprite_atlas and not cred_obj.no_atlas then
       nds[#nds+1] = {
         n = G.UIT.C,
-        config = { align = "cm", padding = 0.1,},
+        config = SMODS.merge_defaults({ align = "cm", padding = 0.1,}, deflt),
         nodes = {
           AKYRS.embedded_ui_sprite(sprite_atlas, { x = 0, y = 0 }, nil, {
             w = 200,
@@ -134,14 +135,13 @@ AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width
         }
       }
   end
-  nds[#nds+1] = 
-      {
+  local ndst = {
         n = G.UIT.C,
         config = { align = "cm", padding = 0.1  },
         nodes = {
           {
             n = G.UIT.R,
-            config = {},
+            config = SMODS.merge_defaults({}, deflt),
             nodes = {
               {
                 n = G.UIT.T, config = {
@@ -152,12 +152,17 @@ AKYRS.create_credits = function(sprite_atlas, name, credits_internal_name, width
               }
             }
           },
-          credits_nodes and unpack(credits_nodes) or nil
         }
       }
+  if credits_nodes then
+    for _, nd in ipairs(credits_nodes) do
+      ndst.nodes[#ndst.nodes+1] = nd
+    end
+  end
+  nds[#nds+1] = ndst
   return {
     n = G.UIT.R,
-    config = { padding = 0, button = #cred_obj.accredited_keys > 0 and "akyrs_your_collection_credits", ref_table = {credit = credits_internal_name or "none"}, on_demand_tooltip = #cred_obj.accredited_keys > 0 and {text = "", filler = {func = AKYRS.create_credit_tooltip, args = {internal_name = credits_internal_name, name = name}}}, },
+    config = { padding = 0, },
     nodes = nds
   }
 end
@@ -378,19 +383,19 @@ SMODS.current_mod.extra_tabs = function ()
           local tbl_tg = tbl_idx[cred_obj.category]
           local extra_nodes = {}
           local extra_nodes_nx = {}
+          local extra_nodes_crdts = {}
           localize { type = 'descriptions', set = 'Credits', key = cred_internal, nodes = extra_nodes_nx, default_col = G.C.UI.TEXT_LIGHT }
           extra_nodes[#extra_nodes+1] = transparent_multiline_text(extra_nodes_nx)
           extra_nodes[#extra_nodes].config.align = 'lc'
           if cred_obj.social_links then
             for _, conj in ipairs(cred_obj.social_links) do
-              extra_nodes[#extra_nodes+1] = {
-                n = G.UIT.R,
-                config = { padding = 0.02 },
-                nodes = {
-                  AKYRS.create_link_sprite_btn(unpack(conj)),
-                }
-              }
+              extra_nodes_crdts[#extra_nodes_crdts+1] = AKYRS.create_link_sprite_btn(conj[1], conj[2])
             end
+            extra_nodes[#extra_nodes+1] = {
+              n = G.UIT.R,
+              config = { padding = 0.02 },
+              nodes = extra_nodes_crdts
+            }
           end
           tbl_tg[#tbl_tg+1] = 
             AKYRS.create_credits(cred_obj.atlas, "@"..cred_obj.username, cred_internal, 3.1, nil, extra_nodes, cred_obj)

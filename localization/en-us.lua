@@ -5706,6 +5706,12 @@ return {
             enchantment = "Enchantment",
             bet = "Bet"
         },
+        akyrs_credit_types = {
+            art = 'Art',
+            idea = 'Idea',
+            code = 'Code',
+            balancing = 'Balancing',
+        },
         akyrs_colour = {
             yellow = "Yellow",
             pink = "Pink",
@@ -5751,6 +5757,7 @@ return {
             k_akyrs_enchantment_lvl_single_level="#1#",
             k_akyrs_seconds="+#1#s",
             k_akyrs_payout_multiplier = "Payout Multiplier (X#1#)",
+            k_akyrs_credits_row = "#1# by #2#",
         },
         akyrs_misc = {
             mod_label = {

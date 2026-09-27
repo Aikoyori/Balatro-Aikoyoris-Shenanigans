@@ -203,8 +203,8 @@ AKYRS.Judgement {
     pos = { x = 4, y = 0 },
     value = {
         normal = {
-            joker = -0,
-            playing_card = -0,
+            joker = 1,
+            playing_card = 1,
         },
         kaleidoscope = {
             joker = -0,

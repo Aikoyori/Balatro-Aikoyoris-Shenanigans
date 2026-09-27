@@ -3089,7 +3089,7 @@ return {
                     {
                         "Hand {C:red}must{} contain only {C:attention}Pairs{}",
                         "{C:inactive}(Cannot contain Three of a Kind)",
-                        "Unscored cards gives {C:money}#1#{} when scored"
+                        "Unscored cards give {C:money}#1#{} when scored"
                     },
                 }
             },
@@ -3139,7 +3139,7 @@ return {
                 text = {
                     {
                         "{C:attention}Use{} this Joker to {C:attention}disable",
-                        "this Boss Blind and for {C:attention}half{} of your money",
+                        "this Boss Blind for {C:attention}half{} of your money",
                     },
                 }
             },

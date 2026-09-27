@@ -535,7 +535,6 @@ AKYRS.HardcoreChallenge{
             {id = 'akyrs_all_blinds_are', value = "bl_akyrs_the_thought", akyrs_localized_value = {type = "name_text", key = "bl_akyrs_the_thought", set = "Blind"}},
         }
     },
-    akyrs_legacy = true,
     difficulty = 5,
     type = "highscore"
 }

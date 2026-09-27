@@ -63,7 +63,7 @@ end
 
 SMODS.DrawStep{
     key = "extras",
-    order = 50,
+    order = 91,
     func = function (card, layer)
         AKYRS.aikoyori_draw_extras(card,layer)
     end,

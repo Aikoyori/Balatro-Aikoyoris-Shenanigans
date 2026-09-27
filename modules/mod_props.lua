@@ -596,7 +596,7 @@ AKYRS.rev_balance_map = {
 SMODS.current_mod.config_tab = function ()
 
   return {
-    n = G.UIT.ROOT, config = { minw = 9, minh = 5 ,align = "tm",colour = G.C.UI.TRANSPARENT_DARK, r = 0.1 },
+    n = G.UIT.ROOT, config = { minw = 9, minh = 3 ,align = "tm",colour = G.C.UI.TRANSPARENT_DARK, r = 0.1 },
     nodes = {
       { n = G.UIT.R, config = {align = "rt"}, nodes = {
           { n = G.UIT.C, config = {

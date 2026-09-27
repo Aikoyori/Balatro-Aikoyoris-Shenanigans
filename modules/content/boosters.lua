@@ -17,7 +17,7 @@ local umbral_digital_hallucinations_compat = {
 	end,
 }
 local replicant_digital_hallucinations_compat = {
-	colour = G.C.AKYRS_UMBRAL_P,
+	colour = G.C.AKYRS_REPLICANT_O,
 	loc_key = "k_akyrs_plus_replicant",
 	create = function()
 		SMODS.add_card{ set = "Replicant", edition = "e_negative" }

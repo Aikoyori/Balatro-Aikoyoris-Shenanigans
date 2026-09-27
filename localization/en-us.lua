@@ -3164,6 +3164,40 @@ return {
                     },
                 }
             },
+            j_akyrs_laplus_darkness = {
+                name = {
+                    "La+ Darkness",
+                },
+                text = {
+                    {
+                        "Create a {C:dark_edition}Negative{} {C:akyrs_umbral_p,X:akyrs_umbral_y} Umbral {} card when",
+                        "a {C:attention}Voucher{} or {C:attention}Bet{} is redeemed",
+                    },
+                }
+            },
+            j_akyrs_jelly_hoshiumi = {
+                name = {
+                    "Jelly Hoshiumi",
+                },
+                text = {
+                    {
+                        "If one exist, remove a {C:attention}random{} Scenario",
+                        "Then add a {C:attention}random{} Scenario Tag",
+                    },
+                }
+            },
+            j_akyrs_rin_penrose = {
+                name = {
+                    "Rin Penrose",
+                },
+                text = {
+                    {
+                        "Create a {C:dark_edition}Polychrome {C:akyrs_replicant_o}Replicant{} Card",
+                        "when Blind is {C:attention}skipped",
+                        "{C:inactive}(Must Have Room)",
+                    },
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {

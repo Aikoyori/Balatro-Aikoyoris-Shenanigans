@@ -5047,3 +5047,111 @@ SMODS.Joker {
         ease_dollars(-G.GAME.dollars / 2)
     end,
 }
+
+
+SMODS.Joker {
+    key = "laplus_darkness",
+    atlas = 'AikoyoriJokers2',
+    pos = { x = 7, y = 0 },
+    pools = {  },
+    config = {
+        extras = {
+
+        }
+    },
+    rarity = 2,
+    cost = 5,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.buying_card and (context.card.ability.set == "Voucher" or context.card.ability.set == "Bet") then
+            return {
+                func = function ()
+                    AKYRS.simple_event_add(function ()
+                        SMODS.add_card{ set = "Umbral", edition = 'e_negative' }
+                        return true
+                    end)
+                end,
+                message = localize('k_akyrs_plus_umbral'),
+                colour = G.C.AKYRS_UMBRAL_P,
+                remove = true,
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = "jelly_hoshiumi",
+    atlas = 'AikoyoriJokers2',
+    pos = { x = 8, y = 0 },
+    pools = {  },
+    config = {
+        extras = {
+
+        }
+    },
+    rarity = 1,
+    cost = 4,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.setting_blind then
+            return {
+                func = function ()
+                    AKYRS.simple_event_add(function ()
+                        if #G.GAME.akyrs_scenario > 0 then
+                            pseudorandom_element(G.GAME.akyrs_scenario, 'akyrs_jerry_vtuber_select'):remove()
+                        end
+                        AKYRS.add_scenario_tag(AKYRS.Scenario_Tag(AKYRS.get_random_scenario_key(nil, nil, { any_colour = true, any_side = true})))
+                        return true
+                    end, 0)
+                end
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = "rin_penrose",
+    atlas = 'AikoyoriJokers2',
+    pos = { x = 9, y = 0 },
+    pools = {  },
+    config = {
+        extras = {
+
+        }
+    },
+    rarity = 2,
+    cost = 6,
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.skip_blind then
+            return {
+                func = function ()
+                    AKYRS.simple_event_add(function ()
+                        if AKYRS.has_room(G.consumeables) then
+                            SMODS.add_card{ set = "Replicant", edition = 'e_polychrome' }
+                        end
+                        return true
+                    end)
+                end,
+                message = localize('k_akyrs_plus_replicant'),
+                colour = G.C.AKYRS_REPLICANT_O,
+                remove = true,
+            }
+        end
+    end,
+}

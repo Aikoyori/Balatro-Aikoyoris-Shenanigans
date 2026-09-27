@@ -4923,7 +4923,7 @@ SMODS.Joker {
 SMODS.Joker {
     key = "matryoshka",
     atlas = 'AikoyoriJokers2',
-    pos = { x = 5, y = 0 },
+    pos = { x = 4, y = 0 },
     pools = {  },
     config = {
         extras = {
@@ -4970,11 +4970,10 @@ SMODS.Joker {
     end,
 }
 
-
 SMODS.Joker {
     key = "coolish",
     atlas = 'AikoyoriJokers2',
-    pos = { x = 6, y = 0 },
+    pos = { x = 5, y = 0 },
     pools = {  },
     config = {
         extras = {
@@ -5052,7 +5051,7 @@ SMODS.Joker {
 SMODS.Joker {
     key = "laplus_darkness",
     atlas = 'AikoyoriJokers2',
-    pos = { x = 7, y = 0 },
+    pos = { x = 6, y = 0 },
     pools = {  },
     config = {
         extras = {
@@ -5087,7 +5086,7 @@ SMODS.Joker {
 SMODS.Joker {
     key = "jelly_hoshiumi",
     atlas = 'AikoyoriJokers2',
-    pos = { x = 8, y = 0 },
+    pos = { x = 7, y = 0 },
     pools = {  },
     config = {
         extras = {
@@ -5122,7 +5121,7 @@ SMODS.Joker {
 SMODS.Joker {
     key = "rin_penrose",
     atlas = 'AikoyoriJokers2',
-    pos = { x = 9, y = 0 },
+    pos = { x = 8, y = 0 },
     pools = {  },
     config = {
         extras = {
@@ -5153,5 +5152,39 @@ SMODS.Joker {
                 remove = true,
             }
         end
+    end,
+}
+
+
+SMODS.Joker {
+    key = "arch_illager",
+    atlas = 'AikoyoriJokers2',
+    pos = { x = 9, y = 0 },
+    pools = {  },
+    config = {
+        extras = {
+            pack = 1,
+            nume = 1,
+            denom = 3,
+        }
+    },
+    rarity = 3,
+    cost = 8,
+    loc_vars = function (self, info_queue, card)
+        local n, d = SMODS.get_probability_vars(card, card.ability.extras.nume, card.ability.extras.denom, "akyrs_matryoshka_boosters")
+        return {
+            vars = {
+                SMODS.signed(card.ability.extras.pack),
+                n,
+                d
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+        if context.open_booster then
+        end
+    end,
+    in_pool = function (self, args)
+        return false
     end,
 }

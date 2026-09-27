@@ -3198,6 +3198,16 @@ return {
                     },
                 }
             },
+            j_akyrs_arch_illager = {
+                name = {
+                    "Arch-Illager",
+                },
+                text = {
+                    {
+                        "does something about boss blind i forgor",
+                    },
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {
@@ -4987,7 +4997,8 @@ return {
                     },
                     
                     {
-                        "{C:attention}Sell{} this card to see {C:attention}if you would have lost money{}",
+                        "{C:attention}Sell{} this card to see",
+                        "{C:attention}if you would have lost money{}",
                     }
                     },
             },
@@ -5281,7 +5292,8 @@ return {
                     },
                     
                     {
-                        "{C:attention}Sell{} this card to see {C:attention}if you would have lost{}",
+                        "{C:attention}Sell{} this card to see",
+                        "{C:attention}if you would have lost{}",
                     }
                     },
             },

@@ -1215,6 +1215,10 @@ function AKYRS.is_in_typical_area(area)
     return area == G.jokers or area == G.hand or area == G.consumeables
 end
 
+function AKYRS.is_collection_area(area)
+    return area and area.config.collection
+end
+
 function AKYRS.is_in_playing_card_area(area)
     return area == G.hand or area == G.play or area == G.deck or area == G.discard
 end
@@ -2356,4 +2360,12 @@ function AKYRS.hands_filter_visible(list_of_hands)
     return AKYRS.filter_table(list_of_hands, function (handname)
         return G.GAME.hands[handname].visible
     end, true, true)
+end
+
+
+function AKYRS.juice_until(card, eval_func, first, delay, juice_params)
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',delay = delay or 0.1, blocking = false, blockable = false, timer = 'REAL',
+        func = (function() if eval_func(card) then if not first or first then card:juice_up(unpack(juice_params or {0.1, 0.1})) end;AKYRS.juice_until(card, eval_func, nil, 0.8) end return true end)
+    }))
 end

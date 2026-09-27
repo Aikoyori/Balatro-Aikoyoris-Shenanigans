@@ -1099,7 +1099,7 @@ function G.FUNCS.akyrs_shift_hud(e)
   else
     AKYRS.strings.shop_more_button = localize("k_akyrs_shop_panel_reveal")
   end
-
+  G.GAME.akyrs_juice_shop = nil
   local val = G.HUD.config.offset.x
   if AKYRS.is_hud_slided then
     --G.HUD.role.r_bond = "Weak"

@@ -98,8 +98,19 @@ function AKYRS.attach_to_shop_sign(shop_sign)
   if G.AKYRS_SHOP_OVERLAY then G.AKYRS_SHOP_OVERLAY:remove() G.AKYRS_SHOP_OVERLAY = nil end
   G.AKYRS_SHOP_OVERLAY = UIBox{
     definition = AKYRS.UIDEF.shift_hud_button(),
-      config = {align=('cli'), offset = {x=4.3,y=1.1},major = shop_sign}
+      config = {align=('cli'), offset = {x=4.3,y=1.1},major = shop_sign, bond = 'Weak'}
   }
+  local should_start = false
+  for _, shop in pairs(AKYRS.ShopPages) do
+    if shop:is_enabled() then
+      should_start = true
+      break
+    end
+  end
+  if should_start then
+    G.GAME.akyrs_juice_shop = true
+    AKYRS.juice_until(G.AKYRS_SHOP_OVERLAY, function(ui) return G.GAME.akyrs_juice_shop end)
+  end
 end
 
 function G.FUNCS.akyrs_close_hud_btn_func(e)

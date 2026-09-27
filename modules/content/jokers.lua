@@ -2125,7 +2125,7 @@ SMODS.Joker{
     end,
     loc_vars = function (self, info_queue, card)
         return {
-            key = self.key .. (AKYRS.is_in_typical_area(card.area) and ("_"..card.ability.extras.route) or ""),
+            key = self.key .. (not AKYRS.is_collection_area(card.area) and ("_"..card.ability.extras.route) or ""),
             vars = {
                 card.ability.extras.xmult
             }

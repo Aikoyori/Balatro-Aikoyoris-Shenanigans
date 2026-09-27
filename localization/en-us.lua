@@ -783,8 +783,9 @@ return {
             dd_akyrs_card_preview_tooltip = {
                 name = "Card Preview Tooltip",
                 text = {
-                    'Some cards have a small "Preview" window where the effect of the cards',
-                    'is demonstrated. If you are experiencing crashes after hovering a card',
+                    'Some cards have a small "Preview" cards',
+                    'where the effect of the cards is demonstrated.',
+                    'If you are experiencing crashes after hovering a card',
                     'turning this off might help',
                 },
             },
@@ -800,7 +801,8 @@ return {
                 name = "High Contrast UI",
                 text = {
                     'Some UI might be hard to read for certain people.',
-                    'For now, changes certain place where green and yellow appear to orange and blue',
+                    'For now, changes certain places where green and yellow',
+                    'appear to orange and blue',
                 },
             },
             dd_akyrs_experimental_feature = {
@@ -814,6 +816,14 @@ return {
                     'This is mainly for my use so that I can release bugfixes',
                     'for the mod while working on new content at the same time',
                     'I will not stop you from enabling it but it is unfinished after all',
+                },
+            },
+            dd_akyrs_toggle_legacy_challenges = {
+                name = "Enable Legacy Challenges",
+                text = {
+                    'Enable old challenges that no longer fits',
+                    'with the current balance of the mod.',
+                    'They feature some of the most disgusting balance ever.',
                 },
             },
             -- tooltips
@@ -5544,6 +5554,7 @@ return {
             k_akyrs_toggle_crt = "Enable CRT Shaders",
             k_akyrs_restart_required = "Options with * means restart is required",
             k_akyrs_toggle_experimental_feature = "Enable Experimental Features*",
+            k_akyrs_toggle_legacy_challenges = "Enable Legacy Challenges",
             k_akyrs_toggle_colourblind_ui = "High Contrast UI",
             k_akyrs_emerald = "Emerald",
             k_akyrs_supercommon = "Supercommon",

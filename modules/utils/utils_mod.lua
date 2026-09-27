@@ -453,7 +453,7 @@ AKYRS.mod_card_values = function(card, config)
     local multiply = config.multiply or 1
     local func = config.func
     local keywords = config.keywords or {}
-    local unkeyword = config.unkeywords or {}
+    local unkeyword = config.unkeywords or AKYRS.blacklist_mod or {}
     local reference
     if config.prefer_original_value then
         reference = config.reference or card.config.center.config or og_save.ability or card.ability or AKYRS.deep_copy(card)
@@ -492,47 +492,6 @@ AKYRS.mod_card_values = function(card, config)
     card.T.w = tw
     card.T.h = th
     card:set_sprites(card.config.center)
-end
-
--- genuinely do not use this function bruh
-AKYRS.mod_card_values_misprint = function(table_in, config)
-    if not config then config = {} end
-    local add = config.add or 0
-    local multiply = config.multiply or 1
-    local randomize = config.random or {digits_min = 1, digits_max = 1, min = 1, max = 1,scale = 1 }
-    local random_seed = config.randomseed or "modcardvalue"
-    random_seed = (G.GAME and G.GAME.pseudorandom.seed or "") .. " - " .. random_seed
-    local keywords = config.keywords or {}
-    local unkeyword = config.unkeywords or AKYRS.blacklist_mod or {}
-    local function_check = config.func or function(name, value) return true end
-    local reference = config.reference or table_in
-    local function modify_values(table_in, ref)
-        for k, v in pairs(table_in) do
-            if type(v) == "number" then
-                if (keywords[k] or #keywords < 1) and not unkeyword[k] then
-                    if ref and ref[k] and function_check(k,ref[k]) then
-                        local numberstr = randomize.can_negate and pseudorandom_element({"","-",pseudoseed(random_seed.."a")}) or ""
-                        local digits = pseudorandom(pseudoseed(random_seed.."ab"),randomize.digits_min,randomize.digits_max)
-                        for i = 1,digits do
-                            numberstr = numberstr .. pseudorandom(pseudoseed(random_seed.."b"),0,9)
-                        end
-                        if numberstr == "" or numberstr == "-" then
-                            numberstr = "0"
-                        end
-                        local number = tonumber(numberstr) * (10 ^ randomize.scale)
-                        number = math.fmod(number,randomize.max - randomize.min) + randomize.min
-                        table_in[k] = (ref[k] + add) * multiply * number
-                    end
-                end
-            elseif type(v) == "table" and ref and k then
-                modify_values(v, ref[k])
-            end
-        end
-    end
-    if table_in == nil then
-        return
-    end
-    modify_values(table_in, reference)
 end
 
 AKYRS.get_suits = function(tbl_o_cards) 
@@ -706,6 +665,78 @@ end
 
 AKYRS.create_hover_tooltip = function(args)
     args = args or {}
+    local uibox = UIBox({
+        definition = {
+            n = G.UIT.ROOT,
+            config = { 
+                align = "cm",
+                colour = G.C.CLEAR,
+            },
+            nodes = {
+                {
+                    n = G.UIT.R,
+                    config = {
+                        align = "cm",
+                        r = args.round or 0.1,
+                        maxh = args.w or 0.5,
+                        maxw = args.h or 0.5,
+                        minh = args.w or 0.5,
+                        minw = args.h or 0.5,
+                        focus_args = { snap_to = true },
+                        -- detailed_tooltip = AKYRS.DescriptionDummies[args.tooltip_key or "dd_akyrs_yona_yona_ex"], 
+                        func = args.func,
+                        colour = args.colour or G.C.BLUE,
+                        padding = args.padding or 0.1,
+                    },
+                    nodes = {
+                        {
+                            n = G.UIT.T,
+                            config = {
+                                text = args.text or "i",
+                                colour = args.text_colour or G.C.WHITE,
+                                scale = args.scale or 0.3,
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        config = {
+            align= 'cm',
+            offset = {x = 0, y = 0},
+        },
+    })
+    local obj = AKYRS.DescriptionDummies[args.tooltip_key or "dd_akyrs_yona_yona_ex"]
+    local loc_vars = obj.loc_vars and obj:loc_vars() or {}
+    
+
+    uibox.states.hover.can = true
+    uibox.states.drag.can = false
+    uibox.states.collide.can = true
+    uibox.hover = function(_self)
+        --print("my ass!")
+        if not G.CONTROLLER.dragging.target or G.CONTROLLER.using_touch then 
+            if not _self.hovering and _self.states.visible then
+                _self.hovering = true
+                if _self == uibox then
+                    _self.hover_tilt = 3
+                    _self:juice_up(0.05, 0.02)
+                    play_sound('paper1', math.random()*0.1 + 0.55, 0.42)
+                    play_sound('tarot2', math.random()*0.1 + 0.55, 0.09)
+                end
+                
+                uibox.ability_UIBox_table = generate_card_ui(obj, nil, loc_vars.vars, 'DescriptionDummy', nil , nil, loc_vars.main_start, loc_vars.main_end, obj:create_fake_card())
+                
+                uibox.config.center = obj.config
+                uibox.ability = copy_table(obj.config)
+                
+                _self.config.h_popup =  G.UIDEF.card_h_popup(_self)
+                _self.config.h_popup_config = {align =  'tm', offset = {x=0,y=-0.15},parent = _self}
+                Node.hover(_self)
+            end
+        end
+    end
+    uibox.stop_hover = function(_self) _self.hovering = false; Node.stop_hover(_self); _self.hover_tilt = 0 end
     return {
         n = args.top_level_node or G.UIT.C,
         config = { 
@@ -713,32 +744,10 @@ AKYRS.create_hover_tooltip = function(args)
         },
         nodes = {
             {
-                n = G.UIT.R,
+                n = G.UIT.O,
                 config = {
-                    align = "cm",
-                    hover = true,
-                    can_collide = true, 
-                    r = args.round or 0.1,
-                    maxh = args.w or 0.5,
-                    maxw = args.h or 0.5,
-                    minh = args.w or 0.5,
-                    minw = args.h or 0.5,
-                    focus_args = { snap_to = true },
-                    detailed_tooltip = AKYRS.DescriptionDummies[args.tooltip_key or "dd_akyrs_yona_yona_ex"], 
-                    func = args.func,
-                    colour = args.colour or G.C.BLUE,
-                    padding = args.padding or 0.1,
+                    object = uibox
                 },
-                nodes = {
-                    {
-                        n = G.UIT.T,
-                        config = {
-                            text = args.text or "i",
-                            colour = args.text_colour or G.C.WHITE,
-                            scale = args.scale or 0.3,
-                        }
-                    }
-                }
             }
         }
     }

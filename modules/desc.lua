@@ -203,16 +203,12 @@ AKYRS.DescriptionDummy{
 
 
 AKYRS.DescriptionDummy{
-    key = "wildcard_behaviour_1",
-}
-AKYRS.DescriptionDummy{
-    key = "wildcard_behaviour_2",
-}
-AKYRS.DescriptionDummy{
-    key = "wildcard_behaviour_3",
-}
-AKYRS.DescriptionDummy{
-    key = "wildcard_behaviour_4",
+    key = "wildcard_behaviour",
+    loc_vars = function (self, info_queue, card)
+        return {
+                key = "dd_akyrs_wildcard_behaviour_"..AKYRS.config.wildcard_behaviour
+        } 
+    end
 }
 
 AKYRS.DescriptionDummy{
@@ -236,6 +232,10 @@ AKYRS.DescriptionDummy{
 
 AKYRS.DescriptionDummy{
     key = "experimental_feature",
+}
+
+AKYRS.DescriptionDummy{
+    key = "toggle_legacy_challenges",
 }
 
 AKYRS.DescriptionDummy{

@@ -166,42 +166,45 @@ G.FUNCS.akyrs_change_hc_challenge_description = function(e)
 function G.UIDEF.akyrs_hc_challenge_list_page(_page)
 local snapped = false
 local challenge_list = {}
+local k = 0
 
 G.PROFILES[G.SETTINGS.profile].akyrs_challenge_highscore = G.PROFILES[G.SETTINGS.profile].akyrs_challenge_highscore or {}
-for k, v in ipairs(AKYRS.HC_CHALLENGES) do
-    if k > G.AKYRS_HC_CHALLENGE_PAGE_SIZE*(_page or 0) and k <= G.AKYRS_HC_CHALLENGE_PAGE_SIZE*((_page or 0) + 1) then
-    if G.CONTROLLER.focused.target and G.CONTROLLER.focused.target.config.id == 'challenge_page' then snapped = true end
-    local challenge_completed =  G.PROFILES[G.SETTINGS.profile].challenge_progress.completed[v.id or '']
-    local is_challenge_high_score = v.type == "highscore" and (G.PROFILES[G.SETTINGS.profile].akyrs_challenge_highscore[v.key] or 0) or nil
-    local difficultyString = ''
-    local numberDiff = nil
-    if v.difficulty and v.difficulty > 0 then
-        if v.difficulty > 15 then
-            difficultyString = "⭐"
-            numberDiff = tostring(v.difficulty)
-        else
-            for i = 1, v.difficulty do
-                difficultyString = difficultyString.."⭐"
+    for _, v in ipairs(AKYRS.HC_CHALLENGES) do
+        if v.akyrs_legacy and not AKYRS.config.legacy_challenges then goto akyrs_challenge_thing_continue end
+        k = k + 1
+        if k > G.AKYRS_HC_CHALLENGE_PAGE_SIZE*(_page or 0) and k <= G.AKYRS_HC_CHALLENGE_PAGE_SIZE*((_page or 0) + 1) then
+            if G.CONTROLLER.focused.target and G.CONTROLLER.focused.target.config.id == 'challenge_page' then snapped = true end
+            local challenge_completed =  G.PROFILES[G.SETTINGS.profile].challenge_progress.completed[v.id or '']
+            local is_challenge_high_score = v.type == "highscore" and (G.PROFILES[G.SETTINGS.profile].akyrs_challenge_highscore[v.key] or 0) or nil
+            local difficultyString = ''
+            local numberDiff = nil
+            if v.difficulty and v.difficulty > 0 then
+                if v.difficulty > 15 then
+                    difficultyString = "⭐"
+                    numberDiff = tostring(v.difficulty)
+                else
+                    for i = 1, v.difficulty do
+                        difficultyString = difficultyString.."⭐"
+                    end
+                end
             end
-        end
-    end
-    
-    local difficultyDynaText = DynaText{
-        scale = 0.3,
-        colours = {G.C.UI.TEXT_LIGHT},
-        string = {localize("k_akyrs_hardcore_challenge_difficulty").." "},
-    }
-    local dynaTextFakeAhhDiff = DynaText{
-        scale = 0.3,
-        colours = {G.C.UI.TEXT_LIGHT},
-        string = {numberDiff or ""},
-    }
-    local dynaTextObject = DynaText{
-        scale = 0.3,
-        colours = {G.C.UI.TEXT_LIGHT},
-        string = {difficultyString},
-        font = SMODS.Fonts["akyrs_NotoEmoji"]
-    }
+            
+            local difficultyDynaText = DynaText{
+                scale = 0.3,
+                colours = {G.C.UI.TEXT_LIGHT},
+                string = {localize("k_akyrs_hardcore_challenge_difficulty").." "},
+            }
+            local dynaTextFakeAhhDiff = DynaText{
+                scale = 0.3,
+                colours = {G.C.UI.TEXT_LIGHT},
+                string = {numberDiff or ""},
+            }
+            local dynaTextObject = DynaText{
+                scale = 0.3,
+                colours = {G.C.UI.TEXT_LIGHT},
+                string = {difficultyString},
+                font = SMODS.Fonts["akyrs_NotoEmoji"]
+            }
             challenge_list[#challenge_list + 1] =
             {n=G.UIT.R, config={align = '', padding = 0.08, colour = AKYRS.C.DARKER_TRANS, r = 0.2, minw = 0.8}, nodes = {{
                 n = G.UIT.R,
@@ -248,8 +251,10 @@ for k, v in ipairs(AKYRS.HC_CHALLENGES) do
                 }}
             }}
             snapped = true
+                
         end
-end
+        ::akyrs_challenge_thing_continue::
+    end
 
 return {n=G.UIT.ROOT, config={align = "cm", padding = 0.1, colour = G.C.CLEAR}, nodes=challenge_list}
 end

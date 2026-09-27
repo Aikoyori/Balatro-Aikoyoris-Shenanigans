@@ -240,6 +240,7 @@ AKYRS.HardcoreChallenge{
             {id = 'bl_final_leaf', type = 'blind'}
         }
     },
+    akyrs_legacy = true,
     difficulty = 7,
 }
 AKYRS.HardcoreChallenge{
@@ -291,6 +292,7 @@ AKYRS.HardcoreChallenge{
             {id = 'bl_final_leaf', type = 'blind'}
         }
     },
+    akyrs_legacy = true,
     difficulty = 10,
 }
 
@@ -379,6 +381,7 @@ AKYRS.HardcoreChallenge{
     },
     rules = {
     },
+    akyrs_legacy = true,
     difficulty = 3,
 }
 AKYRS.HardcoreChallenge{
@@ -532,6 +535,7 @@ AKYRS.HardcoreChallenge{
             {id = 'akyrs_all_blinds_are', value = "bl_akyrs_the_thought", akyrs_localized_value = {type = "name_text", key = "bl_akyrs_the_thought", set = "Blind"}},
         }
     },
+    akyrs_legacy = true,
     difficulty = 5,
     type = "highscore"
 }

@@ -64,6 +64,7 @@ end
 ---@class AKYRS.HardcoreChallenge: SMODS.Challenge 
 ---@field stake string stake
 ---@field difficulty number difficulty
+---@field akyrs_legacy? boolean should hide from challenge menu?
 ---@overload fun(self: AKYRS.HardcoreChallenge): AKYRS.HardcoreChallenge
 AKYRS.HardcoreChallenge = SMODS.Challenge:extend {
     obj_table = AKYRS.HC_CHALLENGES,

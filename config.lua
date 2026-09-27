@@ -4,6 +4,7 @@ return {
 	balance = "adequate",
 	turn_on_crt = true,
 	full_dictionary = true,
+	legacy_challenges = false,
 	experimental_features = false,
 	colourblind_ui = false,
 }

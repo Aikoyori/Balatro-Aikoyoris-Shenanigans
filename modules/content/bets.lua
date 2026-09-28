@@ -149,7 +149,7 @@ AKYRS.Bet {
     atlas = 'aikoyoriBets', pos = { x = 2, y = 0 } ,
     config = {
         extras = {
-            slot = 1
+            slot = 2
         }
     },
     loc_vars = function (self, info_queue, card)

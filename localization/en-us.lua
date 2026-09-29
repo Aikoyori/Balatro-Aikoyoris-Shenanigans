@@ -3189,12 +3189,13 @@ return {
             j_akyrs_rin_penrose = {
                 name = {
                     "Rin Penrose",
+                    "{s:0.7}also known as John Vtuber"
                 },
                 text = {
                     {
                         "Create a {C:dark_edition}Polychrome {C:akyrs_replicant_o}Replicant{} Card",
                         "when Blind is {C:attention}skipped",
-                        "{C:inactive}(Must Have Room)",
+                        "{C:inactive}(Must have room)",
                     },
                 }
             },

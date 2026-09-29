@@ -1318,7 +1318,7 @@ SMODS.Blind {
         }
     end,
     in_pool = function (self)
-        return G.GAME.round_resets.ante < 0  -- :3
+        return G.GAME.round_resets.ante < 0 or G.GAME.round_resets.ante ~= math.floor(G.GAME.round_resets.ante)
     end,
     set_blind = function (self)
         G.GAME.blind.debuff.current_ante = G.GAME.round_resets.ante
@@ -1357,7 +1357,7 @@ SMODS.Blind {
         }
     end,
     in_pool = function (self)
-        return G.GAME.round_resets.ante < 1  -- :3
+        return G.GAME.round_resets.ante < 1 or G.GAME.round_resets.ante ~= math.floor(G.GAME.round_resets.ante)
     end,
     set_blind = function (self)
         G.GAME.blind.debuff.current_ante = G.GAME.round_resets.ante
@@ -1394,7 +1394,7 @@ SMODS.Blind {
         }
     end,
     in_pool = function (self)
-        return G.GAME.round_resets.ante < 1  -- :3
+        return G.GAME.round_resets.ante < 0 or G.GAME.round_resets.ante ~= math.floor(G.GAME.round_resets.ante)
     end,
     calculate = function (self, blind, context)
         if context.after and not context.end_of_round and not blind.disabled then
@@ -1429,7 +1429,7 @@ SMODS.Blind {
         }
     end,
     in_pool = function (self)
-        return G.GAME.round_resets.ante < 1  -- :3
+        return G.GAME.round_resets.ante < 0 or G.GAME.round_resets.ante ~= math.floor(G.GAME.round_resets.ante)
     end,
     calculate = function (self, blind, context)
         if context.blind_defeated and not blind.disabled then

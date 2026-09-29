@@ -1159,7 +1159,7 @@ return {
                 name="Forgotten Blind",
                 text={
                     "This blind can only appear",
-                    "in Negative Antes"
+                    "in negative or decimal Antes"
                 },
             },
             dd_akyrs_word_blind  = {

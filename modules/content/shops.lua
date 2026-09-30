@@ -95,11 +95,7 @@ function AKYRS.close_button_prefab(shop)
 end
 
 function AKYRS.attach_to_shop_sign(shop_sign)
-  if G.AKYRS_SHOP_OVERLAY then G.AKYRS_SHOP_OVERLAY:remove() G.AKYRS_SHOP_OVERLAY = nil end
-  G.AKYRS_SHOP_OVERLAY = UIBox{
-    definition = AKYRS.UIDEF.shift_hud_button(),
-      config = {align=('cli'), offset = {x=4.3,y=1.1},major = shop_sign, bond = 'Weak'}
-  }
+  
   local should_start = false
   for _, shop in pairs(AKYRS.ShopPages) do
     if shop:is_enabled() then
@@ -107,9 +103,17 @@ function AKYRS.attach_to_shop_sign(shop_sign)
       break
     end
   end
+
+  if G.AKYRS_SHOP_OVERLAY then G.AKYRS_SHOP_OVERLAY:remove() G.AKYRS_SHOP_OVERLAY = nil end
+  if should_start then
+    G.AKYRS_SHOP_OVERLAY = UIBox{
+      definition = AKYRS.UIDEF.shift_hud_button(),
+        config = {align=('cli'), offset = {x=4.3,y=1.1},major = shop_sign, bond = 'Weak'}
+    }
+  end
   if should_start then
     G.GAME.akyrs_juice_shop = true
-    AKYRS.juice_until(G.AKYRS_SHOP_OVERLAY, function(ui) return G.GAME.akyrs_juice_shop end)
+    AKYRS.juice_until(G.AKYRS_SHOP_OVERLAY, function(ui) return G.GAME.akyrs_juice_shop and G.AKYRS_SHOP_OVERLAY end)
   end
 end
 

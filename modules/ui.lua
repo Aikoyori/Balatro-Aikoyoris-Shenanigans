@@ -1109,6 +1109,12 @@ function G.FUNCS.akyrs_shift_hud(e)
     AKYRS.better_ease_value(G.HUD.config.offset, 'x', -0.7, nil, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo', 'akyrs_ui')
     --AKYRS.better_ease_value(G.HUD.T, 'r', 0, nil, nil, nil, nil, slidespeed*G.SETTINGS.GAMESPEED, 'inexpo', 'akyrs_ui')
   end
+  
+  if not G.AKYRS_SHOP_OVERLAY then
+    AKYRS.simple_event_add(function() 
+      AKYRS.refresh_shop_sign()
+    return true end, 0)
+  end
 end
 
 function AKYRS.button_prefab(args) 

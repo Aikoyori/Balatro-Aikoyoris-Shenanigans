@@ -54,6 +54,7 @@ AKYRS.blacklist_mod = {
     ["cry_prob"] = true,
     ["akyrs_cycler"] = true,
     ["immutable"] = true,
+    ["config"] = true,
     ["pos"] = true,
     ["atlas"] = true,
     ["soul_pos"] = true,
@@ -440,7 +441,11 @@ function AKYRS.should_multiply_value(center, abil_key)
     end
     return false
 end
+---@alias DeckModValueConfig fun( value: number, key: string, _card: Card, reference_center: table)
 
+
+---@param card Card card to modify
+---@param config { func?: DeckModValueConfig, multiply?: number, add?: number, random?: { digits_min?: number, digits_max?: number }, prefer_original_value?: boolean }
 AKYRS.mod_card_values = function(card, config)
     if not config then config = {} end
     if not card then return end 
@@ -456,12 +461,13 @@ AKYRS.mod_card_values = function(card, config)
     local unkeyword = config.unkeywords or AKYRS.blacklist_mod or {}
     local reference
     if config.prefer_original_value then
-        reference = config.reference or card.config.center.config or og_save.ability or card.ability or AKYRS.deep_copy(card)
+        reference = config.reference or (card.config.center.config and AKYRS.deep_copy(card.config.center.config)) or og_save.ability or card.ability or AKYRS.deep_copy(card)
     else
-        reference = config.reference or og_save.ability or card.config.center.config or card.ability or AKYRS.deep_copy(card)
+        reference = config.reference or og_save.ability or (card.config.center.config and AKYRS.deep_copy(card.config.center.config)) or card.ability or AKYRS.deep_copy(card)
     end
-    local randomize = config.random
 
+    local randomize = config.random
+    
     local function modify_values(_table_in, ref, depth)
         if not ref or type(ref) ~= "table" then return end
         if depth > 2 then return end
@@ -475,17 +481,17 @@ AKYRS.mod_card_values = function(card, config)
             if AKYRS.should_multiply_value(card.config.center, k) then
                 if type(v) == "number" then
                     if (keywords[k] or #keywords < 1) and not unkeyword[k] then
-                        if ref and ref[k] then
-                            _table_in[k] = (((func and func(ref[k], k) or ref[k]) + add) * multiply * rand)
+                        if _table_in and _table_in[k] then
+                            _table_in[k] = (((func and func(_table_in[k], k, card, reference) or _table_in[k]) + add) * multiply * rand)
                         end
                     end
                 elseif type(v) == "table" and ref and k and not unkeyword[k] then
-                    modify_values(v, ref[k], depth + 1)
+                    modify_values(v, _table_in[k], depth + 1)
                 end
             end
         end
     end
-    if type(reference) == 'table' then
+    if type(reference) == 'table' and not config.card_modified_check then
         modify_values(card_table_to_load.ability, reference, 0)
     end
     card:load(card_table_to_load)

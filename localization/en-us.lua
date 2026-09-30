@@ -230,7 +230,8 @@ return {
                 name = 'Deck of the Sheared',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
+                    '{C:red,E:akyrs_shrivel}Halves{} all Joker values',
+                    '{C:attention}Doubles{} for everything else',
                 },
             },
             b_akyrs_vision_deck = {

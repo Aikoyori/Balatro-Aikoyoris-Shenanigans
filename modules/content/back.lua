@@ -1,3 +1,6 @@
+---@class SMODS.Back: SMODS.Back
+---@field akyrs_mod_value_conf DeckModValueConfig
+
 
 SMODS.Back{
     key = "letter_deck",
@@ -346,6 +349,13 @@ SMODS.Back{
             vars = {
             }
         }
+    end,
+    akyrs_mod_value_conf = function (value, key, _card, reference_center)
+        if reference_center.set == "Joker" then
+            return value * 0.5
+        else
+            return value * 2
+        end
     end,
     config = {
     },

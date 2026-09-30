@@ -1325,6 +1325,13 @@ function Card:akyrs_mod_card_value_init(center, initial, delay)
         --print(y.config)
         self.ability.misprinted = true
     end
+
+    if G.GAME.selected_back_key then
+        if G.GAME.selected_back_key.akyrs_mod_value_conf and type(G.GAME.selected_back_key.akyrs_mod_value_conf) == 'function' and not self.ability.akyrs_deck_modified then
+            AKYRS.mod_card_values(self, { func = G.GAME.selected_back_key.akyrs_mod_value_conf } )
+            self.ability.akyrs_deck_modified = true
+        end
+    end
     
     if self.config.center_key == "j_akyrs_emerald" then
         self.sell_cost = self.cost * self.ability.extras.xcost

@@ -3206,7 +3206,9 @@ return {
                 },
                 text = {
                     {
-                        "does something about boss blind i forgor",
+                        "When {C:attention}selecting{} Non-Boss Blind",
+                        "Change it to a {C:attention}random{} Boss Blind",
+                        "and immediately gain {C:money}#1#{}",
                     },
                 }
             },
@@ -3441,8 +3443,9 @@ return {
             akpop_bmm_nag = {
                 name = "Attention!",
                 text = {
-                    "It seems that you are using {C:attention}Balatro Mod Manager",
-                    "I recommend {C:attention}uninstalling{} it and use something like",
+                    "It seems that you are still using {C:attention}Balatro Mod Manager",
+                    "However, {C:attention}Balatro Mod Manager{} has been discontinued.",
+                    "I recommend {C:attention}switching away{} from it and use something like",
                     "Gale, r2modman, Ingame Mod Manager, and others mod managers",
                 }
             },

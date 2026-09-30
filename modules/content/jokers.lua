@@ -5163,25 +5163,37 @@ SMODS.Joker {
     pools = {  },
     config = {
         extras = {
-            pack = 1,
-            nume = 1,
-            denom = 3,
+            dollars = 12,
+            act = false,
         }
     },
-    rarity = 3,
+    rarity = 2,
     cost = 8,
     loc_vars = function (self, info_queue, card)
-        local n, d = SMODS.get_probability_vars(card, card.ability.extras.nume, card.ability.extras.denom, "akyrs_matryoshka_boosters")
         return {
             vars = {
-                SMODS.signed(card.ability.extras.pack),
-                n,
-                d
+                SMODS.signed_dollars(card.ability.extras.dollars),
             }
         }
     end,
     calculate = function (self, card, context)
-        if context.open_booster then
+        if context.setting_blind and not context.blind.boss then
+            return {
+                func = function ()
+                    local key = SMODS.poll_object{ type = "Blind" }
+                    G.GAME.blind:set_blind(G.P_BLINDS[key])
+                    SMODS.calculate_context({ setting_blind = true, blind = G.P_BLINDS[key] })
+                    card.ability.extras.act = true
+                end,
+                dollars = card.ability.extras.dollars,
+            }
+        end
+        if context.end_of_round and not context.repetition and not context.individual then
+            return {
+                func = function ()
+                    card.ability.extras.act = false
+                end
+            }
         end
     end,
     in_pool = function (self, args)

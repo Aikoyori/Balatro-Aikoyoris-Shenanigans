@@ -886,6 +886,7 @@ SMODS.Blind{
                     func = function ()
                         ease_chips(0)
                         G.GAME.blind:set_blind(G.P_BLINDS[self.key])
+                        SMODS.calculate_context({ setting_blind = true, blind = G.P_BLINDS[self.key] })
                         G.FUNCS.draw_from_deck_to_hand()
                         AKYRS.force_save()
                     end
@@ -926,6 +927,8 @@ SMODS.Blind{
                                 G.FUNCS.draw_from_deck_to_hand()
                                 return true
                             end)
+                            
+                            SMODS.calculate_context({ setting_blind = true, blind = G.P_BLINDS[bl_key] })
                             AKYRS.force_save()
                         end
                     }

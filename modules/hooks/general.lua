@@ -1327,7 +1327,7 @@ function Card:akyrs_mod_card_value_init(center, initial, delay)
     end
 
     if G.GAME.selected_back_key then
-        if G.GAME.selected_back_key.akyrs_mod_value_conf and type(G.GAME.selected_back_key.akyrs_mod_value_conf) == 'function' and not self.ability.akyrs_deck_modified then
+        if G.GAME.selected_back_key.akyrs_mod_value_conf and type(G.GAME.selected_back_key.akyrs_mod_value_conf) == 'function' and not self.ability.akyrs_deck_modified and not G.SETTINGS.paused then
             AKYRS.mod_card_values(self, { func = G.GAME.selected_back_key.akyrs_mod_value_conf } )
             self.ability.akyrs_deck_modified = true
         end

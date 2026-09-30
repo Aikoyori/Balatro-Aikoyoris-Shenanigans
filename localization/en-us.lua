@@ -4664,6 +4664,7 @@ return {
                     "Applies a random {C:attention}Stake{} that applies this stake",
                     "{C:inactive}(if possible)",
                     "{C:green}#1# in #2# chance{} to obtain a random {C:red}Rare{} Joker",
+                    "otherwise obtain a random {C:green}Uncommon{} Joker",
                 },
             },
             bet_akyrs_a_lock_and_a_hard_place={

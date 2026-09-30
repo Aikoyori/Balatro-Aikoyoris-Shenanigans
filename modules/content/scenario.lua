@@ -1907,7 +1907,7 @@ AKYRS.Scenario {
     },
     config = {
         extras = {
-            seconds_gain = 1,
+            seconds_gain = 2,
             rounds_held = 0,
             rounds_max = 3,
         }

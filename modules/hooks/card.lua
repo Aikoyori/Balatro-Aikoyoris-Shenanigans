@@ -414,14 +414,16 @@ function Card:click()
     if G.AKYRS_LOCK_CARD_SELECTION and not G.OVERLAY_MENU then
         return
     end
-    if self.akyrs_double_click_wait and self.akyrs_double_click_wait > 0 and self.facing == "front" then
+    if self.akyrs_double_click_wait and self.akyrs_double_click_wait > 0 and G.AKYRS_LAST_CLICKED == self and self.facing == "front" then
         --self.following_cards = nil
         --print("double click detected")
         --self:akyrs_calculate_following_cards()
         --AKYRS.SOL.klondike_quick_stack(self)
         self:akyrs_double_click()
+        G.AKYRS_LAST_CLICKED = nil
         self.akyrs_double_click_wait = 0
     else
+        G.AKYRS_LAST_CLICKED = self
         self.akyrs_double_click_wait = 0.2 * G.SETTINGS.GAMESPEED
     end
     return card_click(self)

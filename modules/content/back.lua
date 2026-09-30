@@ -467,6 +467,9 @@ SMODS.Back{
             }
         }
     end,
+    apply = function (self, back)
+        G.GAME.akyrs_floral_deck = true
+    end,
     calculate = function (self, back, context)
         if context.end_of_round and not context.repetition and not context.individual then
             return {

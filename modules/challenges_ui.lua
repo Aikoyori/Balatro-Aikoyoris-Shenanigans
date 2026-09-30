@@ -169,7 +169,7 @@ local challenge_list = {}
 local k = 0
 
 G.PROFILES[G.SETTINGS.profile].akyrs_challenge_highscore = G.PROFILES[G.SETTINGS.profile].akyrs_challenge_highscore or {}
-    for _, v in ipairs(AKYRS.HC_CHALLENGES) do
+    for true_k, v in ipairs(AKYRS.HC_CHALLENGES) do
         if v.akyrs_legacy and not AKYRS.config.legacy_challenges then goto akyrs_challenge_thing_continue end
         k = k + 1
         if k > G.AKYRS_HC_CHALLENGE_PAGE_SIZE*(_page or 0) and k <= G.AKYRS_HC_CHALLENGE_PAGE_SIZE*((_page or 0) + 1) then
@@ -221,7 +221,7 @@ G.PROFILES[G.SETTINGS.profile].akyrs_challenge_highscore = G.PROFILES[G.SETTINGS
                                     { n = G.UIT.T, config = { text = k .. '', scale = 0.4, colour = G.C.WHITE } },
                                 }
                             },
-                            UIBox_button({ id = k, col = true, label = { localize(v.id, 'hardcore_challenge_names'), }, button =
+                            UIBox_button({ id = true_k, col = true, label = { localize(v.id, 'hardcore_challenge_names'), }, button =
                             'akyrs_change_hc_challenge_description', colour = G.C.RED, minw = 4, scale = 0.4, minh = 0.6, focus_args = { snap_to = not snapped } }),
                             {
                                 n = G.UIT.C,

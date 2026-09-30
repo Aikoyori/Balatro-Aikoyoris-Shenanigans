@@ -467,6 +467,29 @@ SMODS.Back{
             }
         }
     end,
+    calculate = function (self, back, context)
+        if context.end_of_round and not context.repetition and not context.individual then
+            return {
+                func = function ()
+                    G.GAME.akyrs_flora_deck_activated = true
+                end
+            }
+        end
+        if context.after and not context.repetition and not context.individual then
+            return {
+                func = function ()
+                    G.GAME.akyrs_flora_deck_activated = false
+                end
+            }
+        end
+        if context.setting_blind then
+            return {
+                func = function ()
+                    G.GAME.akyrs_flora_deck_activated = false
+                end
+            }
+        end
+    end,
     config = {
     },
 }

@@ -296,7 +296,9 @@ return {
                 name = 'Flora Deck',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
+                    'Once per hand, {C:attention}double click{}',
+                    'a card to {C:attention}downgrade{}',
+                    'its rank by 1',
                 },
             },
             b_akyrs_discord_deck = {

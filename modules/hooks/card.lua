@@ -436,6 +436,12 @@ function Card:akyrs_double_click()
                 card = SMODS.modify_rank(card, -1)
             end)
         end
+        if not G.GAME.akyrs_flora_deck_activated then
+            G.GAME.akyrs_flora_deck_activated = true
+            AKYRS.do_things_to_card({self}, function (card, index)
+                card = SMODS.modify_rank(card, -1)
+            end)
+        end
     end
 
 end

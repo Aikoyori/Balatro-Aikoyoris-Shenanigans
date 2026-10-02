@@ -26,7 +26,7 @@ SMODS.Consumable{
     use = function (self, card, area, copier)
         AKYRS.auto_planet_anim(card, localize('k_akyrs_pairs'))
         SMODS.upgrade_poker_hands{
-            hands = SMODS.Attributes.pair_hands.keys,
+            hands = SMODS.Attributes[self.akyrs_applicable_hands].keys,
             instant = true,
         }
     end
@@ -61,7 +61,7 @@ SMODS.Consumable{
     use = function (self, card, area, copier)
         AKYRS.auto_planet_anim(card, localize('k_akyrs_unique_hand_combo'))
         SMODS.upgrade_poker_hands{
-            hands = SMODS.Attributes.unique_combination_hands.keys,
+            hands = SMODS.Attributes[self.akyrs_applicable_hands].keys,
             instant = true,
         }
     end
@@ -96,7 +96,7 @@ SMODS.Consumable{
     use = function (self, card, area, copier)
         AKYRS.auto_planet_anim(card, localize('k_akyrs_flush_hands'))
         SMODS.upgrade_poker_hands{
-            hands = SMODS.Attributes.flush_hands.keys,
+            hands = SMODS.Attributes[self.akyrs_applicable_hands].keys,
             instant = true,
         }
     end
@@ -131,7 +131,7 @@ SMODS.Consumable{
     use = function (self, card, area, copier)
         AKYRS.auto_planet_anim(card, localize('k_akyrs_straight_hands'))
         SMODS.upgrade_poker_hands{
-            hands = SMODS.Attributes.straight_hands.keys,
+            hands = SMODS.Attributes[self.akyrs_applicable_hands].keys,
             instant = true,
         }
     end
@@ -166,7 +166,7 @@ SMODS.Consumable{
     use = function (self, card, area, copier)
         AKYRS.auto_planet_anim(card, localize('k_akyrs_any_combo_hands'))
         SMODS.upgrade_poker_hands{
-            hands = SMODS.Attributes.combination_hands.keys,
+            hands = SMODS.Attributes[self.akyrs_applicable_hands].keys,
             instant = true,
         }
     end
@@ -201,7 +201,7 @@ SMODS.Consumable{
     use = function (self, card, area, copier)
         AKYRS.auto_planet_anim(card, localize('k_akyrs_gt5_hands'))
         SMODS.upgrade_poker_hands{
-            hands = SMODS.Attributes.gt5_hands.keys,
+            hands = SMODS.Attributes[self.akyrs_applicable_hands].keys,
             instant = true,
         }
     end

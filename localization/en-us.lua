@@ -1764,6 +1764,19 @@ return {
                 }
             },
         },
+        SlopJoker={
+            j_akyrs_john = {
+                name = {
+                    "John",
+                },
+                text = {
+                    {
+                        "{C:mult}+#1#{} Mult",
+                        "{C:chips}+#2#{} Chips if hand is a High Card",
+                    },
+                }
+            },
+        },
         Joker={
             -- toga
             j_akyrs_toga_charmap = {
@@ -5615,7 +5628,7 @@ return {
             k_akyrs_toggle_legacy_challenges = "Enable Legacy Challenges",
             k_akyrs_toggle_colourblind_ui = "High Contrast UI",
             k_akyrs_emerald = "Emerald",
-            k_akyrs_supercommon = "Supercommon",
+            k_akyrs_slop = "Slop",
             k_akyrs_unique = "Unique",
             k_akyrs_alphabet_pack = "Alphabets",
             k_akyrs_umbral_pack = "Umbral Pack",
@@ -5765,7 +5778,7 @@ return {
             akyrs_charged = "Charged",
             akyrs_enchanted = "Enchanted",
             k_akyrs_emerald = "Emerald",
-            k_akyrs_supercommon = "Supercommon",
+            k_akyrs_slop = "Slop",
             k_akyrs_unique = "Unique",
             k_fakecenter = "???",
             umbral = "Umbral",

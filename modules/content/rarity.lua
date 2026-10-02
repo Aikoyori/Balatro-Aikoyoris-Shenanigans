@@ -14,7 +14,7 @@ SMODS.Rarity{
 }
 
 SMODS.Rarity{
-    key = "supercommon",
+    key = "slop",
     default_weight = 0,
     badge_colour = HEX('8c94a3'),
     disable_if_empty = true,

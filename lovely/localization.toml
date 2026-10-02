@@ -81,6 +81,8 @@ elseif _c.set == 'Scenario' then
     localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
 elseif _c.set == 'Credits' then
     localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
+elseif _c.set == 'SlopJoker' then
+    localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
 """
 overwrite = true
 match_indent = true

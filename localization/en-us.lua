@@ -1776,6 +1776,40 @@ return {
                     },
                 }
             },
+            j_akyrs_sixseven = {
+                name = {
+                    "67",
+                },
+                text = {
+                    {
+                        "{X:mult,C:white}X#1#{} Mult",
+                        "If only {C:attention}6{} or {C:attention}7{}",
+                        "have been played this round",
+                    },
+                }
+            },
+            j_akyrs_upside_down = {
+                name = {
+                    "{E:akyrs_upside_down}rekoJ",
+                },
+                text = {
+                    {
+                        "Swap {C:blue}Chips{} and {C:red}Mult{}",
+                        "after something triggers",
+                    },
+                }
+            },
+            j_akyrs_upside_down = {
+                name = {
+                    "{E:akyrs_upside_down}rekoJ",
+                },
+                text = {
+                    {
+                        "Swap {C:blue}Chips{} and {C:red}Mult{}",
+                        "after something triggers",
+                    },
+                }
+            },
         },
         Joker={
             -- toga

@@ -89,7 +89,7 @@ AKYRS.mod_card_displays = function(_c,card,desc_nodes,specific_vars, full_UI_tab
     local scl = 0.32*(G.F_MOBILE_UI and 1.5 or 1)
     if _c.akyrs_applicable_hands and SMODS.Attributes[_c.akyrs_applicable_hands] then
         local new_infos = AKYRS.text_prefabinator(AKYRS.loc_to_lines({
-            keys_table = (AKYRS.debug and AKYRS.nada or AKYRS.hands_filter_visible)(SMODS.Attributes[_c.akyrs_applicable_hands].keys),
+            keys_table = (AKYRS.debug_opts.show_all_hands and AKYRS.nada or AKYRS.hands_filter_visible)(SMODS.Attributes[_c.akyrs_applicable_hands].keys),
             misc_category = "poker_hands",
         }), G.C.UI.TEXT_DARK)
         new_infos.name = localize(_c.akyrs_hand_set or 'k_akyrs_multi_hand_upgrade_tooltip')

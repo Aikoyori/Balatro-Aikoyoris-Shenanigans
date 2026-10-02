@@ -204,7 +204,7 @@ local cards_by_prio = G.deck.cards
 if is_mod then 
     cards_by_prio = AKYRS.map(priorityqueue, function(pr) return pr.card end, true)
 end
-while n < #cards_by_prio and limit > 0 do
+while n < (#cards_by_prio) and limit > 0 do
 """
 overwrite = true
 match_indent = true
@@ -216,6 +216,20 @@ pattern = """        local card = G.deck.cards[#G.deck.cards-n]"""
 position = "after"
 payload = """
 card = cards_by_prio[#cards_by_prio-n]
+"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = """    SMODS.cards_to_draw = (SMODS.cards_to_draw or 0) + hand_space"""
+position = "before"
+payload = """
+local fg_hd = SMODS.calculate_context({akyrs_mod_draw_amount = true, hand_space = hand_space}, nil)
+if fg_hd and fg_hd.hand_space then
+    hand_space = math.min((fg_hd.hand_space or 0), (G.deck.cards and #G.deck.cards or 0))
+end
 """
 overwrite = true
 match_indent = true

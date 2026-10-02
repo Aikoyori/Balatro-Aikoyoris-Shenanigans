@@ -502,6 +502,7 @@ pattern = """    local amount_return_flags = {"""
 position = "after"
 payload = """
 priorities = true,
+hand_space = true,
 """
 overwrite = true
 match_indent = true

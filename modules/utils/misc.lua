@@ -2170,14 +2170,14 @@ function AKYRS.discards_from_deck(count, from_boss)
     
 
     if G.CONTROLLER.focused.target and G.CONTROLLER.focused.target.area == G.hand then G.card_area_focus_reset = {area = G.hand, rank = G.CONTROLLER.focused.target.rank} end
-    SMODS.calculate_context({akyrs_pre_pre_discard = true, akyrs_pre_discard_cards = c2ds, hook = from_boss})
+
     local maxc = math.min(count, G.deck.cards and #G.deck.cards or 0)
     if maxc > 0 then 
-        
         local c2ds = {}
         for i=1, maxc do 
             c2ds[#c2ds+1] = G.deck.cards[i]
         end
+        SMODS.calculate_context({akyrs_pre_pre_discard = true, akyrs_pre_discard_cards = c2ds, hook = from_boss})
         local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(c2ds)
 
         SMODS.displayed_hand = text

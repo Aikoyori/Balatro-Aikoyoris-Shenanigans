@@ -115,9 +115,6 @@ function get_blind_amount(ante)
         end
         r = G.GAME.akyrs_blind_random
     end
-
-
-    
     return r
 end
 

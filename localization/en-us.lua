@@ -259,7 +259,9 @@ return {
                 name = 'Deck of the Weaver',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
+                    'Draw an extra card per card drawn',
+                    'Discard {C:red,E:akyrs_shrivel}a random card{}',
+                    'when card is discarded',
                 },
             },
             b_akyrs_puppet_deck = {
@@ -273,7 +275,9 @@ return {
                 name = 'Deck of the Shining',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
+                    '{C:dark_edition}#1#{} Joker Slot',
+                    'at the end of round',
+                    '{X:red,C:white,E:akyrs_shrivel}X(ante^2){} Blind Size',
                 },
             },
             b_akyrs_dotted_deck = {

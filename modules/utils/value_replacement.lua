@@ -25,6 +25,31 @@ AKYRS.mod_blind_requirement = function(blind,chips)
         end
         chips = chips - blind.debuff.akyrs_decrease_per_skips_this_ante * count * get_blind_amount(G.GAME.round_resets.ante)
     end
+    
+    if G.GAME.akyrs_ante_power_size then
+        local ante = G.GAME.round_resets.ante
+        if Talisman then
+            chips = to_big(chips):pow(ante)
+        else
+            chips = math.pow(chips,ante)
+        end
+    end
+    if G.GAME.akyrs_ante_multiply_power_size then
+        local ante = G.GAME.round_resets.ante
+        if Talisman then
+            chips = to_big(chips) * (ante ^ G.GAME.akyrs_ante_multiply_power_size)
+        else
+            chips = (chips * ante ^ G.GAME.akyrs_ante_multiply_power_size)
+        end
+    end
+    if G.GAME.akyrs_ante_multiply_size then
+        local ante = G.GAME.round_resets.ante
+        if Talisman then
+            chips = to_big(chips) * (ante)
+        else
+            chips = (chips * ante)
+        end
+    end
     return chips
 end
 
@@ -346,7 +371,7 @@ end
 ---@params overlay number[] colour idk
 function AKYRS.back_render_override(card, sprite, overlay)
     -- performance wise it should not be TOO bad from general testing
-    if sprite.atlas.key == "akyrs_deckBacks" and sprite.sprite_pos.x == 3 and sprite.sprite_pos.y == 1 then
+    if (sprite.atlas.key == "akyrs_deckBacks" and sprite.sprite_pos.x == 3 and sprite.sprite_pos.y == 1) or AKYRS.debug_opts.enchant_everything then
         --sprite:draw_shader('dissolve',nil,nil,overlay and true)
         sprite:draw_shader('akyrs_enchanted',nil,card.ARGS.send_to_shader,overlay and true)
         return true

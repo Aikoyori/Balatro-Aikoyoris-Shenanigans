@@ -1465,11 +1465,11 @@ AKYRS.sort_card_priority = function(area, reversed)
     for _, card_to_sort in ipairs(area.cards) do
         priorityqueue[#priorityqueue+1] = {card = card_to_sort, priority = 16}
     end
+    local xd = 0
     local flags = SMODS.calculate_context({akyrs_mod_card_draw = true, sort_area = area, priorities = priorityqueue}, nil)
-    --print(flags)
     if flags.priority_modified then 
         table.sort(priorityqueue,reversed and comparePriorityReversed or comparePriority)
         return true, priorityqueue
     end
-    return false
+    return false, nil
 end

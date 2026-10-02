@@ -425,6 +425,24 @@ SMODS.Back{
             }
         }
     end,
+    calculate = function (self, back, context)
+        if context.akyrs_mod_draw_amount then
+            return {
+                hand_space = context.hand_space * 2
+            }
+        end
+        if context.akyrs_pre_pre_discard then
+            AKYRS.map(
+                AKYRS.pseudorandom_elements(AKYRS.filter_table(G.hand.cards, 
+                    function (item)
+                        return not item.highlighted
+                    end, true, true), #G.hand.highlighted, "akyrs_weaver_discards")
+            ,function (item)
+                item:highlight(true)
+                table.insert(G.hand.highlighted, item)
+            end, true)
+        end
+    end,
     config = {
     },
 }
@@ -450,10 +468,24 @@ SMODS.Back{
     loc_vars = function (self, info_queue, card)
         return {
             vars = {
+                SMODS.signed(self.config.extras.jkr_gain)
             }
         }
     end,
+    apply = function (self, back)
+        G.GAME.akyrs_ante_multiply_power_size = 2
+    end,
+    calculate = function (self, back, context)
+        if (context.end_of_round and not context.repetition and not context.individual) then
+            return {
+                func = function() G.jokers.config.card_limit = G.jokers.config.card_limit + self.config.extras.jkr_gain end
+            }
+        end
+    end,
     config = {
+        extras = {
+            jkr_gain = 1
+        }
     },
 }
 SMODS.Back{

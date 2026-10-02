@@ -267,6 +267,12 @@ function AKYRS.create_link_sprite_btn(platform, link)
   }
 end
 
+AKYRS.debug_opts = {
+  show_all_hands = false,
+  enchant_everything = false,
+  extra_displays = false,
+}
+
 SMODS.current_mod.custom_ui = function (mod_nodes)
   mod_nodes = EMPTY(mod_nodes)
   local tg = G.ROOM

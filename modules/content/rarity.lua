@@ -16,6 +16,9 @@ SMODS.Rarity{
 SMODS.Rarity{
     key = "slop",
     default_weight = 0,
+    get_weight = function (self, weight, object_type)
+        return G.GAME.akyrs_slop_thickens and 0.65 or 0
+    end,
     badge_colour = HEX('8c94a3'),
     disable_if_empty = true,
     pools = {

@@ -189,6 +189,7 @@ SMODS.Consumable{
     },
     loc_vars = function (self, info_queue, card)
         info_queue[#info_queue+1] = { key = "pinned_left", set = "Other" }
+        info_queue[#info_queue+1] = { key = "akyrs_pinned_right", set = "Other" }
         return {
             vars = {
                 card.ability.extra
@@ -201,7 +202,7 @@ SMODS.Consumable{
             function ()
                 for i = 1, card.ability.extra do
                     local c = SMODS.add_card{ area = G.hand, set = "Base", seal = SMODS.poll_seal({guaranteed = true,}), rank = "King" }
-                    c.pinned = true
+                    c[pseudorandom_element({'pinned', 'akyrs_pinned_right'}, 'akyrs_kingpin_side')] = true
                     c:juice_up(0.3,0.3)
                 end
                 return true

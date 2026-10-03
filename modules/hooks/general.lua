@@ -260,14 +260,14 @@ function Card:update(dt)
         if self.area == G.play then
             for suitkey, suit in pairs(SMODS.Suits) do
                 if(suitkey ~= nil and self:is_suit(suitkey) and G.GAME.current_round.aiko_played_suits) then
-                    G.GAME.current_round.aiko_played_suits[suitkey] = true
+                    G.GAME.current_round.aiko_played_suits[suitkey] = (G.GAME.current_round.aiko_played_suits[suitkey] or 0) + 1
                 end
             end
             if(self:get_id() and G.GAME.current_round.aiko_played_ranks) and self:get_id() then
-                G.GAME.current_round.aiko_played_ranks[self:get_id()] = true
+                G.GAME.current_round.aiko_played_ranks[self:get_id()] = (G.GAME.current_round.aiko_played_ranks[self:get_id()] or 0) + 1
             end
             if(self:get_id() and G.GAME.current_round.aiko_played_ench) and self.config.center_key then
-                G.GAME.current_round.aiko_played_ench[self.config.center_key] = true
+                G.GAME.current_round.aiko_played_ench[self.config.center_key] = (G.GAME.current_round.aiko_played_ench[self.config.center_key] or 0) + 1
             end
         end
 
@@ -748,7 +748,6 @@ G.FUNCS.play_cards_from_highlighted = function(e)
                 return true
             end
         )
-
     end
     local ret = playCardEval(e)
     return ret

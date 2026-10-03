@@ -1783,31 +1783,37 @@ return {
                 text = {
                     {
                         "{X:mult,C:white}X#1#{} Mult",
-                        "If only {C:attention}6{} or {C:attention}7{}",
+                        "If and only if at least",
+                        "one {C:attention}6{} and {C:attention}7{} each",
                         "have been played this round",
                     },
                 }
             },
             j_akyrs_upside_down = {
                 name = {
-                    "{E:akyrs_upside_down}rekoJ",
+                    "{E:akyrs_upside_down}rokeJ",
                 },
                 text = {
                     {
                         "Swap {C:blue}Chips{} and {C:red}Mult{}",
-                        "after something triggers",
+                        "after a card triggers",
                     },
                 }
             },
-            j_akyrs_upside_down = {
+            j_akyrs_elephant = {
                 name = {
-                    "{E:akyrs_upside_down}rekoJ",
+                    "Elephant",
                 },
                 text = {
                     {
-                        "Swap {C:blue}Chips{} and {C:red}Mult{}",
-                        "after something triggers",
+                        "{C:attention}Sell{} to Address it",
+                        "and create {C:attention}#1#{} {C:blue}Common{} Jokers",
                     },
+                    {
+                        "Spawns with {C:purple}Eternal",
+                        "{C:attention}Remove{} Eternal sticker",
+                        "at the {C:attention}end of round",
+                    }
                 }
             },
         },
@@ -4776,6 +4782,21 @@ return {
                 text={
                     "{X:money}$X#1#{} round payouts",
                     "{X:blind,C:white}X#2#{} blind requirements",
+                },
+            },
+            bet_akyrs_slop_factory={
+                name="Slop Factory!",
+                text={
+                    "{C:dark_edition}#1#{} Joker Slot",
+                    "{C:inactive}Slop{} jokers may appear in shop",
+                },
+            },
+            bet_akyrs_slop_factory_thicken={
+                name="Slop Factory!",
+                text={
+                    "{C:dark_edition}#1#{} Joker Slot",
+                    "{C:inactive}Slop{} jokers are {X:inactive,C:white}X#2#{}",
+                    "more likely to appear",
                 },
             },
         },

@@ -500,7 +500,8 @@ SMODS.DynaTextEffect {
 SMODS.DynaTextEffect {
     key = "upside_down",
     func = function (dynatext, index, letter)
-        letter.offset.y = -30
+        letter.offset.y = letter.offset.y-50
+        letter.offset.x = 20
         letter.r = math.pi
     end
 }

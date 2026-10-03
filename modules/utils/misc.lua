@@ -911,6 +911,12 @@ function AKYRS.do_things_to_card(cards, func, config, queue) -- func(card)
 
 end
 
+---A function to randomly pick a number of elements from a table, note that this should be a list
+---@param _table table table to pick elements from
+---@param count integer how many things do you want to pick
+---@param seed? any seed for randomisation
+---@param args? any pseudorandom_element args
+---@return table
 function AKYRS.pseudorandom_elements(tables, count, seed, args)
     if not count then count = 1 end
     local outp = {}
@@ -1488,6 +1494,12 @@ end
 
 
 
+---a function to return a filtered table based on `predicate`'s condition'
+---@param tbl table a table to filter through
+---@param predicate fun(item:any, index:integer) a function that, when returned true, will keep the element in the return table
+---@param ordered_in boolean indicate if the input table is a list
+---@param ordered_out boolean indicate if the output table should be a list
+---@return table
 function AKYRS.filter_table(tbl, predicate, ordered_in, ordered_out)
     if not tbl or not predicate then return {} end
     if #tbl == 0 and ordered_in then return {} end

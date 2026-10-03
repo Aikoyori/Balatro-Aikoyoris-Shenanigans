@@ -373,3 +373,35 @@ AKYRS.Bet {
         
     end,
 }
+
+AKYRS.Bet {
+    key = "slop_factory",
+    atlas = 'aikoyoriBets', pos = { x = 8, y = 0 } ,
+    config = {
+        extras = {
+            multiply = 4,
+            jks = 1,
+        }
+    },
+    multi_use = true,
+    loc_vars = function (self, info_queue, card)
+        return {
+            key = self.key .. (G.GAME.akyrs_slop_thickens and "_thicken" or ""),
+            vars = {
+                (card.ability.extras.jks),
+                card.ability.extras.multiply,
+            }
+        }
+    end,
+    redeem = function (self, card) 
+        G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extras.jks
+        if G.GAME.akyrs_slop_thickens then
+            G.GAME.akyrs_slop_mod = G.GAME.akyrs_slop_mod * card.ability.extras.multiply
+        else
+            G.GAME.akyrs_slop_thickens = true
+        end
+    end,
+    unredeem = function (self, card) 
+        
+    end,
+}

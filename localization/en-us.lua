@@ -1772,7 +1772,8 @@ return {
                 text = {
                     {
                         "{C:mult}+#1#{} Mult",
-                        "{C:chips}+#2#{} Chips if hand is a High Card",
+                        "{C:chips}+#2#{} Chips instead",
+                        "if hand is a {C:attention}High Card",
                     },
                 }
             },
@@ -1783,9 +1784,9 @@ return {
                 text = {
                     {
                         "{X:mult,C:white}X#1#{} Mult",
-                        "If and only if at least",
-                        "one {C:attention}6{} and {C:attention}7{} each",
-                        "have been played this round",
+                        "If only {C:attention}6{} and {C:attention}7{}",
+                        "have been played this",
+                        "round {C:attention}at least once{} each",
                     },
                 }
             },

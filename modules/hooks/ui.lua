@@ -2294,23 +2294,25 @@ end
 local card_h_popup_ref = G.UIDEF.card_h_popup
 function G.UIDEF.card_h_popup(card)
     local ret_val = card_h_popup_ref(card)
-    if not card or not card.config.center then return ret_val end
-    local AUT = card.ability_UIBox_table
-    if not card.config.center.discovered then return ret_val end
-    --                                 v root  v C   v R1   v R2
-    local target_node_tables = ret_val.nodes[1].nodes[1].nodes[1].nodes
-    if AKYRS.Credits_List_by_Item[card.config.center.key] then
-        for _, credit_type in ipairs(AKYRS.CREDIT_TYPES) do
-            if AKYRS.Credits_List_by_Item[card.config.center.key][credit_type] then
-                local cred_col = ''
-                for i, name in ipairs(AKYRS.Credits_List_by_Item[card.config.center.key][credit_type]) do
-                    cred_col = cred_col .. AKYRS.Credits[name].username
+    if not AKYRS.should_hide_ui(card) then
+        if not card or not card.config.center then return ret_val end
+        local AUT = card.ability_UIBox_table
+        if not card.config.center.discovered then return ret_val end
+        --                                 v root  v C   v R1   v R2
+        local target_node_tables = ret_val.nodes[1].nodes[1].nodes[1].nodes
+        if AKYRS.Credits_List_by_Item[card.config.center.key] then
+            for _, credit_type in ipairs(AKYRS.CREDIT_TYPES) do
+                if AKYRS.Credits_List_by_Item[card.config.center.key][credit_type] then
+                    local cred_col = ''
+                    for i, name in ipairs(AKYRS.Credits_List_by_Item[card.config.center.key][credit_type]) do
+                        cred_col = cred_col .. AKYRS.Credits[name].username
+                    end
+                    target_node_tables[#target_node_tables+1] = 
+                    AKYRS.text_prefab{ uit = G.UIT.R, localize = {{ type = 'variable', key = 'k_akyrs_credits_row', vars = {
+                        localize(credit_type,'akyrs_credit_types'),
+                        cred_col
+                    }}}, colour = G.C.EDITION, scale = 0.3, padding = 0.05 }
                 end
-                target_node_tables[#target_node_tables+1] = 
-                AKYRS.text_prefab{ uit = G.UIT.R, localize = {{ type = 'variable', key = 'k_akyrs_credits_row', vars = {
-                    localize(credit_type,'akyrs_credit_types'),
-                    cred_col
-                }}}, colour = G.C.EDITION, scale = 0.3, padding = 0.05 }
             end
         end
     end

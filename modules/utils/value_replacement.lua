@@ -616,3 +616,13 @@ end
 function AKYRS.booster_normal_routine()
     return AKYRS.is_mod_loaded('Spectrallib') or AKYRS.is_mod_loaded('Cryptid') 
 end
+
+
+function AKYRS.boss_music()
+    if G.GAME and G.STAGE == G.STAGES.RUN and G.GAME.round_resets and G.GAME.round_resets.blind_choices and G.GAME.round_resets.blind_choices.Boss then
+        local blind = G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss]
+        return (blind.debuff or {}).akyrs_blind_difficulty
+    end
+    return AKYRS.debug_opts.boss_music 
+end
+

@@ -1536,8 +1536,8 @@ function AKYRS.map(tbl, predicate, ordered_in)
     local table_out = {}
     for k,v in nextfunc(tbl) do
         if predicate(v, k) then
-            local nv = predicate(v, k)
-            table_out[k] = nv
+            local nv, newkey = predicate(v, k)
+            table_out[newkey or k] = nv
         end
     end
     return table_out

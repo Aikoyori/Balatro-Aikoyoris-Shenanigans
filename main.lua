@@ -77,6 +77,7 @@ assert(SMODS.load_file("./modules/content/challenges.lua"))()
 assert(SMODS.load_file("./modules/content/pokerhands.lua"))()
 
 assert(SMODS.load_file("./modules/utils/credits.lua"))()
+assert(SMODS.load_file("./modules/hooks/z_thornring.lua"))()
 
 assert(SMODS.load_file("./modules/compat/malverk.lua"))()
 assert(SMODS.load_file("./modules/compat/cryptid.lua"))()

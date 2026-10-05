@@ -591,8 +591,10 @@ end
 
 function AKYRS.spawn_shop_items()
     local bet_key = SMODS.poll_object{ type = "Bet" }
-    if bet_key ~= 'j_joker' then -- is pool is empty or something idk i added this because this might spawn jimbo with superrogue so
-        SMODS.add_voucher_to_shop(bet_key)
+    if not G.GAME.akyrs_strange_sequence then
+        if bet_key ~= 'j_joker' then -- is pool is empty or something idk i added this because this might spawn jimbo with superrogue so
+            SMODS.add_voucher_to_shop(bet_key)
+        end
     end
     SMODS.calculate_context({ akyrs_shop_spawn_item = true })
 end
@@ -626,3 +628,9 @@ function AKYRS.boss_music()
     return AKYRS.debug_opts.boss_music 
 end
 
+
+function AKYRS.custom_music_modulation(dt)
+    if G.GAME.akyrs_strange_sequence then
+        return (G.PITCH_MOD or 1)*(1 - dt) + dt*(4/(5 + (G.GAME.akyrs_strange_sequence or 1)))
+    end
+end

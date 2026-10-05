@@ -4268,6 +4268,7 @@ SMODS.Joker {
     pos = { x = 1, y = 9 },
     pools = {  },
     config = {
+        extra_slots_used = -1,
         extras = {
         }
     },

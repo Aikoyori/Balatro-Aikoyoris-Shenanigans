@@ -631,6 +631,6 @@ end
 
 function AKYRS.custom_music_modulation(dt)
     if G.GAME.akyrs_strange_sequence then
-        return (G.PITCH_MOD or 1)*(1 - dt) + dt*(10/(10 + (G.GAME.akyrs_strange_sequence or 1)))
+        return (G.PITCH_MOD or 1)*(1 - dt) + dt*(11/(10 + (G.GAME.akyrs_strange_sequence_modulate or 1)))
     end
 end

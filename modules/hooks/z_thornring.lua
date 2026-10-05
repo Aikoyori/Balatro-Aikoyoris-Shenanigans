@@ -9,15 +9,130 @@ local strange_sequence_jokers = { j_joker = true, j_akyrs_thornring = true }
 -- you must use thorn ring every round after that
 AKYRS.strange_sequence = {}
 
-function AKYRS.strange_sequence.abort()
+function AKYRS.strange_sequence.abort(no_jingle)
     G.GAME.akyrs_strange_sequence = nil
-    play_sound('akyrs_ss_snd_ominous_cancel')
+    G.GAME.akyrs_strange_sequence_modulate = nil
+    AKYRS.set_background_shaders("background") 
+    G.GAME.selected_back = Back(G.P_CENTERS.b_red)
+    if not no_jingle then play_sound('akyrs_ss_snd_ominous_cancel') end
 end
 
-function AKYRS.strange_sequence.proceed()
+function AKYRS.strange_sequence.proceed(no_jingle)
     G.GAME.akyrs_strange_sequence = (G.GAME.akyrs_strange_sequence or 0) + 1
-    play_sound('akyrs_ss_snd_ominous')
+    AKYRS.strange_sequence.steps(G.GAME.akyrs_strange_sequence)
+    if not no_jingle then G.GAME.akyrs_strange_sequence_modulate = (G.GAME.akyrs_strange_sequence_modulate or 1) + 1 play_sound('akyrs_ss_snd_ominous') end
 end
+
+function AKYRS.strange_sequence.steps(step)
+    local functions = {
+        function () -- step 1 is set up during run start so no need to so anything here
+            
+        end,
+        function () -- step 2 is in motion once you buy jimbo from shop 1 up until you
+            
+        end,
+    }
+    if functions[step] == nil then return end
+    return (functions[step])()
+end
+
+AKYRS.strange_sequence.STATES = {
+    PASS = 1,
+    AWAIT = 2,
+    FAIL = 3,
+}
+
+---@alias AKYRS.strange_sequence.CheckFunc fun(context: CalcContext):AKYRS.strange_sequence.STATES
+
+---continuously run in case if something is messed up
+---@param context CalcContext context
+---@param extras table
+---@return boolean check if true, keep going
+---@return boolean jingle? should play the jingle?
+function AKYRS.strange_sequence.continuous_check(_context, number)
+    local functions = {
+        ---@param context CalcContext
+        function (context) -- step 1 criteria: have a jimbo in your joker slot
+            if context.joker_type_destroyed or context.selling_card and context.card.ability.akyrs_the_jimbo then
+                return false, true
+            end
+            return true
+        end,
+        ---@param context CalcContext
+        function (context) 
+            return true
+        end,
+        ---@param context CalcContext
+        function (context) 
+            if context.joker_type_destroyed or context.selling_card and context.card.ability.akyrs_the_thornring then
+                return false, true
+            end
+            return true
+        end,
+    }
+    if functions[number] == nil then return true end
+    return (functions[number])(_context)
+end
+
+---@param context CalcContext context
+---@param extras table
+---@return AKYRS.strange_sequence.STATES state
+---@return boolean jingle? should play the jingle?
+function AKYRS.strange_sequence.check_flags_funcs(_context)
+    ---@type AKYRS.strange_sequence.CheckFunc[]
+    local functions = {
+        ---@param context CalcContext
+        function (context) -- step 1 criteria: have a jimbo in your joker slot
+            if context.buying_card then
+                if context.card.config.center.key == 'j_joker' then
+                    return AKYRS.strange_sequence.STATES.PASS, true
+                end
+            end
+            if context.ending_shop then
+                return AKYRS.strange_sequence.STATES.FAIL, true
+            end
+            return AKYRS.strange_sequence.STATES.AWAIT
+        end,
+        ---@param context CalcContext
+        function (context) -- step 2 check is done in ante 2 shop 1
+            if context.beat_boss and context.end_of_round and not context.repetition and not context.individual and G.GAME.round_resets.ante == 1 then
+                G.GAME.akyrs_forced_shop_jokers = { 'j_akyrs_thornring' }
+                return AKYRS.strange_sequence.STATES.PASS, false
+            end
+        end,
+        ---@param context CalcContext
+        function (context) -- step 3 buy the thornring
+            if context.buying_card then
+                if context.card.config.center.key == 'j_akyrs_thornring' then
+                    return AKYRS.strange_sequence.STATES.PASS, true
+                end
+            end
+            if context.ending_shop then
+                return AKYRS.strange_sequence.STATES.FAIL, true
+            end
+            return AKYRS.strange_sequence.STATES.AWAIT
+        end,
+    }
+    if functions[G.GAME.akyrs_strange_sequence] == nil then return end
+    return (functions[G.GAME.akyrs_strange_sequence])(_context)
+end
+
+---@param context CalcContext context
+function AKYRS.strange_sequence.check_flags(context)
+    local checks, jingle = AKYRS.strange_sequence.check_flags_funcs(context)
+    local continuous_checks_result = true
+    for i = 1, G.GAME.akyrs_strange_sequence - 1 do
+        local r1, r2 = AKYRS.strange_sequence.continuous_check(context, i)
+        continuous_checks_result, jingle = continuous_checks_result and r1, jingle or r2
+        if not continuous_checks_result then break end
+    end
+    if checks == AKYRS.strange_sequence.STATES.PASS and continuous_checks_result then
+        AKYRS.strange_sequence.proceed(not jingle)
+    elseif checks == AKYRS.strange_sequence.STATES.FAIL or not continuous_checks_result then
+        AKYRS.strange_sequence.abort(not jingle)
+    end
+end
+
 
 local thornringtextinputhook = G.FUNCS.text_input_key
 
@@ -26,7 +141,7 @@ G.FUNCS.text_input_key = function (args)
     local text = hook_config.text
     local should_thornring = text.ref_value == 'setup_seed' or text.ref_value == 'seed'
     if ({ THORNRING = true, THORNRIN = true })[text.ref_table[text.ref_value]] and should_thornring then
-        hook_config.max_length = 9
+        hook_config.max_length = math.max(hook_config.max_length, 9)
     else
         hook_config.max_length = 8
     end
@@ -46,7 +161,7 @@ end
 
 SMODS.Back{
     key = "red_hatena_deck",
-    name = "Red? Deck",
+    name = "Red Deck?",
     omit = true,
     config = {
         discards = 1,
@@ -66,13 +181,23 @@ function Game:start_run(args)
     local from_save = args.savetext
     --print(args) -- default to red deck
     if args.seed == 'THORNRING' then
-        args.seed = nil
-        args.deck_choice = { name = 'Red? Deck' }
         thornringer = true
+    else
+        if args.deck_choice then
+            if args.deck_choice.name == 'Red Deck?' then
+                args.deck_choice.name = 'Red Deck'
+            end
+        end
     end
+    if thornringer then
+        args = { deck_choice = { name = 'Red Deck?' }, stake_choice = args.stake_choice }
+        G.viewed_sleeve = nil
+    end
+    --print(args) -- default to red deck
     local ret = startRunHook(self, args)
     if (thornringer) or (G.GAME.akyrs_strange_sequence) then
         G.GAME.akyrs_strange_sequence = G.GAME.akyrs_strange_sequence or 1
+        G.GAME.akyrs_strange_sequence_modulate = G.GAME.akyrs_strange_sequence_modulate or 1
         AKYRS.simple_event_add(function ()
             if not from_save then
                 --local card = SMODS.add_card({ key = 'j_akyrs_thornring', set = "Joker", no_edition = true })
@@ -86,25 +211,40 @@ function Game:start_run(args)
             return true
         end)
     end
+    if G.GAME.selected_back.name == "Red Deck?" and not thornringer then
+        G.GAME.selected_back = Back(G.P_CENTERS.b_red)
+    end
     return ret
 end
 
 
 local create_card_for_shop_hook = create_card_for_shop
 function create_card_for_shop(area)
-    if G.GAME.akyrs_strange_sequence == 1 then
-        if G.GAME.akyrs_forced_shop_jokers and G.GAME.akyrs_forced_shop_jokers[#G.GAME.akyrs_forced_shop_jokers] then
-            local c = G.GAME.akyrs_forced_shop_jokers[#G.GAME.akyrs_forced_shop_jokers]
+    if G.GAME.akyrs_forced_shop_jokers and G.GAME.akyrs_forced_shop_jokers[#G.GAME.akyrs_forced_shop_jokers] then
+        local c = G.GAME.akyrs_forced_shop_jokers[#G.GAME.akyrs_forced_shop_jokers]
 
-            local _center = G.P_CENTERS[c] or G.P_CENTERS.c_base
+        local _center = G.P_CENTERS[c] or G.P_CENTERS.c_base
 
-            local c1 = Card(area.T.x + area.T.w/2, area.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, _center, {bypass_discovery_center = true, bypass_discovery_ui = true})
-            if strange_sequence_jokers[c] then
-                create_shop_card_ui(c1)
-            end
-            G.GAME.akyrs_forced_shop_jokers[#G.GAME.akyrs_forced_shop_jokers] = nil
-            return c1
+        local c1 = Card(area.T.x + area.T.w/2, area.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, _center, {bypass_discovery_center = true, bypass_discovery_ui = true})
+        create_shop_card_ui(c1)
+        if G.GAME.akyrs_strange_sequence == 1 then c1.ability.akyrs_the_jimbo = true end
+        if G.GAME.akyrs_strange_sequence == 3 then 
+            c1.ability.akyrs_the_thornring = true 
+            local cost = 0
+            AKYRS.map(G.jokers.cards, function (item, index)
+                if not item.ability.akyrs_the_jimbo and not SMODS.is_eternal(item) then
+                    cost = cost + item.sell_cost
+                end
+            end)
+            AKYRS.map(G.consumeables.cards, function (item, index)
+                if not item.ability.akyrs_the_jimbo and not SMODS.is_eternal(item) then
+                    cost = cost + item.sell_cost
+                end
+            end)
+            c1.cost = cost + G.GAME.dollars
         end
+        G.GAME.akyrs_forced_shop_jokers[#G.GAME.akyrs_forced_shop_jokers] = nil
+        return c1
     end
     local card = create_card_for_shop_hook(area) 
     return card
@@ -139,12 +279,13 @@ end
 
 local cscui = create_shop_card_ui
 function create_shop_card_ui(...)
+    --[[
     if G.GAME.akyrs_strange_sequence == 1 then
         local card = ...
         if not strange_sequence_jokers[card.config.center.key] then
             return
         end
-    end
+    end]]
     return cscui(...)
 end
 
@@ -160,9 +301,10 @@ function Game.update_shop(...)
     end
     return unpack
 end
+
 local ctg_hook_just_in_case = G.FUNCS.can_toggle_shop
 G.FUNCS.can_toggle_shop = function (e)
-    if G.GAME.akyrs_strange_sequence == 1 then
+    if G.GAME.akyrs_strange_sequence == 0 then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     else
@@ -176,7 +318,7 @@ end
 
 local canreroll = G.FUNCS.can_reroll
 G.FUNCS.can_reroll = function(e)
-    if G.GAME.akyrs_strange_sequence == 1 then 
+    if G.GAME.akyrs_strange_sequence == 0 then 
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     else
@@ -184,6 +326,7 @@ G.FUNCS.can_reroll = function(e)
     end
 end
 
+--[[
 local canbuy = G.FUNCS.can_buy
 G.FUNCS.can_buy = function(e)
     local card = e.config.ref_table
@@ -205,7 +348,7 @@ G.FUNCS.can_open = function(e)
         return canopen(e)
     end
 end
-
+]]
 local etnerlahok = SMODS.is_eternal
 
 function SMODS.is_eternal(card, trigger)
@@ -217,16 +360,4 @@ end
 
 function AKYRS.strange_monologue()
     return AKYRS.debug_opts.monologue_music
-end
-
-
-local bfs = G.FUNCS.buy_from_shop
-function G.FUNCS.buy_from_shop(e) 
-    local card = e.config.ref_table
-    if G.GAME.akyrs_strange_sequence == 1 then
-        if card.config.center.key == 'j_joker' then
-            AKYRS.strange_sequence.proceed()
-        end
-    end
-    return bfs(e)
 end

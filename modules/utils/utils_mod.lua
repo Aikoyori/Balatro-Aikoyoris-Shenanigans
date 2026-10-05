@@ -1298,8 +1298,8 @@ function AKYRS.set_background_shaders(shader_key, colours_to)
         real = 0,
         eased = 0
     }
-    if not SMODS.Shaders[shader_key] then return end
-    local send_t = SMODS.Shaders[shader_key].send_vars and SMODS.Shaders[shader_key]:send_vars() or {
+    --if not SMODS.Shaders[shader_key] then return end
+    local send_t = (SMODS.Shaders[shader_key] or {}).send_vars and SMODS.Shaders[shader_key]:send_vars() or {
                 {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL_SHADER'},
                 {name = 'spin_time', ref_table = G.TIMERS, ref_value = 'BACKGROUND'},
                 {name = 'colour_1', ref_table = G.C.BACKGROUND, ref_value = 'C'},

@@ -45,6 +45,9 @@ SMODS.current_mod.extra_tabs = function()
 end
 
 AKYRS.calculate = function (self, context)
+  if G.GAME.akyrs_strange_sequence then
+    AKYRS.strange_sequence.check_flags(context)
+  end
   if context.remove_playing_cards  then
     local manual = AKYRS.filter_table(context.removed, function (ca)
       return not ca.ability.akyrs_self_destructs
@@ -68,6 +71,7 @@ AKYRS.calculate = function (self, context)
   if context.hand_drawn and context.first_hand_drawn then
       G.GAME.akyrs_first_hand_being_drawn = false
   end
+  
 end
 
 AKYRS.create_credits_big = function(sprite_atlas, name, width)

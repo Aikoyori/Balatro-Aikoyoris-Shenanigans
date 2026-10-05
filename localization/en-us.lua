@@ -330,7 +330,7 @@ return {
                 },
             },
             b_akyrs_red_hatena_deck = {
-                name = 'Red? Deck',
+                name = 'Red Deck?',
                 text = 
                 { 
                     "{C:red}+#1#{} discard",

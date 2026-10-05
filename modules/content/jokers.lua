@@ -4290,6 +4290,7 @@ SMODS.Joker {
     in_pool = function (self, args)
         return not G.GAME.akyrs_weird_sequence and not AKYRS.is_mp() and G.GAME.round_resets.ante == 2
     end,
+    no_collection = true,
     cost = 6,
     calculate = function (self, card, context)
         if context.end_of_round and context.game_over and card.ability.akyrs_pillow_saved then

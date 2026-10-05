@@ -1528,7 +1528,11 @@ function AKYRS.filter_table(tbl, predicate, ordered_in, ordered_out)
     return table_out
 end
 
+---a function to return a filtered table based on `predicate`'s condition'
 -- predicate expect a return of new value
+---@param tbl table a table to map through
+---@param predicate fun(item:any, index:integer) a function that returns value, can return second to change the key
+---@param ordered_in boolean indicate if the input table is a list
 function AKYRS.map(tbl, predicate, ordered_in)
     if not tbl or not predicate then return {} end
     if #tbl == 0 and ordered_in then return {} end

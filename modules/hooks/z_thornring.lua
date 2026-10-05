@@ -211,7 +211,7 @@ function Game:start_run(args)
             return true
         end)
     end
-    if G.GAME.selected_back.name == "Red Deck?" and not thornringer then
+    if G.GAME.selected_back.name == "Red Deck?" and not G.GAME.akyrs_strange_sequence then
         G.GAME.selected_back = Back(G.P_CENTERS.b_red)
     end
     return ret
@@ -241,7 +241,7 @@ function create_card_for_shop(area)
                     cost = cost + item.sell_cost
                 end
             end)
-            c1.cost = cost + G.GAME.dollars
+            c1.cost = cost + G.GAME.dollars - G.GAME.bankrupt_at
         end
         G.GAME.akyrs_forced_shop_jokers[#G.GAME.akyrs_forced_shop_jokers] = nil
         return c1

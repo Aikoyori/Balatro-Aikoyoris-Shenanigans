@@ -329,6 +329,14 @@ return {
                     '{C:dark_edition}+#3#{} Joker Slot',
                 },
             },
+            b_akyrs_red_hatena_deck = {
+                name = 'Red? Deck',
+                text = 
+                { 
+                    "{C:red}+#1#{} discard",
+                    "every round?",
+                },
+            },
         },
         Blind={
             bl_akyrs_the_thought= {

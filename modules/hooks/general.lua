@@ -2374,3 +2374,6 @@ function SMODS.card_select_area(card, pack)
     end
     return smodscardselectarea(card, pack)
 end
+function AKYRS.no_skip_blind()
+    return G.GAME.akyrs_no_skips or G.GAME.akyrs_strange_sequence
+end

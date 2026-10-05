@@ -1,4 +1,23 @@
-local strange_route_jokers = { j_joker = true, j_akyrs_thornring = true }
+local strange_sequence_jokers = { j_joker = true, j_akyrs_thornring = true }
+
+-- sequence notes for self (redux)
+-- sequence 1: 
+-- start of run -> shop 1 (generate a jimbo)
+-- buy jimbo? -> go to sequence 2 (plays jingle)
+-- otherwise abort sequence
+-- sequence 2: after obtain jimbo from shop 1 --> ante 2 shop 1 (generate a thorn ring that costs however many )
+-- you must use thorn ring every round after that
+AKYRS.strange_sequence = {}
+
+function AKYRS.strange_sequence.abort()
+    G.GAME.akyrs_strange_sequence = nil
+    play_sound('akyrs_ss_snd_ominous_cancel')
+end
+
+function AKYRS.strange_sequence.proceed()
+    G.GAME.akyrs_strange_sequence = (G.GAME.akyrs_strange_sequence or 0) + 1
+    play_sound('akyrs_ss_snd_ominous')
+end
 
 local thornringtextinputhook = G.FUNCS.text_input_key
 
@@ -25,25 +44,42 @@ function create_text_input(args)
     return ctin_thhr(args)
 end
 
+SMODS.Back{
+    key = "red_hatena_deck",
+    name = "Red? Deck",
+    omit = true,
+    config = {
+        discards = 1,
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                self.config.discards
+            }
+        }
+    end
+}
 
 local startRunHook = Game.start_run
 function Game:start_run(args)
     local thornringer = false
     local from_save = args.savetext
+    --print(args) -- default to red deck
     if args.seed == 'THORNRING' then
         args.seed = nil
+        args.deck_choice = { name = 'Red? Deck' }
         thornringer = true
     end
     local ret = startRunHook(self, args)
     if (thornringer) or (G.GAME.akyrs_strange_sequence) then
-        G.GAME.akyrs_strange_sequence = 1
+        G.GAME.akyrs_strange_sequence = G.GAME.akyrs_strange_sequence or 1
         AKYRS.simple_event_add(function ()
             if not from_save then
                 --local card = SMODS.add_card({ key = 'j_akyrs_thornring', set = "Joker", no_edition = true })
                 --card.ability.akyrs_sigma = true
-                G.GAME.akyrs_forced_shop_jokers = { 'j_akyrs_thornring','j_joker' }
-                G.GAME.akyrs_forced_shop_boosters = { 'p_spectral_mega_1', 'p_spectral_mega_1' }
-                G.GAME.akyrs_forced_shop_vouchers = { 'v_akyrs_banquet' }
+                G.GAME.akyrs_forced_shop_jokers = { 'j_joker' }
+                G.GAME.akyrs_forced_shop_boosters = {  }
+                G.GAME.akyrs_forced_shop_vouchers = {  }
             end
             AKYRS.set_background_shaders("akyrs_aiko_gradiented_pulse") 
             G.GAME.current_round.voucher = SMODS.get_next_vouchers()
@@ -63,7 +99,7 @@ function create_card_for_shop(area)
             local _center = G.P_CENTERS[c] or G.P_CENTERS.c_base
 
             local c1 = Card(area.T.x + area.T.w/2, area.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, _center, {bypass_discovery_center = true, bypass_discovery_ui = true})
-            if strange_route_jokers[c] then
+            if strange_sequence_jokers[c] then
                 create_shop_card_ui(c1)
             end
             G.GAME.akyrs_forced_shop_jokers[#G.GAME.akyrs_forced_shop_jokers] = nil
@@ -105,7 +141,7 @@ local cscui = create_shop_card_ui
 function create_shop_card_ui(...)
     if G.GAME.akyrs_strange_sequence == 1 then
         local card = ...
-        if not strange_route_jokers[card.config.center.key] then
+        if not strange_sequence_jokers[card.config.center.key] then
             return
         end
     end
@@ -132,9 +168,9 @@ G.FUNCS.can_toggle_shop = function (e)
     else
         if ctg_hook_just_in_case then
             ctg_hook_just_in_case(e)
-            e.config.colour = G.C.RED
-            e.config.button = 'toggle_shop'
         end
+        e.config.colour = G.C.RED
+        e.config.button = 'toggle_shop'
     end
 end
 
@@ -151,7 +187,7 @@ end
 local canbuy = G.FUNCS.can_buy
 G.FUNCS.can_buy = function(e)
     local card = e.config.ref_table
-    if (G.GAME.akyrs_strange_sequence == 1 and not strange_route_jokers[card.config.center.key]) then
+    if (G.GAME.akyrs_strange_sequence == 1 and not strange_sequence_jokers[card.config.center.key]) then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     else
@@ -162,7 +198,7 @@ end
 local canopen = G.FUNCS.can_open
 G.FUNCS.can_open = function(e)
     local card = e.config.ref_table
-    if (G.GAME.akyrs_strange_sequence == 1 and not strange_route_jokers[card.config.center.key]) then
+    if (G.GAME.akyrs_strange_sequence == 1 and not strange_sequence_jokers[card.config.center.key]) then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     else
@@ -173,7 +209,7 @@ end
 local etnerlahok = SMODS.is_eternal
 
 function SMODS.is_eternal(card, trigger)
-    if (G.GAME.akyrs_strange_sequence == 1 and strange_route_jokers[card.config.center.key]) then
+    if (G.GAME.akyrs_strange_sequence == 1 and strange_sequence_jokers[card.config.center.key]) then
         return true
     end
     return etnerlahok(card, trigger)
@@ -181,4 +217,16 @@ end
 
 function AKYRS.strange_monologue()
     return AKYRS.debug_opts.monologue_music
+end
+
+
+local bfs = G.FUNCS.buy_from_shop
+function G.FUNCS.buy_from_shop(e) 
+    local card = e.config.ref_table
+    if G.GAME.akyrs_strange_sequence == 1 then
+        if card.config.center.key == 'j_joker' then
+            AKYRS.strange_sequence.proceed()
+        end
+    end
+    return bfs(e)
 end

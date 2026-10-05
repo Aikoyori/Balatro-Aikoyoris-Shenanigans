@@ -190,10 +190,10 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
-pattern = """    extras = create_UIBox_blind_tag(type, run_info)"""
+pattern = """    if not blind_choice.config.unskippable then extras = create_UIBox_blind_tag(type, run_info) end"""
 position = "before"
 payload = """
-if not G.GAME.akyrs_no_skips then
+if not AKYRS.no_skip_blind() then
 """
 overwrite = true
 match_indent = true
@@ -202,7 +202,7 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
-pattern = """    extras = create_UIBox_blind_tag(type, run_info)"""
+pattern = """    if not blind_choice.config.unskippable then extras = create_UIBox_blind_tag(type, run_info) end"""
 position = "after"
 payload = """
     extras = AKYRS.mod_skip_box(type, run_info, extras)

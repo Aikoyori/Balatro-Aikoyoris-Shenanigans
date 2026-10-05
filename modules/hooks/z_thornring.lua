@@ -12,6 +12,7 @@ AKYRS.strange_sequence = {}
 function AKYRS.strange_sequence.abort(no_jingle)
     G.GAME.akyrs_strange_sequence = nil
     G.GAME.akyrs_strange_sequence_modulate = nil
+    AKYRS.update_all_blind_select()
     AKYRS.set_background_shaders("background") 
     G.GAME.selected_back = Back(G.P_CENTERS.b_red)
     if not no_jingle then play_sound('akyrs_ss_snd_ominous_cancel') end

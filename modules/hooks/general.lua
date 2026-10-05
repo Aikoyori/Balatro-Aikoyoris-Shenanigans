@@ -2272,12 +2272,12 @@ function Card:open()
         end
     end
     local x = {clopen(self)}
-    if G.GAME.AKYRS_INCEPTION_PACK_INTERRUPT then
-        AKYRS.simple_event_add(function ()
-            G.GAME.PACK_INTERRUPT = G.GAME.AKYRS_INCEPTION_PACK_INTERRUPT
-            return true
-        end, 0)
-    end
+    AKYRS.simple_event_add(function ()
+        if G.GAME.AKYRS_INCEPTION_PACK_INTERRUPT then
+            G.GAME.PACK_INTERRUPT = G.GAME.AKYRS_INCEPTION_PACK_INTERRUPT or G.GAME.PACK_INTERRUPT
+        end
+        return true
+    end, 0)
     return unpack(x)
 end
 
@@ -2285,22 +2285,71 @@ local xpxcdht = G.FUNCS.end_consumeable
 G.FUNCS.end_consumeable = function(e, delayfac)
     local endcd = {xpxcdht(e, delayfac)}
     AKYRS.simple_event_add(function ()
+        if not booster_obj then
+            if G.shop then 
+                G.E_MANAGER:add_event(Event({
+                trigger = 'before', delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.SHOP
+                    return true
+                end}))
+            end
+            if G.blind_select then
+                G.E_MANAGER:add_event(Event({
+                trigger = 'before', delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.BLIND_SELECT
+                    return true
+                end}))
+            end
+            if G.round_eval then
+                G.E_MANAGER:add_event(Event({
+                trigger = 'before', delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.ROUND_EVAL
+                    return true
+                end}))
+            end
+        end
+        -- TARGET: your state ig im tired
         AKYRS.simple_event_add(function ()
-            if G.shop and G.shop.alignment.offset.py then 
-            G.shop.alignment.offset.y = G.shop.alignment.offset.py
-            G.shop.alignment.offset.py = nil
-            end
-            if G.blind_select and G.blind_select.alignment.offset.py then
-            G.blind_select.alignment.offset.y = G.blind_select.alignment.offset.py
-            G.blind_select.alignment.offset.py = nil
-            end
-            if G.round_eval and G.round_eval.alignment.offset.py then
-            G.round_eval.alignment.offset.y = G.round_eval.alignment.offset.py
-            G.round_eval.alignment.offset.py = nil
-            end
-            G.GAME.AKYRS_INCEPTION_PACK_INTERRUPT = nil
+            AKYRS.simple_event_add(function ()
+                if not G.booster_pack then
+                    if G.shop and G.shop.alignment.offset.py then 
+                        G.E_MANAGER:add_event(Event({
+                        trigger = 'before', delay = 0.2,
+                        func = function()
+                            G.shop.alignment.offset.y = -5.3
+                            G.STATE = G.STATES.SHOP
+                            return true
+                        end}))
+                    end
+                    if G.blind_select and G.blind_select.alignment.offset.py then
+                        G.E_MANAGER:add_event(Event({
+                        trigger = 'before', delay = 0.2,
+                        func = function()
+                            G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h
+                            G.blind_select.alignment.offset.x = 0
+                            G.STATE = G.STATES.BLIND_SELECT
+                            return true
+                        end}))
+                    end
+                    if G.round_eval and G.round_eval.alignment.offset.py then
+                        G.E_MANAGER:add_event(Event({
+                        trigger = 'before', delay = 0.2,
+                        func = function()
+                            G.round_eval.alignment.offset.y = -7.8
+                            G.STATE = G.STATES.ROUND_EVAL
+                            return true
+                        end}))
+                    end
+                end
+                return true
+            end, 0)
+            AKYRS.force_save()
+            G.GAME.AKYRS_INCEPTION_PACK_INTERRUPT = nil 
             return true
-        end, 0)        
+        end, 0.2)
         return true
     end, 0)
     return unpack(endcd)

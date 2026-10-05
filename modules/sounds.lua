@@ -44,7 +44,7 @@ SMODS.Sound({
         ['akyrs_umbral_booster_pack_music'] = true,
     },
     select_music_track = function(self) 
-        return G.booster_pack and not G.booster_pack.REMOVED and SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.config.center.kind == 'replica_pack' and 99 or nil
+        return G.booster_pack and not G.booster_pack.REMOVED and SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.config.center.kind == 'replica_pack' and 100 or nil
     end    
 })
 
@@ -62,7 +62,7 @@ SMODS.Sound({
         ['akyrs_replicant_booster_pack_music'] = true,
     },
     select_music_track = function(self) 
-        return AKYRS.boss_music() and 100 or nil
+        return AKYRS.boss_music() and 99 or nil
     end    
 })
 

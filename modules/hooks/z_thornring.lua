@@ -178,3 +178,7 @@ function SMODS.is_eternal(card, trigger)
     end
     return etnerlahok(card, trigger)
 end
+
+function AKYRS.strange_monologue()
+    return AKYRS.debug_opts.monologue_music
+end

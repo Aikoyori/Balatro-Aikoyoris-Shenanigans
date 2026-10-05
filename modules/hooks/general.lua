@@ -2285,34 +2285,35 @@ local xpxcdht = G.FUNCS.end_consumeable
 G.FUNCS.end_consumeable = function(e, delayfac)
     local endcd = {xpxcdht(e, delayfac)}
     AKYRS.simple_event_add(function ()
-        if not booster_obj then
-            if G.shop then 
-                G.E_MANAGER:add_event(Event({
-                trigger = 'before', delay = 0.2,
-                func = function()
-                    G.STATE = G.STATES.SHOP
-                    return true
-                end}))
-            end
-            if G.blind_select then
-                G.E_MANAGER:add_event(Event({
-                trigger = 'before', delay = 0.2,
-                func = function()
-                    G.STATE = G.STATES.BLIND_SELECT
-                    return true
-                end}))
-            end
-            if G.round_eval then
-                G.E_MANAGER:add_event(Event({
-                trigger = 'before', delay = 0.2,
-                func = function()
-                    G.STATE = G.STATES.ROUND_EVAL
-                    return true
-                end}))
-            end
-        end
+
         -- TARGET: your state ig im tired
         AKYRS.simple_event_add(function ()
+            if not booster_obj then
+                if G.shop then 
+                    G.E_MANAGER:add_event(Event({
+                    trigger = 'before', delay = 0.2,
+                    func = function()
+                        G.STATE = G.STATES.SHOP
+                        return true
+                    end}))
+                end
+                if G.blind_select then
+                    G.E_MANAGER:add_event(Event({
+                    trigger = 'before', delay = 0.2,
+                    func = function()
+                        G.STATE = G.STATES.BLIND_SELECT
+                        return true
+                    end}))
+                end
+                if G.round_eval then
+                    G.E_MANAGER:add_event(Event({
+                    trigger = 'before', delay = 0.2,
+                    func = function()
+                        G.STATE = G.STATES.ROUND_EVAL
+                        return true
+                    end}))
+                end
+            end
             AKYRS.simple_event_add(function ()
                 if not G.booster_pack then
                     if G.shop and G.shop.alignment.offset.py then 

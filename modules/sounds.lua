@@ -168,3 +168,33 @@ SMODS.Sound({
     key = "bluetooth_low_battery",
     path = "speaker/low_battery.ogg",
 })
+
+SMODS.Sound({
+    key = "ss_snd_ominous",
+    path = "strange/snd_ominous.ogg",
+})
+
+SMODS.Sound({
+    key = "ss_snd_ominous_cancel",
+    path = "strange/snd_ominous_cancel.ogg",
+})
+
+SMODS.Sound({
+    key = "ss_snd_ominous_worse",
+    path = "strange/snd_ominous_worse.ogg",
+})
+
+SMODS.Sound({
+    key = "ss_snd_me",
+    path = "strange/me.ogg",
+})
+
+SMODS.Sound({
+    key = "ss_music_monologue",
+    path = "strange/monologue.ogg",
+    select_music_track = function(self) 
+        return AKYRS.strange_monologue and AKYRS.strange_monologue() and 101 or nil
+    end,
+    pitch = 1,
+})
+

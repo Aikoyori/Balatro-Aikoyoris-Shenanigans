@@ -272,6 +272,7 @@ AKYRS.debug_opts = {
   enchant_everything = false,
   extra_displays = false,
   boss_music = false,
+  monologue_music = false,
 }
 
 SMODS.current_mod.custom_ui = function (mod_nodes)

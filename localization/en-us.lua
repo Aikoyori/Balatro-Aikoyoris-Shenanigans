@@ -6005,7 +6005,7 @@ return {
                 {"\\#downwiththeimposter",},
                 {"lowk why does that one guy in family guy", "look like peter griffin"},
                 {"He is only 20 years old."},
-                {"fuuuck dude this mod cost so much money im so fucked"},
+                {"fuuuck dude this mod","cost so much money","im so fucked"},
                 {"one of my friends call me Michael Jordan"},
                 {"Watch Cosmic Princess Kaguya!"},
                 {"yuri > yaoi lowk"},
@@ -6017,6 +6017,8 @@ return {
                 {"... ___ ... (sad face)"},
                 {"ts pmo icl"},
                 {"Vanilla* Mod", "{s:0.4}*not included"},
+                {"Seeds of {f:akyrs_MochiyPopOne}THORN{}", "{f:akyrs_MochiyPopOne}RING{} the truth."},
+                {"what if I add", "rhythm game to balatro"},
             }
         },
         v_text={

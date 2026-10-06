@@ -4262,44 +4262,6 @@ SMODS.Joker {
     end,
 }
 
-SMODS.Joker {
-    key = "thornring",
-    atlas = 'AikoyoriJokers',
-    pos = { x = 1, y = 9 },
-    pools = {  },
-    config = {
-        extra_slots_used = -1,
-        extras = {
-        }
-    },
-    loc_vars = function (self, info_queue, card)
-        return {
-            vars = {
-                card.ability.extras.xmult,
-            }
-        }
-    end,
-    akyrs_joker_use_btn = true,
-    akyrs_joker_can_use = function (self, card)
-        return 
-    end,
-    akyrs_joker_use = function (self, card)
-        G.GAME.akyrs_weird_sequence = true
-    end,
-    rarity = 'akyrs_unique',
-    in_pool = function (self, args)
-        return not G.GAME.akyrs_weird_sequence and not AKYRS.is_mp() and G.GAME.round_resets.ante == 2
-    end,
-    no_collection = true,
-    cost = 6,
-    calculate = function (self, card, context)
-        if context.end_of_round and context.game_over and card.ability.akyrs_pillow_saved then
-            return {
-                saved = localize("k_akyr s_pillow_spicy"),
-            }
-        end
-    end,
-}
 
 SMODS.Joker {
     key = "shade_no_hokori",

@@ -1004,6 +1004,7 @@ end
 
 
 function AKYRS.badge_func() 
+  if G.GAME.akyrs_strange_sequence then return { n = G.UIT.R, config = {}, nodes ={} } end
   mod = AKYRS
   local mod_name_node = {
       n = G.UIT.C, nodes = {}

@@ -742,6 +742,13 @@ return {
                     "after beating this boss",
                 }
             },
+            bl_akyrs_the_nil= {
+                name = "The",
+                text = {
+                    "Run out of Hands",
+                    "and Discards",
+                }
+            },
             bl_akyrs_ultima_lost_umbrella = {
                 name = "Lost Umbrella",
                 text = {
@@ -2995,12 +3002,9 @@ return {
                 },
                 text = {
                     {
-                        "{C:attention}Use{} this Joker",
-                        "to {E:akyrs_violent_shake}initiate a {C:attention,E:akyrs_violent_shake}Strange{E:akyrs_violent_shake} Sequence",
-                    },
-                    {
-                        "{E:akyrs_violent_shake}Will {C:attention,E:akyrs_violent_shake}let you know",
-                        "{E:akyrs_violent_shake}when it is possible to{E:akyrs_violent_shake,C:red} Proceed",
+                        "{C:attention}Use{} this Joker to {E:akyrs_violent_shake}multiply",
+                        "{E:akyrs_violent_shake}the {E:akyrs_violent_shake,C:attention}Joker value {E:akyrs_violent_shake}by {X:attention,C:white,E:akyrs_violent_shake}2",
+                        "{E:akyrs_violent_shake}There may however be {E:akyrs_violent_shake,C:red}consequences{}"
                     },
                 }
             },

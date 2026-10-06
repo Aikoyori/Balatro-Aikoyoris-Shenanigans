@@ -1,5 +1,82 @@
 local strange_sequence_jokers = { j_joker = true, j_akyrs_thornring = true }
 
+SMODS.Blind{
+    key = "the_nil",
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX("4f6367"),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 1,},
+    debuff = {
+        akyrs_cannot_be_disabled = true,
+        akyrs_cannot_be_rerolled = true,
+    },
+    pos = { x = 0, y = 15 },
+    in_pool = function (self)
+        return false
+    end,
+    no_collection = true,
+    calculate = function (self, blind, context)
+        if context.akyrs_prevent_win and (G.GAME.current_round.hands_left ~= 0 or G.GAME.current_round.discards_left ~= 0) then
+            return {
+                prevent_win = true
+            }
+        end
+    end
+}
+
+SMODS.Joker {
+    key = "thornring",
+    atlas = 'AikoyoriJokers',
+    pos = { x = 1, y = 9 },
+    pools = {  },
+    config = {
+        extra_slots_used = -1,
+        extras = {
+            activated = false
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                
+            }
+        }
+    end,
+    akyrs_joker_use_btn = true,
+    akyrs_joker_can_use = function (self, card)
+        return #AKYRS.filter_table(SMODS.merge_lists({G.jokers.cards or {}, G.consumeables.cards or {}}), function (item, index)
+            return item.ability.akyrs_the_jimbo
+        end, true, true) > 0 and not card.ability.extras.activated
+    end,
+    akyrs_joker_use = function (self, card)
+        card.ability.extras.activated = true
+        local other_jokers = AKYRS.filter_table(SMODS.merge_lists({G.jokers.cards or {}, G.consumeables.cards or {}}), function (item, index)
+            return item ~= card and not item.ability.akyrs_the_jimbo
+        end, true, true)
+        if #other_jokers > 0 then SMODS.destroy_cards(other_jokers) end
+        local jimbucko = AKYRS.filter_table(SMODS.merge_lists({G.jokers.cards or {}, G.consumeables.cards or {}}), function (item, index)
+            return item.ability.akyrs_the_jimbo
+        end, true, true)
+        AKYRS.do_things_to_card(jimbucko, function (_card, index)
+            AKYRS.mod_card_values(_card, { func = function (value, key, _card, reference_center)
+                return value * 2
+            end})
+        end)
+        
+    end,
+    rarity = 'akyrs_unique',
+    no_collection = true,
+    cost = 6,
+    calculate = function (self, card, context)
+        if context.end_of_round and context.main_eval then
+            return {
+                func = function() card.ability.extras.activated = false end
+            }
+        end
+    end,
+}
+
 -- sequence notes for self (redux)
 -- sequence 1: 
 -- start of run -> shop 1 (generate a jimbo)
@@ -11,6 +88,7 @@ AKYRS.strange_sequence = {}
 
 function AKYRS.strange_sequence.abort(no_jingle)
     G.GAME.akyrs_strange_sequence = nil
+    G.GAME.akyrs_strange_sequence_aborted = true
     G.GAME.akyrs_strange_sequence_modulate = nil
     AKYRS.update_all_blind_select()
     AKYRS.set_background_shaders("background") 
@@ -29,8 +107,14 @@ function AKYRS.strange_sequence.steps(step)
         function () -- step 1 is set up during run start so no need to so anything here
             
         end,
-        function () -- step 2 is in motion once you buy jimbo from shop 1 up until you
+        function () -- step 2 is in motion once you buy jimbo from shop 1 up until you get to the first shop of ante 2
             
+        end,
+        function () -- step 3 happens once you enter shop
+            G.GAME.round_resets.blind_choices.Boss = 'bl_akyrs_the_nil'
+        end,
+        function () -- step 4 happens when you buy the ring from the shop
+            G.GAME.round_resets.blind_choices.Boss = 'bl_akyrs_the_nil'
         end,
     }
     if functions[step] == nil then return end
@@ -54,7 +138,7 @@ function AKYRS.strange_sequence.continuous_check(_context, number)
     local functions = {
         ---@param context CalcContext
         function (context) -- step 1 criteria: have a jimbo in your joker slot
-            if context.joker_type_destroyed or context.selling_card and context.card.ability.akyrs_the_jimbo then
+            if (context.joker_type_destroyed or context.selling_card) and context.card.ability.akyrs_the_jimbo then
                 return false, true
             end
             return true
@@ -65,9 +149,12 @@ function AKYRS.strange_sequence.continuous_check(_context, number)
         end,
         ---@param context CalcContext
         function (context) 
-            if context.joker_type_destroyed or context.selling_card and context.card.ability.akyrs_the_thornring then
+            if (context.joker_type_destroyed or context.selling_card) and context.card.ability.akyrs_the_thornring then
                 return false, true
             end
+            return true
+        end,
+        function (context) 
             return true
         end,
     }
@@ -111,6 +198,9 @@ function AKYRS.strange_sequence.check_flags_funcs(_context)
             if context.ending_shop then
                 return AKYRS.strange_sequence.STATES.FAIL, true
             end
+            return AKYRS.strange_sequence.STATES.AWAIT
+        end,
+        function (context) -- step 4 beat the nil boss (note nil boss will not be defeated until you run out of hands)
             return AKYRS.strange_sequence.STATES.AWAIT
         end,
     }

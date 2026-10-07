@@ -965,14 +965,6 @@ return {
                     "from {C:attention}TOGA's Stuff{}",
                 },
             },
-            dd_akyrs_cryptposting_ability={
-                name="Cryptposting Ability",
-                text={
-                    "Create a {X:attention,E:1}Joker{} when",
-                    "Blind is skipped",
-                    "{C:inactive}(No room needed)"
-                },
-            },
             dd_akyrs_aikoyori_pta_ability={
                 name="Paya's Terrible Additions Ability",
                 text={

@@ -745,7 +745,7 @@ return {
             bl_akyrs_the_nil= {
                 name = "The",
                 text = {
-                    "Run out of Hands",
+                    "Use up all Hands",
                     "and Discards",
                 }
             },

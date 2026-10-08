@@ -2995,7 +2995,7 @@ SMODS.Joker {
         }
     end,
     calculate = function (self, card, context)
-        if (context.end_of_round and context.main_eval) then
+        if (context.end_of_round and context.main_eval) and not context.blueprint then
             return {
                 func = function()
                     AKYRS.simple_event_add(function ()
@@ -3018,7 +3018,7 @@ SMODS.Joker {
                 end
             }
         end
-        if context.joker_main and not context.blueprint then
+        if context.joker_main then
             return {
                 xchips = card.ability.extras.xc
             }
@@ -3186,7 +3186,7 @@ SMODS.Joker {
             }
         end
     end,
-    blueprint_compat = true,
+    perishable_compat = false,
 }
 
 SMODS.Joker {
@@ -3274,7 +3274,7 @@ SMODS.Joker {
             }
         end
     end,
-    blueprint_compat = true,
+    perishable_compat = false,
 }
 
 SMODS.Joker {
@@ -3347,7 +3347,7 @@ SMODS.Joker {
             }
         end
     end,
-    blueprint_compat = true,
+    perishable_compat = false,
 }
 
 SMODS.Joker {
@@ -3376,7 +3376,7 @@ SMODS.Joker {
         }
     end,
     calculate = function (self, card, context)
-        if context.before then
+        if context.before and not context.blueprint then
             return {
                 func = function()
                     for i, cd in ipairs(G.play.cards) do
@@ -3401,6 +3401,7 @@ SMODS.Joker {
             }
         end
     end,
+    perishable_compat = false,
 }
 
 SMODS.Joker {
@@ -3573,6 +3574,7 @@ SMODS.Joker {
             }
         end
     end,
+    blueprint_compat = false,
 }
 
 SMODS.Joker {
@@ -3632,7 +3634,7 @@ SMODS.Joker {
                 }
             end
         end
-        if context.akyrs_pre_play then
+        if context.akyrs_pre_play and not context.blueprint then
             return {
                 func = function ()
                     local hearts = AKYRS.filter_table(context.akyrs_pre_play_cards, function (c,i,d)
@@ -3879,8 +3881,6 @@ SMODS.Joker {
             }
         end
     end,
-    blueprint_compat = true,
-    perishable_compat = true,
 }
 
 SMODS.Joker {
@@ -4073,8 +4073,9 @@ SMODS.Joker {
     end,
     rarity = 2,
     cost = 6,
+    perishable_compat = false,
     calculate = function (self, card, context)
-        if context.akyrs_pre_play then
+        if context.akyrs_pre_play and not context.blueprint_card then
             if #context.akyrs_pre_play_cards == math.max(math.min(AKYRS.const.pi[card.ability.extras.immutable.pi_location],G.GAME.starting_params.play_limit), 1) then
                 SMODS.scale_card(card, {
                     ref_table = card.ability.extras,
@@ -4135,8 +4136,7 @@ SMODS.Joker {
     end,
     rarity = 2,
     cost = 5,
-    calculate = function (self, card, context)
-    end
+    blueprint_compat = false,
 }
 
 SMODS.Joker {
@@ -4163,6 +4163,7 @@ SMODS.Joker {
             }
         end
     end,
+    blueprint_compat = false,
 }
 
 SMODS.Joker {
@@ -4191,7 +4192,7 @@ SMODS.Joker {
                 xmult = card.ability.extras.xmult
             }
         end
-        if context.after then
+        if context.after and not context.blueprint then
             return {
                 func = function ()
                     local temp_ID = 1e10
@@ -4260,6 +4261,7 @@ SMODS.Joker {
             }
         end
     end,
+    blueprint_compat = false,
 }
 
 
@@ -4305,7 +4307,7 @@ SMODS.Joker {
                 end
             }
         end
-        if context.after then
+        if context.after and not context.blueprint then
             card.ability.extras.rank = pseudorandom_element(SMODS.Ranks, 'akyrs_shade_no_hokori_rank').key
         end
     end,
@@ -4367,6 +4369,7 @@ SMODS.Joker {
     set_ability = function (self, card, initial, delay_sprites)
         card.ability.extras.link = AKYRS.random_string(10)
     end,
+    blueprint_compat = false,
 }
 
 SMODS.Joker {
@@ -4408,7 +4411,8 @@ SMODS.Joker {
                 end
             }
         end
-    end
+    end,
+    blueprint_compat = false,
 }
 
 SMODS.Joker {
@@ -4462,7 +4466,8 @@ SMODS.Joker {
                 xblindsize = 1 / card.ability.extras.blindsize
             }, card)
         end
-    end
+    end,
+    blueprint_compat = false,
 }
 
 SMODS.Joker {
@@ -4509,7 +4514,7 @@ SMODS.Joker {
         card.ability.extras.used_this_hand = true
     end,
     calculate = function (self, card, context)
-        if context.after then
+        if context.after and not context.blueprint then
             return {
                 func = function()
                     card.ability.extras.used_this_hand = false
@@ -4522,6 +4527,7 @@ SMODS.Joker {
             }
         end
     end,
+    perishable_compat = false,
 }
 
 SMODS.Joker {
@@ -4577,6 +4583,8 @@ SMODS.Joker {
             }
         end
     end,
+    blueprint_compat = false,
+    perishable_compat = false,
 }
 
 SMODS.Joker {
@@ -4613,6 +4621,7 @@ SMODS.Joker {
             }
         end
     end,
+    blueprint_compat = false,
 }
 
 SMODS.Joker {
@@ -4676,6 +4685,7 @@ SMODS.Joker {
             }
         end
     end,
+    blueprint_compat = false,
 }
 
 
@@ -4727,7 +4737,8 @@ SMODS.Joker {
                 message = localize("k_upgrade_ex"),
             }
         end
-    end
+    end,
+    blueprint_compat = false,
 }
 
 
@@ -4753,7 +4764,7 @@ SMODS.Joker {
         }
     end,
     calculate = function (self, card, context)
-        if context.individual and context.other_card:is_suit('Spades') and context.cardarea == G.play and not context.end_of_round then
+        if context.individual and context.other_card:is_suit('Spades') and context.cardarea == G.play and not context.end_of_round and not context.blueprint then
             return {
                 func = function ()
                     card.ability.extras.spades_scored = card.ability.extras.spades_scored + 1
@@ -4778,7 +4789,8 @@ SMODS.Joker {
                 }, card)
             end
         end
-    end
+    end,
+    perishable_compat = false,
 }
 
 SMODS.Joker {
@@ -4836,7 +4848,7 @@ SMODS.Joker {
         }
     end,
     calculate = function (self, card, context)
-        if context.setting_blind then
+        if context.setting_blind and not context.blueprint then
             return {
                 func = function ()
                     AKYRS.simple_event_add(function ()
@@ -4857,7 +4869,7 @@ SMODS.Joker {
                 debuff_text = localize("k_akyrs_must_play_pairs"),
             }
         end
-        if context.end_of_round and not context.individual and not context.repetition and G.GAME.dollars <= 4 then
+        if context.end_of_round and context.main_eval and G.GAME.dollars <= 4 and not context.blueprint then
             return {
                 func = function ()
                     AKYRS.simple_event_add(function ()

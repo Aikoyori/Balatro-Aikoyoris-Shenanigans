@@ -1,0 +1,2 @@
+---@class CalcContext: CalcContext
+---@field blueprint boolean? if it is from a blueprint lsp from aikoshen :3

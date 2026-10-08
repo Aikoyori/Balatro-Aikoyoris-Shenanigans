@@ -2413,6 +2413,7 @@ SMODS.Blind{
                             local prompt_card = Card(11.5,15,G.CARD_W,G.CARD_H,pseudorandom_element(G.P_CARDS,pseudoseed("thebombblind")),G.P_CENTERS['c_base'],{playing_card = G.playing_card})
                             prompt_card.is_null = true
                             prompt_card.ability.akyrs_attention = true
+                            prompt_card.ability.akyrs_bomb_prompt = true
                             AKYRS.simple_event_add(
                                 function ()
                                     local ante = Talisman and to_number(G.GAME.round_resets.ante) or G.GAME.round_resets.ante
@@ -2553,7 +2554,7 @@ SMODS.Blind{
                                 function()
                                     local attention_no_longer_in_hand = true
                                     for _,_c in ipairs(G.playing_cards) do
-                                        if _c.ability.akyrs_attention then
+                                        if _c.ability.akyrs_attention and _c.ability.akyrs_bomb_prompt then
                                             attention_no_longer_in_hand = false
                                         end
                                     end

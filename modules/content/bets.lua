@@ -388,7 +388,7 @@ AKYRS.Bet {
         return {
             key = self.key .. (G.GAME.akyrs_slop_thickens and "_thicken" or ""),
             vars = {
-                (card.ability.extras.jks),
+                SMODS.signed(card.ability.extras.jks),
                 card.ability.extras.multiply,
             }
         }

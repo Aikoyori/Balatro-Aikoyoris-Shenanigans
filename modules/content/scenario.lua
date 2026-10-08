@@ -200,7 +200,7 @@ function AKYRS.Scenario_Tag:get_uibox_table(tag_sprite)
         AKYRS.add_box_to_uitable(tag_sprite.ability_UIBox_table, multiboxtwo)
     end
     for _, iq in ipairs(info_q) do
-        generate_card_ui(iq, tag_sprite.ability_UIBox_table)
+        --generate_card_ui(iq, tag_sprite.ability_UIBox_table)
     end
     --print(tag_sprite.ability_UIBox_table)
     tag_sprite.ability_UIBox_table.badges = tag_sprite.ability_UIBox_table.badges or {}
@@ -1137,6 +1137,7 @@ AKYRS.Scenario {
     },
     akyrs_total_rounds = 2,
     loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_stone
         return {
             vars = {
             }

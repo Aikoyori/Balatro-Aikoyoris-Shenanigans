@@ -173,7 +173,6 @@ SMODS.Joker{
 
 
 local toga_tags = {"tag_toga_togajokerbooster","tag_toga_togajokerziparchive","tag_toga_togarararchive","tag_toga_togacardcabarchive","tag_toga_togaxcopydnaarchive",}
-local cryptposting_joker = {"j_joker","j_crp_joker_2","j_crp_joker_3","j_crp_joker_4","j_crp_joker_5","j_crp_joker_6","j_crp_joker_7","j_crp_joker_8","j_crp_joker?","j_crp_joker_0"}
 SMODS.Joker {
     pools = { ["Self-Insert"] = true, },
     key = "aikoyori",
@@ -221,9 +220,6 @@ SMODS.Joker {
         end
         if PTASaka then
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_pta_ability"}
-        end
-        if Cryptposting then
-            info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_cryptposting_ability"}
         end
         if AKYRS.is_mod_loaded("Prism") then
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_prism_ability"}
@@ -282,14 +278,6 @@ SMODS.Joker {
     end,
     calculate = function (self, card, context)
         if context.skip_blind then
-            if Cryptposting then
-                SMODS.calculate_effect({
-                    func = function()
-                        local jkr = pseudorandom_element(cryptposting_joker,pseudoseed("aikocryptposting"))
-                        SMODS.add_card({set = "Joker", key = jkr})
-                    end
-                }, card)
-            end
         end
         if context.setting_blind then
             if AKYRS.is_mod_loaded("GrabBag") then

@@ -1725,7 +1725,7 @@ function AKYRS.ui_auto_table(ui_nodes, args)
     local w = args.w or 0.7
     local h = args.h or 0.5
     local cell_conf = args.cell_config or { maxw = w, maxh = h, minw = w, minh = h, h = h, w = w, r = 0.1, align = "cm" }
-    local row_conf = args.row_config or { padding = 0.1, align = "cl", minh = h, maxh = h, h = h }
+    local row_conf = args.row_config or { padding = args.row_p or 0.1, align = "cl", minh = h, maxh = h, h = h }
     local exp = {
         n = starting_node,
         nodes = {

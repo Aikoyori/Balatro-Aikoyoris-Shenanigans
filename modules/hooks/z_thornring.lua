@@ -233,7 +233,7 @@ G.FUNCS.text_input_key = function (args)
     local should_thornring = text.ref_value == 'setup_seed' or text.ref_value == 'seed'
     if ({ THORNRING = true, THORNRIN = true })[text.ref_table[text.ref_value]] and should_thornring then
         hook_config.max_length = math.max(hook_config.max_length, 9)
-    else
+    elseif should_thornring then
         hook_config.max_length = 8
     end
     local x = {thornringtextinputhook(args)}

@@ -215,8 +215,8 @@ SMODS.Atlas {
 SMODS.Atlas {
     key = 'villager',
     path = 'villager.png',
-    px = 111,
-    py = 161
+    px = 95,
+    py = 205
 }
 
 SMODS.Atlas {

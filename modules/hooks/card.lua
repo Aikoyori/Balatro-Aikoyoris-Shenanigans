@@ -626,3 +626,11 @@ G.FUNCS.can_skip_booster = function(e)
     end
     return csboost(e)
 end
+
+local setjkwinhook = set_joker_win
+ function setjkwinhook()
+    if G.GAME.akyrs_do_not_give_win_stickers then
+        return
+    end
+    return setjkwinhook(e)
+end

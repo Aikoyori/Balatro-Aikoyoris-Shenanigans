@@ -132,6 +132,7 @@ return {
 				text = {
 					"You can drag cards",
 					"to place them anywhere.",
+					"{C:red}This deck will not grant Stake Stickers",
 				},
             },
             b_akyrs_ultimate_freedom={
@@ -139,6 +140,7 @@ return {
 				text = {
 					"You can drag {E:1,C:attention}any{} cards",
 					"to place them anywhere.",
+					"{C:red}This deck will not grant Stake Stickers",
 				},
             },
             b_akyrs_split_deck={
@@ -4911,6 +4913,7 @@ return {
 				text = {
 					"You can {C:attention}drag{} cards",
 					"to place them anywhere.",
+					"{C:red}This deck will not grant Stake Stickers",
 				},
             },
             sleeve_akyrs_freedom_alt={
@@ -4918,6 +4921,7 @@ return {
 				text = {
 					"You can drag {C:attention}any{} cards",
 					"to place them anywhere.",
+					"{C:red}This deck will not grant Stake Stickers",
 				},
             },
             sleeve_akyrs_cry_misprint_ultima={
@@ -5733,6 +5737,7 @@ return {
             k_akyrs_chicanery_btn_2="Chicanery",
             k_akyrs_chicanery_title="Jimbo's Chance Chicanery",
             k_akyrs_life_shop_btn="Life Shop",
+            k_akyrs_village_shop="Village",
             k_akyrs_shop_cor="????????",
             k_akyrs_shops_list="- Shops -",
             k_akyrs_currency_life_prefix="",

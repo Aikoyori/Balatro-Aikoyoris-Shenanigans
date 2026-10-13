@@ -61,6 +61,7 @@ if CardSleeves then
             if self.get_current_deck_key() == "b_akyrs_freedom" then
                 G.GAME.starting_params.akyrs_ultimate_freedom = sleeve.config.akyrs_ultimate_freedom
             end
+            G.GAME.akyrs_do_not_give_win_stickers = true
             CardSleeves.Sleeve.apply(sleeve)
         end
     }

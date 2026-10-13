@@ -189,7 +189,7 @@ SMODS.Voucher {
 SMODS.Voucher {
     key = "premium_free_joker",
     atlas = 'aikoyoriVouchers', pos = { x = 5, y = 0 } ,
-    cost = 5,
+    cost = 15,
     config = {
     },
     loc_vars = function (self, info_queue, card)
@@ -218,7 +218,7 @@ SMODS.Voucher {
 SMODS.Voucher {
     key = "super_premium_free_joker",
     atlas = 'aikoyoriVouchers', pos = { x = 6, y = 0 } ,
-    cost = 15,
+    cost = 30,
     akyrs_special_vouchers = "super",
     config = {
     },
@@ -245,7 +245,7 @@ SMODS.Voucher {
 SMODS.Voucher {
     key = "ultra_premium_free_joker",
     atlas = 'aikoyoriVouchers', pos = { x = 7, y = 0 } ,
-    cost = 30,
+    cost = 45,
     akyrs_special_vouchers = "ultra",
     config = {
     },

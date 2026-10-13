@@ -138,6 +138,9 @@ SMODS.Back{
     end,
     loc_vars = function (self, info_queue, card)
     end,
+    apply = function (self, back)
+        G.GAME.akyrs_do_not_give_win_stickers = true
+    end,
 }
 
 SMODS.Back{
@@ -148,6 +151,9 @@ SMODS.Back{
     set_badges = function (self, card, badges)
     end,
     loc_vars = function (self, info_queue, card)
+    end,
+    apply = function (self, back)
+        G.GAME.akyrs_do_not_give_win_stickers = true
     end,
 }
 

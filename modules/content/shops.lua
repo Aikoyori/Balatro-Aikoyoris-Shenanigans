@@ -619,6 +619,37 @@ AKYRS.ShopPage {
         end
     end,
 }
+AKYRS.ShopPage {
+    key = "villager_trading",
+    create_ui = function (self)
+      return {
+        n = G.UIT.R,
+        nodes = {
+          AKYRS.text_prefab({
+            text = 'lush cave here',
+            colour = G.C.WHITE,
+          })
+        }
+      }
+    end,
+    is_enabled = function (self)
+        return G.GAME.akyrs_is_villager_trading_enabled
+    end,
+    enable = function (self, enable)
+        G.GAME.akyrs_is_villager_trading_enabled = enable
+    end,
+    get_button_texts = function (self, enabled)
+        if enabled then
+            return {
+              { self.key, {'k_akyrs_village_shop'}}
+            }
+        end
+        return {
+          { self.key, {"k_akyrs_shop_cor"}},
+        }
+    end,
+    button_colour = G.C.BLUE,
+}
 
 function AKYRS.chicanery_reroll_btns(level) 
   local per = "round"

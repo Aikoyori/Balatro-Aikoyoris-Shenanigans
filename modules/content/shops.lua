@@ -625,9 +625,58 @@ AKYRS.ShopPage {
       return {
         n = G.UIT.R,
         nodes = {
-          AKYRS.text_prefab({
-            text = 'lush cave here',
-            colour = G.C.WHITE,
+          AKYRS.create_tabs({
+              snap_to_nav = true,
+              colour = G.C.BOOSTER,
+              tabs = {
+                  {
+                      label = localize('b_akyrs_village_pawnbroker'),
+                      chosen = true,
+                      tab_definition_function = function()
+                          return {
+                              n = G.UIT.ROOT,
+                              config = {
+                                  emboss = 0.05,
+                                  minh = 6,
+                                  r = 0.1,
+                                  minw = 8,
+                                  align = "cm",
+                                  padding = 0.2,
+                                  colour = G.C.BLACK,
+                              },
+                              nodes = {
+                                AKYRS.text_prefab({
+                                  colour = G.C.WHITE,
+                                  text = "lush cave here"
+                                })
+                              }
+                            }
+                      end
+                  },
+                  {
+                      label = localize('b_akyrs_village_merchant'),
+                      tab_definition_function = function()
+                          return {
+                              n = G.UIT.ROOT,
+                              config = {
+                                  emboss = 0.05,
+                                  minh = 6,
+                                  r = 0.1,
+                                  minw = 8,
+                                  align = "cm",
+                                  padding = 0.2,
+                                  colour = G.C.BLACK,
+                              },
+                              nodes = {
+                                AKYRS.text_prefab({
+                                  colour = G.C.WHITE,
+                                  text = "sulfur cave here"
+                                })
+                              }
+                            }
+                      end
+                  },
+              }
           })
         }
       }

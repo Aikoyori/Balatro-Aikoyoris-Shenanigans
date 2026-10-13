@@ -2385,3 +2385,74 @@ function AKYRS.juice_until(card, eval_func, first, delay, juice_params)
         func = (function() if eval_func(card) then if not first or first then card:juice_up(unpack(juice_params or {0.1, 0.1})) end;AKYRS.juice_until(card, eval_func, nil, 0.8) end return true end)
     }))
 end
+
+
+function AKYRS.create_tabs(args)
+  args = args or {}
+  args.colour = args.colour or G.C.RED
+  args.tab_alignment = args.tab_alignment or 'cm'
+  args.opt_callback = args.opt_callback or nil
+  args.scale = args.scale or 1
+  args.tab_w = args.tab_w or 0
+  args.tab_h = args.tab_h or 0
+  args.text_scale = (args.text_scale or 0.5)
+  args.tabs = args.tabs or {
+    {
+      label = 'tab 1',
+      chosen = true,
+      func = nil,
+      tab_definition_function = function() return  {n=G.UIT.ROOT, config={align = "cm"}, nodes={
+        {n=G.UIT.T, config={text = 'A', scale = 1, colour = G.C.UI.TEXT_LIGHT}}
+      }} end
+    },
+    {
+      label = 'tab 2',
+      chosen = false,
+      tab_definition_function = function() return  {n=G.UIT.ROOT, config={align = "cm"}, nodes={
+        {n=G.UIT.T, config={text = 'B', scale = 1, colour = G.C.UI.TEXT_LIGHT}}
+      }} end
+    },
+  }
+
+  local tab_buttons = {}
+
+  for k, v in ipairs(args.tabs) do
+    if handy_chosen_override then v.chosen = k == handy_chosen_override end
+    if v.chosen then args.current = {k = k, v = v} end
+    tab_buttons[#tab_buttons+1] = UIBox_button({id = 'tab_but_'..(v.label or ''), ref_table = v, button = 'akyrs_change_tab', label = {v.label}, minh = 0.8*args.scale, minw = 2.5*args.scale, col = true, choice = true, scale = args.text_scale, chosen = v.chosen, func = v.func, colour = args.colour, focus_args = {type = 'none'}})
+  end
+
+  local t = 
+  {n=G.UIT.R, config={padding = 0.0, align = "cm", colour = G.C.CLEAR}, nodes={
+    {n=G.UIT.R, config={align = "cm", colour = G.C.CLEAR}, nodes = {
+      (#args.tabs > 1 and not args.no_shoulders) and {n=G.UIT.C, config={minw = 0.7,align = "cm", colour = G.C.CLEAR,func = 'set_button_pip', focus_args = {button = 'leftshoulder', type = 'none', orientation = 'cm', scale = 0.7, offset = {x = -0.1, y = 0}}}, nodes = {}} or nil,
+      {n=G.UIT.C, config={id = args.no_shoulders and 'no_shoulders' or 'tab_shoulders', ref_table = args, align = "cm", padding = 0.15, group = 1, collideable = true, focus_args = #args.tabs > 1 and {type = 'tab', nav = 'wide',snap_to = args.snap_to_nav, no_loop = args.no_loop} or nil}, nodes=tab_buttons},
+      (#args.tabs > 1 and not args.no_shoulders) and {n=G.UIT.C, config={minw = 0.7,align = "cm", colour = G.C.CLEAR,func = 'set_button_pip', focus_args = {button = 'rightshoulder', type = 'none', orientation = 'cm', scale = 0.7, offset = {x = 0.1, y = 0}}}, nodes = {}} or nil,
+    }},
+    {n=G.UIT.R, config={align = args.tab_alignment, padding = args.padding or 0.1, no_fill = true, minh = args.tab_h, minw = args.tab_w}, nodes={
+      {n=G.UIT.O, config={id = 'tab_contents', object = UIBox{definition = args.current.v.tab_definition_function(args.current.v.tab_definition_function_args), config = {offset = {x=0,y=0}}}}}
+    }},
+  }}
+
+  return t
+end
+
+
+G.FUNCS.akyrs_change_tab = function(e)
+  if not e then return end
+  if G.OVERLAY_MENU then
+    local _infotip_object = G.OVERLAY_MENU:get_UIE_by_ID('overlay_menu_infotip')
+    if _infotip_object and _infotip_object.config.object then 
+        _infotip_object.config.object:remove() 
+        _infotip_object.config.object = Moveable()
+    end
+  end
+
+  local tab_contents = e.UIBox:get_UIE_by_ID('tab_contents')
+  tab_contents.config.object:remove()
+  tab_contents.config.object = UIBox{
+      definition = e.config.ref_table.tab_definition_function(e.config.ref_table.tab_definition_function_args),
+      config = {offset = {x=0,y=0}, parent = tab_contents, type = 'cm'}
+    }
+  tab_contents.UIBox:recalculate()
+end

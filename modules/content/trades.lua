@@ -1,104 +1,199 @@
+---@type {[string]:AKYRS.TradeProfession}
 AKYRS.TradeProfessions = {}
-AKYRS.Trades = {}
-AKYRS.TradeProfessionTrades = {}
--- trade recipe definitons
-AKYRS.TRADE_INGREDIENTS = { -- stand for trade ingredients type ._.
-    EMERALD = 1, -- emerald
-    RARITY = 2, -- jokers of certain rarity
-    P_CARDS = 3, -- playing card
-    SET = 4, -- anything from specificed set (Jokers, Tarots, Spectrals, etc.)
-    KEY = 5, -- specific object
-    CUSTOM = 6, -- config can just be SMODS.create_card argument for anything else (this is for output only)
-    INPUT_FUNCTION = 7, -- config.drop_card(card) and config.tradable(area) should be specified, for input only, 
-                        -- also drop card is default always true and tradable is false
-    REWARD_FUNCTION = 8, -- config.reward(ar = {  }ea) area is the area of the input
-}
-AKYRS.TRADE_RESETS_CONDITION = {
-    HAND = 1,
-    DISCARD = 2,
-    ROUND = 3,
-    ANTE = 4, -- actually boss blind cash out
-    SKIP = 5,
-    SHOP_START = 6,
-    SHOP_END = 7,
-    NEVER = 8,
-    CUSTOM = 9
-}
---[[
-trade entry config
-limit - how many times this trade can be traded 
-]]
--- [[
--- Example of Trade definition (for myself to implement later)
-local trades = { -- this is just an array for each level
-    { -- novice villager, contains an array of trades
-        {
-            input = {
-                { ingredient = AKYRS.TRADE_INGREDIENTS.EMERALD, config = { count = 2 } },
-            },
-            output = {
-                { ingredient = AKYRS.TRADE_INGREDIENTS.RARITY, config = { rarity = 2 } },
-            },
-            config = { limit = 12, villager_exp = 6, refresh = { on = AKYRS.TRADE_RESETS_CONDITION.ANTE, every = 1 } }
-        },
-        {
-            input = {
-                { ingredient = AKYRS.TRADE_INGREDIENTS.EMERALD, config = { count = 3 } },
-                { ingredient = AKYRS.TRADE_INGREDIENTS.EMERALD, config = { count = 1, edition = "e_negative" } },
-            },
-            output = {
-                { ingredient = AKYRS.TRADE_INGREDIENTS.P_CARDS, config = { enhancement = G.P_CENTER_POOLS.Enhanced["m_glass"], count = 4 } },
-            },
-            config = { limit = 12, villager_exp = 6, refresh = { on = AKYRS.TRADE_RESETS_CONDITION.ANTE, } } -- same effect as 1
-        },
-    },
-    {
-        {
-            input = {
-                { ingredients = AKYRS.TRADE_INGREDIENTS.SET, config = { count = 4, set = "Spectral" }}
-            },
-            output = {
-                { ingredients = AKYRS.TRADE_INGREDIENTS.KEY, config = { count = 1, key = "c_soul" }}
-            },
-            config = { limit = 1, villager_exp = 150, refresh = { on = AKYRS.TRADE_RESETS_CONDITION.ANTE } }
-        }
-    },
-    {
-        {
-            input = {
-                { ingredients = AKYRS.TRADE_INGREDIENTS.INPUT_FUNCTION, 
-                    config = { 
-                        drop_card = function(c) return c and c.ability.eternal end,  
-                        tradable = function(a) return a and a.cards and #a.cards >= 2 end,
-                    }}
-            },
-            output = {
-                { ingredients = AKYRS.TRADE_INGREDIENTS.CUSTOM, config = { set = "Alphabet", edition = "e_akyrs_noire" }}
-            },
-            config = { limit = 1, villager_exp = 15, refresh = { on = AKYRS.TRADE_RESETS_CONDITION.HAND, every = 2 } }
-        }
-    },
-}
---[[]]
+---@type string[]
+AKYRS.TradeProfessions_Keys = {}
 
+
+---@class AKYRS.TradeProfession: SMODS.GameObject
+---@field trade_ui fun(self:AKYRS.TradeProfession):table[] ui for the trading part lol. this must return table of nodes
+---@field full_trade_ui fun(self:AKYRS.TradeProfession):table ui for trading part + villager sprite object. DO NOT OVERRIDE UNLESS YOU NEED TO. returns root object
+---@field is_enabled fun(self:AKYRS.TradeProfession):boolean is it enabled? used to constant check so don't print bruh 
+---@field enable fun(self:AKYRS.TradeProfession, enable:boolean) enable it brah
+---@overload fun(self:AKYRS.TradeProfession): AKYRS.TradeProfession
 AKYRS.TradeProfession = SMODS.GameObject:extend{
     set = 'TradeProfession',
     obj_table = AKYRS.TradeProfessions,
-    obj_buffer = {},
-    atlas = "villager",
-    pos = { x = 0, y = 0},
+    obj_buffer = AKYRS.TradeProfessions_Keys,
+    atlas = "akyrs_villager",
+    pos = { x = 0, y = 0 },
     required_params = {
         'key',
     },
     class_prefix = 'profession',
-
-    register = function(self)
-        if self.registered then
-            sendWarnMessage(('Detected duplicate register call on object %s'):format(self.key), self.set)
-            return
-        end
-        self.name = self.key
-        AKYRS.TradeProfessionTrades[self.trade_profession] = {}
-        AKYRS.TradeProfession.super.register(self)
+    trade_ui = function ()
+        return {
+            AKYRS.text_prefab({
+                text = "lush cave here " .. self.key
+            })
+        }
     end,
+    full_trade_ui = function (self)
+        if AKYRS.VILLAGER_SHOP_PANEL and AKYRS.VILLAGER_SHOP_PANEL.remove then
+            AKYRS.VILLAGER_SHOP_PANEL:remove()
+            AKYRS.VILLAGER_SHOP_PANEL = nil
+        end
+        AKYRS.VILLAGER_SHOP_PANEL = SMODS.UIScrollBox({
+            content = {
+                definition = {
+                    n = G.UIT.ROOT,
+                    config = {
+                        colour = G.C.CLEAR,
+                        padding = 0.05,
+                    },
+                    nodes = self:trade_ui()
+                },
+                config = { align = "cm"}
+            },
+            overflow = {
+                node_config = {
+                    minh = 6,
+                    maxh = 6,
+                    minw = 8,
+                    maxw = 8,
+                    padding = 0.01,
+                    r = 0.1,
+                },
+            }
+
+        })
+        return {
+            n = G.UIT.ROOT,
+            config = {
+                emboss = 0.05,
+                minh = 6,
+                maxh = 6,
+                r = 0.1,
+                minw = 8,
+                align = "cm",
+                padding = 0.2,
+                colour = G.C.BLACK,
+            },
+            nodes = {
+                -- trading content
+                {
+                    n = G.UIT.C,
+                    nodes = {
+                        {
+                            n = G.UIT.O,
+                            config = {
+                                object = AKYRS.VILLAGER_SHOP_PANEL
+                            }
+                        }
+                    }
+                },
+                -- scrollbar
+                {
+                    n = G.UIT.C,
+                    nodes = {
+                        SMODS.GUI.scrollbar({
+                        h = 6,
+                        w = 0.2,
+                        min = 0,
+                        max = 1,
+                        bg_colour = { 0, 0, 0, 0.15 },
+                        scroll_collision_obj = AKYRS.VILLAGER_SHOP_PANEL,
+                        knob_h = 0.6,
+                        scroll_mult = 1
+                        })
+                    }
+                },
+                -- the villager sprite :sob:
+                {
+                    n = G.UIT.C,
+                    config = {
+                        maxw = 3,
+                    },
+                    nodes = {
+                        {
+                            n = G.UIT.O,
+                            config = {
+                                object = SMODS.create_sprite(G.HUD.T.x, G.HUD.T.y, 95 / G.TILESIZE * 0.6, 205 / G.TILESIZE * 0.6, self.atlas, self.pos)
+                            }
+                        }
+                    }
+                },
+            }
+        }
+    end,
+    inject = function(self)
+        
+    end,
+}
+
+AKYRS.TradeProfession {
+    key = 'pawnbroker',
+    pos = { x = 1, y = 0 },
+    trade_ui = function (self)
+        return {
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "lush cave here 12", uit = G.UIT.R}),
+        }
+    end
+}
+
+AKYRS.TradeProfession {
+    key = 'merchant',
+    pos = { x = 2, y = 0 },
+    trade_ui = function (self)
+        return {
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+        }
+    end
 }

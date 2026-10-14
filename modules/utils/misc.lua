@@ -2417,7 +2417,6 @@ function AKYRS.create_tabs(args)
   local tab_buttons = {}
 
   for k, v in ipairs(args.tabs) do
-    if handy_chosen_override then v.chosen = k == handy_chosen_override end
     if v.chosen then args.current = {k = k, v = v} end
     tab_buttons[#tab_buttons+1] = UIBox_button({id = 'tab_but_'..(v.label or ''), ref_table = v, button = 'akyrs_change_tab', label = {v.label}, minh = 0.8*args.scale, minw = 2.5*args.scale, col = true, choice = true, scale = args.text_scale, chosen = v.chosen, func = v.func, colour = args.colour, focus_args = {type = 'none'}})
   end
@@ -2455,4 +2454,26 @@ G.FUNCS.akyrs_change_tab = function(e)
       config = {offset = {x=0,y=0}, parent = tab_contents, type = 'cm'}
     }
   tab_contents.UIBox:recalculate()
+end
+
+
+function AKYRS.singly_padded_shop_box(childrens, uit)
+  return 
+    {n=uit or G.UIT.C, config={align = "cm", padding = 0.15, r=0.2, colour = G.C.L_BLACK, emboss = 0.05}, nodes=childrens}
+end
+
+function AKYRS.doubly_padded_shop_box(childrens, uit)
+  return AKYRS.singly_padded_shop_box({
+      {n=uit or G.UIT.C, config={align = "cm", padding = 0.2, r=0.2, colour = G.C.BLACK, maxh = G.shop_vouchers.T.h+0.4}, nodes=childrens}
+    })
+end
+
+function AKYRS.dyn_container_maker(childrens)
+    local t = {n=G.UIT.ROOT, config = {align = 'cl', colour = G.C.CLEAR}, nodes={
+            UIBox_dyn_container({
+                {n=G.UIT.C, config={align = "cm", padding = 0.1, emboss = 0.05, r = 0.1, colour = G.C.DYN_UI.BOSS_MAIN}, nodes=childrens
+              },
+              }, false)
+        }}
+    return t
 end

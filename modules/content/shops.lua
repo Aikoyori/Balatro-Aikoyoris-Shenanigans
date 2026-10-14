@@ -1,4 +1,6 @@
 -- this function is for when i wanna test ui
+
+-- #region SHOP BASE
 function AKYRS.debug_ui(ui) 
   G.FUNCS.overlay_menu({
     definition = create_UIBox_generic_options({
@@ -280,6 +282,8 @@ function AKYRS.toggle_shop_availability(shop, is_available, strings_only)
     AKYRS.ShopPages[shop]:enable(is_available)
     AKYRS.ShopPages[shop]:_INTERNAL_setup_shop_strings_and_ui(strings_only)
 end
+
+--#endregion
 
 AKYRS.ShopPage{
     key = "jimbos_chicanery",
@@ -622,61 +626,25 @@ AKYRS.ShopPage {
 AKYRS.ShopPage {
     key = "villager_trading",
     create_ui = function (self)
+
+      local tabulars = {}
+
+      for i, key in ipairs(AKYRS.TradeProfessions_Keys) do
+        tabulars[#tabulars+1] = {
+          label = localize({ set = "TradeProfession", key = key, type = 'name_text'}),
+          chosen = i == 1,
+          tab_definition_function = function (args)
+            return AKYRS.TradeProfessions[key]:full_trade_ui()
+          end,
+        }
+      end
       return {
         n = G.UIT.R,
         nodes = {
           AKYRS.create_tabs({
               snap_to_nav = true,
               colour = G.C.BOOSTER,
-              tabs = {
-                  {
-                      label = localize('b_akyrs_village_pawnbroker'),
-                      chosen = true,
-                      tab_definition_function = function()
-                          return {
-                              n = G.UIT.ROOT,
-                              config = {
-                                  emboss = 0.05,
-                                  minh = 6,
-                                  r = 0.1,
-                                  minw = 12,
-                                  align = "cm",
-                                  padding = 0.2,
-                                  colour = G.C.BLACK,
-                              },
-                              nodes = {
-                                AKYRS.text_prefab({
-                                  colour = G.C.WHITE,
-                                  text = "lush cave here"
-                                })
-                              }
-                            }
-                      end
-                  },
-                  {
-                      label = localize('b_akyrs_village_merchant'),
-                      tab_definition_function = function()
-                          return {
-                              n = G.UIT.ROOT,
-                              config = {
-                                  emboss = 0.05,
-                                  minh = 6,
-                                  r = 0.1,
-                                  minw = 12,
-                                  align = "cm",
-                                  padding = 0.2,
-                                  colour = G.C.BLACK,
-                              },
-                              nodes = {
-                                AKYRS.text_prefab({
-                                  colour = G.C.WHITE,
-                                  text = "sulfur cave here"
-                                })
-                              }
-                            }
-                      end
-                  },
-              }
+              tabs = tabulars
           })
         }
       }
@@ -699,6 +667,8 @@ AKYRS.ShopPage {
     end,
     button_colour = G.C.BLUE,
 }
+
+-- #region CHICANERY SHOP BUTTONS
 
 function AKYRS.chicanery_reroll_btns(level) 
   local per = "round"
@@ -741,27 +711,6 @@ function AKYRS.chicanery_purchase_button()
       }
 end
 
-
-function AKYRS.singly_padded_shop_box(childrens, uit)
-  return 
-    {n=uit or G.UIT.C, config={align = "cm", padding = 0.15, r=0.2, colour = G.C.L_BLACK, emboss = 0.05}, nodes=childrens}
-end
-
-function AKYRS.doubly_padded_shop_box(childrens, uit)
-  return AKYRS.singly_padded_shop_box({
-      {n=uit or G.UIT.C, config={align = "cm", padding = 0.2, r=0.2, colour = G.C.BLACK, maxh = G.shop_vouchers.T.h+0.4}, nodes=childrens}
-    })
-end
-
-function AKYRS.dyn_container_maker(childrens)
-    local t = {n=G.UIT.ROOT, config = {align = 'cl', colour = G.C.CLEAR}, nodes={
-            UIBox_dyn_container({
-                {n=G.UIT.C, config={align = "cm", padding = 0.1, emboss = 0.05, r = 0.1, colour = G.C.DYN_UI.BOSS_MAIN}, nodes=childrens
-              },
-              }, false)
-        }}
-    return t
-end
 
 
 function G.FUNCS.akyrs_reroll_jimbo(e)
@@ -844,6 +793,10 @@ function G.FUNCS.akyrs_can_buy_jimbo(e)
     e.config.colour = G.C.UI.BACKGROUND_INACTIVE
   end
 end
+
+-- #endregion
+
+-- #region LIFE SHOP CODE
 
 function AKYRS.fill_life_reroll()
   if G.akyrs_life_shop then
@@ -1056,3 +1009,11 @@ function G.FUNCS.akyrs_life_draw_one(e)
     G.GAME.akyrs_life_draw_one_cost = G.GAME.akyrs_life_draw_one_cost + 1
     SMODS.draw_cards(1)
 end
+
+-- #endregion
+
+-- #region VILLAGER SHOP CODE 
+
+
+
+-- #endregion

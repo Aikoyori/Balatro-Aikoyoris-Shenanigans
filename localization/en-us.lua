@@ -5386,7 +5386,21 @@ return {
                     }
                     },
             },
-        }
+        },
+        TradeProfession = {
+            profession_akyrs_pawnbroker = {
+                name = 'Pawnbroker',
+                text = {
+
+                }
+            },
+            profession_akyrs_merchant = {
+                name = 'Merchant',
+                text = {
+
+                }
+            },
+        },
     },
     misc = {
         achievement_names={

@@ -2060,6 +2060,9 @@ function AKYRS.nopeinator(card, config)
     end)
 end
 
+---this is for ease of making button do the thing
+---@param e UINode the ui node
+---@param config? { func?: (fun(e:UINode): boolean), button?: string, colour?: number[] } config for the thing
 function AKYRS.button_enable_func( e , config )
     config = config or {}
     local enabled = true

@@ -71,6 +71,25 @@ AKYRS.Currency{
     end,
 }
 
+AKYRS.Currency{
+    key = "emerald",
+    shop_colour = function (self)
+        return {G.C.GREEN}
+    end,
+    has_not_enough_money_check = function (self, cost)
+        return cost >= G.GAME.akyrs_emerald
+    end,
+    get_value = function (self)
+        return G.GAME.akyrs_emerald
+    end,
+    change_value = function (self, value)
+        G.GAME.akyrs_emerald = G.GAME.akyrs_emerald + value
+    end,
+    transactional_sound = function (self, mod)
+        play_sound(mod > 0 and "akyrs_emerald_collect" or "akyrs_emerald_drop", 1, 0.3)
+    end,
+}
+
 --Checks if the cost of a non voucher card is greater than what the player can afford and changes the 
 --buy button visuals accordingly
 --

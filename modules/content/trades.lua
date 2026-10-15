@@ -125,6 +125,45 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
     end,
 }
 
+AKYRS.determine_emerald_sell_value = function (card)
+    if card.config.center.key == "j_akyrs_emerald" then
+        return 5
+    end
+    if card.ability.set == "Joker" then
+        if card.config.center.rarity == 2 then return 2 end
+        if card.config.center.rarity == 3 then return 3 end
+        if card.config.center.rarity == 4 then return 6 end
+    end
+    return 1 
+end
+
+G.FUNCS.akyrs_emerald_can_sell_selected_cards = function (e)
+    local filtered_result = AKYRS.filter_table(SMODS.merge_lists{ G.jokers.highlighted, G.consumeables.highlighted }, function (item, index)
+        return item and not SMODS.is_eternal(item)
+    end, true, true)
+    AKYRS.button_enable_func(e, {
+        func = function (e)
+            return #filtered_result > 0
+        end,
+        button = 'akyrs_emerald_sell_selected_cards'
+    })
+end
+
+G.FUNCS.akyrs_emerald_sell_selected_cards = function (e)
+    local filtered_result = AKYRS.filter_table(SMODS.merge_lists{ G.jokers.highlighted, G.consumeables.highlighted }, function (item, index)
+        return item and not SMODS.is_eternal(item)
+    end, true, true)
+    play_sound('akyrs_villager_yes', nil, 2.2)
+    SMODS.destroy_cards(filtered_result)
+    if #filtered_result > 0 then 
+        for i, c in ipairs(filtered_result) do
+            local x = AKYRS.determine_emerald_sell_value(c)
+            AKYRS.Currencies['curr_akyrs_emerald']:change_value(x)
+            AKYRS.Currencies['curr_akyrs_emerald']:transactional_sound(x)
+        end
+    end
+end
+
 AKYRS.TradeProfession {
     key = 'pawnbroker',
     no_scroll = true,
@@ -141,7 +180,8 @@ AKYRS.TradeProfession {
                         nodes = {
                             AKYRS.button_prefab({ 
                                 padding = 0.1,
-                                -- button = 'akyrs_sell_selected_cards'
+                                func = 'akyrs_emerald_can_sell_selected_cards',
+                                button = 'akyrs_emerald_sell_selected_cards',
                                 children = {
                                     AKYRS.text_prefab({localize = {'b_akyrs_sell_selected'}})
                                 }

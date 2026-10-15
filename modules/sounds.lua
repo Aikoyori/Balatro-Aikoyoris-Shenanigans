@@ -156,15 +156,6 @@ SMODS.Sound({
     path = "maimai/damage.ogg",
 })
 
--- hook to play randomized sounds 
-local plsnd = play_sound
-function play_sound(snd, per, vol)
-    if snd == "akyrs_enchanted" then
-        snd = pseudorandom_element({"akyrs_enchant1","akyrs_enchant2","akyrs_enchant3",},pseudoseed("akyrs_enchanted_sound"))
-    end
-    return plsnd(snd, per, vol)
-end
-
 SMODS.Sound({
     key = "bluetooth_ready_to_pair",
     path = "speaker/ready_to_pair.ogg",
@@ -219,3 +210,64 @@ SMODS.Sound({
     pitch = 1,
 })
 
+SMODS.Sound({
+    key = "emerald_collect1",
+    path = "emerald/emerald_collect1.ogg",
+})
+
+SMODS.Sound({
+    key = "emerald_collect2",
+    path = "emerald/emerald_collect2.ogg",
+})
+
+SMODS.Sound({
+    key = "emerald_drop1",
+    path = "emerald/emerald_drop1.ogg",
+})
+
+SMODS.Sound({
+    key = "emerald_drop2",
+    path = "emerald/emerald_drop2.ogg",
+})
+
+SMODS.Sound({
+    key = "emerald_drop3",
+    path = "emerald/emerald_drop3.ogg",
+})
+
+SMODS.Sound({
+    key = "emerald_drop4",
+    path = "emerald/emerald_drop4.ogg",
+})
+
+SMODS.Sound({
+    key = "villager_yes1",
+    path = "villager/yes1.ogg",
+})
+
+SMODS.Sound({
+    key = "villager_yes2",
+    path = "villager/yes2.ogg",
+})
+
+SMODS.Sound({
+    key = "villager_yes3",
+    path = "villager/yes3.ogg",
+})
+
+
+AKYRS.sound_randomize = {
+    ['akyrs_enchanted'] = {"akyrs_enchant1","akyrs_enchant2","akyrs_enchant3",},
+    ['akyrs_emerald_collect'] = {"akyrs_emerald_collect1","akyrs_emerald_collect2"},
+    ['akyrs_emerald_drop'] = {"akyrs_emerald_drop1","akyrs_emerald_drop2","akyrs_emerald_drop3","akyrs_emerald_drop4"},
+    ['akyrs_villager_yes'] = {"akyrs_villager_yes1","akyrs_villager_yes2","akyrs_villager_yes3"},
+}
+
+-- hook to play randomized sounds 
+local plsnd = play_sound
+function play_sound(snd, per, vol)
+    if AKYRS.sound_randomize[snd] then
+        snd = pseudorandom_element(AKYRS.sound_randomize[snd],"akyrs_sound_random_"..snd)
+    end
+    return plsnd(snd, per, vol)
+end

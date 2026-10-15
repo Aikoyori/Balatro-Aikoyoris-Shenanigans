@@ -206,7 +206,7 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
-    key = "special_suit_icon",
+    key = "special_icons",
     path = "specialsuiticons.png",
     px = 18,
     py = 18

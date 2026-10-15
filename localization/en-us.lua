@@ -2201,16 +2201,18 @@ return {
                 }
             },
             j_akyrs_emerald = {
-                name = "Emerald",
+                name = "Giant Emerald",
                 text = { 
                     {
                         "This joker sells for {X:money,C:black}X#1#{}",
                         "its buy cost plus how many of Emerald you have ({C:money}$#2#{} + {C:money}$#3#{})",
-                        "{C:inactive}(Will do more things in future updates trust)",
                     },
                     {
                         "{C:inactive}Holding this Joker makes it more likely to find",
                         "{C:inactive}another one of the same."
+                    },
+                    {
+                        "This Joker is worth {C:green}5 Emeralds"
                     }
 
                 }
@@ -5717,6 +5719,8 @@ return {
             b_judgement = "Judgements",
             b_enchantment = "Enchantments",
             b_scenario = "Scenarios",
+
+            b_akyrs_sell_selected = "Sell Selected Cards",
 
 
 

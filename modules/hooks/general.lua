@@ -108,22 +108,9 @@ function Game:init_game_object()
         buy_cost = 2,
     }
 
-    -- this one will get set to true once player has bought an Emerald OR used one of the Workstation Card
-    ret.akyrs_has_capability_to_trade = false
-    -- 
-    -- note to self (this is the first time i am going to bother document this so i don't hallucinate shit up)
-    -- this is an indexed table (array as we call it in literally other languages) each one representing villager workstation you redeem in the shop
-    -- each entry should contain information about each villager's trades
-    --  key : should contain data about the villager's profession ID (so to reference back). it should contain class prefix (profession) and also mod ID
-    --  level : villager's current level (as in ranks)
-    --  total_xp : total experience that a villager had gained
-    --  trades : another "array" containing trade entry which in itself contains
-    --    key : trade's registry key, for reference, again
-    --    stock_left : in Minecraft, there's a limit to how much
-    --    
-    --    
-    ret.akyrs_curent_trades = {}
-    ret.akyrs_trade_unlocked = {}
+    ret.akyrs_is_villager_trading_enabled = false
+    ret.akyrs_emerald = 0
+    ret.akyrs_emerald_text = "0"
 
     ret.akyrs_scenario = {}
 
@@ -218,7 +205,13 @@ function Game:update(dt)
         if AKYRS.get_life() <= 0 and not G.GAME.AKYRS_DEAD then
             AKYRS.force_lose()
         end
-
+        if not G.GAME.akyrs_emerald then
+            G.GAME.akyrs_emerald = 0
+        end
+        if G.GAME.akyrs_emerald then
+            G.GAME.akyrs_emerald_text = number_format(G.GAME.akyrs_emerald)
+        end
+        
         G.GAME.alphabet_rate = G.GAME.alphabet_rate or 0
         if (G.GAME.akyrs_character_stickers_enabled and G.GAME.akyrs_wording_enabled) and G.GAME.alphabet_rate == 0 then
             G.GAME.alphabet_rate = 1

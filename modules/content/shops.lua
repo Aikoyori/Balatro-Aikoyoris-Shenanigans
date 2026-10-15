@@ -641,11 +641,18 @@ AKYRS.ShopPage {
       return {
         n = G.UIT.R,
         nodes = {
-          AKYRS.create_tabs({
-              snap_to_nav = true,
-              colour = G.C.BOOSTER,
-              tabs = tabulars
-          })
+          AKYRS.emerald_indicator(),
+          {
+            n = G.UIT.R,
+            nodes = {
+              AKYRS.create_tabs({
+                  snap_to_nav = true,
+                  no_shoulders = true,
+                  colour = G.C.BOOSTER,
+                  tabs = tabulars,
+              })
+            }
+          },
         }
       }
     end,

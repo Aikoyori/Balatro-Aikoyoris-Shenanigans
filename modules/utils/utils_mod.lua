@@ -1473,3 +1473,30 @@ AKYRS.sort_card_priority = function(area, reversed)
     end
     return false, nil
 end
+function AKYRS.emerald_indicator(args)
+    args = args or {}
+    return {
+        n = G.UIT.R,
+        config = {
+        align = 'rc'
+        },
+        nodes = {
+        {
+            n = G.UIT.C,
+            nodes = {
+            {
+                n = G.UIT.O,
+                config = {
+                object = SMODS.create_sprite(0, 0, 0.5 ,0.5, 'akyrs_special_icons', { x = 0, y = 1})
+                }
+            }
+            }
+        },
+        AKYRS.text_prefab{
+            ref_table = args.ref_table or G.GAME,
+            ref_value = args.ref_value or 'akyrs_emerald_text',
+            colour = args.colour or G.C.WHITE
+        }
+        }
+    }
+end

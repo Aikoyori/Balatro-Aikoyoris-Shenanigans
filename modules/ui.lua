@@ -1134,7 +1134,7 @@ end
 
 function AKYRS.row_prefab(config) 
   args = args or {}
-  return { n = G.UIT.R, config = { align = args.align or "cm", padding = args.padding }, nodes = config.nodes or {} } 
+  return { n = G.UIT.R, config = { align = args.align or "cm", padding = args.padding, minw = args.minw, maxw = args.maxw, minh = args.minh, maxh = args.maxh, h = args.h, w = args.w, }, nodes = config.nodes or {} } 
 end
 
 function AKYRS.dynatext_prefab(args)

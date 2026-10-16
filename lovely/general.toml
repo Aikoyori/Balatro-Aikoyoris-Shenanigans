@@ -104,6 +104,7 @@ akyrs_desc = {},
 akyrs_life = {},
 akyrs_misc = {},
 akyrs_ui = {},
+akyrs_sfx = {},
 akyrs_bg = {}
 '''
 match_indent = true

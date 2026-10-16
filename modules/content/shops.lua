@@ -281,6 +281,7 @@ function AKYRS.toggle_shop_availability(shop, is_available, strings_only)
     if not AKYRS.ShopPages[shop] then error(AKYRS.ShopPages[shop].. " is not a valid shop lol") end
     AKYRS.ShopPages[shop]:enable(is_available)
     AKYRS.ShopPages[shop]:_INTERNAL_setup_shop_strings_and_ui(strings_only)
+    if G.SHOP_SIGN then AKYRS.refresh_shop_sign() end
 end
 
 --#endregion

@@ -149,17 +149,43 @@ G.FUNCS.akyrs_emerald_can_sell_selected_cards = function (e)
     })
 end
 
+G.FUNCS.akyrs_emerald_pawnbroker_update_value = function (e)
+    local filtered_result = AKYRS.filter_table(SMODS.merge_lists{ G.jokers.highlighted, G.consumeables.highlighted }, function (item, index)
+        return item and not SMODS.is_eternal(item)
+    end, true, true)
+    local value = 0
+    
+    if #filtered_result > 0 then 
+        for i, c in ipairs(filtered_result) do
+            value = value + AKYRS.determine_emerald_sell_value(c)
+        end
+    end
+    AKYRS.pawnbroker_value_text = number_format(value)
+end
+
 G.FUNCS.akyrs_emerald_sell_selected_cards = function (e)
     local filtered_result = AKYRS.filter_table(SMODS.merge_lists{ G.jokers.highlighted, G.consumeables.highlighted }, function (item, index)
         return item and not SMODS.is_eternal(item)
     end, true, true)
     play_sound('akyrs_villager_yes', nil, 2.2)
-    SMODS.destroy_cards(filtered_result)
+    stop_use()
     if #filtered_result > 0 then 
         for i, c in ipairs(filtered_result) do
             local x = AKYRS.determine_emerald_sell_value(c)
-            AKYRS.Currencies['curr_akyrs_emerald']:change_value(x)
-            AKYRS.Currencies['curr_akyrs_emerald']:transactional_sound(x)
+            AKYRS.simple_event_add(function ()
+                SMODS.destroy_cards({c}, {
+                    silent = true,
+                    immediate = true,
+                })
+                for i = 1, x do
+                    AKYRS.simple_event_add(function ()
+                        AKYRS.Currencies['curr_akyrs_emerald']:change_value(1)
+                        AKYRS.Currencies['curr_akyrs_emerald']:transactional_sound(x)
+                        return true
+                    end, 0.4 * math.max(0.05, 1 / x), 'akyrs_sfx')
+                end
+                return true
+            end, 0.4 * math.max(0.001, 1 / x))
         end
     end
 end
@@ -178,6 +204,14 @@ AKYRS.TradeProfession {
                         minw = 8,
                         minh = 5.5,
                         nodes = {
+                            AKYRS.emerald_indicator({
+                                ref_table = AKYRS,
+                                ref_value = 'pawnbroker_value_text',
+                                scale = 2,
+                                align = 'cm',
+                                padding = 0.1,
+                                text_func = 'akyrs_emerald_pawnbroker_update_value',
+                            }),
                             AKYRS.button_prefab({ 
                                 padding = 0.1,
                                 func = 'akyrs_emerald_can_sell_selected_cards',

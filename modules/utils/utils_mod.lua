@@ -1475,10 +1475,14 @@ AKYRS.sort_card_priority = function(area, reversed)
 end
 function AKYRS.emerald_indicator(args)
     args = args or {}
+    if args.ref_table and args.ref_value then
+        args.ref_table[args.ref_value] = args.ref_table[args.ref_value] or "0"
+    end
     return {
         n = G.UIT.R,
         config = {
-        align = 'rc'
+            align = args.align or 'rc',
+            padding = args.padding
         },
         nodes = {
         {
@@ -1487,7 +1491,7 @@ function AKYRS.emerald_indicator(args)
             {
                 n = G.UIT.O,
                 config = {
-                object = SMODS.create_sprite(0, 0, 0.5 ,0.5, 'akyrs_special_icons', { x = 0, y = 1})
+                object = SMODS.create_sprite(0, 0, 0.5 * (args.scale or 1) ,0.5 * (args.scale or 1), 'akyrs_special_icons', { x = 0, y = 1})
                 }
             }
             }
@@ -1495,7 +1499,9 @@ function AKYRS.emerald_indicator(args)
         AKYRS.text_prefab{
             ref_table = args.ref_table or G.GAME,
             ref_value = args.ref_value or 'akyrs_emerald_text',
-            colour = args.colour or G.C.WHITE
+            colour = args.colour or G.C.WHITE,
+            scale = 0.4 * (args.scale or 1),
+            text_func = args.text_func,
         }
         }
     }

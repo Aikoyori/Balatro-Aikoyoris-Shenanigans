@@ -2205,7 +2205,8 @@ return {
                 text = { 
                     {
                         "This joker sells for {X:money,C:black}X#1#{}",
-                        "its buy cost plus how many of Emerald you have ({C:money}$#2#{} + {C:money}$#3#{})",
+                        "its buy cost plus how many",
+                        "Emerald you have ({C:money}$#2#{} + {C:money}$#3#{})",
                     },
                     {
                         "{C:inactive}Holding this Joker makes it more likely to find",

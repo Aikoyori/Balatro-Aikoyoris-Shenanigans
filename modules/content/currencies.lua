@@ -6,8 +6,9 @@ AKYRS.Currencies_Buffer = {}
 ---@class AKYRS.Currency : SMODS.GameObject
 ---@field shop_colour fun(self:AKYRS.Currency, amount:number):table? return table of table of colours for shop dynatext
 ---@field has_not_enough_money_check fun(self:AKYRS.Currency, cost: number):bool? used for shop checks, value should be positive
----@field change_value fun(self:AKYRS.Currency):bool? use for transactions, not negated so if used for cost you muse pass in negative value
----@field get_value fun(self:AKYRS.Currency): number? get the currency value
+---@field change_value? fun(self:AKYRS.Currency, amount) use for transactions, not negated so if used for cost you muse pass in negative value
+---@field set_value? fun(self:AKYRS.Currency, amount) use for transactions, set directly
+---@field get_value? fun(self:AKYRS.Currency): number get the currency value
 ---@field transactional_sound fun(self:AKYRS.Currency, mod: number)? play sound when it is bought
 ---@overload fun(self: AKYRS.Currency): AKYRS.Currency
 AKYRS.Currency = SMODS.GameObject:extend {
@@ -49,7 +50,10 @@ AKYRS.Currency{
         return G.GAME.dollars
     end,
     change_value = function (self, value)
-        ease_dollars(value)
+        ease_dollars(value, true)
+    end,
+    set_value = function (self, amount)
+        G.GAME.dollars = amount
     end
 }
 AKYRS.Currency{
@@ -65,6 +69,9 @@ AKYRS.Currency{
     end,
     change_value = function (self, value)
         AKYRS.mod_life(value)
+    end,
+    set_value = function (self, amount)
+        G.GAME.akyrs_life = amount
     end,
     transactional_sound = function (self, mod)
         play_sound("akyrs_maimai_dmg", 1, 0.3)
@@ -84,6 +91,9 @@ AKYRS.Currency{
     end,
     change_value = function (self, value)
         G.GAME.akyrs_emerald = G.GAME.akyrs_emerald + value
+    end,
+    set_value = function (self, amount)
+        G.GAME.akyrs_emerald = amount
     end,
     transactional_sound = function (self, mod)
         play_sound(mod > 0 and "akyrs_emerald_collect" or "akyrs_emerald_drop", 1, 0.3)

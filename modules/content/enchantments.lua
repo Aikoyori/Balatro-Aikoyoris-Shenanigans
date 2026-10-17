@@ -107,7 +107,6 @@ function AKYRS.clear_enchantments(card, forced)
     end, true, true)
     card.akyrs_enchantments = x
     SMODS.calculate_context({ akyrs_enchantment_removed = true, removed_enchantments = removed_ench })
-
 end
 
 function AKYRS.has_enchantment(card, enchantment_key)

@@ -97,6 +97,7 @@ assert(SMODS.load_file("./modules/compat/multiplayer.lua"))()
 assert(SMODS.load_file("./modules/compat/multiplayerspeedrun.lua"))()
 assert(SMODS.load_file("./modules/compat/blindside.lua"))()
 assert(SMODS.load_file("./modules/compat/tmj.lua"))()
+assert(SMODS.load_file("./modules/compat/debugplus.lua"))()
 
 assert(SMODS.load_file("./func/words/lib.lua"))()
 assert(SMODS.load_file("./func/bomb_prompts/lib.lua"))()

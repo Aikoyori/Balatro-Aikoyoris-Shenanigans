@@ -124,6 +124,7 @@ if not MP and not BalatroMultiplayer and not AKYRS.is_mod_loaded("Multiplayer") 
             }
         end,
         apply = function(self)
+            G.GAME.akyrs_do_not_give_win_stickers = true
             G.GAME.modifiers.akyrs_misprint = true
         end,
     }

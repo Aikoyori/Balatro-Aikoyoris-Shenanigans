@@ -181,6 +181,7 @@ if AKYRS.is_mod_loaded("Cryptid") then
                 }
             end,
             apply = function(self)
+                G.GAME.akyrs_do_not_give_win_stickers = true
                 G.GAME.modifiers.cry_misprint_min = (G.GAME.modifiers.cry_misprint_min or to_big(1)) * self.config.cry_misprint_min
                 G.GAME.modifiers.cry_misprint_max = (G.GAME.modifiers.cry_misprint_max or to_big(1)) * self.config.cry_misprint_max
             end

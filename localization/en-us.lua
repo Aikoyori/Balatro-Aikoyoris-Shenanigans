@@ -124,7 +124,8 @@ return {
 					"Values of most cards",
 					"are {C:attention}randomized{}",
                     "{C:inactive}(From X#1# to X#2#)",
-                    "me vs the guy she tells you not to worry about"
+                    "me vs the guy she tells you not to worry about",
+					"{C:red}This deck will not grant Stake Stickers",
 				},
             },
             b_akyrs_freedom={
@@ -4916,7 +4917,7 @@ return {
 				text = {
 					"You can {C:attention}drag{} cards",
 					"to place them anywhere.",
-					"{C:red}This deck will not grant Stake Stickers",
+					"{C:red}This sleeve will not grant Stake Stickers",
 				},
             },
             sleeve_akyrs_freedom_alt={
@@ -4924,7 +4925,7 @@ return {
 				text = {
 					"You can drag {C:attention}any{} cards",
 					"to place them anywhere.",
-					"{C:red}This deck will not grant Stake Stickers",
+					"{C:red}This sleeve will not grant Stake Stickers",
 				},
             },
             sleeve_akyrs_cry_misprint_ultima={
@@ -4934,7 +4935,8 @@ return {
 					"and poker hands",
 					"are {C:attention}randomized{}",
                     "{C:inactive}(From X#1# to X#2#)",
-                    "The challenge is to not crash the game."
+                    "The challenge is to not crash the game.",
+					"{C:red}This sleeve will not grant Stake Stickers",
 				},
             },
             sleeve_akyrs_cry_misprint_ultima_alt={
@@ -4945,6 +4947,7 @@ return {
 					"are {C:attention}super randomized{}",
                     "{C:inactive}(With extra X#1# to X#2#)",
                     "The challenge is to not crash the game."
+					"{C:red}This sleeve will not grant Stake Stickers",
 				},
             },
             sleeve_akyrs_inversion={

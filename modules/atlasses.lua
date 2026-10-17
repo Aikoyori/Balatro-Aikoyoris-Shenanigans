@@ -461,6 +461,10 @@ SMODS.Shader{
 }
 SMODS.Shader{
     key = "enchanted",
+    path = "enchanted_edition.fs",
+}
+SMODS.Shader{
+    key = "enchanted_step",
     path = "enchanted.fs",
 }
 SMODS.Shader{

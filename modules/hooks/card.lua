@@ -593,15 +593,6 @@ function add_tag(tagg)
     return unpack(adtgrt)
 end
 
-local evalCardHook = eval_card
-function eval_card(card, context)
-    local echrtt = {evalCardHook(card, context)}
-    if ((echrtt[1] or {}).repetitions or 0) <= 0 and context.akyrs_calculating_debuffed and context.repetition then
-        return {}
-    end
-    return unpack(echrtt)
-end
-
 local ccrrc = calculate_reroll_cost
 function calculate_reroll_cost(skip_increment)
     if AKYRS.is_scenario_tag_active("sc_akyrs_buffet") then

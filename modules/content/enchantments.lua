@@ -16,62 +16,6 @@ local function ench_row(text, enchantment)
         }
     }
 end
-SMODS.Edition{
-    key = "enchanted",
-    shader = "akyrs_enchanted",
-    config = {
-        name = "akyrs_enchanted"
-    },
-    sound = { sound = "akyrs_enchanted", per = 1, vol = 0.7 },
-    in_shop = false,
-    loc_vars = function (self, info_queue, card)
-        return {
-            
-        }
-    end,
-    generate_ui = function (self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-        SMODS.Joker.super.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-        local cx = {}
-        if (card and card.akyrs_enchantments and #card.akyrs_enchantments > 0) then
-            for _,en in ipairs(card.akyrs_enchantments) do
-                --print(en[1],en[2])
-                local o = AKYRS.Enchantments[en[1]]
-                cx[#cx+1] = ench_row(localize{ type = "name_text", key = en[1], set = "Enchantment", vars = {localize("f_akyrs_localize_enchantment_level")(en[2])}}, en)
-            end
-        else
-            cx[#cx+1] = ench_row(localize("k_akyrs_enchantment_none_blank"))
-        end
-        desc_nodes[#desc_nodes+1] = {
-                { n = G.UIT.R, config = { padding = 0.1, colour = G.C.CLEAR, r = 0.1}, nodes = cx }
-            }
-
-    end,
-    -- localize("k_akyrs_enchantment_none")
-    calculate = function (self, card, context)
-        local fx = {}
-        if card and context and card.akyrs_enchantments and next(card.akyrs_enchantments) then
-            for _,en in ipairs(card.akyrs_enchantments) do
-                local enchant_obj = AKYRS.Enchantments[en[1]]
-                local effect = enchant_obj:enchantment_calculate(card, context, en[2])
-                if effect then
-                    if enchant_obj.requires_effect_calc then
-                        SMODS.calculate_effect(effect, card)
-                    else
-                        fx[#fx+1] = effect
-                    end
-                end
-            end
-        end
-        return AKYRS.merge_effects(fx)
-    end,
-    on_apply = function (card)
-        card.akyrs_enchantments = card.akyrs_enchantments or {}
-    end,
-    on_remove = function (card)
-        card.akyrs_enchantments = {}
-    end,
-    weight = 0,
-}
 
 function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
     card.akyrs_enchantments = card.akyrs_enchantments or {}
@@ -81,9 +25,6 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
     end
     if not AKYRS.Enchantments[enchantment_key]:can_apply(level, card) and not card.ability.set == "Enchantment" and not forced then
         error("Incompatible")
-    end
-    if ((not card.edition or not (card.edition.key == "e_akyrs_enchanted")) and not (card.ability.set == "Enchantment") ) then 
-        card:set_edition({ akyrs_enchanted = true }) 
     end
     AKYRS.Enchantments[enchantment_key].discovered = true
     AKYRS.Enchantments[enchantment_key].unlocked = true
@@ -152,7 +93,6 @@ function AKYRS.remove_enchantment(card, enchantment_key, forced)
     end, true, true)
     card.akyrs_enchantments = x
     SMODS.calculate_context({ akyrs_enchantment_removed = true, removed_enchantments = removed_ench })
-    if #card.akyrs_enchantments == 0 then card:set_edition({}) end
 end
 function AKYRS.clear_enchantments(card, forced)
     if not card.edition or not card.edition.key == "akyrs_enchanted" then return end
@@ -167,9 +107,7 @@ function AKYRS.clear_enchantments(card, forced)
     end, true, true)
     card.akyrs_enchantments = x
     SMODS.calculate_context({ akyrs_enchantment_removed = true, removed_enchantments = removed_ench })
-    if #card.akyrs_enchantments == 0 then
-        card:set_edition({})
-    end
+
 end
 
 function AKYRS.has_enchantment(card, enchantment_key)
@@ -241,6 +179,7 @@ SMODS.UndiscoveredCompat["Enchantment"] = true
 ---@field apply?  fun(self: SMODS.Center|table, card: Card|table, level: number)? 
 ---@field remove? fun(self: SMODS.Center|table, card: Card|table, level: number)? 
 ---@field can_be_removed? fun(self: SMODS.Center|table, card: Card|table, level: number): boolean?
+---@field treasure? boolean is it a treasure enchantment i.e. cannot be found at the enchanting table
 ---@field keep_on_use? fun(self: SMODS.Center|table, card: Card|table): boolean? Return `true` if the consumable should stay after use.
 ---@field can_apply? fun(self: SMODS.Center|table, level:number,  other_card: Card|table): boolean? 
 ---@field allowed_func? fun(self: SMODS.Center|table, card: Card|table): boolean? Function to ask if you can apply achievement
@@ -334,11 +273,6 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
         
     end,
     loc_vars = function (self, info_queue, card, level)
-    end,
-    draw = function (card, scale_mod, rotate_mod)
-        if card.children and card.children.center then
-            card.children.center:draw_shader('akyrs_enchanted',0, nil, card.ARGS.send_to_shader, card.children.center,nil, nil,nil,nil, 0.6)
-        end
     end,
     can_use = function (self, card)
         local cards = AKYRS.filter_table(AKYRS.combine_table(G.jokers.highlighted, G.consumeables.highlighted, G.hand.highlighted),
@@ -462,7 +396,6 @@ AKYRS.Enchantment {
             return {
                 repetitions = 1,
             }
-            
         end
     end,
     treasure = true,

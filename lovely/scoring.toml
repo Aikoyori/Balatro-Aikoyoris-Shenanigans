@@ -419,54 +419,6 @@ overwrite = true
 match_indent = true
 
 
-
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/utils.lua"]'
-pattern = """        context.main_scoring = true"""
-position = "after"
-payload = """if context.akyrs_calculating_debuffed and context.main_scoring then
-    context.main_scoring = false
-    context.ignore_debuff = true
-    context.akyrs_debuffed_main_scoring = true
-end
-"""
-overwrite = true
-match_indent = true
-
-
-
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/utils.lua"]'
-pattern = """        context.individual = true"""
-position = "after"
-payload = """
-context.akyrs_debuffed_main_scoring = nil
-if context.akyrs_calculating_debuffed and context.individual then
-    context.individual = false
-    context.akyrs_debuffed_individual = true
-    context.ignore_debuff = true
-    context.ignore_other_debuff = true
-end
-"""
-overwrite = true
-match_indent = true
-
-
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/utils.lua"]'
-pattern = """            context.individual = nil"""
-position = "after"
-payload = """
-context.akyrs_debuffed_individual = nil
-"""
-overwrite = true
-match_indent = true
-
-
-
 [[patches]]
 [patches.pattern]
 target = '=[SMODS _ "src/utils.lua"]'
@@ -519,3 +471,91 @@ prevent_win = true,
 """
 overwrite = true
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''        -- TARGET: evaluate your own repetition effects'''
+position = 'after'
+payload = '''
+if card.akyrs_enchantments then
+    local effect_final = {}
+    for _, en in ipairs(card.akyrs_enchantments) do
+        local enchant_obj = AKYRS.Enchantments[en[1]]
+        if enchant_obj then
+            local effect = enchant_obj:enchantment_calculate(card, context, en[2])
+            if effect then
+                effect_final[#effect_final + 1] = effect
+            end
+        end
+    end
+    if #effect_final > 0 then ret.akyrs_enchantments = SMODS.merge_effects(effect_final) end
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''    -- TARGET: evaluate your own general effects'''
+position = 'after'
+payload = '''
+if card.akyrs_enchantments then
+    local effect_final = {}
+    for _, en in ipairs(card.akyrs_enchantments) do
+        local enchant_obj = AKYRS.Enchantments[en[1]]
+        if enchant_obj then
+            local effect = enchant_obj:enchantment_calculate(card, context, en[2])
+            if effect then
+                effect_final[#effect_final + 1] = effect
+            end
+        end
+    end
+    if #effect_final > 0 then ret.akyrs_enchantments = SMODS.merge_effects(effect_final) end
+end
+'''
+match_indent = true
+times = 1
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '''        SMODS.calculate_effect_table_key(effect_table, 'individual', card, ret)'''
+position = 'after'
+payload = '''
+SMODS.calculate_effect_table_key(effect_table, 'akyrs_enchantments', card, ret)
+'''
+match_indent = true
+times = 1
+
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '''        local flags = SMODS.trigger_effects(effects, card)'''
+position = 'before'
+payload = '''
+context.individual = nil
+context.enchantment_main = true
+local eval = eval_card(card, context)
+context.enchantment_main = nil
+if (eval or {}).akyrs_enchantments then effects[#effects+1] = eval end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''            SMODS.trigger_effects(effects, _card)'''
+position = 'before'
+payload = '''
+local eval = eval_card(_card, {cardarea = area, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, enchantment_main = true})
+if (eval or {}).akyrs_enchantments then effects[#effects+1] = eval end
+'''
+match_indent = true
+times = 1

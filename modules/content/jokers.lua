@@ -526,7 +526,7 @@ SMODS.Joker {
         if context.discard and context.other_card then
             context.other_card.ability.akyrs_debuffed_by_dog = nil
         end
-        if context.akyrs_debuffed_individual and context.other_card.debuff and (context.cardarea == G.hand) then
+        if context.debuffed_individual and context.other_card.debuff and (context.cardarea == G.hand) then
             return { xmult = card.ability.extra.mult }
         end
     end,

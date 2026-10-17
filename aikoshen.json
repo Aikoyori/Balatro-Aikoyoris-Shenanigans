@@ -11,7 +11,7 @@
 	"display_name": "AikoShen",
 	"version": "0.2.0-alpha-261016b-dev",
 	"dependencies": [
-		"Steamodded (>=26.1002.0)", 
+		"Steamodded (>=26.1017.0~dev-a)", 
 		"Lovely (>=0.10.0)", 
 		"Balatro (>=1.0.1o)"],
 	"conflicts": [

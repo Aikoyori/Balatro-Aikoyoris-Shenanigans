@@ -66,7 +66,9 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
                     SMODS.calculate_context({ akyrs_enchantment_removed = true, removed_enchantments = {{enchantment_key, max_ench[enchantment_key] or 0}} })
                 end
                 max_ench[enchantment_key] = target_lvl
-                AKYRS.Enchantments[enchantment_key]:apply(card, level)
+                if table_set ~= 'akyrs_stored_enchantments' then
+                    AKYRS.Enchantments[enchantment_key]:apply_ench(card, level)
+                end
             end
         end
         local ench_table = {}
@@ -76,9 +78,13 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
         card[table_set] = ench_table
     else
         card[table_set][#card[table_set]+1] = {enchantment_key, level}
-        AKYRS.Enchantments[enchantment_key]:apply(card, level)
+        if table_set ~= 'akyrs_stored_enchantments' then
+            AKYRS.Enchantments[enchantment_key]:apply_ench(card, level)
+        end
     end
-    SMODS.calculate_context({ akyrs_enchantment_applied = true, applied_enchantment_data = {enchantment_key, level}, upgraded_from = upgraded_from })
+    if table_set ~= 'akyrs_stored_enchantments' then
+        SMODS.calculate_context({ akyrs_enchantment_applied = true, applied_enchantment_data = {enchantment_key, level}, upgraded_from = upgraded_from })
+    end
 end
 function AKYRS.remove_enchantment(card, enchantment_key, forced)
     card.akyrs_enchantments = card.akyrs_enchantments or {}
@@ -86,7 +92,7 @@ function AKYRS.remove_enchantment(card, enchantment_key, forced)
     local x = AKYRS.filter_table(card.akyrs_enchantments, function (ench, i)
         local b = ench[1] ~= key or (not AKYRS.Enchantments[ench[1]]:can_be_removed(card, ench[2]) and not forced)
         if not b then
-            AKYRS.Enchantments[ench[1]]:remove(card, ench[2])
+            AKYRS.Enchantments[ench[1]]:remove_ench(card, ench[2])
             removed_ench[#removed_ench+1] = ench
         end
         return b
@@ -100,7 +106,7 @@ function AKYRS.clear_enchantments(card, forced)
     local x = AKYRS.filter_table(card.akyrs_enchantments, function (ench, i)
         local b = not AKYRS.Enchantments[ench[1]]:can_be_removed(card, ench[2]) and not forced
         if not b then
-            AKYRS.Enchantments[ench[1]]:remove(card, ench[2])
+            AKYRS.Enchantments[ench[1]]:remove_ench(card, ench[2])
             removed_ench[#removed_ench+1] = ench
         end
         return b
@@ -175,10 +181,11 @@ SMODS.UndiscoveredCompat["Enchantment"] = true
 ---@field enchantment_calculate? fun(self: SMODS.Center|table, card: Card|table, context: CalcContext|table, level: number): table?, boolean?  Calculates effects based on parameters in `context`. See [SMODS calculation](https://github.com/Steamodded/smods/wiki/calculate_functions) docs for details. 
 ---@field use? fun(self: SMODS.Center|table, card: Card|table, area: CardArea|table, copier?: table) Defines behaviour when this consumable is used. 
 ---@field can_use? fun(self: SMODS.Center|table, card: Card|table): boolean? Return `true` if the consumable is allowed to be used. 
----@field apply?  fun(self: SMODS.Center|table, card: Card|table, level: number)? 
----@field remove? fun(self: SMODS.Center|table, card: Card|table, level: number)? 
+---@field apply_ench?  fun(self: SMODS.Center|table, card: Card|table, level: number)? function that runs when this is applied
+---@field remove_ench? fun(self: SMODS.Center|table, card: Card|table, level: number)? function that runs when this is removed
 ---@field can_be_removed? fun(self: SMODS.Center|table, card: Card|table, level: number): boolean?
 ---@field treasure? boolean is it a treasure enchantment i.e. cannot be found at the enchanting table
+---@field curse? boolean is it a curse i.e. cannot be removed normally and is red for an amazing reason
 ---@field keep_on_use? fun(self: SMODS.Center|table, card: Card|table): boolean? Return `true` if the consumable should stay after use.
 ---@field can_apply? fun(self: SMODS.Center|table, level:number,  other_card: Card|table): boolean? 
 ---@field allowed_func? fun(self: SMODS.Center|table, card: Card|table): boolean? Function to ask if you can apply achievement
@@ -250,6 +257,7 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
         ["Enhanced"] = true,
     },
     allowed_func = function(self, card)
+        if self.allowed_set.Consumeable and card.ability.consumeable then return true end
         if not self.allowed_set[card.ability.set] and card.ability.set ~= "Enchantment" then return false end
         return true
     end,
@@ -290,10 +298,10 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
             AKYRS.apply_enchantment(card2, self.key, card.ability.akyrs_level)
         end)
     end,
-    apply = function (self, card, level)
+    apply_ench = function (self, card, level)
         
     end,
-    remove = function (self, card, level)
+    remove_ench = function (self, card, level)
         
     end,
     inject = function(self)
@@ -584,4 +592,39 @@ AKYRS.Enchantment {
             }
         end
     end
+}
+
+AKYRS.Enchantment {
+    key = "chipful",
+    max_level = 5,
+    allowed_set = {
+        ["Default"] = true,
+        ["Enhanced"] = true,
+    },
+    loc_vars = function (self, info_queue, card, level)
+        return {
+            vars = {
+                localize("f_akyrs_localize_enchantment_level")(level),
+                100 * level,
+            }
+        }
+    end,
+}
+
+AKYRS.Enchantment {
+    key = "binding_curse",
+    max_level = 1,
+    curse = true,
+    allowed_set = {
+        ["Joker"] = true,
+        ["Consumeable"] = true,
+    },
+    apply_ench = function (self, card, level)
+        AKYRS.bind_to_random_card(card)
+    end,
+    remove_ench = function (self, card, level)
+        card.akyrs_enchantments_data.akyrs_binding_card_id = nil
+        card.akyrs_binding_card = nil
+    end
+    
 }

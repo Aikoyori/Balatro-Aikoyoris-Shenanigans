@@ -513,6 +513,7 @@ end
 
 local ca2d = Card.add_to_deck
 function Card:add_to_deck(frdb)
+    SMODS.calculate_context({ akyrs_add_to_deck = true, card = self })
     local x = ca2d(self, frdb)
     AKYRS.check_8H_tldr()
     return x

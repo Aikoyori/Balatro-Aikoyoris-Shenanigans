@@ -250,6 +250,12 @@ function CardArea:align_cards()
     if self.cards then
         for _, c in ipairs(self.cards) do
             AKYRS.rotate_cards(c)
+            if AKYRS.has_enchantment(c, 'ench_akyrs_binding_curse') then
+                AKYRS.bind_to_random_card(c)
+                if c.akyrs_binding_card and (G.CONTROLLER.dragging.target) then
+                    c.T.x = c.akyrs_binding_card.T.x + 0.01
+                end
+            end
         end
     end
     return x

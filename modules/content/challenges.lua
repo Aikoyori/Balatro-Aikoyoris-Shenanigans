@@ -627,7 +627,7 @@ AKYRS.HardcoreChallenge{
     },
     restrictions = {
         banned_cards = function ()
-            return AKYRS.map(AKYRS.filter_table(G.P_CENTERS, function (x) return x.set ~= 'Back' and x.set ~= "DescriptionDummy" and x.set ~= "Booster" and x.config end, false, true),function (item)
+            return AKYRS.map(AKYRS.filter_table(G.P_CENTERS, function (x) return x.set ~= 'Back' and x.set ~= "DescriptionDummy" and x.set ~= "Booster" and x.set ~= "Edition" and x.config end, false, true),function (item)
                 return { id = item.key }
             end, true)
         end,

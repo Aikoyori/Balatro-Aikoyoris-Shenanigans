@@ -1266,6 +1266,8 @@ function Card:init(X, Y, W, H, card, center, params)
 
     
     self.akyrs_upgrade_sliced = false
+    self.akyrs_enchantments_data = self.akyrs_enchantments_data or {}
+    self.akyrs_card_unique_id = AKYRS.random_string(16)
     
     return ret
 end
@@ -1370,6 +1372,8 @@ function Card:save()
     c.akyrs_currency = self.akyrs_currency
     c.akyrs_enchantments = self.akyrs_enchantments
     c.akyrs_stored_enchantments = self.akyrs_stored_enchantments
+    c.akyrs_enchantments_data = self.akyrs_enchantments_data
+    c.akyrs_card_unique_id = self.akyrs_card_unique_id
     if self.akyrs_sulphur_card then
         c.akyrs_sulphur_card = self.akyrs_sulphur_card:save()
     end
@@ -1389,6 +1393,8 @@ function Card:load(cardTable, other_card)
     self.akyrs_special_cost = cardTable.akyrs_special_cost
     self.akyrs_currency = cardTable.akyrs_currency
     self.akyrs_stored_enchantments = cardTable.akyrs_stored_enchantments
+    self.akyrs_enchantments_data = cardTable.akyrs_enchantments_data or {}
+    self.akyrs_card_unique_id = cardTable.akyrs_card_unique_id
 
     if cardTable.akyrs_sulphur_card then
         self.akyrs_sulphur_card = Card(self.T.x, self.T.y, 0, 0, nil, G.P_CENTERS.c_base)

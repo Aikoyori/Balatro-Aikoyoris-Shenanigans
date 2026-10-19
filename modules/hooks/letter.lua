@@ -144,6 +144,12 @@ function Card:get_chip_bonus()
         c = c - self.base.nominal
     end
     self.base.nominal = nominal_old
+    local ench = AKYRS.get_enchantment(self, 'ench_akyrs_chipful')
+    if ench and next(ench) then
+        for _, ench in ipairs(ench) do
+            c = c * ( 1 + ench[2] )
+        end
+    end
     return c
 end
 
@@ -180,6 +186,10 @@ function copy_card(...)
     c[1].akyrs_enchantments = other.akyrs_enchantments
     c[1].akyrs_rot_force = other.akyrs_rot_force
     c[1].akyrs_stored_enchantments = other.akyrs_stored_enchantments
+    c[1].akyrs_enchantments_data = other.akyrs_enchantments_data
+    if new_card == nil then
+        c[1].akyrs_card_unique_id = AKYRS.random_string(16)
+    end
     local refresh_sprite = c[1].ability.akyrs_special_card_type ~= other.ability.akyrs_special_card_type
     c[1].ability.akyrs_special_card_type = other.ability.akyrs_special_card_type
 

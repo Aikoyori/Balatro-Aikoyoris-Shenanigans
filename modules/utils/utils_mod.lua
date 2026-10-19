@@ -1506,3 +1506,39 @@ function AKYRS.emerald_indicator(args)
         }
     }
 end
+
+AKYRS.bind_cards = function (card, card2bind2)
+    card.akyrs_binding_card = card2bind2
+    card.akyrs_enchantments_data.akyrs_binding_card_id = card2bind2.akyrs_card_unique_id
+end
+AKYRS.bind_to_random_card = function (card, force_clear)
+    local card2bind2
+    if not card then return end
+    if ((card.akyrs_binding_card or {REMOVED = true}).REMOVED or force_clear) then
+        card.akyrs_binding_card = nil
+        card.akyrs_enchantments_data.akyrs_binding_card_id = nil
+    end
+    if (card.area and card.area.cards) then
+        if not card.akyrs_enchantments_data.akyrs_binding_card_id then
+            local total_cards = AKYRS.filter_table(card.area.cards, function (item, index)
+                return item ~= card and not card.REMOVED
+            end, true, true)
+            if #total_cards > 0 then
+                card2bind2 = pseudorandom_element(total_cards, 'akyrs_ench_binding_curse')
+                if card2bind2 then
+                    card.akyrs_enchantments_data.akyrs_binding_card_id = card2bind2.akyrs_card_unique_id
+                end
+            end
+        end
+    end
+    if not card.akyrs_binding_card and card.akyrs_enchantments_data.akyrs_binding_card_id then
+        card.akyrs_binding_card = card2bind2
+        if not card.akyrs_binding_card and card.area.cards then
+            for _,c in ipairs(card.area.cards) do
+                if c.akyrs_card_unique_id == card.akyrs_enchantments_data.akyrs_binding_card_id then
+                    card.akyrs_binding_card = c
+                end
+            end
+        end
+    end
+end

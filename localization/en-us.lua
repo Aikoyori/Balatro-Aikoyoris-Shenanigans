@@ -1469,6 +1469,19 @@ return {
                     "{C:attention}removing Enchantment{} from the copy",
                 },
             },
+            ench_akyrs_chipful = {
+                name="Chipful #1#",
+                text={
+                    "{C:chips}+#2#%{} playing card Chips",
+                },
+            },
+            ench_akyrs_binding_curse = {
+                name="{C:red}Curse of Binding",
+                text={
+                    "{C:attention}Binds itself{} to a random card",
+                    "and will always be {C:attention}to the right{} of it",
+                },
+            },
         },
         Enhanced={
             -- blindside :tm:
@@ -3282,6 +3295,20 @@ return {
                     },
                 }
             },
+            j_akyrs_dupe_glitch = {
+                name = {
+                    "Duplication Glitch",
+                },
+                text = {
+                    {
+                        "Upon {C:attention}obtaining{} any card",
+                        "mathematicalake a {C:dark_edition}Negative{} {C:red}Self-Destructive",
+                        "copy of that card",
+                        "{C:inactive}(Does not apply to the copy",
+                        "{C:inactive}or another copy of this Joker)",
+                    },
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {
@@ -4946,7 +4973,7 @@ return {
 					"and poker hands",
 					"are {C:attention}super randomized{}",
                     "{C:inactive}(With extra X#1# to X#2#)",
-                    "The challenge is to not crash the game."
+                    "The challenge is to not crash the game.",
 					"{C:red}This sleeve will not grant Stake Stickers",
 				},
             },
@@ -5952,7 +5979,7 @@ return {
                 {"aish"},
                 {"The Wacky","and Wonderous","Shenanigans","in the world","of Aikoyori"},
                 {"Solitaireyori","Wordlenanigans"},
-                {"{f:5}アイコヨリ","{f:5}しぇなにがんす"},
+                {"{f:5}アイコヨリ","{f:5}しぇなにがんず"},
                 {"aiko?"},
                 {"Avant Garde"},
                 {"aikonanigans"},
@@ -6055,7 +6082,7 @@ return {
                 "{C:attention}Half{} of your undebuffed cards are permanently debuffed every round",
             },
             ch_c_akyrs_half_self_destruct={
-                "{C:attention}Half{} of everything you have gain {C:red,T:self_destructs}Self-Destruct Sticker{} every round"
+                "{C:attention}Half{} of everything you have gain {C:red,T:akyrs_self_destructs}Self-Destruct Sticker{} every round"
             },
             ch_c_akyrs_no_tarot_except_twof={
                 "No {C:tarot}Tarot{} Cards will spawn except {C:tarot,T:c_wheel_of_fortune}Wheel of Fortune{}",
@@ -6107,6 +6134,9 @@ return {
             },
             ch_c_akyrs_shops_after_boss={
                 "{C:attention}Shops{} only appear after {C:red}Boss Blinds",
+            },
+            ch_c_akyrs_obtain_every_round={
+                "Obtain {C:attention}#1#{} every round",
             },
             ch_c_akyrs_shoplifting_1={
                 "Start with a {C:attention,T:sc_akyrs_buffet}Buffet{} Tag",

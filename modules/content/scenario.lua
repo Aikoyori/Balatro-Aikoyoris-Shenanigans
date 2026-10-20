@@ -1775,7 +1775,7 @@ AKYRS.Scenario {
                 func = function ()
                     AKYRS.NO_UNHIGHLIGHT = card
 
-                    local consumable = SMODS.add_card{ set = 'Consumeables', seed = "akyrs_scenario_surprise", key = AKYRS.surprise_debug }
+                    local consumable = SMODS.add_card{ set = 'Consumeables', seed = "akyrs_scenario_surprise", key = AKYRS.surprise_debug, soulable = true }
                     local sel = math.max(G.GAME.starting_params.discard_limit, G.GAME.starting_params.play_limit)
 
 

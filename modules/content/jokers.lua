@@ -1670,7 +1670,12 @@ SMODS.Joker{
         return true, {
             allow_duplicates = next(SMODS.find_card("j_akyrs_emerald"))
         }       
-    end
+    end,
+    add_to_deck = function (self, card, from_debuff)
+        if not AKYRS.ShopPages['shoppage_akyrs_villager_trading']:is_enabled() then
+            AKYRS.toggle_shop_availability('shoppage_akyrs_villager_trading', true)
+        end
+    end,
 }
 SMODS.Joker{
     pools = { ["Terraria"] = true, },

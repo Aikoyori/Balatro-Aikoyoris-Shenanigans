@@ -202,6 +202,7 @@ AKYRS.strings = AKYRS.strings or {
   shop_more_button = "REPLACE_THIS",
 }
 
+---@type {[string]: AKYRS.ShopPage}
 AKYRS.ShopPages = {}
 AKYRS.ShopPages_Buffer = {}
 

@@ -207,7 +207,7 @@ SMODS.Joker {
     rarity = 'akyrs_slop',
     cost = 2,
     calculate = function (self, card, context)
-        if context.fix_probability and context.trigger_obj and context.trigger_obj.config.center.key == 'c_wheel_of_fortune' then
+        if context.fix_probability and context.identifier == 'wheel_of_fortune' then
             return {
                 numerator = context.denominator
             }

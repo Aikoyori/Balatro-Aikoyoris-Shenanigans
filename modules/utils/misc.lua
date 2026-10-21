@@ -6,15 +6,6 @@ local aikoyori_mod_config = (SMODS.current_mod or AKYRS).config
 
 aikoyori_mod_config.wildcard_behaviour = aikoyori_mod_config.wildcard_behaviour or 1
 
-function AKYRS.table_contains(tbl, x)
-    local found = false
-    for _, v in pairs(tbl) do
-        if v == x then
-            found = true
-        end
-    end
-    return found
-end
 
 
 AKYRS.aiko_pickRandomInTable = function(t)
@@ -2479,4 +2470,12 @@ function AKYRS.dyn_container_maker(childrens)
               }, false)
         }}
     return t
+end
+
+function AKYRS.round_number(n)
+    if n >= 0.5 then
+        return math.ceil(n)
+    else
+        return math.floor(n)
+    end
 end

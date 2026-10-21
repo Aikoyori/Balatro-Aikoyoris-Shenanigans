@@ -3309,6 +3309,17 @@ return {
                     },
                 }
             },
+            j_akyrs_the_geometers_sketchpad = {
+                name = {
+                    "The Geometer's Sketchpad",
+                },
+                text = {
+                    {
+                        "Round scoring effect value to the {C:attention}nearest 2",
+                        "Effect is {C:attention}exponential{} if multiples are held",
+                    },
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {

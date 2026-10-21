@@ -5219,40 +5219,21 @@ SMODS.Joker {
     end,
 }
 
---[[
 SMODS.Joker {
     key = "the_geometers_sketchpad",
     atlas = 'AikoyoriJokers2',
     pos = { x = 1, y = 1 },
     pools = {  },
     config = {
-        extras = {
-
-        }
     },
-    rarity = 3,
-    cost = 8,
-    loc_vars = function (self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.e_negative
-        info_queue[#info_queue+1] = { set = "Other", key = "akyrs_self_destructs" }
-        return {
-            vars = {
-                
-            }
+    in_pool = function (self, args)
+        return true, {
+            allow_duplicates = true,
         }
     end,
-    calculate = function (self, card, context)
-        if context.akyrs_add_to_deck and not context.card.ability.akyrs_dupe_glitched and not AKYRS.no_dupes_key[context.card.config.center.key] then
-            return {
-                func = function ()
-                    local card2 = SMODS.copy_card(context.card, {no_add = true})
-                    card2:set_edition({ negative = true })
-                    SMODS.Stickers.akyrs_self_destructs:apply(card2, true)
-                    card2.ability.akyrs_dupe_glitched = true
-                    SMODS.add_to_deck(card2)
-                end,
-            }
-        end
+    rarity = 2,
+    cost = 4,
+    weight = 5,
+    loc_vars = function (self, info_queue, card)
     end,
 }
-]]

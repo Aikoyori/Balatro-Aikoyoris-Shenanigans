@@ -5235,6 +5235,12 @@ SMODS.Joker {
     cost = 9,
     weight = 5,
     loc_vars = function (self, info_queue, card)
+        local pos = AKYRS.where_self_in_scoring(card)
+        return {
+            vars = {
+                2 ^ (pos == 0 and 1 or pos)
+            }
+        }
     end,
     calculate = function (self, card, context)
         if context.akyrs_mod_scoring_value then

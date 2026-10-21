@@ -3340,7 +3340,7 @@ return {
                 text = {
                     {
                         "Round up scoring effect value",
-                        "to the {C:attention}nearest 2",
+                        "to the {C:attention}nearest multiple of #1#",
                     },
                     {
                         "Effect is {C:attention}exponential{}",

@@ -34,9 +34,6 @@ SMODS.Joker {
             end
         end
     end,
-    in_pool = function (self, args)
-        return true, { allow_duplicates = true }
-    end
 }
 
 SMODS.Joker {
@@ -72,9 +69,6 @@ SMODS.Joker {
             end
         end
     end,
-    in_pool = function (self, args)
-        return true, { allow_duplicates = true }
-    end
 }
 
 SMODS.Joker {
@@ -103,9 +97,6 @@ SMODS.Joker {
             }
         end
     end,
-    in_pool = function (self, args)
-        return true, { allow_duplicates = true }
-    end
 }
 
 SMODS.Joker {
@@ -151,7 +142,123 @@ SMODS.Joker {
             }
         end
     end,
-    in_pool = function (self, args)
-        return true, { allow_duplicates = true }
-    end
+}
+
+SMODS.Joker {
+    key = "walker",
+    atlas = 'aikoSlop',
+    pos = { x = 4, y = 0 },
+    pools = {  },
+    config = {
+        extras = {
+            chips = 0,
+            chips_g = 4,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            set = "SlopJoker",
+            vars = {
+                card.ability.extras.chips,
+                card.ability.extras.chips_g,
+            }
+        }
+    end,
+    rarity = 'akyrs_slop',
+    cost = 2,
+    calculate = function (self, card, context)
+        if context.before and not next(context.poker_hands['Straight']) then
+            return {
+                func = function ()
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extras,
+                        ref_value = 'chips',
+                        scalar_value = 'chips_g',
+                    })
+                end
+            }
+        end
+        if context.joker_main then
+            return {
+                chips = card.ability.extras.chips
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = "fortunate_son",
+    atlas = 'aikoSlop',
+    pos = { x = 5, y = 0 },
+    pools = {  },
+    config = {
+        extras = {
+
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.c_wheel_of_fortune
+        return {
+            set = "SlopJoker",
+            vars = {
+            }
+        }
+    end,
+    rarity = 'akyrs_slop',
+    cost = 2,
+    calculate = function (self, card, context)
+        if context.fix_probability and context.trigger_obj and context.trigger_obj.config.center.key == 'c_wheel_of_fortune' then
+            return {
+                numerator = context.denominator
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = "gambler",
+    atlas = 'aikoSlop',
+    pos = { x = 6, y = 0 },
+    pools = {  },
+    config = {
+        extras = {
+            num = 1, denom = 4,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.c_wheel_of_fortune
+        local n1, d1 = SMODS.get_probability_vars(card, card.ability.extras.num, card.ability.extras.denom, 'akyrs_slop_gambler' )
+        return {
+            set = "SlopJoker",
+            vars = {
+                n1, d1,
+            }
+        }
+    end,
+    rarity = 'akyrs_slop',
+    cost = 2,
+    calculate = function (self, card, context)
+        if context.setting_blind then
+            return {
+                func = function ()
+                    AKYRS.simple_event_add(function ()
+                        if AKYRS.has_room(G.consumeables) then
+                            if SMODS.pseudorandom_probability(card, 'akyrs_slop_gambler', card.ability.extras.num, card.ability.extras.denom ) then
+                                SMODS.calculate_effect({
+                                    message = localize("k_plus_tarot"),
+                                    func = function ()
+                                        SMODS.add_card{ key = 'c_wheel_of_fortune' }
+                                    end
+                                }, card)
+                            else
+                                AKYRS.nopeinator(card) 
+                            end
+                            
+                        end
+                        return true
+                    end, 0)
+                end
+            }
+        end
+    end,
 }

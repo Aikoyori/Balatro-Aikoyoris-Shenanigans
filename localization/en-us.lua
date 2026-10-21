@@ -1840,6 +1840,30 @@ return {
                     }
                 }
             },
+            j_akyrs_walker = {
+                name="Walker",
+                text={
+                    "Gains {C:chips}+#2#{} Chips",
+                    "if played hand {C:attention}does not",
+                    "contains a {C:attention}Straight{}",
+                    "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
+                },
+            },
+            j_akyrs_fortunate_son = {
+                name="Fortunate Son",
+                text={
+                    "{C:purple}The Wheel of Fortune{}",
+                    "will {C:attention}always{} hit",
+                },
+            },
+            j_akyrs_gambler = {
+                name="Gambler",
+                text={
+                    "When {C:attention}entering{} blind",
+                    "{C:green}#1# in #2# chance{} to create",
+                    "{C:purple}The Wheel of Fortune{}",
+                },
+            },
         },
         Joker={
             -- toga
@@ -3315,8 +3339,12 @@ return {
                 },
                 text = {
                     {
-                        "Round up scoring effect value to the {C:attention}nearest 2",
-                        "Effect is {C:attention}exponential{} if multiples are held",
+                        "Round up scoring effect value",
+                        "to the {C:attention}nearest 2",
+                    },
+                    {
+                        "Effect is {C:attention}exponential{}",
+                        "if multiples are held",
                     },
                 }
             },

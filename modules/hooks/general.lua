@@ -2150,6 +2150,11 @@ function SMODS.showman(c_k)
     if G.GAME.modifiers.akyrs_allow_duplicates then
         return true
     end
+    if G.P_CENTERS[c_k] then
+        if G.P_CENTERS[c_k].rarity and G.P_CENTERS[c_k].rarity == 'akyrs_slop' then
+            return true
+        end
+    end
     return showman_hook(c_k)
 end
 

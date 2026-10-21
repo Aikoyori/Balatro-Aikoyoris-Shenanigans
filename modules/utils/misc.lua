@@ -2158,12 +2158,16 @@ else
     AKYRS.endianness.beu32toh = AKYRS.endianness.swap_u32
     AKYRS.endianness.leu32toh = function(v) return v end
 end
-function AKYRS.where_self_in_scoring(card)
+
+function AKYRS.where_self_in_scoring(card, include_others)
     local total_cards = 0
     local current = 0
     for _, area in ipairs(SMODS.get_card_areas('jokers')) do
-        if area.cards then
-            for _, v in pairs(area.cards) do
+        local cards = (not include_others) and AKYRS.filter_table(area.cards, function (item, index)
+            return item.config.center.key == card.config.center.key
+        end, true, true) or area.cards
+        if cards then
+            for _, v in ipairs(cards) do
                 total_cards = total_cards + 1
                 if v == card then
                     current = total_cards

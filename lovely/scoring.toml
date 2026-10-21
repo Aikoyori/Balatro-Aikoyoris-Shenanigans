@@ -455,6 +455,7 @@ position = "after"
 payload = """
 priorities = true,
 hand_space = true,
+scoring_value = true,
 """
 overwrite = true
 match_indent = true

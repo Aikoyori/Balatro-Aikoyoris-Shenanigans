@@ -142,10 +142,11 @@ SMODS.PokerHand:take_ownership("High Card",{
 
 local calc_indiv_fx = SMODS.calculate_individual_effect
 SMODS.calculate_individual_effect = function(effect, scored_card, key, amount, from_edition)
-        local gspAmount = #SMODS.find_card('j_akyrs_the_geometers_sketchpad')
-        local is_roundable = type(amount) == 'number' or (is_number and is_number(amount)) -- アミュレット愛してる
-        if is_roundable and gspAmount > 0 then
-            amount = AKYRS.round_number(amount / (2 ^ gspAmount)) * (2 ^ gspAmount)
+        if key ~= 'scoring_value' then
+            local flags = SMODS.calculate_context({ akyrs_mod_scoring_value = true, card = scored_card, scoring_key = key, scoring_value = amount })
+            if flags and flags.scoring_value then
+                amount = flags.scoring_value
+            end
         end
         
         local aaa = {calc_indiv_fx(effect, scored_card, key, amount, from_edition)}

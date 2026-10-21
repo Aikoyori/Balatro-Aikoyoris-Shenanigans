@@ -5231,9 +5231,20 @@ SMODS.Joker {
             allow_duplicates = true,
         }
     end,
-    rarity = 2,
-    cost = 4,
+    rarity = 3,
+    cost = 9,
     weight = 5,
     loc_vars = function (self, info_queue, card)
     end,
+    calculate = function (self, card, context)
+        if context.akyrs_mod_scoring_value then
+            local is_roundable = type(context.scoring_value) == 'number' or (is_number and is_number(context.scoring_value)) -- アミュレット愛してる
+            if is_roundable then
+                local pos = AKYRS.where_self_in_scoring(card)
+                return {
+                    scoring_value = math.ceil(context.scoring_value / (2 ^ pos)) * (2 ^ pos)
+                }
+            end
+        end
+    end
 }

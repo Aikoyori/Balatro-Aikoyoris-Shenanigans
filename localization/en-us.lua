@@ -3326,7 +3326,7 @@ return {
                 text = {
                     {
                         "Upon {C:attention}obtaining{} any card",
-                        "mathematicalake a {C:dark_edition}Negative{} {C:red}Self-Destructive",
+                        "make a {C:dark_edition}Negative{} {C:red}Self-Destructive",
                         "copy of that card",
                         "{C:inactive}(Does not apply to the copy",
                         "{C:inactive}or another copy of this Joker)",

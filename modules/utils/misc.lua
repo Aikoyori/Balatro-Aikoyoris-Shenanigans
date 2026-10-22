@@ -1795,7 +1795,7 @@ function AKYRS.remove_phantom_cards()
 
     for _, cara in ipairs(G.I.CARDAREA) do
         for _, c in ipairs(G.I.CARD) do
-            if cara ~= c.area then
+            if cara ~= c.area or c.REMOVED then
                 AKYRS.remove_value_from_table(cara.cards, c)
             end
             AKYRS.remove_dupes(cara.cards)
@@ -2482,4 +2482,25 @@ function AKYRS.round_number(n)
     else
         return math.floor(n)
     end
+end
+
+function AKYRS.get_scoring_hand_from_cards(cards)
+    local _, _, _, scoring_hand = G.FUNCS.get_poker_hand_info(cards)
+	local final_scoring_hand = {}
+    for i=1, #cards do
+        local splashed = SMODS.always_scores(cards[i]) or next(find_joker('Splash'))
+        local unsplashed = SMODS.never_scores(cards[i])
+        if not splashed then
+            for _, card in pairs(scoring_hand) do
+                if card == cards[i] then splashed = true end
+            end
+        end
+        local effects = {}
+        SMODS.calculate_context({modify_scoring_hand = true, other_card =  cards[i], full_hand = cards, scoring_hand = scoring_hand, ignore_other_debuff = true}, effects)
+        local flags = SMODS.trigger_effects(effects, cards[i])
+		if flags.add_to_hand then splashed = true end
+		if flags.remove_from_hand then unsplashed = true end
+        if splashed and not unsplashed then table.insert(final_scoring_hand, cards[i]) end
+    end
+    return final_scoring_hand
 end

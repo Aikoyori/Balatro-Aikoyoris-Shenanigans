@@ -202,7 +202,7 @@ SMODS.Joker {
         card.ability.akyrs_aiko_sprite = pseudorandom("akyrs_sprite_"..dt, 0 ,5)
     end,
     loc_vars = function (self, info_queue, card)
-        info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_base_ability", vars = {card.ability.extras.base.xmult}}
+        info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_base_ability", vars = {""..(card.ability.extras.base.xmult)}}
         if AKYRS.is_mod_loaded("Cryptid")  then
             info_queue[#info_queue+1] = {set = "DescriptionDummy", key = "dd_akyrs_aikoyori_cryptid_ability"}
         end

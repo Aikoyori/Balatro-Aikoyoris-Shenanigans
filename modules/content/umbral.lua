@@ -1096,7 +1096,7 @@ SMODS.Consumable{
         end
     end},
     hidden = true,
-    soul_rate = 0.05,
+    soul_rate = 0.01,
     can_repeat_soul = true,
     soul_set = 'Replicant',
     config = {

@@ -2381,3 +2381,9 @@ end
 function AKYRS.no_skip_blind()
     return G.GAME.akyrs_no_skips or G.GAME.akyrs_strange_sequence
 end
+
+local bl_stfl = Blind.stay_flipped
+function Blind:stay_flipped(a, c, f)
+    c.ability.akyrs_drawn_on_hand = c.ability.akyrs_drawn_on_hand or G.GAME.current_round.hands_played
+    return bl_stfl(self, a, c, f)
+end

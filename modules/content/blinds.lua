@@ -686,9 +686,14 @@ SMODS.Blind{
                 end
             end
             if context.hand_drawn then
-                for _, cd in ipairs(G.playing_cards) do
-                    SMODS.recalc_debuff(cd)
-                end
+                AKYRS.simple_event_add(
+                    function ()
+                        for _, cd in ipairs(G.playing_cards) do
+                            SMODS.recalc_debuff(cd)
+                        end
+                        return true
+                    end, 0
+                )
             end
         end
     end
@@ -1285,6 +1290,255 @@ SMODS.Blind {
             return {
                 xscore = blind.debuff.akyrs_mult_per_played,
             }
+        end
+    end
+
+}
+
+SMODS.Blind {
+    key = "final_hyperion_hymm",
+    dollars = 8,
+    mult = 2,
+    boss_colour = HEX('45d7cf'),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 1, showdown = true},
+    pos = { x = 0, y = 0 },
+    debuff = {
+        
+    },
+    loc_vars = function (self)
+        return {
+            vars = {
+                
+            }
+        }
+    end,
+    collection_loc_vars = function (self)
+        return {
+            vars = {
+                
+            }
+        }
+    end,
+    disable = function (self)
+        for i, c in ipairs(G.hand.cards) do
+            if c.facing == 'back' and c.ability.akyrs_drawn_on_hand ~= G.GAME.current_round.hands_played then
+                c:flip()
+            end
+        end
+    end,
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.stay_flipped and context.other_card.ability.akyrs_drawn_on_hand == G.GAME.current_round.hands_played then
+                return {
+                    stay_flipped = true
+                }
+            end
+        end
+        if context.hand_drawn then
+            return {
+                func = function ()
+                end
+            }
+        end
+    end
+
+}
+
+SMODS.Blind {
+    key = "final_somber_soprano",
+    dollars = 8,
+    mult = 2,
+    boss_colour = HEX('dd7fc3'),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 1, showdown = true},
+    pos = { x = 0, y = 1 },
+    config = {
+        facedown = 3
+    },
+    loc_vars = function (self)
+        return {
+            vars = {
+                self.config.facedown
+            }
+        }
+    end,
+    collection_loc_vars = function (self)
+        return {
+            vars = {
+                self.config.facedown
+            }
+        }
+    end,
+    disable = function (self)
+        for i, c in ipairs(G.hand.cards) do
+            if c.facing == 'back' and c.ability.akyrs_drawn_on_hand ~= G.GAME.current_round.hands_played then
+                c:flip()
+            end
+        end
+    end,
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.stay_flipped then
+                if context.other_card and context.from_area == G.deck and context.to_area == G.hand then
+                    blind.effect.akyrs_triggered = (blind.effect.akyrs_triggered or 0) + 1
+                    if (blind.effect.akyrs_triggered <= blind.effect.facedown) then
+                        return {
+                            stay_flipped = true
+                        }
+                    end
+                end
+            end
+            if context.hand_drawn then
+                blind.effect.akyrs_triggered = 0
+            end
+        end
+    end
+
+}
+
+SMODS.Blind {
+    key = "final_assertive_alto",
+    dollars = 8,
+    mult = 2,
+    boss_colour = HEX('f99e4f'),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 1, showdown = true},
+    pos = { x = 0, y = 2 },
+    config = {
+        discardy = 2,
+        hz = 2,
+    },
+    loc_vars = function (self)
+        return {
+            vars = {
+                self.config.discardy,
+                SMODS.signed(self.config.hz),
+            }
+        }
+    end,
+    collection_loc_vars = function (self)
+        return {
+            vars = {
+                self.config.discardy,
+                SMODS.signed(self.config.hz),
+            }
+        }
+    end,
+    set_blind = function (self)
+        G.hand:change_size(self.config.hz)
+    end,
+    disable = function (self)
+        G.hand:change_size(-self.config.hz)
+    end,
+    defeat = function (self)
+        G.hand:change_size(-self.config.hz)
+    end,
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.hand_drawn then
+                return {
+                    func = function ()
+                        AKYRS.simple_event_add(
+                            function ()
+                                local cards_candidate = AKYRS.filter_table(G.hand.cards, function(cds, inx)
+                                    return not cds.highlighted
+                                end, true, true)
+                                local picks = AKYRS.pseudorandom_elements(cards_candidate, blind.effect.discardy, "akyrs_blind_assertive_alto")
+                                for _, cd in ipairs(picks) do
+                                    G.hand:add_to_highlighted(cd)
+                                end
+                                G.FUNCS.discard_cards_from_highlighted(nil, true)
+                                return true
+                            end
+                        )
+                    end
+                }
+            end
+        end
+    end
+
+}
+
+
+SMODS.Blind {
+    key = "final_timbre_tenor",
+    dollars = 8,
+    mult = 2,
+    boss_colour = HEX('505d60'),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 1, showdown = true},
+    pos = { x = 0, y = 3 },
+    config = {
+        num = 1,
+        denom = 3,
+    },
+    loc_vars = function (self)
+        local n, d = SMODS.get_probability_vars(self, self.config.num, self.config.denom, "akyrs_blind_timber_chance")
+        return {
+            vars = {
+                n, d
+            }
+        }
+    end,
+    collection_loc_vars = function (self)
+        local n, d = SMODS.get_probability_vars(self, self.config.num, self.config.denom, "akyrs_blind_timber_chance")
+        return {
+            vars = {
+                n, d
+            }
+        }
+    end,
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.akyrs_predraw_to_play then
+                return {
+                    func = function ()
+                        local is_dead = SMODS.pseudorandom_probability(blind, "akyrs_blind_timber_chance", blind.effect.num, blind.effect.denom)
+                        if is_dead and context.scoring_cards[1] then
+                            AKYRS.remove_value_from_table(G.hand.highlighted, context.scoring_cards[1])
+                            SMODS.destroy_cards({context.scoring_cards[1]}, {immediate = true})
+                        end
+                        return true
+                    end
+                }
+            end
+        end
+    end
+
+}
+
+SMODS.Blind {
+    key = "final_buster_baritone",
+    dollars = 8,
+    mult = 2,
+    boss_colour = HEX('85cba2'),
+    atlas = 'aikoyoriBlindsChips3',
+    boss = {min = 1, showdown = true},
+    pos = { x = 0, y = 4 },
+    config = {
+        num = 1,
+        denom = 2,
+    },
+    calculate = function (self, blind, context)
+        if not blind.disabled then
+            if context.akyrs_pre_play then
+                local scoring_hand_pre = AKYRS.get_scoring_hand_from_cards(context.akyrs_pre_play_cards)
+                local ranks_valid = AKYRS.map(scoring_hand_pre, function (item, index)
+                    return item:get_id()
+                end)
+                AKYRS.remove_dupes(ranks_valid)
+                local rank2debuff = pseudorandom_element(ranks_valid, 'akyrs_buster_baritone_rank')
+                return {
+                    func = function ()
+                        for _, c in ipairs(context.akyrs_pre_play_cards) do
+                            if c:get_id() == rank2debuff then
+                                c:set_debuff(true, true)
+                            end
+                         end
+                    end
+                }
+            end
         end
     end
 

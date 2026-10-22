@@ -278,14 +278,25 @@ end
 overwrite = true
 match_indent = true
 
-
-
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua'
 pattern = """            draw_card(G.hand, G.play, i*100/#G.hand.highlighted, 'up', nil, G.hand.highlighted[i])"""
 position = "after"
-payload = """SMODS.calculate_context({ akyrs_postdraw_to_play = true, postdraw_card = G.hand.highlighted[i], card_index = i})"""
+payload = """SMODS.calculate_context({ akyrs_postdraw_to_play = true, postdraw_card = G.hand.highlighted[i], scoring_cards = scoring_hand_pre, card_index = i})"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = """    inc_career_stat('c_cards_played', #G.hand.highlighted)"""
+position = "after"
+payload = """if #G.hand.highlighted > 0 then table.sort(G.hand.highlighted, function(a,b) return a.T.x < b.T.x end) end
+local scoring_hand_pre = AKYRS.get_scoring_hand_from_cards(G.hand.highlighted)
+SMODS.calculate_context({ akyrs_predraw_to_play = true, full_hand = G.hand.highlighted, scoring_cards = scoring_hand_pre})
+"""
 overwrite = true
 match_indent = true
 

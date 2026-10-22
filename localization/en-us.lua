@@ -480,6 +480,42 @@ return {
                     "debuffed every hand",
                 }
             },
+            bl_akyrs_final_hyperion_hymm = {
+                name = "Hyperion Hymm",
+                text = {
+                    "All cards drawn are flipped",
+                    "until next hand",
+                }
+            },
+            bl_akyrs_final_somber_soprano = {
+                name = "Somber Soprano",
+                text = {
+                    "First #1# cards drawn are",
+                    "flipped face down every time",
+                }
+            },
+            bl_akyrs_final_assertive_alto = {
+                name = "Assertive Alto",
+                text = {
+                    "Randomly select #1# cards to",
+                    "discard after any hand is drawn",
+                    "#2# Hand Size",
+                }
+            },
+            bl_akyrs_final_timbre_tenor = {
+                name = "Timbre Tenor",
+                text = {
+                    "#1# in #2# chance to destroy",
+                    "first scoring card before scoring",
+                }
+            },
+            bl_akyrs_final_buster_baritone = {
+                name = "Buster Baritone",
+                text = {
+                    "A random rank in scoring hand",
+                    "is debuffed",
+                }
+            },
             bl_akyrs_forgotten_weights_of_the_past = {
                 name = "Weights of the Past",
                 text = {
@@ -642,12 +678,6 @@ return {
                 text = {
                     "Last 2 cards drawn are",
                     "drawn face down",
-                }
-            },
-            bl_akyrs_the_saw= {
-                name = "The Saw",
-                text = {
-                    "First scored card is destroyed",
                 }
             },
             bl_akyrs_the_saw= {

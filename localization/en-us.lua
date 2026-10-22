@@ -4817,6 +4817,13 @@ return {
                     "{C:akyrs_replicant_o}Replica Pack",
                 },
             },
+            tag_akyrs_make_a_scene_tag={
+                name="Make a Scene Tag",
+                text={
+                    "Gives a free",
+                    "{C:akyrs_scenario_dark_yellow}Flavoured {C:akyrs_scenario_dark_pink}Scenario {C:akyrs_scenario_dark_blue}Pack",
+                },
+            },
         },
         Bet={
             bet_akyrs_expert_play={

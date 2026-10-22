@@ -155,13 +155,6 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
-    key = "aikoSelfInsert",
-    path = "aikoSelfInsert.png",
-    px = 71,
-    py = 95
-}
-
-SMODS.Atlas {
     key = "aikoyoriSelfInsert",
     path = "aikoyoriSelfInsert.png",
     px = 71,
@@ -217,13 +210,6 @@ SMODS.Atlas {
     path = 'villager.png',
     px = 95,
     py = 205
-}
-
-SMODS.Atlas {
-    key = 'aikoyori_intro',
-    path = 'aikoyoriintro.png',
-    px = 114,
-    py = 174
 }
 
 SMODS.Atlas {

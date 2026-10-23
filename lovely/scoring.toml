@@ -571,3 +571,37 @@ if (eval or {}).akyrs_enchantments then effects[#effects+1] = eval end
 '''
 match_indent = true
 times = 1
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''    G.GAME.hands[text].played = G.GAME.hands[text].played + 1'''
+position = 'before'
+payload = '''
+if text == 'NULL' then
+    G.STATE = G.STATES.SELECTING_HAND
+    G.STATE_COMPLETE = false
+    AKYRS.fill_hand()
+    return
+end
+'''
+match_indent = true
+times = 1
+
+# amulet
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''	if co then co.astate = state end'''
+position = 'before'
+payload = '''
+
+local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
+if text == 'NULL' then
+    co.astate = nil
+    co.state = nil
+    return
+end
+'''
+match_indent = true
+times = 1

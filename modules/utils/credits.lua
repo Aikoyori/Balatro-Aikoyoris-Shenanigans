@@ -207,13 +207,10 @@ AKYRS.Credit{
 }
 
 AKYRS.Credit{
-    key = 'inky',
-    username = 'christopherjacobsanderson',
-    atlas = 'inky_credits',
-    accredited = {
-        { 'j_akyrs_secretary', { 'art' }},
-    },
+    key = 'papu',
+    username = 'elpapud6',
+    category = 'extras',
+    no_atlas = true,
     social_links = {
-        { 'kofi', 'https://ko-fi.com/inkystanderson'}
     },
 }

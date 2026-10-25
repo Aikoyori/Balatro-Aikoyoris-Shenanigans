@@ -65,6 +65,7 @@ assert(SMODS.load_file("./modules/content/currencies.lua"))()
 assert(SMODS.load_file("./modules/content/edition.lua"))()
 assert(SMODS.load_file("./modules/content/tags.lua"))()
 assert(SMODS.load_file("./modules/ui.lua"))()
+assert(SMODS.load_file("./modules/content/trades_ui.lua"))()
 assert(SMODS.load_file("./modules/content/trades.lua"))()
 
 assert(SMODS.load_file("./modules/challenges_ui.lua"))()

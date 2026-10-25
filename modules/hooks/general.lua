@@ -116,7 +116,11 @@ function Game:init_game_object()
 
     ret.akyrs_redeemed_bets = {}
     ret.akyrs_redeemed_bet_key_table = {}
-    
+
+    ret.akyrs_deals = {}
+    ret.akyrs_deals_reroll_price = 2
+    ret.akyrs_deals_add_row_price = 3
+
     ret.akyrs_ut_route = "pacifist"
     ret.akyrs_cards_modified = 0
     ret.akyrs_won_current_blind = 0

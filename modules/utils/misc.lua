@@ -2504,3 +2504,23 @@ function AKYRS.get_scoring_hand_from_cards(cards)
     end
     return final_scoring_hand
 end
+
+
+AKYRS.create_object_for_ui = function (center, scale)
+    if not center or not center.set or not center.key then return end
+    if center.set == "Tag" then
+        local t = Tag(center.key, true)
+        t.tag_sprite.T.scale = scale or t.tag_sprite.T.scale
+        return t
+    end
+    local card = SMODS.create_card{ bypass_discovery_center = true, allow_duplicates = true, bypass_discovery_ui = true, key = center.key, no_edition = true, skip_materialize = true }
+    card.T.w = card.T.w * scale
+    card.T.h = card.T.h * scale
+    card.VT.h = card.T.h
+    card.VT.h = card.T.h
+    if(card.config.center) then
+        -- this properly sets the sprite size <3
+        card:set_sprites(card.config.center)
+    end
+    return card
+end

@@ -1481,7 +1481,7 @@ function AKYRS.emerald_indicator(args)
         args.ref_table[args.ref_value] = args.ref_table[args.ref_value] or "0"
     end
     return {
-        n = G.UIT.R,
+        n = args.uit or G.UIT.R,
         config = {
             align = args.align or 'rc',
             padding = args.padding

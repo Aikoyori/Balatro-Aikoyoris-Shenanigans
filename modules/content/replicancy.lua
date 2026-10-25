@@ -657,3 +657,56 @@ SMODS.Consumable{
     end
 }
 
+
+SMODS.Consumable{
+    key = "replicant_single_board_computer",
+    set = "Replicant",
+    atlas = "replicant",
+    pos = {x=7, y=1},
+    config = {
+        extras = {
+            vouchers = 3,
+        }
+    },
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extras.vouchers,
+            }
+        }
+    end,
+    can_use = function (self, card)
+        return true
+    end,
+    use = function (self, card, area, copier)
+        for i = 1, card.ability.extras.vouchers do
+            AKYRS.simple_event_add(
+                function ()
+                    local voucher = SMODS.poll_object({ type = 'Voucher'})
+                    local c2 = SMODS.create_card({ key = voucher })
+                    G.play:emplace(c2)
+                    c2.cost = 0
+                    c2:redeem()
+                    AKYRS.simple_event_add(
+                        function ()
+                                c2:start_dissolve()
+                                return true
+                            end, 0.5
+                        )
+                    return true
+                end, 0.5
+            )
+        end
+        AKYRS.simple_event_add(
+            function ()
+                local bet = SMODS.poll_object({ type = 'Bet'})
+                local c2 = SMODS.create_card({ key = bet, area = G.play })
+                G.play:emplace(c2)
+                c2.cost = 0
+                c2:redeem()
+                return true
+            end, 0.5
+        )
+    end
+}
+

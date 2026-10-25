@@ -801,6 +801,11 @@ return {
                     '* Helped with Word Optimization!',
                 }
             },
+            credits_akyrs_papu = {
+                text = {
+                    '* Helped with Balancing decisions!',
+                }
+            },
         },
         DescriptionDummy={
             -- config
@@ -5495,6 +5500,15 @@ return {
                     }
                     },
             },
+            c_akyrs_replicant_single_board_computer = {
+                name="Single-Board Computer",
+                text={
+                    {
+                        "Redeem #1# {C:attention}random{} Vouchers",
+                        "and a {C:attention}random{} Bet",
+                    },
+                },
+            },
         },
         TradeProfession = {
             profession_akyrs_pawnbroker = {
@@ -5906,6 +5920,7 @@ return {
             k_akyrs_factorio_planet = "Nauvis System Planet",
             k_akyrs_factorio_planet_q = "Nauvis System Planet?",
             k_akyrs_inception_ex = "Inception!",
+            k_akyrs_add_trade_row = "+3 Deals",
 
             f_akyrs_localize_enchantment_level = function (num_in)
                 if math.abs(num_in) > 3999 then

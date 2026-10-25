@@ -7,6 +7,11 @@ AKYRS.TradeProfessions_Keys = {}
 ---@class AKYRS.TradeProfession: SMODS.GameObject
 ---@field trade_ui fun(self:AKYRS.TradeProfession):table[] ui for the trading part lol. this must return table of nodes
 ---@field full_trade_ui fun(self:AKYRS.TradeProfession):table ui for trading part + villager sprite object. DO NOT OVERRIDE UNLESS YOU NEED TO. returns root object
+---@field extra_top_ui fun(self:AKYRS.TradeProfession):table ui for additional thing like reroll button
+---@field extra_left_ui fun(self:AKYRS.TradeProfession):table ui for left additional thing like reroll button
+---@field extra_right_ui fun(self:AKYRS.TradeProfession):table ui for right additional thing like reroll button
+---@field get_shop_size fun(self:AKYRS.TradeProfession):{ w: number, h : number} nomber for shop height so it is not as tall
+---@field refresh_shop_ui fun(self:AKYRS.TradeProfession) fucking kill shop ui
 ---@field is_enabled fun(self:AKYRS.TradeProfession):boolean is it enabled? used to constant check so don't print bruh 
 ---@field enable fun(self:AKYRS.TradeProfession, enable:boolean) enable it brah
 ---@field no_scroll boolean does it scroll?
@@ -33,6 +38,22 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
             AKYRS.VILLAGER_SHOP_PANEL:remove()
             AKYRS.VILLAGER_SHOP_PANEL = nil
         end
+        local extra_top_ui = nil
+        if self.extra_top_ui then
+            extra_top_ui = self:extra_top_ui()
+        end
+        local extra_left_ui = nil
+        if self.extra_left_ui then
+            extra_left_ui = self:extra_left_ui()
+        end
+        local extra_right_ui = nil
+        if self.extra_right_ui then
+            extra_right_ui = self:extra_right_ui()
+        end
+        local shop_size = {}
+        if self.get_shop_size then
+            shop_size = self:get_shop_size()
+        end
         local box = {
             content = {
                 definition = {
@@ -47,12 +68,13 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
             },
             overflow = {
                 node_config = {
-                    minh = 5.5,
-                    maxh = 5.5,
-                    minw = 8 + (self.no_scroll and 0.5 or 0),
-                    maxw = 8 + (self.no_scroll and 0.5 or 0),
+                    minh = shop_size.h or 5.5,
+                    maxh = shop_size.h or 5.5,
+                    minw = shop_size.w or (8 + (self.no_scroll and 0.5 or 0)),
+                    maxw = shop_size.w or (8 + (self.no_scroll and 0.5 or 0)),
                     padding = 0.01,
                     r = 0.1,
+                    align = 'm',
                     outline = 1,
                     outline_colour = G.C.GREEN,
                 },
@@ -60,30 +82,21 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
 
         }
         AKYRS.VILLAGER_SHOP_PANEL = self.no_scroll and UIBox(box.content) or SMODS.UIScrollBox(box)
-        return {
-            n = G.UIT.ROOT,
-            config = {
-                emboss = 0.05,
-                minh = 5.5,
-                maxh = 5.5,
-                r = 0.1,
-                minw = 8,
-                align = "cm",
-                padding = 0.2,
-                colour = G.C.BLACK,
-            },
-            nodes = {
-                -- trading content
+        local tradingui = {
+            { n = G.UIT.R, nodes = {
                 {
                     n = G.UIT.C,
                     config = self.no_scroll and box.overflow.node_config,
                     nodes = {
-                        {
-                            n = G.UIT.O,
-                            config = {
-                                object = AKYRS.VILLAGER_SHOP_PANEL
+                        { n = G.UIT.R, nodes = {
+                            
+                            {
+                                n = G.UIT.O,
+                                config = {
+                                    object = AKYRS.VILLAGER_SHOP_PANEL
+                                }
                             }
-                        }
+                        }},
                     }
                 },
                 -- scrollbar
@@ -91,13 +104,13 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
                     n = G.UIT.C,
                     nodes = {
                         not self.no_scroll and SMODS.GUI.scrollbar({
-                            h = 5.5,
+                            h = shop_size.h or 5.5,
                             w = 0.5,
                             min = 0,
                             max = 1,
                             bg_colour = { 0, 0, 0, 0.15 },
                             scroll_collision_obj = AKYRS.VILLAGER_SHOP_PANEL,
-                            knob_h = 0.6,
+                            knob_h = 1.4,
                             scroll_mult = 1
                         })
                     }
@@ -117,78 +130,114 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
                         }
                     }
                 },
-            }
+            }},
+            -- trading content
+
         }
+        if extra_top_ui then
+            table.insert(tradingui, 1, extra_top_ui)
+        end
+        if extra_right_ui then
+            table.insert(tradingui[1].nodes, 3, extra_right_ui)
+        end
+        if extra_left_ui then
+            table.insert(tradingui[1].nodes, 1, extra_left_ui)
+        end
+        return {
+            n = G.UIT.ROOT,
+            config = {
+                emboss = 0.05,
+                minh = shop_height or 5.5,
+                maxh = shop_height or 5.5,
+                r = 0.1,
+                minw = 8,
+                align = "cm",
+                padding = 0.2,
+                colour = G.C.BLACK,
+            },
+            nodes = tradingui
+        }
+    end,
+    refresh_shop_ui = function(self)
+        if AKYRS.VILLAGER_SHOP_PANEL and AKYRS.VILLAGER_SHOP_PANEL.remove then
+            AKYRS.VILLAGER_SHOP_PANEL:remove()
+            AKYRS.VILLAGER_SHOP_PANEL = nil
+        end
+        local extra_top_ui = nil
+        if self.extra_top_ui then
+            extra_top_ui = self:extra_top_ui()
+        end
+        local extra_left_ui = nil
+        if self.extra_left_ui then
+            extra_left_ui = self:extra_left_ui()
+        end
+        local extra_right_ui = nil
+        if self.extra_right_ui then
+            extra_right_ui = self:extra_right_ui()
+        end
+        local shop_size = {}
+        if self.get_shop_size then
+            shop_size = self:get_shop_size()
+        end
+        local box = {
+            content = {
+                definition = {
+                    n = G.UIT.ROOT,
+                    config = {
+                        colour = G.C.CLEAR,
+                        padding = 0.15,
+                    },
+                    nodes = self:trade_ui()
+                },
+                config = { align = "cm"}
+            },
+            overflow = {
+                node_config = {
+                    minh = shop_size.h or 5.5,
+                    maxh = shop_size.h or 5.5,
+                    minw = shop_size.w or (8 + (self.no_scroll and 0.5 or 0)),
+                    maxw = shop_size.w or (8 + (self.no_scroll and 0.5 or 0)),
+                    padding = 0.01,
+                    r = 0.1,
+                    outline = 1,
+                    outline_colour = G.C.GREEN,
+                },
+            }
+
+        }
+        AKYRS.VILLAGER_SHOP_PANEL = self.no_scroll and UIBox(box.content) or SMODS.UIScrollBox(box)
     end,
     inject = function(self)
         
     end,
 }
 
-AKYRS.determine_emerald_sell_value = function (card)
-    if card.config.center.key == "j_akyrs_emerald" then
-        return 5
-    end
-    if card.ability.set == "Joker" then
-        if card.config.center.rarity == 2 then return 2 end
-        if card.config.center.rarity == 3 then return 3 end
-        if card.config.center.rarity == 4 then return 6 end
-    end
-    return 1 
-end
+AKYRS.set_to_emerald_sell_cost = {
+    Spectral = 2,
+    Scenario = 3,
+    Replicant = 2,
+}
 
-G.FUNCS.akyrs_emerald_can_sell_selected_cards = function (e)
-    local filtered_result = AKYRS.filter_table(SMODS.merge_lists{ G.jokers.highlighted, G.consumeables.highlighted }, function (item, index)
-        return item and not SMODS.is_eternal(item)
-    end, true, true)
-    AKYRS.button_enable_func(e, {
-        func = function (e)
-            return #filtered_result > 0
-        end,
-        button = 'akyrs_emerald_sell_selected_cards'
-    })
-end
+AKYRS.set_to_emerald_buy_cost = {
+    Spectral = 4,
+    Scenario = 6,
+    Replicant = 4,
+}
 
-G.FUNCS.akyrs_emerald_pawnbroker_update_value = function (e)
-    local filtered_result = AKYRS.filter_table(SMODS.merge_lists{ G.jokers.highlighted, G.consumeables.highlighted }, function (item, index)
-        return item and not SMODS.is_eternal(item)
-    end, true, true)
-    local value = 0
+AKYRS.determine_emerald_buy_cost = function (center)
+    if center.key == "j_akyrs_emerald" then
+        return 10
+    end
+    if center.set == "Joker" then
+        if center.rarity == 2 then return 4 end
+        if center.rarity == 3 then return 8 end
+        if center.rarity == 4 then return 20 end
+    end
     
-    if #filtered_result > 0 then 
-        for i, c in ipairs(filtered_result) do
-            value = value + AKYRS.determine_emerald_sell_value(c)
-        end
-    end
-    AKYRS.pawnbroker_value_text = number_format(value)
+    return AKYRS.set_to_emerald_buy_cost[center.set] or 2
 end
 
-G.FUNCS.akyrs_emerald_sell_selected_cards = function (e)
-    local filtered_result = AKYRS.filter_table(SMODS.merge_lists{ G.jokers.highlighted, G.consumeables.highlighted }, function (item, index)
-        return item and not SMODS.is_eternal(item)
-    end, true, true)
-    play_sound('akyrs_villager_yes', nil, 2.2)
-    stop_use()
-    if #filtered_result > 0 then 
-        for i, c in ipairs(filtered_result) do
-            local x = AKYRS.determine_emerald_sell_value(c)
-            AKYRS.simple_event_add(function ()
-                SMODS.destroy_cards({c}, {
-                    silent = true,
-                    immediate = true,
-                })
-                for i = 1, x do
-                    AKYRS.simple_event_add(function ()
-                        AKYRS.Currencies['curr_akyrs_emerald']:change_value(1)
-                        AKYRS.Currencies['curr_akyrs_emerald']:transactional_sound(x)
-                        return true
-                    end, 0.4 * math.max(0.05, 1 / x), 'akyrs_sfx')
-                end
-                return true
-            end, 0.4 * math.max(0.001, 1 / x))
-        end
-    end
-end
+
 
 AKYRS.TradeProfession {
     key = 'pawnbroker',
@@ -228,42 +277,82 @@ AKYRS.TradeProfession {
     end
 }
 
+
 AKYRS.TradeProfession {
     key = 'merchant',
     pos = { x = 2, y = 0 },
-    trade_ui = function (self)
+    extra_left_ui = function (self)
+        return AKYRS.row_prefab{
+            padding = 0.1,
+            uit = G.UIT.C,
+            h = 5,
+            nodes = {
+                AKYRS.button_prefab{
+                    colour = G.C.RED,
+                    h = 2.2,
+                    w = 2,
+                    children = {
+                        AKYRS.text_prefab { localize = { "k_reroll" }, scale = 0.5, uit = G.UIT.R },
+                        AKYRS.emerald_indicator({
+                            ref_table = G.GAME,
+                            ref_value = 'akyrs_deals_reroll_price',
+                            scale = 1.5,
+                            padding = 0.1,
+                            text_func = 'akyrs_emerald_pawnbroker_update_value',
+                        }),
+                    }
+                },
+                AKYRS.button_prefab{
+                    colour = G.C.GREEN,
+                    h = 2.2,
+                    w = 2,
+                    children = {
+                        AKYRS.text_prefab { localize = { "k_akyrs_add_trade_row" }, scale = 0.5, uit = G.UIT.R },
+                        AKYRS.emerald_indicator({
+                            ref_table = G.GAME,
+                            ref_value = 'akyrs_deals_add_row_price',
+                            scale = 1.5,
+                            align = 'cm',
+                            padding = 0.1,
+                            text_func = 'akyrs_emerald_pawnbroker_update_value',
+                        }),
+                    }
+                },
+            }
+        }
+    end,
+    get_shop_size = function (self)
         return {
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
-            AKYRS.text_prefab({ text = "sulfur cave here 12", uit = G.UIT.R}),
+            w = 5.8,
+        }
+    end,
+    trade_ui = function (self)
+        if not next(G.GAME.akyrs_deals) then
+            G.GAME.akyrs_deals = AKYRS.generate_deals(6)
+        end
+        local uit = {{ n = G.UIT.R, config = { padding = 0.1,}, nodes = {} }}
+        for i, c in ipairs(G.GAME.akyrs_deals) do
+            uit[#uit].nodes[#(uit[#uit].nodes)+1] = AKYRS.create_ui_for_trade_item(i, c, G.GAME.akyrs_deals)
+            if #uit[#uit].nodes >= 3 then
+                uit[#uit+1] = { n = G.UIT.R, config = { padding = 0.1,} , nodes = {} }
+            end
+        end
+        return {
+            {
+                n = G.UIT.R,
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { minw = 5.8, align = 'cm' },
+                        nodes = {
+                            {
+                                n = G.UIT.R,
+                                nodes = uit,
+                            }
+                        }
+                    }
+                }
+            }
         }
     end
 }

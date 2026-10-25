@@ -1132,9 +1132,9 @@ function AKYRS.text_prefab(args)
   return { n = args.uit or G.UIT.C, config = { align = args.align or "cm", padding = args.padding }, nodes = { { n = G.UIT.T, config = args.config or { colour = args.colour or G.C.WHITE, text = args.localize and localize(unpack(args.localize)) or args.text or "AIKO U SUCK WTFF", ref_table = args.ref_table, ref_value = args.ref_value, scale = args.scale or 0.4, shadow = not args.no_shadow, func = args.text_func } } } }
 end
 
-function AKYRS.row_prefab(config) 
+function AKYRS.row_prefab(args) 
   args = args or {}
-  return { n = G.UIT.R, config = { align = args.align or "cm", padding = args.padding, minw = args.minw, maxw = args.maxw, minh = args.minh, maxh = args.maxh, h = args.h, w = args.w, }, nodes = config.nodes or {} } 
+  return { n = args.uit or G.UIT.R, config = { align = args.align or "cm", padding = args.padding, minw = args.minw, maxw = args.maxw, minh = args.minh, maxh = args.maxh, h = args.h, w = args.w, }, nodes = args.nodes or {} } 
 end
 
 function AKYRS.dynatext_prefab(args)

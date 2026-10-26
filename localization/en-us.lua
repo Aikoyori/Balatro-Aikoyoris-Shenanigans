@@ -1517,6 +1517,13 @@ return {
                     "and will always be {C:attention}to the right{} of it",
                 },
             },
+            ench_akyrs_vanishing_curse = {
+                name="{C:red}Curse of Vanishing",
+                text={
+                    "{C:green}#1# in #2#{} chance to",
+                    "{C:red}destroy{} this card at the end of round",
+                },
+            },
         },
         Enhanced={
             -- blindside :tm:

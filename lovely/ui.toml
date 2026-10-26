@@ -451,7 +451,9 @@ match_indent = true
 target = '''functions/UI_definitions.lua'''
 pattern = '''      one_press = args.one_press,'''
 position = 'before'
-payload = '''  akyrs_osk = args.akyrs_osk,'''
+payload = '''akyrs_osk = args.akyrs_osk,
+ref_value = args.ref_value,
+'''
 match_indent = true
 
 [[patches]]

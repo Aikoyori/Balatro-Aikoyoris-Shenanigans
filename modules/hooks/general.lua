@@ -120,6 +120,7 @@ function Game:init_game_object()
     ret.akyrs_deals = {}
     ret.akyrs_deals_reroll_price = 2
     ret.akyrs_deals_add_row_price = 3
+    ret.akyrs_deals_added_rows = 0
 
     ret.akyrs_ut_route = "pacifist"
     ret.akyrs_cards_modified = 0
@@ -155,6 +156,11 @@ function SMODS.current_mod.reset_game_globals(run_start)
     G.GAME.akyrs_life_draw_whole_cost = 30
     G.GAME.akyrs_life_draw_one_cost = 3
 
+    
+    G.GAME.akyrs_deals_reroll_price = 2
+    G.GAME.akyrs_deals_add_row_price = 3
+    G.GAME.akyrs_deals_added_rows = 0
+
     G.GAME.akyrs_life_top_up_life = is_kdx and 15 or 10
     local candidate_hands = AKYRS.filter_table(AKYRS.keyvalue_to_list(G.GAME.hands), function (hand_info, ind)
         return hand_info[2].played > 0
@@ -163,6 +169,8 @@ function SMODS.current_mod.reset_game_globals(run_start)
         local hand_to_set = pseudorandom_element(candidate_hands, "akyrs_candidate_hand_for_bosses")
         if G.GAME.current_round.akyrs_picked_poker_hands then G.GAME.current_round.akyrs_picked_poker_hands = hand_to_set[1] end
     end
+
+    G.GAME.akyrs_deals = AKYRS.generate_deals(6)
 end
 
 
@@ -212,8 +220,8 @@ function Game:update(dt)
         if not G.GAME.akyrs_emerald then
             G.GAME.akyrs_emerald = 0
         end
-        if G.GAME.akyrs_emerald then
-            G.GAME.akyrs_emerald_text = number_format(G.GAME.akyrs_emerald)
+        if G.AKYRS_EMERALDS then
+            G.GAME.akyrs_emerald_text = number_format(G.AKYRS_EMERALDS)
         end
         
         G.GAME.alphabet_rate = G.GAME.alphabet_rate or 0

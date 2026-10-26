@@ -1544,3 +1544,38 @@ AKYRS.bind_to_random_card = function (card, force_clear)
         end
     end
 end
+
+AKYRS.get_area_for_card = function (card)
+    local area
+    local is_playing_card = SMODS.is_playing_card(card) or card.ability.set == "Base" or card.ability.set == "Enhanced"
+    if is_playing_card then
+        area = area or G.deck
+    end
+    if not area and (SMODS.ConsumableTypes[card.ability.set] or card.ability.consumeable) then
+        area = G.consumeables
+    end
+    area = area or G.jokers
+    return area
+end
+
+function AKYRS.smoothly_ease_emerald(x)
+    local sign = x < 0 and -1 or 1
+    local times = math.floor(math.abs(x))
+    local fract = (math.abs(x) - math.floor(math.abs(x)))
+    local final = G.GAME.akyrs_emerald + x
+    AKYRS.Currencies['curr_akyrs_emerald']:set_value(final)
+    for i = 1, times do
+        AKYRS.simple_event_add(function ()
+            G.AKYRS_EMERALDS = G.AKYRS_EMERALDS + sign
+            AKYRS.Currencies['curr_akyrs_emerald']:transactional_sound(sign)
+            return true
+        end, 0.4 * math.max(0.05, 1 / times), 'akyrs_sfx')
+    end
+    if fract > 0 then
+        AKYRS.simple_event_add(function ()
+            G.AKYRS_EMERALDS = G.AKYRS_EMERALDS + sign * fract
+            AKYRS.Currencies['curr_akyrs_emerald']:transactional_sound(sign * fract)
+            return true
+        end, 0.02, 'akyrs_sfx')
+    end
+end

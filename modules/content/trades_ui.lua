@@ -53,13 +53,7 @@ G.FUNCS.akyrs_emerald_sell_selected_cards = function (e)
                     silent = true,
                     immediate = true,
                 })
-                for i = 1, x do
-                    AKYRS.simple_event_add(function ()
-                        AKYRS.Currencies['curr_akyrs_emerald']:change_value(1)
-                        AKYRS.Currencies['curr_akyrs_emerald']:transactional_sound(x)
-                        return true
-                    end, 0.4 * math.max(0.05, 1 / x), 'akyrs_sfx')
-                end
+                AKYRS.smoothly_ease_emerald(x)
                 return true
             end, 0.4 * math.max(0.001, 1 / x))
         end
@@ -87,7 +81,8 @@ AKYRS.generate_singular_deal = function ( typ )
     return { key = key, cost = AKYRS.determine_emerald_buy_cost(G.P_CENTERS[key]) }
 end
 
-AKYRS.create_ui_for_trade_item = function (index, deal, deals_table)
+AKYRS.create_ui_for_trade_item = function (index, deal, deals_table, object)
+    local object = object or AKYRS.create_object_for_ui(G.P_CENTERS[deal.key], 0.7)
     -- reminder: returns a G.UIT.C because these will (likely) be put side by side
     return {
         n = G.UIT.C,
@@ -111,7 +106,7 @@ AKYRS.create_ui_for_trade_item = function (index, deal, deals_table)
                     {
                         n = G.UIT.O,
                         config = {
-                            object = AKYRS.create_object_for_ui(G.P_CENTERS[deal.key], 0.7)
+                            object = object
                         }
                     },
                 }
@@ -135,6 +130,12 @@ AKYRS.create_ui_for_trade_item = function (index, deal, deals_table)
             AKYRS.button_prefab{
                 w = 1,
                 h = 0.7,
+                ref_table = {
+                    object = object,
+                    deal = deal,
+                },
+                button = 'akyrs_ui_trade_item_purchase',
+                func = 'akyrs_ui_trade_item_can_purchase',
                 children = {
                     AKYRS.text_prefab{
                         text = localize('b_buy')
@@ -142,5 +143,73 @@ AKYRS.create_ui_for_trade_item = function (index, deal, deals_table)
                 },
             }
         }
-    }
+    }, object
 end
+
+G.FUNCS.akyrs_ui_trade_item_can_purchase = function (e)
+    local ref = e.config.ref_table
+    AKYRS.button_enable_func(e, {
+        func = function (e)
+            return not AKYRS.Currencies.curr_akyrs_emerald:has_not_enough_money_check(ref.deal.cost)
+        end,
+        button = 'akyrs_ui_trade_item_purchase',
+    })
+end
+
+G.FUNCS.akyrs_ui_trade_item_purchase = function (e)
+    local ref = e.config.ref_table
+    local ar = AKYRS.get_area_for_card(ref.object)
+    if AKYRS.has_room(ar) then
+        local c2 = SMODS.copy_card(ref.object, { no_add = true })
+        SMODS.add_to_deck(c2, { area = ar })
+        local x = ref.deal.cost
+        play_sound('akyrs_villager_yes')
+        AKYRS.smoothly_ease_emerald(-x)
+        AKYRS.remove_value_from_table(G.GAME.akyrs_deals, ref.deal)
+        local progress = AKYRS.VILLAGER_SHOP_PANEL.scroll_progress
+        G.FUNCS.akyrs_change_tab(AKYRS.TABS_DEF['villager_shop'].last_clicked_button)
+        AKYRS.VILLAGER_SHOP_PANEL:set_scroll_progress({ x = progress.x, y = progress.y})
+    else
+        alert_no_space(ref.object, ar)
+    end
+end
+
+
+G.FUNCS.akyrs_ui_merchant_can_reroll = function (e)
+    AKYRS.button_enable_func(e, {
+        func = function (e)
+            return not AKYRS.Currencies.curr_akyrs_emerald:has_not_enough_money_check(G.GAME.akyrs_deals_reroll_price)
+        end,
+        button = 'akyrs_ui_merchant_reroll',
+    })
+end
+
+G.FUNCS.akyrs_ui_merchant_can_add_deals = function (e)
+    local ref = e.config.ref_table
+    AKYRS.button_enable_func(e, {
+        func = function (e)
+            return not AKYRS.Currencies.curr_akyrs_emerald:has_not_enough_money_check(G.GAME.akyrs_deals_add_row_price)
+        end,
+        colour = G.C.GREEN,
+        button = 'akyrs_ui_merchant_add_deals',
+    })
+end
+
+
+G.FUNCS.akyrs_ui_merchant_reroll = function (e)
+    AKYRS.smoothly_ease_emerald(-G.GAME.akyrs_deals_reroll_price)
+    G.GAME.akyrs_deals_reroll_price = G.GAME.akyrs_deals_reroll_price + 3
+    G.GAME.akyrs_deals = AKYRS.generate_deals(#G.GAME.akyrs_deals)
+    G.FUNCS.akyrs_change_tab(AKYRS.TABS_DEF['villager_shop'].last_clicked_button)
+end
+
+
+G.FUNCS.akyrs_ui_merchant_add_deals = function (e)
+    AKYRS.smoothly_ease_emerald(-G.GAME.akyrs_deals_reroll_price)
+    G.GAME.akyrs_deals_reroll_price = G.GAME.akyrs_deals_reroll_price + 3
+    G.GAME.akyrs_deals_added_rows = G.GAME.akyrs_deals_added_rows + 1
+    G.GAME.akyrs_deals_add_row_price = G.GAME.akyrs_deals_add_row_price + 3 * G.GAME.akyrs_deals_added_rows
+    G.GAME.akyrs_deals = SMODS.merge_lists({G.GAME.akyrs_deals, AKYRS.generate_deals(3)})
+    G.FUNCS.akyrs_change_tab(AKYRS.TABS_DEF['villager_shop'].last_clicked_button)
+end
+

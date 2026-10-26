@@ -34,6 +34,7 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
         }
     end,
     full_trade_ui = function (self)
+        AKYRS.VILLAGER_SHOP_PANEL_KEY = self.key
         if AKYRS.VILLAGER_SHOP_PANEL and AKYRS.VILLAGER_SHOP_PANEL.remove then
             AKYRS.VILLAGER_SHOP_PANEL:remove()
             AKYRS.VILLAGER_SHOP_PANEL = nil
@@ -64,7 +65,7 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
                     },
                     nodes = self:trade_ui()
                 },
-                config = { align = "cm"}
+                config = { align = "cm" }
             },
             overflow = {
                 node_config = {
@@ -147,8 +148,8 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
             n = G.UIT.ROOT,
             config = {
                 emboss = 0.05,
-                minh = shop_height or 5.5,
-                maxh = shop_height or 5.5,
+                minh = shop_size.h or 5.5,
+                maxh = shop_size.h or 5.5,
                 r = 0.1,
                 minw = 8,
                 align = "cm",
@@ -159,22 +160,9 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
         }
     end,
     refresh_shop_ui = function(self)
-        if AKYRS.VILLAGER_SHOP_PANEL and AKYRS.VILLAGER_SHOP_PANEL.remove then
-            AKYRS.VILLAGER_SHOP_PANEL:remove()
-            AKYRS.VILLAGER_SHOP_PANEL = nil
-        end
-        local extra_top_ui = nil
-        if self.extra_top_ui then
-            extra_top_ui = self:extra_top_ui()
-        end
-        local extra_left_ui = nil
-        if self.extra_left_ui then
-            extra_left_ui = self:extra_left_ui()
-        end
-        local extra_right_ui = nil
-        if self.extra_right_ui then
-            extra_right_ui = self:extra_right_ui()
-        end
+        AKYRS.VILLAGER_SHOP_PANEL_KEY = self.key
+        local old = AKYRS.VILLAGER_SHOP_PANEL
+        local parent = old.parent
         local shop_size = {}
         if self.get_shop_size then
             shop_size = self:get_shop_size()
@@ -189,7 +177,7 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
                     },
                     nodes = self:trade_ui()
                 },
-                config = { align = "cm"}
+                config = { align = "cm" }
             },
             overflow = {
                 node_config = {
@@ -203,9 +191,14 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
                     outline_colour = G.C.GREEN,
                 },
             }
-
         }
-        AKYRS.VILLAGER_SHOP_PANEL = self.no_scroll and UIBox(box.content) or SMODS.UIScrollBox(box)
+        local xkcd = self.no_scroll and UIBox(box.content) or SMODS.UIScrollBox(box)
+
+        if old and old.remove then
+            old:remove()
+        end
+        parent.config.object = xkcd
+        parent.UIBox:recalculate()
     end,
     inject = function(self)
         
@@ -291,6 +284,8 @@ AKYRS.TradeProfession {
                     colour = G.C.RED,
                     h = 2.2,
                     w = 2,
+                    button = 'akyrs_ui_merchant_reroll',
+                    func = 'akyrs_ui_merchant_can_reroll',
                     children = {
                         AKYRS.text_prefab { localize = { "k_reroll" }, scale = 0.5, uit = G.UIT.R },
                         AKYRS.emerald_indicator({
@@ -306,6 +301,8 @@ AKYRS.TradeProfession {
                     colour = G.C.GREEN,
                     h = 2.2,
                     w = 2,
+                    button = 'akyrs_ui_merchant_add_deals',
+                    func = 'akyrs_ui_merchant_can_add_deals',
                     children = {
                         AKYRS.text_prefab { localize = { "k_akyrs_add_trade_row" }, scale = 0.5, uit = G.UIT.R },
                         AKYRS.emerald_indicator({
@@ -327,9 +324,6 @@ AKYRS.TradeProfession {
         }
     end,
     trade_ui = function (self)
-        if not next(G.GAME.akyrs_deals) then
-            G.GAME.akyrs_deals = AKYRS.generate_deals(6)
-        end
         local uit = {{ n = G.UIT.R, config = { padding = 0.1,}, nodes = {} }}
         for i, c in ipairs(G.GAME.akyrs_deals) do
             uit[#uit].nodes[#(uit[#uit].nodes)+1] = AKYRS.create_ui_for_trade_item(i, c, G.GAME.akyrs_deals)

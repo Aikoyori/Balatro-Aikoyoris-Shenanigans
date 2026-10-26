@@ -1039,38 +1039,6 @@ AKYRS.Scenario {
 }
 
 AKYRS.Scenario {
-    key = "river",
-    set = "Scenario",
-    pos = { x = 3, y = 1 },
-    scenario = {
-        colour = "pink",
-        side = "light",
-    },
-    config = {
-        extras = {
-            dsc = 1
-        }
-    },
-    akyrs_total_rounds = 2,
-    loc_vars = function (self, info_queue, card)
-        return {
-            vars = {
-                SMODS.signed(card.ability.extras.dsc)
-            }
-        }
-    end,
-    calculate = function (self, card, context)
-        if context.pre_discard and not context.hook and G.GAME.current_round.hands_left == 1 then
-            return {
-                func = function()
-                    ease_discard(card.ability.extras.dsc, true)
-                end
-            }
-        end
-    end,
-}
-
-AKYRS.Scenario {
     key = "desert",
     set = "Scenario",
     pos = { x = 4, y = 1 },

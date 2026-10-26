@@ -191,6 +191,7 @@ SMODS.UndiscoveredCompat["Enchantment"] = true
 ---@field allowed_func? fun(self: SMODS.Center|table, card: Card|table): boolean? Function to ask if you can apply achievement
 ---@field allowed_set? table? sets that you can apply the enchantment with, overridden by allowed_func
 ---@field requires_effect_calc? bool? instead of adding it to return calculates individually
+---@field weight number the
 ---@field in_pool? fun(self: SMODS.Center|table, args: table): boolean? , table? Allows configuring if the card is allowed to spawn. 
 ---@overload fun(self: AKYRS.Enchantment): AKYRS.Enchantment
 AKYRS.Enchantment = SMODS.GameObject:extend{
@@ -238,21 +239,9 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
         return 2 ^ ((self.max_level - level) + 1)
     end,
     badge_colour = HEX("654b17"),
-    get_weight = function (self, level)
-        local weights = {}
-        for single_level = 1, self.max_level do
-            table.insert(weights, {
-                value = {
-                    key = self.key,
-                    level = single_level
-                },
-                weight = self:get_weight_from_level(single_level)
-            })
-        end
-        return weights
-    end,
     allowed_set = {
         ["Joker"] = true,
+        ["Consumeable"] = true,
         ["Default"] = true,
         ["Enhanced"] = true,
     },
@@ -398,6 +387,7 @@ AKYRS.Enchantment {
 }
 AKYRS.Enchantment {
     key = "mending",
+    weight = 1,
     enchantment_calculate = function (self, card, context, level)
         if (context.repetition or context.retrigger_joker_check) and context.other_card == card then
             return {
@@ -410,6 +400,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "efficiency",
     max_level = 5,
+    weight = 5,
     requires_effect_calc = true,
     allowed_set = {
         Joker = true
@@ -455,6 +446,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "unbreaking",
     max_level = 3,
+    weight = 10,
     loc_vars = function (self, info_queue, card, level)
         local n, d = SMODS.get_probability_vars(card, level * 25, 100, "akyrs_ench_unbreaking", nil, true)
         return {
@@ -468,6 +460,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "fire_aspect",
     max_level = 2,
+    weight = 7,
     loc_vars = function (self, info_queue, card, level)
         return {
             vars = {
@@ -483,6 +476,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "fortune",
     max_level = 6,
+    weight = 5,
     loc_vars = function (self, info_queue, card, level)
         return {
             vars = {
@@ -506,6 +500,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "greed",
     max_level = 4,
+    weight = 4,
     loc_vars = function (self, info_queue, card, level)
         return {
             vars = {
@@ -538,6 +533,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "silk_touch",
     max_level = 2,
+    weight = 5,
     loc_vars = function (self, info_queue, card, level)
         return {
             vars = {
@@ -574,6 +570,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "cornucopia",
     max_level = 1,
+    weight = 2,
     allowed_set = {
         ["Default"] = true,
         ["Enhanced"] = true,
@@ -597,6 +594,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "chipful",
     max_level = 5,
+    weight = 15,
     allowed_set = {
         ["Default"] = true,
         ["Enhanced"] = true,
@@ -614,6 +612,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "binding_curse",
     max_level = 1,
+    weight = 15,
     curse = true,
     allowed_set = {
         ["Joker"] = true,
@@ -625,6 +624,42 @@ AKYRS.Enchantment {
     remove_ench = function (self, card, level)
         card.akyrs_enchantments_data.akyrs_binding_card_id = nil
         card.akyrs_binding_card = nil
+    end
+    
+}
+
+AKYRS.Enchantment {
+    key = "vanishing_curse",
+    max_level = 1,
+    weight = 15,
+    curse = true,
+    config = {
+        n = 1, d = 4,
+    },
+    loc_vars = function (self, info_queue, card, level)
+        local n, d = SMODS.get_probability_vars( card, self.config.n, self.config.d, "akyrs_vanishing_curse_random")
+        return {
+            vars = {
+                n, d
+            }
+        }
+    end,
+    allowed_set = {
+        ["Joker"] = true,
+        ["Consumeable"] = true,
+        ["Default"] = true,
+        ["Enhanced"] = true,
+    },
+    calculate = function (self, card, context)
+        if context.end_of_round and context.main_eval then
+            return {
+                func = function ()
+                    if SMODS.pseudorandom_probability( card, "akyrs_vanishing_curse_random", self.config.n, self.config.d) then
+                        SMODS.destroy_cards({ card })
+                    end
+                end
+            }
+        end
     end
     
 }

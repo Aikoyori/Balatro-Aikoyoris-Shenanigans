@@ -648,6 +648,7 @@ AKYRS.ShopPage {
             n = G.UIT.R,
             nodes = {
               AKYRS.create_tabs({
+                  key = 'villager_shop',
                   snap_to_nav = true,
                   no_shoulders = true,
                   colour = G.C.BOOSTER,

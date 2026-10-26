@@ -170,6 +170,7 @@ function Game:start_run(args)
     for _, v in ipairs(AKYRS.ShopPages_Buffer) do
         AKYRS.ShopPages[v]:_INTERNAL_setup_shop_strings_and_ui(true)
     end
+    G.AKYRS_EMERALDS = G.GAME.akyrs_emerald
     return ret
 end
 

@@ -2387,6 +2387,7 @@ end
 
 function AKYRS.create_tabs(args)
   args = args or {}
+  if not args.key then error("please add key to your AKYRS.create_tabs args thank you") end
   args.colour = args.colour or G.C.RED
   args.tab_alignment = args.tab_alignment or 'cm'
   args.opt_callback = args.opt_callback or nil
@@ -2412,13 +2413,16 @@ function AKYRS.create_tabs(args)
     },
   }
 
+  AKYRS.TABS_DEF = AKYRS.TABS_DEF or {}
+  AKYRS.TABS_DEF[args.key] = {}
   local tab_buttons = {}
 
   for k, v in ipairs(args.tabs) do
     if v.chosen then args.current = {k = k, v = v} end
-    tab_buttons[#tab_buttons+1] = UIBox_button({id = 'tab_but_'..(v.label or ''), ref_table = v, button = 'akyrs_change_tab', label = {v.label}, minh = 0.8*args.scale, minw = 2.5*args.scale, col = true, choice = true, scale = args.text_scale, chosen = v.chosen, func = v.func, colour = args.colour, focus_args = {type = 'none'}})
+    tab_buttons[#tab_buttons+1] = UIBox_button({id = 'tab_but_'..(v.label or ''), ref_table = v, ref_value = args, button = 'akyrs_change_tab', label = {v.label}, minh = 0.8*args.scale, minw = 2.5*args.scale, col = true, choice = true, scale = args.text_scale, chosen = v.chosen, func = v.func, colour = args.colour, focus_args = {type = 'none'}})
   end
-
+  AKYRS.TABS_DEF[args.key].args = args
+  AKYRS.TABS_DEF[args.key].chosen = args.current.k
   local t = 
   {n=G.UIT.R, config={padding = 0.0, align = "cm", colour = G.C.CLEAR}, nodes={
     {n=G.UIT.R, config={align = "cm", colour = G.C.CLEAR}, nodes = {
@@ -2437,6 +2441,8 @@ end
 
 G.FUNCS.akyrs_change_tab = function(e)
   if not e then return end
+  local args = e.config.ref_value
+  AKYRS.TABS_DEF[args.key].last_clicked_button = e
   if G.OVERLAY_MENU then
     local _infotip_object = G.OVERLAY_MENU:get_UIE_by_ID('overlay_menu_infotip')
     if _infotip_object and _infotip_object.config.object then 
@@ -2444,6 +2450,8 @@ G.FUNCS.akyrs_change_tab = function(e)
         _infotip_object.config.object = Moveable()
     end
   end
+
+  AKYRS.TABS_DEF[args.key].chosen = e.config.ref_table.k
 
   local tab_contents = e.UIBox:get_UIE_by_ID('tab_contents')
   tab_contents.config.object:remove()

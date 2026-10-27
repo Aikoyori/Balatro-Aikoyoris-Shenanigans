@@ -2051,9 +2051,9 @@ function AKYRS.nopeinator(card, config)
     end)
 end
 
----this is for ease of making button do the thing
+---this is for ease of making button do the thingy
 ---@param e UINode the ui node
----@param config? { func?: (fun(e:UINode): boolean), button?: string, colour?: number[] } config for the thing
+---@param config? { func?: (fun(e:UINode): boolean), button?: string, disabled_button?: string, colour?: number[], disabled_button_colour?: number[] } config for the thing
 function AKYRS.button_enable_func( e , config )
     config = config or {}
     local enabled = true
@@ -2065,8 +2065,26 @@ function AKYRS.button_enable_func( e , config )
         e.config.button = config.button or 'akyrs_do_nothing'
         e.config.colour = config.colour or G.C.RED
     else
-        e.config.button = nil
-        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = config.disabled_button
+        e.config.colour = config.disabled_button_colour or G.C.UI.BACKGROUND_INACTIVE
+    end
+end
+
+---this is for ease of making button do the thingy, conf_func has priority over state_func
+---@param e UINode the ui node
+---@param config? { state_func?: (fun(e:UINode): any), conf_func?: (fun(e:UINode): UINode.config), state_table?: UINode.config[], disabled : UINode.config} } config for the thing
+function AKYRS.multi_state_button_func( e, config )
+    config = config or {}
+    config.disabled = config.disabled or { button = nil, colour = G.C.UI.BACKGROUND_INACTIVE }
+    if not config.state_func and not config.conf_func then error("for this function, state_func is required") end
+    if not config.state_table and not config.conf_func then error("for config.state_func to work, state_table is required") end
+    local disabled = false
+    if ((G.GAME.STOP_USE and G.GAME.STOP_USE > 0)) then
+        disabled = true
+    end
+    local state_val = (disabled and config.disabled) or (config.conf_func and (config.conf_func(e)) or (config.state_table and config.state_table[config.state_func(e)]))
+    for k, v in pairs(state_val) do
+        e.config[k] = v
     end
 end
 
@@ -2419,7 +2437,7 @@ function AKYRS.create_tabs(args)
 
   for k, v in ipairs(args.tabs) do
     if v.chosen then args.current = {k = k, v = v} end
-    tab_buttons[#tab_buttons+1] = UIBox_button({id = 'tab_but_'..(v.label or ''), ref_table = v, ref_value = args, button = 'akyrs_change_tab', label = {v.label}, minh = 0.8*args.scale, minw = 2.5*args.scale, col = true, choice = true, scale = args.text_scale, chosen = v.chosen, func = v.func, colour = args.colour, focus_args = {type = 'none'}})
+    tab_buttons[#tab_buttons+1] = UIBox_button({id = 'tab_but_'..(v.label or ''), akyrs_ui_tooltip = v.tooltip, ref_table = v, ref_value = args, button = 'akyrs_change_tab', label = {v.label}, minh = 0.8*args.scale, minw = 2.5*args.scale, col = true, choice = true, scale = args.text_scale, chosen = v.chosen, func = v.func, colour = args.colour, focus_args = {type = 'none'}})
   end
   AKYRS.TABS_DEF[args.key].args = args
   AKYRS.TABS_DEF[args.key].chosen = args.current.k
@@ -2531,4 +2549,49 @@ AKYRS.create_object_for_ui = function (center, scale)
         card:set_sprites(card.config.center)
     end
     return card
+end
+
+
+
+function AKYRS.create_UIBox_nameless_tooltip(_center)
+    local full_UI_table = {
+        main = {},
+        info = {},
+        type = {},
+        name = 'done',
+        badges = badges or {}
+    }
+    local vars
+    if _center.loc_vars then
+        vars = _center:loc_vars({}, _center:create_fake_card())
+    end
+    local desc = generate_card_ui(_center, full_UI_table, (vars or {}).vars, _center.set, nil)
+    return {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={
+        {n=G.UIT.R, config={align = "cm", colour = lighten(G.C.JOKER_GREY, 0.5), r = 0.1, padding = 0.05, emboss = 0.05}, nodes={
+            AKYRS.custom_info_tip_from_rows(desc.info[1], nil, true),
+        }}
+    }}
+end
+
+
+function AKYRS.custom_info_tip_from_rows(desc_nodes, name, no_name)
+    local name_nodes
+    if not no_name then
+        if not desc_nodes.name_styled then
+            name_nodes = {{n=G.UIT.T, config={text = name, scale = 0.32, colour = G.C.UI.TEXT_LIGHT}}}
+        else
+            name_nodes = {desc_nodes.name_styled}
+        end
+    end
+    local t = {}
+    for k, v in ipairs(desc_nodes) do
+        t[#t+1] = {n=G.UIT.R, config={align = "cm"}, nodes=v}
+    end
+    local x = {n=G.UIT.R, config={align = "cm", colour = lighten(G.C.GREY, 0.15), r = 0.1}, nodes={
+        {n=G.UIT.R, config={align = "cm", minw = 1.5, minh = 0.4, r = 0.1, padding = 0.05, colour = desc_nodes.background_colour or G.C.WHITE}, nodes={{n=G.UIT.R, config={align = "cm", padding = 0.03}, nodes=t}}}
+    }}
+    if not no_name then
+        table.insert(x, 1, {n=G.UIT.R, config={align = "tm", minh = 0.36, padding = 0.03}, nodes=name_nodes})
+    end
+    return x
 end

@@ -5521,13 +5521,36 @@ return {
             profession_akyrs_pawnbroker = {
                 name = 'Pawnbroker',
                 text = {
-
+                    "Sell {C:attention}Jokers",
+                    "and {C:red}Consumables",
+                    "for {C:green}Emeralds"
                 }
             },
             profession_akyrs_merchant = {
                 name = 'Merchant',
                 text = {
-
+                    "Trade in {C:green}Emeralds",
+                    "for {C:attention}Cards"
+                }
+            },
+            profession_akyrs_enchantsmith = {
+                name = 'Enchantsmith',
+                text = {
+                    "{C:attention}Enchants{} your cards",
+                    "& buy {C:purple}Enchanted Books"
+                }
+            },
+            profession_akyrs_enchantsmith_locked = {
+                name = 'Enchantsmith',
+                text = {
+                    {
+                        "{C:attention}Enchants{} your cards",
+                        "& buy {C:purple}Enchanted Books",
+                    },
+                    {
+                        "Click to Unlock",
+                        "for {C:green}50{element:1}",
+                    }
                 }
             },
         },

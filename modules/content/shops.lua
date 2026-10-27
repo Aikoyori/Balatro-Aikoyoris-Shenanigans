@@ -635,6 +635,8 @@ AKYRS.ShopPage {
         tabulars[#tabulars+1] = {
           label = localize({ set = "TradeProfession", key = key, type = 'name_text'}),
           chosen = i == 1,
+          tooltip = AKYRS.TradeProfessions[key],
+          func = AKYRS.TradeProfessions[key].button_func,
           tab_definition_function = function (args)
             return AKYRS.TradeProfessions[key]:full_trade_ui()
           end,

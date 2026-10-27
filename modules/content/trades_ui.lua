@@ -213,3 +213,24 @@ G.FUNCS.akyrs_ui_merchant_add_deals = function (e)
     G.FUNCS.akyrs_change_tab(AKYRS.TABS_DEF['villager_shop'].last_clicked_button)
 end
 
+
+G.FUNCS.akyrs_enchantsmith_tab_button = function (e)
+    AKYRS.multi_state_button_func(e, {
+        conf_func = function (e)
+            if G.GAME.akyrs_unlocked_enchantsmith then
+                return { button = 'akyrs_change_tab', colour = G.C.BOOSTER }
+            end
+            if AKYRS.Currencies.curr_akyrs_emerald:has_not_enough_money_check(50) then
+                return { button = false, colour = G.C.UI.BACKGROUND_INACTIVE }
+            end
+            return { button = 'akyrs_ui_enchantsmith_unlock', colour = G.C.DARK_EDITION }
+        end
+    })
+end
+
+
+G.FUNCS.akyrs_ui_enchantsmith_unlock = function (e)
+    AKYRS.smoothly_ease_emerald(-50)
+    G.GAME.akyrs_unlocked_enchantsmith = true
+    G.FUNCS.akyrs_change_tab(e)
+end

@@ -84,7 +84,7 @@ AKYRS.Currency{
         return {G.C.GREEN}
     end,
     has_not_enough_money_check = function (self, cost)
-        return cost >= G.GAME.akyrs_emerald
+        return cost > G.GAME.akyrs_emerald
     end,
     get_value = function (self)
         return G.GAME.akyrs_emerald

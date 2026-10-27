@@ -19,6 +19,7 @@ end
 
 function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
     card.akyrs_enchantments = card.akyrs_enchantments or {}
+    local success = false
     if not AKYRS.Enchantments[enchantment_key] then error("Enchantment not found?") return end
     if not AKYRS.Enchantments[enchantment_key]:is_valid_level(level) and not forced then
 
@@ -69,6 +70,7 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
                 if table_set ~= 'akyrs_stored_enchantments' then
                     AKYRS.Enchantments[enchantment_key]:apply_ench(card, level)
                 end
+                success = true
             end
         end
         local ench_table = {}
@@ -81,10 +83,12 @@ function AKYRS.apply_enchantment(card, enchantment_key, level, forced)
         if table_set ~= 'akyrs_stored_enchantments' then
             AKYRS.Enchantments[enchantment_key]:apply_ench(card, level)
         end
+        success = true
     end
     if table_set ~= 'akyrs_stored_enchantments' then
         SMODS.calculate_context({ akyrs_enchantment_applied = true, applied_enchantment_data = {enchantment_key, level}, upgraded_from = upgraded_from })
     end
+    return success
 end
 function AKYRS.remove_enchantment(card, enchantment_key, forced)
     card.akyrs_enchantments = card.akyrs_enchantments or {}
@@ -163,7 +167,70 @@ function AKYRS.create_enchanted_book(enchantment_list)
     return card
 end
 
+
+function AKYRS.get_valid_enchantment_pool(card, curses, treasure, apply_duplicates)
+    local level = level or 1
+    local pool = { Enchantment = true }
+    for _, key in ipairs(AKYRS.Enchantments_Buffer) do
+        local ench = AKYRS.Enchantments[key]
+        local is_not_duplicate = AKYRS.map(next(card.akyrs_stored_enchantments or {}) and card.akyrs_stored_enchantments or card.akyrs_enchantments, function (item, index)
+            if item[1] == key then
+                return true
+            end
+        end)
+        if (is_not_duplicate or apply_duplicates) and ench:in_pool({ joker = true }) and ench:can_apply(level, card) and (not ench.curse or curses) and (not ench.treasure or treasure) then
+            pool[#pool+1] = {
+                type = "Enchantment",
+                key = key
+            }
+        end
+    end
+    return pool
+end
+
+function AKYRS.randomly_enchant_card(card, enchantments_count, args)
+    if not card then error("where de fuk is de card man") end
+    bias_per_level = bias_per_level or 0
+    enchantments_count = enchantments_count or 1
+    local seed = args.seed
+    local bias_per_level = args.bias_per_level
+    local silent = args.silent
+    local no_juice = args.no_juice
+    local treasure = args.treasure
+    local curse = args.curse
+    local apply_duplicates = args.apply_duplicates
+    local successful = false
+    for i = 1, enchantments_count do
+        local key = SMODS.poll_object{ pool = AKYRS.get_valid_enchantment_pool(card, curse, treasure, apply_duplicates), seed = seed or 'akyrs_enchantments' }
+        local ench = AKYRS.Enchantments[key]
+        local levels = {}
+        local max = 1
+        AKYRS.map(next(card.akyrs_stored_enchantments or {}) and card.akyrs_stored_enchantments or card.akyrs_enchantments, function (item, index)
+            if item[1] == key then
+                max = item[2] > max and item[2] or max
+            end
+        end)
+        if max < ench.max_level then
+            for i = max, ench.max_level do
+                levels[#levels+1] = {
+                    weight = ench:get_weight_from_level(i) * (i ^ (1 + bias_per_level * 0.1)),
+                    value = i
+                }
+            end
+            local level = AKYRS.weighted_randomiser(levels, pseudoseed(seed or 'akyrs_enchantment_level'))
+            successful = successful or AKYRS.apply_enchantment(card, key, level)
+        end
+    end
+    if successful then
+        if not silent then play_sound('akyrs_enchanted') end
+        if not no_juice then card:juice_up(0.5,0.5) end
+    end
+    return successful
+end
+
+---@type {[string]:AKYRS.Enchantment}
 AKYRS.Enchantments = {}
+---@type string[]
 AKYRS.Enchantments_Buffer = {}
 
 
@@ -192,6 +259,7 @@ SMODS.UndiscoveredCompat["Enchantment"] = true
 ---@field allowed_set? table? sets that you can apply the enchantment with, overridden by allowed_func
 ---@field requires_effect_calc? bool? instead of adding it to return calculates individually
 ---@field weight number the
+---@field max_level number the
 ---@field in_pool? fun(self: SMODS.Center|table, args: table): boolean? , table? Allows configuring if the card is allowed to spawn. 
 ---@overload fun(self: AKYRS.Enchantment): AKYRS.Enchantment
 AKYRS.Enchantment = SMODS.GameObject:extend{
@@ -329,7 +397,7 @@ AKYRS.Enchantment {
     can_apply = function (self, level, other_card)
         return false
     end,
-    
+    no_collection = true,
     generate_ui = function (self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
         SMODS.Joker.super.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
         local cx = {}

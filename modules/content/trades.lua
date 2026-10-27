@@ -11,8 +11,10 @@ AKYRS.TradeProfessions_Keys = {}
 ---@field extra_left_ui fun(self:AKYRS.TradeProfession):table ui for left additional thing like reroll button
 ---@field extra_right_ui fun(self:AKYRS.TradeProfession):table ui for right additional thing like reroll button
 ---@field get_shop_size fun(self:AKYRS.TradeProfession):{ w: number, h : number} nomber for shop height so it is not as tall
+---@field loc_vars? fun(self: AKYRS.TradeProfession|table, info_queue: table, card: Card|table): table? Provides simple control over displaying descriptions and tooltips of the card. See [`loc_vars`](https://github.com/Steamodded/smods/wiki/Localization#loc_vars) documentation for return value details. 
 ---@field refresh_shop_ui fun(self:AKYRS.TradeProfession) fucking kill shop ui
 ---@field is_enabled fun(self:AKYRS.TradeProfession):boolean is it enabled? used to constant check so don't print bruh 
+---@field button_func string button func in `G.FUNCS` for the tab for enable thing stuff like that
 ---@field enable fun(self:AKYRS.TradeProfession, enable:boolean) enable it brah
 ---@field no_scroll boolean does it scroll?
 ---@overload fun(self:AKYRS.TradeProfession): AKYRS.TradeProfession
@@ -32,6 +34,13 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
                 text = "lush cave here " .. self.key
             })
         }
+    end,
+    config = {},
+    create_fake_card = function(self)
+        return { ability = copy_table(self.config), fake_card = self.key }
+    end,
+    generate_ui = function (...)
+        return SMODS.Center.generate_ui(...)
     end,
     full_trade_ui = function (self)
         AKYRS.VILLAGER_SHOP_PANEL_KEY = self.key
@@ -347,6 +356,48 @@ AKYRS.TradeProfession {
                     }
                 }
             }
+        }
+    end
+}
+
+AKYRS.TradeProfession {
+    key = 'enchantsmith',
+    pos = { x = 3, y = 0 },
+    no_scroll = true,
+    loc_vars = function (self, info_queue, card)
+        return {
+            key = self.key .. (not self:is_enabled() and "_locked" or ""),
+            vars = {
+                elements = {
+                    AKYRS.emerald_icon({ scale = 0.6 })
+                }
+            }
+        }
+    end,
+    is_enabled = function (self)
+        return G.GAME.akyrs_unlocked_enchantsmith
+    end,
+    button_func = 'akyrs_enchantsmith_tab_button',
+    trade_ui = function (self)
+        return {
+            {
+                n = G.UIT.C,
+                config = { minw = 3.8, minh = 5.5, align = 'cm' },
+                nodes = {
+                    AKYRS.text_prefab{
+                        text = "select to enchant man"
+                    }
+                }
+            },
+            {
+                n = G.UIT.C,
+                config = { minw = 3.8, minh = 5.5, align = 'cm' },
+                nodes = {
+                    AKYRS.text_prefab{
+                        text = "buy random enchanted book man"
+                    }
+                }
+            },
         }
     end
 }

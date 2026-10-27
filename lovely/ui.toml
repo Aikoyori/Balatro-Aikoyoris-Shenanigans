@@ -383,7 +383,9 @@ match_indent = true
 target = "functions/UI_definitions.lua"
 pattern = """  args.focus_args = args.focus_args or nil"""
 position = "before"
-payload = """args.akyrs_extras = args.akyrs_extras or nil"""
+payload = """args.akyrs_extras = args.akyrs_extras or nil
+args.akyrs_ui_tooltip = args.akyrs_ui_tooltip or nil
+"""
 overwrite = true
 match_indent = true
 
@@ -453,6 +455,7 @@ pattern = '''      one_press = args.one_press,'''
 position = 'before'
 payload = '''akyrs_osk = args.akyrs_osk,
 ref_value = args.ref_value,
+akyrs_ui_tooltip = args.akyrs_ui_tooltip,
 '''
 match_indent = true
 

@@ -220,6 +220,9 @@ function Game:update(dt)
         if not G.GAME.akyrs_emerald then
             G.GAME.akyrs_emerald = 0
         end
+        if #G.E_MANAGER.queues.akyrs_sfx == 0 then
+            G.AKYRS_EMERALDS = G.GAME.akyrs_emerald
+        end
         if G.AKYRS_EMERALDS then
             G.GAME.akyrs_emerald_text = number_format(G.AKYRS_EMERALDS)
         end

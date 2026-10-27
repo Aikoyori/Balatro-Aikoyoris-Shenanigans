@@ -1509,6 +1509,21 @@ function AKYRS.emerald_indicator(args)
     }
 end
 
+function AKYRS.emerald_icon(args)
+    return 
+        {
+            n = args.uit or G.UIT.C,
+            nodes = {
+                {
+                    n = G.UIT.O,
+                    config = {
+                    object = SMODS.create_sprite(0, 0, 0.5 * (args.scale or 1) ,0.5 * (args.scale or 1), 'akyrs_special_icons', { x = 0, y = 1})
+                    }
+                }
+            }
+        }
+end
+
 AKYRS.bind_cards = function (card, card2bind2)
     card.akyrs_binding_card = card2bind2
     card.akyrs_enchantments_data.akyrs_binding_card_id = card2bind2.akyrs_card_unique_id

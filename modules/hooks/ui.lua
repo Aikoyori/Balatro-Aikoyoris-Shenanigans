@@ -2318,3 +2318,36 @@ function G.UIDEF.card_h_popup(card)
     end
     return ret_val
 end
+
+
+local uie_hover = UIElement.hover
+function UIElement:hover() 
+    if self.config.akyrs_ui_tooltip then 
+        if not AKYRS.should_hide_ui() then
+            if not G.CONTROLLER.dragging.target or G.CONTROLLER.using_touch then 
+                if not self.hovering and self.states.visible then
+                    self.hovering = true
+                    local obj = self.config.akyrs_ui_tooltip
+                    local loc_vars = obj.loc_vars and obj:loc_vars() or {}
+                    self.ability_UIBox_table = generate_card_ui(obj, nil, loc_vars.vars, self.config.akyrs_ui_tooltip.set, nil , nil, loc_vars.main_start, loc_vars.main_end, obj:create_fake_card())
+                    
+                    self.config.center = obj.config
+                    self.ability = copy_table(obj.config)
+                    
+                    self.config.h_popup = G.UIDEF.card_h_popup(self)
+                    self.config.h_popup_config = self.config.akyrs_ui_tooltip_align and self.config.akyrs_ui_tooltip_align(self) or {align="tm", offset = {x=0,y=-0.1}, parent = self}
+                end
+            end
+        end
+    end
+    return uie_hover(self)
+end
+
+local uie_unhover = UIElement.stop_hover
+function UIElement:stop_hover() 
+    if self.config.akyrs_ui_tooltip and self.config.h_popup then
+        self.hovering = false 
+        self.ability_UIBox_table = nil
+    end
+    return uie_unhover(self)
+end

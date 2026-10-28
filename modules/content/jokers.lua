@@ -1663,6 +1663,9 @@ SMODS.Joker{
                 card.ability.extras.xcost,
                 card.cost,
                 card.ability.extras.amnt,
+                elements = {
+                    AKYRS.emerald_icon({ scale = 0.6 })
+                }
             }
         }
     end,

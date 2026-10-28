@@ -2293,7 +2293,7 @@ return {
                         "{C:inactive}another one of the same."
                     },
                     {
-                        "This Joker is worth {C:green}5 Emeralds"
+                        "This Joker is worth {element:1}{C:green}5"
                     }
 
                 }
@@ -5536,7 +5536,7 @@ return {
             profession_akyrs_enchantsmith = {
                 name = 'Enchantsmith',
                 text = {
-                    "{C:attention}Enchants{} your cards",
+                    "{C:attention}Enchant{} your cards",
                     "& buy {C:purple}Enchanted Books"
                 }
             },
@@ -5544,12 +5544,12 @@ return {
                 name = 'Enchantsmith',
                 text = {
                     {
-                        "{C:attention}Enchants{} your cards",
+                        "{C:attention}Enchant{} your cards",
                         "& buy {C:purple}Enchanted Books",
                     },
                     {
                         "Click to Unlock",
-                        "for {C:green}50{element:1}",
+                        "for {element:1}{C:green}50",
                     }
                 }
             },
@@ -5872,6 +5872,9 @@ return {
             b_scenario = "Scenarios",
 
             b_akyrs_sell_selected = "Sell Selected Cards",
+            b_akyrs_enchant_selected = "Enchant",
+            k_akyrs_ench_power = "Enchantment Power",
+            k_akyrs_num_o_ench = "# of Enchantments",
 
 
 

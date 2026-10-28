@@ -2351,3 +2351,27 @@ function UIElement:stop_hover()
     end
     return uie_unhover(self)
 end
+
+
+local thornringtextinputhook = G.FUNCS.text_input_key
+
+G.FUNCS.text_input_key = function (args)
+    local x = {thornringtextinputhook(args)}
+    if G.CONTROLLER.text_input_hook then
+        local hook_config = G.CONTROLLER.text_input_hook.config.ref_table
+        local text = hook_config.text
+        if hook_config.validate_and_replace then
+            local repl, wizth = hook_config.validate_and_replace(text.ref_table[text.ref_value], hook_config, true)
+            if repl then
+                text.ref_table[text.ref_value] = wizth
+            end
+            AKYRS.simple_event_add(function ()
+            for i = 1, #AKYRS.text_input_store[hook_config.id].letters do
+                AKYRS.text_input_store[hook_config.id].letters[i] = (text.ref_table[text.ref_value]):sub(i,i)
+            end
+            return true
+            end, 0.05, 'akyrs_misc')
+        end
+    end
+    return unpack(x)
+end

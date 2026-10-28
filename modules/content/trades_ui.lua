@@ -49,10 +49,8 @@ G.FUNCS.akyrs_emerald_sell_selected_cards = function (e)
         for i, c in ipairs(filtered_result) do
             local x = AKYRS.determine_emerald_sell_value(c)
             AKYRS.simple_event_add(function ()
-                SMODS.destroy_cards({c}, {
-                    silent = true,
-                    immediate = true,
-                })
+                c:start_dissolve()
+                c:juice_up()
                 AKYRS.smoothly_ease_emerald(x)
                 return true
             end, 0.4 * math.max(0.001, 1 / x))
@@ -233,4 +231,52 @@ G.FUNCS.akyrs_ui_enchantsmith_unlock = function (e)
     AKYRS.smoothly_ease_emerald(-50)
     G.GAME.akyrs_unlocked_enchantsmith = true
     G.FUNCS.akyrs_change_tab(e)
+end
+
+local get_enchantment_cost_per_card = function ()
+    return math.floor ( 5 * math.floor(1.5 ^ math.min(tonumber(AKYRS.akyrs_enchantsmith_enchantment_count) or 1, 4)) * (math.min(tonumber(AKYRS.akyrs_enchantsmith_bias) or 1, 30)) / 2 )
+end
+
+G.FUNCS.akyrs_emerald_enchantment_cost_update_value = function (e)
+    local filtered_result = AKYRS.filter_table(SMODS.merge_lists{ G.jokers.highlighted, G.consumeables.highlighted }, function (item, index)
+        return item and not next(item.akyrs_enchantments or {}) and item.ability.set ~= "Enchantment"
+    end, true, true)
+    AKYRS.enchantsmith_value_text = number_format(#filtered_result * get_enchantment_cost_per_card())
+end
+
+
+G.FUNCS.akyrs_emerald_can_enchant_selected_cards = function (e)
+    local filtered_result = AKYRS.filter_table(SMODS.merge_lists{ G.jokers.highlighted, G.consumeables.highlighted }, function (item, index)
+        return item and not next(item.akyrs_enchantments or {}) and item.ability.set ~= "Enchantment"
+    end, true, true)
+    AKYRS.button_enable_func(e, {
+        func = function (e)
+            return #filtered_result > 0 and not AKYRS.Currencies.curr_akyrs_emerald:has_not_enough_money_check(#filtered_result * get_enchantment_cost_per_card())
+        end,
+        colour = G.C.PURPLE,
+        button = 'akyrs_emerald_enchant_selected_cards'
+    })
+end
+
+
+G.FUNCS.akyrs_emerald_enchant_selected_cards = function (e)
+    local filtered_result = AKYRS.filter_table(SMODS.merge_lists{ G.jokers.highlighted, G.consumeables.highlighted }, function (item, index)
+        return item and not next(item.akyrs_enchantments or {}) and item.ability.set ~= "Enchantment"
+    end, true, true)
+    play_sound('akyrs_villager_yes', nil, 2.2)
+    stop_use()
+    if #filtered_result > 0 then 
+        for i, c in ipairs(filtered_result) do
+            local x = get_enchantment_cost_per_card()
+            AKYRS.simple_event_add(function ()
+                local success = AKYRS.randomly_enchant_card(c, tonumber(AKYRS.akyrs_enchantsmith_enchantment_count or 1), {
+                    bias_per_level = tonumber(AKYRS.akyrs_enchantsmith_bias or 1) or 1,
+                })
+                if success then
+                    AKYRS.smoothly_ease_emerald(-x)
+                end
+                return true
+            end, 0.4 * math.max(0.001, 1 / x))
+        end
+    end
 end

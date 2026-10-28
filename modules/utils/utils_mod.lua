@@ -1483,6 +1483,10 @@ function AKYRS.emerald_indicator(args)
     return {
         n = args.uit or G.UIT.R,
         config = {
+            minw = args.minw,
+            minh = args.minh,
+            maxw = args.maxw,
+            maxh = args.maxh,
             align = args.align or 'rc',
             padding = args.padding
         },
@@ -1575,13 +1579,16 @@ end
 
 function AKYRS.smoothly_ease_emerald(x)
     local sign = x < 0 and -1 or 1
-    local times = math.floor(math.abs(x))
+    local times = 0
+    for i = 0, #(math.abs(x).."") do times = times + tonumber(string.sub(math.abs(x).."",1,1)) end
     local fract = (math.abs(x) - math.floor(math.abs(x)))
     local final = G.GAME.akyrs_emerald + x
+    local left = math.abs(x)
     AKYRS.Currencies['curr_akyrs_emerald']:set_value(final)
     for i = 1, times do
         AKYRS.simple_event_add(function ()
-            G.AKYRS_EMERALDS = G.AKYRS_EMERALDS + sign
+            G.AKYRS_EMERALDS = G.AKYRS_EMERALDS + sign * 10 ^ math.floor(math.log(left, 10))
+            left = left - 10 ^ math.floor(math.log(left, 10))
             AKYRS.Currencies['curr_akyrs_emerald']:transactional_sound(sign)
             return true
         end, 0.4 * math.max(0.05, 1 / times), 'akyrs_sfx')

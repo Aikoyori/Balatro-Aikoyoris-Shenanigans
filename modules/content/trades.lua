@@ -379,23 +379,93 @@ AKYRS.TradeProfession {
     end,
     button_func = 'akyrs_enchantsmith_tab_button',
     trade_ui = function (self)
+        AKYRS.akyrs_enchantsmith_bias = AKYRS.akyrs_enchantsmith_bias or "1"
+        AKYRS.akyrs_enchantsmith_enchantment_count = AKYRS.akyrs_enchantsmith_enchantment_count or "1"
         return {
             {
                 n = G.UIT.C,
                 config = { minw = 3.8, minh = 5.5, align = 'cm' },
                 nodes = {
-                    AKYRS.text_prefab{
-                        text = "select to enchant man"
-                    }
+                    AKYRS.row_prefab({
+                        minw = 3.8,
+                        minh = 5.5,
+                        nodes = {
+                            AKYRS.emerald_indicator({
+                                ref_table = AKYRS,
+                                ref_value = 'enchantsmith_value_text',
+                                scale = 2,
+                                align = 'cm',
+                                minw = 3.5, maxw = 3.5,
+                                padding = 0.1,
+                                text_func = 'akyrs_emerald_enchantment_cost_update_value',
+                            }),
+                            AKYRS.button_prefab({ 
+                                padding = 0.3,
+                                colour = G.C.PURPLE,
+                                func = 'akyrs_emerald_can_enchant_selected_cards',
+                                button = 'akyrs_emerald_enchant_selected_cards',
+                                children = {
+                                    AKYRS.text_prefab({localize = {'b_akyrs_enchant_selected'}})
+                                }
+                            }),
+                            -- todo: make a numerical spinner for enchantments and level (bias)
+                            AKYRS.row_prefab{
+                                nodes = {
+                                    AKYRS.text_prefab{ uit = G.UIT.R, localize = { 'k_akyrs_ench_power' }},
+                                    AKYRS.numerical_input({
+                                        w = 1.5, h = 0.7, step_w = 0.7, 
+                                        extended_corpus = true, 
+                                        prompt_text = "",
+                                        all_colour = G.C.PALE_GREEN,
+                                        id = "akyrs_enchantsmith_bias", ref_table = AKYRS, ref_value = "akyrs_enchantsmith_bias",
+                                        keyboard_offset = -3.2, text_scale = 0.5, button_scale = 0.7, max = 30, min = 1,
+                                    }),
+                                }
+                            },
+                            AKYRS.row_prefab{
+                                nodes = {
+                                    AKYRS.text_prefab{ uit = G.UIT.R, localize = { 'k_akyrs_num_o_ench' }},
+                                    AKYRS.numerical_input({
+                                        w = 1.5, h = 0.7, step_w = 0.7, 
+                                        extended_corpus = true, 
+                                        prompt_text = "",
+                                        all_colour = G.C.PURPLE,
+                                        id = "akyrs_enchantsmith_count", ref_table = AKYRS, ref_value = "akyrs_enchantsmith_enchantment_count",
+                                        keyboard_offset = -3.2, text_scale = 0.5, button_scale = 0.7, max = 4, min = 1,
+                                    }),
+                                }
+                            },
+                            AKYRS.text_prefab{ uit = G.UIT.R, text = '-- x -- x --'},
+                        }
+                    }),
                 }
             },
             {
                 n = G.UIT.C,
                 config = { minw = 3.8, minh = 5.5, align = 'cm' },
                 nodes = {
-                    AKYRS.text_prefab{
-                        text = "buy random enchanted book man"
-                    }
+                    AKYRS.row_prefab({
+                        minw = 3.8,
+                        minh = 5.5,
+                        nodes = {
+                            AKYRS.emerald_indicator({
+                                ref_table = AKYRS,
+                                ref_value = 'pawnbroker_value_text',
+                                scale = 2,
+                                align = 'cm',
+                                padding = 0.1,
+                                text_func = 'akyrs_emerald_pawnbroker_update_value',
+                            }),
+                            AKYRS.button_prefab({ 
+                                padding = 0.1,
+                                func = 'akyrs_emerald_can_sell_selected_cards',
+                                button = 'akyrs_emerald_sell_selected_cards',
+                                children = {
+                                    AKYRS.text_prefab({localize = {'b_akyrs_sell_selected'}})
+                                }
+                            }),
+                        }
+                    }),
                 }
             },
         }

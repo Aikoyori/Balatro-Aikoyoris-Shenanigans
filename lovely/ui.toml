@@ -783,6 +783,38 @@ payload = """end"""
 overwrite = true
 match_indent = true
 
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = """  local text = hook_config.text"""
+position = "before"
+payload = """if hook.config.ref_table.numeric then
+    corpus = "0123456789"
+    if hook.config.ref_table.can_negate then corpus = corpus .. "-" end
+    if hook.config.ref_table.can_decimal then corpus = corpus .. "." end
+end"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = """  if args.key == '[' or args.key == ']' then return end"""
+position = "before"
+payload = """if not G.CONTROLLER.text_input_hook.config.ref_table.any_key then"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = """  --shortcut to hook config"""
+position = "before"
+payload = """end"""
+overwrite = true
+match_indent = true
+
 
 [[patches]]
 [patches.pattern]

@@ -269,7 +269,7 @@ G.FUNCS.akyrs_emerald_enchant_selected_cards = function (e)
         for i, c in ipairs(filtered_result) do
             local x = get_enchantment_cost_per_card()
             AKYRS.simple_event_add(function ()
-                local success = AKYRS.randomly_enchant_card(c, tonumber(AKYRS.akyrs_enchantsmith_enchantment_count or 1), {
+                local success = AKYRS.randomly_enchant_card(c, tonumber(AKYRS.akyrs_enchantsmith_enchantment_count) or 1, {
                     bias_per_level = tonumber(AKYRS.akyrs_enchantsmith_bias or 1) or 1,
                 })
                 if success then

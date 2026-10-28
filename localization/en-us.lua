@@ -5874,7 +5874,7 @@ return {
             b_akyrs_sell_selected = "Sell Selected Cards",
             b_akyrs_enchant_selected = "Enchant",
             k_akyrs_ench_power = "Enchantment Power",
-            k_akyrs_num_o_ench = "# of Enchantments",
+            k_akyrs_num_o_ench = "# of Rolls",
 
 
 

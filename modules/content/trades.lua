@@ -130,6 +130,7 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
                     n = G.UIT.C,
                     config = {
                         maxw = 3,
+                        padding = 0.1,
                     },
                     nodes = {
                         {

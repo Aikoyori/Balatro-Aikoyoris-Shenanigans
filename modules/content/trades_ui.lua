@@ -326,6 +326,7 @@ G.FUNCS.akyrs_emerald_buy_ebook = function (e)
         AKYRS.smoothly_ease_emerald(-G.GAME.akyrs_deals_reroll_price)
         local ench_key = SMODS.poll_object { type = 'Enchantment', seed = 'akyrs_enchantsmith_ebook_buy'}
         local ench_obj = AKYRS.Enchantments[ench_key]
+        play_sound('akyrs_villager_yes', nil, 2.2)
         local level = pseudorandom('akyrs_enchantsmith_ebook_buy_level', 1, ench_obj.max_level)
         AKYRS.create_enchanted_book({{ ench_key, level }})
     else

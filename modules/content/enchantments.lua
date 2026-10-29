@@ -258,7 +258,7 @@ SMODS.UndiscoveredCompat["Enchantment"] = true
 ---@field use? fun(self: SMODS.Center|table, card: Card|table, area: CardArea|table, copier?: table) Defines behaviour when this consumable is used. 
 ---@field can_use? fun(self: SMODS.Center|table, card: Card|table): boolean? Return `true` if the consumable is allowed to be used. 
 ---@field apply_ench?  fun(self: SMODS.Center|table, card: Card|table, level: number)? function that runs when this is applied
----@field remove_ench? fun(self: SMODS.Center|table, card: Card|table, level: number)? function that runs when this is removed
+---@field remove_ench? fun(self: SMODS.Center|table, card: Card|table, level: number)? function that runs when this is removed or the card with it is
 ---@field can_be_removed? fun(self: SMODS.Center|table, card: Card|table, level: number): boolean?
 ---@field treasure? boolean is it a treasure enchantment i.e. cannot be found at the enchanting table
 ---@field curse? boolean is it a curse i.e. cannot be removed normally and is red for an amazing reason
@@ -878,4 +878,30 @@ AKYRS.Enchantment {
             }
         end
     end,
+}
+
+AKYRS.Enchantment {
+    key = "swift_sneak",
+    max_level = 3,
+    weight = 1,
+    config = {
+    },
+    apply_ench = function (self, card, level)
+        SMODS.change_discard_limit(level)
+    end,
+    remove_ench = function (self, card, level)
+        SMODS.change_discard_limit(-level)
+    end,
+    loc_vars = function (self, info_queue, card, level)
+        return {
+            vars = {
+                localize("f_akyrs_localize_enchantment_level")(level),
+                level,
+            }
+        }
+    end,
+    allowed_set = {
+        ["Joker"] = true,
+        ["Consumeable"] = true,
+    },
 }

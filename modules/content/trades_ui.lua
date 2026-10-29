@@ -234,7 +234,7 @@ G.FUNCS.akyrs_ui_enchantsmith_unlock = function (e)
 end
 
 local get_enchantment_cost_per_card = function ()
-    return math.floor ( 5 * math.floor(1.5 ^ math.min(tonumber(AKYRS.akyrs_enchantsmith_enchantment_count) or 1, 4)) * (math.min(tonumber(AKYRS.akyrs_enchantsmith_bias) or 1, 30)) / 2 )
+    return math.floor ( 5 * math.floor(2 ^ math.min(tonumber(AKYRS.akyrs_enchantsmith_enchantment_count) or 1, 4) - 1) * (math.min(tonumber(AKYRS.akyrs_enchantsmith_bias) or 1, 30)) / 2 )
 end
 
 G.FUNCS.akyrs_emerald_enchantment_cost_update_value = function (e)

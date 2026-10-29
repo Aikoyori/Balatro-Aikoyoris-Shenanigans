@@ -2406,12 +2406,23 @@ end
 
 local c_setdbf = Card.set_debuff
 function Card:set_debuff(v)
-    if AKYRS.has_enchantment('ench_akyrs_immaculate') then return end
+    if AKYRS.has_enchantment('ench_akyrs_immaculate') then return c_setdbf(self, false) end
     return c_setdbf(self, v)
 end
 
 local c_set_edition = Card.set_edition
 function Card:set_edition(e,c,i,d)
-    if AKYRS.has_enchantment('ench_akyrs_immaculate') then return c_setdbf(self, nil ,c ,i ,d ) end
-    return c_setdbf(self, e,c,i,d)
+    if AKYRS.has_enchantment('ench_akyrs_immaculate') then return c_set_edition(self, nil ,c ,i ,d ) end
+    return c_set_edition(self, e,c,i,d)
+end
+
+local card_remove_f_d = Card.remove_from_deck
+function Card:remove_from_deck(from_debuff)
+    if self.added_to_deck and self.akyrs_enchantments then
+        for _, ench in ipairs(self.akyrs_enchantments) do
+            local ench_obj = AKYRS.Enchantments[ench[1]]
+            ench_obj:remove_ench(self, ench[2])
+        end
+    end
+    return card_remove_f_d(self, from_debuff)
 end

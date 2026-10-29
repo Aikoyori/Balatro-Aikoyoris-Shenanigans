@@ -1555,6 +1555,12 @@ return {
                     "when scored",
                 },
             },
+            ench_akyrs_swift_sneak = {
+                name="Swift Sneak #1#",
+                text={
+                    "{C:red}+#2#{} Discard Size",
+                },
+            },
         },
         Enhanced={
             -- blindside :tm:

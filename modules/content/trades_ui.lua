@@ -1,12 +1,38 @@
 
+
+AKYRS.set_to_emerald_sell_cost = {
+    Spectral = 3,
+    Scenario = 4,
+    Replicant = 5,
+}
+
+AKYRS.set_to_emerald_buy_cost = {
+    Spectral = 7,
+    Scenario = 9,
+    Replicant = 12,
+}
+
+AKYRS.determine_emerald_buy_cost = function (center)
+    if center.key == "j_akyrs_emerald" then
+        return 14
+    end
+    if center.set == "Joker" then
+        if center.rarity == 2 then return 7 end
+        if center.rarity == 3 then return 13 end
+        if center.rarity == 4 then return 25 end
+    end
+    
+    return AKYRS.set_to_emerald_buy_cost[center.set] or 3
+end
+
 AKYRS.determine_emerald_sell_value = function (card)
     if card.config.center.key == "j_akyrs_emerald" then
-        return 5
+        return 7
     end
     if card.ability.set == "Joker" then
-        if card.config.center.rarity == 2 then return 2 end
-        if card.config.center.rarity == 3 then return 3 end
-        if card.config.center.rarity == 4 then return 6 end
+        if card.config.center.rarity == 2 then return 3 end
+        if card.config.center.rarity == 3 then return 6 end
+        if card.config.center.rarity == 4 then return 12 end
     end
     
     return AKYRS.set_to_emerald_sell_cost[card.ability.set] or 1

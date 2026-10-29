@@ -214,32 +214,6 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
     end,
 }
 
-AKYRS.set_to_emerald_sell_cost = {
-    Spectral = 2,
-    Scenario = 3,
-    Replicant = 2,
-}
-
-AKYRS.set_to_emerald_buy_cost = {
-    Spectral = 4,
-    Scenario = 6,
-    Replicant = 4,
-}
-
-AKYRS.determine_emerald_buy_cost = function (center)
-    if center.key == "j_akyrs_emerald" then
-        return 10
-    end
-    if center.set == "Joker" then
-        if center.rarity == 2 then return 4 end
-        if center.rarity == 3 then return 8 end
-        if center.rarity == 4 then return 20 end
-    end
-    
-    return AKYRS.set_to_emerald_buy_cost[center.set] or 2
-end
-
-
 
 AKYRS.TradeProfession {
     key = 'pawnbroker',

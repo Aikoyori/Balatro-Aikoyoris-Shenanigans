@@ -467,6 +467,7 @@ payload = """
 priorities = true,
 hand_space = true,
 scoring_value = true,
+enchantment_level = true,
 """
 overwrite = true
 match_indent = true
@@ -496,7 +497,7 @@ if card.akyrs_enchantments then
     for _, en in ipairs(card.akyrs_enchantments) do
         local enchant_obj = AKYRS.Enchantments[en[1]]
         if enchant_obj then
-            local effect = enchant_obj:enchantment_calculate(card, context, en[2])
+            local effect = enchant_obj:enchantment_calculate(card, context, AKYRS.get_enchantment_value(card, en))
             if effect then
                 effect_final[#effect_final + 1] = effect
             end
@@ -519,7 +520,7 @@ if card.akyrs_enchantments then
     for _, en in ipairs(card.akyrs_enchantments) do
         local enchant_obj = AKYRS.Enchantments[en[1]]
         if enchant_obj then
-            local effect = enchant_obj:enchantment_calculate(card, context, en[2])
+            local effect = enchant_obj:enchantment_calculate(card, context, AKYRS.get_enchantment_value(card, en))
             if effect then
                 effect_final[#effect_final + 1] = effect
             end

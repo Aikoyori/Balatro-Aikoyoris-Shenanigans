@@ -1587,7 +1587,8 @@ function AKYRS.smoothly_ease_emerald(x)
     AKYRS.Currencies['curr_akyrs_emerald']:set_value(final)
     for i = 1, times do
         AKYRS.simple_event_add(function ()
-            G.AKYRS_EMERALDS = G.AKYRS_EMERALDS + sign * 10 ^ math.floor(math.log(left, 10))
+            local placeth = math.floor(math.log(left, 10))
+            G.AKYRS_EMERALDS = G.AKYRS_EMERALDS + sign * 10 ^ placeth
             left = left - 10 ^ math.floor(math.log(left, 10))
             AKYRS.Currencies['curr_akyrs_emerald']:transactional_sound(sign)
             return true

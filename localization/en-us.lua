@@ -1524,6 +1524,37 @@ return {
                     "{C:red}destroy{} this card at the end of round",
                 },
             },
+            ench_akyrs_immaculate = {
+                name="Immaculate",
+                text={
+                    "Card {C:attention}cannot be debuffed",
+                    "{C:red}Editions{} cannot be applied to this card",
+                },
+            },
+            ench_akyrs_power = {
+                name="Power #1#",
+                text={
+                    "Raise adjacent card's",
+                    "{C:purple}enchantment levels{} by {C:attention}#2#",
+                    "{C:inactive}(If possible)",
+                },
+            },
+            ench_akyrs_fire_protection = {
+                name="Fire Protection #1#",
+                text={
+                    "When score is on fire",
+                    "{X:mult,C:white}X#2#{} Mult",
+                    "and gain {C:money}#3#",
+                },
+            },
+            ench_akyrs_luck_of_the_sea = {
+                name="Luck of the Sea #1#",
+                text={
+                    "{C:green}#2# in #3# chance{} to create",
+                    "a {C:tarot}Tarot{} card",
+                    "when scored",
+                },
+            },
         },
         Enhanced={
             -- blindside :tm:

@@ -2595,3 +2595,18 @@ function AKYRS.custom_info_tip_from_rows(desc_nodes, name, no_name)
     end
     return x
 end
+
+
+function AKYRS.is_int(a)
+    return a == math.floor(a)
+end
+
+function AKYRS.gcd(a, b)
+    local x, y = math.min(a,b), math.max(a,b)
+    while true do
+        y = y % x
+        if y == 0 then return x end
+        x = x % y
+        if x == 0 then return y end
+    end
+end

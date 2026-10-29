@@ -634,3 +634,28 @@ function AKYRS.custom_music_modulation(dt)
         return (G.PITCH_MOD or 1)*(1 - dt) + dt*(11/(10 + (G.GAME.akyrs_strange_sequence_modulate or 1)))
     end
 end
+
+function AKYRS.get_enchantment_value(card, ench_obj)
+    -- if card then return value end
+    -- i gave up using calculate context because it was causing infinite loop so for now here it is
+    local level = ench_obj[2]
+    --print('premod',ench_obj[1], level)
+    local ench_center = AKYRS.Enchantments[ench_obj[1]]
+    if ench_center.can_overlevel_by <= 0 then return level end
+    if card.area and card.area.cards then
+        local i = AKYRS.find_index(card.area.cards, card)
+        if i then
+            local prevc = card.area.cards[i - 1]
+            if prevc then
+                level = level + (AKYRS.get_max_level_enchantments_for(prevc, 'ench_akyrs_power') or 0)
+            end
+            local nextc = card.area.cards[i + 1]
+            if nextc then
+                level = level + (AKYRS.get_max_level_enchantments_for(nextc, 'ench_akyrs_power') or 0)
+            end
+        end
+    end
+    --print('postmod',ench_obj[1], level)
+    
+    return math.min(level, ench_center.max_level + ench_center.can_overlevel_by or 0)
+end

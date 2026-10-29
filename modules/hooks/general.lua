@@ -2402,3 +2402,16 @@ function Blind:stay_flipped(a, c, f)
     c.ability.akyrs_drawn_on_hand = c.ability.akyrs_drawn_on_hand or G.GAME.current_round.hands_played
     return bl_stfl(self, a, c, f)
 end
+
+
+local c_setdbf = Card.set_debuff
+function Card:set_debuff(v)
+    if AKYRS.has_enchantment('ench_akyrs_immaculate') then return end
+    return c_setdbf(self, v)
+end
+
+local c_set_edition = Card.set_edition
+function Card:set_edition(e,c,i,d)
+    if AKYRS.has_enchantment('ench_akyrs_immaculate') then return c_setdbf(self, nil ,c ,i ,d ) end
+    return c_setdbf(self, e,c,i,d)
+end

@@ -90,7 +90,7 @@ function Card:generate_UIBox_ability_table(vars)
     end
     if self.akyrs_enchantments and #self.akyrs_enchantments > 0 then
         for i, enchstr in ipairs(self.akyrs_enchantments) do
-            local lx = AKYRS.Enchantments[enchstr[1]]:loc_vars({}, self, enchstr[2]) or {}
+            local lx = AKYRS.Enchantments[enchstr[1]]:loc_vars({}, self, AKYRS.get_enchantment_value(self, enchstr)) or {}
             lx.key = enchstr[1]
             lx.set = 'Enchantment'
             generate_card_ui(lx, ret)

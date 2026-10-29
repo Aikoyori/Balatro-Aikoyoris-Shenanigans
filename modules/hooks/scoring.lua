@@ -156,6 +156,7 @@ SMODS.calculate_individual_effect = function(effect, scored_card, key, amount, f
             G.GAME.akyrs_no_calculate = true
         end
         local real_card = effect.message_card or effect.juice_card or scored_card or effect.card or effect.focus
+        --[[
         if real_card and real_card.akyrs_enchantments then
             if #real_card.akyrs_enchantments > 0 then
                 local fire_aspect = AKYRS.filter_table(real_card.akyrs_enchantments, function (en, i)
@@ -169,7 +170,7 @@ SMODS.calculate_individual_effect = function(effect, scored_card, key, amount, f
                     SMODS.mod_score({ mult = max_fa * 0.02 + 1, card = real_card, effect = effect })
                 end
             end
-        end
+        end]]
     return unpack(aaa)
 end
 
@@ -306,4 +307,11 @@ function get_blind_amount(ante)
         return AKYRS.lerp(getblindamounthook(current),getblindamounthook(nextante),fract)
     end
     return getblindamounthook(ante)
+end
+
+
+local isgetter = SMODS.is_getter_context
+function SMODS.is_getter_context(context)
+    if context.akyrs_mod_enchantment_level then return "enchantments" end
+    return isgetter(context)
 end

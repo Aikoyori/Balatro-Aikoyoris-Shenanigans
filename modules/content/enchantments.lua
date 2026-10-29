@@ -189,11 +189,10 @@ function AKYRS.get_valid_enchantment_pool(card, curses, treasure, apply_duplicat
 end
 
 function AKYRS.randomly_enchant_card(card, enchantments_count, args)
+    args = args or {}
     if not card then error("where de fuk is de card man") end
-    bias_per_level = bias_per_level or 0
-    enchantments_count = enchantments_count or 1
     local seed = args.seed
-    local bias_per_level = args.bias_per_level
+    local bias_per_level = args.bias_per_level or 1
     local silent = args.silent
     local no_juice = args.no_juice
     local treasure = args.treasure
@@ -201,30 +200,40 @@ function AKYRS.randomly_enchant_card(card, enchantments_count, args)
     local apply_duplicates = args.apply_duplicates
     local successful = false
     for i = 1, enchantments_count do
-        local key = SMODS.poll_object{ pool = AKYRS.get_valid_enchantment_pool(card, curse, treasure, apply_duplicates), seed = seed or 'akyrs_enchantments' }
-        local ench = AKYRS.Enchantments[key]
-        local levels = {}
-        local max = 1
-        AKYRS.map(next(card.akyrs_stored_enchantments or {}) and card.akyrs_stored_enchantments or card.akyrs_enchantments, function (item, index)
-            if item[1] == key then
-                max = item[2] > max and item[2] or max
+        local attempt = 0
+        AKYRS.simple_event_add(function ()
+            local key = SMODS.poll_object{ pool = AKYRS.get_valid_enchantment_pool(card, curse, treasure, apply_duplicates), seed = (seed or 'akyrs_enchantments_')..i }
+            local ench = AKYRS.Enchantments[key]
+            local levels = {}
+            local max = 1
+            local attemptsuccess
+            AKYRS.map(next(card.akyrs_stored_enchantments or {}) and card.akyrs_stored_enchantments or card.akyrs_enchantments, function (item, index)
+                if item[1] == key then
+                    max = item[2] > max and item[2] or max
+                end
+            end)
+            if max < ench.max_level then
+                for i = max, ench.max_level do
+                    levels[#levels+1] = {
+                        weight = ench:get_weight_from_level(i) * (i ^ (1 + bias_per_level * 0.1)),
+                        value = i
+                    }
+                end
+                local level = AKYRS.weighted_randomiser(levels, pseudoseed(seed or 'akyrs_enchantment_level'))
+                attemptsuccess = AKYRS.apply_enchantment(card, key, level)
+                successful = successful or attemptsuccess
             end
-        end)
-        if max < ench.max_level then
-            for i = max, ench.max_level do
-                levels[#levels+1] = {
-                    weight = ench:get_weight_from_level(i) * (i ^ (1 + bias_per_level * 0.1)),
-                    value = i
-                }
-            end
-            local level = AKYRS.weighted_randomiser(levels, pseudoseed(seed or 'akyrs_enchantment_level'))
-            successful = successful or AKYRS.apply_enchantment(card, key, level)
+            attempt = attempt + 1
+            return attemptsuccess or attempt > 10
+        end, 0)
+    end
+    AKYRS.simple_event_add(function ()
+        if successful then
+            if not silent then play_sound('akyrs_enchanted') end
+            if not no_juice then card:juice_up(0.5,0.5) end
         end
-    end
-    if successful then
-        if not silent then play_sound('akyrs_enchanted') end
-        if not no_juice then card:juice_up(0.5,0.5) end
-    end
+        return true
+    end,0)
     return successful
 end
 
@@ -260,6 +269,7 @@ SMODS.UndiscoveredCompat["Enchantment"] = true
 ---@field requires_effect_calc? bool? instead of adding it to return calculates individually
 ---@field weight number the
 ---@field max_level number the
+---@field can_overlevel_by number extra level you can get this enhancement to have
 ---@field in_pool? fun(self: SMODS.Center|table, args: table): boolean? , table? Allows configuring if the card is allowed to spawn. 
 ---@overload fun(self: AKYRS.Enchantment): AKYRS.Enchantment
 AKYRS.Enchantment = SMODS.GameObject:extend{
@@ -275,6 +285,7 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
     obj_buffer = AKYRS.Enchantments_Buffer,
     atlas = "akyrs_enchantedbook",
     max_level = 1,
+    can_overlevel_by = 0,
     curse = false,
     config = {
         consumeable = {
@@ -343,7 +354,7 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
         function (ca)
             return ca ~= card and (self:can_apply(card.ability.akyrs_level, ca) or ca.ability.set == "Enchantment")
         end, true, true)
-        return #cards >= card.ability.min_highlighted and #cards <= card.ability.max_highlighted
+        return #cards >= (card.ability.min_highlighted or 1) and #cards <= (card.ability.max_highlighted or 1)
     end,
     use = function (self, card, area, copier)
         AKYRS.juice_like_tarot(card)
@@ -468,6 +479,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "efficiency",
     max_level = 5,
+    can_overlevel_by = 1,
     weight = 5,
     requires_effect_calc = true,
     allowed_set = {
@@ -514,9 +526,10 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "unbreaking",
     max_level = 3,
+    can_overlevel_by = 1,
     weight = 10,
     loc_vars = function (self, info_queue, card, level)
-        local n, d = SMODS.get_probability_vars(card, level * 25, 100, "akyrs_ench_unbreaking", nil, true)
+        local n, d = SMODS.get_probability_vars(card, level * 20, 100, "akyrs_ench_unbreaking", nil, true)
         return {
             vars = {
                 localize("f_akyrs_localize_enchantment_level")(level),
@@ -528,6 +541,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "fire_aspect",
     max_level = 2,
+    can_overlevel_by = 6,
     weight = 7,
     loc_vars = function (self, info_queue, card, level)
         return {
@@ -538,12 +552,18 @@ AKYRS.Enchantment {
         }
     end,
     enchantment_calculate = function (self, card, context, level)
+        if context.post_trigger and context.other_card == card then
+            return {
+                xscore = 1 + 0.02 * level
+            }
+        end
     end
 }
 
 AKYRS.Enchantment {
     key = "fortune",
     max_level = 6,
+    can_overlevel_by = 9,
     weight = 5,
     loc_vars = function (self, info_queue, card, level)
         return {
@@ -568,6 +588,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "greed",
     max_level = 4,
+    can_overlevel_by = 4,
     weight = 4,
     loc_vars = function (self, info_queue, card, level)
         return {
@@ -602,6 +623,7 @@ AKYRS.Enchantment {
     key = "silk_touch",
     max_level = 2,
     weight = 5,
+    can_overlevel_by = 6,
     loc_vars = function (self, info_queue, card, level)
         return {
             vars = {
@@ -662,6 +684,7 @@ AKYRS.Enchantment {
 AKYRS.Enchantment {
     key = "chipful",
     max_level = 5,
+    can_overlevel_by = 20,
     weight = 15,
     allowed_set = {
         ["Default"] = true,
@@ -730,4 +753,129 @@ AKYRS.Enchantment {
         end
     end
     
+}
+
+AKYRS.Enchantment {
+    key = "immaculate",
+    max_level = 1,
+    weight = 2,
+    config = {
+        n = 1, d = 4,
+    },
+    loc_vars = function (self, info_queue, card, level)
+        
+    end,
+    allowed_set = {
+        ["Joker"] = true,
+        ["Consumeable"] = true,
+        ["Default"] = true,
+        ["Enhanced"] = true,
+    },
+    calculate = function (self, card, context)
+        if context.debuff_card then
+            return {
+                prevent_debuff = true,
+            }
+        end
+    end
+    
+}
+
+AKYRS.Enchantment {
+    key = "power",
+    max_level = 5,
+    weight = 1,
+    config = {
+    },
+    loc_vars = function (self, info_queue, card, level)
+        return {
+            vars = {
+                localize("f_akyrs_localize_enchantment_level")(level),
+                level,
+            }
+        }
+    end,
+    allowed_set = {
+        ["Joker"] = true,
+        ["Consumeable"] = true,
+        ["Default"] = true,
+        ["Enhanced"] = true,
+    },
+    
+    
+}
+
+AKYRS.Enchantment {
+    key = "fire_protection",
+    max_level = 4,
+    can_overlevel_by = 5,
+    weight = 1,
+    config = {
+    },
+    loc_vars = function (self, info_queue, card, level)
+        return {
+            vars = {
+                localize("f_akyrs_localize_enchantment_level")(level),
+                1 - 0.1 * level,
+                SMODS.signed_dollars(level * 2),
+            }
+        }
+    end,
+    allowed_set = {
+        ["Joker"] = true,
+        ["Consumeable"] = true,
+    },
+    enchantment_calculate = function (self, card, context, level)
+        if context.enchantment_main and SMODS.last_hand_oneshot then
+            return {
+                xmult = 1 - 0.1 * level,
+                dollars = level * 2,
+            }
+        end
+    end,
+}
+
+AKYRS.Enchantment {
+    key = "luck_of_the_sea",
+    max_level = 3,
+    can_overlevel_by = 3,
+    weight = 1,
+    config = {
+    },
+    loc_vars = function (self, info_queue, card, level)
+        local gcd = AKYRS.gcd(4, (24 / level))
+        local n, d = SMODS.get_probability_vars(card, 4 / gcd, (24 / level) / gcd, 'akyrs_enchantments_luck_of_the_sea')
+        return {
+            vars = {
+                localize("f_akyrs_localize_enchantment_level")(level),
+                n, d
+            }
+        }
+    end,
+    allowed_set = {
+        ["Joker"] = true,
+        ["Consumeable"] = true,
+        ["Default"] = true,
+        ["Enhanced"] = true,
+    },
+    enchantment_calculate = function (self, card, context, level)
+        if context.enchantment_main then
+            return {
+                func = function ()
+                    AKYRS.simple_event_add(function ()
+                        local gcd = AKYRS.gcd(4, (24 / level))
+                        if AKYRS.has_room(G.consumeables) and SMODS.pseudorandom_probability(card, 'akyrs_enchantments_luck_of_the_sea', 4 / gcd, (24 / level)/ gcd) then
+                            SMODS.calculate_effect({
+                                message = localize("k_plus_tarot"),
+                                func = function ()
+                                    SMODS.add_card { set = 'Tarot' }
+                                end
+                            }, card)
+                        end
+                        return true
+                    end, 0)
+                end
+            }
+        end
+    end,
 }

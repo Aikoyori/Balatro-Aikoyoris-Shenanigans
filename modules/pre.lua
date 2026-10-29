@@ -68,15 +68,18 @@ SMODS.CONTEXT_RETRIGGER_BLACKLIST.akyrs_mod_card_draw = true
 SMODS.CONTEXT_RETRIGGER_BLACKLIST.akyrs_prevent_win = true
 SMODS.CONTEXT_RETRIGGER_BLACKLIST.hand_space = true
 SMODS.CONTEXT_RETRIGGER_BLACKLIST.scoring_value = true
+SMODS.CONTEXT_RETRIGGER_BLACKLIST.enchantment_level = true
 SMODS.CONTEXT_POST_TRIGGER_BLACKLIST.akyrs_mod_card_draw = true
 SMODS.CONTEXT_POST_TRIGGER_BLACKLIST.akyrs_prevent_win = true
 SMODS.CONTEXT_POST_TRIGGER_BLACKLIST.hand_space = true
 SMODS.CONTEXT_POST_TRIGGER_BLACKLIST.scoring_value = true
+SMODS.CONTEXT_POST_TRIGGER_BLACKLIST.enchantment_level = true
 
 SMODS.other_calculation_keys[#SMODS.other_calculation_keys+1] = 'priority_modified'
 SMODS.other_calculation_keys[#SMODS.other_calculation_keys+1] = 'prevent_win'
 SMODS.other_calculation_keys[#SMODS.other_calculation_keys+1] = 'hand_space'
 SMODS.other_calculation_keys[#SMODS.other_calculation_keys+1] = 'scoring_value'
+SMODS.other_calculation_keys[#SMODS.other_calculation_keys+1] = 'enchantment_level'
 
 AKYRS.HC_CHALLENGES = {}
 AKYRS.HC_CHALLENGES_BUFFER = {}

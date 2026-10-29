@@ -92,6 +92,17 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
 
         }
         AKYRS.VILLAGER_SHOP_PANEL = self.no_scroll and UIBox(box.content) or SMODS.UIScrollBox(box)
+        local villager_sprite = SMODS.create_sprite(G.HUD.T.x, G.HUD.T.y, 95 / G.TILESIZE * 0.55, 205 / G.TILESIZE * 0.55, self.atlas, self.pos)
+        villager_sprite.states.drag.can = true
+        villager_sprite.states.click.can = true
+        villager_sprite.states.collide.can = true
+        villager_sprite.states.hover.can = true
+        local villager_sprite_click = villager_sprite.click
+        villager_sprite.click = function (_self)
+            play_sound('akyrs_villager_yes', nil, 2.2)
+            _self:juice_up(-0.1,0.1)
+            return villager_sprite_click(_self)
+        end
         local tradingui = {
             { n = G.UIT.R, nodes = {
                 {
@@ -136,7 +147,7 @@ AKYRS.TradeProfession = SMODS.GameObject:extend{
                         {
                             n = G.UIT.O,
                             config = {
-                                object = SMODS.create_sprite(G.HUD.T.x, G.HUD.T.y, 95 / G.TILESIZE * 0.55, 205 / G.TILESIZE * 0.55, self.atlas, self.pos)
+                                object = villager_sprite
                             }
                         }
                     }

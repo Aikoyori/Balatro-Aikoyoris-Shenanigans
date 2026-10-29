@@ -1561,6 +1561,13 @@ return {
                     "{C:red}+#2#{} Discard Size",
                 },
             },
+            ench_akyrs_soul_speed = {
+                name="Soul Speed #1#",
+                text={
+                    "{C:white,X:chips}X#2#{} Chips",
+                    "on {C:attention}final hand {}of round"
+                },
+            },
         },
         Enhanced={
             -- blindside :tm:
@@ -5912,6 +5919,9 @@ return {
             b_akyrs_enchant_selected = "Enchant",
             k_akyrs_ench_power = "Enchantment Power",
             k_akyrs_num_o_ench = "# of Rolls",
+            k_akyrs_ench_buy_random_1 = "Buy a random",
+            k_akyrs_ench_buy_random_2 = "Enchanted Book",
+            b_akyrs_buy_a_book = "Buy Book",
 
 
 

@@ -884,8 +884,6 @@ AKYRS.Enchantment {
     key = "swift_sneak",
     max_level = 3,
     weight = 1,
-    config = {
-    },
     apply_ench = function (self, card, level)
         SMODS.change_discard_limit(level)
     end,
@@ -904,4 +902,32 @@ AKYRS.Enchantment {
         ["Joker"] = true,
         ["Consumeable"] = true,
     },
+}
+
+AKYRS.Enchantment {
+    key = "soul_speed",
+    max_level = 3,
+    can_overlevel_by = 7,
+    weight = 2,
+    loc_vars = function (self, info_queue, card, level)
+        return {
+            vars = {
+                localize("f_akyrs_localize_enchantment_level")(level),
+                1 + level * 0.5,
+            }
+        }
+    end,
+    allowed_set = {
+        ["Joker"] = true,
+        ["Consumeable"] = true,
+        ["Default"] = true,
+        ["Enhanced"] = true,
+    },
+    enchantment_calculate = function (self, card, context, level)
+        if context.enchantment_main and G.GAME.current_round.hands_left == 0 then
+            return {
+                xchips = 1 + level * 0.2,
+            }
+        end
+    end
 }

@@ -121,6 +121,7 @@ function Game:init_game_object()
     ret.akyrs_deals_reroll_price = 2
     ret.akyrs_deals_add_row_price = 3
     ret.akyrs_deals_added_rows = 0
+    ret.akyrs_enchantsmith_buy_ebook_cost = 10
 
     ret.akyrs_ut_route = "pacifist"
     ret.akyrs_cards_modified = 0
@@ -154,6 +155,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
     G.GAME.akyrs_life_upgrade_card_hand_judgment_cost = 4
     G.GAME.akyrs_life_upgrade_joker_hand_judgment_cost = 15
     G.GAME.akyrs_life_draw_whole_cost = 30
+    G.GAME.akyrs_enchantsmith_buy_ebook_cost = math.floor(math.max(10, G.GAME.akyrs_enchantsmith_buy_ebook_cost / 2))
     G.GAME.akyrs_life_draw_one_cost = 3
 
     

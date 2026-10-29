@@ -280,3 +280,29 @@ G.FUNCS.akyrs_emerald_enchant_selected_cards = function (e)
         end
     end
 end
+
+
+G.FUNCS.akyrs_emerald_can_buy_ebook = function (e)
+    local ref = e.config.ref_table
+    AKYRS.button_enable_func(e, {
+        func = function (e)
+            return not AKYRS.Currencies.curr_akyrs_emerald:has_not_enough_money_check(G.GAME.akyrs_enchantsmith_buy_ebook_cost)
+        end,
+        colour = G.C.GREEN,
+        button = 'akyrs_emerald_buy_ebook',
+    })
+end
+
+
+G.FUNCS.akyrs_emerald_buy_ebook = function (e)
+    if AKYRS.has_room(G.consumeables) then
+        G.GAME.akyrs_enchantsmith_buy_ebook_cost = G.GAME.akyrs_enchantsmith_buy_ebook_cost + 10
+        AKYRS.smoothly_ease_emerald(-G.GAME.akyrs_deals_reroll_price)
+        local ench_key = SMODS.poll_object { type = 'Enchantment', seed = 'akyrs_enchantsmith_ebook_buy'}
+        local ench_obj = AKYRS.Enchantments[ench_key]
+        local level = pseudorandom('akyrs_enchantsmith_ebook_buy_level', 1, ench_obj.max_level)
+        AKYRS.create_enchanted_book({{ ench_key, level }})
+    else
+        alert_no_space(e, G.consumeables)
+    end
+end

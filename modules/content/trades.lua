@@ -448,20 +448,23 @@ AKYRS.TradeProfession {
                         minw = 3.8,
                         minh = 5.5,
                         nodes = {
+                            AKYRS.text_prefab{ uit = G.UIT.R, localize = { 'k_akyrs_ench_buy_random_1' }},
+                            AKYRS.text_prefab{ uit = G.UIT.R, localize = { 'k_akyrs_ench_buy_random_2' }},
                             AKYRS.emerald_indicator({
-                                ref_table = AKYRS,
-                                ref_value = 'pawnbroker_value_text',
+                                ref_table = G.GAME,
+                                ref_value = 'akyrs_enchantsmith_buy_ebook_cost',
                                 scale = 2,
                                 align = 'cm',
                                 padding = 0.1,
-                                text_func = 'akyrs_emerald_pawnbroker_update_value',
                             }),
                             AKYRS.button_prefab({ 
                                 padding = 0.1,
-                                func = 'akyrs_emerald_can_sell_selected_cards',
-                                button = 'akyrs_emerald_sell_selected_cards',
+                                minh = 1.0,
+                                colour = G.C.GREEN,
+                                func = 'akyrs_emerald_can_buy_ebook',
+                                button = 'akyrs_emerald_buy_ebook',
                                 children = {
-                                    AKYRS.text_prefab({localize = {'b_akyrs_sell_selected'}})
+                                    AKYRS.text_prefab({localize = {'b_akyrs_buy_a_book'}})
                                 }
                             }),
                         }

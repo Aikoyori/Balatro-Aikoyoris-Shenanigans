@@ -7,9 +7,9 @@ AKYRS.set_to_emerald_sell_cost = {
 }
 
 AKYRS.set_to_emerald_buy_cost = {
-    Spectral = 7,
-    Scenario = 9,
-    Replicant = 12,
+    Spectral = 12,
+    Scenario = 10,
+    Replicant = 14,
 }
 
 AKYRS.determine_emerald_buy_cost = function (center)

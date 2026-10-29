@@ -1463,9 +1463,6 @@ SMODS.Joker{
     },
     rarity = 1,
     cost = 0,
-    in_pool = function (self, args)
-        return false
-    end,
     config = {
         name = "Ash Joker",
         extras = {

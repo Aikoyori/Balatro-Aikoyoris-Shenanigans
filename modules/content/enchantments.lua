@@ -200,8 +200,8 @@ function AKYRS.randomly_enchant_card(card, enchantments_count, args)
     local apply_duplicates = args.apply_duplicates
     local successful = false
     for i = 1, enchantments_count do
-        local attempt = 0
-        AKYRS.simple_event_add(function ()
+        repeat
+            local attempt = 0
             local key = SMODS.poll_object{ pool = AKYRS.get_valid_enchantment_pool(card, curse, treasure, apply_duplicates), seed = (seed or 'akyrs_enchantments_')..i }
             local ench = AKYRS.Enchantments[key]
             local levels = {}
@@ -224,16 +224,12 @@ function AKYRS.randomly_enchant_card(card, enchantments_count, args)
                 successful = successful or attemptsuccess
             end
             attempt = attempt + 1
-            return attemptsuccess or attempt > 10
-        end, 0)
+        until attemptsuccess or attempt > 10
     end
-    AKYRS.simple_event_add(function ()
-        if successful then
-            if not silent then play_sound('akyrs_enchanted') end
-            if not no_juice then card:juice_up(0.5,0.5) end
-        end
-        return true
-    end,0)
+    if successful then
+        if not silent then play_sound('akyrs_enchanted') end
+        if not no_juice then card:juice_up(0.5,0.5) end
+    end
     return successful
 end
 
@@ -826,7 +822,7 @@ AKYRS.Enchantment {
         ["Consumeable"] = true,
     },
     enchantment_calculate = function (self, card, context, level)
-        if context.enchantment_main and SMODS.last_hand_oneshot then
+        if context.enchantment_main and SMODS.calculate_round_score() >= G.GAME.blind.chips then
             return {
                 xmult = 1 - 0.1 * level,
                 dollars = level * 2,

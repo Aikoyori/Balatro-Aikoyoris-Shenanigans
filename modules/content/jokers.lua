@@ -3140,9 +3140,10 @@ SMODS.Joker {
 
     config = {
         extras = {
-            gain = 0.06,
+            gain = 0.5,
             lose = 0.6,
             xmult = 1,
+            reset_to = 1,
         },
     },
     rarity = 2,
@@ -3157,18 +3158,14 @@ SMODS.Joker {
         }
     end,
     calculate = function (self, card, context)
-        if context.before and #context.full_hand == #context.scoring_hand and not context.blueprint then
+        if context.end_of_round and context.main_eval and not context.blueprint then
             return {
                 message = localize('k_plus_joker'),
                 func = function ()
-                    SMODS.scale_card(card, {
+                    SMODS.reset_card(card, {
                         ref_table = card.ability.extras,
                         ref_value = 'xmult',
-                        scalar_value = 'lose',
-                        scaling_message = { message = localize("k_akyrs_downgrade_ex") },
-                        operation = function(ref_table, ref_value, initial, scalar_value)
-                            ref_table[ref_value] = math.max(ref_table[ref_value] - scalar_value, 1)
-                        end,
+                        reset_value = 'reset_to'
                     })
                 end
             }

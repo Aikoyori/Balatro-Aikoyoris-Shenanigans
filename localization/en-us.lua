@@ -226,7 +226,9 @@ return {
                 name = 'Kaleidoscopic Deck',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
+                    '{C:attention}Prism Deck{} but',
+                    'You may fight the {C:attention}first',
+                    '6 bosses in {C:attention}any{} order'
                 },
             },
             b_akyrs_sheared_deck = {
@@ -2793,10 +2795,7 @@ return {
                     {
                         "This Joker gains {C:white,X:mult} X#1# {} Mult",
                         "per unscored card",
-                    },
-                    {
-                        "This Joker loses {C:white,X:mult} X#2# {} Mult",
-                        "if hand has {C:attention}no unscored cards",
+                        "Resets at the {C:attention}end of round",
                     },
                     {
                         "{C:inactive}(Currently {C:white,X:mult} X#3# {C:inactive} Mult)",

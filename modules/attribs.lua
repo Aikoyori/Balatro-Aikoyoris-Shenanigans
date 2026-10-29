@@ -282,6 +282,7 @@ SMODS.add_attribute(
     'reset', {
         'j_akyrs_gaslighting',
         'j_akyrs_2fa',
+        'j_akyrs_konton_boogie',
         'j_akyrs_aipai_dancehall',
     }
 )

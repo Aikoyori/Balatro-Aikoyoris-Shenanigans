@@ -158,3 +158,13 @@ payload = '''
 if AKYRS then AKYRS.reset_pools() end
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''game.lua'''
+pattern = '''                    timer_checkpoint('states', 'update')'''
+position = "before"
+payload = '''
+if AKYRS then AKYRS.update_custom_states(self, dt) end
+'''
+match_indent = true

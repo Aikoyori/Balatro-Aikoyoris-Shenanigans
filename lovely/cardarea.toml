@@ -21,6 +21,16 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "cardarea.lua"
+pattern = """        (self.config.type == 'hand' and state == G.STATES.SMODS_BOOSTER_OPENED) or"""
+position = "after"
+payload = """(self.config.type == 'hand' and state == G.STATES.AKYRS_BOSS_SELECT) or
+"""
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
 pattern = """    self.config.sort = config.sort or 'desc'"""
 position = "after"
 payload = """

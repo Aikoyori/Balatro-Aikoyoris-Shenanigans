@@ -180,7 +180,6 @@ local gameUpdate = Game.update
 
 function Game:update(dt)
     if G.GAME then
-        
         G.GAME.modifiers.scaling = G.GAME.modifiers.scaling or 1
         local s = gameUpdate(self, dt)
         local life_pulse = false

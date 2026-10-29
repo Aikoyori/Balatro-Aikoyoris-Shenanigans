@@ -327,6 +327,10 @@ SMODS.Back{
     end,
     config = {
     },
+    apply = function (self, back)
+        G.GAME.akyrs_select_boss = true
+        G.STATE_COMPLETE = false
+    end
 }
 -- 
 SMODS.Back{

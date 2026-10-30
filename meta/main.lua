@@ -18,7 +18,7 @@ if AKPOP.aikoshen then
     else
         AKPOP.aikoshen_loaded = true
     end
-    if AKPOP.aikoshen.version:find("-dev") then
+    if AKPOP.aikoshen.version:find("-dev") or AKPOP.aikoshen.version:find("-beta") then
         print("Dev version detected! You're on your own.")
         AKPOP.aikoshen_is_dev_ver = true
     end

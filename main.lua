@@ -74,6 +74,7 @@ assert(SMODS.load_file("./modules/content/jokersslop.lua"))()
 assert(SMODS.load_file("./modules/content/letterjokers.lua"))()
 assert(SMODS.load_file("./modules/content/legendaries.lua"))()
 assert(SMODS.load_file("./modules/content/achievements.lua"))()
+assert(SMODS.load_file("./modules/content/abilities.lua"))()
 
 assert(SMODS.load_file("./modules/content/challenges.lua"))()
 assert(SMODS.load_file("./modules/content/pokerhands.lua"))()

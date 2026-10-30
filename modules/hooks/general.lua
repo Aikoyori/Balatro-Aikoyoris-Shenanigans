@@ -162,6 +162,16 @@ function SMODS.current_mod.reset_game_globals(run_start)
     G.GAME.akyrs_deals_reroll_price = 2
     G.GAME.akyrs_deals_add_row_price = 3
     G.GAME.akyrs_deals_added_rows = 0
+    if G.GAME.akyrs_boss_selects and G.GAME.blind_on_deck == 'Boss' and G.GAME.akyrs_boss_selected_index then
+        G.GAME.akyrs_boss_selects[G.GAME.akyrs_boss_selected_index].defeated = true
+        local win_all = true
+        for _, boss in ipairs(G.GAME.akyrs_boss_selects) do
+            if not boss.defeated then win_all = false break end
+        end
+        G.GAME.akyrs_all_boss_defeated = win_all
+        G.GAME.akyrs_boss_selected_index = nil
+        G.GAME.akyrs_boss_selected = nil
+    end
 
     G.GAME.akyrs_life_top_up_life = is_kdx and 15 or 10
     local candidate_hands = AKYRS.filter_table(AKYRS.keyvalue_to_list(G.GAME.hands), function (hand_info, ind)

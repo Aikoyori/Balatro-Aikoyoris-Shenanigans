@@ -5971,6 +5971,8 @@ return {
             k_akyrs_life_draw_whole="Draw Full Hand",
             k_akyrs_life_draw_one="Draw One",
             k_akyrs_life_per_card=" / card",
+            b_akyrs_select_boss="Select Boss",
+            k_akyrs_defeated_cap="DEFEATED",
 
             k_akyrs_enchantment_none="Allows multiple abilities to be added",
             k_akyrs_enchantment_none_blank="None :(",

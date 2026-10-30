@@ -1359,3 +1359,276 @@ function G.FUNCS.akyrs_numerical_buttons(e)
     end
   end
 end
+
+function AKYRS.create_blind_sprite(blind_conf)
+  return SMODS.create_sprite(0,0, 1.4, 1.4, SMODS.get_atlas(blind_conf.atlas) or 'blind_chips',blind_conf.pos) 
+end
+
+function AKYRS.special_blind_select_module( key, args )
+  local args = args or {}
+  local name = {}
+  local descriptions = {}
+  local obj = G.P_BLINDS[key]
+  local loc_vars = {}
+  if obj.loc_vars then
+    loc_vars = obj:loc_vars({}, {})
+  end
+  localize{ nodes = name, type = "name", key = key, set = "Blind", vars = loc_vars.vars }
+  local temp_blind = AKYRS.create_blind_sprite(obj)
+  temp_blind:define_draw_steps({
+      {shader = 'dissolve', shadow_height = 0.05},
+      {shader = 'dissolve'}
+    })
+  temp_blind.states.collide.can = true
+  temp_blind.states.hover.can = true
+  temp_blind.states.click.can = false
+  temp_blind.states.drag.can = false
+  temp_blind.hover = function()
+    if not G.CONTROLLER.dragging.target or G.CONTROLLER.using_touch then 
+        if not temp_blind.hovering and temp_blind.states.visible then
+          temp_blind.hovering = true
+          temp_blind.hover_tilt = 3
+          temp_blind:juice_up(0.05, 0.02)
+          play_sound('chips1', math.random()*0.1 + 0.55, 0.12)
+          temp_blind.config.h_popup = create_UIBox_blind_popup(obj, obj.discovered)
+          temp_blind.config.h_popup_config ={align = 'cl', offset = {x=-0.2,y=0},parent = temp_blind}
+          Node.hover(temp_blind)
+        end
+    end
+  end
+  local ref_table = {
+    boss = obj,
+    index = args.index,
+    defeated = args.defeated,
+  }
+  temp_blind.stop_hover = function() temp_blind.hovering = false; Node.stop_hover(temp_blind); temp_blind.hover_tilt = 0 end
+  return {
+    n = G.UIT.ROOT,
+    config = {
+      r = 1, colour = obj.boss_colour,
+      padding = 0.05,
+      align = 'lc',
+      emboss = 0.1,
+    },
+    nodes = {
+      {
+        n = G.UIT.R, 
+        config = {
+          colour = G.C.DYN_UI.MAIN, 
+          padding = 0.1,
+          r = true,
+        },
+        nodes = {
+          {
+            n = G.UIT.C,
+            config = {
+              align = 'cm',
+            },
+            nodes = {
+              {
+                n = G.UIT.O,
+                config = {
+                  object = temp_blind
+                }
+              }
+            }
+          },
+          {
+            n = G.UIT.C,
+            config = {
+              align = 'cm',
+              minw = 4, maxw = 4, 
+            },
+            nodes = {
+              AKYRS.row_prefab{ 
+                nodes = {
+                  AKYRS.transparent_multiline_text(name, {  })
+                }
+              },
+              AKYRS.row_prefab{
+                minh = 1,
+                padding = 0.1,
+                nodes = {
+                  AKYRS.row_prefab{
+                    uit = G.UIT.C,
+                    nodes = {
+                      AKYRS.button_prefab {
+                        padding = 0.1, button = 'akyrs_select_boss_blind', ref_table = ref_table, 
+                        func = 'akyrs_select_boss_button',
+                        children = {
+                          AKYRS.text_prefab{ localize = { 'b_akyrs_select_boss' } }
+                        }
+                      },
+                    }
+                  },
+                  AKYRS.row_prefab{
+                    uit = G.UIT.C,
+                    nodes = {
+                      AKYRS.button_prefab {
+                        padding = 0.1, button = 'akyrs_reroll_boss_blind', ref_table = ref_table,
+                        func = 'akyrs_reroll_boss_button',
+                        children = {
+                          { n = G.UIT.C, nodes = { { n = G.UIT.T, config = { colour = G.C.WHITE, text = "🔁" , scale = 0.4, font = SMODS.Fonts["akyrs_611aiko"] } } } },
+                        }
+                      },
+                    }
+                  },
+                }
+              },
+            },
+          }
+        }
+      }
+    }
+  }
+end
+
+
+function AKYRS.transparent_multiline_text(desc_nodes, args)
+  local args = args or {}
+  local t = {}
+  for k, v in ipairs(desc_nodes) do
+    t[#t+1] = {n=G.UIT.R, config={align = "cm", maxw = args.maxw, minh = args.minh}, nodes=v}
+  end
+  return {n=G.UIT.R, config={align = "cm", padding = 0.03}, nodes=t}
+end
+
+function AKYRS.uibox_obj_blind_select_module( key , args )
+  args = args or {}
+  local uibox = UIBox{
+    T = args.t,
+    definition = AKYRS.special_blind_select_module(key, args),
+    config = { align="cm" }
+  }
+  if args.defeated then
+    uibox.children.alert = UIBox{
+      definition = create_UIBox_card_alert({text_rot = -0.1, bg_col = G.C.UI.TRANSPARENT_DARK, text = localize('k_akyrs_defeated_cap'), bump_amount = 1, scale = 0.9, maxw = 3.4}),
+      config = {
+        align="tmi",
+        offset = {x = 0.7, y = 0.8},
+        major = uibox, parent = uibox}
+    }
+  end
+  uibox:recalculate()
+  return 
+  {
+      n = args.col and G.UIT.C or G.UIT.R,
+      config = {
+        minw = 4, maxw = 4,
+      },
+      nodes = {
+          {
+              n = G.UIT.O,
+              config = {
+                  func = 'akyrs_boss_keep_correct_ui',
+                  ref_table = args,
+                  object = uibox
+              }
+          }
+      }
+  }, uibox
+end
+
+function AKYRS.boss_remove_existing_boss( pool )
+  local newpool = {}
+  local blinds = AKYRS.map(G.GAME.akyrs_boss_selects or {}, function (item, index)
+    return true, item.boss
+  end, true)
+  for i, j in ipairs(pool) do
+    if not blinds[j.key] then
+      newpool[#newpool+1] = j
+    end
+  end
+  return newpool
+end
+
+function AKYRS.create_boss_select_ui( )
+  local rows = {
+    {}, {}
+  }
+  AKYRS.boss_select_uis = {
+    
+  }
+  for i, boss in ipairs(G.GAME.akyrs_boss_selects) do
+    local ui, boxobj = AKYRS.uibox_obj_blind_select_module(boss.boss, { index = i, defeated = boss.defeated })
+    AKYRS.boss_select_uis[#AKYRS.boss_select_uis+1] = boxobj
+    rows[i % 2 + 1][#rows[i % 2 + 1]+1] = ui
+  end
+  return {
+      n = G.UIT.ROOT,
+      config = {
+          align = 'cm',
+          padding = 0.1,
+          r = 1, colour = G.C.CLEAR,
+      },
+      nodes = {
+          AKYRS.row_prefab { nodes = {
+            AKYRS.row_prefab { uit = G.UIT.C, padding = 0.1, nodes = rows[2]},
+            AKYRS.row_prefab { uit = G.UIT.C, padding = 0.1, nodes = rows[1]},
+          }},
+      }
+  }
+end
+
+G.FUNCS.akyrs_select_boss_blind = function(e)
+  G.GAME.akyrs_boss_selected = e.config.ref_table.boss.key
+  G.GAME.akyrs_boss_selected_index = e.config.ref_table.index
+  G.GAME.round_resets.blind_choices.Boss = G.GAME.akyrs_boss_selected
+  G.FUNCS.akyrs_go_to_blind_select(e)
+end
+G.FUNCS.akyrs_reroll_boss_blind = function(e)
+  local r = e.config.ref_table
+  ease_dollars(-10)
+  G.GAME.round_resets.boss_rerolled = true
+  local oldt = {AKYRS.boss_select_uis[r.index].T.x, AKYRS.boss_select_uis[r.index].T.y}
+  if AKYRS.boss_select_uis[r.index] then AKYRS.boss_select_uis[r.index]:remove() end
+  local oldante = G.GAME.round_resets.ante
+  G.GAME.round_resets.ante = 6
+  G.GAME.akyrs_boss_selects[r.index].boss = SMODS.poll_object { type = 'Blind', seed = 'akyrs_boss_select', filter = AKYRS.boss_remove_existing_boss }
+  G.GAME.round_resets.ante = oldante
+  AKYRS.boss_select_uis[r.index].states.visible = false
+  AKYRS.boss_select_uis[r.index].akyrs_recalculated = false
+  AKYRS.boss_select_uis[r.index] = ({AKYRS.uibox_obj_blind_select_module(G.GAME.akyrs_boss_selects[r.index].boss, { index = r.index, t = oldt })})[2]
+  AKYRS.boss_select_uis[r.index]:recalculate()
+  AKYRS.simple_event_add(
+    function ()
+      play_sound('tarot2')
+      AKYRS.boss_select_uis[r.index].UIRoot:juice_up(0.1,0.1)
+      return true
+    end
+  )
+end
+G.FUNCS.akyrs_boss_keep_correct_ui = function(e)
+  local r = e.config.ref_table
+  e.config.object = AKYRS.boss_select_uis[r.index]
+  AKYRS.boss_select_uis[r.index].parent = e
+  if not AKYRS.boss_select_uis[r.index].akyrs_recalculated then
+    e.UIBox:recalculate()
+    AKYRS.boss_select_uis[r.index].akyrs_recalculated = true
+    AKYRS.boss_select_uis[r.index].states.visible = true
+  end
+end
+
+
+G.FUNCS.akyrs_reroll_boss_button = function(e)
+  local r = e.config.ref_table
+  if (((G.GAME.dollars-G.GAME.bankrupt_at) - 10 >= 0) and
+    (G.GAME.used_vouchers["v_retcon"] or
+    (G.GAME.used_vouchers["v_directors_cut"] and not G.GAME.round_resets.boss_rerolled)) and not r.defeated) or AKYRS.debug_opts.boss_select then 
+      e.config.colour = G.C.RED
+      e.config.button = 'akyrs_reroll_boss_blind'
+  else
+    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+    e.config.button = nil
+  end
+end
+
+G.FUNCS.akyrs_select_boss_button = function(e)
+  local r = e.config.ref_table
+  AKYRS.button_enable_func(e, {
+    func = function (e)
+      return not r.defeated
+    end,
+    button = 'akyrs_select_boss_blind',
+  })
+end

@@ -8,7 +8,7 @@ end
 
 local ubs = Game.update_blind_select
 function Game:update_blind_select(dt)
-    if G.GAME.akyrs_select_boss and not G.GAME.akyrs_boss_selected then
+    if G.GAME.akyrs_select_boss and not G.GAME.akyrs_boss_selected and not G.GAME.akyrs_all_boss_defeated then
         if G.blind_select then 
             G.E_MANAGER:add_event(Event({
             trigger = 'before', delay = 0.2,
@@ -42,7 +42,17 @@ function Game:akyrs_update_boss_select(dt)
     if self.buttons then self.buttons:remove(); self.buttons = nil end
     AKYRS.deal_with_leftover_uis(self)
     if self.shop then self.shop:remove(); self.shop = nil end
-
+    if not G.GAME.akyrs_boss_selects then
+        G.GAME.akyrs_boss_selects = {}
+        local old_ante = G.GAME.round_resets.ante
+        G.GAME.round_resets.ante = 6
+        for i = 1, 6 do
+            G.GAME.akyrs_boss_selects[#G.GAME.akyrs_boss_selects+1] = {
+                boss = SMODS.poll_object { type = 'Blind', seed = 'akyrs_boss_select', filter = AKYRS.boss_remove_existing_boss }
+            }
+        G.GAME.round_resets.ante = old_ante
+        end
+    end
     if not G.STATE_COMPLETE then
         stop_use()
         ease_background_colour_blind(G.STATES.BLIND_SELECT)
@@ -53,26 +63,12 @@ function Game:akyrs_update_boss_select(dt)
         G.E_MANAGER:add_event(Event({
             trigger = 'immediate',
             func = function()
-                play_sound('cancel')
+                play_sound('tarot2')
                 G.AKYRS_BLIND_CHOICE_ANTE = UIBox{
-                    definition = {
-                        n = G.UIT.ROOT,
-                        config = {
-                            w = 5, h = 5,
-                        },
-                        nodes = {
-                            AKYRS.button_prefab {
-                                button = 'akyrs_go_to_blind_select',
-                                minw = 5, minh = 5,
-                                children = {
-                                    AKYRS.text_prefab { text = "GO TO BLIND SELECT (DEBUG)"}
-                                }
-                            }
-                        }
-                    },
-                    config = {align="bmi", offset = {x=0,y=G.ROOM.T.y + 29},major = G.hand, bond = 'Weak'}
+                    definition = AKYRS.create_boss_select_ui(),
+                    config = {align="bmi", offset = {x=0,y=G.ROOM.T.y + 15},major = G.hand, bond = 'Weak'}
                 }
-                G.AKYRS_BLIND_CHOICE_ANTE.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.AKYRS_BLIND_CHOICE_ANTE.T.h
+                G.AKYRS_BLIND_CHOICE_ANTE.alignment.offset.y = 2.5-(G.hand.T.y - G.jokers.T.y) + G.AKYRS_BLIND_CHOICE_ANTE.T.h
                 G.ROOM.jiggle = G.ROOM.jiggle + 3
                 G.AKYRS_BLIND_CHOICE_ANTE.alignment.offset.x = 0
                 G.CONTROLLER.lock_input = false
@@ -96,8 +92,10 @@ G.FUNCS.akyrs_go_to_blind_select = function ()
           func = function()
             G.STATE_COMPLETE = false
             G.STATE = G.STATES.BLIND_SELECT
-            G.GAME.akyrs_boss_selected = true
             G.AKYRS_BLIND_CHOICE_ANTE:remove()
+            G.AKYRS_BLIND_CHOICE_ANTE = AKYRS.map(AKYRS.boss_select_uis, function (item, index)
+                item:remove()
+            end)
             delay(0.2)
             return true
         end}))

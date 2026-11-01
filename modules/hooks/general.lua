@@ -2221,6 +2221,7 @@ G.FUNCS.chip_UI_set = function(e)
     if AKYRS.is_scenario_active("sc_akyrs_smog") then
         e.config.scale = 0.8
         G.GAME.chips_text = "?????"
+        G.GAME.blind.chip_text = "?????"
         return
     end
     return cuis(e)

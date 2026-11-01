@@ -2137,8 +2137,9 @@ function AKYRS.UIDEF.akyrs_redeemed_bets()
       (6.7)*G.CARD_W,
       (area_count >= 10 and 0.75 or 1.07)*G.CARD_H, 
       {card_limit = 10, type = 'akyrs_credits', highlight_limit = 0})
+      voucher_areas[#voucher_areas].config.akyrs_bets = true
   end
-  
+  local nth_tracker = {}
   for ind, varea in ipairs(voucher_areas) do 
 
     table.insert(voucher_tables, 
@@ -2149,6 +2150,8 @@ function AKYRS.UIDEF.akyrs_redeemed_bets()
     for betsk = 1, math.min(rows_needed == ind and #G.GAME.akyrs_redeemed_bets % per_row or per_row, per_row) do 
         local center = G.P_CENTERS[G.GAME.akyrs_redeemed_bets[betsk + ( ind - 1 ) * per_row]]
         local card = Card(varea.T.x + varea.T.w/2, varea.T.y, G.CARD_W, G.CARD_H, nil, center, {bypass_discovery_center=true,bypass_discovery_ui=true,bypass_lock=true})
+        nth_tracker[center.key] = (nth_tracker[center.key] or 0) + 1
+        card.akyrs_copy_no = nth_tracker[center.key]
         card:start_materialize(nil, silent)
         silent = true
         varea:emplace(card)

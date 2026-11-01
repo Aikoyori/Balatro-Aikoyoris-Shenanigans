@@ -4986,7 +4986,7 @@ SMODS.Joker {
                         scaling_message = { message = localize('k_akyrs_downgrade_ex') },
                     })
                     if card.ability.extras.xchips <= 1 then
-                        SMODS.destroy_card({card})
+                        SMODS.destroy_cards({card})
                     end
                 end
             }

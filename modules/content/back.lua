@@ -320,7 +320,6 @@ SMODS.Back{
     atlas = 'deckBacks',
     pos = {x = 2, y = 2},
     loc_vars = function (self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.b_akyrs_prism_deck
         return {
             vars = {
             }

@@ -310,8 +310,15 @@ AKYRS.Bet {
         }
     },
     loc_vars = function (self, info_queue, card)
+        if card.akyrs_copy_no then
+            return {
+                key = self.key .. ((card.akyrs_copy_no > 1) and '_plus' or ''),
+                vars = {
+                }
+            }
+        end
         return {
-            key = self.key .. (AKYRS.get_life_mode() == 'normal' and '_plus' or ''),
+            key = self.key .. ((AKYRS.get_life_mode() == 'normal') and '_plus' or ''),
             vars = {
             }
         }
@@ -355,6 +362,14 @@ AKYRS.Bet {
     },
     multi_use = true,
     loc_vars = function (self, info_queue, card)
+        if card.akyrs_copy_no then
+            return {
+                vars = {
+                    card.ability.extras.payouts,
+                    (card.akyrs_copy_no + 1),
+                }
+            }
+        end
         return {
             vars = {
                 card.ability.extras.payouts,
@@ -385,6 +400,13 @@ AKYRS.Bet {
     },
     multi_use = true,
     loc_vars = function (self, info_queue, card)
+        if card.akyrs_copy_no then
+            return {
+                key = self.key .. ((card.akyrs_copy_no > 1) and '_thicken' or ''),
+                vars = {
+                }
+            }
+        end
         return {
             key = self.key .. (G.GAME.akyrs_slop_thickens and "_thicken" or ""),
             vars = {

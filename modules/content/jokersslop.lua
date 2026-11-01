@@ -91,7 +91,7 @@ SMODS.Joker {
     rarity = 'akyrs_slop',
     cost = 2,
     calculate = function (self, card, context)
-        if context.post_trigger and context.other_card and not context.other_context.end_of_round then
+        if context.post_trigger and context.other_card and not context.other_context.end_of_round and not context.other_context.after then
             return {
                 swap = true,
             }

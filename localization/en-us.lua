@@ -226,7 +226,7 @@ return {
                 name = 'Kaleidoscopic Deck',
                 text = 
                 { 
-                    '{C:attention}Prism Deck{} but',
+                    '{C:attention,T:b_akyrs_prism_deck}Prism Deck{} but',
                     'You may fight the {C:attention}first',
                     '6 bosses in {C:attention}any{} order'
                 },

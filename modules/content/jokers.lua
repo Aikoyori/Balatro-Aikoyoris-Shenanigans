@@ -4159,10 +4159,12 @@ SMODS.Joker {
     rarity = 2,
     cost = 7,
     calculate = function (self, card, context)
-        if context.mod_probability and context.trigger_obj.is and context.trigger_obj:is(Card) and context.trigger_obj:is_suit("Clubs") then
-            return {
-                numerator = context.numerator * 6
-            }
+        if context.mod_probability and context.trigger_obj then
+            if context.trigger_obj.is and context.trigger_obj:is(Card) and context.trigger_obj:is_suit("Clubs")  then
+                return {
+                    numerator = context.numerator * 6
+                }
+            end
         end
     end,
     blueprint_compat = false,
@@ -4802,7 +4804,7 @@ SMODS.Joker {
     pools = {  },
     config = {
         extras = {
-            dolarido = 2,
+            dolarido = 1,
         }
     },
     rarity = 1,

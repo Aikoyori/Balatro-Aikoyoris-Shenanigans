@@ -3290,7 +3290,7 @@ return {
                 },
                 text = {
                     {
-                        "Hand {C:red}must{} contain only {C:attention}Pairs{}",
+                        "Poker Hand {C:red}must{} only contain {C:attention}Pairs{}",
                         "{C:inactive}(Cannot contain Three of a Kind)",
                         "Unscored cards give {C:money}#1#{} when scored"
                     },
@@ -3302,7 +3302,7 @@ return {
                 },
                 text = {
                     {
-                        "Hand {C:red}must{} contain only {C:attention}Pairs{}",
+                        "Poker Hand {C:red}must{} only contain {C:attention}Pairs{}",
                         "{C:inactive}(No Three of a Kind or above)",
                         "Unscored cards gives {C:money}#1#{} when scored"
                     },

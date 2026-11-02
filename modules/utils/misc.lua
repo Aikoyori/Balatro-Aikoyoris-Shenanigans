@@ -876,22 +876,24 @@ function AKYRS.do_things_to_card(cards, func, config, queue) -- func(card)
             if config.fifo and not config.fifo_wait_for_finish then
                 AKYRS.simple_event_add(
                     function ()
-                        if not config.once then
-                        end
+                        if card then
+                            if not config.once then
+                            end
 
-                        func(card, i)
-                        if not config.no_sound and card then
-                            play_sound("card1",math.abs(1.15 - (i-0.999)/(#cards-0.998)*0.3))
-                        end
-                        if not config.no_juice then
-                            card:juice_up(0.3, 0.3)
-                        end
+                            func(card, i)
+                            if not config.no_sound and card then
+                                play_sound("card1",math.abs(1.15 - (i-0.999)/(#cards-0.998)*0.3))
+                            end
+                            if not config.no_juice then
+                                card:juice_up(0.3, 0.3)
+                            end
 
-                        if not config.no_flip then
-                            card:flip()
-                        end
-                        if not config.dont_unhighlight and (card.highlighted or AKYRS.is_in_table(card.area.highlighted, card)) and card.area then
-                            card.area:remove_from_highlighted(card)
+                            if not config.no_flip then
+                                card:flip()
+                            end
+                            if card and not config.dont_unhighlight and (card.highlighted or AKYRS.is_in_table(card.area.highlighted, card)) and card.area then
+                                card.area:remove_from_highlighted(card)
+                            end
                         end
                         return true
                     end,config.finish_flipped_delay or 0.5, queue

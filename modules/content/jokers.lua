@@ -1149,7 +1149,7 @@ SMODS.Joker{
         if context.individual and context.cardarea == G.play and not context.blueprint then
             local s = AKYRS.get_suit_freq_from_cards(G.play.cards)
             if s then
-                if context.other_card:is_suit("Hearts") or (context.other_card:is_suit("Spades")) and s["Spades"] > 0 and s["Hearts"] then
+                if (context.other_card:is_suit("Hearts") or (context.other_card:is_suit("Spades"))) and (s["Spades"] > 0 and s["Hearts"] > 0) then
                     return {
                         message_card = card,
                         func = function ()
@@ -1198,7 +1198,7 @@ SMODS.Joker{
         if context.individual and context.cardarea == G.play and not context.blueprint and not next(context.poker_hands["Flush"]) then
             local s = AKYRS.get_suit_freq_from_cards(G.play.cards)
             if s then
-                if context.other_card:is_suit("Clubs") or (context.other_card:is_suit("Diamonds")) and s["Clubs"] > 0 and s["Diamonds"] then
+                if (context.other_card:is_suit("Clubs") or (context.other_card:is_suit("Diamonds"))) and (s["Clubs"] > 0 and s["Diamonds"] > 0) then
                     return {
                         message_card = card,
                         func = function ()

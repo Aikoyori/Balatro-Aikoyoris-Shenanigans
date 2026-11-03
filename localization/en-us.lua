@@ -3374,6 +3374,7 @@ return {
                 },
                 text = {
                     {
+                        "When {C:attention}entering{} blind",
                         "If one exist, remove a {C:attention}random{} Scenario",
                         "Then add a {C:attention}random{} Scenario Tag",
                     },

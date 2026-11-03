@@ -891,8 +891,10 @@ function AKYRS.do_things_to_card(cards, func, config, queue) -- func(card)
                             if not config.no_flip then
                                 card:flip()
                             end
-                            if card and not config.dont_unhighlight and (card.highlighted or AKYRS.is_in_table(card.area.highlighted, card)) and card.area then
-                                card.area:remove_from_highlighted(card)
+                            if card and card.area then
+                                if not config.dont_unhighlight and (card.highlighted or AKYRS.is_in_table(card.area.highlighted, card))  then
+                                    card.area:remove_from_highlighted(card)
+                                end
                             end
                         end
                         return true

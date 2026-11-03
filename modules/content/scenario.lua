@@ -1744,10 +1744,11 @@ AKYRS.Scenario {
                     AKYRS.NO_UNHIGHLIGHT = card
 
                     local consumable = SMODS.add_card{ set = 'Consumeables', seed = "akyrs_scenario_surprise", key = AKYRS.surprise_debug, soulable = true }
+                    consumable.T.x = G.ROOM.T.w / 2
+                    consumable.T.y = G.ROOM.T.h + 12
                     local sel = math.max(G.GAME.starting_params.discard_limit, G.GAME.starting_params.play_limit)
 
-
-                    AKYRS.simple_event_add(function ()
+                    repeat
                         if #G.hand.highlighted == 0 then
                             ---@type Card[]|nil
                             local random_so_no_crash = AKYRS.pseudorandom_elements(G.hand.cards, sel, "akyrs_scenario_surprise_anti_crash")
@@ -1757,9 +1758,7 @@ AKYRS.Scenario {
                                 end
                             end
                         end
-                        return #G.hand.highlighted > 0 
-                    end, 0)
-
+                    until #G.hand.highlighted > 0 
                     G.FUNCS.use_card({ config = { ref_table = consumable, } })
                     AKYRS.simple_event_add(function ()
                         G.STATE_COMPLETE = false

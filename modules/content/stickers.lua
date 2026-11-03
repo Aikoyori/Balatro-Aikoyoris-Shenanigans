@@ -193,7 +193,9 @@ SMODS.Sticker{
         if context.destroy_card and (context.cardarea == G.play or context.cardarea == 'unscored') then
             if card == context.destroy_card then
                 return {
-                    remove = true
+                    remove = {
+                        bypass_eternal = true
+                    }
                 }
             end
         end

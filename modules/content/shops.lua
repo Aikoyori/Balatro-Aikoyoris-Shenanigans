@@ -779,7 +779,7 @@ function G.FUNCS.akyrs_buy_jimbo(e)
   local bought_at_least_one = false
   if G.akyrs_jimbo_chicanery_cardarea and G.akyrs_jimbo_chicanery_cardarea.cards then
     for _, c in ipairs(G.akyrs_jimbo_chicanery_cardarea.cards) do
-      if not AKYRS.has_room(G.jokers) then
+      if not AKYRS.has_room(G.jokers, c) then
         if not bought_at_least_one then
           alert_no_space(c, G.jokers)
           goto buy_jimbo_break

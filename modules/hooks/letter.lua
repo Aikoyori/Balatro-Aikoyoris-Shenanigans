@@ -239,7 +239,7 @@ function Card:get_id()
     if (self.ability.set ~= "Default" and self.ability.set ~= "Enhanced") and not AKYRS.is_mod_loaded("Cryptid") then
         return -math.random(100, 1000000)
     end
-    if self.is_null then
+    if self.is_null or not (SMODS.is_playing_card(self)) then
         if self.ability.aikoyori_letters_stickers and G.GAME.akyrs_letters_mult_enabled then
             --print(self.ability.aikoyori_letters_stickers)
             return -10 - string.byte(self.ability.aikoyori_letters_stickers)

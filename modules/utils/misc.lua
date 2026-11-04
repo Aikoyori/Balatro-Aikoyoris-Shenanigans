@@ -972,7 +972,7 @@ end
 
 -- ok so they added this new things
 function AKYRS.has_room(cardarea, card, extra, buffer, count)
-    return #cardarea.cards + (extra or 0) < cardarea.config.card_limit
+    return #cardarea.cards + (extra or 0) < cardarea.config.card_limit + (card and card.ability.card_limit or 0)
 end
 
 function AKYRS.force_save()

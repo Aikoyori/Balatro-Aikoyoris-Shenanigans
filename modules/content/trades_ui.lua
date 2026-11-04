@@ -260,7 +260,7 @@ G.FUNCS.akyrs_ui_enchantsmith_unlock = function (e)
 end
 
 local get_enchantment_cost_per_card = function ()
-    return math.floor ( 5 * math.floor(2 ^ math.min(tonumber(AKYRS.akyrs_enchantsmith_enchantment_count) or 1, 4) - 1) * (math.min(tonumber(AKYRS.akyrs_enchantsmith_bias) or 1, 30)) / 2 )
+    return math.floor ( math.abs( 5 * math.floor(2 ^ math.min(tonumber(AKYRS.akyrs_enchantsmith_enchantment_count) or 1, 4) - 1) * (math.min(tonumber(AKYRS.akyrs_enchantsmith_bias) or 1, 30)) / 2 ))
 end
 
 G.FUNCS.akyrs_emerald_enchantment_cost_update_value = function (e)
@@ -323,7 +323,7 @@ end
 G.FUNCS.akyrs_emerald_buy_ebook = function (e)
     if AKYRS.has_room(G.consumeables) then
         G.GAME.akyrs_enchantsmith_buy_ebook_cost = G.GAME.akyrs_enchantsmith_buy_ebook_cost + 10
-        AKYRS.smoothly_ease_emerald(-G.GAME.akyrs_deals_reroll_price)
+        AKYRS.smoothly_ease_emerald(-G.GAME.akyrs_enchantsmith_buy_ebook_cost)
         local ench_key = SMODS.poll_object { type = 'Enchantment', seed = 'akyrs_enchantsmith_ebook_buy'}
         local ench_obj = AKYRS.Enchantments[ench_key]
         play_sound('akyrs_villager_yes', nil, 2.2)

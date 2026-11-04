@@ -126,11 +126,14 @@ SMODS.Joker {
         if context.selling_self then
             return {
                 func = function ()
-                    for i = 1, card.ability.extras.jkr do
-                        if AKYRS.has_room(G.jokers) then
-                            SMODS.add_card{ set = 'Joker', rarity = 'Common' }
+                    AKYRS.simple_event_add(function ()
+                        for i = 1, card.ability.extras.jkr do
+                            if AKYRS.has_room(G.jokers) then
+                                SMODS.add_card{ set = 'Joker', rarity = 'Common' }
+                            end
                         end
-                    end
+                        return true
+                    end, 0.1)
                 end
             }
         end

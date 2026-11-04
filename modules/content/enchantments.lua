@@ -116,6 +116,7 @@ function AKYRS.clear_enchantments(card, forced)
         return b
     end, true, true)
     card.akyrs_enchantments = x
+    if #x == 0 then card.akyrs_enchantments = nil end
     SMODS.calculate_context({ akyrs_enchantment_removed = true, removed_enchantments = removed_ench })
 end
 
@@ -667,7 +668,8 @@ AKYRS.Enchantment {
             return {
                 func = function()
                     AKYRS.simple_event_add(function() 
-                        local c2 = SMODS.copy_card(card, { strip_edition = true })
+                        local c2 = SMODS.copy_card(card, { })
+                        c2.akyrs_enchantments = nil
                         SMODS.calculate_context({ playing_card_added = true, cards = { c2 } })
                         return true
                     end, 0)
@@ -767,6 +769,9 @@ AKYRS.Enchantment {
         ["Default"] = true,
         ["Enhanced"] = true,
     },
+    apply_ench = function (self, card, level)
+        card:set_edition(nil)
+    end,
     calculate = function (self, card, context)
         if context.debuff_card then
             return {

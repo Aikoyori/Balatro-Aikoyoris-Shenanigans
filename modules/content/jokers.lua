@@ -910,12 +910,15 @@ SMODS.Joker{
             }
         end
         if context.final_scoring_step and G.GAME.blind and not context.blueprint then
-            
                 G.E_MANAGER:add_event(
                     Event{
                         func = function ()
                             if SMODS.last_hand_oneshot then
-                                card.ability.extra.xmult = 1
+                                SMODS.reset_card(card, {
+                                    ref_table = card.ability.extra,
+                                    ref_value = 'xmult',
+                                    reset_value = 1,
+                                })
                             else 
                                 
                                 SMODS.scale_card(card, { ref_table = card.ability.extra, ref_value = "xmult", scalar_value = "extra" })
@@ -3165,7 +3168,7 @@ SMODS.Joker {
                     SMODS.reset_card(card, {
                         ref_table = card.ability.extras,
                         ref_value = 'xmult',
-                        reset_value = 'reset_to'
+                        reset_value = card.ability.extras.reset_to,
                     })
                 end
             }

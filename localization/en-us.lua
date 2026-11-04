@@ -273,7 +273,8 @@ return {
                 name = 'Deck of the Puppets',
                 text = 
                 { 
-                    '{C:red,s:1.5,E:akyrs_shrivel}NYI{}',
+                    'Cards that were sold',
+                    '{C:red,E:akyrs_shrivel}will never appear again{}',
                 },
             },
             b_akyrs_shining_deck = {
@@ -6003,6 +6004,8 @@ return {
             k_akyrs_factorio_planet_q = "Nauvis System Planet?",
             k_akyrs_inception_ex = "Inception!",
             k_akyrs_add_trade_row = "+3 Deals",
+
+            k_akyrs_banished = "Banished!",
 
             f_akyrs_localize_enchantment_level = function (num_in)
                 if math.abs(num_in) > 3999 then

@@ -14,7 +14,7 @@ AKYRS.Abilities_Tables = {
 }
 
 ---@class AKYRS.AbilityBase : SMODS.GameObject
----@field ability_calculate? fun(self: SMODS.Center|table, ability: Card|table, context: CalcContext|table): table?, boolean?  Calculates effects based on parameters in `context`. See [SMODS calculation](https://docs.smods.dev/API%20Documentation/Calculate-Functions) docs for details. 
+---@field ability_calculate? fun(self: SMODS.Center|table, ability: table, context: CalcContext|table): table?, boolean?  Calculates effects based on parameters in `context`. See [SMODS calculation](https://docs.smods.dev/API%20Documentation/Calculate-Functions) docs for details. 
 ---@field apply? fun(self)
 ---@overload fun(o: AKYRS.AbilityBase): AKYRS.AbilityBase
 AKYRS.AbilityBase = SMODS.GameObject:extend{

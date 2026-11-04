@@ -477,6 +477,16 @@ SMODS.Back{
     end,
     config = {
     },
+    calculate = function (self, back, context)
+        if context.selling_card then
+            return {
+                message = localize("k_akyrs_banished"),
+                func = function ()
+                    G.GAME.banned_keys[context.card.config.center.key] = true
+                end
+            }
+        end
+    end,
 }
 SMODS.Back{
     key = "shining_deck",

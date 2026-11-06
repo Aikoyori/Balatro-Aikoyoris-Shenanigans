@@ -181,10 +181,29 @@ for i = 3, 45 do
     end
 
     table.insert(AKYRS.words_hand, i.."-letter Word")
+    local length = i --technically redundant (i checked) but feels weird not to
     SMODS.PokerHand {
         no_collection = true,
         key = i.."-letter Word",
-        visible = false,
+        visible = function (self)
+            local pokerhand = G.GAME.hands[self.key]
+            if G.GAME.akyrs_wording_enabled and G.GAME.selected_back_key.key == "b_akyrs_mega_letter_deck" then
+                local req = get_blind_amount(G.GAME.round_resets.ante) * G.GAME.starting_params.ante_scaling --clumsy, todo find and get the real blind amount directly
+                if pokerhand.chips * pokerhand.mult > req then
+                    local way_too_high = false
+                    if length - 5 >= 3 then
+                        local smaller_hand_key = string.gsub(self.key, tostring(length), tostring(length-5))
+                        local smaller_hand = G.GAME.hands[smaller_hand_key]
+                        assert(smaller_hand ~= pokerhand, "Uhhhhh fuck some kinda error, "..smaller_hand_key)
+                        if smaller_hand then
+                            way_too_high = smaller_hand.chips * smaller_hand.mult > req
+                        end
+                    end
+                    if not way_too_high then return true end
+                end
+            end
+            return pokerhand.played > 0
+        end,
         example = exampler,
         evaluate = function(parts, hand_in)
             local s = AKYRS.word_hand_combine(hand_in, i)

@@ -539,6 +539,7 @@ function AKYRS.end_shop_hooks(dt)
         end
     end
     G.FUNCS.akyrs_shift_hud(false)
+    G.GAME.akyrs_free_shops = math.max(0, G.GAME.akyrs_free_shops - 1)
     if G.AKYRS_SHOP_OVERLAY then G.AKYRS_SHOP_OVERLAY:remove() G.AKYRS_SHOP_OVERLAY = nil end
 end
 

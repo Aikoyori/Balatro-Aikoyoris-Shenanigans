@@ -1677,6 +1677,7 @@ SMODS.Joker{
     add_to_deck = function (self, card, from_debuff)
         if not AKYRS.ShopPages['shoppage_akyrs_villager_trading']:is_enabled() then
             AKYRS.toggle_shop_availability('shoppage_akyrs_villager_trading', true)
+            G.FUNCS.akyrs_shift_hud(true)
         end
     end,
 }

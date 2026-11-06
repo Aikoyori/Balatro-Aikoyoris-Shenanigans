@@ -626,3 +626,27 @@ local setjkwinhook = set_joker_win
     end
     return setjkwinhook(e)
 end
+
+local mod_rank = SMODS.modify_rank
+function SMODS.modify_rank(...)
+    AKYRS.from_mod_rank = true
+    local x = { mod_rank(...) }
+    AKYRS.from_mod_rank = nil
+    return unpack(x)
+end
+
+local change_base_ref = SMODS.change_base
+function SMODS.change_base(card, suit, rank, manual_sprites)
+    AKYRS.from_change_base = { card = card, suit = suit, rank = rank }
+    local x = { change_base_ref(card, suit, rank, manual_sprites) }
+    AKYRS.from_change_base = nil
+    return unpack(x)
+end
+
+local change_suit_ref = Card.change_suit
+function Card:change_suit(new_suit)
+    AKYRS.from_change_base = { card = self, suit = new_suit, rank = nil }
+    local x = { change_suit_ref(self, new_suit) }
+    AKYRS.from_change_base = nil
+    return unpack(x)
+end

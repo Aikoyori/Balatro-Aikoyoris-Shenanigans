@@ -122,6 +122,8 @@ function Game:init_game_object()
     ret.akyrs_deals_add_row_price = 3
     ret.akyrs_deals_added_rows = 0
     ret.akyrs_enchantsmith_buy_ebook_cost = 10
+    ret.akyrs_free_shops = 0
+    ret.akyrs_abilities = {}
 
     ret.akyrs_ut_route = "pacifist"
     ret.akyrs_cards_modified = 0
@@ -423,6 +425,10 @@ end
 
 local cardSetCostHook = Card.set_cost
 function Card:set_cost()
+    if (G.GAME.akyrs_free_shops or 0) > 0 then
+        self.cost = 0
+        return
+    end
     local ret = cardSetCostHook(self)
     if self.ability.akyrs_self_destructs then
         self.cost = 1
@@ -1224,47 +1230,35 @@ function Card:set_base(card, initial, manual_sprites)
             end
         end
     end
-    if self.config.card and not initial and false then
+    if self.config.card and not initial and AKYRS.from_change_base and (AKYRS.from_change_base or {}).card == self then
         local og_suit = self.config.card.suit
         local og_rank = self.config.card.value
-        --print("not initial and has card config")
-        if self and self.ability and (self.ability.akyrs_special_card_type or self.is_null) then
-            local formerly_null = card.is_null
-            local will_have_suit = false
-            local will_have_rank = false
-            if card.suit ~= og_suit then
-                will_have_suit = true
+        --print(AKYRS.from_change_base)
+        if self.ability.akyrs_special_card_type then
+            if self.ability.akyrs_special_card_type == 'suit' and AKYRS.from_change_base.rank and not AKYRS.from_mod_rank then
+                AKYRS.set_special_card_type(self, nil)
             end
-            if card.value ~= og_rank then
-                will_have_rank = true
-            end
-            if not self.AKYRS_NULL_STAYS then
-                self.is_null = false
-            end
-            if formerly_null then
-                --print("formerly null")
-                if will_have_rank and not will_have_suit then
-                    --print("now pure rank")
-                    AKYRS.set_special_card_type(self,"rank")
-                end
-                if not will_have_rank and will_have_suit then 
-                    AKYRS.set_special_card_type(self,"suit")
-                    --print("now pure suit")
-                end
-            else
-                if self.ability.akyrs_special_card_type then
-                    --print("formerly pure cards")
-                    if self.ability.akyrs_special_card_type == "suit" and will_have_rank then
-                        --print("formerly pure suit now full")
-                        AKYRS.set_special_card_type(self, nil)
-                    end
-                    if self.ability.akyrs_special_card_type == "rank" then
-                        --print("formerly pure rank now full")
-                        AKYRS.set_special_card_type(self, nil)
-                    end
-                end
+            if self.ability.akyrs_special_card_type == 'rank' and AKYRS.from_change_base.suit then
+                AKYRS.set_special_card_type(self, nil)
             end
         end
+        if self.is_null then
+            local ranked, suited
+            if AKYRS.from_change_base.rank and not AKYRS.from_mod_rank then
+                AKYRS.set_special_card_type(self, 'rank')
+                self.is_null = false
+                ranked = true
+            end
+            if AKYRS.from_change_base.suit then
+                AKYRS.set_special_card_type(self, 'suit')
+                self.is_null = false
+                suited = true
+            end
+            if ranked and suited then
+                AKYRS.set_special_card_type(self, nil)
+            end
+        end
+        --print("not initial and has card config")
     end
     local ret = cardBaseHooker(self, card, initial, manual_sprites)
     self.aiko_draw_delay = math.random() * 1.75 + 0.25
@@ -1338,18 +1332,20 @@ AKYRS.do_not_misprint = {
 
 function Card:akyrs_mod_card_value_init(center, initial, delay)
     local xcenter = (center or self.config.center)
-    if G.GAME.modifiers.akyrs_misprint and (not (self.ability or {}).misprinted or xcenter.set == "Enhanced") and xcenter and not AKYRS.do_not_misprint[xcenter.key] then
-        --local x = self.ability
-        --print(y.config)
-        AKYRS.mod_card_values(self,{random = {digits_min = -4, digits_max = 4, min = 1e-4, max = 1e4,scale = 1, can_negate = false}, prefer_original_value = G.SETTINGS.paused or center})
-        --print(y.config)
-        self.ability.misprinted = true
-    end
+    if not G.OVERLAY_MENU then 
+        if G.GAME.modifiers.akyrs_misprint and (not (self.ability or {}).misprinted or xcenter.set == "Enhanced") and xcenter and not AKYRS.do_not_misprint[xcenter.key] then
+            --local x = self.ability
+            --print(y.config)
+            AKYRS.mod_card_values(self,{random = {digits_min = -4, digits_max = 4, min = 1e-4, max = 1e4,scale = 1, can_negate = false}, prefer_original_value = G.SETTINGS.paused or center})
+            --print(y.config)
+            self.ability.misprinted = true
+        end
 
-    if G.GAME.selected_back_key then
-        if G.GAME.selected_back_key.akyrs_mod_value_conf and type(G.GAME.selected_back_key.akyrs_mod_value_conf) == 'function' and not self.ability.akyrs_deck_modified and not G.SETTINGS.paused then
-            AKYRS.mod_card_values(self, { func = G.GAME.selected_back_key.akyrs_mod_value_conf } )
-            self.ability.akyrs_deck_modified = true
+        if G.GAME.selected_back_key then
+            if G.GAME.selected_back_key.akyrs_mod_value_conf and type(G.GAME.selected_back_key.akyrs_mod_value_conf) == 'function' and not self.ability.akyrs_deck_modified and not G.SETTINGS.paused then
+                AKYRS.mod_card_values(self, { func = G.GAME.selected_back_key.akyrs_mod_value_conf } )
+                self.ability.akyrs_deck_modified = true
+            end
         end
     end
     

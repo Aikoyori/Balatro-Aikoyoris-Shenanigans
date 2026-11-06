@@ -22,14 +22,7 @@ SMODS.Scoring_Calculation{
     order = 999,
     func = function (self, chips, mult, flames)
         local to_big = to_big or function(x) return x end
-        if flames then
-            if to_big(G.GAME.aikoyori_evaluation_value) == to_big(G.GAME.blind.chips) then
-                return to_big(G.GAME.aikoyori_evaluation_value) * 100
-            end
-            return 0
-        else
-            return to_big(G.GAME.aikoyori_evaluation_value) - to_big(G.GAME.chips)
-        end
+        return to_big(G.GAME.aikoyori_evaluation_value) - to_big(G.GAME.chips)
     end,
     replace_ui = function(self)
         return {

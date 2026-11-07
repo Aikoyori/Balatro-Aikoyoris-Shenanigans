@@ -456,6 +456,8 @@ position = 'before'
 payload = '''akyrs_osk = args.akyrs_osk,
 ref_value = args.ref_value,
 akyrs_ui_tooltip = args.akyrs_ui_tooltip,
+outline = args.outline,
+outline_colour = args.outline_colour,
 '''
 match_indent = true
 

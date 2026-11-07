@@ -347,11 +347,26 @@ SMODS.current_mod.custom_ui = function (mod_nodes)
               },
               {
                 n = G.UIT.R,
-                config = {},
+                config = { padding = 0.1 },
                 nodes = {
-                  UIBox_button({
-                    colour = HEX('5865F2'), minw = 3.5, minh = 1, padding = 0.1, emboss = 0.2, button = "go_to_aikoyori_discord_server", label = {localize("k_akyrs_join_akyrs_discord")}
-                  })
+                  {
+                    n = G.UIT.C,
+                    config = {},
+                    nodes = {
+                      UIBox_button({
+                        colour = HEX('5865F2'), minw = 3.5, minh = 1, padding = 0.1, emboss = 0.2, button = "go_to_aikoyori_discord_server", label = {localize("k_akyrs_join_akyrs_discord")}
+                      }),
+                    }
+                  },
+                  {
+                    n = G.UIT.C,
+                    config = {},
+                    nodes = {
+                      UIBox_button({
+                        colour = HEX('101411'), outline = 0.5, outline_colour = G.C.WHITE, minw = 3.5, minh = 1, padding = 0.1, emboss = 0.2, button = "akyrs_go_to_official_github", label = {localize("k_akyrs_github_btn")}
+                      })
+                    }
+                  },
                 }
               },
             }

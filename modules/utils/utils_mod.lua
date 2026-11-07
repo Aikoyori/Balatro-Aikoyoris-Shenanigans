@@ -291,6 +291,11 @@ G.FUNCS.go_to_aikoyori_discord_server = function(e)
 end
 
 
+G.FUNCS.akyrs_go_to_official_github = function(e)
+    love.system.openURL( "https://github.com/Aikoyori/Balatro-Aikoyoris-Shenanigans" )
+end
+
+
 G.FUNCS.akyrs_open_link = function(e)
     love.system.openURL( e.config.link )
 end

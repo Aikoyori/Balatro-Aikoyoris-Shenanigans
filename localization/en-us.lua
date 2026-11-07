@@ -5803,6 +5803,7 @@ return {
 
             k_akyrs_title = "Aikoyori's Shenanigans",
             k_akyrs_join_akyrs_discord = "Discord (Bugs & Feedback)",
+            k_akyrs_github_btn = "GitHub Repo",
 
             k_akyrs_hardcore_challenge_mode = "Hardcore Challenge Mode",
             k_akyrs_hardcore_challenge_mode_flavour = "Tough and completely optional Challenges",

@@ -112,7 +112,8 @@ pattern = """challenge = G.CHALLENGES[get_challenge_int_from_id(challenge or '')
 position = "after"
 payload = """
 if name_to_check == "Hardcore Challenge Deck" then
-    challenge = AKYRS.HC_CHALLENGES[AKYRS.get_hc_challenge_int_from_id(old_challenge or '')] or {name = 'ERROR'}
+    challenge = AKYRS.HC_CHALLENGES[AKYRS.get_hc_challenge_int_from_id(old_challenge or '')] or {name = 'AIKO ERROR'}
+    is_hardcore = true
 end
 """
 overwrite = true
@@ -124,6 +125,7 @@ target = "back.lua"
 pattern = """challenge = G.CHALLENGES[get_challenge_int_from_id(challenge or '') or ''] or {name = 'ERROR'}"""
 position = "before"
 payload = """
+local is_hardcore = false
 local old_challenge = challenge
 """
 overwrite = true
@@ -414,11 +416,28 @@ end"""
 overwrite = true
 match_indent = true
 
+
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS _ "src/utils.lua"]'''
 pattern = '''		local challenge = G.CHALLENGES[args._id]'''
 position = "after"
 payload = """if args._hc then challenge = AKYRS.HC_CHALLENGES[args._id] end"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = '''back.lua'''
+pattern = '''    for i, v in pairs(AUT.multi_box or {}) do'''
+position = "before"
+payload = """if is_hardcore then
+    nodes = {
+        {n=G.UIT.R, config=conf, nodes={
+            challenge.id and UIBox_button({button = 'akyrs_hc_challenge_deck_view_challenge', label = {localize(challenge.id, 'hardcore_challenge_names')},  minw = 2.2, minh = 1, scale = 0.6, id = challenge}) or desc_from_rows(loc_nodes, true, min_dims*5)
+        }}
+    }
+end"""
 overwrite = true
 match_indent = true

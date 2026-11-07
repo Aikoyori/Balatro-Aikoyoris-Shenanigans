@@ -214,6 +214,7 @@ AKYRS.ShopPages_Buffer = {}
 ---@field is_enabled fun(self:AKYRS.ShopPage): boolean? okay i think you are just trolling now if you want me to explain this
 ---@field button_height number? button height in the hud underlay
 ---@field target_y number? in case higher or lower ui is needed
+---@field selectable boolean? can you select card in shop on controller?
 ---@field button_colour table? the colour of the button in the shop underlay
 ---@field show fun(self:AKYRS.ShopPage)? function to run extra code when showing the shop
 ---@field hide fun(self:AKYRS.ShopPage)? function to run extra code when showing the shop
@@ -398,6 +399,7 @@ AKYRS.ShopPage{
 }
 AKYRS.ShopPage {
     key = "life_shop",
+    selectable = true,
     create_ui = function (self)
         G.akyrs_life_shop = CardArea(
             0,
@@ -627,6 +629,7 @@ AKYRS.ShopPage {
 }
 AKYRS.ShopPage {
     key = "villager_trading",
+    selectable = true,
     create_ui = function (self)
 
       local tabulars = {}

@@ -730,6 +730,26 @@ SMODS.current_mod.config_tab = function ()
         }, nodes = {
 
           create_toggle({
+            label = localize("k_akyrs_config_tag_rework"),
+            ref_table = AKYRS.config,
+            ref_value = "config_tag_rework",
+            label_scale = 0.4,
+            callback = G.FUNCS.akyrs_save_config
+          })
+          }
+        },
+        AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_config_tag_rework" }
+        }
+      },
+      { n = G.UIT.R, config = { align = "mc", r = 0.1, padding = 0.1 }, nodes = {
+        { n = G.UIT.B, config = { align = "rt", h = 0.1, w = 4.5, r = 0.1, colour = HEX("ffffff77") }, nodes = {}},
+      }},
+      { n = G.UIT.R, config = { align = "rt"}, nodes = {
+        { n = G.UIT.C, config = {
+            align = "cm", padding = 0.05,
+        }, nodes = {
+
+          create_toggle({
             label = localize("k_akyrs_toggle_legacy_challenges"),
             ref_table = AKYRS.config,
             ref_value = "legacy_challenges",

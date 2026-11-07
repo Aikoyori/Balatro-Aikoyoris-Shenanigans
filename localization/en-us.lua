@@ -889,6 +889,16 @@ return {
                     'They feature some of the most disgusting balance ever.',
                 },
             },
+            dd_akyrs_config_tag_rework = {
+                name = "Enable Tags by default",
+                text = {
+                    'Tags can now be toggled on and off',
+                    'simply by clicking on them',
+                    'by default, this option is off',
+                    'turn it on to mimic Vanilla behaviour',
+                    '{C:inactive}(Note: you can still toggle them)'
+                },
+            },
             -- tooltips
             dd_akyrs_maxwell_example={
                 name="Example",
@@ -5903,6 +5913,7 @@ return {
             k_akyrs_restart_required = "Options with * means restart is required",
             k_akyrs_toggle_experimental_feature = "Enable Experimental Features*",
             k_akyrs_toggle_legacy_challenges = "Enable Legacy Challenges",
+            k_akyrs_config_tag_rework = "Enable Tags by default",
             k_akyrs_toggle_colourblind_ui = "High Contrast UI",
             k_akyrs_emerald = "Emerald",
             k_akyrs_slop = "Slop",

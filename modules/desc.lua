@@ -239,6 +239,10 @@ AKYRS.DescriptionDummy{
 }
 
 AKYRS.DescriptionDummy{
+    key = "config_tag_rework",
+}
+
+AKYRS.DescriptionDummy{
     key = "non_functional",
 }
 

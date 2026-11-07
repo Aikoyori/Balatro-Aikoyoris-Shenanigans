@@ -2363,7 +2363,7 @@ G.FUNCS.text_input_key = function (args)
     if G.CONTROLLER.text_input_hook then
         local hook_config = G.CONTROLLER.text_input_hook.config.ref_table
         local text = hook_config.text
-        if hook_config.validate_and_replace then
+        if hook_config.validate_and_replace and G.CONTROLLER.HID.mouse then
             local repl, wizth = hook_config.validate_and_replace(text.ref_table[text.ref_value], hook_config, true)
             if repl then
                 text.ref_table[text.ref_value] = wizth
@@ -2377,4 +2377,19 @@ G.FUNCS.text_input_key = function (args)
         end
     end
     return unpack(x)
+end
+
+
+local card_area_can_highlight_ref = CardArea.can_highlight
+function CardArea:can_highlight(card)
+    if (not G.AKYRS_ACTIVE_SHOP or AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP].selectable) then
+        if  self.config.type == 'hand' or
+            self.config.type == 'joker' or
+            self.config.type == 'consumeable' or
+            (self.config.type == 'shop' and self.config.highlighted_limit > 0)
+        then
+            return true
+        end
+    end
+	return card_area_can_highlight_ref(self, card)
 end

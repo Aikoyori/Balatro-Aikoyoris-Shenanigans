@@ -48,3 +48,15 @@ pattern = """                        if G.GAME.blind_on_deck == 'Small' then
 position = "before"
 payload = "if G.GAME.akyrs_default_blind_handler or AKYRS.should_use_default_blind_handler()  then"
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = '''if G.CONTROLLER.HID.controller and self ~= G.hand then self:unhighlight_all() end'''
+position = "at"
+payload = '''
+if (not G.AKYRS_ACTIVE_SHOP or not AKYRS.ShopPages[G.AKYRS_ACTIVE_SHOP].selectable) then
+if G.CONTROLLER.HID.controller and self ~= G.hand then self:unhighlight_all() end
+end
+'''
+match_indent = true

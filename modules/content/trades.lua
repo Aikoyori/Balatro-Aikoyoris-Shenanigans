@@ -401,6 +401,7 @@ AKYRS.TradeProfession {
                                     AKYRS.numerical_input({
                                         w = 1.5, h = 0.7, step_w = 0.7, 
                                         extended_corpus = true, 
+                                        hide_keyboard_only_kbm = true,
                                         prompt_text = "",
                                         all_colour = G.C.PALE_GREEN,
                                         id = "akyrs_enchantsmith_bias", ref_table = AKYRS, ref_value = "akyrs_enchantsmith_bias",
@@ -414,6 +415,7 @@ AKYRS.TradeProfession {
                                     AKYRS.numerical_input({
                                         w = 1.5, h = 0.7, step_w = 0.7, 
                                         extended_corpus = true, 
+                                        hide_keyboard_only_kbm = true,
                                         prompt_text = "",
                                         all_colour = G.C.PURPLE,
                                         id = "akyrs_enchantsmith_count", ref_table = AKYRS, ref_value = "akyrs_enchantsmith_enchantment_count",

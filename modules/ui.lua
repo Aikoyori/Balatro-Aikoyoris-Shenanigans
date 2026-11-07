@@ -195,7 +195,8 @@ function AKYRS.create_better_keyboard_button(key, binding, osk, params)
       col = true, colour = G.C.GREY, scale = 0.4, focus_args = binding and {button = binding, orientation = 'cr', set_button_pip= true, snap_to = key == ' ' and true or false} or nil,
     }
 end
-function AKYRS.create_toggle_keyboard_button(key, binding, osk)
+function AKYRS.create_toggle_keyboard_button(key, binding, osk, params)
+  params = params or {}
   local key_label = (key == 'lshift' and 'Shift') or key
   return UIBox_button{ akyrs_osk = osk,label = {key_label}, button = "akyrs_toggle_key_button", func = key=="lshift" and "akyrs_shift_enabled" or nil, ref_table = {key = key == 'back' and 'return' or key},
       minw = params.minw or key == ' ' and 9 or key == 'return' and 3 or key == 'backspace' and 3.5 or key == 'back' and 3.5 or key == 'lshift' and 4 or 0.8,
@@ -306,6 +307,7 @@ function AKYRS.create_better_text_input(args)
   args.w = args.w or 2.5
   args.h = args.h or 0.7
   args.hide_keyboard = args.hide_keyboard or false
+  args.hide_keyboard_only_kbm = args.hide_keyboard_only_kbm or false
   args.text_scale = args.text_scale or 0.4
   args.max_length = args.max_length or 16
   args.all_caps = args.all_caps or false
@@ -332,7 +334,7 @@ function AKYRS.create_better_text_input(args)
       {n=args.row and G.UIT.R or G.UIT.C, config={align = "cm", minh = args.h, colour = G.C.CLEAR}, nodes = {
           {n=G.UIT.C, config={id = args.id, align = "cm", padding = 0.05, r = 0.1, hover = true, colour = args.colour,minw = args.w, minh = args.h, button = 'select_text_input', shadow = true}, nodes={
             {n=G.UIT.R, config={ref_table = args, padding = 0.05, align = "cm", r = 0.1, min_h = args.h, colour = G.C.CLEAR}, nodes={
-              {n=G.UIT.R, config={ref_table = args, align = "cm", r = 0.1, colour = G.C.CLEAR, numeric = args.numeric, any_key = true, func = 'akyrs_text_input', hide_keyboard = args.hide_keyboard}, nodes=
+              {n=G.UIT.R, config={ref_table = args, align = "cm", r = 0.1, colour = G.C.CLEAR, numeric = args.numeric, any_key = true, func = 'akyrs_text_input', hide_keyboard = args.hide_keyboard, hide_keyboard_only_kbm = args.hide_keyboard_only_kbm}, nodes=
                 ui_letters
               }
             }}
@@ -355,7 +357,11 @@ G.FUNCS.akyrs_text_input = function(e)
     args.current_position_text = ''
   end
   local OSkeyboard_e = e.parent.parent.parent
-  if G.CONTROLLER.text_input_hook == e and (not e.config or not e.config.hide_keyboard) then
+  local show_keyboard = false
+  if e.config then
+    show_keyboard = not e.config.hide_keyboard and not (e.config.hide_keyboard_only_kbm and G.CONTROLLER.HID.mouse)
+  end
+  if G.CONTROLLER.text_input_hook == e and (show_keyboard) then
     if not OSkeyboard_e.children.controller_keyboard then 
       local hkc = G.CONTROLLER.text_input_hook.config.ref_table
       if e.config.numeric then
@@ -798,7 +804,7 @@ function AKYRS.UIDEF.words_run_info_tab()
             n = G.UIT.C,
             config = { align = "cm", padding = 0.2 },
             nodes = {
-              { n = G.UIT.R, config = {align = "cm",}, nodes = {
+              { n = G.UIT.R, config = {align = "tm",}, nodes = {
                 {
                   n = G.UIT.O,
                   config = {
@@ -811,20 +817,27 @@ function AKYRS.UIDEF.words_run_info_tab()
               } },
               {
                 n = G.UIT.R,
-                config = { padding = 0.05, w = 6.5, align = 'cm' },
+                config = { padding = 0.05, w = 6.5, align = 'tm' },
                 nodes = {
                   AKYRS.create_better_text_input({
                     w = 6.5,
                     h = 1,
                     max_length = 45, 
                     prompt_text = "",
-                    hide_keyboard = true,
                     extended_corpus = true,
                     ref_table = AKYRS.word_check_data,
                     ref_value = "word_check",
                     id = "check_wild",
-                    keyboard_offset = 4.5,
+                    keyboard_offset = 1.0,
+                    hide_keyboard_only_kbm = true,
                   })
+                }
+              },
+              {
+                n = G.UIT.R,
+                config = { padding = 0.05, w = 6.5, align = 'tm' },
+                nodes = {
+                  { n = G.UIT.B, config = { h = 5, w = 0.1 }}
                 }
               },
               { n = G.UIT.R, config = {align = "cm",}, nodes = {
@@ -1257,7 +1270,8 @@ function AKYRS.numerical_input(args)
       all_colour = args.all_colour,
       prompt_text = args.prompt_text or "",
       numeric = true,
-      hide_keyboard = true,
+      hide_keyboard = args.hide_keyboard,
+      hide_keyboard_only_kbm = args.hide_keyboard_only_kbm,
       can_negate = args.can_negate,
       can_decimal = args.decimal_place > 0,
       callback = function ()

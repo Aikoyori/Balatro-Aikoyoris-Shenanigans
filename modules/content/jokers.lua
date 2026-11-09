@@ -1937,12 +1937,6 @@ SMODS.Joker{
             }
         }
     end,
-    add_to_deck = function (self, card, from_debuff)
-        if card.area and card.area.cards then
-            local current = AKYRS.find_index(card.area.cards,card)
-            card.ability.extras.immutable.index = current
-        end
-    end,
     calculate = function (self, card, context)
         if context.before then
             if card.area and card.area.cards then
@@ -1951,7 +1945,6 @@ SMODS.Joker{
                         local where = pseudorandom("akyrs_corkscrew_move_target",1,#card.area.cards)
                         local current = AKYRS.find_index(card.area.cards,card)
                         card.area.cards[where],card.area.cards[current or 1] = card.area.cards[current],card.area.cards[where]
-                        card.ability.extras.immutable.index = current
                         card.area:align_cards()
                     end
                 }

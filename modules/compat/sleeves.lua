@@ -80,10 +80,10 @@ if CardSleeves then
             end
         end,
         apply = function(self, sleeve)
-            if (sleeve.config.akyrs_inversion_deck) then
+            CardSleeves.Sleeve.apply(sleeve)
+            if (sleeve.config.inv) then
                 G.GAME.starting_params.akyrs_inversion_deck = sleeve.config.inv
             end
-            CardSleeves.Sleeve.apply(sleeve)
             if self.get_current_deck_key() == "b_akyrs_inversion_deck" then
                 AKYRS.simple_event_add(function ()
                     G.GAME.starting_params.akyrs_inversion_deck = false

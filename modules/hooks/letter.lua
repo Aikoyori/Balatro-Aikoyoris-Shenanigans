@@ -96,7 +96,12 @@ function Card:stop_drag()
             draw_card(self.area, area, 1, 'up', nil, self ,0)
             AKYRS.simple_event_add(
                 function ()
-                    
+                    if not self.base then
+                        self.base = {}
+                    end
+                    if not self.base.id then
+                        self.base.id = 0
+                    end
                     self.akyrs_oldarea = nil
                     return true
                 end, 0

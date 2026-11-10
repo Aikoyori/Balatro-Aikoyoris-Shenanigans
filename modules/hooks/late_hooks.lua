@@ -47,6 +47,7 @@ end
 local startRunHook = Game.start_run
 function Game:start_run(args)
     G.SCORE_DISPLAY_QUEUE = nil
+    G.BLIND_SIZE_DISPLAY_QUEUE = nil
     G.AKYRS_CARD_EVAL_RAN = nil
     AKYRS.NO_UNHIGHLIGHT = nil
     G.AKYRS_LOCK_CARD_SELECTION = nil

@@ -322,8 +322,8 @@ end
 
 G.FUNCS.akyrs_emerald_buy_ebook = function (e)
     if AKYRS.has_room(G.consumeables) then
-        G.GAME.akyrs_enchantsmith_buy_ebook_cost = G.GAME.akyrs_enchantsmith_buy_ebook_cost + 10
         AKYRS.smoothly_ease_emerald(-G.GAME.akyrs_enchantsmith_buy_ebook_cost)
+        G.GAME.akyrs_enchantsmith_buy_ebook_cost = G.GAME.akyrs_enchantsmith_buy_ebook_cost + 10
         local ench_key = SMODS.poll_object { type = 'Enchantment', seed = 'akyrs_enchantsmith_ebook_buy'}
         local ench_obj = AKYRS.Enchantments[ench_key]
         play_sound('akyrs_villager_yes', nil, 2.2)

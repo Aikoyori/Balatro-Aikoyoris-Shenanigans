@@ -1370,10 +1370,10 @@ function Card:akyrs_mod_card_value_init(center, initial, delay)
             end
         end
     end
-    if G.GAME.modifiers.akyrs_all_cards_are_stone and not initial then
+    if G.GAME.modifiers.akyrs_all_cards_are_stone then
         if self.ability.set == "Default" or self.ability.set == "Enhanced" then
-            AKYRS.original_set_ability(self,G.P_CENTERS["m_stone"])
-            if self.ability.bonus == 0 then
+            AKYRS.original_set_ability(self,G.P_CENTERS["m_stone"], initial, delay)
+            if not self.ability.bonus or self.ability.bonus == 0 then
                 self.ability.bonus = 50
             end
         end
@@ -1419,7 +1419,7 @@ function Card:load(cardTable, other_card)
     self.akyrs_card_unique_id = cardTable.akyrs_card_unique_id
 
     if cardTable.akyrs_sulphur_card then
-        self.akyrs_sulphur_card = Card(self.T.x, self.T.y, 0, 0, nil, G.P_CENTERS.c_base)
+        self.akyrs_sulphur_card = Card(card.T.x, card.T.y, 0, 0, nil, G.P_CENTERS[k],  {bypass_discovery_center = true, bypass_discovery_ui = true})
         Card.load(self.akyrs_sulphur_card, cardTable.akyrs_sulphur_card)
         self.akyrs_sulphur_card.akyrs_parent = self
         AKYRS.simple_event_add(function()

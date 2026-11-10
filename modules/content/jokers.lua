@@ -3773,7 +3773,7 @@ SMODS.Joker {
             card.akyrs_sulphur_card = nil
         end
         card:juice_up()
-        card.akyrs_sulphur_card = Card(card.T.x, card.T.y, 0, 0, nil, G.P_CENTERS[k] )
+        card.akyrs_sulphur_card = Card(card.T.x, card.T.y, 0, 0, nil, G.P_CENTERS[k],  {bypass_discovery_center = true, bypass_discovery_ui = true})
         AKYRS.remove_value_from_table(G.I.CARD, card.akyrs_sulphur_card)
         card.akyrs_sulphur_card.akyrs_parent = card
         card.akyrs_sulphur_card:add_to_deck()
@@ -3781,7 +3781,7 @@ SMODS.Joker {
     add_to_deck = function (self, card, from_debuff)
         local k = SMODS.poll_object{ type = "Joker", seed = "akyrs_sulfur_cube" }
         card.ability.extras.copying_key = k
-        card.akyrs_sulphur_card = Card(card.T.x, card.T.y, 0, 0, nil, G.P_CENTERS[k] )
+        card.akyrs_sulphur_card = Card(card.T.x, card.T.y, 0, 0, nil, G.P_CENTERS[k],  {bypass_discovery_center = true, bypass_discovery_ui = true})
         AKYRS.remove_value_from_table(G.I.CARD, card.akyrs_sulphur_card)
         card.akyrs_sulphur_card.akyrs_parent = card
         card.akyrs_sulphur_card.akyrs_super_parent = card.akyrs_super_parent or card

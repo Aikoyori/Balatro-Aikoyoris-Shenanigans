@@ -441,3 +441,17 @@ payload = """if is_hardcore then
 end"""
 overwrite = true
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = 'self.GAME.STOP_USE = 0'
+position = 'before'
+match_indent = true
+payload = '''
+local hc_chal = AKYRS.HC_CHALLENGES[AKYRS.get_hc_challenge_int_from_id(G.GAME.challenge or '') or '']
+if saveTable and self.GAME.challenge and hc_chal then
+    self.GAME.challenge_tab = hc_chal or {name = 'ERROR'}
+end
+'''

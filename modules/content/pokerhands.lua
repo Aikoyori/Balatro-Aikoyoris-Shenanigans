@@ -182,22 +182,30 @@ for i = 3, 45 do
     end
 
     table.insert(AKYRS.words_hand, i.."-letter Word")
-    local length = i --technically redundant (i checked) but feels weird not to
     SMODS.PokerHand {
         no_collection = true,
         key = i.."-letter Word",
         visible = function (self)
             local pokerhand = G.GAME.hands[self.key]
-            if G.GAME.akyrs_wording_enabled and G.GAME.selected_back_key.key == "b_akyrs_mega_letter_deck" then
-                local req = get_blind_amount(G.GAME.round_resets.ante) * G.GAME.starting_params.ante_scaling --clumsy, todo find and get the real blind amount directly
-                if pokerhand.chips * pokerhand.mult > req then
-                    for ii=3, length-too_many_levels_above do
-                        local smaller_hand_key = string.gsub(self.key, tostring(length), tostring(ii))
-                        local smaller_hand = G.GAME.hands[smaller_hand_key]
-                        if smaller_hand.s_chips * smaller_hand.s_mult >= req then return pokerhand.played > 0 end
+            if G.GAME.akyrs_wording_enabled then
+                if G.GAME.selected_back_key.key == "b_akyrs_mega_letter_deck" then
+                    local req = get_blind_amount(G.GAME.round_resets.ante) * G.GAME.starting_params.ante_scaling --clumsy, todo find and get the real blind amount directly
+                    if pokerhand.chips * pokerhand.mult > req then
+                        for ii=3, i - too_many_levels_above do
+                            local smaller_hand_key = string.gsub(self.key, tostring(i), tostring(ii))
+                            local smaller_hand = G.GAME.hands[smaller_hand_key]
+                            if smaller_hand.s_chips * smaller_hand.s_mult >= req then return pokerhand.played > 0 end
+                        end
+                        return true
                     end
-                    return true
+                else
+                    if i <= math.min(G.GAME.starting_params.play_limit, G.hand.config.card_limit) then
+                        return true
+                    else
+                        return pokerhand.played > 0
+                    end
                 end
+
             end
             return pokerhand.played > 0
         end,

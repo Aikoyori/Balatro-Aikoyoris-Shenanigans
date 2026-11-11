@@ -316,7 +316,7 @@ SMODS.Joker {
             for _, _c in ipairs(context.full_hand) do
                 SMODS.calculate_effect({
                     func = function ()
-                        if next(SMODS.has_enhancement(_c,"m_stone")) then
+                        if (SMODS.has_enhancement(_c,"m_stone")) then
                             AKYRS.simple_event_add(
                                 function ()
                                     if AKYRS.compare(_c.ability.bonus - card.ability.extra.chips_take,">",0) then

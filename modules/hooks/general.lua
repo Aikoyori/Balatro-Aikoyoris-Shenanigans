@@ -2220,6 +2220,10 @@ G.FUNCS.chip_UI_set = function(e)
         G.GAME.blind.chip_text = "?????"
         return
     end
+    if G.GAME.akyrs_mathematics_enabled then
+        e.config.scale = 0.8
+        G.GAME.blind.chip_text = (G.GAME.blind.chips or '0') .. ""
+    end
     return cuis(e)
 end
 

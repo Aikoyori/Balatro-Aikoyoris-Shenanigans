@@ -833,19 +833,28 @@ end
 
 
 AKYRS.is_mp = function()
+    if WAR and WAR.GAME.active then
+        return true
+    end
     if (MP and (MP.LOBBY.code or MP.LOBBY.ruleset_preview)) then return true end
 end
 
 AKYRS.is_mp_nemesis = function()
-    return AKYRS.is_mp() and MP.is_pvp_boss()
+    return (AKYRS.is_mp() and MP.is_pvp_boss()) or ((WAR and WAR.is_pvp_blind()))
 end
 
 AKYRS.mp_check = function(sp,mp)
+    if WAR and WAR.GAME and WAR.GAME.active then return mp end
     if MP and (MP.LOBBY.code or MP.LOBBY.ruleset_preview) then return mp end
     return sp
 end
 
 AKYRS.ease_lives_mp = function(lives)
+    if WAR and WAR.GAME then
+        print("Not Yet Implemented")
+        -- TODO: ask amo to add something that adds lives because 
+        -- from the code it seems like there is no way to sync lives apart from losing a life
+    end
     if MP and MP and (MP.LOBBY.code or MP.LOBBY.ruleset_preview) then MP.UI.ease_lives(lives) MP.GAME.lives = MP.GAME.lives + lives end
 end
 

@@ -5493,7 +5493,7 @@ return {
                     "that will be {C:attention}upgraded {}#1# times",
                     "then {C:attention}Attention{} stickers",
                     "are applied to selected cards",
-                    "{C:inactive}(Selecting {C:attention}#1#{C:inactive})",
+                    "{C:inactive}(Selecting {C:attention}#2#{C:inactive})",
                 }
             },
             c_akyrs_replicant_music_streaming = {

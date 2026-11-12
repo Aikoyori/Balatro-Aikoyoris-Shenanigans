@@ -915,6 +915,9 @@ SMODS.Blind{
                         prevent_win = true,
                         func = function ()
                             ease_chips(0)
+                            if G.GAME.blind and G.GAME.blind.config.blind then 
+                                discover_card(G.GAME.blind.config.blind)
+                            end
                             local bl_key = SMODS.poll_object{ type = 'Blind' }
                             G.GAME.akyrs_original_blind = self.key
                             G.GAME.round_resets.blind = G.P_BLINDS[bl_key]
@@ -930,7 +933,6 @@ SMODS.Blind{
                                 G.FUNCS.draw_from_deck_to_hand()
                                 return true
                             end)
-                            
                             SMODS.calculate_context({ setting_blind = true, blind = G.P_BLINDS[bl_key] })
                             AKYRS.force_save()
                         end

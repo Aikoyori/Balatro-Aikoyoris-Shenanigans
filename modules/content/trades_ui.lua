@@ -13,8 +13,8 @@ AKYRS.set_to_emerald_buy_cost = {
 }
 
 AKYRS.determine_emerald_buy_cost = function (center)
-    if card.ability.emerald_buy_cost then
-        return card.ability.emerald_buy_cost
+    if center.config.emerald_buy_cost then
+        return center.config.emerald_buy_cost
     end
     if center.set == "Joker" then
         if center.rarity == 2 then return 7 end

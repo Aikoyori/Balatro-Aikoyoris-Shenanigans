@@ -3786,8 +3786,8 @@ return {
             akyrs_carmine_seal={
                 name="Carmine Seal",
                 text={
-                    "Always undebuffed",
-                    "on {C:attention}first hand{} of the round",
+                    "This card {C:attention}cannot{} be debuffed",
+                    "and is always {C:attention}drawn face up",
                 },
             },
             akyrs_neon_seal={

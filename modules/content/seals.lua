@@ -6,7 +6,16 @@ SMODS.Seal{
     sound = { sound = 'generic1', per = 1.2, vol = 0.4 },
 
     calculate = function(self, card, context)
-
+        if context.debuff_card == card then
+            return {
+                prevent_debuff = true
+            }
+        end
+        if context.stay_flipped and context.other_card == card then
+            return {
+                prevent_stay_flipped = true
+            }
+        end
     end,
 }
 

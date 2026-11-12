@@ -304,15 +304,6 @@ function Card:update(dt)
         self.children.center.pinch.y = false
         self.ability.perishable = false
     end
-    if self.seal == "akyrs_carmine" and G.STATE ~= G.STATES.HAND_PLAYED then
-        if self.debuffed_by_blind then
-            if G.GAME.current_round.hands_played == 0 then
-                self.debuff = false
-            else
-                self.debuff = true
-            end
-        end
-    end
     if self.config.center_key == "j_akyrs_emerald" then
         local emerald = SMODS.find_card("j_akyrs_emerald")
         self.ability.extras.amnt = #emerald

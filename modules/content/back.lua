@@ -288,31 +288,32 @@ SMODS.Back{
         consumable_slot = 1,
     },
 }
-
-SMODS.Back{
-    key = "developer_deck",
-    name = "Developer Deck",
-    atlas = 'deckBacks',
-    pos = {x = 9, y = 1},
-    loc_vars = function (self, info_queue, card)
-        return {
-            vars = {
-            }
-        }
-    end,
-    calculate = function (self, back, context)
-        if context.blind_defeated and G.GAME.last_blind.boss then
+if AKYRS.config.experimental_features then
+    SMODS.Back{
+        key = "developer_deck",
+        name = "Developer Deck",
+        atlas = 'deckBacks',
+        pos = {x = 9, y = 1},
+        loc_vars = function (self, info_queue, card)
             return {
-                func = function ()
-                    G.GAME.starting_params.ante_scaling = G.GAME.starting_params.ante_scaling * G.GAME.round_resets.ante
-                end
+                vars = {
+                }
             }
-        end
-    end,
-    config = {
-        
-    },
-}
+        end,
+        calculate = function (self, back, context)
+            if context.blind_defeated and G.GAME.last_blind.boss then
+                return {
+                    func = function ()
+                        G.GAME.starting_params.ante_scaling = G.GAME.starting_params.ante_scaling * G.GAME.round_resets.ante
+                    end
+                }
+            end
+        end,
+        config = {
+            
+        },
+    }
+end
 -- this requires a UI rework...
 SMODS.Back{
     key = "kaleidoscopic_deck",
@@ -556,31 +557,33 @@ SMODS.Back{
     config = {
     },
 }
-SMODS.Back{
-    key = "discord_deck",
-    name = "Discord Deck",
-    atlas = 'deckBacks',
-    pos = {x = 1, y = 1},
-    loc_vars = function (self, info_queue, card)
-        return {
-            vars = {
+if AKYRS.config.experimental_features then
+    SMODS.Back{
+        key = "discord_deck",
+        name = "Discord Deck",
+        atlas = 'deckBacks',
+        pos = {x = 1, y = 1},
+        loc_vars = function (self, info_queue, card)
+            return {
+                vars = {
+                }
             }
-        }
-    end,
-    config = {
-    },
-}
-SMODS.Back{
-    key = "nitro_deck",
-    name = "Nitro Deck",
-    atlas = 'deckBacks',
-    pos = {x = 0, y = 1},
-    loc_vars = function (self, info_queue, card)
-        return {
-            vars = {
+        end,
+        config = {
+        },
+    }
+    SMODS.Back{
+        key = "nitro_deck",
+        name = "Nitro Deck",
+        atlas = 'deckBacks',
+        pos = {x = 0, y = 1},
+        loc_vars = function (self, info_queue, card)
+            return {
+                vars = {
+                }
             }
-        }
-    end,
-    config = {
-    },
-}
+        end,
+        config = {
+        },
+    }
+end

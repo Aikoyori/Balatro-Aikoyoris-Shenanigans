@@ -853,9 +853,10 @@ end
 
 AKYRS.ease_lives_mp = function(lives)
     if WAR and WAR.GAME then
-        print("Not Yet Implemented")
-        -- TODO: ask amo to add something that adds lives because 
+        -- print("Not Yet Implemented")
+        -- DONE: ask amo to add something that adds lives because 
         -- from the code it seems like there is no way to sync lives apart from losing a life
+        WAR.GAME.ease_lives({ my = WAR.GAME.my_lives + lives })
     end
     if MP and MP and (MP.LOBBY.code or MP.LOBBY.ruleset_preview) then MP.UI.ease_lives(lives) MP.GAME.lives = MP.GAME.lives + lives end
 end

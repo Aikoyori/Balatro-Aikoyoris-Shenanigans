@@ -809,6 +809,11 @@ return {
                     '* Helped with Balancing decisions!',
                 }
             },
+            credits_akyrs_enigmatic42 = {
+                text = {
+                    '* Beta Tester',
+                }
+            },
         },
         DescriptionDummy={
             -- config
@@ -871,14 +876,19 @@ return {
             dd_akyrs_experimental_feature = {
                 name = "Experimental Features",
                 text = {
-                    '{s:1.5}Here be dragons!',
-                    '{s:1.4}If you have to think to enable it, {s:1.4,E:akyrs_shrivel,C:red}don\'t.',
-                    'Enable experimental features for the mod',
-                    'These may be broken, nonfunctional at all, or {C:red}outright brick your saves{}',
-                    '{C:inactive}(very unlikely but it can and will happen)',
-                    'This is mainly for my use so that I can release bugfixes',
-                    'for the mod while working on new content at the same time',
-                    'I will not stop you from enabling it but it is unfinished after all',
+                    {
+                        '{s:1.5}Here be dragons!',
+                        '{s:1.4}If you have to think to enable it, {s:1.4,E:akyrs_shrivel,C:red}don\'t.',
+                    },
+                    {
+                        '{s:1.4,E:akyrs_shrivel,C:red}Requires Debugging Mode',
+                        'Enable experimental features for the mod',
+                        'These may be broken, nonfunctional at all, or {C:red}outright brick your saves{}',
+                        '{C:inactive}(very unlikely but it can and will happen)',
+                        'This is mainly for my use so that I can release bugfixes',
+                        'for the mod while working on new content at the same time',
+                        'I will not stop you from enabling it but it is unfinished after all',
+                    }
                 },
             },
             dd_akyrs_toggle_legacy_challenges = {

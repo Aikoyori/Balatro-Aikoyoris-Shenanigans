@@ -1450,7 +1450,7 @@ function buildAdditionsTab(mod)
         chosen = SMODS.LAST_SELECTED_MOD_TAB == "additions" or false,
         tab_definition_function = function()
             SMODS.LAST_SELECTED_MOD_TAB = "additions"
-            
+            AKYRS.progress_debug()
             -- finished : check design mockup on notes
             -- jokers [non-letter/letter] consumables -- done
             -- blinds boosters vouchers editions others
@@ -2392,4 +2392,17 @@ function CardArea:can_highlight(card)
         end
     end
 	return card_area_can_highlight_ref(self, card)
+end
+
+local exit_overlay_menu_ref = G.FUNCS.exit_overlay_menu
+function G.FUNCS.exit_overlay_menu(...)
+	if AKYRS.experimental_sequence then
+        AKYRS.experimental_sequence = nil
+    end
+	return exit_overlay_menu_ref(...)
+end
+local HookbuildAchievementsTab = buildAchievementsTab
+function buildAchievementsTab(...)
+    AKYRS.progress_debug()
+	return HookbuildAchievementsTab(...)
 end

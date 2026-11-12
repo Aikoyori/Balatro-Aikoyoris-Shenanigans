@@ -214,3 +214,11 @@ AKYRS.Credit{
     social_links = {
     },
 }
+AKYRS.Credit{
+    key = 'enigmatic42',
+    username = 'enigmatic42',
+    category = 'extras',
+    no_atlas = true,
+    social_links = {
+    },
+}

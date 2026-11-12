@@ -280,6 +280,8 @@ AKYRS.debug_opts = {
 
 SMODS.current_mod.custom_ui = function (mod_nodes)
   mod_nodes = EMPTY(mod_nodes)
+  SMODS.LAST_SELECTED_MOD_TAB = 'mod_desc'
+  AKYRS.progress_debug()
   local tg = G.ROOM
   ---@type Card
   local aikocard = Card(tg.T.x,tg.T.y,G.CARD_W,G.CARD_H,nil,G.P_CENTERS['j_akyrs_aikoyori'], { bypass_discovery_center = true, bypass_discovery_ui = true })
@@ -383,7 +385,7 @@ SMODS.current_mod.extra_tabs = function ()
     {
       label = localize("k_akyrs_credits"),
       tab_definition_function = function ()
-        
+        AKYRS.progress_debug()
         local main_tables = {}
         local extra_tables = {}
         local crossmod_tables = {}
@@ -611,6 +613,15 @@ G.FUNCS.akyrs_save_config = function (e)
   AKYRS.save_config(e)
 end
 
+G.FUNCS.akyrs_save_experimental_config = function (e)
+  if not RELEASE_MODE then
+    AKYRS.save_config(e)
+  else
+    AKYRS.config.experimental_features = false
+    AKYRS.save_config(e)
+  end
+end
+
 AKYRS.balance_map = {
   ["adequate"] = 1,
   ["absurd"] = 2,
@@ -619,11 +630,43 @@ AKYRS.rev_balance_map = {
   "adequate", "absurd"
 }
 
-SMODS.current_mod.config_tab = function ()
+AKYRS.tabs_to_indices = {
+  ['mod_desc'] = 1,
+  ['additions'] = 2,
+  ['config'] = 3,
+  ['achievements'] = 4,
+  ['aikoyorisshenanigans_1'] = 5,
+}
 
-  return {
-    n = G.UIT.ROOT, config = { minw = 9, minh = 3 ,align = "tm",colour = G.C.UI.TRANSPARENT_DARK, r = 0.1 },
-    nodes = {
+AKYRS.pattern_to_match = {
+  4,4,2,2,1,5,1,5,3,3,3
+}
+
+AKYRS.progress_debug = function ()
+  if G.ACTIVE_MOD_UI == AKYRS then
+    if not AKYRS.experimental_sequence then
+      AKYRS.experimental_sequence = 1
+    end
+    if AKYRS.experimental_sequence then
+      if AKYRS.pattern_to_match[AKYRS.experimental_sequence] == AKYRS.tabs_to_indices[SMODS.LAST_SELECTED_MOD_TAB] then
+        if AKYRS.experimental_sequence == #AKYRS.pattern_to_match then
+          AKYRS.hidden_option_visible = true
+        else
+          AKYRS.experimental_sequence = AKYRS.experimental_sequence + 1
+        end
+      else
+        AKYRS.hidden_option_visible = false
+        AKYRS.experimental_sequence = nil
+      end
+    end
+  else
+    AKYRS.experimental_sequence = nil
+  end
+end
+
+SMODS.current_mod.config_tab = function ()
+  AKYRS.progress_debug()
+  local config_tab_nodes = {
       { n = G.UIT.R, config = {align = "rt"}, nodes = {
           { n = G.UIT.C, config = {
             align = "cm", padding = 0.1,
@@ -761,15 +804,37 @@ SMODS.current_mod.config_tab = function ()
         AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_toggle_legacy_challenges" }
         }
       },
-      --[[
+    }
+  if AKYRS.config.experimental_features or AKYRS.hidden_option_visible then
+    config_tab_nodes[#config_tab_nodes+1] = 
+    { n = G.UIT.R, config = { align = "rt" }, nodes = {
+      { n = G.UIT.C, config = {
+          align = "cm", padding = 0.05,
+      }, nodes = {
+        create_toggle({
+          label = localize("k_akyrs_toggle_experimental_feature"),
+          ref_table = AKYRS.config,
+          ref_value = "experimental_features",
+          label_scale = 0.4,
+          callback = G.FUNCS.akyrs_save_experimental_config
+        })
+        }
+      },
+      AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_experimental_feature" }
+      }
+    }
+    config_tab_nodes[#config_tab_nodes+1] = 
       {
         n = G.UIT.R,
         config = { align = "cm", padding = 0.2 },
         nodes = {
-          { n = G.UIT.T, config = { text = localize("k_akyrs_restart_required"), scale = 0.4, colour = G.C.UI.TEXT_INACTIVE } }
+          { n = G.UIT.T, config = { text = localize("k_akyrs_restart_required"), scale = 0.4, colour = G.C.AKYRS_TRANSPARENT_TEXT } }
         }
-      },]]
-    }
+      }
+  end
+  return {
+    n = G.UIT.ROOT, config = { minw = 9, minh = 3 ,align = "tm",colour = G.C.UI.TRANSPARENT_DARK, r = 0.1 },
+    nodes = config_tab_nodes
   }
 end
 

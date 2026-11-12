@@ -5265,7 +5265,7 @@ SMODS.Joker {
     in_pool = function (self, args)
     end,
     rarity = 2,
-    cost = 4,
+    cost = 5,
     loc_vars = function (self, info_queue, card)
         
         return {

@@ -17,6 +17,9 @@ if AKPOP.aikoshen then
         print("Aikoyori's Shenanigans cannot load!")
     else
         AKPOP.aikoshen_loaded = true
+        if _RELEASE_MODE then
+            AKPOP.aikoshen.config.experimental_features = false
+        end
     end
     if AKPOP.aikoshen.version:find("-dev") or AKPOP.aikoshen.version:find("-beta") then
         print("Dev version detected! You're on your own.")

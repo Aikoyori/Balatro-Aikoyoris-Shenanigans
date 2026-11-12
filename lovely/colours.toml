@@ -42,6 +42,7 @@ AKYRS_AKYRS_SCENARIO_DARK_PINK = HEX("70155e"),
 AKYRS_AKYRS_SCENARIO_DARK_BLUE = HEX("173fa1"),
 AKYRS_THEORETICAL_PLANET = HEX("325b48"),
 AKYRS_FACTORIO_PLANET = HEX("ec903e"),
+AKYRS_TRANSPARENT_TEXT = HEX("ffffff7f"),
 """
 overwrite = true
 match_indent = true
@@ -71,6 +72,7 @@ G.ARGS.LOC_COLOURS.akyrs_scenario_dark_yellow  = G.C.AKYRS_AKYRS_SCENARIO_DARK_Y
 G.ARGS.LOC_COLOURS.akyrs_scenario_dark_pink    = G.C.AKYRS_AKYRS_SCENARIO_DARK_PINK
 G.ARGS.LOC_COLOURS.akyrs_scenario_dark_blue    = G.C.AKYRS_AKYRS_SCENARIO_DARK_BLUE
 G.ARGS.LOC_COLOURS.akyrs_furigana    = HEX("bbbbbb")
+G.ARGS.LOC_COLOURS.akyrs_transparent_text    = G.C.AKYRS_TRANSPARENT_TEXT
 """
 overwrite = true
 match_indent = true

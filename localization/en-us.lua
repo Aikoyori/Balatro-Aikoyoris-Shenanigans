@@ -3447,14 +3447,19 @@ return {
             },
             j_akyrs_red_from_angry_birds = {
                 name = {
-                    "Red",
-                    "{C:inactive,s:0.7}he is from Angry Birds"
+                    "{C:red}Red{} from Angry Birds",
+                    "{C:akyrs_transparent_text,s:0.7}he is from Angry Birds"
                 },
                 text = {
                     {
-                        "fucking help",
-                        "he is looking for me",
+                        "Select {C:attention}at least 3{} cards in hand",
+                        "and {C:attention}use{} this {C:attention}Angry Bird{} to destroy",
+                        "a {C:attention}random selected card",
+                        "{C:inactive}(He can be used again after every hand)",
                     },
+                    {
+                        "{C:red}Raaa-heeya{} {C:inactive}(he is angry and he is a bird)"
+                    }
                 }
             },
         },

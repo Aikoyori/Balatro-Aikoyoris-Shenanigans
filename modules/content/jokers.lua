@@ -1154,7 +1154,6 @@ SMODS.Joker{
             if s then
                 if (context.other_card:is_suit("Hearts") or (context.other_card:is_suit("Spades"))) and (s["Spades"] > 0 and s["Hearts"] > 0) then
                     return {
-                        message_card = card,
                         func = function ()
                             SMODS.scale_card(card, { ref_table = card.ability.extras, ref_value = "xmult", scalar_value = "xmult_inc" })
                         end
@@ -5257,6 +5256,9 @@ SMODS.Joker {
     pos = { x = 2, y = 1 },
     pools = {  },
     config = {
+        extras = {
+            used_this_hand = false,
+        }
     },
     in_pool = function (self, args)
     end,
@@ -5270,6 +5272,23 @@ SMODS.Joker {
             }
         }
     end,
+    akyrs_joker_use_btn = true,
+    akyrs_joker_can_use = function (self, card)
+        return not card.ability.extras.used_this_hand and G.hand.cards and #G.hand.highlighted >= 3
+    end,
+    akyrs_joker_use = function (self, card)
+        local card2kill = pseudorandom_element(G.hand.highlighted, 'akyrs_red_angry_birds_raa_heeya')
+        SMODS.destroy_cards({ card2kill })
+        card.ability.extras.used_this_hand = true
+        G.hand:unhighlight_all()
+    end,
     calculate = function (self, card, context)
+        if context.after and not context.blueprint then
+            return {
+                func = function()
+                    card.ability.extras.used_this_hand = false
+                end
+            }
+        end
     end
 }

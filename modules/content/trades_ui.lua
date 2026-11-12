@@ -13,8 +13,8 @@ AKYRS.set_to_emerald_buy_cost = {
 }
 
 AKYRS.determine_emerald_buy_cost = function (center)
-    if center.key == "j_akyrs_emerald" then
-        return 14
+    if card.ability.emerald_buy_cost then
+        return card.ability.emerald_buy_cost
     end
     if center.set == "Joker" then
         if center.rarity == 2 then return 7 end
@@ -26,8 +26,8 @@ AKYRS.determine_emerald_buy_cost = function (center)
 end
 
 AKYRS.determine_emerald_sell_value = function (card)
-    if card.config.center.key == "j_akyrs_emerald" then
-        return 7
+    if card.ability.emerald_sell_cost then
+        return card.ability.emerald_sell_cost
     end
     if card.ability.set == "Joker" then
         if card.config.center.rarity == 2 then return 3 end
@@ -323,7 +323,7 @@ end
 G.FUNCS.akyrs_emerald_buy_ebook = function (e)
     if AKYRS.has_room(G.consumeables) then
         AKYRS.smoothly_ease_emerald(-G.GAME.akyrs_enchantsmith_buy_ebook_cost)
-        G.GAME.akyrs_enchantsmith_buy_ebook_cost = G.GAME.akyrs_enchantsmith_buy_ebook_cost + 10
+        G.GAME.akyrs_enchantsmith_buy_ebook_cost = G.GAME.akyrs_enchantsmith_buy_ebook_cost + 20
         local ench_key = SMODS.poll_object { type = 'Enchantment', seed = 'akyrs_enchantsmith_ebook_buy'}
         local ench_obj = AKYRS.Enchantments[ench_key]
         play_sound('akyrs_villager_yes', nil, 2.2)

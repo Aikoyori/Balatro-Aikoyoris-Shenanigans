@@ -1641,7 +1641,8 @@ SMODS.Joker{
             pluscost = 4,
             ecost = 2,
             amnt = 0,
-        }
+        },
+        emerald_sell_cost = 15,
     },
     add_to_deck = function (self, card, from_debuff)
         G.GAME.akyrs_has_capability_to_trade = true
@@ -1662,9 +1663,10 @@ SMODS.Joker{
                 card.ability.extras.xcost,
                 card.cost,
                 card.ability.extras.amnt,
+                card.ability.emerald_sell_cost,
                 elements = {
                     AKYRS.emerald_icon({ scale = 0.6 })
-                }
+                },
             }
         }
     end,

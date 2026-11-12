@@ -2350,7 +2350,7 @@ return {
                         "{C:inactive}another one of the same."
                     },
                     {
-                        "This Joker is worth {element:1}{C:green}7"
+                        "This Joker is worth {element:1}{C:green}#4#"
                     }
 
                 }

@@ -5250,3 +5250,26 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.Joker {
+    key = "red_from_angry_birds",
+    atlas = 'AikoyoriJokers2',
+    pos = { x = 2, y = 1 },
+    pools = {  },
+    config = {
+    },
+    in_pool = function (self, args)
+    end,
+    rarity = 2,
+    cost = 4,
+    loc_vars = function (self, info_queue, card)
+        
+        return {
+            vars = {
+                
+            }
+        }
+    end,
+    calculate = function (self, card, context)
+    end
+}

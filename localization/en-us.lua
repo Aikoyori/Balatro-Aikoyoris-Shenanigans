@@ -3445,6 +3445,18 @@ return {
                     },
                 }
             },
+            j_akyrs_red_from_angry_birds = {
+                name = {
+                    "Red",
+                    "{C:inactive,s:0.7}he is from Angry Birds"
+                },
+                text = {
+                    {
+                        "fucking help",
+                        "he is looking for me",
+                    },
+                }
+            },
         },
         Judgement = {
             judgement_akyrs_none_none = {

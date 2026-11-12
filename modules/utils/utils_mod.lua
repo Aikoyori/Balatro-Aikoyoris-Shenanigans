@@ -457,8 +457,8 @@ AKYRS.mod_card_values = function(card, config)
     if not card.config and not card.config.center then return end 
     local tw = card.T.w
     local th = card.T.h
-    local card_table_to_load = card:save()
-    local og_save = card:save()
+    local card_table_to_load = AKYRS.deep_copy(card:save())
+    local og_save = AKYRS.deep_copy(card:save())
     local add = config.add or 0
     local multiply = config.multiply or 1
     local func = config.func
@@ -466,16 +466,16 @@ AKYRS.mod_card_values = function(card, config)
     local unkeyword = config.unkeywords or AKYRS.blacklist_mod or {}
     local reference
     if config.prefer_original_value then
-        reference = config.reference or (card.config.center.config and AKYRS.deep_copy(card.config.center.config)) or og_save.ability or card.ability or AKYRS.deep_copy(card)
+        reference = config.reference or (card.config.center.config and AKYRS.deep_copy(card.config.center.config)) or og_save.ability or AKYRS.deep_copy(card)
     else
-        reference = config.reference or og_save.ability or (card.config.center.config and AKYRS.deep_copy(card.config.center.config)) or card.ability or AKYRS.deep_copy(card)
+        reference = config.reference or og_save.ability or (card.config.center.config and AKYRS.deep_copy(card.config.center.config)) or AKYRS.deep_copy(card)
     end
 
     local randomize = config.random
     
     local function modify_values(_table_in, ref, depth)
         if not ref or type(ref) ~= "table" then return end
-        if depth > 2 then return end
+        if depth > 3 then return end
         for k, v in pairs(_table_in) do 
             local rand = 1
             if randomize then
@@ -487,7 +487,9 @@ AKYRS.mod_card_values = function(card, config)
                 if type(v) == "number" then
                     if (keywords[k] or #keywords < 1) and not unkeyword[k] then
                         if _table_in and _table_in[k] then
-                            _table_in[k] = (((func and func(_table_in[k], k, card, reference) or _table_in[k]) + add) * multiply * rand)
+                            if not _table_in.key then
+                                _table_in[k] = (((func and func(_table_in[k], k, card, reference) or _table_in[k]) + add) * multiply * rand)
+                            end
                         end
                     end
                 elseif type(v) == "table" and ref and k and not unkeyword[k] then

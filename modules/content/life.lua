@@ -68,6 +68,7 @@ AKYRS.Judgement = SMODS.GameObject:extend {
     available = true,
     class_prefix = "judgement",
     atlas = "akyrs_judgement",
+    generate_ui = SMODS.Center.generate_ui,
     pos = { x = 0, y = 0 },
     register = function(self)
         if self.registered then
@@ -113,6 +114,7 @@ AKYRS.Judgement = SMODS.GameObject:extend {
 AKYRS.Judgement {
     key = "none",
     atlas = "blank",
+    discovered = true,
     value = {
         normal = {
             joker = -7,

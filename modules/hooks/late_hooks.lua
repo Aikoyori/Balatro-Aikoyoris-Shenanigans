@@ -180,7 +180,7 @@ end
 local card_eval_status_text_ref = card_eval_status_text
 function card_eval_status_text(card, ...)
 
-    if AKYRS.is_life_enabled() and card then
+    if AKYRS.is_life_enabled() and card and not G.SETTINGS.paused then
         AKYRS.simple_event_add(function ()
             AKYRS.mod_life(AKYRS.get_life_drain(card), false, true)
             if G.akyrs_life_ui then

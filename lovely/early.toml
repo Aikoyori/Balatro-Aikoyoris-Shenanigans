@@ -60,3 +60,34 @@ if G.CONTROLLER.HID.controller and self ~= G.hand then self:unhighlight_all() en
 end
 '''
 match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''      major = args.cover or args.major or nil,'''
+position = "after"
+payload = '''instance_type = (args.cover or args.major or {}).akyrs_card_eval_layer,'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''              timer_type = 'TOTAL','''
+position = "at"
+payload = '''timer_type = (args.cover or args.major or {}).akyrs_timer_type or args.timer_type or 'TOTAL','''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''            args.fade = math.max(0, 1 - 3*(G.TIMERS.TOTAL - args.start_time))'''
+position = "at"
+payload = '''
+if (args.cover or args.major or {}).akyrs_timer_type then
+args.fade = math.max(0, 1 - 3*(G.TIMERS[(args.cover or args.major or {}).akyrs_timer_type] - args.start_time))
+else
+args.fade = math.max(0, 1 - 3*(G.TIMERS.TOTAL - args.start_time))
+end
+'''
+match_indent = true

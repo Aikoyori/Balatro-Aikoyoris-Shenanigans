@@ -42,6 +42,7 @@ end
 function AKYRS.Scenario_Tag:set_ability()
     local obj = AKYRS.Scenarios[self.key]
     self.ability = copy_table(obj.config)
+    self.ability.set = "Scenario"
     self.scenario = copy_table(obj.scenario)
     self.akyrs_total_rounds = obj.akyrs_total_rounds or 4
     self.akyrs_rounds_left = obj.akyrs_rounds_left or obj.akyrs_total_rounds or 4
@@ -330,6 +331,9 @@ AKYRS.Scenario = SMODS.Center:extend{
     config = {
 
     },
+    set_card_type_badge = function(self, card, badges)
+        badges[1] = create_badge(localize('k_akyrs_scenario_'..(self.scenario.side or "?")..'_'..self.scenario.colour), darken(G.C['AKYRS_AKYRS_SCENARIO_'..string.upper(self.scenario.side == "dark" and "dark_" or "")..string.upper(self.scenario.colour)], 0.5), nil, 1.2)
+    end,
     get_total_rounds = function (self, instance) 
         if self.akyrs_clean_scenario or self.akyrs_scenario_random then return "???" end
     end,

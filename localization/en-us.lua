@@ -5196,8 +5196,10 @@ return {
             c_akyrs_umbral_kingpin = {
                 name="Kingpin",
 				text = {
-                    "Adds {C:attention}#1#{} sealed {C:attention}Left-Pinned{} Kings",
+                    "Adds {C:attention}#1#{} sealed",
+                    "{C:attention}Pinned{} Kings",
                     "to hand",
+                    "{C:inactive}(Side is randomly picked)"
 				},
             },
             c_akyrs_umbral_tea_time = {
@@ -6039,6 +6041,15 @@ return {
             k_akyrs_ellipsis="...",
             k_akyrs_constellation = "Constellation",
             k_akyrs_theoretical_planet = "Theoretical Planet",
+            k_akyrs_scenario_light_yellow = "Light Yellow Scenario",
+            k_akyrs_scenario_dark_yellow = "Dark Yellow Scenario",
+            ['k_akyrs_scenario_?_yellow'] = "Yellow? Scenario",
+            k_akyrs_scenario_light_pink = "Light Pink Scenario",
+            k_akyrs_scenario_dark_pink = "Dark Pink Scenario",
+            ['k_akyrs_scenario_?_pink'] = "Pink? Scenario",
+            k_akyrs_scenario_light_blue = "Light Blue Scenario",
+            k_akyrs_scenario_dark_blue = "Dark Blue Scenario",
+            ['k_akyrs_scenario_?_blue'] = "Blue? Scenario",
             k_akyrs_factorio_planet = "Nauvis System Planet",
             k_akyrs_factorio_planet_q = "Nauvis System Planet?",
             k_akyrs_inception_ex = "Inception!",

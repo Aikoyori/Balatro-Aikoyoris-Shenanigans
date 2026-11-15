@@ -332,7 +332,7 @@ AKYRS.Scenario = SMODS.Center:extend{
 
     },
     set_card_type_badge = function(self, card, badges)
-        badges[1] = create_badge(localize('k_akyrs_scenario_'..(self.scenario.side or "?")..'_'..self.scenario.colour), darken(G.C['AKYRS_AKYRS_SCENARIO_'..string.upper(self.scenario.side == "dark" and "dark_" or "")..string.upper(self.scenario.colour)], 0.5), nil, 1.2)
+        badges[1] = create_badge(localize('k_akyrs_scenario_'..(self.scenario.side or "?")..'_'..self.scenario.colour), darken(G.C['AKYRS_AKYRS_SCENARIO_'..string.upper(self.scenario.side == "dark" and "dark_" or "")..string.upper(self.scenario.colour)], 0.1), nil, 1.2)
     end,
     get_total_rounds = function (self, instance) 
         if self.akyrs_clean_scenario or self.akyrs_scenario_random then return "???" end

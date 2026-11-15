@@ -29,12 +29,19 @@ AKYRS.custom_tooltip.container = function (card, aut)
             local extra_outer_bg
             local alpha = 0.8
             if card.ability.set == 'Scenario' then
-                card_type_background = aut.card_type == 'Locked' and G.C.BLACK or aut.card_type == 'Undiscovered' and darken(G.C.JOKER_GREY, 0.3) or darken(G.C['AKYRS_AKYRS_SCENARIO_'..string.upper(card.config.center.scenario.side == "dark" and "dark_" or "")..string.upper(card.config.center.scenario.colour)], 0.3)
+                local dark = card.config.center.scenario.side == "dark"
+                local colour = G.C['AKYRS_AKYRS_SCENARIO_'..string.upper(dark and "dark_" or "")..string.upper(card.config.center.scenario.colour)]
+                local colour_side_dark = G.C['AKYRS_AKYRS_SCENARIO_DARK_'..string.upper(card.config.center.scenario.colour)]
+                local colour_side_light = G.C['AKYRS_AKYRS_SCENARIO_'..string.upper(card.config.center.scenario.colour)]
+                card_type_background = aut.card_type == 'Locked' and G.C.BLACK or aut.card_type == 'Undiscovered' and darken(G.C.JOKER_GREY, 0.3) or colour_side_dark
+                extra_outer_bg = dark and G.C.WHITE or colour_side_light
+                outer_col = dark and colour_side_dark or G.C.WHITE
                 transform_func = scenario_transform
                 alpha = 1
             end
             if card.ability.set == 'Replicant' then
                 card_type_background = aut.card_type == 'Locked' and G.C.BLACK or aut.card_type == 'Undiscovered' and darken(G.C.JOKER_GREY, 0.3) or darken(G.C.AKYRS_REPLICANT_C, 0.1)
+                extra_outer_bg = G.C.WHITE
                 outer_col = G.C.AKYRS_REPLICANT_O
                 corners = SMODS.GUI.superellipse(1, 4, 4)
                 corner_rad = 2
@@ -51,13 +58,15 @@ AKYRS.custom_tooltip.container = function (card, aut)
                 alpha = 1
             end
             return {n=G.UIT.ROOT, config = {align = 'cm', colour =  G.C.CLEAR, unbounded_size = true, corners = corners}, nodes = {
-                    {n=G.UIT.C, config = {align = "cm", add_info = true, padding = 0.6, unbounded_size = true, corners = corners, }, nodes = {
-                        {n=G.UIT.R, config = {padding = 0.05, r = 0.12, res = corner_rad, colour = outer_col or lighten(G.C.JOKER_GREY, 0.5), emboss = 0.07, box_transform = transform_func, unbounded_size = true, corners = corners}, nodes = {
-                        {n=G.UIT.R, config = {padding = extra_outer_bg and 0.05, r = extra_outer_bg and 0.12, res = corner_rad, colour = extra_outer_bg or lighten(G.C.JOKER_GREY, 0.5), emboss = not extra_outer_bg and 0.07, box_transform = transform_func, unbounded_size = true, corners = corners}, nodes = {
-                            {n=G.UIT.C, config = {align = "cm", padding = 0.07, r = 0.1, res = corner_rad, colour = adjust_alpha(card_type_background, alpha), add_name = true, add_main = true, add_badges = true, box_transform = transform_func, unbounded_size = true, corners = corners}, nodes = {}}
-                        }}
-                        }}
-                    }}
+                    {n=G.UIT.R, config = {align = "cm", add_info = true, padding = 0.0, unbounded_size = true, corners = corners, }, nodes = {
+                        {n=G.UIT.C, config = { minw = 0.6 }, nodes = { { n = G.UIT.R, config = { h = 0.6, w = 0.6 }} }},
+                        {n=G.UIT.C, config = {padding = outer_col and 0.05, r = 0.12, res = corner_rad, colour = outer_col or lighten(G.C.JOKER_GREY, 0.5), emboss = outer_col and 0.07, box_transform = transform_func, unbounded_size = true, corners = corners}, nodes = {
+                            {n=G.UIT.R, config = {padding = extra_outer_bg and 0.05, r = extra_outer_bg and 0.12, res = corner_rad, colour = extra_outer_bg or lighten(G.C.JOKER_GREY, 0.5), emboss = not extra_outer_bg and 0.07, box_transform = transform_func, unbounded_size = true, corners = corners}, nodes = {
+                                {n=G.UIT.C, config = {align = "cm", padding = 0.07, r = 0.1, res = corner_rad, colour = adjust_alpha(card_type_background, alpha), add_name = true, add_main = true, add_badges = true, box_transform = transform_func, unbounded_size = true, corners = corners}, nodes = {}}
+                            }}
+                        }},
+                        {n=G.UIT.C, config = { minw = 0.6 }, nodes = { { n = G.UIT.R, config = { h = 0.6, w = 0.6 }} }},
+                    }},
                 }}, {
                     
                 }

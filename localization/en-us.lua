@@ -1351,13 +1351,11 @@ return {
             dd_akyrs_scenario_tag_tooltip_colour_only = {
                 name="Scenario",
                 text={
-                    "{B:1,V:2}#3# #4#{}",
                 },
             },
             dd_akyrs_scenario_tag_tooltip = {
                 name="Scenario",
                 text={
-                    "{B:1,V:2}#3# #4#{}",
                     "Will last {C:blue}#2#{} Charges",
                     "in Tag form",
                 },
@@ -1365,7 +1363,6 @@ return {
             dd_akyrs_scenario_tag_tooltip_full = {
                 name="Scenario",
                 text={
-                    "{B:1,V:2}#3# #4#{}",
                     "Will start at {C:blue}#1#{} / #2#{} Charges",
                     "in Tag form",
                 },
@@ -1373,14 +1370,12 @@ return {
             dd_akyrs_scenario_tag_tooltip_time = {
                 name="Scenario",
                 text={
-                    "{B:1,V:2}#3# #4#{}",
                     "Will last {C:blue}#2#{} seconds in Tag form",
                 },
             },
             dd_akyrs_scenario_tag_tooltip_full_time = {
                 name="Scenario",
                 text={
-                    "{B:1,V:2}#3# #4#{}",
                     "Will start at {C:blue}#1#{} / #2#{} seconds in Tag form",
                 },
             },

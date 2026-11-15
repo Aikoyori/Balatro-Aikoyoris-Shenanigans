@@ -121,8 +121,10 @@ function Card:generate_UIBox_ability_table(vars)
             local mini = _c.akyrs_clean_scenario or _c.akyrs_scenario_random
             local timed = _c.akyrs_timed_scenario
             local multiboxone = {}
-            localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_scenario_tag_tooltip'..(full_ver and "_full" or (mini and "_colour_only" or "") .. (timed and "_time" or "")), nodes = multiboxone }
-            AKYRS.add_box_to_uitable(ret, multiboxone)
+            if not mini then
+                localize{ type = "descriptions", set = "DescriptionDummy", vars = info_vars, key = 'dd_akyrs_scenario_tag_tooltip'..(full_ver and "_full" or (mini and "_colour_only" or "") .. (timed and "_time" or "")), nodes = multiboxone }
+                AKYRS.add_box_to_uitable(ret, multiboxone)
+            end
         end
     end
     return ret
@@ -2301,9 +2303,12 @@ function G.UIDEF.card_h_popup(card)
         if not card or not card.config.center then return ret_val end
         local AUT = card.ability_UIBox_table
         if not card.config.center.discovered then return ret_val end
-        --                                 v root  v C   v R1   v R2
-        local target_node_tables = ret_val.nodes[1].nodes[1].nodes[1].nodes
-        if AKYRS.Credits_List_by_Item[card.config.center.key] then
+        
+        --                                     v root  v C      v R1     v R2
+        local target_node_tables  -- = ret_val.nodes[1].nodes[1].nodes[1].nodes
+        target_node_tables = AKYRS.recursive_get(ret_val, 'nodes', 1, 'nodes', 1, 'nodes', 1, 'nodes') -- so it doesn't freak out
+        target_node_tables = target_node_tables or AKYRS.recursive_get(ret_val, 'nodes', 1, 'nodes', 2, 'nodes', 1, 'nodes')
+        if target_node_tables and AKYRS.Credits_List_by_Item[card.config.center.key] then
             for _, credit_type in ipairs(AKYRS.CREDIT_TYPES) do
                 if AKYRS.Credits_List_by_Item[card.config.center.key][credit_type] then
                     local cred_col = ''

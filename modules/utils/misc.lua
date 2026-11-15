@@ -2614,3 +2614,19 @@ function AKYRS.gcd(a, b)
         if x == 0 then return y end
     end
 end
+
+function AKYRS.recursive_get( tbl, ... )
+    local args = {...}
+    if #args == 0 then return tbl end
+    if tbl and tbl[args[1]] then
+        if #args == 1 then
+            return tbl[args[1]]
+        end
+        if type(tbl[args[1]]) == 'table' then
+            local new_args = SMODS.shallow_copy(args)
+            table.remove(new_args, 1)
+            return AKYRS.recursive_get(tbl[args[1]], unpack(new_args))
+        end
+    end
+    return 
+end

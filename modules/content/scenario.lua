@@ -41,7 +41,7 @@ end
 
 function AKYRS.Scenario_Tag:set_ability()
     local obj = AKYRS.Scenarios[self.key]
-    self.ability = copy_table(obj.config)
+    self.ability = AKYRS.get_scenario_ability(obj.config)
     self.ability.set = "Scenario"
     self.scenario = copy_table(obj.scenario)
     self.akyrs_total_rounds = obj.akyrs_total_rounds or 4

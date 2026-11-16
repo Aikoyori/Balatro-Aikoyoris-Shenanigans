@@ -815,40 +815,46 @@ return {
                 }
             },
         },
-        DescriptionDummy={
-            -- config
-            dd_akyrs_wildcard_behaviour_1 = {
+        AikoShenConfig = {
+            
+            wildcard_behaviour = {
                 name = "Wildcard Behaviour",
                 text = {
                     '{C:attention}Automatic','Automatically find a letter for wildcards','which do not have letters set. (Default).',
                 }
             },
-            dd_akyrs_wildcard_behaviour_2 = {
+            wildcard_behaviour_1 = {
+                name = "Wildcard Behaviour",
+                text = {
+                    '{C:attention}Automatic','Automatically find a letter for wildcards','which do not have letters set. (Default).',
+                }
+            },
+            wildcard_behaviour_2 = {
                 name = "Wildcard Behaviour",
                 text = {
                     '{C:attention}Force No Unset','The play button will be disabled','if you selected an unset wild card.' ,
                 }
             },
-            dd_akyrs_wildcard_behaviour_3 = {
+            wildcard_behaviour_3 = {
                 name = "Wildcard Behaviour",
                 text = {
                     '{C:attention}Always Manual','Wildcards do not have letter assigned to them by default.','When played, will not attempt to find letters. (Can help with performance)' ,
                 }
             },
-            dd_akyrs_wildcard_behaviour_4 = {
+            wildcard_behaviour_4 = {
                 name = "Wildcard Behaviour",
                 text = {
                     '{C:attention}Auto Set', 'Automatically find a letter for wildcard and','also set the letter automatically to the target if it is unset.', 
                 }
             },
-            dd_akyrs_balance_settings = {
+            balance_settings = {
                 name = "Balance Settings",
                 text = {
                     "{C:green,E:2}Adequate", "Balanced towards vanilla",
                     "{C:red,E:1}Absurd{C:inactive} (Requires Talisman or Amulet)", "Bigger Number, Crazier Effects,","Direr Consequences"
                 }
             },
-            dd_akyrs_card_preview_tooltip = {
+            show_joker_preview = {
                 name = "Card Preview Tooltip",
                 text = {
                     'Some cards have a small "Preview" cards',
@@ -857,7 +863,7 @@ return {
                     'turning this off might help',
                 },
             },
-            dd_akyrs_crt_shader_toggle = {
+            crt_shader_toggle = {
                 name = "CRT Shader",
                 text = {
                     'Normally, the game {C:attention}always{} render CRT shader despite',
@@ -865,7 +871,7 @@ return {
                     'Turning this off means everything will be less saturated {C:inactive}(If you like the faded look)',
                 },
             },
-            dd_akyrs_toggle_colourblind_ui = {
+            colourblind_ui = {
                 name = "High Contrast UI",
                 text = {
                     'Some UI might be hard to read for certain people.',
@@ -873,7 +879,7 @@ return {
                     'appear to orange and blue',
                 },
             },
-            dd_akyrs_experimental_feature = {
+            experimental_features = {
                 name = "Experimental Features",
                 text = {
                     {
@@ -891,7 +897,7 @@ return {
                     }
                 },
             },
-            dd_akyrs_toggle_legacy_challenges = {
+            legacy_challenges = {
                 name = "Enable Legacy Challenges",
                 text = {
                     'Enable old challenges that no longer fits',
@@ -899,7 +905,7 @@ return {
                     'They feature some of the most disgusting balance ever.',
                 },
             },
-            dd_akyrs_config_tag_rework = {
+            disable_tag_rework = {
                 name = "Enable Tags by default",
                 text = {
                     'Tags can now be toggled on and off',
@@ -909,6 +915,45 @@ return {
                     '{C:inactive}(Note: you can still toggle them)'
                 },
             },
+            fancy_ui = {
+                name = "Fancy UI",
+                text = {
+                    'Some cards have special tooltip styling',
+                    'Disable this to return them back to default',
+                },
+            },
+            osk_with_mouse = {
+                name = "Always On Screen Keyboard",
+                text = {
+                    'Show In Game On Screen Keyboard',
+                    'For the mod\'s custom text boxes',
+                },
+            },
+            mechanics_tutorial = {
+                name = "Tutorials",
+                text = {
+                    'Show In Game Tutorial',
+                    'For custom mechanics',
+                },
+            },
+            enable_assist_options = {
+                name = "Assist Mode",
+                text = {
+                    {
+                        'Assistance for people who needs it',
+                        'No penalty for enabling',
+                        'Disable this before the Run start',
+                        'for it to take effect',
+                    },
+                    {
+                        'In {C:attention}Multiplayer{} related matches',
+                        'this option do NOT apply',
+                    }
+                },
+            },
+        },
+        DescriptionDummy={
+            -- config
             -- tooltips
             dd_akyrs_maxwell_example={
                 name="Example",
@@ -6049,6 +6094,8 @@ return {
             k_akyrs_factorio_planet_q = "Nauvis System Planet?",
             k_akyrs_inception_ex = "Inception!",
             k_akyrs_add_trade_row = "+3 Deals",
+            k_akyrs_config_cat_main = "General",
+            k_akyrs_config_cat_accessibility = "Accessibility",
 
             k_akyrs_banished = "Banished!",
 

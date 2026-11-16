@@ -18,7 +18,7 @@ end
 
 AKYRS.tooltipped_set = { Scenario = true, Replicant = true, Judgement = true, Umbral = true }
 AKYRS.custom_tooltip.container = function (card, aut)
-    if card.ability then
+    if card.ability and AKYRS.config.fancy_ui then
         --print(card.ability.set)
        if AKYRS.tooltipped_set[card.ability.set] then
             local card_type_background = aut.card_type == 'Locked' and G.C.BLACK or aut.card_type == 'Undiscovered' and darken(G.C.JOKER_GREY, 0.3) or darken(G.C.BLACK, 0.1)
@@ -75,7 +75,7 @@ AKYRS.custom_tooltip.container = function (card, aut)
 end
 
 AKYRS.custom_tooltip.name = function (card, aut)
-    if card.ability then
+    if card.ability and AKYRS.config.fancy_ui then
         --print(card.ability.set)
         if card.akyrs_collection_judgement then
             return {

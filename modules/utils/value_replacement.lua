@@ -660,3 +660,17 @@ function AKYRS.get_enchantment_value(card, ench_obj)
     
     return math.min(level, ench_center.max_level + ench_center.can_overlevel_by or 0)
 end
+
+
+function AKYRS.get_assist_config( key, default )
+    if AKYRS.is_mp() then return default end
+    if AKYRS.config.enable_assist_options or G.GAME.akyrs_accessibility_enabled then
+        
+    end
+    return default
+end
+function AKYRS.get_scenario_ability(scenario_center)
+    local ab = copy_table(scenario_center)
+    
+    return ab
+end

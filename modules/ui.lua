@@ -359,7 +359,7 @@ G.FUNCS.akyrs_text_input = function(e)
   local OSkeyboard_e = e.parent.parent.parent
   local show_keyboard = false
   if e.config then
-    show_keyboard = not e.config.hide_keyboard and not (e.config.hide_keyboard_only_kbm and G.CONTROLLER.HID.mouse)
+    show_keyboard = not e.config.hide_keyboard and (not (e.config.hide_keyboard_only_kbm and G.CONTROLLER.HID.mouse) or AKYRS.config.osk_with_mouse)
   end
   if G.CONTROLLER.text_input_hook == e and (show_keyboard) then
     if not OSkeyboard_e.children.controller_keyboard then 

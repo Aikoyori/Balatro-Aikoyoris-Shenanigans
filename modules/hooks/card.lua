@@ -279,7 +279,7 @@ AKYRS.hand_display_mod = function(hand,text,disp_text,poker_hands)
     if not hand then return end
     local are_pure = true
     for _,c in ipairs(hand) do
-        if not c.ability.akyrs_special_card_type then
+        if not c.ability.akyrs_special_card_type or (SMODS.has_no_rank(c) and SMODS.has_no_suit(c)) then
             are_pure = false
             break
         end

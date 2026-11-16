@@ -666,6 +666,7 @@ end
 
 SMODS.current_mod.config_tab = function ()
   AKYRS.progress_debug()
+  --[[
   local config_tab_nodes = {
       { n = G.UIT.R, config = {align = "rt"}, nodes = {
           { n = G.UIT.C, config = {
@@ -729,7 +730,8 @@ SMODS.current_mod.config_tab = function ()
           },
           AKYRS.create_hover_tooltip{ tooltip_key = "dd_akyrs_balance_settings" }
         }
-      },]]
+      },
+      --
       -- joker previews
 
       { n = G.UIT.R, config = { align = "rt"}, nodes = {
@@ -824,17 +826,63 @@ SMODS.current_mod.config_tab = function ()
       }
     }
     config_tab_nodes[#config_tab_nodes+1] = 
+  end]]
+  local config_tab_nodes = {}
+  local has_require_restart = false
+  for _, category in ipairs({ 'main', 'accessibility'}) do
+    local config_for_panel = {
+      {
+        n = G.UIT.R,
+        config = {
+          align = 'cm',
+        },
+        nodes = {
+          {
+            n = G.UIT.T,
+            config = {
+              text = localize('k_akyrs_config_cat_'..category),
+              scale = 0.6,
+              colour = G.C.WHITE,
+            }
+          }
+        }
+      }
+    }
+    for _, config_obj in ipairs(AKYRS.Configs_Per_Category[category]) do
+      if config_obj:is_visible() then
+        has_require_restart = has_require_restart or config_obj.requires_restart
+        config_for_panel[#config_for_panel+1] = config_obj:generate_config_ui()
+      end
+    end
+    config_tab_nodes[#config_tab_nodes+1] = {
+      n = G.UIT.C,
+      config = {
+        padding = 0.2,
+        colour = G.C.DYN_UI.BOSS_MAIN,
+        r = 1,
+      },
+      nodes = config_for_panel,
+    }
+  end
+  return {
+    n = G.UIT.ROOT, config = { minw = 9, minh = 3 ,align = "tm",colour = G.C.UI.TRANSPARENT_DARK, r = 0.1 },
+    nodes = {
+      {
+        n = G.UIT.R,
+        config = {
+          padding = 0.1
+        },
+        nodes = config_tab_nodes
+      },
+      has_require_restart and 
       {
         n = G.UIT.R,
         config = { align = "cm", padding = 0.2 },
         nodes = {
           { n = G.UIT.T, config = { text = localize("k_akyrs_restart_required"), scale = 0.4, colour = G.C.AKYRS_TRANSPARENT_TEXT } }
         }
-      }
-  end
-  return {
-    n = G.UIT.ROOT, config = { minw = 9, minh = 3 ,align = "tm",colour = G.C.UI.TRANSPARENT_DARK, r = 0.1 },
-    nodes = config_tab_nodes
+      },
+    }
   }
 end
 

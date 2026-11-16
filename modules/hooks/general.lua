@@ -129,6 +129,9 @@ function Game:init_game_object()
     ret.akyrs_cards_modified = 0
     ret.akyrs_won_current_blind = 0
 
+    ret.akyrs_accessibility_enabled = AKYRS.config.enable_assist_options
+    ret.akyrs_assist_options = copy_table(AKYRS.config.assist_options)
+
     return ret
 end
 

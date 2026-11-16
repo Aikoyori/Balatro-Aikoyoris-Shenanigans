@@ -695,11 +695,13 @@ AKYRS.create_hover_tooltip = function(args)
                         maxw = args.h or 0.5,
                         minh = args.w or 0.5,
                         minw = args.h or 0.5,
+                        hover = not args.no_hover,
                         focus_args = { snap_to = true },
                         -- detailed_tooltip = AKYRS.DescriptionDummies[args.tooltip_key or "dd_akyrs_yona_yona_ex"], 
                         func = args.func,
                         colour = args.colour or G.C.BLUE,
                         padding = args.padding or 0.1,
+                        emboss = not args.flat and (args.emboss or 0.1) or nil
                     },
                     nodes = {
                         {
@@ -719,7 +721,7 @@ AKYRS.create_hover_tooltip = function(args)
             offset = {x = 0, y = 0},
         },
     })
-    local obj = AKYRS.DescriptionDummies[args.tooltip_key or "dd_akyrs_yona_yona_ex"]
+    local obj = (args.tooltip_table or AKYRS.DescriptionDummies)[args.tooltip_key or "dd_akyrs_yona_yona_ex"]
     local loc_vars = obj.loc_vars and obj:loc_vars() or {}
     
 
@@ -738,7 +740,7 @@ AKYRS.create_hover_tooltip = function(args)
                     play_sound('tarot2', math.random()*0.1 + 0.55, 0.09)
                 end
                 
-                uibox.ability_UIBox_table = generate_card_ui(obj, nil, loc_vars.vars, 'DescriptionDummy', nil , nil, loc_vars.main_start, loc_vars.main_end, obj:create_fake_card())
+                uibox.ability_UIBox_table = generate_card_ui(obj, nil, loc_vars.vars, obj.set, nil , nil, loc_vars.main_start, loc_vars.main_end, obj:create_fake_card())
                 
                 uibox.config.center = obj.config
                 uibox.ability = copy_table(obj.config)

@@ -73,7 +73,7 @@ AKYRS.Config_Item = SMODS.GameObject:extend {
                             })
                         }
                     },
-                    self.hide_help_icon and AKYRS.create_hover_tooltip{ tooltip_table = AKYRS.Configs, tooltip_key = self.key }
+                    not self.hide_help_icon and AKYRS.create_hover_tooltip{ tooltip_table = AKYRS.Configs, tooltip_key = self.key }
                 }
             }
         end
@@ -105,7 +105,7 @@ AKYRS.Config_Item = SMODS.GameObject:extend {
                         })
                     }
                 },
-                    self.hide_help_icon and AKYRS.create_hover_tooltip{ tooltip_table = AKYRS.Configs, tooltip_key = self.key }
+                    not self.hide_help_icon and AKYRS.create_hover_tooltip{ tooltip_table = AKYRS.Configs, tooltip_key = self.key }
                 },
             }
         end

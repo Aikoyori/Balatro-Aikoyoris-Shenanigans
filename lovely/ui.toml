@@ -699,6 +699,7 @@ pattern = """      local multi_boxes = {}"""
 position = "before"
 payload = """
 if not multi_boxes then
+multi_boxes = {}
 """
 overwrite = true
 match_indent = true
@@ -721,6 +722,7 @@ pattern = """      local info_cols = {}"""
 position = "before"
 payload = """
 if not info_cols then
+info_cols = {}
 """
 overwrite = true
 match_indent = true

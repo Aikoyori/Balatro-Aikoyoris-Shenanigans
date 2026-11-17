@@ -7,6 +7,7 @@ AKYRS.Configs_List = {}
 AKYRS.Configs_Per_Category = {
     main = {},
     accessibility = {},
+    assist = {},
 }
 
 G.FUNCS.akyrs_default_callback = function (e)

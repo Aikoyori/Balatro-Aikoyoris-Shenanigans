@@ -916,7 +916,7 @@ return {
                 },
             },
             fancy_ui = {
-                name = "Fancy UI",
+                name = "Custom Tooltip Styles",
                 text = {
                     'Some cards have special tooltip styling',
                     'Disable this to return them back to default',
@@ -936,19 +936,55 @@ return {
                     'For custom mechanics',
                 },
             },
+            open_assist_options = {
+                name = "Assist Mode Settings",
+                text = {
+                    {
+                        'Opens Assist Mode Settings',
+                    },
+                },
+            },
             enable_assist_options = {
                 name = "Assist Mode",
                 text = {
                     {
                         'Assistance for people who needs it',
                         'No penalty for enabling',
-                        'Disable this before the Run start',
-                        'for it to take effect',
+                        'Takes effect on the next run',
                     },
                     {
                         'In {C:attention}Multiplayer{} related matches',
                         'this option do NOT apply',
                     }
+                },
+            },
+            timer_use_clicks = {
+                name = "Use Clicks for Timers",
+                text = {
+                    {
+                        'Use clicks instead of real time seconds',
+                        'For draining scenarios',
+                        '1 click equals to -1 second on the clock',
+                        'Timer Speed Reduction applies',
+                    },
+                },
+            },
+            timer_multiplier = {
+                name = "Timer Speed Reduction",
+                text = {
+                    {
+                        'Timers will take this number times',
+                        'as long to deplete',
+                    },
+                },
+            },
+            life_no_autolose = {
+                name = "Life No Auto-lose",
+                text = {
+                    {
+                        'No Instant Game Over on Life Depletion',
+                        '{C:red}You will not be able to win the run thereafter',
+                    },
                 },
             },
         },
@@ -6096,6 +6132,7 @@ return {
             k_akyrs_add_trade_row = "+3 Deals",
             k_akyrs_config_cat_main = "General",
             k_akyrs_config_cat_accessibility = "Accessibility",
+            k_akyrs_config_cat_assist = "Assist Mode",
 
             k_akyrs_banished = "Banished!",
 

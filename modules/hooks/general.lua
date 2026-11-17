@@ -129,8 +129,10 @@ function Game:init_game_object()
     ret.akyrs_cards_modified = 0
     ret.akyrs_won_current_blind = 0
 
-    ret.akyrs_accessibility_enabled = AKYRS.config.enable_assist_options
-    ret.akyrs_assist_options = copy_table(AKYRS.config.assist_options)
+    ret.akyrs_assist_enabled = AKYRS.config.enable_assist_options
+    if AKYRS.config.enable_assist_options then
+        ret.akyrs_assist_options = copy_table(AKYRS.config.assist_options)
+    end
 
     return ret
 end
@@ -202,7 +204,7 @@ function Game:update(dt)
         G.GAME.akyrs_life_disp = (""..AKYRS.format_string(G.GAME.akyrs_life))
         if AKYRS.life_sprite then
             if AKYRS.get_life_cover_type() == "normal" then
-                if G.GAME.akyrs_life <= 0 then
+                if G.GAME.akyrs_life <= 0 or G.GAME.akyrs_lost_from_life then
                     AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("over"))
                 elseif G.GAME.akyrs_life < 10 then
                     AKYRS.life_sprite:set_sprite_pos(AKYRS.get_life_sprite_pos("verylow"))
@@ -231,7 +233,11 @@ function Game:update(dt)
         G.GAME.akyrs_last_life = G.GAME.akyrs_life
 
         if AKYRS.get_life() <= 0 and not G.GAME.AKYRS_DEAD then
-            AKYRS.force_lose()
+            if AKYRS.get_assist_config('life_no_autolose', false) then
+                G.GAME.akyrs_lost_from_life = true
+            else
+                AKYRS.force_lose()
+            end
         end
         if not G.GAME.akyrs_emerald then
             G.GAME.akyrs_emerald = 0
@@ -2431,4 +2437,12 @@ function Card:remove_from_deck(from_debuff)
         end
     end
     return card_remove_f_d(self, from_debuff)
+end
+
+
+local wingamehook = win_game
+function win_game(...)
+    if not G.GAME.akyrs_lost_from_life then
+        return wingamehook(...)
+    end
 end

@@ -315,3 +315,15 @@ function SMODS.is_getter_context(context)
     if context.akyrs_mod_enchantment_level then return "enchantments" end
     return isgetter(context)
 end
+
+local press_the_button = Controller.L_cursor_press
+function Controller:L_cursor_press(x, y)
+    if G.STAGE == G.STAGES.RUN and G.GAME and G.GAME.akyrs_scenario and AKYRS.get_assist_config('timer_use_clicks', false) then
+        for _, sc in ipairs(G.GAME.akyrs_scenario) do
+            if sc.config.akyrs_timed_scenario and (sc.config.tag_should_tick_down and sc.config.tag_should_tick_down(sc)) then
+                AKYRS.mod_scenario_rounds(sc, -1 / AKYRS.get_assist_config('timer_multiplier', 1), false, true)
+            end
+        end
+    end
+    return press_the_button(self, x, y)
+end

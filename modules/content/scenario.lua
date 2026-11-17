@@ -298,6 +298,7 @@ G.C.SECONDARY_SET.Scenario = HEX("645474FF")
 ---@field tag_removed? fun(self: AKYRS.Scenario|table, _tag:AKYRS.Scenario_Tag): nil
 ---@field tag_expire? fun(self: AKYRS.Scenario|table, _tag:AKYRS.Scenario_Tag): nil
 ---@field tag_update? fun(self: AKYRS.Scenario|table, tag:AKYRS.Scenario_Tag, dt: number, real_dt:number): nil
+---@field tag_should_tick_down? fun(self: AKYRS.Scenario|table, tag:AKYRS.Scenario_Tag): boolean for timer ones only
 ---@field on_load? fun(self: AKYRS.Scenario|table, tag:AKYRS.Scenario_Tag): nil
 ---@overload fun(self: AKYRS.Scenario): AKYRS.Scenario
 AKYRS.Scenario = SMODS.Center:extend{
@@ -1937,10 +1938,8 @@ AKYRS.Scenario {
             end
         end
     end,
-    tag_update = function (self, tag, dt, real_dt) 
-        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or AKYRS.should_tick_down() then
-            AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
-        end
+    tag_should_tick_down = function (self, tag)
+        return (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or AKYRS.should_tick_down()
     end,
 }
 
@@ -2010,11 +2009,9 @@ AKYRS.Scenario {
             end
         end
     end,
-    tag_update = function (self, tag, dt, real_dt) 
-        if G.shop and AKYRS.should_tick_down() then
-            AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
-        end
-    end,
+    tag_should_tick_down = function (self, tag)
+        return G.shop and AKYRS.should_tick_down()
+    end
 }
 
 AKYRS.Scenario {
@@ -2074,6 +2071,9 @@ AKYRS.Scenario {
     tag_removed = function (self, _tag)
         G.GAME.modifiers.booster_size_mod = (G.GAME.modifiers.booster_size_mod or 0) - _tag.ability.extras.t_bpsz
         G.GAME.modifiers.booster_choice_mod = (G.GAME.modifiers.booster_choice_mod or 0) - _tag.ability.extras.t_bpch
+    end,
+    tag_should_tick_down = function (self, tag)
+        return G.shop and AKYRS.should_tick_down()
     end,
     tag_update = function (self, tag, dt, real_dt) 
         if G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 and AKYRS.should_tick_down() then
@@ -2166,10 +2166,8 @@ AKYRS.Scenario {
             
         end
     end,
-    tag_update = function (self, tag, dt, real_dt) 
-        if ((G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 ) or G.STATE == G.STATES.SHOP) and AKYRS.should_tick_down() then
-            AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
-        end
+    tag_should_tick_down = function (self, tag)
+        return ((G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 ) or G.STATE == G.STATES.SHOP) and AKYRS.should_tick_down()
     end,
 }
 
@@ -2249,10 +2247,8 @@ AKYRS.Scenario {
             
         end
     end,
-    tag_update = function (self, tag, dt, real_dt) 
-        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or AKYRS.should_tick_down() then
-            AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
-        end
+    tag_should_tick_down = function (self, tag)
+        return (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or AKYRS.should_tick_down()
     end,
 }
 
@@ -2285,9 +2281,7 @@ AKYRS.Scenario {
         else
         end
     end,
-    tag_update = function (self, tag, dt, real_dt) 
-        if (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or AKYRS.should_tick_down() then
-            AKYRS.mod_scenario_rounds(tag, -real_dt, true, nil, true)
-        end
+    tag_should_tick_down = function (self, tag)
+        return (G.SETTINGS.paused and not G.STATE == G.STATES.HAND_PLAYED) or AKYRS.should_tick_down()
     end,
 }

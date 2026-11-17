@@ -664,8 +664,9 @@ end
 
 function AKYRS.get_assist_config( key, default )
     if AKYRS.is_mp() then return default end
-    if AKYRS.config.enable_assist_options or G.GAME.akyrs_accessibility_enabled then
-        
+    if (G.STAGE == G.STAGES.MAIN_MENU and AKYRS.config.enable_assist_options) or (G.STAGE == G.STAGES.RUN and G.GAME.akyrs_assist_enabled) then
+        local conf_table = G.STAGE == G.STAGES.RUN and G.GAME.akyrs_assist_options or AKYRS.config.assist_options
+        return conf_table[key] or default
     end
     return default
 end

@@ -301,6 +301,13 @@ payload = """if G.GAME and G.GAME.akyrs_scenario then
     if sc.config.tag_update then
       sc.config:tag_update(sc, dt*self.SPEEDFACTOR, self.real_dt)
     end
+    if sc.config.tag_should_tick_down and sc.config.akyrs_timed_scenario and not AKYRS.get_assist_config('timer_use_clicks', false) then
+        local sh = sc.config:tag_should_tick_down(sc)
+        if sh then 
+            local x = AKYRS.get_assist_config('timer_multiplier', 1)
+            AKYRS.mod_scenario_rounds(tag, -self.real_dt / x , true, nil, true)
+        end
+    end
   end
 end"""
 overwrite = true

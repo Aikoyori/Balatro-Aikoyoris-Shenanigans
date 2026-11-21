@@ -16,5 +16,6 @@ return {
 		timer_use_clicks = false,
 		timer_multiplier = false,
 		life_no_autolose = false,
+		no_aikoshen_content = false,
 	}
 }

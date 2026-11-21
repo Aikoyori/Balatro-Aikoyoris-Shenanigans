@@ -987,6 +987,15 @@ return {
                     },
                 },
             },
+            no_aikoshen_content = {
+                name = "Disable Mod Content",
+                text = {
+                    {
+                        'Aikoyori\'s Shenanigans Content',
+                        'will not show up {C:attention}during the run',
+                    },
+                },
+            },
         },
         DescriptionDummy={
             -- config

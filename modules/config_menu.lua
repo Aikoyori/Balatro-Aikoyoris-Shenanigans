@@ -383,3 +383,13 @@ AKYRS.Config_Item{
     end,
     config_category = 'assist',
 }
+
+AKYRS.Config_Item{
+    key = 'no_aikoshen_content',
+    get_refs = function (self)
+        return {
+            ref_table = AKYRS.config.assist_options
+        }
+    end,
+    config_category = 'assist',
+}

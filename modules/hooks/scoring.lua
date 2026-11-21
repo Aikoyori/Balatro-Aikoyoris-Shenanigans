@@ -327,3 +327,11 @@ function Controller:L_cursor_press(x, y)
     end
     return press_the_button(self, x, y)
 end
+
+local a2phook = SMODS.add_to_pool
+function SMODS.add_to_pool(proto, args)
+    if AKYRS.get_assist_config('no_aikoshen_content', false) and proto.mod == AKYRS then
+        return false
+    end
+    return a2phook(proto, args)
+end

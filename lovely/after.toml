@@ -53,4 +53,3 @@ position = "append"
 sources = [
     "modules/hooks/late_hooks.lua",
 ]
-

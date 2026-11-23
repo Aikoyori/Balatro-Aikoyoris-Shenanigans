@@ -721,6 +721,7 @@ target = "functions/UI_definitions.lua"
 pattern = """      local info_cols = {}"""
 position = "before"
 payload = """
+local info_cols
 if not info_cols then
 info_cols = {}
 """

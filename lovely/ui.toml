@@ -698,6 +698,7 @@ target = "functions/UI_definitions.lua"
 pattern = """      local multi_boxes = {}"""
 position = "before"
 payload = """
+local multi_boxes
 if not multi_boxes then
 multi_boxes = {}
 """

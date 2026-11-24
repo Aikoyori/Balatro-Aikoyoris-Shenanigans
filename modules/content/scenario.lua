@@ -342,6 +342,7 @@ AKYRS.Scenario = SMODS.Center:extend{
         return true
     end,
     use = function (self, card, area, copier)
+        discover_card(card)
         local newkey = self.key
         if self.akyrs_scenario_random then
             newkey = AKYRS.get_random_scenario_key(self.scenario.colour, nil, { any_side = true })

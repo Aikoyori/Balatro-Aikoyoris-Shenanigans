@@ -212,6 +212,7 @@ function Card:redeem()
         if not self.config.center.discovered then
             discover_card(self.config.center)
         end
+        discover_card(self)
         local key = self.config.center.key
         self.akyrs_temp_T = self.T
         table.insert(G.GAME.akyrs_redeemed_bets, key)

@@ -355,6 +355,7 @@ AKYRS.Enchantment = SMODS.GameObject:extend{
     end,
     use = function (self, card, area, copier)
         AKYRS.juice_like_tarot(card)
+        discover_card(card)
         local cards = AKYRS.filter_table(AKYRS.combine_table(G.jokers.highlighted, G.consumeables.highlighted, G.hand.highlighted),
         function (ca)
             return ca ~= card and (self:can_apply(card.ability.akyrs_level, ca) or ca.ability.set == "Enchantment")

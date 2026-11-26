@@ -164,6 +164,44 @@ AKYRS.Credit{
     },
 }
 
+-- TODO: run this snippet
+--[[]]
+--[[
+local ellen_c = {}
+local ariyi_c = {}
+for _, c in ipairs(G.P_CENTER_POOLS.Risk) do
+    if G.P_CENTERS[c.key].akyrs_originally_from_pta then
+        ellen_c[#ellen_c+1] = { c.key, { 'idea' }}
+        ariyi_c[#ariyi_c+1] = { c.key, { 'idea', 'art' }}
+    end
+end
+]]
+
+AKYRS.Credit{
+    key = 'ariyi',
+    username = 'ariyi',
+    no_atlas = true,
+    accredited = {
+        
+    },
+    social_links = {
+        
+    },
+}
+
+AKYRS.Credit{
+    key = 'haya',
+    username = 'hayaunderscore',
+    no_atlas = true,
+    category = 'extras',
+    accredited = {
+
+    },
+    social_links = {
+        
+    },
+}
+
 AKYRS.Credit{
     key = 'frostice482',
     username = 'frostice482',

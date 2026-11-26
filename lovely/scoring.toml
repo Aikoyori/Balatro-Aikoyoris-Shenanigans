@@ -453,6 +453,7 @@ if G.play and G.play.cards then
     local twin_cards = AKYRS.filter_table(G.play.cards, function(c) return c.seal == "akyrs_twin" end, true, true)
     if #twin_cards > 0 then table.insert(t, 1, {cards = twin_cards}) end
 end
+t = AKYRS.mod_joker_type_scoring(t, _context)
 """
 overwrite = true
 match_indent = true
@@ -602,6 +603,31 @@ if text == 'NULL' then
     co.astate = nil
     co.state = nil
     return
+end
+'''
+match_indent = true
+times = 1
+
+# cardarea patch
+[[patches]]
+[patches.pattern]
+target = 'cardarea.lua'
+pattern = '''    if location == 'front' or self.config.type == 'deck' then '''
+position = 'before'
+payload = '''
+if type(location) == 'number' then
+    table.insert(self.cards, location, card)
+else
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = 'cardarea.lua'
+pattern = '''    if card.facing == 'back' and self.config.type ~= 'discard' and self.config.type ~= 'deck' and not stay_flipped then'''
+position = 'before'
+payload = '''
 end
 '''
 match_indent = true

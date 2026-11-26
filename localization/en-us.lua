@@ -804,6 +804,16 @@ return {
                     '* Helped with Word Optimization!',
                 }
             },
+            credits_akyrs_haya = {
+                text = {
+                    '* I stole Risk & Rewards from PTA',
+                }
+            },
+            credits_akyrs_ariyi = {
+                text = {
+                    '* The Art for original Risk & Reward Cards',
+                }
+            },
             credits_akyrs_papu = {
                 text = {
                     '* Helped with Balancing decisions!',
@@ -3969,6 +3979,24 @@ return {
                     "learn what it does",
                 },
             },
+            undiscovered_risk = {
+                name="Not Discovered",
+                text={
+                    "Purchase or use",
+                    "this card in an",
+                    "unseeded run to",
+                    "learn what it does",
+                },
+            },
+            undiscovered_reward = {
+                name="Not Discovered",
+                text={
+                    "Purchase or use",
+                    "this card in an",
+                    "unseeded run to",
+                    "learn what it does",
+                },
+            },
             undiscovered_replicant = {
                 name="Not Discovered",
                 text={
@@ -5732,6 +5760,125 @@ return {
                     },
                 },
             },
+            c_akyrs_risk_hollow = {
+                name = 'Hollow',
+                text = {
+                    {
+                        "{C:attention}Debuff{} all consumables",
+                    },
+                },
+            },
+            c_akyrs_risk_leak = {
+                name = 'Leak',
+                text = {
+                    {
+                        "Lose {C:money}#1#{} per {C:attention}scored{} card",
+                    },
+                },
+            },
+            c_akyrs_risk_shrink = {
+                name = 'Shrink',
+                text = {
+                    {
+                        "Scored cards give {C:attention}half{} its chip value",
+                    },
+                },
+            },
+            c_akyrs_risk_synthesis = {
+                name = 'Synthesis',
+                text = {
+                    {
+                        "Add {C:attention}#1# Base{} playing cards to Deck",
+                    },
+                },
+            },
+            c_akyrs_risk_burden = {
+                name = 'Burden',
+                text = {
+                    {
+                        "Apply {C:purple}Eternal{} to a random Joker",
+                    },
+                },
+            },
+            c_akyrs_risk_ethereal = {
+                name = 'Ethereal',
+                text = {
+                    {
+                        "Apply {C:purple}Perishable{} to a random Joker",
+                    },
+                },
+            },
+            c_akyrs_risk_cyclone = {
+                name = 'Cyclone',
+                text = {
+                    {
+                        "Held cards are {C:attention}shuffled back{} to deck",
+                        "before scoring",
+                    },
+                },
+            },
+            c_akyrs_risk_perpetuate = {
+                name = 'Perpetuate',
+                text = {
+                    {
+                        "Discarded cards are {C:attention}added{} to",
+                        "top of the deck {C:attention}after{} hand is drawn",
+                    },
+                },
+            },
+            c_akyrs_risk_crime = {
+                name = 'Crime',
+                text = {
+                    {
+                        "{C:red}#1#{} Hand Size",
+                    },
+                },
+            },
+            c_akyrs_risk_double_down = {
+                name = 'Double Down',
+                text = {
+                    {
+                        "{C:white,X:blind}X#1#{} Blind Size",
+                    },
+                },
+            },
+            c_akyrs_risk_eclipse = {
+                name = 'Eclipse',
+                text = {
+                    {
+                        "{C:red}#1#{} Poker Hand level",
+                        "when hand is {C:attention}played",
+                    },
+                },
+            },
+            c_akyrs_risk_stunted = {
+                name = 'Stunted',
+                text = {
+                    {
+                        "{C:green}#1# in #2# chance{} for",
+                        "{C:attention}Enhanced{} cards to {C:red}not trigger",
+                    },
+                },
+            },
+            c_akyrs_risk_backfire = {
+                name = 'Backfire',
+                text = {
+                    {
+                        "{C:green}#1# in #2# chance{} to",
+                        "{C:attention}reverse{} Joker order",
+                        "when hand is {C:attention}played{}",
+                    },
+                },
+            },
+            c_akyrs_risk_elusive = {
+                name = 'Elusive',
+                text = {
+                    {
+                        "{C:attention}First{} drawn card is faced down",
+                        "Held cards are {C:attention}flipped{} after playing",
+                    },
+                },
+            },
         },
     },
     misc = {
@@ -6330,7 +6477,7 @@ return {
                 {"also try Stocking Stuffer",},
                 {"also try Feli's Jokeria",},
                 {"don't try Cold Beans...?",},
-                {"also try Paya's Terrible Additions",},
+                {"also try Paya's Terrible Additions","when it updates"},
                 {"also try Entropy",},
                 {"also try Revo's Vault",},
                 {"also try Oblivion",},
@@ -6402,6 +6549,7 @@ return {
                 {"Seeds of {f:akyrs_MochiyPopOne}THORN{}", "{f:akyrs_MochiyPopOne}RING{} the truth."},
                 {"what if I add", "rhythm game to balatro"},
                 {"trans rights"},
+                {"I just bought more cards", "from the PTA"},
             }
         },
         v_text={

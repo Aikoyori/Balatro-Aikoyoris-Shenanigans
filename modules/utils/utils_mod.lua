@@ -912,11 +912,20 @@ function AKYRS.end_round_hook()
             end }, sc)
         end
     end
-    if G.GAME.blind.boss then
-        G.GAME.akyrs_risk_used = {}
+    if AKYRS.RISK_BACKFIRE_REVERSE then
+        AKYRS.simple_event_add(function ()
+            AKYRS.RISK_BACKFIRE_REVERSE = nil
+            AKYRS.RISK_BACKFIRE_CARDAREA = nil
+            return true
+        end, 0)
     end
     AKYRS.SEVEN_WONDERS_CARDS_THAT_SHOULD_GIVE_XSCORE = nil
     local x = G.playing_cards
+    if G.consumeables and G.consumeables.cards then
+        for i, c in ipairs(G.consumeables.cards) do
+            c:set_debuff(false)
+        end
+    end
     if G.GAME.blind.debuff.akyrs_destroy_unplayed then
         for i, card in ipairs(x) do
             G.E_MANAGER:add_event(Event({

@@ -50,6 +50,8 @@ function Game:start_run(args)
     G.BLIND_SIZE_DISPLAY_QUEUE = nil
     G.AKYRS_CARD_EVAL_RAN = nil
     AKYRS.NO_UNHIGHLIGHT = nil
+    AKYRS.RISK_BACKFIRE_REVERSE = nil
+    AKYRS.RISK_BACKFIRE_CARDAREA = nil
     G.AKYRS_LOCK_CARD_SELECTION = nil
     if not args.savetext and G.STAGE == G.STAGES.RUN then 
         G.AKYRS_OLD_SEED = G.GAME.pseudorandom.seed 

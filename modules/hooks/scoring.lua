@@ -7,26 +7,34 @@ end
 local hookCalFx = SMODS.calculate_effect
 AKYRS.repetable_fx_calc = function(effect, scored_card, from_edition, pre_jokers)
     local card = effect.card or scored_card
-    local r
-    if card and card.ability and card.ability.akyrs_oxidising and not effect.akyrs_ignore_copper_calculation then
+    if card and card.ability then
+        if AKYRS.should_calculate_risks() and card.ability.set == 'Enhanced' then
+            local n, d = 1, 1
+            AKYRS.map(G.GAME.akyrs_risk_used, function (item, index)
+                if item.key == 'c_akyrs_risk_stunted' and item.ability then
+                    local n2, d2 = SMODS.get_probability_vars(item, item.ability.extras.n,item.ability.extras.d,'akyrs_risk_stunted_odds' )
+                    -- example if it's 1 in 3 to NOT trigger and there are 2 of them
+                    -- 1 * (1 - 1/3) = 2/3 chance it can activate
+                    -- 2/3 * (1 - 1/3) = 4/9 chance
+                    n = n * (d2 - n2)
+                    d = d * d2
+                end
+            end)
+            -- so n and d are chance it should still activate
+            if pseudorandom('akyrs_risk_stunted_chance') > (n / d) then
+                return hookCalFx({ message = localize("k_nope_ex"), colour = G.C.SECONDARY_SET.Risk,}, card, from_edition, pre_jokers)
+            end
+        end
+    end
+    if card and card.ability and card.ability.akyrs_oxidising and not effect.akyrs_ignore_copper_calculation and next(r) then
         local psrd = pseudorandom(pseudoseed("akyrs_oxidising_"..card.config.center_key))
         local compr
         if Talisman then compr = to_big(psrd) * to_big(4) > to_big(card.ability.akyrs_oxidising - 1) else compr = psrd * 4 > card.ability.akyrs_oxidising - 1 end
-        if  compr then
-            r = hookCalFx(effect, scored_card, from_edition, pre_jokers)
-        else
-            r = hookCalFx({ message = localize("k_nope_ex"), colour = HEX("b74912"),}, card, from_edition, pre_jokers)
+        if not compr then
+            return hookCalFx({ message = localize("k_nope_ex"), colour = HEX("b74912"),}, card, from_edition, pre_jokers)
         end
-        if G.GAME.blind and mult and G.GAME.blind.debuff.akyrs_score_face_with_my_dec_mult and G.GAME.blind.debuff.dec_mult then
-            if scored_card and scored_card:is_face(true) then
-                G.E_MANAGER:add_event(Event({trigger = 'immediate', blocking = false, blockable = true, func = function () scored_card:juice_up(0.1); return true end}))
-                r = SMODS.calculate_individual_effect(effect, scored_card, "xmult", G.GAME.blind.debuff.dec_mult, false, false)
-                percent = (percent or 0) + (percent_delta or 0.08)
-            end
-        end
-    else
-        r = hookCalFx(effect, scored_card, from_edition, pre_jokers)
     end
+    local r = hookCalFx(effect, scored_card, from_edition, pre_jokers)
     return r
 end
 SMODS.calculate_effect = function(effect, scored_card, from_edition, pre_jokers)
@@ -293,18 +301,20 @@ end
 
 function AKYRS.get_used_risks_scoring_targets(_context)
     local ret = {}
-    if G.GAME.blind_on_deck == 'Boss' or (G.GAME.blind and G.GAME.blind.boss) then
-        for _, risk_obj in ipairs(G.GAME.akyrs_risk_used) do
-            local risk_center = G.P_CENTERS[risk_obj.key]
-            local func = type(_context) == "string" and _context or 'risk_calculate'
-            if risk_center and type(risk_center[func]) == "function" then
-                --print(func..' wahoo')
-                local newthing = {
-                    [func == 'risk_calculate' and 'calculate' or func] = function(self, context)
-                        return risk_center[func](risk_center, risk_obj, context)
-                    end
-                }
-                table.insert(ret, { obj = newthing, key = risk_obj.key })
+    if G.GAME and G.GAME.round_resets and G.GAME.round_resets.blind_choices and G.GAME.blind_on_deck then
+        if (G.P_BLINDS[G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]] or {}).boss then
+            for _, risk_obj in ipairs(G.GAME.akyrs_risk_used) do
+                local risk_center = G.P_CENTERS[risk_obj.key]
+                local func = type(_context) == "string" and _context or 'risk_calculate'
+                if risk_center and type(risk_center[func]) == "function" then
+                    --print(func..' wahoo')
+                    local newthing = {
+                        [func == 'risk_calculate' and 'calculate' or func] = function(self, context)
+                            return risk_center[func](risk_center, risk_obj, context)
+                        end
+                    }
+                    table.insert(ret, { obj = newthing, key = risk_obj.key })
+                end
             end
         end
     end

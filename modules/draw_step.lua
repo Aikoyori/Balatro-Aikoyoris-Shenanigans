@@ -62,6 +62,17 @@ function AKYRS.aikoyori_draw_extras(card, layer)
 end
 
 SMODS.DrawStep{
+    key = "shines",
+    order = 11,
+    func = function (self)
+        if (self.ability.set == 'Risk' or self.ability.set == 'Reward') and self.config.center.mod == AKYRS and self:should_draw_base_shader() and not self.config.center.disable_shine then
+            self.children.center:draw_shader('booster', nil, self.ARGS.send_to_shader)
+        end
+    end,
+    conditions = { vortex = false, facing = 'front' },
+}
+
+SMODS.DrawStep{
     key = "extras",
     order = 91,
     func = function (card, layer)

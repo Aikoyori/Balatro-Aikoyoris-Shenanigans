@@ -747,6 +747,25 @@ end
 local playCardEval = G.FUNCS.play_cards_from_highlighted
 
 G.FUNCS.play_cards_from_highlighted = function(e)
+    AKYRS.RISK_BACKFIRE_REVERSE = false
+    AKYRS.RISK_BACKFIRE_REVERSE = nil
+    if AKYRS.should_calculate_risks() then
+        local n, d = 1, 1
+        AKYRS.map(G.GAME.akyrs_risk_used, function (item, index)
+            if item.key == 'c_akyrs_risk_backfire' then
+                local n2, d2 = SMODS.get_probability_vars(item, item.ability.extras.n,item.ability.extras.d,'akyrs_risk_backfire_odds' )
+                -- example if it's 1 in 3 to NOT trigger and there are 2 of them
+                -- 1 * (1 - 1/3) = 2/3 chance it can activate
+                -- 2/3 * (1 - 1/3) = 4/9 chance
+                n = n * (d2 - n2)
+                d = d * d2
+            end
+        end)
+        -- so n and d are chance it should still activate
+        if pseudorandom('akyrs_risk_backfire_chance') > (n / d) then
+            AKYRS.RISK_BACKFIRE_REVERSE = true
+        end
+    end
     if G.GAME.blind.debuff.akyrs_reduce_other then
         ease_discard(-G.GAME.blind.debuff.akyrs_reduce_other)
     end
@@ -1305,6 +1324,9 @@ function CardArea:emplace(c,l,fl)
         if self == G.hand then
             c.ability.akyrs_just_drawn = true
         end
+    end
+    if type(location) == 'number' then
+        
     end
     local x = {cardAreaEmplaceFunction(self,c,l,fl)}
     if c and type(c) == "table" then
@@ -2005,6 +2027,8 @@ end
 local XmainMenuHook = Game.main_menu
 function Game:main_menu(ctx)
     local r = XmainMenuHook(self,ctx)
+    AKYRS.RISK_BACKFIRE_REVERSE = nil
+    AKYRS.RISK_BACKFIRE_CARDAREA = nil
     if (G.PROFILES[G.SETTINGS.profile].akyrs_balance == "absurd" and (MP) and true) then
         G.AKYRS_MULTIPLAYER_NOTICE_INTRO = true
         AKYRS.start_onboarding(true, true)

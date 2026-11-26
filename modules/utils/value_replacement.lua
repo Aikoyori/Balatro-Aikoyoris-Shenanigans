@@ -509,6 +509,25 @@ function AKYRS.mod_cards_scoring(cards_table, context)
     end
     return returnval
 end
+function AKYRS.mod_joker_type_scoring(tbl_o_ca, _context)
+    if AKYRS.RISK_BACKFIRE_REVERSE then
+        -- TODO: i have given up smods is jank i need to somehow reverse scoring order while still maintaining it in G.jokers
+        local tbl = AKYRS.map(tbl_o_ca, function (cardar, index)
+            if cardar == G.jokers and G.jokers.cards then
+                if not AKYRS.RISK_BACKFIRE_CARDAREA then
+                    table.sort(G.jokers.cards, function (a, b)
+                        return a.T.x > b.T.x
+                    end) 
+                    AKYRS.RISK_BACKFIRE_CARDAREA = true
+                end
+                return G.jokers
+            end
+            return cardar
+        end, true)
+        return tbl
+    end
+    return tbl_o_ca
+end
 
 function AKYRS.create_shop_ui_key(shop_key)
     G[shop_key] = G[shop_key] or UIBox{

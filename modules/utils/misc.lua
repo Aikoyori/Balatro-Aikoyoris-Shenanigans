@@ -1542,6 +1542,27 @@ function AKYRS.map(tbl, predicate, ordered_in)
     return table_out
 end
 
+---a function to count items from predicate that matches
+-- predicate expect a return of new value
+---@param tbl table a table to map through
+---@param predicate fun(item:any, index:integer) a function that returns value, can return second to change the key
+---@param ordered_in boolean indicate if the input table is a list
+function AKYRS.count(tbl, predicate, ordered_in)
+    if not tbl or not predicate then return 0 end
+    if #tbl == 0 and ordered_in then return 0 end
+    local count = 0
+    local nextfunc = ordered_in and ipairs or pairs
+    local table_out = {}
+    for k,v in nextfunc(tbl) do
+        if predicate(v, k) then
+            if predicate(v, k) then
+                count = count + 1
+            end
+        end
+    end
+    return count
+end
+
 function AKYRS.keyvalue_to_list(tbl)
     if not tbl then return {} end
     local table_out = {}
@@ -2629,4 +2650,11 @@ function AKYRS.recursive_get( tbl, ... )
         end
     end
     return 
+end
+function AKYRS.should_calculate_risks()
+    if G.GAME and G.GAME.round_resets and G.GAME.round_resets.blind_choices and G.GAME.blind_on_deck then
+        if (G.P_BLINDS[G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]] or {}).boss then
+            return true
+        end
+    end
 end

@@ -155,6 +155,9 @@ function Card:get_chip_bonus()
             c = c * ( 1 + ench[2] )
         end
     end
+    if AKYRS.should_calculate_risks() then
+        c = c / 2 ^ AKYRS.count(G.GAME.akyrs_risk_used, function (item, index) return item.key == 'c_akyrs_risk_shrink' end, true)
+    end
     return c
 end
 
@@ -304,6 +307,9 @@ end
 
 local cashOutHook = G.FUNCS.cash_out
 G.FUNCS.cash_out = function(e)
+    if G.P_BLINDS[G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]].boss then
+        G.GAME.akyrs_risk_used = {}
+    end
     G.GAME.akyrs_win_checked = nil
     G.BLIND_SIZE_DISPLAY_QUEUE = nil
     SMODS.calculate_context({akyrs_round_eval = true, dollars = G.GAME.current_round.dollars})

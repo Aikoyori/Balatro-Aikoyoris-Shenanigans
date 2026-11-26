@@ -6386,6 +6386,7 @@ return {
                 {"Vanilla* Mod", "{s:0.4}*not included"},
                 {"Seeds of {f:akyrs_MochiyPopOne}THORN{}", "{f:akyrs_MochiyPopOne}RING{} the truth."},
                 {"what if I add", "rhythm game to balatro"},
+                {"trans rights"},
             }
         },
         v_text={

@@ -2181,6 +2181,64 @@ function AKYRS.UIDEF.akyrs_redeemed_bets()
   return t
 end
 
+-- literally copied
+function AKYRS.UIDEF.akyrs_risk_used()
+
+  local silent = false
+  local area_count = 0
+  local per_row = 10
+  local voucher_areas = {}
+  local voucher_tables = {}
+  local voucher_table_rows = {}
+
+  local rows_needed = math.ceil(#G.GAME.akyrs_risk_used / per_row)
+  for i = 1, rows_needed do
+      voucher_areas[#voucher_areas + 1] = CardArea(
+      G.ROOM.T.x + 0.2*G.ROOM.T.w/2,G.ROOM.T.h,
+      (6.7)*G.CARD_W,
+      (area_count >= 10 and 0.75 or 1.07)*G.CARD_H, 
+      {card_limit = 10, type = 'akyrs_credits', highlight_limit = 0})
+  end
+  local nth_tracker = {}
+  for ind, varea in ipairs(voucher_areas) do 
+
+    table.insert(voucher_tables, 
+    {n=G.UIT.C, config={align = "cm", padding = 0, no_fill = true}, nodes={
+    {n=G.UIT.O, config={object = varea}}
+    }}
+    )
+    for betsk = 1, math.min(rows_needed == ind and #G.GAME.akyrs_risk_used % per_row or per_row, per_row) do 
+        local risk = G.GAME.akyrs_risk_used[betsk + ( ind - 1 ) * per_row]
+        local center = G.P_CENTERS[risk.key]
+        local card = Card(varea.T.x + varea.T.w/2, varea.T.y, G.CARD_W, G.CARD_H, nil, center, {bypass_discovery_center=true,bypass_discovery_ui=true,bypass_lock=true})
+        card:start_materialize(nil, silent)
+        card.ability = copy_table(risk.ability)
+        silent = true
+        varea:emplace(card)
+    end
+
+  end
+  table.insert(voucher_table_rows,
+          {n=G.UIT.R, config={align = "cm", padding = 0, no_fill = true}, nodes=voucher_tables}
+    )
+
+  
+  local t = silent and {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={
+    {n=G.UIT.R, config={align = "cm"}, nodes={
+      {n=G.UIT.O, config={object = DynaText({string = {localize('ph_akyrs_risk_used')}, colours = {G.C.UI.TEXT_LIGHT}, bump = true, scale = 0.6})}}
+    }},
+    {n=G.UIT.R, config={align = "cm", minh = 0.5}, nodes={
+    }},
+    {n=G.UIT.R, config={align = "cm", colour = G.C.BLACK, r = 1, padding = 0.15, emboss = 0.05}, nodes={
+      {n=G.UIT.R, config={align = "cm"}, nodes=voucher_table_rows},
+    }}
+  }} or 
+  {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={
+    {n=G.UIT.O, config={object = DynaText({string = {localize('ph_akyrs_no_risk')}, colours = {G.C.UI.TEXT_LIGHT}, bump = true, scale = 0.6})}}
+  }}
+  return t
+end
+
 
 -- jank but should work perfectly fine if no one uses the same thing
 local tabs_hook = create_tabs

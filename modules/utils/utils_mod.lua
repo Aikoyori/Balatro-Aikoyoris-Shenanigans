@@ -912,6 +912,9 @@ function AKYRS.end_round_hook()
             end }, sc)
         end
     end
+    if G.GAME.blind.boss then
+        G.GAME.akyrs_risk_used = {}
+    end
     AKYRS.SEVEN_WONDERS_CARDS_THAT_SHOULD_GIVE_XSCORE = nil
     local x = G.playing_cards
     if G.GAME.blind.debuff.akyrs_destroy_unplayed then
@@ -929,6 +932,7 @@ function AKYRS.end_round_hook()
                     card.ability.akyrs_scored_this_round = false
                     card.ability.akyrs_drawn_on_hand = nil
                     card.ability.akyrs_debuffed_by_dog = nil
+                    card.ability.akyrs_debuffed_by_risk_hinder = nil
                     return true
                 end,
                 delay = 0,
@@ -940,6 +944,7 @@ function AKYRS.end_round_hook()
             card.ability.akyrs_scored_this_round = false
             card.ability.akyrs_drawn_on_hand = nil
             card.ability.akyrs_debuffed_by_dog = nil
+            card.ability.akyrs_debuffed_by_risk_hinder = nil
         end
     end
     for _, level in ipairs({"common","uncommon","rare"}) do

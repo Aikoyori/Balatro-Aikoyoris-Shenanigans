@@ -866,6 +866,12 @@ function AKYRS.run_info_tab()
           tab_definition_function = AKYRS.UIDEF.akyrs_redeemed_bets,
       })
   end
+  if next(G.GAME.akyrs_risk_used) then
+    table.insert(ret, {
+          label = localize('b_risk'),
+          tab_definition_function = AKYRS.UIDEF.akyrs_risk_used,
+      })
+  end
   return ret
 end
 

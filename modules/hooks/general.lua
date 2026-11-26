@@ -124,6 +124,7 @@ function Game:init_game_object()
     ret.akyrs_enchantsmith_buy_ebook_cost = 10
     ret.akyrs_free_shops = 0
     ret.akyrs_abilities = {}
+    ret.akyrs_risk_used = {}
 
     ret.akyrs_ut_route = "pacifist"
     ret.akyrs_cards_modified = 0

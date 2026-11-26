@@ -1,0 +1,1 @@
+AKYRS.PTA = {}

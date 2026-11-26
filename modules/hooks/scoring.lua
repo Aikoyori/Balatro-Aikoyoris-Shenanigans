@@ -282,10 +282,33 @@ function AKYRS.custom_load_field(st)
 end
 
 function AKYRS.custom_scoring_targets(t, _context)
+    for _, rsk in ipairs(AKYRS.get_used_risks_scoring_targets(_context)) do
+        t[#t + 1] = { object = rsk.obj, scored_card = G.GAME.blind, set = "Risk", key = rsk.key }
+    end
     for _, scenario_pair in ipairs(AKYRS.get_scenario_scoring_targets(_context)) do
         t[#t + 1] = { object = scenario_pair[1], scored_card = scenario_pair[1].HUD_tag or (G.deck and G.deck.cards[1] or G.deck), set = "Scenario", key = scenario_pair[1].key }
     end
     return t
+end
+
+function AKYRS.get_used_risks_scoring_targets(_context)
+    local ret = {}
+    if G.GAME.blind_on_deck == 'Boss' or (G.GAME.blind and G.GAME.blind.boss) then
+        for _, risk_obj in ipairs(G.GAME.akyrs_risk_used) do
+            local risk_center = G.P_CENTERS[risk_obj.key]
+            local func = type(_context) == "string" and _context or 'risk_calculate'
+            if risk_center and type(risk_center[func]) == "function" then
+                --print(func..' wahoo')
+                local newthing = {
+                    [func == 'risk_calculate' and 'calculate' or func] = function(self, context)
+                        return risk_center[func](risk_center, risk_obj, context)
+                    end
+                }
+                table.insert(ret, { obj = newthing, key = risk_obj.key })
+            end
+        end
+    end
+    return ret
 end
 
 function AKYRS.get_scenario_scoring_targets(_context)

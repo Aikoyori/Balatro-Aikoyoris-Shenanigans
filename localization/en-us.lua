@@ -5723,6 +5723,16 @@ return {
                 }
             },
         },
+        Risk = {
+            c_akyrs_risk_hinder = {
+                name = 'Hinder',
+                text = {
+                    {
+                        "{C:attention}Debuff #1# random cards{} in your deck",
+                    },
+                },
+            },
+        },
     },
     misc = {
         achievement_names={
@@ -5810,7 +5820,9 @@ return {
             b_replicant_cards = "Replicant Cards",
             b_scenario_cards = "Scenario Cards",
             b_alphabet_cards = "Alphabet Cards",
+            b_risk_cards = "Risk Cards",
             k_umbral = "Umbral",
+            k_risk = "Risk",
             k_replicant = "Replicant",
             k_alphabet = "Alphabet",
             k_scenario = "Scenario",
@@ -6038,6 +6050,7 @@ return {
             k_akyrs_scenario_pack = "Scenario Pack",
 
             b_bet = "Bets",
+            b_risk = "Risk",
             b_judgement = "Judgements",
             b_enchantment = "Enchantments",
             b_scenario = "Scenarios",
@@ -6180,6 +6193,8 @@ return {
             k_akyrs_locked_ex = "Locked!",
             ph_akyrs_no_bets="No Bets redeemed this run",
             ph_akyrs_bets_redeemed="Bets redeemed this run",
+            ph_akyrs_no_risk="No Risk Card",
+            ph_akyrs_risk_used="Risk Cards for next Boss Blind",
         },
         high_scores={},
         labels={

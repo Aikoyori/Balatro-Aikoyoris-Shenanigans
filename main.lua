@@ -62,6 +62,14 @@ assert(SMODS.load_file("./modules/content/scenario.lua"))()
 assert(SMODS.load_file("./modules/content/shops.lua"))()
 assert(SMODS.load_file("./modules/content/currencies.lua"))()
 
+-- PTA content
+assert(SMODS.load_file("./modules/content/pta/atlas.lua"))()
+assert(SMODS.load_file("./modules/content/pta/commons.lua"))()
+assert(SMODS.load_file("./modules/content/pta/risk.lua"))()
+assert(SMODS.load_file("./modules/content/pta/reward.lua"))()
+assert(SMODS.load_file("./modules/content/pta/tags_boosters.lua"))()
+-- END PTA content
+
 assert(SMODS.load_file("./modules/content/edition.lua"))()
 assert(SMODS.load_file("./modules/content/tags.lua"))()
 assert(SMODS.load_file("./modules/ui.lua"))()

@@ -186,6 +186,7 @@ for i = 3, 45 do
         no_collection = true,
         key = i.."-letter Word",
         visible = function (self)
+            if not G.GAME then return true end
             local pokerhand = G.GAME.hands[self.key]
             if G.GAME.akyrs_wording_enabled then
                 if G.GAME.selected_back_key.key == "b_akyrs_mega_letter_deck" then

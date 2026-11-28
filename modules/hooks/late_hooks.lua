@@ -50,6 +50,7 @@ function Game:start_run(args)
     G.BLIND_SIZE_DISPLAY_QUEUE = nil
     G.AKYRS_CARD_EVAL_RAN = nil
     AKYRS.NO_UNHIGHLIGHT = nil
+    G.akyrs_additional_blinds = nil
     AKYRS.RISK_BACKFIRE_REVERSE = nil
     AKYRS.RISK_BACKFIRE_CARDAREA = nil
     G.AKYRS_LOCK_CARD_SELECTION = nil

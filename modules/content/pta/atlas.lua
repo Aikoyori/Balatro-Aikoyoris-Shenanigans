@@ -22,3 +22,11 @@ SMODS.Atlas {
     px = 34,
     py = 34
 }
+SMODS.Atlas {
+    key = "ptaBlinds",
+    path = "pta/blinders.png",
+    atlas_table = 'ANIMATION_ATLAS',
+    frames = 21,
+    px = 34,
+    py = 34
+}

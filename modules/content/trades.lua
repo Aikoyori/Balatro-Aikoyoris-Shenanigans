@@ -394,7 +394,7 @@ AKYRS.TradeProfession {
                                     AKYRS.text_prefab({localize = {'b_akyrs_enchant_selected'}})
                                 }
                             }),
-                            -- todo: make a numerical spinner for enchantments and level (bias)
+                            -- done: make a numerical spinner for enchantments and level (bias)
                             AKYRS.row_prefab{
                                 nodes = {
                                     AKYRS.text_prefab{ uit = G.UIT.R, localize = { 'k_akyrs_ench_power' }},

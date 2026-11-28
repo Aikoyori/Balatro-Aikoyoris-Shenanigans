@@ -404,6 +404,13 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
+    key = "ariyi_credits",
+    path = "credits/ariyi.png",
+    px = 201,
+    py = 201
+}
+
+SMODS.Atlas {
     key = "inky_credits",
     path = "credits/inkyst.png",
     px = 49,

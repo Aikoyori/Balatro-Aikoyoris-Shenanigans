@@ -792,6 +792,18 @@ return {
                     "#1# playing cards destroyed",
                 }
             },
+            bl_akyrs_pta_the_cast = {
+                name = "The Cast",
+                text = {
+                    "Boss Effects are combined",
+                }
+            },
+            bl_akyrs_pta_final_catastrophic_cast = {
+                name = "Catastrophic Cast",
+                text = {
+                    "Boss Effects are combined",
+                }
+            },
         },
         Credits = {
             credits_akyrs_dr_monty_the_snek = {
@@ -806,12 +818,14 @@ return {
             },
             credits_akyrs_haya = {
                 text = {
-                    '* I stole Risk & Rewards from PTA',
+                    '* Owner of Paya\'s',
+                    '  Terrible Additions',
                 }
             },
             credits_akyrs_ariyi = {
                 text = {
-                    '* The Art for original Risk & Reward Cards',
+                    '* Artist for Paya\'s',
+                    '  Terrible Additions',
                 }
             },
             credits_akyrs_papu = {
@@ -822,6 +836,16 @@ return {
             credits_akyrs_enigmatic42 = {
                 text = {
                     '* Beta Tester',
+                }
+            },
+            credits_akyrs_toga = {
+                text = {
+                    '* TOGA\'s Stuff Crossmod',
+                }
+            },
+            credits_akyrs_papermoon = {
+                text = {
+                    '* Paperback Crossmod',
                 }
             },
         },
@@ -5879,6 +5903,15 @@ return {
                     },
                 },
             },
+            c_akyrs_risk_cast = {
+                name = 'Cast',
+                text = {
+                    {
+                        "Apply an additional",
+                        "{C:attention}random Boss Blind{} effect",
+                    },
+                },
+            },
         },
     },
     misc = {
@@ -6020,6 +6053,7 @@ return {
             k_akyrs_credits = "Credits",
             k_akyrs_created_by = "Created by",
             k_akyrs_additional_art_by = "Featuring Arts by",
+            k_akyrs_original_mods_by = "Featuring Contents from",
             k_akyrs_additional_help_by = "Additional Help",
             k_akyrs_drmonty_help = "for helping with balancing",
             k_akyrs_frostice_help = "for helping with words optimization",

@@ -1023,3 +1023,23 @@ payload = """#G.GAME.applied_stakes > 1 and {"""
 overwrite = true
 match_indent = true
 
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = """  G.GAME.orbital_choices = G.GAME.orbital_choices or {}"""
+position = "before"
+payload = """blind_choice = AKYRS.blind_choice_icon_change(blind_choice, { blind_select = true, run_info = run_info, type = type })"""
+overwrite = true
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "blind.lua"
+pattern = """                            self.children.animatedSprite:set_sprite_pos(self.config.blind.pos)"""
+position = "before"
+payload = """AKYRS.blind_choice_icon_change({ animation = self.children.animatedSprite, config = blind, blind_obj = self }, { set_blind = true })"""
+overwrite = true
+match_indent = true
+

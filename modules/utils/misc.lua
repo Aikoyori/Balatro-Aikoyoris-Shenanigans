@@ -2658,3 +2658,12 @@ function AKYRS.should_calculate_risks()
         end
     end
 end
+
+AKYRS.event_only_if = function ( func , predicate , ...)
+    if predicate() then
+        AKYRS.simple_event_add(func, ...)
+    else
+        func()
+    end
+    
+end

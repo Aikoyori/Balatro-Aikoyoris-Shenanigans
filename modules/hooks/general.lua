@@ -129,6 +129,7 @@ function Game:init_game_object()
     ret.akyrs_ut_route = "pacifist"
     ret.akyrs_cards_modified = 0
     ret.akyrs_won_current_blind = 0
+    ret.akyrs_risk_prelude_steps = 0
 
     ret.akyrs_assist_enabled = AKYRS.config.enable_assist_options
     if AKYRS.config.enable_assist_options then
@@ -802,6 +803,11 @@ end
 local loadBlind = Blind.load
 function Blind:load(blindTable)
     local r = loadBlind(self,blindTable)
+        if G.P_BLINDS[blindTable.config_blind] then
+        AKYRS.blind_choice_icon_change({ animation = self.children.animatedSprite, config = G.P_BLINDS[blindTable.config_blind], blind_obj = self }, { set_blind = true, load_blind = true })
+    else
+        self.children.animatedSprite.states.visible = false
+    end
     if AKYRS.checkBlindKey("bl_akyrs_the_picker") and not G.GAME.blind.disabled then
         self.debuff.lock = true
         G.E_MANAGER:add_event(Event{
@@ -2029,6 +2035,12 @@ function Game:main_menu(ctx)
     local r = XmainMenuHook(self,ctx)
     AKYRS.RISK_BACKFIRE_REVERSE = nil
     AKYRS.RISK_BACKFIRE_CARDAREA = nil
+    if G.akyrs_additional_blinds then
+        AKYRS.map(G.akyrs_additional_blinds, function (item, index)
+            item:remove()
+        end)
+        G.akyrs_additional_blinds = nil
+    end
     if (G.PROFILES[G.SETTINGS.profile].akyrs_balance == "absurd" and (MP) and true) then
         G.AKYRS_MULTIPLAYER_NOTICE_INTRO = true
         AKYRS.start_onboarding(true, true)
@@ -2119,7 +2131,7 @@ get_new_boss = function()
         return G.GAME.modifiers.akyrs_all_blinds_are
     end
     if not AKYRS.can_boss_be_rerolled(G.GAME.round_resets.blind_choices.Boss) and not G.GAME.akyrs_blind_just_defeated then
-        -- TODO: FIX THIS
+        -- ts never getting fixed bro: FIX THIS
         return G.GAME.round_resets.blind_choices.Boss
     else
         G.GAME.akyrs_blind_just_defeated = nil

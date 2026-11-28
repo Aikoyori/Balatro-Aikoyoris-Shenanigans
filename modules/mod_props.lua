@@ -387,10 +387,15 @@ SMODS.current_mod.extra_tabs = function ()
       label = localize("k_akyrs_credits"),
       tab_definition_function = function ()
         AKYRS.progress_debug()
-        local main_tables = {}
-        local extra_tables = {}
-        local crossmod_tables = {}
-        main_tables[#main_tables+1] = 
+        local first_column = {}
+        local second_column = {}
+        local credit_tables = {}
+        for k, cr in pairs(AKYRS.Credit_Zone_List) do
+          credit_tables[k] = AKYRS.map(cr, function (item, index)
+            return item:generate_credit_item()
+          end, true)
+        end
+        first_column[#first_column+1] = 
         {
           n = G.UIT.R,
           config = {},
@@ -398,7 +403,17 @@ SMODS.current_mod.extra_tabs = function ()
             { n = G.UIT.T, config = { text = localize("k_akyrs_additional_art_by"), scale = 0.5, colour = G.C.WHITE } }
           }
         }
-        extra_tables[#extra_tables+1] =
+        first_column = SMODS.merge_lists({ first_column, credit_tables.main })
+        second_column[#second_column+1] =
+        {
+          n = G.UIT.R,
+          config = {},
+          nodes = {
+            { n = G.UIT.T, config = { text = localize("k_akyrs_original_mods_by"), scale = 0.5, colour = G.C.WHITE } }
+          }
+        }
+        second_column = SMODS.merge_lists({ second_column, credit_tables.original })
+        second_column[#second_column+1] =
         {
           n = G.UIT.R,
           config = {},
@@ -406,118 +421,90 @@ SMODS.current_mod.extra_tabs = function ()
             { n = G.UIT.T, config = { text = localize("k_akyrs_additional_help_by"), scale = 0.5, colour = G.C.WHITE } }
           }
         }
-        local tbl_idx = ({ main = main_tables, extras = extra_tables, crossmod = crossmod_tables })
-        for _, cred_internal in ipairs(AKYRS.Credit_Buffer) do
-          local cred_obj = AKYRS.Credits[cred_internal]
-          local tbl_tg = tbl_idx[cred_obj.category]
-          local extra_nodes = {}
-          local extra_nodes_nx = {}
-          local extra_nodes_crdts = {}
-          localize { type = 'descriptions', set = 'Credits', key = cred_internal, nodes = extra_nodes_nx, default_col = G.C.UI.TEXT_LIGHT }
-          extra_nodes[#extra_nodes+1] = transparent_multiline_text(extra_nodes_nx)
-          extra_nodes[#extra_nodes].config.align = 'lc'
-          if cred_obj.social_links then
-            for _, conj in ipairs(cred_obj.social_links) do
-              extra_nodes_crdts[#extra_nodes_crdts+1] = AKYRS.create_link_sprite_btn(conj[1], conj[2])
-            end
-            extra_nodes[#extra_nodes+1] = {
-              n = G.UIT.R,
-              config = { padding = 0.02 },
-              nodes = extra_nodes_crdts
+        second_column = SMODS.merge_lists({ second_column, credit_tables.extras })
+        second_column[#second_column+1] =
+        {
+          n = G.UIT.R,
+          config = {},
+          nodes = {
+            { n = G.UIT.T, config = { text = localize("k_akyrs_cross_mods_creds"), scale = 0.5, colour = G.C.WHITE } }
+          }
+        }
+        second_column = SMODS.merge_lists({ second_column, credit_tables.crossmod })
+        second_column = SMODS.merge_lists({ second_column, {
+          {
+            n = G.UIT.R,
+            config = {},
+            nodes = {
+              { n = G.UIT.T, config = { text = localize("k_akyrs_special_thanks"), scale = 0.5, colour = G.C.WHITE } }
             }
-          end
-          tbl_tg[#tbl_tg+1] = 
-            AKYRS.create_credits(cred_obj.atlas, "@"..cred_obj.username, cred_internal, 3.1, nil, extra_nodes, cred_obj)
-        end
+          },
+          {
+            n = G.UIT.R,
+            config = {},
+            nodes = {
+              { n = G.UIT.T, config = { text = "SleepyG11", scale = 0.3, colour = G.C.WHITE } },
+            }
+          },
+          {
+            n = G.UIT.R,
+            config = {},
+            nodes = {
+              { n = G.UIT.T, config = { text = "TheCoroboCorner, ThunderEdge", scale = 0.35, colour = G.C.WHITE } },
+            }
+          },
+          {
+            n = G.UIT.R,
+            config = {},
+            nodes = {
+              { n = G.UIT.T, config = { text = "TheUnseenExplosion, focussh0ck, sizaak", scale = 0.3, colour = G.C.WHITE } },
+            }
+          },
+          {
+            n = G.UIT.R,
+            nodes = {
+              { n = G.UIT.C, nodes = {{ n = G.UIT.T, config = { text = "ivy.emc", scale = 0.3, colour = G.C.WHITE } }}, },
+              { n = G.UIT.C, nodes = {{ n = G.UIT.T, config = { text = localize("k_akyrs_please_dont_kill_me"), scale = 0.2, colour = G.C.GREY } }}, },
+            }
+          },
+          {
+            n = G.UIT.R,
+            config = {},
+            nodes = {
+              { n = G.UIT.T, config = { text = localize("k_akyrs_sharetest_cred_1"), scale = 0.3, colour = G.C.WHITE } },
+            }
+          },
+          {
+            n = G.UIT.R,
+            config = {},
+            nodes = {
+              { n = G.UIT.T, config = { text = localize("k_akyrs_sharetest_cred_2"), scale = 0.3, colour = G.C.WHITE } },
+            }
+          },
+          {
+            n = G.UIT.R,
+            config = {},
+            nodes = {
+              { n = G.UIT.T, config = { text = localize("k_akyrs_thanks_you_for_playing"), scale = 0.3, colour = G.C.WHITE } },
+            }
+          },
+        } })
+
         if AKYRS.CREDITS_SCROLLBOX then AKYRS.CREDITS_SCROLLBOX:remove() AKYRS.CREDITS_SCROLLBOX = nil end
         AKYRS.CREDITS_SCROLLBOX = SMODS.UIScrollBox({
           content = {
             definition = { n = G.UIT.ROOT,
-                  config = { colour = G.C.CLEAR },
+                  config = { colour = G.C.CLEAR, padding = 0.3 },
                     nodes = {
                       {
                         n = G.UIT.C,
                         config = {padding = 0.05},
-                        nodes = main_tables
+                        nodes = first_column
                       },
                       {
                         n = G.UIT.C,
                         config = {padding = 0.05},
-                        nodes = {
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = extra_tables
-                          },
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = localize("k_akyrs_cross_mods_creds"), scale = 0.5, colour = G.C.WHITE } }
-                            }
-                          },
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = crossmod_tables
-                          },
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = localize("k_akyrs_special_thanks"), scale = 0.5, colour = G.C.WHITE } }
-                            }
-                          },
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = "haya_underscore, SleepyG11", scale = 0.3, colour = G.C.WHITE } },
-                            }
-                          },
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = "TheCoroboCorner, ThunderEdge", scale = 0.35, colour = G.C.WHITE } },
-                            }
-                          },
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = "TheUnseenExplosion, focussh0ck, sizaak", scale = 0.3, colour = G.C.WHITE } },
-                            }
-                          },
-                          {
-                            n = G.UIT.R,
-                            nodes = {
-                              { n = G.UIT.C, nodes = {{ n = G.UIT.T, config = { text = "ivy.emc", scale = 0.3, colour = G.C.WHITE } }}, },
-                              { n = G.UIT.C, nodes = {{ n = G.UIT.T, config = { text = localize("k_akyrs_please_dont_kill_me"), scale = 0.2, colour = G.C.GREY } }}, },
-                            }
-                          },
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = localize("k_akyrs_sharetest_cred_1"), scale = 0.3, colour = G.C.WHITE } },
-                            }
-                          },
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = localize("k_akyrs_sharetest_cred_2"), scale = 0.3, colour = G.C.WHITE } },
-                            }
-                          },
-                          {
-                            n = G.UIT.R,
-                            config = {},
-                            nodes = {
-                              { n = G.UIT.T, config = { text = localize("k_akyrs_thanks_you_for_playing"), scale = 0.3, colour = G.C.WHITE } },
-                            }
-                          },
-                        }
+                        nodes = second_column
                       }
                     }
                   },

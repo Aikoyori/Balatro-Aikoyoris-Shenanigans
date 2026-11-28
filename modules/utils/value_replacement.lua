@@ -642,7 +642,7 @@ end
 
 function AKYRS.boss_music()
     if G.GAME and G.STAGE == G.STAGES.RUN and G.GAME.round_resets and G.GAME.round_resets.blind_choices and G.GAME.round_resets.blind_choices.Boss then
-        local blind = G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss]
+        local blind = G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss] or {}
         return (blind.debuff or {}).akyrs_blind_difficulty
     end
     return AKYRS.debug_opts.boss_music 
@@ -693,4 +693,109 @@ function AKYRS.get_scenario_ability(scenario_center)
     local ab = copy_table(scenario_center)
     
     return ab
+end
+
+function AKYRS.blind_choice_icon_change(blind_choice, args)
+    args = args or {}
+    if G.GAME.akyrs_risk_prelude_steps and G.GAME.akyrs_risk_prelude_steps > 0 and (blind_choice.config.boss) then
+        local showdown = not (v.boss.min <= math.max(1, G.GAME.round_resets.ante) and ((math.max(1, G.GAME.round_resets.ante))%G.GAME.win_ante ~= 0 or G.GAME.round_resets.ante < 2))
+        local new_blind = SMODS.create_sprite(0,0, 0.8, 0.8, SMODS.get_atlas('akyrs_ptaBlinds'), { x = 0, y = 2 }) 
+        ---@type AnimatedSprite
+        blind_choice.animation = blind_choice.animation
+        if args.set_blind then
+            if not blind_choice.blind_obj.akyrs_casted_blind then
+                new_blind:define_draw_steps({
+                    {shader = 'dissolve', shadow_height = 0.05},
+                    {shader = 'dissolve'}
+                })
+                new_blind:set_role({
+                            role_type = 'Minor', draw_major = G.GAME.blind.children.animatedSprite , major = G.GAME.blind.children.animatedSprite,
+                            offset = { x = 0.8, y = 0.8 },
+                        }) 
+                G.GAME.blind.children[#G.GAME.blind.children+1] = new_blind
+                new_blind.parent = G.GAME.blind.children.animatedSprite 
+            end
+        else
+            local totarget = blind_choice.blind_obj or blind_choice.animation
+            new_blind:define_draw_steps({
+                {shader = 'dissolve', shadow_height = 0.05},
+                {shader = 'dissolve'}
+            })
+            new_blind:set_role({
+                role_type = 'Minor', draw_major = blind_choice.animation, major = blind_choice.animation,
+                offset = { x = 0.8, y = 0.8 },
+            })
+            totarget.children[#totarget.children+1] = new_blind
+            new_blind.parent = blind_choice.animation
+        end
+    end
+    if G.GAME.akyrs_pta_cast_blinds and (blind_choice.config.boss) then
+        for i, v in ipairs(G.GAME.akyrs_pta_cast_blinds) do
+            local blcfg = G.P_BLINDS[v]
+            local new_blind = SMODS.create_sprite(0,0, 0.5, 0.5, SMODS.get_atlas(blcfg.atlas) or 'blind_chips', blcfg.pos) 
+            local distance_from_blind = args.set_blind and 1.1 or 0.8
+            local pref_angle = ( 2 * math.pi ) / #G.GAME.akyrs_pta_cast_blinds * i + (math.pi / 2 * (#G.GAME.akyrs_pta_cast_blinds))
+            local offset = {
+                y = math.sin(pref_angle) * distance_from_blind + ( 0.7 - 0.25 + (args.set_blind and 0.05 or 0) ),
+                x = math.cos(pref_angle) * distance_from_blind + ( 0.7 - 0.25 + (args.set_blind and 0.05 or 0) ),
+            }
+            new_blind.states.collide.can = true
+            new_blind.hover = function(self)
+                if not G.CONTROLLER.dragging.target or G.CONTROLLER.using_touch then
+                    if not new_blind.hovering and new_blind.states.visible then
+                        new_blind.hovering = true
+                        new_blind.hover_tilt = 3
+                        new_blind:juice_up(0.05, 0.02)
+                        play_sound('chips1', math.random() * 0.1 + 0.55, 0.12)
+                        if true then
+                            new_blind.config.h_popup = create_UIBox_blind_popup(blcfg, true)
+                            new_blind.config.h_popup_config = {
+                                major = self.children.focused_ui or new_blind, parent = new_blind,
+                                align = args.set_blind and "br" or "bmi",
+                                xy_bond = 'Strong',
+                                r_bond = 'Weak',
+                                wh_bond = 'Weak',
+                                offset = args.set_blind and {
+                                    x = 0.1, y = -0.9,
+                                } or {
+                                    x = 0, y = -0.8,
+                                }
+                            }
+                        end
+                        Node.hover(new_blind)
+                    end
+                end
+            end
+            new_blind.stop_hover = function()
+                new_blind.hovering = false; Node.stop_hover(new_blind); new_blind.hover_tilt = 0
+            end
+            if args.set_blind then
+                if not blind_choice.blind_obj.akyrs_casted_blind then
+                    new_blind:define_draw_steps({
+                        {shader = 'dissolve', shadow_height = 0.05},
+                        {shader = 'dissolve'}
+                    })
+                    new_blind:set_role({
+                                role_type = 'Minor', draw_major = G.GAME.blind.children.animatedSprite , major = G.GAME.blind.children.animatedSprite,
+                                offset = offset,
+                            }) 
+                    G.GAME.blind.children[#G.GAME.blind.children+1] = new_blind
+                    new_blind.parent = G.GAME.blind.children.animatedSprite 
+                end
+            else
+                local totarget = blind_choice.blind_obj or blind_choice.animation
+                new_blind:define_draw_steps({
+                    {shader = 'dissolve', shadow_height = 0.05},
+                    {shader = 'dissolve'}
+                })
+                new_blind:set_role({
+                    role_type = 'Minor', draw_major = blind_choice.animation, major = blind_choice.animation,
+                    offset = offset,
+                })
+                totarget.children[#totarget.children+1] = new_blind
+                new_blind.parent = blind_choice.animation
+            end
+        end
+    end
+    return blind_choice
 end

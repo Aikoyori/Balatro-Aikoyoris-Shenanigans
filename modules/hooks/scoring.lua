@@ -274,6 +274,9 @@ function AKYRS.custom_save_field()
         end
     end
     ret.scenario_tags = tags
+    ret.special_blinds = AKYRS.map(G.akyrs_additional_blinds, function (item, index)
+        return item:save()
+    end)
     return ret
 end
 function AKYRS.custom_load_field(st)
@@ -281,11 +284,23 @@ function AKYRS.custom_load_field(st)
         local saveTable = st.akyrs_custom_save
         G.GAME.akyrs_scenario = {}
         local tags = saveTable.scenario_tags or {}
+        local special_blinds = saveTable.special_blinds or {}
         for k, v in ipairs(tags) do
             local _tag = AKYRS.Scenario_Tag('sc_akyrs_genesis')
             _tag:load(v)
             AKYRS.add_scenario_tag(_tag)
         end
+        G.akyrs_additional_blinds = {}
+        for k, v in ipairs(special_blinds) do
+            local ogb = G.GAME.blind
+            local blind = Blind(0,0,1,4)
+            G.GAME.blind = blind
+            blind:load(v)
+            blind.akyrs_casted_blind = true
+            G.akyrs_additional_blinds[#G.akyrs_additional_blinds+1] = blind
+            G.GAME.blind = ogb
+        end
+        
     end
 end
 
@@ -367,4 +382,11 @@ function SMODS.add_to_pool(proto, args)
         return false
     end
     return a2phook(proto, args)
+end
+
+local blSetTxt = Blind.set_text
+function Blind:set_text()
+    if not self.akyrs_casted_blind then
+        return blSetTxt(self)
+    end
 end

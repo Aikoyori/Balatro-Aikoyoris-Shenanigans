@@ -4,10 +4,12 @@ AKYRS.Credits_Lookups_By_Item = {}
 AKYRS.Credits_List_by_Item = {}
 ---@type string[]
 AKYRS.Credit_Buffer = {}
+AKYRS.Credit_Zone_List = {}
 
 AKYRS.CREDIT_TYPES = { 'art' , 'idea' , 'code' , 'balancing' }
+AKYRS.CREDIT_ZONES = { 'main' , 'extras' , 'crossmod' , 'original' }
 
----@alias AKYRS.CreditCategory 'main' | 'extras' | 'crossmod'
+---@alias AKYRS.CreditCategory 'main' | 'extras' | 'crossmod' | 'original'
 ---@alias AKYRS.CreditType 'art' | 'idea' | 'code' | 'balancing'
 ---@alias AKYRS.CreditItem [ string, AKYRS.CreditType ]
 
@@ -36,6 +38,8 @@ AKYRS.Credit = SMODS.GameObject:extend{
         self.accredited_reverse_lookup = {}
         self.accredited_category_list = {}
         self.accredited_keys = {}
+        AKYRS.Credit_Zone_List[self.category] = AKYRS.Credit_Zone_List[self.category] or {}
+        AKYRS.Credit_Zone_List[self.category][#AKYRS.Credit_Zone_List[self.category]+1] = self
         if self.accredited then
             for index, acr_obj in ipairs(self.accredited) do
                 AKYRS.Credits_Lookups_By_Item[acr_obj[1]] = AKYRS.Credits_Lookups_By_Item[acr_obj[1]] or {}
@@ -60,6 +64,26 @@ AKYRS.Credit = SMODS.GameObject:extend{
             end
             AKYRS.remove_dupes(self.accredited_keys)
         end
+    end,
+    generate_credit_item = function (self)
+        local cred_obj = self
+        local extra_nodes = {}
+        local extra_nodes_nx = {}
+        local extra_nodes_crdts = {}
+        localize { type = 'descriptions', set = 'Credits', key = self.key, nodes = extra_nodes_nx, default_col = G.C.UI.TEXT_LIGHT }
+        extra_nodes[#extra_nodes+1] = transparent_multiline_text(extra_nodes_nx)
+        extra_nodes[#extra_nodes].config.align = 'lc'
+        if cred_obj.social_links then
+        for _, conj in ipairs(cred_obj.social_links) do
+            extra_nodes_crdts[#extra_nodes_crdts+1] = AKYRS.create_link_sprite_btn(conj[1], conj[2])
+        end
+        extra_nodes[#extra_nodes+1] = {
+            n = G.UIT.R,
+            config = { padding = 0.02 },
+            nodes = extra_nodes_crdts
+        }
+        end
+        return AKYRS.create_credits(cred_obj.atlas, "@"..cred_obj.username, self.key, 3.1, nil, extra_nodes, cred_obj)
     end,
     discovered = true,
 }
@@ -164,7 +188,7 @@ AKYRS.Credit{
     },
 }
 
--- TODO: run this snippet
+-- TODO: run this snippet when all risk cards are added to get a table for proper credits
 --[[]]
 --[[
 local ellen_c = {}
@@ -178,11 +202,12 @@ end
 ]]
 
 AKYRS.Credit{
-    key = 'ariyi',
-    username = 'ariyi',
+    key = 'haya',
+    username = 'hayaunderscore',
     no_atlas = true,
+    category = 'original',
     accredited = {
-        
+
     },
     social_links = {
         
@@ -190,17 +215,18 @@ AKYRS.Credit{
 }
 
 AKYRS.Credit{
-    key = 'haya',
-    username = 'hayaunderscore',
-    no_atlas = true,
-    category = 'extras',
+    key = 'ariyi',
+    username = 'ariyi',
+    atlas = 'ariyi_credits',
+    category = 'original',
     accredited = {
-
+        
     },
     social_links = {
         
     },
 }
+
 
 AKYRS.Credit{
     key = 'frostice482',

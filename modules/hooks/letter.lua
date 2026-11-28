@@ -309,6 +309,13 @@ local cashOutHook = G.FUNCS.cash_out
 G.FUNCS.cash_out = function(e)
     if G.P_BLINDS[G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]].boss then
         G.GAME.akyrs_risk_used = {}
+        G.GAME.akyrs_risk_prelude_steps = 0
+    end
+    if G.akyrs_additional_blinds then
+        AKYRS.map(G.akyrs_additional_blinds, function (item, index)
+            item:remove()
+        end)
+        G.akyrs_additional_blinds = nil
     end
     G.GAME.akyrs_win_checked = nil
     G.BLIND_SIZE_DISPLAY_QUEUE = nil

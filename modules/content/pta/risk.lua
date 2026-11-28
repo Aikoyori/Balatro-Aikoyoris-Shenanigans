@@ -22,7 +22,13 @@ AKYRS.PTA.Risk = SMODS.Consumable:extend {
     set = 'Risk',
     atlas = "ptaRisk",
     inject = function (self, i)
-        self.use = AKYRS.PTA.risk_card_use
+        local olduse = self.use
+        self.use = function (self, card, area, copier)
+            AKYRS.PTA.risk_card_use(self, card, area, copier)
+            if olduse then
+                olduse(self, card, area, copier)
+            end
+        end
         local old_can_use = self.can_use
         self.can_use = function (self, card)
             if G.GAME.blind.in_blind and G.GAME.blind.boss then
@@ -580,6 +586,56 @@ AKYRS.PTA.Risk{
                     end, true)
                 end
             }
+        end
+    end
+}
+
+AKYRS.PTA.Risk{
+    key = "risk_cast",
+    atlas = "ptaRisk",
+    pos = {x=0,y=2},
+    config = {
+        extras = {
+            triggered = 0,
+            facedown = 1,
+        }
+    },
+    akyrs_originally_from_pta = true,
+    loc_vars = function (self, info_queue, risk)
+        return {
+            vars = {
+                
+            }
+        }
+    end,
+    risk_difficulty = 2,
+    use = function (self, card, area, copier)
+        G.GAME.akyrs_pta_cast_blinds = G.GAME.akyrs_pta_cast_blinds or {}
+        local blct = (G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss] or { boss = {}})
+        if not blct.akyrs_cast_blinds then
+            G.GAME.akyrs_pta_cast_blinds[#G.GAME.akyrs_pta_cast_blinds+1] = G.GAME.round_resets.blind_choices.Boss
+        end
+        local showdown = blct.boss.showdown
+        G.GAME.akyrs_pta_cast_blinds[#G.GAME.akyrs_pta_cast_blinds+1] = SMODS.poll_object { type = 'Blind', seed = "akyrs_pta_cast", filter = function (pool)
+            return AKYRS.filter_table(pool, function (item, index)
+                return not AKYRS.is_in_table(G.GAME.akyrs_pta_cast_blinds, item.key) and not G.P_BLINDS[item.key].akyrs_cast_blinds
+            end, true, true)
+        end}
+        G.GAME.round_resets.blind_choices.Boss = showdown and 'bl_akyrs_pta_final_catastrophic_cast' or 'bl_akyrs_pta_the_cast'
+        AKYRS.simple_event_add(function ()
+            AKYRS.simple_event_add(function ()
+                AKYRS.simple_event_add(function ()
+                    AKYRS.update_blind_select_column('boss')
+                    return true
+                end)
+                return true
+            end)
+            return true
+        end)
+    end,
+    risk_calculate = function (self, risk, context)
+        if context.end_of_round and context.main_eval then
+            G.GAME.akyrs_pta_cast_blinds = nil
         end
     end
 }

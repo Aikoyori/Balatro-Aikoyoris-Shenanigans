@@ -68,6 +68,7 @@ assert(SMODS.load_file("./modules/content/pta/commons.lua"))()
 assert(SMODS.load_file("./modules/content/pta/risk.lua"))()
 assert(SMODS.load_file("./modules/content/pta/reward.lua"))()
 assert(SMODS.load_file("./modules/content/pta/tags_boosters.lua"))()
+assert(SMODS.load_file("./modules/content/pta/blinds.lua"))()
 -- END PTA content
 
 assert(SMODS.load_file("./modules/content/edition.lua"))()

@@ -543,7 +543,7 @@ SMODS.Blind{
     calculate = function (self, blind, context)
         if not blind.disabled then
             if context.stay_flipped then
-                if context.other_card and context.from_area == G.deck and context.to_area == G.hand then
+                if context.other_card and context.to_area == G.hand then
                     if G.hand.config.card_limit - #G.hand.cards <= 2 then
                         return {
                             stay_flipped = true
@@ -1382,7 +1382,7 @@ SMODS.Blind {
     calculate = function (self, blind, context)
         if not blind.disabled then
             if context.stay_flipped then
-                if context.other_card and context.from_area == G.deck and context.to_area == G.hand then
+                if context.other_card and context.to_area == G.hand then
                     blind.effect.akyrs_triggered = (blind.effect.akyrs_triggered or 0) + 1
                     if (blind.effect.akyrs_triggered <= blind.effect.facedown) then
                         return {
